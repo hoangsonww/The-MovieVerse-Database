@@ -1,0 +1,280 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-image: url("https://wallpaperaccess.com/full/433561.jpg");
+    font-family: "Poppins", sans-serif;
+    margin: 0;
+    align-content: center;
+}
+
+p {
+    text-align: center;
+    color: #a6967e;
+}
+
+.button2 {
+    background-color: #7378c5;
+    font: inherit;
+}
+
+main {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.main2 {
+    text-align: center;
+    color: orange;
+}
+
+.main2 p {
+    color: orange;
+}
+
+header {
+    background-color: transparent;
+    display: flex;
+    justify-content: flex-end;
+    padding: 1.5rem;
+}
+
+.search {
+    background-color: transparent;
+    border: 2px solid #121280;
+    border-radius: 50px;
+    color: #fff;
+    font-family: inherit;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+}
+
+#main {
+    align-self: center;
+}
+
+.search::placeholder {
+    color: #7378c5;
+}
+
+#search:hover {
+    background-color: #ff8623;
+    color: blue;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 100px;
+    padding-top: -20px;
+}
+
+header h1 {
+    color: #ff8623;
+    text-align: center;
+}
+
+.highlight {
+    color: orange;
+}
+
+.search:focus {
+    outline: none;
+    background-color: #22254b;
+}
+
+.about {
+    background-color: #7378c5; /* Green */
+    border: none;
+    color: white;
+    width: 85px;
+    height: 40px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font: inherit;
+    font-size: 16px;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    margin-left: 130px;
+}
+
+.header2 {
+    text-align: center;
+    align-self: center;
+    margin-left: 500px;
+}
+
+.back-btn {
+    background-color: #7378c5; /* Green */
+    border: none;
+    color: white;
+    width: 85px;
+    height: 40px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font: inherit;
+    font-size: 16px;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    margin-left: 40px;
+}
+
+.back-btn:hover {
+    background-color: #ff8623;
+    transition: 0.3s ease-in;
+}
+
+.movie {
+    background-color: #373b69;
+    border-radius: 3px;
+    box-shadow: 0 4px 5px rgba(0,0,0,0.2);
+    margin: 1rem;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    width: 300px;
+}
+
+.movie img {
+    width: 100%;
+}
+
+.movie-info {
+    color: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 1rem 1rem;
+    letter-spacing: 0.5px;
+}
+
+.movie-info h3 {
+    margin: 0;
+}
+
+.movie-info span {
+    background-color: #22254b;
+    border-radius: 3px;
+    font-weight: bold;
+    padding: 0.25rem 0.5rem;
+}
+
+.movie-info span.green {
+    color: rgb(39,189,39);
+}
+
+.movie-info span.orange {
+    color: orange;
+}
+
+.movie-info span.red {
+    color: rgb(189,42,42);
+}
+
+.overview {
+    position: absolute;
+    padding: 2rem;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: #fff;
+    color: black;
+    transform: translateY(100%);
+    transition: 0.3s ease-in;
+}
+
+.movie:hover .overview {
+    transform: translateY(0);
+}
+
+.overview h4 {
+    margin-top: 0;
+}
+
+.genres {
+    align-self: center;
+    margin-left: 15px;
+    color: #ff8623;
+}
+
+#back-to-top-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    background-color: #7378c5;
+    font: inherit;
+}
+
+#back-to-top-btn:hover {
+    background-color: #ff8623;
+    transition: 0.3s ease-in;
+}
+
+.about:hover {
+    background-color: #ff8623;
+    transition: 0.3s ease-in;
+}
+
+#my-heading {
+    color: #ff8623;
+    padding: 10px;
+    font-size: 36px;
+    text-align: center;
+    background-color: transparent;
+}
+
+h2:hover {
+    color: #f509d9;
+    transition: 0.1s linear;
+}
+
+#trivia-btn {
+    position: fixed;
+    bottom: 60px;
+    right: 30px;
+    background-color: #7378c5;
+    font: inherit;
+}
+
+#trivia-btn:hover {
+    background-color: #ff8623;
+    transition: 0.1s linear;
+}
+
+.button2:hover {
+    background-color: #ff8623;
+    transition: 0.1s linear;
+}
+
+#discussions-btn {
+    position: fixed;
+    bottom: 100px;
+    right: 30px;
+    background-color: #7378c5;
+    font: inherit;
+}
+
+#discussions-btn:hover {
+    background-color: #ff8623;
+    transition: 0.1s linear;
+}
+
+#button-search {
+    color: #171616;
+    background-color: #7378c5;
+    font: inherit;
+}
+
+#button-search:hover {
+    background-color: #ff8623;
+    transition: 0.1s linear;
+}

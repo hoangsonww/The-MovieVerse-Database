@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+
+<head>
+
+    <!-- Set the title of the page -->
+    <title>My Movie Database</title>
+
+    <!-- Link to the external CSS file -->
+    <link rel="stylesheet" href="discussions.css"/>
+
+</head>
+
+<body>
+
+<!-- Create a header for the page -->
+<header>
+
+    <!-- Set the title of the website -->
+    <h1>My Movie Database</h1>
+
+</header>
+
+<main>
+
+    <!-- Create a heading for the section -->
+    <h2>Community Discussions</h2>
+
+    <!-- Create a form for users to input discussions -->
+    <form>
+        <input type="text" id="discussion-input" placeholder="Type Any Discussion Here...">
+
+        <!-- Create a button to post discussions -->
+        <button type="button" id="post-btn" onclick="addDiscussion()">Post</button>
+
+    </form>
+
+    <!-- Create an ordered list to display discussions -->
+    <ol id="discussion-list"></ol>
+
+</main>
+
+<!-- Create a button to go back to the main page -->
+<button id="back-to-top-btn" onclick="window.location.href='index.html'">Back To Main Page</button>
+
+<!-- Link to the external JavaScript file -->
+<script src="app.js"></script>
+
+</body>
+
+</html>

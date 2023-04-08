@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap');
+
+body {
+    color: #ff8623;
+    font-family: "Poppins", sans-serif;
+    margin: 0;
+    align-content: center;
+    text-align: center;
+    background-image: url("https://th.bing.com/th/id/R.924545a2721303f55fa004d579aaf756?rik=JfZPLmfCC2PUvA&riu=http%3a%2f%2fwww.pixelstalk.net%2fwp-content%2fuploads%2f2016%2f04%2fStars-wallpaper-HD-desktop.jpg&ehk=pH%2bxp14MOATribNawKZJ7V8dG9qPaiJQn1%2bHnDhrrSg%3d&risl=&pid=ImgRaw&r=0");
+}
+
+#back-to-top-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    background-color: #7378c5;
+    font: inherit;
+}
+
+#back-to-top-btn:hover {
+    background-color: #ff8623;
+    transition: 0.1s linear;
+}
+
+#discussion-input {
+    background-color: transparent;
+    border: 2px solid #ff8623;
+    border-radius: 50px;
+    color: #fff;
+    font-family: inherit;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+}
+
+#discussion-input:hover {
+    background-color: #ff8623;
+    transition: 0.1s linear;
+}
+
+#post-btn {
+    background-color: #ff8623;
+    font: inherit;
+}
+
+#post-btn:hover {
+    background-color: #7f4caf;
+    transition: 0.1s linear;
+}
+
+ol li:hover {
+    color: #7f4caf;
+    transition: 0.1s linear;
+}
