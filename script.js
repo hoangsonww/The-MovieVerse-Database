@@ -652,12 +652,12 @@ let timeoutID;
 
 function changeBackgroundColor(event) {
     const randomColor = colors[Math.floor(Math.random() * colors.length)];
-    event.target.style.backgroundColor = randomColor;
+    event.target.style.color = randomColor;
     timeoutID = setTimeout(resetBackgroundColor, 500);
 }
 
 function resetBackgroundColor(event) {
-    event.target.style.backgroundColor = 'transparent';
+    event.target.style.color = 'orange';
     clearTimeout(timeoutID);
 }
 
