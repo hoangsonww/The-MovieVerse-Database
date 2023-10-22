@@ -63,11 +63,13 @@ function saveDiscussions() {
 const chatbotInput = document.getElementById("chatbotInput");
 const chatbotBody = document.getElementById("chatbotBody");
 
-chatbotInput.addEventListener("keydown", function(event) {
-    if (event.key === "Enter") {
-        sendMessage(chatbotInput.value);
-        chatbotInput.value = "";
-    }
+document.addEventListener('DOMContentLoaded', function() {
+    chatbotInput.addEventListener("keydown", function(event) {
+        if (event.key === "Enter") {
+            sendMessage(chatbotInput.value);
+            chatbotInput.value = "";
+        }
+    });
 });
 
 function sendMessage(message) {
