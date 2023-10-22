@@ -51,3 +51,72 @@ ol li:hover {
     color: #7f4caf;
     transition: 0.1s linear;
 }
+
+#chatbotContainer {
+    width: 80%;
+    max-width: 600px;
+    background-color: rgba(0, 0, 0, 0.7);
+    margin: 20px auto;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#chatbotHeader {
+    background-color: #ff8623;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+#chatbotBody {
+    overflow-y: auto;
+    max-height: 300px;
+    padding: 10px;
+    border-radius: 8px;
+    color: white;
+    word-wrap: break-word;
+    box-sizing: border-box;
+    margin-top: 10px;
+    border: 1px solid #ff8623;
+}
+
+#chatbotInput {
+    width: 96.3%;
+    padding: 10px;
+    border: 1px solid #ff8623;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 1rem;
+    background-color: transparent;
+    color: white;
+    margin-top: 10px;
+}
+
+#chatbotInput:focus {
+    outline: none;
+    background-color: #ff8623;
+    color: black;
+}
+
+#chatbotBody > div {
+    margin-bottom: 10px;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+#chatbotBody > div[text-align="right"] {
+    background-color: #ff8623;  /* User messages background color */
+    align-self: flex-end;  /* Position the user messages to the right */
+}
+
+#chatbotBody > div[text-align="left"] {
+    background-color: #7378c5;  /* Bot messages background color */
+    align-self: flex-start;  /* Position the bot messages to the left */
+}

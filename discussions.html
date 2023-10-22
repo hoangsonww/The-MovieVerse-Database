@@ -5,7 +5,7 @@
 <head>
 
     <!-- Set the title of the page -->
-    <title>My Movie Database</title>
+    <title>MovieVerse Chatbot</title>
 
     <!-- Link to the external CSS file -->
     <link rel="stylesheet" href="discussions.css"/>
@@ -18,26 +18,22 @@
 <header>
 
     <!-- Set the title of the website -->
-    <h1>My Movie Database</h1>
+    <h1>Welcome to the MovieVerse Chatbot!</h1>
 
 </header>
 
 <main>
 
     <!-- Create a heading for the section -->
-    <h2>Community Discussions</h2>
+    <h2>The MovieVerse Assistant</h2>
+    <h4>Here, you can ask the chatbot about any movie-related topics or questions!</h4>
 
-    <!-- Create a form for users to input discussions -->
-    <form>
-        <input type="text" id="discussion-input" placeholder="Type Any Discussion Here...">
-
-        <!-- Create a button to post discussions -->
-        <button type="button" id="post-btn" onclick="addDiscussion()">Post</button>
-
-    </form>
-
-    <!-- Create an ordered list to display discussions -->
-    <ol id="discussion-list"></ol>
+    <!-- Chatbot UI -->
+    <div id="chatbotContainer">
+        <div id="chatbotHeader">MovieVerse Assistant</div>
+        <div id="chatbotBody"></div>
+        <input id="chatbotInput" type="text" placeholder="Ask me about anything...">
+    </div>
 
 </main>
 

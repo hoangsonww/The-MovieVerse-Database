@@ -648,6 +648,7 @@ function showMovies16(movies) {
 
 const heading = document.getElementById('my-heading');
 const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#00ffff', '#ff00ff'];
+
 let timeoutID;
 let colorID;
 
@@ -664,3 +665,4 @@ function resetBackgroundColor(event) {
 
 heading.addEventListener('mouseover', changeBackgroundColor);
 heading.addEventListener('mouseout', resetBackgroundColor);
+
