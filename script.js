@@ -665,3 +665,4 @@ function resetBackgroundColor(event) {
 
 heading.addEventListener('mouseover', changeBackgroundColor);
 heading.addEventListener('mouseout', resetBackgroundColor);
+
