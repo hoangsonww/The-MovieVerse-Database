@@ -19,6 +19,8 @@ p {
 .button2 {
     background-color: #7378c5;
     font: inherit;
+    border-radius: 8px;
+    border: none;
 }
 
 main {
@@ -61,8 +63,8 @@ header {
 }
 
 #search:hover {
-    background-color: #ff8623;
-    color: blue;
+    outline: none;
+    background-color: #22254b;
 }
 
 header {
@@ -102,6 +104,7 @@ header h1 {
     position: absolute;
     top: 0;
     margin-left: 130px;
+    border-radius: 8px;
 }
 
 .header2 {
@@ -111,7 +114,7 @@ header h1 {
 }
 
 .back-btn {
-    background-color: #7378c5; /* Green */
+    background-color: #7378c5;
     border: none;
     color: white;
     width: 85px;
@@ -125,6 +128,7 @@ header h1 {
     position: absolute;
     top: 0;
     margin-left: 40px;
+    border-radius: 8px;
 }
 
 .back-btn:hover {
@@ -212,6 +216,9 @@ header h1 {
     right: 30px;
     background-color: #7378c5;
     font: inherit;
+    color: black;
+    border-radius: 8px;
+    border: none;
 }
 
 #back-to-top-btn:hover {
@@ -243,6 +250,9 @@ h2:hover {
     right: 30px;
     background-color: #7378c5;
     font: inherit;
+    color: black;
+    border-radius: 8px;
+    border: none;
 }
 
 #trivia-btn:hover {
@@ -261,6 +271,9 @@ h2:hover {
     right: 30px;
     background-color: #7378c5;
     font: inherit;
+    color: black;
+    border-radius: 8px;
+    border: none;
 }
 
 #discussions-btn:hover {
@@ -272,20 +285,13 @@ h2:hover {
     color: #171616;
     background-color: #7378c5;
     font: inherit;
+    border-radius: 8px;
+    border: none;
 }
 
 #button-search:hover {
     background-color: #ff8623;
     transition: 0.1s linear;
-}
-
-
-/* New styles for the non-scrollable movie details layout */
-body {
-    background-image: url("https://wallpaperaccess.com/full/433561.jpg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
 }
 
 .details-container {
@@ -349,4 +355,22 @@ body {
 
 p {
     color: white;
+}
+
+.similar-movies-container h3 {
+    color: #E0E0E0;
+}
+
+.similar-movies span:hover {
+    text-decoration: none; /* Change or remove the underline on hover */
+    opacity: 0.8; /* Slight effect to show interactivity */
+    color: #f509d9;
+}
+
+.movie-details-body {
+    background-image: url("https://wallpaperaccess.com/full/433561.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden; /* Prevent scrolling on the entire body */
 }

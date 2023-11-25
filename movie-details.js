@@ -60,6 +60,39 @@ function populateMovieDetails(movie) {
         <p><strong>Status:</strong> ${status}</p>
         <p><strong>User Score:</strong> ${userScore} (based on ${voteCount} votes)</p>
         <p><strong>Keywords:</strong> ${keywords}</p>
-        <p><strong>Similar Movies:</strong> ${similarTitles}</p>
     `;
+
+    const similarMoviesHeading = document.createElement('p');
+    similarMoviesHeading.innerHTML = '<strong>Similar Movies:</strong> ';
+    document.getElementById('movie-description').appendChild(similarMoviesHeading);
+
+    // Check if similar movies are available
+    if (movie.similar && movie.similar.results.length > 0) {
+        movie.similar.results.forEach((similarMovie, index) => {
+            const movieLink = document.createElement('span');
+            movieLink.textContent = similarMovie.title;
+            movieLink.style.cursor = 'pointer';
+            movieLink.style.textDecoration = 'underline';
+            movieLink.addEventListener('mouseenter', () => {
+                movieLink.style.color = '#f509d9';
+            });
+            movieLink.addEventListener('mouseleave', () => {
+                movieLink.style.color = 'white';
+            });
+            movieLink.addEventListener('click', () => {
+                localStorage.setItem('selectedMovieId', similarMovie.id); // Store the clicked movie's ID
+                window.location.href = 'movie-details.html'; // Redirect to the details page
+            });
+
+            // Append the clickable movie link
+            similarMoviesHeading.appendChild(movieLink);
+
+            // If not the last movie, add a comma and space
+            if (index < movie.similar.results.length - 1) {
+                similarMoviesHeading.appendChild(document.createTextNode(', '));
+            }
+        });
+    } else {
+        similarMoviesHeading.appendChild(document.createTextNode('None available.'));
+    }
 }
