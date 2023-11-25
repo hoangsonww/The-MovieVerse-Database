@@ -28,6 +28,10 @@ main {
     flex-wrap: wrap;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 .main2 {
     text-align: center;
     color: orange;
@@ -223,7 +227,7 @@ header h1 {
 
 #back-to-top-btn:hover {
     background-color: #ff8623;
-    transition: 0.3s ease-in;
+    transition: 0.1s linear;
 }
 
 .about:hover {

@@ -210,7 +210,16 @@
 <button id="trivia-btn" onclick="window.location.href='trivia.html'">Trivia Game</button>
 
 <!-- Create a button to go back to the top of the page -->
-<button id="back-to-top-btn" onclick="window.location.href='index.html'">Back To Top</button>
+<button id="back-to-top-btn" onclick="scrollToTop()">Back To Top</button>
+
+<script>
+    function scrollToTop() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }
+</script>
 
 </body>
 

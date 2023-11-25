@@ -12,11 +12,14 @@ body {
 #submit {
     background-color: #7378c5;
     font: inherit;
-    margin-bottom: 10px;
+    margin-bottom: 39px;
+    border-radius: 8px;
+    border: none;
 }
 
 #submit:hover {
     background-color: #ff8623;
+    transition: 0.1s linear;
 }
 
 #back-to-top-btn {
@@ -25,8 +28,12 @@ body {
     right: 30px;
     background-color: #7378c5;
     font: inherit;
+    color: black;
+    border-radius: 8px;
+    border: none;
 }
 
 #back-to-top-btn:hover {
     background-color: #ff8623;
+    transition: 0.1s linear;
 }
