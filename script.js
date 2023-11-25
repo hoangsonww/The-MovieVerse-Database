@@ -35,7 +35,7 @@ const main15 = document.getElementById("main15");
 const main16 = document.getElementById("main16");
 const form = document.getElementById("form");
 const search = document.getElementById("search");
-const searchButon = document.getElementById("button-search");
+const searchButton = document.getElementById("button-search");
 
 getMovies(APIURL);
 
@@ -47,27 +47,28 @@ async function getMovies(url) {
 }
 
 function showMovies(movies) {
-    main.innerHTML = ' ';
+    main.innerHTML = '';
     movies.forEach((movie) => {
-        const {poster_path, title, vote_average, overview} = movie;
+        const { id, poster_path, title, vote_average, overview } = movie;
         const movieE1 = document.createElement('div');
         movieE1.classList.add('movie');
+        movieE1.innerHTML = `
+            <img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" /> 
+            <div class="movie-info" style="cursor: pointer;">
+                <h3>${title}</h3>
+                <span class="${getClassByRate(vote_average)}">${vote_average}</span>
+            </div>
+            <div class="overview" style="cursor: pointer;">
+                <h4>Movie Intro: </h4>
+                ${overview}
+            </div>`;
 
-        movieE1.innerHTML = `<img 
-                                src="${IMGPATH + poster_path}" 
-                                alt="${title}"
-                             /> 
-                             <div class="movie-info">
-                                <h3>${title}</h3>
-                                <span class="${getClassByRate(
-                                    vote_average
-                                )}">${vote_average}</span>
-                             </div>
-                             <div class="overview">
-                                <h4>Movie Intro: </h4>
-                                ${overview}
-                             </div>   
-                            `;
+        // Add a click event listener to each movie element
+        movieE1.addEventListener('click', () => {
+            localStorage.setItem('selectedMovieId', id); // Store the movie ID
+            window.location.href = 'movie-details.html';
+        });
+
         main.appendChild(movieE1);
     });
 }
@@ -95,7 +96,7 @@ form.addEventListener('submit', (e) => {
     }
 })
 
-searchButon.addEventListener('click', (e) => {
+searchButton.addEventListener('click', (e) => {
     e.preventDefault();
     const searchTerm = search.value;
 
@@ -645,24 +646,3 @@ function showMovies16(movies) {
         main16.appendChild(movieE1);
     });
 }
-
-const heading = document.getElementById('my-heading');
-const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#00ffff', '#ff00ff'];
-
-let timeoutID;
-let colorID;
-
-function changeBackgroundColor(event) {
-    const randomColor = colors[Math.floor(Math.random() * colors.length)];
-    event.target.style.color = randomColor;
-    timeoutID = setTimeout(resetBackgroundColor, 500);
-}
-
-function resetBackgroundColor(event) {
-    event.target.style.color = 'orange';
-    clearTimeout(timeoutID);
-}
-
-heading.addEventListener('mouseover', changeBackgroundColor);
-heading.addEventListener('mouseout', resetBackgroundColor);
-

@@ -279,3 +279,74 @@ h2:hover {
     transition: 0.1s linear;
 }
 
+
+/* New styles for the non-scrollable movie details layout */
+body {
+    background-image: url("https://wallpaperaccess.com/full/433561.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.details-container {
+    display: flex;
+    height: calc(100% - 60px); /* Adjust height considering header height */
+    color: white;
+}
+
+.movie-left, .movie-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.movie-left {
+    width: 33.3333%;
+    box-sizing: border-box;
+    align-items: center; /* Center-align children horizontally */
+    justify-content: center; /* Center-align children vertically */
+    margin-top: -75px;
+}
+
+.movie-right {
+    width: 66.6666%;
+    padding: 10px;
+    box-sizing: border-box;
+    overflow-y: auto; /* Allow scrolling for the description if needed */
+}
+
+.movie-image {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.movie-header {
+    text-align: center; /* Center the title */
+    align-self: center;
+    font-size: 2.5rem; /* Increase the size */
+    font-weight: bold; /* Make it bold */
+    color: #ffeb3b; /* Use a bright color like gold */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add some shadow for depth */
+}
+
+.movie-description {
+    font-size: 1rem;
+    margin-top: 50px; /* Space above the description */
+    color: white;
+}
+
+.movie-rating {
+    margin-top: -15px; /* Space above the rating */
+    text-align: center; /* Center the rating */
+    align-self: center;
+    font-size: 2.5rem; /* Increase the size */
+    font-weight: bold; /* Make it bold */
+    color: #ffeb3b; /* Use a bright color like gold */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add some shadow for depth */
+}
+
+p {
+    color: white;
+}

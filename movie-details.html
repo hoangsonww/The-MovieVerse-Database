@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Movie Details</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="movie-details.js" defer></script>
+</head>
+<body>
+<header style="margin-bottom: -60px">
+    <h1 id="my-heading">
+        The Mo<span class="highlight">vieV</span>erse
+    </h1>
+    <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+    <button class="about" onclick="window.location.href='about.html'">About</button>
+    <!-- Omitting the search form for simplicity -->
+</header>
+
+<div class="details-container" id="movie-details-container">
+    <!-- Left side for Title and Image -->
+    <div class="movie-left">
+        <h2 id="movie-title" class="movie-header"></h2>
+        <img id="movie-image" alt="Movie Image" style="width: 25vw; height: 75vh"/>
+    </div>
+
+    <!-- Right side for Description and Rating -->
+    <div class="movie-right">
+        <p id="movie-description" class="movie-description"></p>
+        <h2 id="movie-rating" class="movie-rating"></h2>
+    </div>
+</div>
+
+<!-- Create a button to go to the Movie Discussions page -->
+<button id="discussions-btn" onclick="window.location.href='discussions.html'" style="margin-bottom: -55px">MovieVerse Chatbot!</button>
+
+<!-- Create a button to go to the Trivia Game page -->
+<button id="trivia-btn" onclick="window.location.href='trivia.html'" style="margin-bottom: -50px">Trivia Game!</button>
+
+<script src="movie-details.js"></script>
+</body>
+</html>
