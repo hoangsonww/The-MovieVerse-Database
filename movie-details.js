@@ -25,15 +25,15 @@ function populateMovieDetails(movie) {
     document.getElementById('movie-title').textContent = movie.title;
     document.getElementById('movie-description').textContent = movie.overview;
     document.getElementById('movie-rating').textContent = `IMDB Rating: ${movie.vote_average}`;
-
+    document.title = movie.title + " - Movie Details";
     // Create elements for additional movie details
     const genres = movie.genres.map(genre => genre.name).join(', ');
     const releaseDate = movie.release_date;
     const runtime = movie.runtime + ' minutes';
-    const budget = movie.budget.toLocaleString();
-    const revenue = movie.revenue.toLocaleString();
+    const budget = movie.budget === 0 ? 'Unknown' : `$${movie.budget.toLocaleString()}`;
+    const revenue = movie.revenue === 0 ? 'Unknown' : `$${movie.revenue.toLocaleString()}`;
     const productionCompanies = movie.production_companies.map(pc => pc.name).join(', ');
-    const tagline = movie.tagline;
+    const tagline = movie.tagline ? movie.tagline : 'No tagline found';
     const languages = movie.spoken_languages.map(lang => lang.name).join(', ');
     const countries = movie.production_countries.map(country => country.name).join(', ');
     const originalLanguage = movie.original_language.toUpperCase();
@@ -44,13 +44,12 @@ function populateMovieDetails(movie) {
     const keywords = movie.keywords ? movie.keywords.keywords.map(kw => kw.name).join(', ') : 'N/A';
     const similarTitles = movie.similar ? movie.similar.results.map(m => m.title).join(', ') : 'N/A';
 
-    // Append these details to the movie-right div
     document.getElementById('movie-description').innerHTML += `
         <p><strong>Genres:</strong> ${genres}</p>
         <p><strong>Release Date:</strong> ${releaseDate}</p>
         <p><strong>Runtime:</strong> ${runtime}</p>
-        <p><strong>Budget:</strong> $${budget}</p>
-        <p><strong>Revenue:</strong> $${revenue}</p>
+        <p><strong>Budget:</strong> ${budget}</p>
+        <p><strong>Revenue:</strong> ${revenue}</p>
         <p><strong>Production Companies:</strong> ${productionCompanies}</p>
         <p><strong>Tagline:</strong> ${tagline}</p>
         <p><strong>Languages:</strong> ${languages}</p>
