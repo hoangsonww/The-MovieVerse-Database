@@ -332,6 +332,12 @@ h2:hover {
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
+@media (max-width: 768px) {
+    .movie-image {
+        height: 100%;
+    }
+}
+
 .movie-header {
     text-align: center; /* Center the title */
     align-self: center;
@@ -376,5 +382,5 @@ p {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    overflow: hidden; /* Prevent scrolling on the entire body */
+    /*overflow: hidden; !* Prevent scrolling on the entire body *!*/
 }
