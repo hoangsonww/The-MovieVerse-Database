@@ -1,22 +1,3 @@
-const APIURL = "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=c5a20c861acf7bb8d9e987dcc7f1b558&page=1";
-const IMGPATH = "https://image.tmdb.org/t/p/w1280";
-const SEARCHAPI = "https://api.themoviedb.org/3/search/movie?&api_key=c5a20c861acf7bb8d9e987dcc7f1b558&query=";
-const MOVIEAPI = "https://api.themoviedb.org/3/discover/movie?primary_release_date.gte=2022-09-15&primary_release_date.lte=2022-10-22&api_key=c5a20c861acf7bb8d9e987dcc7f1b558&page=1";
-const ACTIONAPI = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=28";
-const HORRORAPI = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=27";
-const DOCUMENTARYRAPI = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=99";
-const ANIMATIONAPI = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=16";
-const SCIFIAPI = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=878";
-const ROMANTICAPI = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=10749";
-const THRILLERAPI = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=53";
-const MYSTERYAPI = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=9648";
-const ADVENTUREAPI = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=12";
-const COMEDYAPI = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=35";
-const FANTASYAPI = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=14";
-const FAMILYAPI = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=10751";
-const TVAPI = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=10770";
-const CRIMEAPI = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=80";
-
 const main = document.getElementById("main");
 const main2 = document.getElementById("main2");
 const main3 = document.getElementById("main3");
@@ -36,8 +17,25 @@ const main16 = document.getElementById("main16");
 const form = document.getElementById("form");
 const search = document.getElementById("search");
 const searchButton = document.getElementById("button-search");
+const DATABASEURL = "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=c5a20c861acf7bb8d9e987dcc7f1b558&page=1";
+const IMGPATH = "https://image.tmdb.org/t/p/w1280";
+const SEARCHPATH = "https://api.themoviedb.org/3/search/movie?&api_key=c5a20c861acf7bb8d9e987dcc7f1b558&query=";
+const ACTIONpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=28";
+const HORRORpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=27";
+const DOCUMENTARYRpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=99";
+const ANIMATIONpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=16";
+const SCIFIpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=878";
+const ROMANTICpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=10749";
+const THRILLERpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=53";
+const MYSTERYpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=9648";
+const ADVENTUREpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=12";
+const COMEDYpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=35";
+const FANTASYpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=14";
+const FAMILYpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=10751";
+const TVpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=10770";
+const CRIMEpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=80";
 
-getMovies(APIURL);
+getMovies(DATABASEURL);
 
 async function getMovies(url) {
     const resp = await fetch (url);
@@ -90,7 +88,7 @@ form.addEventListener('submit', (e) => {
     const searchTerm = search.value;
 
     if (searchTerm) {
-        getMovies(SEARCHAPI + searchTerm);
+        getMovies(SEARCHPATH + searchTerm);
         search.value='';
 
     }
@@ -101,48 +99,13 @@ searchButton.addEventListener('click', (e) => {
     const searchTerm = search.value;
 
     if (searchTerm) {
-        getMovies(SEARCHAPI + searchTerm);
+        getMovies(SEARCHPATH + searchTerm);
         search.value='';
 
     }
 })
 
-getMovies2(MOVIEAPI);
-
-async function getMovies2(url) {
-    const resp = await fetch (url);
-    const respData = await resp.json();
-
-    showMovies2(respData.results);
-}
-
-function showMovies2(movies) {
-    main2.innerHTML = ' ';
-    movies.forEach((movie) => {
-        const { id, poster_path, title, vote_average, overview } = movie;
-        const movieE1 = document.createElement('div');
-        movieE1.classList.add('movie');
-        movieE1.innerHTML = `
-            <img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" /> 
-            <div class="movie-info" style="cursor: pointer;">
-                <h3>${title}</h3>
-                <span class="${getClassByRate(vote_average)}">${vote_average}</span>
-            </div>
-            <div class="overview" style="cursor: pointer;">
-                <h4>Movie Intro: </h4>
-                ${overview}
-            </div>`;
-
-        // Add a click event listener to each movie element
-        movieE1.addEventListener('click', () => {
-            localStorage.setItem('selectedMovieId', id); // Store the movie ID
-            window.location.href = 'movie-details.html';
-        });
-        main2.appendChild(movieE1);
-    });
-}
-
-getMovies3(ACTIONAPI);
+getMovies3(ACTIONpath);
 
 async function getMovies3(url) {
     const resp = await fetch (url);
@@ -177,7 +140,7 @@ function showMovies3(movies) {
     });
 }
 
-getMovies4(HORRORAPI);
+getMovies4(HORRORpath);
 
 async function getMovies4(url) {
     const resp = await fetch (url);
@@ -212,7 +175,7 @@ function showMovies4(movies) {
     });
 }
 
-getMovies5(DOCUMENTARYRAPI);
+getMovies5(DOCUMENTARYRpath);
 
 async function getMovies5(url) {
     const resp = await fetch (url);
@@ -247,7 +210,7 @@ function showMovies5(movies) {
     });
 }
 
-getMovies6(ANIMATIONAPI);
+getMovies6(ANIMATIONpath);
 
 async function getMovies6(url) {
     const resp = await fetch (url);
@@ -282,7 +245,7 @@ function showMovies6(movies) {
     });
 }
 
-getMovies7(SCIFIAPI);
+getMovies7(SCIFIpath);
 
 async function getMovies7(url) {
     const resp = await fetch (url);
@@ -316,7 +279,7 @@ function showMovies7(movies) {
     });
 }
 
-getMovies8(ROMANTICAPI);
+getMovies8(ROMANTICpath);
 
 async function getMovies8(url) {
     const resp = await fetch (url);
@@ -351,7 +314,7 @@ function showMovies8(movies) {
     });
 }
 
-getMovies9(THRILLERAPI);
+getMovies9(THRILLERpath);
 
 async function getMovies9(url) {
     const resp = await fetch (url);
@@ -386,7 +349,7 @@ function showMovies9(movies) {
     });
 }
 
-getMovies10(MYSTERYAPI);
+getMovies10(MYSTERYpath);
 
 async function getMovies10(url) {
     const resp = await fetch (url);
@@ -421,7 +384,7 @@ function showMovies10(movies) {
     });
 }
 
-getMovies11(ADVENTUREAPI);
+getMovies11(ADVENTUREpath);
 
 async function getMovies11(url) {
     const resp = await fetch (url);
@@ -456,7 +419,7 @@ function showMovies11(movies) {
     });
 }
 
-getMovies12(COMEDYAPI);
+getMovies12(COMEDYpath);
 
 async function getMovies12(url) {
     const resp = await fetch (url);
@@ -491,7 +454,7 @@ function showMovies12(movies) {
     });
 }
 
-getMovies13(FANTASYAPI);
+getMovies13(FANTASYpath);
 
 async function getMovies13(url) {
     const resp = await fetch (url);
@@ -526,7 +489,7 @@ function showMovies13(movies) {
     });
 }
 
-getMovies14(FAMILYAPI);
+getMovies14(FAMILYpath);
 
 async function getMovies14(url) {
     const resp = await fetch (url);
@@ -561,7 +524,7 @@ function showMovies14(movies) {
     });
 }
 
-getMovies15(TVAPI);
+getMovies15(TVpath);
 
 async function getMovies15(url) {
     const resp = await fetch (url);
@@ -596,7 +559,7 @@ function showMovies15(movies) {
     });
 }
 
-getMovies16(CRIMEAPI);
+getMovies16(CRIMEpath);
 
 async function getMovies16(url) {
     const resp = await fetch (url);
