@@ -95,7 +95,7 @@ header h1 {
 }
 
 .about {
-    background-color: #7378c5; /* Green */
+    background-color: #7378c5;
     border: none;
     color: white;
     width: 85px;
@@ -344,28 +344,28 @@ h2:hover {
 }
 
 .movie-header {
-    text-align: center; /* Center the title */
+    text-align: center;
     align-self: center;
-    font-size: 2.5rem; /* Increase the size */
-    font-weight: bold; /* Make it bold */
-    color: #ffeb3b; /* Use a bright color like gold */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add some shadow for depth */
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #ffeb3b;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .movie-description {
     font-size: 1rem;
-    margin-top: 50px; /* Space above the description */
+    margin-top: 50px;
     color: white;
 }
 
 .movie-rating {
-    margin-top: -15px; /* Space above the rating */
-    text-align: center; /* Center the rating */
+    margin-top: -15px;
+    text-align: center;
     align-self: center;
-    font-size: 2.5rem; /* Increase the size */
-    font-weight: bold; /* Make it bold */
-    color: #ffeb3b; /* Use a bright color like gold */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add some shadow for depth */
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #ffeb3b;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 p {
@@ -377,8 +377,8 @@ p {
 }
 
 .similar-movies span:hover {
-    text-decoration: none; /* Change or remove the underline on hover */
-    opacity: 0.8; /* Slight effect to show interactivity */
+    text-decoration: none;
+    opacity: 0.8;
     color: #f509d9;
 }
 
@@ -387,5 +387,29 @@ p {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    /*overflow: hidden; !* Prevent scrolling on the entire body *!*/
+    height: 100vh;
+    overflow: hidden;
+}
+
+.favorites-btn {
+    background-color: #7378c5;
+    border: none;
+    color: white;
+    width: 85px;
+    height: 40px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font: inherit;
+    font-size: 16px;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    margin-left: 219px;
+    border-radius: 8px;
+}
+
+.favorites-btn:hover {
+    background-color: #ff8623;
+    transition: 0.3s ease-in;
 }
