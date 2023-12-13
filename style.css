@@ -223,6 +223,7 @@ header h1 {
     color: black;
     border-radius: 8px;
     border: none;
+    cursor: pointer;
 }
 
 #back-to-top-btn:hover {
@@ -257,6 +258,7 @@ h2:hover {
     color: black;
     border-radius: 8px;
     border: none;
+    cursor: pointer;
 }
 
 #trivia-btn:hover {
@@ -278,6 +280,7 @@ h2:hover {
     color: black;
     border-radius: 8px;
     border: none;
+    cursor: pointer;
 }
 
 #discussions-btn:hover {
@@ -291,6 +294,7 @@ h2:hover {
     font: inherit;
     border-radius: 8px;
     border: none;
+    cursor: pointer;
 }
 
 #button-search:hover {
