@@ -17,6 +17,8 @@ const main16 = document.getElementById("main16");
 const form = document.getElementById("form");
 const search = document.getElementById("search");
 const searchButton = document.getElementById("button-search");
+const searchTitle = document.getElementById("search-title");
+const otherTitle = document.getElementById("other");
 
 async function getMovies(url) {
     const resp = await fetch (url);
@@ -32,7 +34,7 @@ function showMovies(movies) {
         const movieE1 = document.createElement('div');
         movieE1.classList.add('movie');
         movieE1.innerHTML = `
-            <img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" /> 
+            <img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer" /> 
             <div class="movie-info" style="cursor: pointer;">
                 <h3>${title}</h3>
                 <span class="${getClassByRate(vote_average)}">${vote_average}</span>
@@ -42,9 +44,8 @@ function showMovies(movies) {
                 ${overview}
             </div>`;
 
-        // Add a click event listener to each movie element
         movieE1.addEventListener('click', () => {
-            localStorage.setItem('selectedMovieId', id); // Store the movie ID
+            localStorage.setItem('selectedMovieId', id);
             window.location.href = 'movie-details.html';
         });
 
@@ -70,6 +71,8 @@ form.addEventListener('submit', (e) => {
 
     if (searchTerm) {
         getMovies(SEARCHPATH + searchTerm);
+        searchTitle.innerHTML = 'Search Results for: ' + searchTerm;
+        otherTitle.innerHTML = 'Check out other movies:';
         search.value='';
 
     }

@@ -388,7 +388,6 @@ p {
     background-position: center;
     background-repeat: no-repeat;
     height: 100vh;
-    overflow: hidden;
 }
 
 .favorites-btn {
@@ -412,4 +411,17 @@ p {
 .favorites-btn:hover {
     background-color: #ff8623;
     transition: 0.3s ease-in;
+}
+
+#favorite-btn {
+    background: transparent;
+    color: grey;
+    margin-left: 10px;
+    border-radius: 8px;
+    width: 40px;
+    box-shadow: none;
+}
+
+#favorite-btn:hover {
+    background-color: #dcdcdc;
 }
