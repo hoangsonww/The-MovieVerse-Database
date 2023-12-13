@@ -1,15 +1,90 @@
+const search = document.getElementById("search");
+const searchButton = document.getElementById("button-search");
+const form = document.getElementById("form");
+const SEARCHPATH = "https://api.themoviedb.org/3/search/movie?&api_key=c5a20c861acf7bb8d9e987dcc7f1b558&query=";
+const main = document.getElementById("main");
+const IMGPATH = "https://image.tmdb.org/t/p/w1280";
+
+function getClassByRate(vote) {
+    if (vote >= 8) {
+        return 'green';
+    }
+    else if (vote >= 5) {
+        return 'orange';
+    }
+    else {
+        return 'red';
+    }
+}
+
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const searchTerm = search.value;
+
+    if (searchTerm) {
+        getMovies(SEARCHPATH + searchTerm);
+        search.value='';
+
+    }
+})
+
+searchButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    const searchTerm = search.value;
+
+    if (searchTerm) {
+        getMovies(SEARCHPATH + searchTerm);
+        search.value='';
+
+    }
+})
+
+async function getMovies(url) {
+    const resp = await fetch (url);
+    const respData = await resp.json();
+
+    showMovies(respData.results);
+}
+
+function showMovies(movies) {
+    main.innerHTML = '';
+    movies.forEach((movie) => {
+        const { id, poster_path, title, vote_average, overview } = movie;
+        const movieE1 = document.createElement('div');
+        movieE1.classList.add('movie');
+        movieE1.innerHTML = `
+            <img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" /> 
+            <div class="movie-info" style="cursor: pointer;">
+                <h3>${title}</h3>
+                <span class="${getClassByRate(vote_average)}">${vote_average}</span>
+            </div>
+            <div class="overview" style="cursor: pointer;">
+                <h4>Movie Overview: </h4>
+                ${overview}
+            </div>`;
+
+        movieE1.addEventListener('click', () => {
+            localStorage.setItem('selectedMovieId', id); // Store the movie ID
+            window.location.href = 'movie-details.html';
+        });
+
+        main.appendChild(movieE1);
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const movieId = localStorage.getItem('selectedMovieId');
     if (movieId) {
         fetchMovieDetails(movieId);
-    } else {
+    }
+    else {
         document.getElementById('movie-details-container').innerHTML = '<p>Movie details not found.</p>';
     }
 });
 
 async function fetchMovieDetails(movieId) {
-    const apiKey = 'c5a20c861acf7bb8d9e987dcc7f1b558';
-    const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}&append_to_response=credits,keywords,similar`;
+    const code = 'c5a20c861acf7bb8d9e987dcc7f1b558';
+    const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${code}&append_to_response=credits,keywords,similar`;
 
     try {
         const response = await fetch(url);

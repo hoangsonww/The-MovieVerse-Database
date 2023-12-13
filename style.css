@@ -56,6 +56,7 @@ header {
     font-family: inherit;
     font-size: 1rem;
     padding: 0.5rem 1rem;
+    width: 250px;
 }
 
 #main {
