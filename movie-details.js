@@ -4,6 +4,7 @@ const form = document.getElementById("form");
 const SEARCHPATH = "https://api.themoviedb.org/3/search/movie?&api_key=c5a20c861acf7bb8d9e987dcc7f1b558&query=";
 const main = document.getElementById("main");
 const IMGPATH = "https://image.tmdb.org/t/p/w1280";
+const favoriteButton = document.getElementById("favorite-btn");
 
 function getClassByRate(vote) {
     if (vote >= 8) {
@@ -76,8 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const movieId = localStorage.getItem('selectedMovieId');
     if (movieId) {
         fetchMovieDetails(movieId);
-    }
-    else {
+    } else {
         document.getElementById('movie-details-container').innerHTML = '<p>Movie details not found.</p>';
     }
 });
@@ -90,16 +90,39 @@ async function fetchMovieDetails(movieId) {
         const response = await fetch(url);
         const movie = await response.json();
         populateMovieDetails(movie);
-    } catch (error) {
+    }
+    catch (error) {
         console.error('Error fetching movie details:', error);
     }
 }
 
+function toggleFavorite(movie) {
+    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    if (favorites.includes(movie.id)) {
+        favorites = favorites.filter(favId => favId !== movie.id);
+    } else {
+        favorites.push(movie.id);
+    }
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+    updateFavoriteButton(movie.id);
+}
+
+function updateFavoriteButton(movieId) {
+    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    const favoriteButton = document.getElementById('favorite-btn');
+    if (favorites.includes(movieId)) {
+        favoriteButton.classList.add('favorited');
+    } else {
+        favoriteButton.classList.remove('favorited');
+    }
+}
+
 function populateMovieDetails(movie) {
+    const movieRating = movie.vote_average.toFixed(1);
     document.getElementById('movie-image').src = `https://image.tmdb.org/t/p/w1280${movie.poster_path}`;
     document.getElementById('movie-title').textContent = movie.title;
     document.getElementById('movie-description').textContent = movie.overview;
-    document.getElementById('movie-rating').textContent = `IMDB Rating: ${movie.vote_average}`;
+    document.getElementById('movie-rating').textContent = `IMDB Rating: ${movieRating}`;
     document.title = movie.title + " - Movie Details";
     // Create elements for additional movie details
     const genres = movie.genres.map(genre => genre.name).join(', ');
@@ -166,7 +189,10 @@ function populateMovieDetails(movie) {
                 similarMoviesHeading.appendChild(document.createTextNode(', '));
             }
         });
-    } else {
+    }
+    else {
         similarMoviesHeading.appendChild(document.createTextNode('None available.'));
     }
+    updateFavoriteButton(movie.id);
+    favoriteButton.addEventListener('click', () => toggleFavorite(movie));
 }

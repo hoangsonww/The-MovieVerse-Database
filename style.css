@@ -21,6 +21,8 @@ p {
     font: inherit;
     border-radius: 8px;
     border: none;
+    right: 10px;
+    position: absolute;
 }
 
 main {
@@ -424,4 +426,32 @@ p {
 
 #favorite-btn:hover {
     background-color: #dcdcdc;
+}
+
+.title-favorites-container {
+    display: flex;
+    align-items: center;
+}
+
+#favorite-btn.favorited {
+    color: red;
+}
+
+#favorites-main {
+    margin-left: 15px;
+}
+
+#favorite-btn:hover::after {
+    content: "Add to / Remove from favorites";
+    position: absolute;
+    top: -70px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #232323;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    pointer-events: none;
+    z-index: 10;
 }

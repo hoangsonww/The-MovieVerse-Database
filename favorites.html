@@ -1,37 +1,79 @@
 <!DOCTYPE html>
-
-<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
-
+<html lang="en">
 <head>
-
     <meta charset="UTF-8">
-
-    <title>About The MovieVerse</title>
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <link rel="stylesheet" href="style.css"/>
-
+    <title>Movie Details</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="movie-details.js" defer></script>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
-
-    <script src="script.js" defer></script>
-
 </head>
-
-<body>
-
-<header>
-
-    <h1 class="header2">YOUR FAVORITES LIST:</h1>
-
-    <button class="button2" style="cursor: pointer" onclick="window.location.href='index.html'">Click Here To Return To Home!</button>
-
+<body class="movie-details-body">
+<header style="margin-bottom: -60px">
+    <h1 id="my-heading">
+        Your Favorites List
+    </h1>
+    <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+    <button class="about" onclick="window.location.href='about.html'">About</button>
+    <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="Go to your favorites list">Favorites</button>
 </header>
 
-<main id="main2">
+<main id="favorites-main"></main>
 
-</main>
+<!-- Create a button to go to the Movie Discussions page -->
+<button id="discussions-btn" onclick="window.location.href='discussions.html'" style="margin-bottom: -55px">MovieVerse Chatbot</button>
 
+<!-- Create a button to go to the Trivia Game page -->
+<button id="trivia-btn" onclick="window.location.href='trivia.html'" style="margin-bottom: -50px">Trivia Game</button>
+
+<script src="movie-details.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        const favoritesMain = document.getElementById('favorites-main');
+        if (favorites.length > 0) {
+            favorites.forEach(movieId => fetchMovieDetails(movieId));
+        } else {
+            favoritesMain.innerHTML = '<p>No favorites added yet.</p>';
+        }
+    });
+    async function fetchMovieDetails(movieId) {
+        const favoritesContainer = document.getElementById('favorites-main');
+        const code = 'c5a20c861acf7bb8d9e987dcc7f1b558';
+        const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${code}&append_to_response=credits,keywords,similar`;
+
+        try {
+            const response = await fetch(url);
+            const movie = await response.json();
+
+            const movieEl = document.createElement('div');
+            movieEl.classList.add('movie');
+            movieEl.innerHTML = `
+            <img src="${IMGPATH + movie.poster_path}" alt="${movie.title}" style="cursor: pointer" />
+            <div class="movie-info" style="cursor: pointer;">
+                <h3>${movie.title}</h3>
+                <span class="${getClassByRate(movie.vote_average)}">${movie.vote_average}</span>
+            </div>
+            <div class="overview" style="cursor: pointer;">
+                <h4>Movie Overview: </h4>
+                ${movie.overview}
+            </div>`;
+
+            movieEl.addEventListener('click', () => {
+                localStorage.setItem('selectedMovieId', movie.id);
+                window.location.href = 'movie-details.html';
+            });
+
+            favoritesContainer.appendChild(movieEl);
+
+        }
+        catch (error) {
+            console.error('Error fetching movie details:', error);
+            favoritesContainer.innerHTML += '<p>Error loading movie details.</p>';
+        }
+    }
+
+</script>
 </body>
 
 </html>

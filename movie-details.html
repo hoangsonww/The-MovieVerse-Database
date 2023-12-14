@@ -14,6 +14,7 @@
     </h1>
     <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
     <button class="about" onclick="window.location.href='about.html'">About</button>
+    <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="Go to your favorites list">Favorites</button>
     <form id="form">
         <input
                 type="text"
@@ -32,8 +33,11 @@
 <div class="details-container" id="movie-details-container">
     <!-- Left side for Title and Image -->
     <div class="movie-left">
-        <h2 id="movie-title" class="movie-header"></h2>
-        <button style="margin-left: 10px; margin-top: -30px" title="Add to Favorites" id="favorite-btn">❤️</button>
+        <!-- Container for Title and Favorites Button -->
+        <div class="title-favorites-container">
+            <h2 id="movie-title" class="movie-header"></h2>
+            <button title="Add to/Remove from Favorites" id="favorite-btn">❤️</button>
+        </div>
         <img id="movie-image" alt="Movie Image" style="width: 25vw"/>
     </div>
 
