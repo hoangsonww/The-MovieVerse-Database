@@ -37,3 +37,7 @@ body {
     background-color: #ff8623;
     transition: 0.1s linear;
 }
+
+html {
+    scroll-behavior: smooth;
+}

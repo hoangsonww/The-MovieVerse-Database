@@ -275,13 +275,15 @@ function showMovies7(movies) {
                 ${overview}
             </div>`;
 
-        // Add a click event listener to each movie element
         movieE1.addEventListener('click', () => {
-            localStorage.setItem('selectedMovieId', id); // Store the movie ID
+            localStorage.setItem('selectedMovieId', id);
             window.location.href = 'movie-details.html';
         });
+
+        main7.appendChild(movieE1); // Append the movie element to main7
     });
 }
+
 
 getMovies8(ROMANTICpath);
 

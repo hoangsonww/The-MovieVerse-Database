@@ -396,7 +396,7 @@ p {
     background-color: #7378c5;
     border: none;
     color: white;
-    width: 85px;
+    /*width: 85px;*/
     height: 40px;
     text-align: center;
     text-decoration: none;
@@ -408,6 +408,9 @@ p {
     top: 0;
     margin-left: 219px;
     border-radius: 8px;
+    padding-left: 10px; /* Add left padding */
+    padding-right: 10px; /* Add right padding */
+    box-sizing: border-box;
 }
 
 .favorites-btn:hover {
