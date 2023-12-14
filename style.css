@@ -539,8 +539,9 @@ p {
 @media (max-width: 720px) {
     body {
         background-image: url("https://wallpaperaccess.com/full/433561.jpg");
-        background-size: auto 100%;
-        background-position: top center;
-        background-repeat: repeat;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: scroll;
     }
 }
