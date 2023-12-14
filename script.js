@@ -21,10 +21,14 @@ const searchTitle = document.getElementById("search-title");
 const otherTitle = document.getElementById("other");
 
 async function getMovies(url) {
-    const resp = await fetch (url);
+    const resp = await fetch(url);
     const respData = await resp.json();
 
-    showMovies(respData.results);
+    if (respData.results.length > 0) {
+        showMovies(respData.results);
+    } else {
+        main.innerHTML = `<p>No movie with the specified search term found. Please try again.</p>`;
+    }
 }
 
 function showMovies(movies) {
@@ -67,16 +71,18 @@ function getClassByRate(vote) {
 
 form.addEventListener('submit', (e) => {
     e.preventDefault();
-    const searchTerm = search.value;
+    const searchTerm = search.value.trim();
 
     if (searchTerm) {
         getMovies(SEARCHPATH + searchTerm);
         searchTitle.innerHTML = 'Search Results for: ' + searchTerm;
         otherTitle.innerHTML = 'Check out other movies:';
-        search.value='';
-
+        search.value = '';
     }
-})
+    else {
+        searchTitle.innerHTML = 'Please enter a search term.';
+    }
+});
 
 searchButton.addEventListener('click', (e) => {
     e.preventDefault();
@@ -84,8 +90,12 @@ searchButton.addEventListener('click', (e) => {
 
     if (searchTerm) {
         getMovies(SEARCHPATH + searchTerm);
-        search.value='';
-
+        searchTitle.innerHTML = 'Search Results for: ' + searchTerm;
+        otherTitle.innerHTML = 'Check out other movies:';
+        search.value = '';
+    }
+    else {
+        searchTitle.innerHTML = 'Please enter a search term.';
     }
 })
 

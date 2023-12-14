@@ -20,14 +20,18 @@ function getClassByRate(vote) {
 
 form.addEventListener('submit', (e) => {
     e.preventDefault();
-    const searchTerm = search.value;
+    const searchTerm = search.value.trim();
 
     if (searchTerm) {
         getMovies(SEARCHPATH + searchTerm);
-        search.value='';
-
+        searchTitle.innerHTML = 'Search Results for: ' + searchTerm;
+        otherTitle.innerHTML = 'Check out other movies:';
+        search.value = '';
     }
-})
+    else {
+        searchTitle.innerHTML = 'Please enter a search term.';
+    }
+});
 
 searchButton.addEventListener('click', (e) => {
     e.preventDefault();
@@ -35,16 +39,34 @@ searchButton.addEventListener('click', (e) => {
 
     if (searchTerm) {
         getMovies(SEARCHPATH + searchTerm);
-        search.value='';
-
+        searchTitle.innerHTML = 'Search Results for: ' + searchTerm;
+        otherTitle.innerHTML = 'Check out other movies:';
+        search.value = '';
     }
-})
+    else {
+        searchTitle.innerHTML = 'Please enter a search term.';
+    }
+});
 
 async function getMovies(url) {
-    const resp = await fetch (url);
+    clearMovieDetails();
+
+    const resp = await fetch(url);
     const respData = await resp.json();
 
-    showMovies(respData.results);
+    if (respData.results.length > 0) {
+        showMovies(respData.results);
+    }
+    else {
+        main.innerHTML = `<p>No movie with the specified search term found. Please try again.</p>`;
+    }
+}
+
+function clearMovieDetails() {
+    const movieDetailsContainer = document.getElementById('movie-details-container');
+    if (movieDetailsContainer) {
+        movieDetailsContainer.innerHTML = '';
+    }
 }
 
 function showMovies(movies) {
@@ -77,7 +99,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const movieId = localStorage.getItem('selectedMovieId');
     if (movieId) {
         fetchMovieDetails(movieId);
-    } else {
+    }
+    else {
         document.getElementById('movie-details-container').innerHTML = '<p>Movie details not found.</p>';
     }
 });
