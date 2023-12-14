@@ -539,8 +539,8 @@ p {
 @media (max-width: 720px) {
     body {
         background-image: url("https://wallpaperaccess.com/full/433561.jpg");
-        font-family: "Poppins", sans-serif;
-        margin: 0;
-        align-content: center;
+        background-size: auto 100%;
+        background-position: top center;
+        background-repeat: repeat;
     }
 }
