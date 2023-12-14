@@ -123,7 +123,8 @@ function toggleFavorite(movie) {
     let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
     if (favorites.includes(movie.id)) {
         favorites = favorites.filter(favId => favId !== movie.id);
-    } else {
+    }
+    else {
         favorites.push(movie.id);
     }
     localStorage.setItem('favorites', JSON.stringify(favorites));
@@ -135,7 +136,8 @@ function updateFavoriteButton(movieId) {
     const favoriteButton = document.getElementById('favorite-btn');
     if (favorites.includes(movieId)) {
         favoriteButton.classList.add('favorited');
-    } else {
+    }
+    else {
         favoriteButton.classList.remove('favorited');
     }
 }
@@ -144,10 +146,10 @@ function populateMovieDetails(movie) {
     const movieRating = movie.vote_average.toFixed(1);
     document.getElementById('movie-image').src = `https://image.tmdb.org/t/p/w1280${movie.poster_path}`;
     document.getElementById('movie-title').textContent = movie.title;
-    document.getElementById('movie-description').textContent = movie.overview;
+    // document.getElementById('movie-description').textContent = movie.overview;
     document.getElementById('movie-rating').textContent = `IMDB Rating: ${movieRating}`;
     document.title = movie.title + " - Movie Details";
-    // Create elements for additional movie details
+    const overview = movie.overview;
     const genres = movie.genres.map(genre => genre.name).join(', ');
     const releaseDate = movie.release_date;
     const runtime = movie.runtime + ' minutes';
@@ -162,10 +164,15 @@ function populateMovieDetails(movie) {
     const status = movie.status;
     const userScore = movie.vote_average;
     const voteCount = movie.vote_count.toLocaleString();
-    const keywords = movie.keywords ? movie.keywords.keywords.map(kw => kw.name).join(', ') : 'N/A';
-    const similarTitles = movie.similar ? movie.similar.results.map(m => m.title).join(', ') : 'N/A';
+    let keywords = movie.keywords ? movie.keywords.keywords.map(kw => kw.name).join(', ') : 'None Available';
+    const similarTitles = movie.similar ? movie.similar.results.map(m => m.title).join(', ') : 'None Available';
+
+    if (keywords.length === 0) {
+        keywords = 'None Available';
+    }
 
     document.getElementById('movie-description').innerHTML += `
+        <p><strong>Description: </strong>${overview}</p>
         <p><strong>Genres:</strong> ${genres}</p>
         <p><strong>Release Date:</strong> ${releaseDate}</p>
         <p><strong>Runtime:</strong> ${runtime}</p>
@@ -186,7 +193,6 @@ function populateMovieDetails(movie) {
     similarMoviesHeading.innerHTML = '<strong>Similar Movies:</strong> ';
     document.getElementById('movie-description').appendChild(similarMoviesHeading);
 
-    // Check if similar movies are available
     if (movie.similar && movie.similar.results.length > 0) {
         movie.similar.results.forEach((similarMovie, index) => {
             const movieLink = document.createElement('span');

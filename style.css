@@ -25,7 +25,7 @@ p {
     font: inherit;
     border-radius: 8px;
     border: none;
-    right: 10px;
+    right: 18px;
     position: absolute;
 }
 
@@ -400,7 +400,6 @@ p {
     background-color: #7378c5;
     border: none;
     color: white;
-    /*width: 85px;*/
     height: 40px;
     text-align: center;
     text-decoration: none;
@@ -412,8 +411,8 @@ p {
     top: 0;
     margin-left: 219px;
     border-radius: 8px;
-    padding-left: 10px; /* Add left padding */
-    padding-right: 10px; /* Add right padding */
+    padding-left: 10px;
+    padding-right: 10px;
     box-sizing: border-box;
 }
 
@@ -429,10 +428,40 @@ p {
     border-radius: 8px;
     width: 40px;
     box-shadow: none;
+    position: relative;
+    cursor: pointer;
 }
 
 #favorite-btn:hover {
     background-color: #dcdcdc;
+}
+
+.tooltip-text {
+    visibility: hidden;
+    width: 180px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -90px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
 }
 
 .title-favorites-container {
@@ -461,4 +490,48 @@ p {
     font-size: 12px;
     pointer-events: none;
     z-index: 10;
+}
+
+#main2 {
+    text-align: center;
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    margin-bottom: 200px;
+}
+
+#main2 h2, #main2 h3 {
+    color: #ff8623;
+    margin-bottom: 20px;
+}
+
+#main2 p, #main2 ul, #main2 li {
+    text-align: left;
+    margin: auto;
+    max-width: 800px;
+    color: #ff8623;
+}
+
+#main2 ul {
+    list-style: none;
+    padding: 0;
+}
+
+#main2 li {
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+    color: black;
+}
+
+#main2 a {
+    color: #7378c5;
+    text-decoration: none;
+}
+
+#main2 a:hover {
+    text-decoration: underline;
 }

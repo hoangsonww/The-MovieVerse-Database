@@ -139,4 +139,3 @@ function movieVerseResponse(message) {
         return "Sorry, I didn't catch that. Can you rephrase or ask another question about movies?";
     }
 }
-

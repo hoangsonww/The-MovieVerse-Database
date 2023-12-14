@@ -1,12 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap');
 
 body {
-    color: #ff8623;
+    color: #ff903a;
     font-family: "Poppins", sans-serif;
     margin: 0;
     align-content: center;
     text-align: center;
-    background-image: url("https://th.bing.com/th/id/R.924545a2721303f55fa004d579aaf756?rik=JfZPLmfCC2PUvA&riu=http%3a%2f%2fwww.pixelstalk.net%2fwp-content%2fuploads%2f2016%2f04%2fStars-wallpaper-HD-desktop.jpg&ehk=pH%2bxp14MOATribNawKZJ7V8dG9qPaiJQn1%2bHnDhrrSg%3d&risl=&pid=ImgRaw&r=0");
+    background-image: url("https://wallpaperaccess.com/full/433561.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 #submit {
@@ -15,6 +19,7 @@ body {
     margin-bottom: 39px;
     border-radius: 8px;
     border: none;
+    cursor: pointer;
 }
 
 #submit:hover {
@@ -31,6 +36,7 @@ body {
     color: black;
     border-radius: 8px;
     border: none;
+    cursor: pointer;
 }
 
 #back-to-top-btn:hover {
@@ -40,4 +46,18 @@ body {
 
 html {
     scroll-behavior: smooth;
+}
+
+#regenerate-questions {
+    background-color: #7378c5;
+    font: inherit;
+    margin-bottom: 39px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+}
+
+#regenerate-questions:hover {
+    background-color: #ff8623;
+    transition: 0.1s linear;
 }
