@@ -440,7 +440,6 @@ p {
 
 .tooltip-text {
     visibility: hidden;
-    width: 180px;
     background-color: #555;
     color: #fff;
     text-align: center;
@@ -449,7 +448,7 @@ p {
     position: absolute;
     z-index: 1;
     bottom: 125%;
-    left: 50%;
+    left: 10%;
     margin-left: -90px;
     opacity: 0;
     transition: opacity 0.3s;
@@ -469,6 +468,7 @@ p {
 .title-favorites-container {
     display: flex;
     align-items: center;
+    overflow: visible;
 }
 
 #favorite-btn.favorited {
@@ -480,14 +480,15 @@ p {
 }
 
 #favorite-btn:hover::after {
-    content: "Add to / Remove from favorites";
+    content: "Favorite / Unfavorite";
     position: absolute;
-    top: -70px;
+    top: -45px;
     left: 50%;
-    transform: translateX(-50%);
+    width: 55px;
+    transform: translateX(-70%);
     background-color: #232323;
     color: white;
-    padding: 5px 10px;
+    padding: 5px;
     border-radius: 5px;
     font-size: 12px;
     pointer-events: none;

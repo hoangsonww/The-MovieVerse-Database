@@ -6,7 +6,7 @@ const main = document.getElementById("main");
 const IMGPATH = "https://image.tmdb.org/t/p/w1280";
 const favoriteButton = document.getElementById("favorite-btn");
 
-function getClassByRate(vote) {
+function getClassByRate(vote){
     if (vote >= 8) {
         return 'green';
     }
