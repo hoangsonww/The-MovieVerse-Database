@@ -311,8 +311,10 @@ h2:hover {
 
 .details-container {
     display: flex;
-    height: calc(100% - 60px); /* Adjust height considering header height */
+    height: calc(100% - 60px);
     color: white;
+    overflow-y: auto;
+    align-items: start;
 }
 
 .movie-left, .movie-right {
@@ -324,16 +326,16 @@ h2:hover {
 .movie-left {
     width: 33.3333%;
     box-sizing: border-box;
-    align-items: center; /* Center-align children horizontally */
-    justify-content: center; /* Center-align children vertically */
-    margin-top: -75px;
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto;
 }
 
 .movie-right {
     width: 66.6666%;
     padding: 10px;
     box-sizing: border-box;
-    overflow-y: auto; /* Allow scrolling for the description if needed */
+    overflow-y: auto;
 }
 
 .movie-image {
@@ -360,7 +362,6 @@ h2:hover {
 
 .movie-description {
     font-size: 1rem;
-    margin-top: 50px;
     color: white;
     transform: translateY(10%);
 }
@@ -584,4 +585,28 @@ p {
     left: 15px;
     border-radius: 8px;
     padding-top: 3.5px;
+}
+
+.nav-toggle:hover {
+    background-color: #ff8623;
+    transition: 0.3s ease-in;
+}
+
+#button-container {
+    text-align: center;
+}
+
+#button-remove {
+    color: #171616;
+    background-color: #7378c5;
+    font: inherit;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+#button-remove:hover {
+    background-color: #ff8623;
+    transition: 0.1s linear;
 }

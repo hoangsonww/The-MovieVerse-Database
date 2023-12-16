@@ -55,10 +55,13 @@
 
     <!-- Create a side navigation bar -->
     <nav id="side-nav" class="side-nav">
-        <h1 id="my-heading">
+        <h1 id="my-heading" style="margin-bottom: 5px">
             The Mo<span class="highlight">vieV</span>erse Menu
         </h1>
-        <ul>
+        <div id="button-container">
+            <button id="button-remove" title="Close the navbar" onclick="removeNavBar()">Close</button>
+        </div>
+        <ul style="overflow-y: auto">
             <li><a href="#main">Most Popular</a></li>
             <li><a href="#main3">Action</a></li>
             <li><a href="#main4">Horror</a></li>
@@ -75,7 +78,6 @@
             <li><a href="#main15">TV Series</a></li>
             <li><a href="#main16">Crime</a></li>
         </ul>
-        <button style="margin-left: 21px; margin-top: 5px" id="button-search" onclick="removeNavBar()">Close</button>
     </nav>
 
     <!-- Create a section for the most popular movies -->

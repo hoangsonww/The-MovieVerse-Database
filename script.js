@@ -650,3 +650,4 @@ function removeNavBar() {
         sideNav.style.left = '-250px';
     }
 }
+
