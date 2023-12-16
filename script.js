@@ -26,7 +26,8 @@ async function getMovies(url) {
 
     if (respData.results.length > 0) {
         showMovies(respData.results);
-    } else {
+    }
+    else {
         main.innerHTML = `<p>No movie with the specified search term found. Please try again.</p>`;
     }
 }
@@ -608,4 +609,44 @@ function showMovies16(movies) {
         });
         main16.appendChild(movieE1);
     });
+}
+
+document.addEventListener('mousemove', function(event) {
+    const sideNav = document.getElementById('side-nav');
+    if (event.clientX < 10 && !sideNav.classList.contains('manual-toggle')) {
+        sideNav.style.left = '0';
+    }
+});
+
+document.getElementById('side-nav').addEventListener('mouseleave', function() {
+    const sideNav = document.getElementById('side-nav');
+    if (!sideNav.classList.contains('manual-toggle')) {
+        sideNav.style.left = '-250px';
+    }
+});
+
+document.addEventListener('click', function () {
+    const sideNav = document.getElementById('side-nav');
+    if (!sideNav.classList.contains('manual-toggle')) {
+        sideNav.style.left = '-250px';
+    }
+})
+
+function toggleNav() {
+    const sideNav = document.getElementById('side-nav');
+    sideNav.classList.toggle('manual-toggle');
+    if (sideNav.classList.contains('manual-toggle')) {
+        sideNav.style.left = '0px';
+    }
+    else {
+        sideNav.style.left = '-250px';
+    }
+}
+
+function removeNavBar() {
+    const sideNav = document.getElementById('side-nav');
+    if (sideNav.classList.contains('manual-toggle')) {
+        sideNav.classList.remove('manual-toggle');
+        sideNav.style.left = '-250px';
+    }
 }

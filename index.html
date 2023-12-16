@@ -11,6 +11,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Link to the external CSS file -->
     <link rel="stylesheet" href="style.css"/>
+    <!-- Link to Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <!-- Link to the external JavaScript file and defer its execution -->
     <script src="script.js" defer></script>
     <!-- Link to the favicon -->
@@ -24,6 +26,11 @@
         <h1 id="my-heading">
             The Mo<span class="highlight">vieV</span>erse
         </h1>
+
+        <!-- Create a button to toggle the side navigation bar -->
+        <button id="nav-toggle" class="nav-toggle" title="Toggle Side Navbar" onclick="toggleNav()">
+            <i class="fas fa-bars"></i>
+        </button>
 
         <!-- Create a button to go back to the home page -->
         <button class="back-btn" onclick="window.location.href='index.html'" title="Go back to homepage">Home</button>
@@ -46,6 +53,31 @@
         </form>
     </header>
 
+    <!-- Create a side navigation bar -->
+    <nav id="side-nav" class="side-nav">
+        <h1 id="my-heading">
+            The Mo<span class="highlight">vieV</span>erse Menu
+        </h1>
+        <ul>
+            <li><a href="#main">Most Popular</a></li>
+            <li><a href="#main3">Action</a></li>
+            <li><a href="#main4">Horror</a></li>
+            <li><a href="#main5">Documentary</a></li>
+            <li><a href="#main6">Animated</a></li>
+            <li><a href="#main7">Science Fiction</a></li>
+            <li><a href="#main8">Romantic</a></li>
+            <li><a href="#main9">Thriller</a></li>
+            <li><a href="#main10">Mystery</a></li>
+            <li><a href="#main11">Adventure</a></li>
+            <li><a href="#main12">Comedy</a></li>
+            <li><a href="#main13">Fantasy</a></li>
+            <li><a href="#main14">Family</a></li>
+            <li><a href="#main15">TV Series</a></li>
+            <li><a href="#main16">Crime</a></li>
+        </ul>
+        <button style="margin-left: 21px" id="button-search" onclick="removeNavBar()">Close</button>
+    </nav>
+
     <!-- Create a section for the most popular movies -->
     <div class="genres" style="margin-left: 25px">
         <h2 id="search-title">Most Popular: </h2>
@@ -53,11 +85,6 @@
 
     <!-- Create a main section for the most popular movies -->
     <main id="main" style="margin-left: 25px">
-
-    </main>
-
-    <!-- Create a main section for the new releases -->
-    <main id="main2" style="margin-left: 25px">
 
     </main>
 
