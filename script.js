@@ -38,11 +38,12 @@ function showMovies(movies) {
         const { id, poster_path, title, vote_average, overview } = movie;
         const movieE1 = document.createElement('div');
         movieE1.classList.add('movie');
+        voteAvg = vote_average.toFixed(1);
         movieE1.innerHTML = `
             <img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer" /> 
             <div class="movie-info" style="cursor: pointer;">
                 <h3>${title}</h3>
-                <span class="${getClassByRate(vote_average)}">${vote_average}</span>
+                <span class="${getClassByRate(vote_average)}">${voteAvg}</span>
             </div>
             <div class="overview" style="cursor: pointer;">
                 <h4>Movie Overview: </h4>
