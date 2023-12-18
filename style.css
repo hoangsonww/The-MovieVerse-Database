@@ -295,6 +295,40 @@ h2:hover {
     transition: 0.1s linear;
 }
 
+#movie-of-the-day-btn {
+    position: fixed;
+    bottom: 140px;
+    right: 30px;
+    background-color: #7378c5;
+    font: inherit;
+    color: black;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+}
+
+#movie-of-the-day-btn:hover {
+    background-color: #ff8623;
+    transition: 0.1s linear;
+}
+
+#movie-of-the-day-btn2 {
+    position: fixed;
+    bottom: 80px;
+    right: 30px;
+    background-color: #7378c5;
+    font: inherit;
+    color: black;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+}
+
+#movie-of-the-day-btn2:hover {
+    background-color: #ff8623;
+    transition: 0.1s linear;
+}
+
 #button-search {
     color: #171616;
     background-color: #7378c5;
@@ -323,7 +357,31 @@ h2:hover {
     justify-content: flex-start;
 }
 
+.actor-left, .actor-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin: 20px;
+}
+
+#actor-name {
+    text-align: center;
+    align-self: center;
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    margin-top: -10px;
+}
+
 .movie-left {
+    width: 33.3333%;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto;
+}
+
+.actor-left {
     width: 33.3333%;
     box-sizing: border-box;
     align-items: center;
@@ -338,6 +396,14 @@ h2:hover {
     overflow-y: auto;
 }
 
+.actor-right {
+    width: 66.6666%;
+    padding: 10px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    margin-top: 70px;
+}
+
 .movie-image {
     width: 100%;
     height: auto;
@@ -349,9 +415,21 @@ h2:hover {
     .movie-image {
         height: 100%;
     }
+    #actor-image {
+        height: 100%;
+    }
 }
 
 .movie-header {
+    text-align: center;
+    align-self: center;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #ffeb3b;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.actor-header {
     text-align: center;
     align-self: center;
     font-size: 2.5rem;
@@ -366,8 +444,14 @@ h2:hover {
     transform: translateY(10%);
 }
 
+.actor-description {
+    font-size: 1rem;
+    color: white;
+    transform: translateY(10%);
+}
+
 .movie-rating {
-    margin-top: 50px;
+    margin-top: 100px;
     text-align: center;
     align-self: center;
     font-size: 2.5rem;
@@ -610,4 +694,89 @@ p {
 #button-remove:hover {
     background-color: #ff8623;
     transition: 0.1s linear;
+}
+
+.trailer-button {
+    display: block;
+    background-color: #7378c5;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    width: fit-content;
+    font-size: 1rem;
+}
+
+.trailer-button:hover {
+    background-color: #ff8623;
+}
+
+.cast-container {
+    margin-top: 20px;
+}
+
+.actor {
+    cursor: pointer;
+    color: #007bff;
+    text-decoration: underline;
+}
+
+.actor:hover {
+    color: #0056b3;
+}
+
+.actor-item {
+    cursor: pointer;
+    color: #007bff;
+    text-decoration: underline;
+}
+
+.actor-item:hover {
+    color: #0056b3;
+}
+
+.cast-container {
+    margin-top: 20px;
+}
+
+.actor-link {
+    cursor: pointer;
+    color: #007bff;
+    text-decoration: underline;
+}
+
+.actor-link:hover {
+    color: #0056b3;
+}
+
+.cast-list {
+    white-space: nowrap;
+    overflow-x: auto;
+    margin-top: 10px;
+}
+
+.actor-link {
+    cursor: pointer;
+    color: white;
+    text-decoration: underline;
+}
+
+.actor-link:hover {
+    color: #f509d9;
+}
+
+.movie-link {
+    cursor: pointer;
+    color: white;
+    text-decoration: underline;
+}
+
+.movie-link:hover {
+    color: #f509d9;
 }

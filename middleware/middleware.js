@@ -58,12 +58,6 @@ const movieFetcher = (req, res, next) => {
 const errorHandler = (err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send({ error: 'Something broke!' });
-    cont res.status(statusCode).json({
-        status: 'error',
-        statusCode,
-        message,
-    });
-    }
 };
 
 // Movie Data Validation Middleware
@@ -89,15 +83,9 @@ app.post('/api/movies', authenticate, validateMovieData, (req, res) => {
     res.status(201).send({ message: 'Movie added successfully' });
 });
 
-// Error Handler should be the last piece of middleware
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
-
-// Path: routes/movies.js
-const express = require('express');
-const router = express.Router();
-const movieController = require('../controllers/movies');
