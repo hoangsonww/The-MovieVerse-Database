@@ -134,134 +134,99 @@ function showMovies(movies){
 }
 
 function clearMovieDetails() {
-    const movieDetailsContainer = document.getElementById('actor-details-container');
+    const movieDetailsContainer = document.getElementById('director-details-container');
     if (movieDetailsContainer) {
         movieDetailsContainer.innerHTML = '';
     }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    const actorId = localStorage.getItem('selectedActorId');
-    if (actorId) {
-        fetchActorDetails(actorId);
+    const directorId = localStorage.getItem('selectedDirectorId');
+    if (directorId) {
+        fetchDirectorDetails(directorId);
     }
     else {
-        document.getElementById('actor-details-container').innerHTML = '<p>Actor details not found.</p>';
+        document.getElementById('director-details-container').innerHTML = '<p>Director details not found.</p>';
     }
 });
 
-async function fetchActorDetails(actorId) {
-    const actorUrl = `https://api.themoviedb.org/3/person/${actorId}?api_key=c5a20c861acf7bb8d9e987dcc7f1b558`;
-    const creditsUrl = `https://api.themoviedb.org/3/person/${actorId}/movie_credits?api_key=c5a20c861acf7bb8d9e987dcc7f1b558`;
+async function fetchDirectorDetails(directorId) {
+    const directorUrl = `https://api.themoviedb.org/3/person/${directorId}?api_key=c5a20c861acf7bb8d9e987dcc7f1b558`;
+    const creditsUrl = `https://api.themoviedb.org/3/person/${directorId}/movie_credits?api_key=c5a20c861acf7bb8d9e987dcc7f1b558`;
 
     try {
-        const [actorResponse, creditsResponse] = await Promise.all([
-            fetch(actorUrl),
+        const [directorResponse, creditsResponse] = await Promise.all([
+            fetch(directorUrl),
             fetch(creditsUrl)
         ]);
 
-        const actor = await actorResponse.json();
+        const director = await directorResponse.json();
         const credits = await creditsResponse.json();
-        if (actor.success === false) {
-            document.getElementById('actor-details-container').innerHTML = '<h2>No Information is Available for this Actor</h2>';
+
+        if (director.success === false) {
+            document.getElementById('director-details-container').innerHTML = '<h2>No Information is Available for this Director</h2>';
         }
         else {
-            populateActorDetails(actor, credits);
+            populateDirectorDetails(director, credits);
         }
     }
     catch (error) {
-        console.error('Error fetching actor details:', error);
-        document.getElementById('actor-details-container').innerHTML = '<h2>Error fetching actor details</h2>';
+        console.error('Error fetching director details:', error);
+        document.getElementById('director-details-container').innerHTML = '<h2>Error fetching director details</h2>';
     }
 }
 
-function populateActorDetails(actor, credits) {
-    const actorImage = document.getElementById('actor-image');
-    const actorName = document.getElementById('actor-name');
-    const actorDescription = document.getElementById('actor-description');
+function populateDirectorDetails(director, credits) {
+    const directorImage = document.getElementById('director-image');
+    const directorName = document.getElementById('director-name');
+    const directorDescription = document.getElementById('director-description');
 
-    // Check if actor image is available
-    if (actor.profile_path) {
-        actorImage.src = `https://image.tmdb.org/t/p/w1280${actor.profile_path}`;
-        actorName.textContent = actor.name;
-        document.title = `${actor.name} - Actor's Details`;
+    if (director.profile_path) {
+        directorImage.src = `https://image.tmdb.org/t/p/w1280${director.profile_path}`;
+        directorName.textContent = director.name;
+        document.title = `${director.name} - Director's Details`;
     }
     else {
-        actorImage.style.display = 'none';
-        actorName.textContent = actor.name;
+        directorImage.style.display = 'none';
+        directorName.textContent = director.name;
         const noImageText = document.createElement('h2');
         noImageText.textContent = 'Image Not Available';
         noImageText.style.textAlign = 'center';
-        document.querySelector('.actor-left').appendChild(noImageText);
+        document.querySelector('.director-left').appendChild(noImageText);
     }
-    document.getElementById('actor-image').src = `https://image.tmdb.org/t/p/w1280${actor.profile_path}`;
-    document.getElementById('actor-name').textContent = actor.name;
 
-    actorDescription.innerHTML = `
-        <p><strong>Biography:</strong> ${actor.biography || 'N/A'}</p>
-        <p><strong>Date of Birth:</strong> ${actor.birthday || 'N/A'}</p>
-        <p><strong>Age:</strong> ${actor.birthday ? calculateAge(actor.birthday) : 'N/A'}</p>
-        <p><strong>Place of Birth:</strong> ${actor.place_of_birth || 'N/A'}</p>
-        <p><strong>Known For:</strong> ${actor.known_for_department || 'N/A'}</p>
-        <p><strong>Height:</strong> ${actor.height || 'N/A'}</p>
+    directorDescription.innerHTML = `
+        <p><strong>Biography:</strong> ${director.biography || 'N/A'}</p>
+        <p><strong>Date of Birth:</strong> ${director.birthday || 'N/A'}</p>
+        <p><strong>Age:</strong> ${director.birthday ? calculateAge(director.birthday) : 'N/A'}</p>
+        <p><strong>Place of Birth:</strong> ${director.place_of_birth || 'N/A'}</p>
+        <p><strong>Known For:</strong> Directing</p>
     `;
     const filmographyHeading = document.createElement('p');
     filmographyHeading.innerHTML = '<strong>Filmography:</strong> ';
-    document.getElementById('actor-description').appendChild(filmographyHeading);
+    directorDescription.appendChild(filmographyHeading);
 
     const movieList = document.createElement('div');
     movieList.classList.add('movie-list');
-    credits.cast.forEach(movie => {
-        const movieLink = document.createElement('span');
-        movieLink.textContent = movie.title;
-        movieLink.classList.add('movie-link');
-        movieLink.addEventListener('click', () => {
-            localStorage.setItem('selectedMovieId', movie.id);
-            window.location.href = 'movie-details.html';
-        });
-        movieList.appendChild(movieLink);
-        movieList.appendChild(document.createTextNode(', '));
+    credits.crew.forEach(movie => {
+        if (movie.job === "Director") {
+            const movieLink = document.createElement('span');
+            movieLink.textContent = movie.title;
+            movieLink.classList.add('movie-link');
+            movieLink.addEventListener('click', () => {
+                localStorage.setItem('selectedMovieId', movie.id);
+                window.location.href = 'movie-details.html';
+            });
+            movieList.appendChild(movieLink);
+            movieList.appendChild(document.createTextNode(', '));
+        }
     });
     filmographyHeading.appendChild(movieList);
-
-    // Add Gender
-    const gender = document.createElement('div');
-    gender.innerHTML = `
-        <p><strong>Gender:</strong> ${actor.gender === 1 ? 'Female' : actor.gender === 2 ? 'Male' : 'N/A'}</p>
-    `;
-    document.getElementById('actor-description').appendChild(gender);
-
-    // Add Popularity Score
-    const popularity = document.createElement('div');
-    popularity.innerHTML = `
-        <p><strong>Popularity Score:</strong> ${actor.popularity.toFixed(2)}</p>
-    `;
-    document.getElementById('actor-description').appendChild(popularity);
 }
 
-async function showMovieOfTheDay(){
-    const year = new Date().getFullYear();
-    const url = `https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
-
-    try {
-        const response = await fetch(url);
-        const data = await response.json();
-        const movies = data.results;
-        const randomMovie = movies[Math.floor(Math.random() * movies.length)];
-
-        // Store the selected movie ID in localStorage and redirect to movie-details page
-        localStorage.setItem('selectedMovieId', randomMovie.id);
-        window.location.href = 'movie-details.html';
-    }
-    catch (error) {
-        console.error('Error fetching movie:', error);
-        alert('Failed to fetch the movie of the day. Please try again later.');
-    }
-
-}
-
-function calculateAge(birthday) {
-    const birthDate = new Date(birthday);
-    const currentDate = new Date();
-    return currentDate.getFullYear() - birthDate.getFullYear();
+function calculateAge(dob) {
+    const date = new Date(dob);
+    const ageDifMs = Date.now() - date.getTime();
+    const ageDate = new Date(ageDifMs);
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
 }

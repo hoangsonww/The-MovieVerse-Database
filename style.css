@@ -221,6 +221,11 @@ header h1 {
     color: #ff8623;
 }
 
+#other1:hover {
+    color: #f509d9;
+    transition: 0.1s linear;
+}
+
 #back-to-top-btn {
     position: fixed;
     bottom: 20px;
@@ -364,6 +369,13 @@ h2:hover {
     margin: 20px;
 }
 
+.director-left, .director-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin: 20px;
+}
+
 #actor-name {
     text-align: center;
     align-self: center;
@@ -389,6 +401,14 @@ h2:hover {
     overflow-y: auto;
 }
 
+.director-left {
+    width: 33.3333%;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto;
+}
+
 .movie-right {
     width: 66.6666%;
     padding: 10px;
@@ -402,6 +422,14 @@ h2:hover {
     box-sizing: border-box;
     overflow-y: auto;
     margin-top: 70px;
+}
+
+.director-right {
+    width: 66.6666%;
+    padding: 10px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    margin-top: 110px;
 }
 
 .movie-image {
@@ -438,6 +466,15 @@ h2:hover {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
+.director-header {
+    text-align: center;
+    align-self: center;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #ffeb3b;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
 .movie-description {
     font-size: 1rem;
     color: white;
@@ -445,6 +482,12 @@ h2:hover {
 }
 
 .actor-description {
+    font-size: 1rem;
+    color: white;
+    transform: translateY(10%);
+}
+
+.director-description {
     font-size: 1rem;
     color: white;
     transform: translateY(10%);
@@ -778,5 +821,36 @@ p {
 }
 
 .movie-link:hover {
+    color: #f509d9;
+}
+
+.genres {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#change-director-btn {
+    padding: 5px 10px;
+    cursor: pointer;
+    border: none;
+    background-color: #7378c5;
+    font: inherit;
+    color: #000000;
+    border-radius: 8px;
+    margin-right: 40px;
+}
+
+#change-director-btn:hover {
+    background-color: #ff8623;
+}
+
+.director-link {
+    cursor: pointer;
+    color: white;
+    text-decoration: underline;
+}
+
+.director-link:hover {
     color: #f509d9;
 }

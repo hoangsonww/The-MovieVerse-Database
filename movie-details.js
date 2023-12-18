@@ -49,14 +49,53 @@ searchButton.addEventListener('click', (e) => {
     }
 });
 
+function calculateMoviesToDisplay() {
+    const screenWidth = window.innerWidth;
+    if (screenWidth <= 689.9) return 10;
+    if (screenWidth <= 1021.24) return 20;
+    if (screenWidth <= 1353.74) return 21;
+    if (screenWidth <= 1684.9) return 20;
+    if (screenWidth <= 2017.49) return 20;
+    if (screenWidth <= 2349.99) return 18;
+    if (screenWidth <= 2681.99) return 21;
+    if (screenWidth <= 3014.49) return 24;
+    if (screenWidth <= 3345.99) return 27;
+    if (screenWidth <= 3677.99) return 20;
+    if (screenWidth <= 4009.99) return 22;
+    if (screenWidth <= 4340.99) return 24;
+    if (screenWidth <= 4673.49) return 26;
+    if (screenWidth <= 5005.99) return 28;
+    if (screenWidth <= 5337.99) return 30;
+    if (screenWidth <= 5669.99) return 32;
+    if (screenWidth <= 6001.99) return 34;
+    if (screenWidth <= 6333.99) return 36;
+    if (screenWidth <= 6665.99) return 38;
+    if (screenWidth <= 6997.99) return 40;
+    if (screenWidth <= 7329.99) return 42;
+    if (screenWidth <= 7661.99) return 44;
+    if (screenWidth <= 7993.99) return 46;
+    if (screenWidth <= 8325.99) return 48;
+    return 20;
+}
+
 async function getMovies(url) {
     clearMovieDetails();
+    const numberOfMovies = calculateMoviesToDisplay();
+    const pagesToFetch = numberOfMovies <= 20 ? 1 : 2;
+    let allMovies = [];
 
-    const resp = await fetch(url);
-    const respData = await resp.json();
+    for (let page = 1; page <= pagesToFetch; page++) {
+        const response = await fetch(`${url}&page=${page}`);
+        const data = await response.json();
+        allMovies = allMovies.concat(data.results);
+    }
 
-    if (respData.results.length > 0) {
-        showMovies(respData.results);
+    // Sort movies by vote_average in descending order
+    allMovies.sort((a, b) => b.vote_average - a.vote_average);
+
+    // Display the sorted movies
+    if (allMovies.length > 0) {
+        showMovies(allMovies.slice(0, numberOfMovies));
     }
     else {
         main.innerHTML = `<p>No movie with the specified search term found. Please try again.</p>`;
@@ -75,12 +114,18 @@ function showMovies(movies){
     movies.forEach((movie) => {
         const { id, poster_path, title, vote_average, overview } = movie;
         const movieE1 = document.createElement('div');
+        const voteAverage = vote_average.toFixed(1);
         movieE1.classList.add('movie');
+
+        const movieImage = poster_path
+            ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
+            : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
+
         movieE1.innerHTML = `
-            <img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" /> 
+            ${movieImage} 
             <div class="movie-info" style="cursor: pointer;">
                 <h3>${title}</h3>
-                <span class="${getClassByRate(vote_average)}">${vote_average}</span>
+                <span class="${getClassByRate(vote_average)}">${voteAverage}</span>
             </div>
             <div class="overview" style="cursor: pointer;">
                 <h4>Movie Overview: </h4>
@@ -123,33 +168,6 @@ async function fetchMovieDetails(movieId) {
         if (trailers.length > 0) {
             const trailerUrl = `https://www.youtube.com/watch?v=${trailers[0].key}`;
             createTrailerButton(trailerUrl);
-        }
-        // Display the cast
-        const castHeading = document.createElement('p');
-        castHeading.innerHTML = '<strong>Cast:</strong> ';
-        document.getElementById('movie-description').appendChild(castHeading);
-
-        if (movie.credits && movie.credits.cast.length > 0) {
-            const topTenCast = movie.credits.cast.slice(0, 10); // Get only the first 10 actors
-            topTenCast.forEach((actor, index) => {
-                const actorLink = document.createElement('span');
-                actorLink.textContent = actor.name;
-                actorLink.classList.add('actor-link'); // Add class for styling
-                actorLink.addEventListener('click', () => {
-                    localStorage.setItem('selectedActorId', actor.id);
-                    window.location.href = 'actor-details.html';
-                });
-
-                castHeading.appendChild(actorLink);
-
-                // Add a comma after each actor name except the last one
-                if (index < topTenCast.length - 1) {
-                    castHeading.appendChild(document.createTextNode(', '));
-                }
-            });
-        }
-        else {
-            castHeading.appendChild(document.createTextNode('None available.'));
         }
     }
     catch (error) {
@@ -199,6 +217,24 @@ function populateMovieDetails(movie) {
     // document.getElementById('movie-description').textContent = movie.overview;
     document.getElementById('movie-rating').textContent = `IMDB Rating: ${movieRating}`;
     document.title = movie.title + " - Movie Details";
+
+    const movieImage = document.getElementById('movie-image');
+    const movieTitle = document.getElementById('movie-title');
+    const movieDescription = document.getElementById('movie-description');
+
+    if (movie.poster_path) {
+        movieImage.src = IMGPATH + movie.poster_path;
+        movieImage.alt = movie.title;
+    }
+    else {
+        // Hide the image element and show a message
+        movieImage.style.display = 'none';
+        const noImageText = document.createElement('h2');
+        noImageText.textContent = 'Image Not Available';
+        noImageText.style.textAlign = 'center';
+        document.querySelector('.movie-left').appendChild(noImageText); // Append this message in the left section
+    }
+
     const overview = movie.overview;
     const genres = movie.genres.map(genre => genre.name).join(', ');
     const releaseDate = movie.release_date;
@@ -236,8 +272,51 @@ function populateMovieDetails(movie) {
         <p><strong>Popularity Score:</strong> ${popularityScore}</p>
         <p><strong>Status:</strong> ${status}</p>
         <p><strong>User Score:</strong> ${userScore} (based on ${voteCount} votes)</p>
-        <p><strong>Keywords:</strong> ${keywords}</p>
     `;
+
+    if (movie.credits && movie.credits.crew) {
+        const director = movie.credits.crew.find(member => member.job === 'Director');
+        if (director) {
+            const directorAge = director.birthday ? calculateAge(director.birthday) : 'N/A';
+            const directorElement = document.createElement('p');
+            directorElement.innerHTML = `<strong>Director:</strong> <a href="director-details.html" class="director-link">${director.name}</a>`;
+            directorElement.querySelector('.director-link').addEventListener('click', (e) => {
+                e.preventDefault();
+                localStorage.setItem('selectedDirectorId', director.id);
+                document.title = `${director.name} - Director's Details`;
+                window.location.href = 'director-details.html';
+            });
+            document.getElementById('movie-description').appendChild(directorElement);
+        }
+    }
+
+    // Display the cast
+    const castHeading = document.createElement('p');
+    castHeading.innerHTML = '<strong>Cast:</strong> ';
+    document.getElementById('movie-description').appendChild(castHeading);
+
+    if (movie.credits && movie.credits.cast.length > 0) {
+        const topTenCast = movie.credits.cast.slice(0, 10); // Get only the first 10 actors
+        topTenCast.forEach((actor, index) => {
+            const actorLink = document.createElement('span');
+            actorLink.textContent = actor.name;
+            actorLink.classList.add('actor-link'); // Add class for styling
+            actorLink.addEventListener('click', () => {
+                localStorage.setItem('selectedActorId', actor.id);
+                window.location.href = 'actor-details.html';
+            });
+
+            castHeading.appendChild(actorLink);
+
+            // Add a comma after each actor name except the last one
+            if (index < topTenCast.length - 1) {
+                castHeading.appendChild(document.createTextNode(', '));
+            }
+        });
+    }
+    else {
+        castHeading.appendChild(document.createTextNode('None available.'));
+    }
 
     const similarMoviesHeading = document.createElement('p');
     similarMoviesHeading.innerHTML = '<strong>Similar Movies:</strong> ';
@@ -272,9 +351,12 @@ function populateMovieDetails(movie) {
     else {
         similarMoviesHeading.appendChild(document.createTextNode('None available.'));
     }
+    // Keywords
+    const keywordsElement = document.createElement('p');
+    keywordsElement.innerHTML = `<strong>Keywords:</strong> ${keywords}`;
+    movieDescription.appendChild(keywordsElement);
     updateFavoriteButton(movie.id);
     favoriteButton.addEventListener('click', () => toggleFavorite(movie));
-
 }
 
 async function showMovieOfTheDay(){

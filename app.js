@@ -135,7 +135,16 @@ function movieVerseResponse(message) {
         return "Looking for critically acclaimed cinema? Check our 'Award Winners' section for movies that have received major accolades!";
     } else if (lowerMessage.includes("do you have classics from the 80s")) {
         return "Absolutely! The 80s were iconic. Dive into classics like 'E.T.', 'The Breakfast Club', or 'Back to the Future'. Ready for some nostalgia?";
-    } else {
+    } else if (lowerMessage.includes("movie suggestions based on genre")) {
+        return "Sure! Let me know your favorite genre, and I'll suggest a movie accordingly!";
+    } else if (lowerMessage.includes("movie suggestions based on actor")) {
+        return "Of course! Let me know your favorite actor, and I'll suggest a movie accordingly!";
+    } else if (lowerMessage.includes("movie suggestions based on director")) {
+        return "Of course! Let me know your favorite director, and I'll suggest a movie accordingly!";
+    } else if (lowerMessage.includes("movie suggestions based on year")) {
+        return "Of course! Let me know your favorite year, and I'll suggest a movie accordingly!";
+    }
+    else {
         return "Sorry, I didn't catch that. Can you rephrase or ask another question about movies?";
     }
 }

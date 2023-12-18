@@ -18,14 +18,25 @@ const form = document.getElementById("form");
 const search = document.getElementById("search");
 const searchButton = document.getElementById("button-search");
 const searchTitle = document.getElementById("search-title");
-const otherTitle = document.getElementById("other");
+const otherTitle = document.getElementById("other1");
 
 async function getMovies(url) {
-    const resp = await fetch(url);
-    const respData = await resp.json();
+    const numberOfMovies = calculateMoviesToDisplay();
+    const pagesToFetch = numberOfMovies <= 20 ? 1 : 2;
+    let allMovies = [];
 
-    if (respData.results.length > 0) {
-        showMovies(respData.results);
+    for (let page = 1; page <= pagesToFetch; page++) {
+        const response = await fetch(`${url}&page=${page}`);
+        const data = await response.json();
+        allMovies = allMovies.concat(data.results);
+    }
+
+    // Sort movies by vote_average in descending order
+    allMovies.sort((a, b) => b.vote_average - a.vote_average);
+
+    // Display the sorted movies
+    if (allMovies.length > 0) {
+        showMovies(allMovies.slice(0, numberOfMovies));
     }
     else {
         main.innerHTML = `<p>No movie with the specified search term found. Please try again.</p>`;
@@ -52,21 +63,55 @@ async function showMovieOfTheDay() {
     }
 }
 
+function calculateMoviesToDisplay() {
+    const screenWidth = window.innerWidth;
+    if (screenWidth <= 689.9) return 10; // 1 movie per row
+    if (screenWidth <= 1021.24) return 20; // 2 movies per row
+    if (screenWidth <= 1353.74) return 21; // 3 movies per row
+    if (screenWidth <= 1684.9) return 20; // 4 movies per row
+    if (screenWidth <= 2017.49) return 20; // 5 movies per row
+    if (screenWidth <= 2349.99) return 18; // 6 movies per row
+    if (screenWidth <= 2681.99) return 21; // 7 movies per row
+    if (screenWidth <= 3014.49) return 24; // 8 movies per row
+    if (screenWidth <= 3345.99) return 27; // 9 movies per row
+    if (screenWidth <= 3677.99) return 20; // 10 movies per row
+    if (screenWidth <= 4009.99) return 22; // 11 movies per row
+    if (screenWidth <= 4340.99) return 24; // 12 movies per row
+    if (screenWidth <= 4673.49) return 26; // 13 movies per row
+    if (screenWidth <= 5005.99) return 28; // 14 movies per row
+    if (screenWidth <= 5337.99) return 30; // 15 movies per row
+    if (screenWidth <= 5669.99) return 32; // 16 movies per row
+    if (screenWidth <= 6001.99) return 34; // 17 movies per row
+    if (screenWidth <= 6333.99) return 36; // 18 movies per row
+    if (screenWidth <= 6665.99) return 38; // 19 movies per row
+    if (screenWidth <= 6997.99) return 40; // 20 movies per row
+    if (screenWidth <= 7329.99) return 42; // 21 movies per row
+    if (screenWidth <= 7661.99) return 44; // 22 movies per row
+    if (screenWidth <= 7993.99) return 46; // 23 movies per row
+    if (screenWidth <= 8325.99) return 48; // 24 movies per row
+    return 20;
+}
+
 function showMovies(movies) {
     main.innerHTML = '';
     movies.forEach((movie) => {
         const { id, poster_path, title, vote_average, overview } = movie;
         const movieE1 = document.createElement('div');
         movieE1.classList.add('movie');
+
+        const movieImage = poster_path
+            ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
+            : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
+
         voteAvg = vote_average.toFixed(1);
         movieE1.innerHTML = `
-            <img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer" /> 
+            ${movieImage}
             <div class="movie-info" style="cursor: pointer;">
                 <h3>${title}</h3>
                 <span class="${getClassByRate(vote_average)}">${voteAvg}</span>
             </div>
             <div class="overview" style="cursor: pointer;">
-                <h4>Movie Overview: </h4>
+                <h4>Movie Intro: </h4>
                 ${overview}
             </div>`;
 
@@ -79,7 +124,11 @@ function showMovies(movies) {
     });
 }
 
-function getClassByRate(vote) {
+window.addEventListener('resize', () => {
+    getMovies(DATABASEURL);
+});
+
+function getClassByRate(vote){
     if (vote >= 8) {
         return 'green';
     }
@@ -98,7 +147,7 @@ form.addEventListener('submit', (e) => {
     if (searchTerm) {
         getMovies(SEARCHPATH + searchTerm);
         searchTitle.innerHTML = 'Search Results for: ' + searchTerm;
-        otherTitle.innerHTML = 'Check out other movies:';
+        otherTitle.innerHTML = 'Check out other movies, too:';
         search.value = '';
     }
     else {
@@ -124,30 +173,40 @@ searchButton.addEventListener('click', (e) => {
 const DATABASEURL = "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=c5a20c861acf7bb8d9e987dcc7f1b558&page=1";
 const IMGPATH = "https://image.tmdb.org/t/p/w1280";
 const SEARCHPATH = "https://api.themoviedb.org/3/search/movie?&api_key=c5a20c861acf7bb8d9e987dcc7f1b558&query=";
-const ACTIONpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=28";
-const HORRORpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=27";
-const DOCUMENTARYRpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=99";
-const ANIMATIONpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=16";
-const SCIFIpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=878";
-const ROMANTICpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=10749";
-const THRILLERpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=53";
-const MYSTERYpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=9648";
-const ADVENTUREpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=12";
-const COMEDYpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=35";
-const FANTASYpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=14";
-const FAMILYpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=10751";
-const TVpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=10770";
-const CRIMEpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=80";
+const ACTIONpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=28&sort_by=popularity.desc&vote_count.gte=8";
+const HORRORpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=27&sort_by=popularity.desc&vote_count.gte=8";
+const DOCUMENTARYRpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=99&sort_by=popularity.desc&vote_count.gte=8";
+const ANIMATIONpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=16&sort_by=popularity.desc&vote_count.gte=8";
+const SCIFIpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=878&sort_by=popularity.desc&vote_count.gte=8";
+const ROMANTICpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=10749&sort_by=popularity.desc&vote_count.gte=8";
+const THRILLERpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=53&sort_by=popularity.desc&vote_count.gte=8";
+const MYSTERYpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=9648&sort_by=popularity.desc&vote_count.gte=8";
+const ADVENTUREpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=12&sort_by=popularity.desc&vote_count.gte=8";
+const COMEDYpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=35&sort_by=popularity.desc&vote_count.gte=8";
+const FANTASYpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=14&sort_by=popularity.desc&vote_count.gte=8";
+const FAMILYpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=10751&sort_by=popularity.desc&vote_count.gte=8";
+const TVpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=10770&sort_by=popularity.desc&vote_count.gte=8";
+const CRIMEpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=80&sort_by=popularity.desc&vote_count.gte=8";
 
 getMovies(DATABASEURL);
 
 getMovies3(ACTIONpath);
 
 async function getMovies3(url) {
-    const resp = await fetch (url);
+    const numberOfMovies = calculateMoviesToDisplay();
+    const pagesToFetch = numberOfMovies <= 20 ? 1 : 2;
+    const resp = await fetch(url);
     const respData = await resp.json();
+    let allMovies = [];
 
-    showMovies3(respData.results);
+    if (respData.results.length > 0) {
+        for (let page = 1; page <= pagesToFetch; page++) {
+            const response = await fetch(`${url}&page=${page}`);
+            const data = await response.json();
+            allMovies = allMovies.concat(data.results);
+        }
+        showMovies3(allMovies.slice(0, numberOfMovies));
+    }
 }
 
 function showMovies3(movies) {
@@ -179,10 +238,20 @@ function showMovies3(movies) {
 getMovies4(HORRORpath);
 
 async function getMovies4(url) {
-    const resp = await fetch (url);
+    const numberOfMovies = calculateMoviesToDisplay();
+    const pagesToFetch = numberOfMovies <= 20 ? 1 : 2;
+    const resp = await fetch(url);
     const respData = await resp.json();
+    let allMovies = [];
 
-    showMovies4(respData.results);
+    if (respData.results.length > 0) {
+        for (let page = 1; page <= pagesToFetch; page++) {
+            const response = await fetch(`${url}&page=${page}`);
+            const data = await response.json();
+            allMovies = allMovies.concat(data.results);
+        }
+        showMovies4(allMovies.slice(0, numberOfMovies));
+    }
 }
 
 function showMovies4(movies) {
@@ -214,10 +283,20 @@ function showMovies4(movies) {
 getMovies5(DOCUMENTARYRpath);
 
 async function getMovies5(url) {
-    const resp = await fetch (url);
+    const numberOfMovies = calculateMoviesToDisplay();
+    const pagesToFetch = numberOfMovies <= 20 ? 1 : 2;
+    const resp = await fetch(url);
     const respData = await resp.json();
+    let allMovies = [];
 
-    showMovies5(respData.results);
+    if (respData.results.length > 0) {
+        for (let page = 1; page <= pagesToFetch; page++) {
+            const response = await fetch(`${url}&page=${page}`);
+            const data = await response.json();
+            allMovies = allMovies.concat(data.results);
+        }
+        showMovies5(allMovies.slice(0, numberOfMovies));
+    }
 }
 
 function showMovies5(movies) {
@@ -249,10 +328,20 @@ function showMovies5(movies) {
 getMovies6(ANIMATIONpath);
 
 async function getMovies6(url) {
-    const resp = await fetch (url);
+    const numberOfMovies = calculateMoviesToDisplay();
+    const pagesToFetch = numberOfMovies <= 20 ? 1 : 2;
+    const resp = await fetch(url);
     const respData = await resp.json();
+    let allMovies = [];
 
-    showMovies6(respData.results);
+    if (respData.results.length > 0) {
+        for (let page = 1; page <= pagesToFetch; page++) {
+            const response = await fetch(`${url}&page=${page}`);
+            const data = await response.json();
+            allMovies = allMovies.concat(data.results);
+        }
+        showMovies6(allMovies.slice(0, numberOfMovies));
+    }
 }
 
 function showMovies6(movies) {
@@ -284,10 +373,20 @@ function showMovies6(movies) {
 getMovies7(SCIFIpath);
 
 async function getMovies7(url) {
-    const resp = await fetch (url);
+    const numberOfMovies = calculateMoviesToDisplay();
+    const pagesToFetch = numberOfMovies <= 20 ? 1 : 2;
+    const resp = await fetch(url);
     const respData = await resp.json();
+    let allMovies = [];
 
-    showMovies7(respData.results);
+    if (respData.results.length > 0) {
+        for (let page = 1; page <= pagesToFetch; page++) {
+            const response = await fetch(`${url}&page=${page}`);
+            const data = await response.json();
+            allMovies = allMovies.concat(data.results);
+        }
+        showMovies7(allMovies.slice(0, numberOfMovies));
+    }
 }
 
 function showMovies7(movies) {
@@ -320,10 +419,20 @@ function showMovies7(movies) {
 getMovies8(ROMANTICpath);
 
 async function getMovies8(url) {
-    const resp = await fetch (url);
+    const numberOfMovies = calculateMoviesToDisplay();
+    const pagesToFetch = numberOfMovies <= 20 ? 1 : 2;
+    const resp = await fetch(url);
     const respData = await resp.json();
+    let allMovies = [];
 
-    showMovies8(respData.results);
+    if (respData.results.length > 0) {
+        for (let page = 1; page <= pagesToFetch; page++) {
+            const response = await fetch(`${url}&page=${page}`);
+            const data = await response.json();
+            allMovies = allMovies.concat(data.results);
+        }
+        showMovies8(allMovies.slice(0, numberOfMovies));
+    }
 }
 
 function showMovies8(movies) {
@@ -355,10 +464,20 @@ function showMovies8(movies) {
 getMovies9(THRILLERpath);
 
 async function getMovies9(url) {
-    const resp = await fetch (url);
+    const numberOfMovies = calculateMoviesToDisplay();
+    const pagesToFetch = numberOfMovies <= 20 ? 1 : 2;
+    const resp = await fetch(url);
     const respData = await resp.json();
+    let allMovies = [];
 
-    showMovies9(respData.results);
+    if (respData.results.length > 0) {
+        for (let page = 1; page <= pagesToFetch; page++) {
+            const response = await fetch(`${url}&page=${page}`);
+            const data = await response.json();
+            allMovies = allMovies.concat(data.results);
+        }
+        showMovies9(allMovies.slice(0, numberOfMovies));
+    }
 }
 
 function showMovies9(movies) {
@@ -390,10 +509,20 @@ function showMovies9(movies) {
 getMovies10(MYSTERYpath);
 
 async function getMovies10(url) {
-    const resp = await fetch (url);
+    const numberOfMovies = calculateMoviesToDisplay();
+    const pagesToFetch = numberOfMovies <= 20 ? 1 : 2;
+    const resp = await fetch(url);
     const respData = await resp.json();
+    let allMovies = [];
 
-    showMovies10(respData.results);
+    if (respData.results.length > 0) {
+        for (let page = 1; page <= pagesToFetch; page++) {
+            const response = await fetch(`${url}&page=${page}`);
+            const data = await response.json();
+            allMovies = allMovies.concat(data.results);
+        }
+        showMovies10(allMovies.slice(0, numberOfMovies));
+    }
 }
 
 function showMovies10(movies) {
@@ -425,10 +554,20 @@ function showMovies10(movies) {
 getMovies11(ADVENTUREpath);
 
 async function getMovies11(url) {
-    const resp = await fetch (url);
+    const numberOfMovies = calculateMoviesToDisplay();
+    const pagesToFetch = numberOfMovies <= 20 ? 1 : 2;
+    const resp = await fetch(url);
     const respData = await resp.json();
+    let allMovies = [];
 
-    showMovies11(respData.results);
+    if (respData.results.length > 0) {
+        for (let page = 1; page <= pagesToFetch; page++) {
+            const response = await fetch(`${url}&page=${page}`);
+            const data = await response.json();
+            allMovies = allMovies.concat(data.results);
+        }
+        showMovies11(allMovies.slice(0, numberOfMovies));
+    }
 }
 
 function showMovies11(movies) {
@@ -460,10 +599,20 @@ function showMovies11(movies) {
 getMovies12(COMEDYpath);
 
 async function getMovies12(url) {
-    const resp = await fetch (url);
+    const numberOfMovies = calculateMoviesToDisplay();
+    const pagesToFetch = numberOfMovies <= 20 ? 1 : 2;
+    const resp = await fetch(url);
     const respData = await resp.json();
+    let allMovies = [];
 
-    showMovies12(respData.results);
+    if (respData.results.length > 0) {
+        for (let page = 1; page <= pagesToFetch; page++) {
+            const response = await fetch(`${url}&page=${page}`);
+            const data = await response.json();
+            allMovies = allMovies.concat(data.results);
+        }
+        showMovies12(allMovies.slice(0, numberOfMovies));
+    }
 }
 
 function showMovies12(movies) {
@@ -495,10 +644,20 @@ function showMovies12(movies) {
 getMovies13(FANTASYpath);
 
 async function getMovies13(url) {
-    const resp = await fetch (url);
+    const numberOfMovies = calculateMoviesToDisplay();
+    const pagesToFetch = numberOfMovies <= 20 ? 1 : 2;
+    const resp = await fetch(url);
     const respData = await resp.json();
+    let allMovies = [];
 
-    showMovies13(respData.results);
+    if (respData.results.length > 0) {
+        for (let page = 1; page <= pagesToFetch; page++) {
+            const response = await fetch(`${url}&page=${page}`);
+            const data = await response.json();
+            allMovies = allMovies.concat(data.results);
+        }
+        showMovies13(allMovies.slice(0, numberOfMovies));
+    }
 }
 
 function showMovies13(movies) {
@@ -530,10 +689,20 @@ function showMovies13(movies) {
 getMovies14(FAMILYpath);
 
 async function getMovies14(url) {
-    const resp = await fetch (url);
+    const numberOfMovies = calculateMoviesToDisplay();
+    const pagesToFetch = numberOfMovies <= 20 ? 1 : 2;
+    const resp = await fetch(url);
     const respData = await resp.json();
+    let allMovies = [];
 
-    showMovies14(respData.results);
+    if (respData.results.length > 0) {
+        for (let page = 1; page <= pagesToFetch; page++) {
+            const response = await fetch(`${url}&page=${page}`);
+            const data = await response.json();
+            allMovies = allMovies.concat(data.results);
+        }
+        showMovies14(allMovies.slice(0, numberOfMovies));
+    }
 }
 
 function showMovies14(movies) {
@@ -565,10 +734,20 @@ function showMovies14(movies) {
 getMovies15(TVpath);
 
 async function getMovies15(url) {
-    const resp = await fetch (url);
+    const numberOfMovies = calculateMoviesToDisplay();
+    const pagesToFetch = numberOfMovies <= 20 ? 1 : 2;
+    const resp = await fetch(url);
     const respData = await resp.json();
+    let allMovies = [];
 
-    showMovies15(respData.results);
+    if (respData.results.length > 0) {
+        for (let page = 1; page <= pagesToFetch; page++) {
+            const response = await fetch(`${url}&page=${page}`);
+            const data = await response.json();
+            allMovies = allMovies.concat(data.results);
+        }
+        showMovies15(allMovies.slice(0, numberOfMovies));
+    }
 }
 
 function showMovies15(movies) {
@@ -600,10 +779,20 @@ function showMovies15(movies) {
 getMovies16(CRIMEpath);
 
 async function getMovies16(url) {
-    const resp = await fetch (url);
+    const numberOfMovies = calculateMoviesToDisplay();
+    const pagesToFetch = numberOfMovies <= 20 ? 1 : 2;
+    const resp = await fetch(url);
     const respData = await resp.json();
+    let allMovies = [];
 
-    showMovies16(respData.results);
+    if (respData.results.length > 0) {
+        for (let page = 1; page <= pagesToFetch; page++) {
+            const response = await fetch(`${url}&page=${page}`);
+            const data = await response.json();
+            allMovies = allMovies.concat(data.results);
+        }
+        showMovies16(allMovies.slice(0, numberOfMovies));
+    }
 }
 
 function showMovies16(movies) {
@@ -629,6 +818,201 @@ function showMovies16(movies) {
             window.location.href = 'movie-details.html';
         });
         main16.appendChild(movieE1);
+    });
+}
+
+const AWARD_WINNING_PATH = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&sort_by=vote_average.desc&vote_count.gte=1000";
+const main17 = document.getElementById('main17');
+
+getMovies17(AWARD_WINNING_PATH);
+
+async function getMovies17(url) {
+    const numberOfMovies = calculateMoviesToDisplay();
+    const pagesToFetch = numberOfMovies <= 20 ? 1 : 2;
+    const resp = await fetch(url);
+    const respData = await resp.json();
+    let allMovies = [];
+
+    if (respData.results.length > 0) {
+        for (let page = 1; page <= pagesToFetch; page++) {
+            const response = await fetch(`${url}&page=${page}`);
+            const data = await response.json();
+            allMovies = allMovies.concat(data.results);
+        }
+        showMovies17(allMovies.slice(0, numberOfMovies));
+    }
+}
+
+function showMovies17(movies) {
+    main17.innerHTML = ' ';
+    movies.forEach((movie) => {
+        const { id, poster_path, title, vote_average, overview } = movie;
+        const movieE1 = document.createElement('div');
+        movieE1.classList.add('movie');
+        movieE1.innerHTML = `
+            <img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" /> 
+            <div class="movie-info" style="cursor: pointer;">
+                <h3>${title}</h3>
+                <span class="${getClassByRate(vote_average)}">${vote_average}</span>
+            </div>
+            <div class="overview" style="cursor: pointer;">
+                <h4>Movie Intro: </h4>
+                ${overview}
+            </div>`;
+
+        // Add a click event listener to each movie element
+        movieE1.addEventListener('click', () => {
+            localStorage.setItem('selectedMovieId', id); // Store the movie ID
+            window.location.href = 'movie-details.html';
+        });
+        main17.appendChild(movieE1);
+    });
+}
+
+const HIDDEN_GEMS_PATH = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&sort_by=vote_average.desc&vote_count.gte=100&vote_average.gte=7&popularity.lte=10";
+const main18 = document.getElementById('main18');
+
+getMovies18(HIDDEN_GEMS_PATH);
+
+async function getMovies18(url) {
+    const numberOfMovies = calculateMoviesToDisplay();
+    const pagesToFetch = numberOfMovies <= 20 ? 1 : 3;
+    const resp = await fetch(url);
+    const respData = await resp.json();
+    let allMovies = [];
+
+    if (respData.results.length > 1) {
+        for (let page = 1; page <= pagesToFetch; page++) {
+            const response = await fetch(`${url}&page=${page}`);
+            const data = await response.json();
+
+            allMovies = allMovies.concat(data.results);
+        }
+        showMovies18(allMovies.slice(0, numberOfMovies));
+    }
+}
+
+function showMovies18(movies) {
+    main18.innerHTML = ' ';
+    movies.forEach((movie) => {
+        const { id, poster_path, title, vote_average, overview } = movie;
+        const movieE1 = document.createElement('div');
+        movieE1.classList.add('movie');
+        movieE1.innerHTML = `
+            <img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" /> 
+            <div class="movie-info" style="cursor: pointer;">
+                <h3>${title}</h3>
+                <span class="${getClassByRate(vote_average)}">${vote_average}</span>
+            </div>
+            <div class="overview" style="cursor: pointer;">
+                <h4>Movie Intro: </h4>
+                ${overview}
+            </div>`;
+
+        // Add a click event listener to each movie element
+        movieE1.addEventListener('click', () => {
+            localStorage.setItem('selectedMovieId', id); // Store the movie ID
+            window.location.href = 'movie-details.html';
+        });
+        main18.appendChild(movieE1);
+    });
+}
+
+const CLASSIC_MOVIES_PATH = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&sort_by=popularity.desc&release_date.lte=1980";
+const main19 = document.getElementById('main19');
+
+getMovies19(CLASSIC_MOVIES_PATH);
+
+async function getMovies19(url) {
+    const numberOfMovies = calculateMoviesToDisplay();
+    const pagesToFetch = numberOfMovies <= 20 ? 1 : 3;
+    const resp = await fetch(url);
+    const respData = await resp.json();
+    let allMovies = [];
+
+    if (respData.results.length > 1) {
+        for (let page = 1; page <= pagesToFetch; page++) {
+            const response = await fetch(`${url}&page=${page}`);
+            const data = await response.json();
+
+            allMovies = allMovies.concat(data.results);
+        }
+        showMovies19(allMovies.slice(0, numberOfMovies));
+    }
+}
+
+function showMovies19(movies) {
+    main19.innerHTML = ' ';
+    movies.forEach((movie) => {
+        const { id, poster_path, title, vote_average, overview } = movie;
+        const movieE1 = document.createElement('div');
+        movieE1.classList.add('movie');
+        movieE1.innerHTML = `
+            <img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" /> 
+            <div class="movie-info" style="cursor: pointer;">
+                <h3>${title}</h3>
+                <span class="${getClassByRate(vote_average)}">${vote_average}</span>
+            </div>
+            <div class="overview" style="cursor: pointer;">
+                <h4>Movie Intro: </h4>
+                ${overview}
+            </div>`;
+
+        // Add a click event listener to each movie element
+        movieE1.addEventListener('click', () => {
+            localStorage.setItem('selectedMovieId', id); // Store the movie ID
+            window.location.href = 'movie-details.html';
+        });
+        main19.appendChild(movieE1);
+    });
+}
+
+const KOREAN_PATH = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_original_language=ko&sort_by=vote_average.desc,popularity.desc&vote_count.gte=10&vote_average.gte=8";
+const main21 = document.getElementById('main21');
+
+getMovies21(KOREAN_PATH);
+
+async function getMovies21(url) {
+    const numberOfMovies = calculateMoviesToDisplay();
+    const pagesToFetch = numberOfMovies <= 20 ? 1 : 3;
+    const resp = await fetch(url);
+    const respData = await resp.json();
+    let allMovies = [];
+
+    if (respData.results.length > 1) {
+        for (let page = 1; page <= pagesToFetch; page++) {
+            const response = await fetch(`${url}&page=${page}`);
+            const data = await response.json();
+
+            allMovies = allMovies.concat(data.results);
+        }
+        showMovies21(allMovies.slice(0, numberOfMovies));
+    }
+}
+
+function showMovies21(movies) {
+    main21.innerHTML = ' ';
+    movies.forEach((movie) => {
+        const { id, poster_path, title, vote_average, overview } = movie;
+        const movieE1 = document.createElement('div');
+        movieE1.classList.add('movie');
+        movieE1.innerHTML = `
+            <img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" /> 
+            <div class="movie-info" style="cursor: pointer;">
+                <h3>${title}</h3>
+                <span class="${getClassByRate(vote_average)}">${vote_average}</span>
+            </div>
+            <div class="overview" style="cursor: pointer;">
+                <h4>Movie Intro: </h4>
+                ${overview}
+            </div>`;
+
+        // Add a click event listener to each movie element
+        movieE1.addEventListener('click', () => {
+            localStorage.setItem('selectedMovieId', id); // Store the movie ID
+            window.location.href = 'movie-details.html';
+        });
+        main21.appendChild(movieE1);
     });
 }
 
@@ -672,3 +1056,106 @@ function removeNavBar() {
     }
 }
 
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}
+
+const directors = [
+    { name: "Alfred Hitchcock", id: "2636" },
+    { name: "Steven Spielberg", id: "488" },
+    { name: "Martin Scorsese", id: "1032" },
+    { name: "Quentin Tarantino", id: "138" },
+    { name: "Christopher Nolan", id: "525" },
+    { name: "Stanley Kubrick", id: "976" },
+    { name: "David Fincher", id: "7467" },
+    { name: "James Cameron", id: "2710" },
+    { name: "Francis Ford Coppola", id: "115" },
+    { name: "Tim Burton", id: "510" },
+    { name: "Ridley Scott", id: "578" },
+    { name: "Joel Coen", id: "10544" },
+    { name: "Clint Eastwood", id: "1571" },
+    { name: "Spike Lee", id: "110" },
+    { name: "Woody Allen", id: "1243" },
+    { name: "Peter Jackson", id: "1392" },
+    { name: "Oliver Stone", id: "1178" },
+    { name: "David Lynch", id: "7470" },
+    { name: "Roman Polanski", id: "119" },
+    { name: "Wes Anderson", id: "565"},
+    { name: "Sergio Leone", id: "1159" },
+    { name: "Akira Kurosawa", id: "1911" },
+    { name: "Federico Fellini", id: "490" },
+    { name: "Ingmar Bergman", id: "52" },
+    { name: "Billy Wilder", id: "711" },
+    { name: "John Ford", id: "226" },
+    { name: "Orson Welles", id: "336" },
+    { name: "David Lean", id: "2449" },
+    { name: "Fritz Lang", id: "24" },
+    { name: "Frank Capra", id: "1487" },
+    { name: "John Huston", id: "617" },
+];
+
+let currentDirectorIndex = 0;
+const main20 = document.getElementById('main20');
+
+updateDirectorSpotlight();
+
+function changeDirector() {
+    currentDirectorIndex = (currentDirectorIndex + 1) % directors.length;
+    updateDirectorSpotlight();
+}
+
+setInterval(updateDirectorSpotlight, 3600000);
+
+function calculateMoviesToDisplay2() {
+    const screenWidth = window.innerWidth;
+    // Assuming each movie takes equal width, calculate number of movies per row
+    const moviesPerRow = Math.floor(screenWidth / 342); // 342px per movie (width + margins)
+    return moviesPerRow * 2; // 2 rows
+}
+
+function updateDirectorSpotlight() {
+    const director = directors[currentDirectorIndex];
+    document.getElementById('spotlight-director-name').textContent = director.name;
+    const url = `https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_people=${director.id}&sort_by=popularity.desc&sort_by=vote_average.desc`;
+    getDirectorSpotlight(url);
+}
+
+async function getDirectorSpotlight(url) {
+    const numberOfMovies = calculateMoviesToDisplay2();
+    const resp = await fetch(url);
+    const respData = await resp.json();
+    let allMovies = [];
+
+    if (respData.results.length > 0) {
+        allMovies = respData.results.slice(0, numberOfMovies);
+        showMoviesDirectorSpotlight(allMovies);
+    }
+}
+
+function showMoviesDirectorSpotlight(movies) {
+    main20.innerHTML = ' ';
+    movies.forEach((movie) => {
+        const { id, poster_path, title, vote_average, overview } = movie;
+        const movieE1 = document.createElement('div');
+        movieE1.classList.add('movie');
+        movieE1.innerHTML = `
+            <img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" /> 
+            <div class="movie-info" style="cursor: pointer;">
+                <h3>${title}</h3>
+                <span class="${getClassByRate(vote_average)}">${vote_average}</span>
+            </div>
+            <div class="overview" style="cursor: pointer;">
+                <h4>Movie Intro: </h4>
+                ${overview}
+            </div>`;
+
+        movieE1.addEventListener('click', () => {
+            localStorage.setItem('selectedMovieId', id);
+            window.location.href = 'movie-details.html';
+        });
+        main20.appendChild(movieE1);
+    });
+}

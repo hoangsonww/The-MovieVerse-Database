@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Director Details</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="director-details.js" defer></script>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+
+<body>
+<header style="margin-bottom: -50px">
+    <h1 id="my-heading">
+        The Mo<span class="highlight">vieV</span>erse
+    </h1>
+    <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+    <button class="about" onclick="window.location.href='about.html'">About</button>
+    <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="Go to your favorites list">Favorites</button>
+    <form id="form">
+        <input
+                type="text"
+                id="search"
+                placeholder="Search For Any Movie..."
+                class="search"
+        />
+        <button type="button" id="button-search" onclick="">Search</button>
+    </form>
+</header>
+
+<div class="genres" style="margin-left: 25px">
+    <h2 id="search-title"></h2>
+</div>
+
+<main id="main" style="margin-left: 25px; margin-bottom: -40px">
+
+</main>
+
+<div class="details-container" id="director-details-container">
+    <!-- Left side for Director Image -->
+    <div class="director-left">
+        <h2 id="director-name" class="director-header"></h2>
+        <img id="director-image" alt="director Image" style="width: 25vw"/>
+    </div>
+
+    <!-- Right side for Description and Info -->
+    <div class="director-right" id="director-description">
+        <!-- Director details will be populated here -->
+    </div>
+</div>
+
+<script src="director-details.js"></script>
+
+<button id="movie-of-the-day-btn2" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!">Movie of the Day</button>
+
+<!-- Create a button to go to the Movie Discussions page -->
+<button id="discussions-btn" onclick="window.location.href='discussions.html'" title="Want to know more about movies? Chat with our intelligent chatbot!" style="margin-bottom: -55px">MovieVerse Chatbot</button>
+
+<!-- Create a button to go to the Trivia Game page -->
+<button id="trivia-btn" onclick="window.location.href='trivia.html'" style="margin-bottom: -50px" title="Play a quick trivia to test your knowledge about movies!">Trivia Game</button>
+</body>
+
+</html>

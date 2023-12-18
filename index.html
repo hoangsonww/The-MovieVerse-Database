@@ -63,8 +63,12 @@
         </div>
         <ul style="overflow-y: auto">
             <li><a href="#main">Most Popular</a></li>
+            <li><a href="#main17">Award-Winning</a></li>
+            <li><a href="#main18">Hidden Gems</a></li>
+            <li><a href="#main20">Director's Spotlight</a></li>
             <li><a href="#main3">Action</a></li>
             <li><a href="#main4">Horror</a></li>
+            <li><a href="#main21">Korean</a></li>
             <li><a href="#main5">Documentary</a></li>
             <li><a href="#main6">Animated</a></li>
             <li><a href="#main7">Science Fiction</a></li>
@@ -77,6 +81,7 @@
             <li><a href="#main14">Family</a></li>
             <li><a href="#main15">TV Series</a></li>
             <li><a href="#main16">Crime</a></li>
+            <li><a href="#main19">Classic</a></li>
         </ul>
     </nav>
 
@@ -90,9 +95,41 @@
 
     </main>
 
+    <!-- Create a section for the other movies -->
+    <div class="genres">
+        <h1 id="other1"></h1>
+    </div>
+
+    <!-- Create a section for Award-Winning Movies -->
+    <div class="genres" style="margin-left: 25px">
+        <h2>Award-Winning Movies:</h2>
+    </div>
+
+    <!-- Create a main section for the award-winning movies -->
+    <main id="main17" style="margin-left: 25px">
+
+    </main>
+
+    <div class="genres" style="margin-left: 25px; display: flex; justify-content: space-between; align-items: center;">
+        <h2 id="director-spotlight-title">Director's Spotlight: <span id="spotlight-director-name">Alfred Hitchcock</span></h2>
+        <button id="change-director-btn" onclick="changeDirector()" style="padding: 5px 10px; cursor: pointer;">Change Director</button>
+    </div>
+
+    <main id="main20" style="margin-left: 25px"></main>
+
+    <!-- Create a section for Hidden Gems Movies -->
+    <div class="genres" style="margin-left: 25px">
+        <h2>Hidden Gems:</h2>
+    </div>
+
+    <!-- Create a main section for Hidden Gems movies -->
+    <main id="main18" style="margin-left: 25px">
+
+    </main>
+
     <!-- Create a section for the trending action movies -->
     <div class="genres" style="margin-left: 25px">
-        <h2 id="other">Trending New <span class="highlight">ACTION</span> Movies: </h2>
+        <h2 id="other">Trending <span class="highlight">ACTION</span> Movies: </h2>
     </div>
 
     <!-- Create a main section for the trending action movies -->
@@ -102,7 +139,7 @@
 
     <!-- Create a section for the trending horror movies -->
     <div class="genres" style="margin-left: 25px">
-        <h2 id="other">Trending New <span class="highlight">HORROR</span> Movies: </h2>
+        <h2 id="other">Trending <span class="highlight">HORROR</span> Movies: </h2>
     </div>
 
     <!-- Create a main section for the trending horror movies -->
@@ -110,9 +147,18 @@
 
     </main>
 
+    <!-- Create a section for the trending Korean movies -->
+    <div class="genres" style="margin-left: 25px">
+        <h2 id="other">Best <span class="highlight">KOREAN</span> Movies: </h2>
+    </div>
+
+    <main id="main21" style="margin-left: 25px">
+
+    </main>
+
     <!-- Create a section for the trending documentary movies -->
     <div class="genres" style="margin-left: 25px">
-        <h2 id="other">Trending New <span class="highlight">DOCUMENTARY</span> Movies: </h2>
+        <h2 id="other">Trending <span class="highlight">DOCUMENTARY</span> Movies: </h2>
     </div>
 
     <!-- Create a main section for the trending documentary movies -->
@@ -122,7 +168,7 @@
 
     <!-- Create a section for the trending animated movies -->
     <div class="genres" style="margin-left: 25px">
-        <h2 id="other">Trending New <span class="highlight">ANIMATED</span> Movies: </h2>
+        <h2 id="other">Trending <span class="highlight">ANIMATED</span> Movies: </h2>
     </div>
 
     <!-- Create a main section for the trending animated movies -->
@@ -132,7 +178,7 @@
 
     <!-- Create a section for the trending TV series -->
     <div class="genres" style="margin-left: 25px">
-        <h2 id="other">Trending New <span class="highlight">TVSERIES</span>: </h2>
+        <h2 id="other">Trending <span class="highlight">TVSERIES</span>: </h2>
     </div>
 
     <!-- Create a main section for the trending TV series -->
@@ -142,7 +188,7 @@
 
     <!-- Create a section for the trending science fiction movies -->
     <div class="genres" style="margin-left: 25px">
-        <h2 id="other">Trending New <span class="highlight">SCIENCE FICTION</span> Movies: </h2>
+        <h2 id="other">Trending <span class="highlight">SCIENCE FICTION</span> Movies: </h2>
     </div>
 
     <!-- Create a main section for the trending science fiction movies -->
@@ -152,7 +198,7 @@
 
     <!-- Create a section for the trending romantic movies -->
     <div class="genres" style="margin-left: 25px">
-        <h2 id="other">Trending New <span class="highlight">ROMANTIC</span> Movies: </h2>
+        <h2 id="other">Trending <span class="highlight">ROMANTIC</span> Movies: </h2>
     </div>
 
     <!-- Create a main section for the trending romantic movies -->
@@ -162,7 +208,7 @@
 
     <!-- Create a section for the trending thriller movies -->
     <div class="genres" style="margin-left: 25px">
-        <h2 id="other">Trending New <span class="highlight">THRILLER</span> Movies: </h2>
+        <h2 id="other">Trending <span class="highlight">THRILLER</span> Movies: </h2>
     </div>
 
     <!-- Create a main section for the trending thriller movies -->
@@ -172,7 +218,7 @@
 
     <!-- Create a section for the trending mystery movies -->
     <div class="genres" style="margin-left: 25px">
-        <h2 id="other">Trending New <span class="highlight">MYSTERY</span> Movies: </h2>
+        <h2 id="other">Trending <span class="highlight">MYSTERY</span> Movies: </h2>
     </div>
 
     <!-- Create a main section for the trending mystery movies -->
@@ -182,7 +228,7 @@
 
     <!-- Create a section for the trending adventure movies -->
     <div class="genres" style="margin-left: 25px">
-        <h2 id="other">Trending New <span class="highlight">ADVENTURE</span> Movies: </h2>
+        <h2 id="other">Trending <span class="highlight">ADVENTURE</span> Movies: </h2>
     </div>
 
     <!-- Create a main section for the trending adventure movies -->
@@ -192,7 +238,7 @@
 
     <!-- Create a section for the trending comedy movies -->
     <div class="genres" style="margin-left: 25px">
-        <h2 id="other">Trending New <span class="highlight">COMEDY</span> Movies: </h2>
+        <h2 id="other">Trending <span class="highlight">COMEDY</span> Movies: </h2>
     </div>
 
     <!-- Create a main section for the trending comedy movies -->
@@ -202,7 +248,7 @@
 
     <!-- Create a section for the trending fantasy movies -->
     <div class="genres" style="margin-left: 25px">
-        <h2 id="other">Trending New <span class="highlight">FANTASY</span> Movies: </h2>
+        <h2 id="other">Trending <span class="highlight">FANTASY</span> Movies: </h2>
     </div>
 
     <!-- Create a main section for the trending fantasy movies -->
@@ -212,7 +258,7 @@
 
     <!-- Create a section for the trending family movies -->
     <div class="genres" style="margin-left: 25px">
-        <h2 id="other">Trending New <span class="highlight">FAMILY</span> Movies: </h2>
+        <h2 id="other">Trending <span class="highlight">FAMILY</span> Movies: </h2>
     </div>
 
     <!-- Create a main section for the trending family movies -->
@@ -222,11 +268,21 @@
 
     <!-- Create a section for the trending crime movies -->
     <div class="genres" style="margin-left: 25px">
-        <h2 id="other">Trending New <span class="highlight">CRIME</span> Movies: </h2>
+        <h2 id="other">Trending <span class="highlight">CRIME</span> Movies: </h2>
     </div>
 
     <!-- Create a main section for the trending crime movies -->
     <main id="main16" style="margin-left: 25px; margin-bottom: 50px">
+
+    </main>
+
+    <!-- Create a section for International Movies -->
+    <div class="genres" style="margin-left: 25px">
+        <h2 id="other">Trending <span class="highlight">CLASSIC</span> Movies: </h2>
+    </div>
+
+    <!-- Create a main section for International movies -->
+    <main id="main19" style="margin-left: 25px">
 
     </main>
 
@@ -241,15 +297,6 @@
 
     <!-- Create a button to go back to the top of the page -->
     <button id="back-to-top-btn" onclick="scrollToTop()">Back To Top</button>
-
-    <script>
-        function scrollToTop() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        }
-    </script>
 
 </body>
 
