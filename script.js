@@ -1138,13 +1138,6 @@ document.getElementById('side-nav').addEventListener('mouseleave', function() {
     }
 });
 
-document.addEventListener('click', function () {
-    const sideNav = document.getElementById('side-nav');
-    if (!sideNav.classList.contains('manual-toggle')) {
-        sideNav.style.left = '-250px';
-    }
-})
-
 function toggleNav() {
     const sideNav = document.getElementById('side-nav');
     sideNav.classList.toggle('manual-toggle');
