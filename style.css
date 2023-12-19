@@ -41,6 +41,7 @@ html {
 .main2 {
     text-align: center;
     color: orange;
+    scroll-behavior: smooth;
 }
 
 .main2 p {
@@ -655,6 +656,11 @@ p {
     border-radius: 5px;
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
     color: black;
+    align-items: center;
+}
+
+#main2 li:hover {
+    background-color: #e6e6e6;
 }
 
 #main2 a {
@@ -664,6 +670,52 @@ p {
 
 #main2 a:hover {
     text-decoration: underline;
+}
+
+.app-link {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.app-link button {
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px 15px;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+    color: black;
+    cursor: pointer;
+    font-size: 16px;
+    display: block;
+    width: auto;
+    margin: 10px auto;
+}
+
+.app-btn {
+    background-color: #534caf;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px 15px;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+    color: white;
+    cursor: pointer;
+    font: inherit;
+    display: block;
+    width: auto;
+    margin: 10px auto;
+}
+
+.app-btn:hover {
+    background-color: #ff8623;
+}
+
+.app-link button:hover {
+    background-color: #e6e6e6;
+}
+
+.app-link p {
+    margin-top: 10px;
+    color: white;
 }
 
 .side-nav {

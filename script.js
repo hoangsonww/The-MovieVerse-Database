@@ -215,22 +215,28 @@ function showMovies3(movies) {
         const { id, poster_path, title, vote_average, overview } = movie;
         const movieE1 = document.createElement('div');
         movieE1.classList.add('movie');
+
+        const movieImage = poster_path
+            ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
+            : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
+
+        voteAvg = vote_average.toFixed(1);
         movieE1.innerHTML = `
-            <img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" /> 
+            ${movieImage}
             <div class="movie-info" style="cursor: pointer;">
                 <h3>${title}</h3>
-                <span class="${getClassByRate(vote_average)}">${vote_average}</span>
+                <span class="${getClassByRate(vote_average)}">${voteAvg}</span>
             </div>
             <div class="overview" style="cursor: pointer;">
                 <h4>Movie Intro: </h4>
                 ${overview}
             </div>`;
 
-        // Add a click event listener to each movie element
         movieE1.addEventListener('click', () => {
-            localStorage.setItem('selectedMovieId', id); // Store the movie ID
+            localStorage.setItem('selectedMovieId', id);
             window.location.href = 'movie-details.html';
         });
+
         main3.appendChild(movieE1);
     });
 }
@@ -260,22 +266,28 @@ function showMovies4(movies) {
         const { id, poster_path, title, vote_average, overview } = movie;
         const movieE1 = document.createElement('div');
         movieE1.classList.add('movie');
+
+        const movieImage = poster_path
+            ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
+            : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
+
+        voteAvg = vote_average.toFixed(1);
         movieE1.innerHTML = `
-            <img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" /> 
+            ${movieImage}
             <div class="movie-info" style="cursor: pointer;">
                 <h3>${title}</h3>
-                <span class="${getClassByRate(vote_average)}">${vote_average}</span>
+                <span class="${getClassByRate(vote_average)}">${voteAvg}</span>
             </div>
             <div class="overview" style="cursor: pointer;">
                 <h4>Movie Intro: </h4>
                 ${overview}
             </div>`;
 
-        // Add a click event listener to each movie element
         movieE1.addEventListener('click', () => {
-            localStorage.setItem('selectedMovieId', id); // Store the movie ID
+            localStorage.setItem('selectedMovieId', id);
             window.location.href = 'movie-details.html';
         });
+
         main4.appendChild(movieE1);
     });
 }
@@ -305,22 +317,28 @@ function showMovies5(movies) {
         const { id, poster_path, title, vote_average, overview } = movie;
         const movieE1 = document.createElement('div');
         movieE1.classList.add('movie');
+
+        const movieImage = poster_path
+            ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
+            : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
+
+        voteAvg = vote_average.toFixed(1);
         movieE1.innerHTML = `
-            <img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" /> 
+            ${movieImage}
             <div class="movie-info" style="cursor: pointer;">
                 <h3>${title}</h3>
-                <span class="${getClassByRate(vote_average)}">${vote_average}</span>
+                <span class="${getClassByRate(vote_average)}">${voteAvg}</span>
             </div>
             <div class="overview" style="cursor: pointer;">
                 <h4>Movie Intro: </h4>
                 ${overview}
             </div>`;
 
-        // Add a click event listener to each movie element
         movieE1.addEventListener('click', () => {
-            localStorage.setItem('selectedMovieId', id); // Store the movie ID
+            localStorage.setItem('selectedMovieId', id);
             window.location.href = 'movie-details.html';
         });
+
         main5.appendChild(movieE1);
     });
 }
@@ -350,22 +368,28 @@ function showMovies6(movies) {
         const { id, poster_path, title, vote_average, overview } = movie;
         const movieE1 = document.createElement('div');
         movieE1.classList.add('movie');
+
+        const movieImage = poster_path
+            ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
+            : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
+
+        voteAvg = vote_average.toFixed(1);
         movieE1.innerHTML = `
-            <img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" /> 
+            ${movieImage}
             <div class="movie-info" style="cursor: pointer;">
                 <h3>${title}</h3>
-                <span class="${getClassByRate(vote_average)}">${vote_average}</span>
+                <span class="${getClassByRate(vote_average)}">${voteAvg}</span>
             </div>
             <div class="overview" style="cursor: pointer;">
                 <h4>Movie Intro: </h4>
                 ${overview}
             </div>`;
 
-        // Add a click event listener to each movie element
         movieE1.addEventListener('click', () => {
-            localStorage.setItem('selectedMovieId', id); // Store the movie ID
+            localStorage.setItem('selectedMovieId', id);
             window.location.href = 'movie-details.html';
         });
+
         main6.appendChild(movieE1);
     });
 }
@@ -395,11 +419,17 @@ function showMovies7(movies) {
         const { id, poster_path, title, vote_average, overview } = movie;
         const movieE1 = document.createElement('div');
         movieE1.classList.add('movie');
+
+        const movieImage = poster_path
+            ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
+            : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
+
+        voteAvg = vote_average.toFixed(1);
         movieE1.innerHTML = `
-            <img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" /> 
+            ${movieImage}
             <div class="movie-info" style="cursor: pointer;">
                 <h3>${title}</h3>
-                <span class="${getClassByRate(vote_average)}">${vote_average}</span>
+                <span class="${getClassByRate(vote_average)}">${voteAvg}</span>
             </div>
             <div class="overview" style="cursor: pointer;">
                 <h4>Movie Intro: </h4>
@@ -441,22 +471,28 @@ function showMovies8(movies) {
         const { id, poster_path, title, vote_average, overview } = movie;
         const movieE1 = document.createElement('div');
         movieE1.classList.add('movie');
+
+        const movieImage = poster_path
+            ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
+            : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
+
+        voteAvg = vote_average.toFixed(1);
         movieE1.innerHTML = `
-            <img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" /> 
+            ${movieImage}
             <div class="movie-info" style="cursor: pointer;">
                 <h3>${title}</h3>
-                <span class="${getClassByRate(vote_average)}">${vote_average}</span>
+                <span class="${getClassByRate(vote_average)}">${voteAvg}</span>
             </div>
             <div class="overview" style="cursor: pointer;">
                 <h4>Movie Intro: </h4>
                 ${overview}
             </div>`;
 
-        // Add a click event listener to each movie element
         movieE1.addEventListener('click', () => {
-            localStorage.setItem('selectedMovieId', id); // Store the movie ID
+            localStorage.setItem('selectedMovieId', id);
             window.location.href = 'movie-details.html';
         });
+
         main8.appendChild(movieE1);
     });
 }
@@ -486,22 +522,28 @@ function showMovies9(movies) {
         const { id, poster_path, title, vote_average, overview } = movie;
         const movieE1 = document.createElement('div');
         movieE1.classList.add('movie');
+
+        const movieImage = poster_path
+            ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
+            : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
+
+        voteAvg = vote_average.toFixed(1);
         movieE1.innerHTML = `
-            <img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" /> 
+            ${movieImage}
             <div class="movie-info" style="cursor: pointer;">
                 <h3>${title}</h3>
-                <span class="${getClassByRate(vote_average)}">${vote_average}</span>
+                <span class="${getClassByRate(vote_average)}">${voteAvg}</span>
             </div>
             <div class="overview" style="cursor: pointer;">
                 <h4>Movie Intro: </h4>
                 ${overview}
             </div>`;
 
-        // Add a click event listener to each movie element
         movieE1.addEventListener('click', () => {
-            localStorage.setItem('selectedMovieId', id); // Store the movie ID
+            localStorage.setItem('selectedMovieId', id);
             window.location.href = 'movie-details.html';
         });
+
         main9.appendChild(movieE1);
     });
 }
@@ -531,22 +573,28 @@ function showMovies10(movies) {
         const { id, poster_path, title, vote_average, overview } = movie;
         const movieE1 = document.createElement('div');
         movieE1.classList.add('movie');
+
+        const movieImage = poster_path
+            ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
+            : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
+
+        voteAvg = vote_average.toFixed(1);
         movieE1.innerHTML = `
-            <img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" /> 
+            ${movieImage}
             <div class="movie-info" style="cursor: pointer;">
                 <h3>${title}</h3>
-                <span class="${getClassByRate(vote_average)}">${vote_average}</span>
+                <span class="${getClassByRate(vote_average)}">${voteAvg}</span>
             </div>
             <div class="overview" style="cursor: pointer;">
                 <h4>Movie Intro: </h4>
                 ${overview}
             </div>`;
 
-        // Add a click event listener to each movie element
         movieE1.addEventListener('click', () => {
-            localStorage.setItem('selectedMovieId', id); // Store the movie ID
+            localStorage.setItem('selectedMovieId', id);
             window.location.href = 'movie-details.html';
         });
+
         main10.appendChild(movieE1);
     });
 }
@@ -576,22 +624,28 @@ function showMovies11(movies) {
         const { id, poster_path, title, vote_average, overview } = movie;
         const movieE1 = document.createElement('div');
         movieE1.classList.add('movie');
+
+        const movieImage = poster_path
+            ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
+            : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
+
+        voteAvg = vote_average.toFixed(1);
         movieE1.innerHTML = `
-            <img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" /> 
+            ${movieImage}
             <div class="movie-info" style="cursor: pointer;">
                 <h3>${title}</h3>
-                <span class="${getClassByRate(vote_average)}">${vote_average}</span>
+                <span class="${getClassByRate(vote_average)}">${voteAvg}</span>
             </div>
             <div class="overview" style="cursor: pointer;">
                 <h4>Movie Intro: </h4>
                 ${overview}
             </div>`;
 
-        // Add a click event listener to each movie element
         movieE1.addEventListener('click', () => {
-            localStorage.setItem('selectedMovieId', id); // Store the movie ID
+            localStorage.setItem('selectedMovieId', id);
             window.location.href = 'movie-details.html';
         });
+
         main11.appendChild(movieE1);
     });
 }
@@ -621,22 +675,28 @@ function showMovies12(movies) {
         const { id, poster_path, title, vote_average, overview } = movie;
         const movieE1 = document.createElement('div');
         movieE1.classList.add('movie');
+
+        const movieImage = poster_path
+            ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
+            : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
+
+        voteAvg = vote_average.toFixed(1);
         movieE1.innerHTML = `
-            <img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" /> 
+            ${movieImage}
             <div class="movie-info" style="cursor: pointer;">
                 <h3>${title}</h3>
-                <span class="${getClassByRate(vote_average)}">${vote_average}</span>
+                <span class="${getClassByRate(vote_average)}">${voteAvg}</span>
             </div>
             <div class="overview" style="cursor: pointer;">
                 <h4>Movie Intro: </h4>
                 ${overview}
             </div>`;
 
-        // Add a click event listener to each movie element
         movieE1.addEventListener('click', () => {
-            localStorage.setItem('selectedMovieId', id); // Store the movie ID
+            localStorage.setItem('selectedMovieId', id);
             window.location.href = 'movie-details.html';
         });
+
         main12.appendChild(movieE1);
     });
 }
@@ -666,22 +726,28 @@ function showMovies13(movies) {
         const { id, poster_path, title, vote_average, overview } = movie;
         const movieE1 = document.createElement('div');
         movieE1.classList.add('movie');
+
+        const movieImage = poster_path
+            ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
+            : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
+
+        voteAvg = vote_average.toFixed(1);
         movieE1.innerHTML = `
-            <img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" /> 
+            ${movieImage}
             <div class="movie-info" style="cursor: pointer;">
                 <h3>${title}</h3>
-                <span class="${getClassByRate(vote_average)}">${vote_average}</span>
+                <span class="${getClassByRate(vote_average)}">${voteAvg}</span>
             </div>
             <div class="overview" style="cursor: pointer;">
                 <h4>Movie Intro: </h4>
                 ${overview}
             </div>`;
 
-        // Add a click event listener to each movie element
         movieE1.addEventListener('click', () => {
-            localStorage.setItem('selectedMovieId', id); // Store the movie ID
+            localStorage.setItem('selectedMovieId', id);
             window.location.href = 'movie-details.html';
         });
+
         main13.appendChild(movieE1);
     });
 }
@@ -711,22 +777,28 @@ function showMovies14(movies) {
         const { id, poster_path, title, vote_average, overview } = movie;
         const movieE1 = document.createElement('div');
         movieE1.classList.add('movie');
+
+        const movieImage = poster_path
+            ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
+            : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
+
+        voteAvg = vote_average.toFixed(1);
         movieE1.innerHTML = `
-            <img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" /> 
+            ${movieImage}
             <div class="movie-info" style="cursor: pointer;">
                 <h3>${title}</h3>
-                <span class="${getClassByRate(vote_average)}">${vote_average}</span>
+                <span class="${getClassByRate(vote_average)}">${voteAvg}</span>
             </div>
             <div class="overview" style="cursor: pointer;">
                 <h4>Movie Intro: </h4>
                 ${overview}
             </div>`;
 
-        // Add a click event listener to each movie element
         movieE1.addEventListener('click', () => {
-            localStorage.setItem('selectedMovieId', id); // Store the movie ID
+            localStorage.setItem('selectedMovieId', id);
             window.location.href = 'movie-details.html';
         });
+
         main14.appendChild(movieE1);
     });
 }
@@ -756,22 +828,28 @@ function showMovies15(movies) {
         const { id, poster_path, title, vote_average, overview } = movie;
         const movieE1 = document.createElement('div');
         movieE1.classList.add('movie');
+
+        const movieImage = poster_path
+            ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
+            : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
+
+        voteAvg = vote_average.toFixed(1);
         movieE1.innerHTML = `
-            <img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" /> 
+            ${movieImage}
             <div class="movie-info" style="cursor: pointer;">
                 <h3>${title}</h3>
-                <span class="${getClassByRate(vote_average)}">${vote_average}</span>
+                <span class="${getClassByRate(vote_average)}">${voteAvg}</span>
             </div>
             <div class="overview" style="cursor: pointer;">
                 <h4>Movie Intro: </h4>
                 ${overview}
             </div>`;
 
-        // Add a click event listener to each movie element
         movieE1.addEventListener('click', () => {
-            localStorage.setItem('selectedMovieId', id); // Store the movie ID
+            localStorage.setItem('selectedMovieId', id);
             window.location.href = 'movie-details.html';
         });
+
         main15.appendChild(movieE1);
     });
 }
@@ -801,22 +879,28 @@ function showMovies16(movies) {
         const { id, poster_path, title, vote_average, overview } = movie;
         const movieE1 = document.createElement('div');
         movieE1.classList.add('movie');
+
+        const movieImage = poster_path
+            ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
+            : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
+
+        voteAvg = vote_average.toFixed(1);
         movieE1.innerHTML = `
-            <img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" /> 
+            ${movieImage}
             <div class="movie-info" style="cursor: pointer;">
                 <h3>${title}</h3>
-                <span class="${getClassByRate(vote_average)}">${vote_average}</span>
+                <span class="${getClassByRate(vote_average)}">${voteAvg}</span>
             </div>
             <div class="overview" style="cursor: pointer;">
                 <h4>Movie Intro: </h4>
                 ${overview}
             </div>`;
 
-        // Add a click event listener to each movie element
         movieE1.addEventListener('click', () => {
-            localStorage.setItem('selectedMovieId', id); // Store the movie ID
+            localStorage.setItem('selectedMovieId', id);
             window.location.href = 'movie-details.html';
         });
+
         main16.appendChild(movieE1);
     });
 }
@@ -849,22 +933,28 @@ function showMovies17(movies) {
         const { id, poster_path, title, vote_average, overview } = movie;
         const movieE1 = document.createElement('div');
         movieE1.classList.add('movie');
+
+        const movieImage = poster_path
+            ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
+            : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
+
+        voteAvg = vote_average.toFixed(1);
         movieE1.innerHTML = `
-            <img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" /> 
+            ${movieImage}
             <div class="movie-info" style="cursor: pointer;">
                 <h3>${title}</h3>
-                <span class="${getClassByRate(vote_average)}">${vote_average}</span>
+                <span class="${getClassByRate(vote_average)}">${voteAvg}</span>
             </div>
             <div class="overview" style="cursor: pointer;">
                 <h4>Movie Intro: </h4>
                 ${overview}
             </div>`;
 
-        // Add a click event listener to each movie element
         movieE1.addEventListener('click', () => {
-            localStorage.setItem('selectedMovieId', id); // Store the movie ID
+            localStorage.setItem('selectedMovieId', id);
             window.location.href = 'movie-details.html';
         });
+
         main17.appendChild(movieE1);
     });
 }
@@ -898,22 +988,28 @@ function showMovies18(movies) {
         const { id, poster_path, title, vote_average, overview } = movie;
         const movieE1 = document.createElement('div');
         movieE1.classList.add('movie');
+
+        const movieImage = poster_path
+            ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
+            : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
+
+        voteAvg = vote_average.toFixed(1);
         movieE1.innerHTML = `
-            <img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" /> 
+            ${movieImage}
             <div class="movie-info" style="cursor: pointer;">
                 <h3>${title}</h3>
-                <span class="${getClassByRate(vote_average)}">${vote_average}</span>
+                <span class="${getClassByRate(vote_average)}">${voteAvg}</span>
             </div>
             <div class="overview" style="cursor: pointer;">
                 <h4>Movie Intro: </h4>
                 ${overview}
             </div>`;
 
-        // Add a click event listener to each movie element
         movieE1.addEventListener('click', () => {
-            localStorage.setItem('selectedMovieId', id); // Store the movie ID
+            localStorage.setItem('selectedMovieId', id);
             window.location.href = 'movie-details.html';
         });
+
         main18.appendChild(movieE1);
     });
 }
@@ -947,22 +1043,28 @@ function showMovies19(movies) {
         const { id, poster_path, title, vote_average, overview } = movie;
         const movieE1 = document.createElement('div');
         movieE1.classList.add('movie');
+
+        const movieImage = poster_path
+            ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
+            : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
+
+        voteAvg = vote_average.toFixed(1);
         movieE1.innerHTML = `
-            <img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" /> 
+            ${movieImage}
             <div class="movie-info" style="cursor: pointer;">
                 <h3>${title}</h3>
-                <span class="${getClassByRate(vote_average)}">${vote_average}</span>
+                <span class="${getClassByRate(vote_average)}">${voteAvg}</span>
             </div>
             <div class="overview" style="cursor: pointer;">
                 <h4>Movie Intro: </h4>
                 ${overview}
             </div>`;
 
-        // Add a click event listener to each movie element
         movieE1.addEventListener('click', () => {
-            localStorage.setItem('selectedMovieId', id); // Store the movie ID
+            localStorage.setItem('selectedMovieId', id);
             window.location.href = 'movie-details.html';
         });
+
         main19.appendChild(movieE1);
     });
 }
@@ -996,22 +1098,28 @@ function showMovies21(movies) {
         const { id, poster_path, title, vote_average, overview } = movie;
         const movieE1 = document.createElement('div');
         movieE1.classList.add('movie');
+
+        const movieImage = poster_path
+            ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
+            : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
+
+        voteAvg = vote_average.toFixed(1);
         movieE1.innerHTML = `
-            <img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" /> 
+            ${movieImage}
             <div class="movie-info" style="cursor: pointer;">
                 <h3>${title}</h3>
-                <span class="${getClassByRate(vote_average)}">${vote_average}</span>
+                <span class="${getClassByRate(vote_average)}">${voteAvg}</span>
             </div>
             <div class="overview" style="cursor: pointer;">
                 <h4>Movie Intro: </h4>
                 ${overview}
             </div>`;
 
-        // Add a click event listener to each movie element
         movieE1.addEventListener('click', () => {
-            localStorage.setItem('selectedMovieId', id); // Store the movie ID
+            localStorage.setItem('selectedMovieId', id);
             window.location.href = 'movie-details.html';
         });
+
         main21.appendChild(movieE1);
     });
 }
@@ -1095,6 +1203,7 @@ const directors = [
     { name: "Fritz Lang", id: "24" },
     { name: "Frank Capra", id: "1487" },
     { name: "John Huston", id: "617" },
+    { name: "Stanley Kubrick", id: "976" },
 ];
 
 let currentDirectorIndex = 0;
@@ -1141,11 +1250,17 @@ function showMoviesDirectorSpotlight(movies) {
         const { id, poster_path, title, vote_average, overview } = movie;
         const movieE1 = document.createElement('div');
         movieE1.classList.add('movie');
+
+        const movieImage = poster_path
+            ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
+            : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
+
+        voteAvg = vote_average.toFixed(1);
         movieE1.innerHTML = `
-            <img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" /> 
+            ${movieImage}
             <div class="movie-info" style="cursor: pointer;">
                 <h3>${title}</h3>
-                <span class="${getClassByRate(vote_average)}">${vote_average}</span>
+                <span class="${getClassByRate(vote_average)}">${voteAvg}</span>
             </div>
             <div class="overview" style="cursor: pointer;">
                 <h4>Movie Intro: </h4>
@@ -1156,6 +1271,8 @@ function showMoviesDirectorSpotlight(movies) {
             localStorage.setItem('selectedMovieId', id);
             window.location.href = 'movie-details.html';
         });
+
         main20.appendChild(movieE1);
     });
+
 }
