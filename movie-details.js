@@ -377,5 +377,4 @@ async function showMovieOfTheDay(){
         console.error('Error fetching movie:', error);
         alert('Failed to fetch the movie of the day. Please try again later.');
     }
-
 }

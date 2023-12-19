@@ -1274,5 +1274,25 @@ function showMoviesDirectorSpotlight(movies) {
 
         main20.appendChild(movieE1);
     });
-
 }
+
+function updateClock() {
+    var now = new Date();
+    var hours = now.getHours();
+    var minutes = now.getMinutes();
+
+    // Add leading zero to minutes if less than 10
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+
+    // Format the time in HH:MM format
+    var timeString = hours + ':' + minutes;
+
+    // Update the clock element
+    document.getElementById('clock').innerHTML = timeString;
+}
+
+// Update the clock every second
+setInterval(updateClock, 1000);
+
+// Initialize the clock on page load
+window.onload = updateClock;

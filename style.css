@@ -705,6 +705,16 @@ p {
     margin: 10px auto;
 }
 
+.clock {
+    text-align: center;
+    font-size: 20px;
+    color: #ff8623;
+}
+
+#time-label {
+    color: #ff8623;
+}
+
 .app-btn:hover {
     background-color: #ff8623;
 }
