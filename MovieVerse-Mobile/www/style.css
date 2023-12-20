@@ -8,7 +8,7 @@ body {
     background-image: url("https://wallpaperaccess.com/full/433561.jpg");
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
+    background-repeat: repeat;
     background-attachment: fixed;
     font-family: "Poppins", sans-serif;
     margin: 0;
@@ -60,10 +60,11 @@ html {
 }
 
 header {
-    display: flex;
-    align-items: center;
     justify-content: space-between;
     padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .search {
@@ -362,10 +363,10 @@ h2:hover {
 
 .details-container {
     display: flex;
-    height: calc(100% - 60px);
+    flex-direction: column;
     color: white;
     overflow-y: auto;
-    align-items: start;
+    align-items: center;
 }
 
 .movie-left, .movie-right {
@@ -398,7 +399,6 @@ h2:hover {
 }
 
 .movie-left {
-    width: 33.3333%;
     box-sizing: border-box;
     align-items: center;
     justify-content: center;
@@ -406,7 +406,6 @@ h2:hover {
 }
 
 .actor-left {
-    width: 33.3333%;
     box-sizing: border-box;
     align-items: center;
     justify-content: center;
@@ -414,7 +413,6 @@ h2:hover {
 }
 
 .director-left {
-    width: 33.3333%;
     box-sizing: border-box;
     align-items: center;
     justify-content: center;
@@ -422,14 +420,12 @@ h2:hover {
 }
 
 .movie-right {
-    width: 66.6666%;
     padding: 10px;
     box-sizing: border-box;
     overflow-y: auto;
 }
 
 .actor-right {
-    width: 66.6666%;
     padding: 10px;
     box-sizing: border-box;
     overflow-y: auto;
@@ -437,7 +433,6 @@ h2:hover {
 }
 
 .director-right {
-    width: 66.6666%;
     padding: 10px;
     box-sizing: border-box;
     overflow-y: auto;
@@ -449,6 +444,7 @@ h2:hover {
     height: auto;
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    margin-bottom: -50px;
 }
 
 @media (max-width: 768px) {
