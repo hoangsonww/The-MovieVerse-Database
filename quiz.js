@@ -54,6 +54,8 @@ const questionBank = [
     { question: "Who directed 'Mad Max: Fury Road'?", options: ["George Miller", "Ridley Scott", "Peter Jackson"], answer: "George Miller" },
     { question: "What animated film features a character named 'Hiccup'?", options: ["Brave", "How to Train Your Dragon", "Shrek"], answer: "How to Train Your Dragon" },
     { question: "In which film is the fictional mineral 'Unobtainium' sought after?", options: ["Avatar", "The Core", "Transformers"], answer: "Avatar" },
+    { question: "What is the name of the fictional city where the Batman movies take place?", options: ["Gotham City", "Metropolis", "Star City"], answer: "Gotham City" },
+    { question: "Who directed 'The Dark Knight'?", options: ["Christopher Nolan", "Martin Scorsese", "Steven Spielberg"], answer: "Christopher Nolan" },
 ];
 
 function generateRandomQuestions() {

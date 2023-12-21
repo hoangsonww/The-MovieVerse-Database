@@ -89,10 +89,8 @@ async function getMovies(url) {
         allMovies = allMovies.concat(data.results);
     }
 
-    // Sort movies by vote_average in descending order
     allMovies.sort((a, b) => b.vote_average - a.vote_average);
 
-    // Display the sorted movies
     if (allMovies.length > 0) {
         showMovies(allMovies.slice(0, numberOfMovies));
     }
@@ -249,7 +247,6 @@ async function showMovieOfTheDay(){
         const movies = data.results;
         const randomMovie = movies[Math.floor(Math.random() * movies.length)];
 
-        // Store the selected movie ID in localStorage and redirect to movie-details page
         localStorage.setItem('selectedMovieId', randomMovie.id);
         window.location.href = 'movie-details.html';
     }

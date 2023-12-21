@@ -711,8 +711,16 @@ p {
     color: #ff8623;
 }
 
+.clock:hover {
+    color: #f509d9;
+}
+
 #time-label {
     color: #ff8623;
+}
+
+#time-label:hover {
+    color: #f509d9;
 }
 
 .app-btn:hover {

@@ -21,6 +21,8 @@ The MovieVerse is an endeavor by Son Nguyen Hoang (David), crafted with the visi
 
 Through The MovieVerse, users can search for movies, view detailed information, rate and review films, and interact with a community of like-minded cinephiles. It's a platform that celebrates cinema in all its forms, from blockbuster hits to indie gems.
 
+There is also a mobile version of The MovieVerse, which is developed using Apache Cordova. The mobile application is under review and will be available on the App Store and Google Play Store soon!
+
 ## Features
 
 - **Search Functionality**: Find movies by title, actor, director, or genre with ease.
