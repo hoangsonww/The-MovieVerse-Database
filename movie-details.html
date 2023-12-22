@@ -12,6 +12,10 @@
     <h1 id="my-heading">
         The Mo<span class="highlight">vieV</span>erse
     </h1>
+    <div id="local-time">
+        <p id="time-label">Current Time:</p>
+        <h1 id="clock" class="clock"></h1>
+    </div>
     <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
     <button class="about" onclick="window.location.href='about.html'">About</button>
     <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="Go to your favorites list">Favorites</button>
@@ -54,6 +58,9 @@
         <h2 id="movie-rating" class="movie-rating"></h2>
     </div>
 </div>
+
+<!-- Create a button to go to the Movie Timeline page -->
+<button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 115px">Movie Timeline</button>
 
 <!-- Create a button to go to the Movie of the Day page -->
 <button id="movie-of-the-day-btn2" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!">Movie of the Day</button>

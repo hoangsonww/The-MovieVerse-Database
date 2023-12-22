@@ -27,13 +27,13 @@
             The Mo<span class="highlight">vieV</span>erse
         </h1>
 
-        <div>
-            <p id="time-label">Local Time:</p>
+        <div id="local-time">
+            <p id="time-label">Current Time:</p>
             <h1 id="clock" class="clock"></h1>
         </div>
 
         <!-- Create a button to toggle the side navigation bar -->
-        <button id="nav-toggle" class="nav-toggle" title="Toggle Side Navbar" onclick="toggleNav()">
+        <button id="nav-toggle" class="nav-toggle" title="Toggle side navbar (Or you can just hover on the left edge to toggle it!)" onclick="toggleNav()">
             <i class="fas fa-bars"></i>
         </button>
 
@@ -290,6 +290,9 @@
     <main id="main19" style="margin-left: 25px">
 
     </main>
+
+    <!-- Create a button to go to the Movie Timeline page -->
+    <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!">Movie Timeline</button>
 
     <!-- Create a button to go to the Movie of the Day page -->
     <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!">Movie of the Day</button>

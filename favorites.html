@@ -22,6 +22,9 @@
 
     <main id="favorites-main"></main>
 
+    <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 140px">Movie Timeline</button>
+    <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 100px">Movie of the Day</button>
+
     <!-- Create a button to go to the Movie Discussions page -->
     <button id="discussions-btn" onclick="window.location.href='discussions.html'" style="margin-bottom: -39px" title="Want to know more about movies? Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
 
@@ -36,7 +39,8 @@
             const favoritesMain = document.getElementById('favorites-main');
             if (favorites.length > 0) {
                 favorites.forEach(movieId => fetchMovieDetails(movieId));
-            } else {
+            }
+            else {
                 favoritesMain.innerHTML = '<p>No favorites added yet.</p>';
             }
         });
@@ -75,7 +79,6 @@
                 favoritesContainer.innerHTML += '<p>Error loading movie details.</p>';
             }
         }
-
     </script>
 
 </body>

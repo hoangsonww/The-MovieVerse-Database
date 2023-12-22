@@ -18,6 +18,40 @@ body {
     height: 100%;
 }
 
+#movie-timeline-btn {
+    position: fixed;
+    bottom: 180px;
+    right: 30px;
+    background-color: #7378c5;
+    font: inherit;
+    color: black;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+}
+
+#movie-timeline-btn:hover {
+    background-color: #ff8623;
+    transition: 0.3s ease-in;
+}
+
+#movie-of-the-day-btn {
+    position: fixed;
+    bottom: 140px;
+    right: 30px;
+    background-color: #7378c5;
+    font: inherit;
+    color: black;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+}
+
+#movie-of-the-day-btn:hover {
+    background-color: #ff8623;
+    transition: 0.1s linear;
+}
+
 #my-heading {
     color: #ff8623;
     padding: 10px;

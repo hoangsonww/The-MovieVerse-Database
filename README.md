@@ -32,6 +32,7 @@ There is also a mobile version of The MovieVerse, which is developed using Apach
 - **Curated Lists**: Explore collections of new releases, most popular, trending, and genre-specific movies.
 - **Movie Details Page**: Each movie comes with its own detailed page, offering a plethora of information from cast to similar movies.
 - **Community Engagement**: Share your movie experiences and become part of The MovieVerse community.
+- **Movie Timeline**: Explore the evolution of cinema by selecting a specific time period and discovering movies from that era.
 
 ## Getting Started
 
@@ -75,13 +76,6 @@ If you have a suggestion that would make this better, please fork the repo and c
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## Credits
-
-- **Son Nguyen Hoang (David)** - _Initial Work_ - [@hoangsonww](https://github.com/hoangsonww)
-- **The Movie Database (TMDB)** - _Movie Data API_ - [TMDB](https://www.themoviedb.org/documentation/api)
-
-Special thanks to the contributors who have spent time improving The MovieVerse, and to TMDB for providing an extensive API for movie information.
-
 ## License
 
 Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
@@ -93,3 +87,5 @@ Son Nguyen Hoang - [@hoangsonww](https://github.com/hoangsonww)
 Project Link: [https://github.com/hoangsonww/The-MovieVerse-Database](https://github.com/hoangsonww/The-MovieVerse-Database)
 
 ---
+
+Remember, The MovieVerse is an ever-evolving platform. I am continually enhancing the user experience and adding new features, like the Movie Timeline, to help you navigate the vast sea of cinema with ease and excitement.

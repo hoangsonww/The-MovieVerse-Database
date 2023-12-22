@@ -148,3 +148,21 @@ function movieVerseResponse(message) {
         return "Sorry, I didn't catch that. Can you rephrase or ask another question about movies?";
     }
 }
+
+async function showMovieOfTheDay() {
+    const year = new Date().getFullYear();
+    const url = `https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        const movies = data.results;
+        const randomMovie = movies[Math.floor(Math.random() * movies.length)];
+
+        localStorage.setItem('selectedMovieId', randomMovie.id);
+        window.location.href = 'movie-details.html';
+    }
+    catch (error) {
+        console.error('Error fetching movie:', error);
+        alert('Failed to fetch the movie of the day. Please try again later.');
+    }
+}

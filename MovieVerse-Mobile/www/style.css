@@ -52,11 +52,11 @@ html {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    padding-left: 10px; /* Adjust as needed */
+    padding-left: 10px;
 }
 
 #form {
-    margin-top: 10px; /* Adjust space between title and search form */
+    margin-top: 10px;
 }
 
 header {
