@@ -10,12 +10,123 @@ body {
     margin: 0;
     align-content: center;
     text-align: center;
+    overflow: auto;
+    height: 100%;
     background-image: url("https://wallpaperaccess.com/full/433561.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    background-attachment: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+}
+
+.overview {
+    position: absolute;
+    padding: 2rem;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: #fff;
+    color: black;
+    transform: translateY(100%);
+    transition: opacity 0.3s ease-in, visibility 0.3s ease-in, transform 0.3s ease-in;
+    overflow-y: auto;
+    visibility: hidden;
+}
+
+.movie:hover .overview {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+}
+
+.overview h4 {
+    margin-top: 0;
+}
+
+.movie-info span.green {
+    color: rgb(39,189,39);
+}
+
+.movie-info span.orange {
+    color: orange;
+}
+
+.movie-info span.red {
+    color: rgb(189,42,42);
+}
+
+#my-heading {
+    color: #ff8623;
+    padding: 10px;
+    font-size: 36px;
+    text-align: center;
+    background-color: transparent;
+    margin-top: 50px;
+    margin-left: 35px;
+}
+
+.movie {
+    background-color: #373b69;
+    border-radius: 3px;
+    box-shadow: 0 4px 5px rgba(0,0,0,0.2);
+    margin: 1rem;
+    color: white;
+    position: relative;
     overflow: hidden;
-    height: 100%;
+    width: 300px;
+}
+
+.movie img {
+    width: 100%;
+}
+
+.movie-info {
+    color: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 1rem 1rem;
+    letter-spacing: 0.5px;
+}
+
+.movie-info h3 {
+    margin: 0;
+}
+
+.movie:hover .overview {
+    transform: translateY(0);
+}
+
+.movie-info span {
+    background-color: #22254b;
+    border-radius: 3px;
+    font-weight: bold;
+    padding: 0.25rem 0.5rem;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 0.5vw;
+    padding-right: 3vw;
+    padding-top: -20px;
+    width: 96vw;
+}
+
+.highlight {
+    color: orange;
+}
+
+header h1 {
+    color: #ff8623;
+    text-align: center;
 }
 
 #movie-timeline-btn {
@@ -28,6 +139,7 @@ body {
     border-radius: 8px;
     border: none;
     cursor: pointer;
+    z-index: 1000;
 }
 
 #movie-timeline-btn:hover {
@@ -45,6 +157,7 @@ body {
     border-radius: 8px;
     border: none;
     cursor: pointer;
+    z-index: 1000;
 }
 
 #movie-of-the-day-btn:hover {
@@ -166,16 +279,15 @@ ol li:hover {
 }
 
 #chatbotBody > div[text-align="right"] {
-    background-color: #ff8623;  /* User messages background color */
-    align-self: flex-end;  /* Position the user messages to the right */
+    background-color: #ff8623;
+    align-self: flex-end;
 }
 
 #chatbotBody > div[text-align="left"] {
-    background-color: #7378c5;  /* Bot messages background color */
-    align-self: flex-start;  /* Position the bot messages to the left */
+    background-color: #7378c5;
+    align-self: flex-start;
 }
 
-/* Favorites Button */
 .favorites-btn {
     background-color: #7378c5;
     border: none;
@@ -189,8 +301,8 @@ ol li:hover {
     cursor: pointer;
     position: absolute;
     top: 0;
-    left: 289.5px; /* Center horizontally */
-    transform: translateX(-50%); /* Adjust for the button's width */
+    left: 288px;
+    transform: translateX(-50%);
     border-radius: 8px;
     padding-left: 10px;
     padding-right: 10px;
@@ -202,7 +314,6 @@ ol li:hover {
     transition: 0.3s ease-in;
 }
 
-/* About Button */
 .about {
     background-color: #7378c5;
     border: none;
@@ -218,7 +329,7 @@ ol li:hover {
     position: absolute;
     top: 0;
     left: 196px;
-    transform: translateX(-50%); /* Adjust for the button's width */
+    transform: translateX(-50%);
     border-radius: 8px;
 }
 
@@ -227,7 +338,6 @@ ol li:hover {
     transition: 0.3s ease-in;
 }
 
-/* Back Button */
 .back-btn {
     background-color: #7378c5;
     border: none;
@@ -242,8 +352,8 @@ ol li:hover {
     cursor: pointer;
     position: absolute;
     top: 0;
-    left: 107px; /* Center horizontally */
-    transform: translateX(-50%); /* Adjust for the button's width */
+    left: 107px;
+    transform: translateX(-50%);
     border-radius: 8px;
 }
 
@@ -279,6 +389,7 @@ ol li:hover {
     border-radius: 8px;
     border: none;
     cursor: pointer;
+    z-index: 1000;
 }
 
 #trivia-btn:hover {
@@ -290,4 +401,137 @@ ol li:hover {
     position: fixed;
     top: 20px;
     right: -30px;
+}
+
+@media (max-width: 906px) {
+    #local-time {
+        display: none;
+    }
+}
+
+#local-time {
+    margin-top: 30px;
+    margin-left: 80px;
+    align-items: center;
+}
+
+.clock:hover {
+    color: #f509d9;
+}
+
+#time-label {
+    color: #ff8623;
+}
+
+#time-label:hover {
+    color: #f509d9;
+}
+
+.search {
+    background-color: transparent;
+    border: 2px solid #121280;
+    border-radius: 50px;
+    color: #fff;
+    font-family: inherit;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    width: 250px;
+}
+
+main {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+#bot-header {
+    text-align: center;
+    width: 100%;
+}
+
+.search::placeholder {
+    color: #7378c5;
+}
+
+#search:hover {
+    outline: none;
+    background-color: #22254b;
+}
+
+.search:focus {
+    outline: none;
+    background-color: #22254b;
+}
+
+#button-search {
+    color: #171616;
+    background-color: #7378c5;
+    font: inherit;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+}
+
+#button-search:hover {
+    background-color: #ff8623;
+    transition: 0.1s linear;
+}
+
+#clear-search-btn {
+    background-color: #7378c5;
+    color: black;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+    font: inherit;
+}
+
+#clear-search-btn:hover {
+    background-color: #ff8623;
+}
+
+@media (max-width: 906px) {
+    .back-btn, .about, .favorites-btn {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .back-btn {
+        margin-left: -90px;
+    }
+
+    .about {
+        margin-left: 0px;
+    }
+
+    .favorites-btn {
+        margin-left: 93px;
+    }
+
+    header {
+        padding-bottom: 20px;
+        justify-content: space-between;
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    main {
+        margin-bottom: -40px;
+        justify-content: space-between;
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
 }

@@ -173,19 +173,6 @@ function getClassByRate(vote) {
     }
 }
 
-function updateClock() {
-    var now = new Date();
-    var hours = now.getHours();
-    var minutes = now.getMinutes();
-    hours = hours < 10 ? '0' + hours : hours;
-    minutes = minutes < 10 ? '0' + minutes : minutes;
-    var timeString = hours + ':' + minutes;
-    document.getElementById('clock').innerHTML = timeString;
-}
-
-setInterval(updateClock, 1000);
-window.onload = updateClock;
-
 async function showMovieOfTheDay(){
     const year = new Date().getFullYear();
     const url = `https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;

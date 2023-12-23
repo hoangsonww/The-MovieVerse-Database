@@ -18,6 +18,10 @@ function getClassByRate(vote){
     }
 }
 
+document.getElementById('clear-search-btn').addEventListener('click', () => {
+    location.reload();
+});
+
 form.addEventListener('submit', (e) => {
     e.preventDefault();
     const searchTerm = search.value.trim();
@@ -31,12 +35,12 @@ form.addEventListener('submit', (e) => {
     else {
         searchTitle.innerHTML = 'Please enter a search term.';
     }
+    document.getElementById('clear-search-btn').style.display = 'block';
 });
 
 searchButton.addEventListener('click', (e) => {
     e.preventDefault();
     const searchTerm = search.value;
-
     if (searchTerm) {
         getMovies(SEARCHPATH + searchTerm);
         searchTitle.innerHTML = 'Search Results for: ' + searchTerm;
@@ -46,6 +50,7 @@ searchButton.addEventListener('click', (e) => {
     else {
         searchTitle.innerHTML = 'Please enter a search term.';
     }
+    document.getElementById('clear-search-btn').style.display = 'block';
 });
 
 function calculateMoviesToDisplay() {
@@ -93,9 +98,11 @@ async function getMovies(url) {
 
     if (allMovies.length > 0) {
         showMovies(allMovies.slice(0, numberOfMovies));
+        document.getElementById('clear-search-btn').style.display = 'block'; // Show the button
     }
     else {
         main.innerHTML = `<p>No movie with the specified search term found. Please try again.</p>`;
+        document.getElementById('clear-search-btn').style.display = 'none'; // Hide the button if no results
     }
 }
 
@@ -106,11 +113,9 @@ function showMovies(movies){
         const movieE1 = document.createElement('div');
         const voteAverage = vote_average.toFixed(1);
         movieE1.classList.add('movie');
-
         const movieImage = poster_path
             ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
             : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
-
         movieE1.innerHTML = `
             ${movieImage} 
             <div class="movie-info" style="cursor: pointer;">
@@ -121,12 +126,10 @@ function showMovies(movies){
                 <h4>Movie Overview: </h4>
                 ${overview}
             </div>`;
-
         movieE1.addEventListener('click', () => {
             localStorage.setItem('selectedMovieId', id); // Store the movie ID
             window.location.href = 'movie-details.html';
         });
-
         main.appendChild(movieE1);
     });
 }
@@ -138,7 +141,11 @@ function clearMovieDetails() {
     }
 }
 
+let initialMainContent = '';
+
 document.addEventListener('DOMContentLoaded', () => {
+    initialMainContent = document.getElementById('main').innerHTML;
+
     const actorId = localStorage.getItem('selectedActorId');
     if (actorId) {
         fetchActorDetails(actorId);
@@ -146,12 +153,15 @@ document.addEventListener('DOMContentLoaded', () => {
     else {
         document.getElementById('actor-details-container').innerHTML = '<p>Actor details not found.</p>';
     }
+
+    document.getElementById('clear-search-btn').style.display = 'none';
+
+    updateClock();
 });
 
 async function fetchActorDetails(actorId) {
     const actorUrl = `https://api.themoviedb.org/3/person/${actorId}?api_key=c5a20c861acf7bb8d9e987dcc7f1b558`;
     const creditsUrl = `https://api.themoviedb.org/3/person/${actorId}/movie_credits?api_key=c5a20c861acf7bb8d9e987dcc7f1b558`;
-
     try {
         const [actorResponse, creditsResponse] = await Promise.all([
             fetch(actorUrl),
@@ -177,8 +187,6 @@ function populateActorDetails(actor, credits) {
     const actorImage = document.getElementById('actor-image');
     const actorName = document.getElementById('actor-name');
     const actorDescription = document.getElementById('actor-description');
-
-    // Check if actor image is available
     if (actor.profile_path) {
         actorImage.src = `https://image.tmdb.org/t/p/w1280${actor.profile_path}`;
         actorName.textContent = actor.name;
@@ -194,7 +202,6 @@ function populateActorDetails(actor, credits) {
     }
     document.getElementById('actor-image').src = `https://image.tmdb.org/t/p/w1280${actor.profile_path}`;
     document.getElementById('actor-name').textContent = actor.name;
-
     actorDescription.innerHTML = `
         <p><strong>Biography:</strong> ${actor.biography || 'N/A'}</p>
         <p><strong>Date of Birth:</strong> ${actor.birthday || 'N/A'}</p>
@@ -206,7 +213,6 @@ function populateActorDetails(actor, credits) {
     const filmographyHeading = document.createElement('p');
     filmographyHeading.innerHTML = '<strong>Filmography:</strong> ';
     document.getElementById('actor-description').appendChild(filmographyHeading);
-
     const movieList = document.createElement('div');
     movieList.classList.add('movie-list');
     credits.cast.forEach(movie => {
@@ -221,15 +227,11 @@ function populateActorDetails(actor, credits) {
         movieList.appendChild(document.createTextNode(', '));
     });
     filmographyHeading.appendChild(movieList);
-
-    // Add Gender
     const gender = document.createElement('div');
     gender.innerHTML = `
         <p><strong>Gender:</strong> ${actor.gender === 1 ? 'Female' : actor.gender === 2 ? 'Male' : 'N/A'}</p>
     `;
     document.getElementById('actor-description').appendChild(gender);
-
-    // Add Popularity Score
     const popularity = document.createElement('div');
     popularity.innerHTML = `
         <p><strong>Popularity Score:</strong> ${actor.popularity.toFixed(2)}</p>
@@ -240,7 +242,6 @@ function populateActorDetails(actor, credits) {
 async function showMovieOfTheDay(){
     const year = new Date().getFullYear();
     const url = `https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
-
     try {
         const response = await fetch(url);
         const data = await response.json();
@@ -267,6 +268,7 @@ function updateClock() {
     var now = new Date();
     var hours = now.getHours();
     var minutes = now.getMinutes();
+    hours = hours < 10 ? '0' + hours : hours;
     minutes = minutes < 10 ? '0' + minutes : minutes;
     var timeString = hours + ':' + minutes;
     document.getElementById('clock').innerHTML = timeString;

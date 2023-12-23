@@ -5,6 +5,7 @@
     <title>Movie Timeline</title>
     <link rel="stylesheet" href="style.css">
     <script src="actor-details.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
@@ -37,6 +38,7 @@
                 <input type="number" id="end-year" class="year-input" placeholder="End Year" title="Enter any year from 1900 until now" min="1900" max="${new Date().getFullYear()}" style="font: inherit">
                 <button id="load-movies" onclick="updateMovies()" title="Press Enter or Click This Button to Get Movies in the Chosen Period!">Get Movies in This Period</button>
             </div>
+            <button id="clear-search-btn" style="display: none; color: white">Clear Search Results</button>
         </div>
         <div id="movies-container">
             <!-- Movies will be dynamically loaded here -->
@@ -49,7 +51,7 @@
     <button id="discussions-btn" onclick="window.location.href='discussions.html'" title="Want to know more about movies? Chat with our intelligent chatbot!" style="margin-bottom: -55px">MovieVerse Chatbot</button>
 
     <!-- Create a button to go to the Trivia Game page -->
-    <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="margin-bottom: -50px" title="Play a quick trivia to test your knowledge about movies!">Trivia Game</button>
+    <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="margin-bottom: -50px" title="Play a quick trivia to test your knowledge about movies!">MovieVerse Trivia</button>
 
     <script src="movie-timeline.js"></script>
 </body>

@@ -84,12 +84,12 @@ form.addEventListener('submit', (e) => {
     if (searchTerm) {
         getMovies(SEARCHPATH + searchTerm);
         searchTitle.innerHTML = 'Search Results for: ' + searchTerm;
-        otherTitle.innerHTML = 'Check out other movies:';
         search.value = '';
     }
     else {
         searchTitle.innerHTML = 'Please enter a search term.';
     }
+    document.getElementById('clear-search-btn').style.display = 'block'; // Show the button
 });
 
 searchButton.addEventListener('click', (e) => {
@@ -99,12 +99,12 @@ searchButton.addEventListener('click', (e) => {
     if (searchTerm) {
         getMovies(SEARCHPATH + searchTerm);
         searchTitle.innerHTML = 'Search Results for: ' + searchTerm;
-        otherTitle.innerHTML = 'Check out other movies:';
         search.value = '';
     }
     else {
         searchTitle.innerHTML = 'Please enter a search term.';
     }
+    document.getElementById('clear-search-btn').style.display = 'block'; // Show the button
 });
 
 async function getMovies(url) {
@@ -121,21 +121,30 @@ async function getMovies(url) {
 
     // Sort movies by vote_average in descending order
     allMovies.sort((a, b) => b.vote_average - a.vote_average);
+    document.getElementById('clear-search-btn').style.display = 'block';
 
     // Display the sorted movies
     if (allMovies.length > 0) {
         showMovies(allMovies.slice(0, numberOfMovies));
+        document.getElementById('clear-search-btn').style.display = 'none'; // Hide the button if no results
     }
     else {
         main.innerHTML = `<p>No movie with the specified search term found. Please try again.</p>`;
+        document.getElementById('clear-search-btn').style.display = 'none'; // Hide the button if no results
     }
 }
+
+document.getElementById('clear-search-btn').addEventListener('click', () => {
+    location.reload();
+});
 
 function clearMovieDetails() {
     const movieDetailsContainer = document.getElementById('quiz-container');
     if (movieDetailsContainer) {
         movieDetailsContainer.innerHTML = '';
     }
+    document.getElementById('regenerate-questions').style.display = 'none';
+    document.getElementById('submit').style.display = 'none';
 }
 
 function showMovies(movies){
@@ -198,6 +207,10 @@ function calculateMoviesToDisplay() {
     if (screenWidth <= 8325.99) return 48;
     return 20;
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('clear-search-btn').style.display = 'none';
+});
 
 function generateRandomQuestions() {
     const questionsToDisplay = 10;

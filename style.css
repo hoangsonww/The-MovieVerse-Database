@@ -205,11 +205,15 @@ header h1 {
     background-color: #fff;
     color: black;
     transform: translateY(100%);
-    transition: 0.3s ease-in;
+    transition: opacity 0.3s ease-in, visibility 0.3s ease-in, transform 0.3s ease-in;
+    overflow-y: auto;
+    visibility: hidden;
 }
 
 .movie:hover .overview {
     transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
 }
 
 .overview h4 {
@@ -1095,7 +1099,6 @@ p {
     }
 }
 
-
 .year-input-container {
     margin: 20px;
 }
@@ -1122,7 +1125,6 @@ p {
     background-color: #ff8623;
 }
 
-/* Movie Card Style */
 .movie-card {
     background-color: #373b69;
     border-radius: 3px;
@@ -1158,6 +1160,10 @@ p {
     padding: 0.25rem 0.5rem;
 }
 
+.timeline-container {
+    text-align: center;
+}
+
 #movie-timeline-btn {
     position: fixed;
     bottom: 180px;
@@ -1189,6 +1195,7 @@ p {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    display: flex;
 }
 
 #load-movies {
@@ -1203,4 +1210,27 @@ p {
 
 #select-text:hover {
     color: #f509d9;
+}
+
+#clear-search-btn {
+    background-color: #7378c5;
+    color: black;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+    font: inherit;
+    margin-right: 20px;
+}
+
+#clear-search-btn:hover {
+    background-color: #ff8623;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+    body {
+        background-size: auto;
+        background-repeat: repeat;
+    }
 }

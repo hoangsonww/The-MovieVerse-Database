@@ -72,7 +72,7 @@ struct MoviePosterImage: View {
         }.resume()
     }
 
-    private func fetchImageData() {
+    private func fetchImageData2() {
         URLSession.shared.dataTaskPublisher(for: url)
             .map { $0.data }
             .replaceError(with: nil)

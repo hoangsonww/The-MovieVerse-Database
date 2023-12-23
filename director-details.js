@@ -21,7 +21,6 @@ function getClassByRate(vote){
 form.addEventListener('submit', (e) => {
     e.preventDefault();
     const searchTerm = search.value.trim();
-
     if (searchTerm) {
         getMovies(SEARCHPATH + searchTerm);
         searchTitle.innerHTML = 'Search Results for: ' + searchTerm;
@@ -31,12 +30,12 @@ form.addEventListener('submit', (e) => {
     else {
         searchTitle.innerHTML = 'Please enter a search term.';
     }
+    document.getElementById('clear-search-btn').style.display = 'block';
 });
 
 searchButton.addEventListener('click', (e) => {
     e.preventDefault();
     const searchTerm = search.value;
-
     if (searchTerm) {
         getMovies(SEARCHPATH + searchTerm);
         searchTitle.innerHTML = 'Search Results for: ' + searchTerm;
@@ -46,6 +45,7 @@ searchButton.addEventListener('click', (e) => {
     else {
         searchTitle.innerHTML = 'Please enter a search term.';
     }
+    document.getElementById('clear-search-btn').style.display = 'block';
 });
 
 function calculateMoviesToDisplay() {
@@ -89,17 +89,21 @@ async function getMovies(url) {
         allMovies = allMovies.concat(data.results);
     }
 
-    // Sort movies by vote_average in descending order
     allMovies.sort((a, b) => b.vote_average - a.vote_average);
 
-    // Display the sorted movies
     if (allMovies.length > 0) {
         showMovies(allMovies.slice(0, numberOfMovies));
+        document.getElementById('clear-search-btn').style.display = 'block'; // Show the button
     }
     else {
         main.innerHTML = `<p>No movie with the specified search term found. Please try again.</p>`;
+        document.getElementById('clear-search-btn').style.display = 'none'; // Hide the button if no results
     }
 }
+
+document.getElementById('clear-search-btn').addEventListener('click', () => {
+    location.reload();
+});
 
 function showMovies(movies){
     main.innerHTML = '';
@@ -108,11 +112,9 @@ function showMovies(movies){
         const movieE1 = document.createElement('div');
         const voteAverage = vote_average.toFixed(1);
         movieE1.classList.add('movie');
-
         const movieImage = poster_path
             ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
             : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
-
         movieE1.innerHTML = `
             ${movieImage} 
             <div class="movie-info" style="cursor: pointer;">
@@ -123,12 +125,10 @@ function showMovies(movies){
                 <h4>Movie Overview: </h4>
                 ${overview}
             </div>`;
-
         movieE1.addEventListener('click', () => {
             localStorage.setItem('selectedMovieId', id); // Store the movie ID
             window.location.href = 'movie-details.html';
         });
-
         main.appendChild(movieE1);
     });
 }
@@ -153,7 +153,6 @@ document.addEventListener('DOMContentLoaded', () => {
 async function fetchDirectorDetails(directorId) {
     const directorUrl = `https://api.themoviedb.org/3/person/${directorId}?api_key=c5a20c861acf7bb8d9e987dcc7f1b558`;
     const creditsUrl = `https://api.themoviedb.org/3/person/${directorId}/movie_credits?api_key=c5a20c861acf7bb8d9e987dcc7f1b558`;
-
     try {
         const [directorResponse, creditsResponse] = await Promise.all([
             fetch(directorUrl),
@@ -180,7 +179,6 @@ function populateDirectorDetails(director, credits) {
     const directorImage = document.getElementById('director-image');
     const directorName = document.getElementById('director-name');
     const directorDescription = document.getElementById('director-description');
-
     if (director.profile_path) {
         directorImage.src = `https://image.tmdb.org/t/p/w1280${director.profile_path}`;
         directorName.textContent = director.name;
@@ -194,7 +192,6 @@ function populateDirectorDetails(director, credits) {
         noImageText.style.textAlign = 'center';
         document.querySelector('.director-left').appendChild(noImageText);
     }
-
     directorDescription.innerHTML = `
         <p><strong>Biography:</strong> ${director.biography || 'N/A'}</p>
         <p><strong>Date of Birth:</strong> ${director.birthday || 'N/A'}</p>
@@ -205,7 +202,6 @@ function populateDirectorDetails(director, credits) {
     const filmographyHeading = document.createElement('p');
     filmographyHeading.innerHTML = '<strong>Filmography:</strong> ';
     directorDescription.appendChild(filmographyHeading);
-
     const movieList = document.createElement('div');
     movieList.classList.add('movie-list');
     credits.crew.forEach(movie => {
@@ -235,6 +231,7 @@ function updateClock() {
     var now = new Date();
     var hours = now.getHours();
     var minutes = now.getMinutes();
+    hours = hours < 10 ? '0' + hours : hours;
     minutes = minutes < 10 ? '0' + minutes : minutes;
     var timeString = hours + ':' + minutes;
     document.getElementById('clock').innerHTML = timeString;

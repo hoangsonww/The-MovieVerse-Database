@@ -11,27 +11,46 @@
     <link rel="stylesheet" href="discussions.css"/>
 
     <link rel="icon" type="image/x-icon" href="favicon.ico">
-</head>
 
-<body>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script src="app.js" defer></script>
+</head>
 
 <!-- Create a header for the page -->
 <header>
+    <div id="header-title">
+        <h1 id="my-heading">
+            The Mo<span class="highlight">vieV</span>erse
+        </h1>
+    </div>
+
+    <div id="local-time">
+        <p id="time-label">Current Time:</p>
+        <h2 id="clock" class="clock"></h2>
+    </div>
+
     <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
     <button class="about" onclick="window.location.href='about.html'">About</button>
     <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="Go to your favorites list">Favorites</button>
-    <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 100px">Movie Timeline</button>
-    <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 140px">Movie of the Day</button>
-    <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="margin-bottom: -40px">Trivia Game</button>
-    <h1>Welcome to the MovieVerse Chatbot!</h1>
 
+    <div id="search-container">
+        <form id="form">
+            <input type="text" id="search" placeholder="Search For Any Movie..." class="search" />
+            <button type="button" id="button-search">Search</button>
+        </form>
+    </div>
 </header>
 
-<main>
+<body>
 
-    <!-- Create a heading for the section -->
-    <h2>The MovieVerse Assistant</h2>
-    <h4>Here, you can ask the chatbot about any movie-related topics or questions!</h4>
+<div id="bot-header">
+    <h2 id="search-title">The MovieVerse Assistant</h2>
+    <button id="clear-search-btn" style="display: none;">Clear Search Results</button>
+    <h4 id="alt-title">Here, you can ask the chatbot about any movie-related topics or questions!</h4>
+</div>
+
+<main id="main">
 
     <!-- Chatbot UI -->
     <div id="chatbotContainer">
@@ -41,6 +60,10 @@
     </div>
 
 </main>
+
+<button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 100px">Movie Timeline</button>
+<button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 140px">Movie of the Day</button>
+<button id="trivia-btn" onclick="window.location.href='trivia.html'" style="margin-bottom: -40px">MovieVerse Trivia</button>
 
 <!-- Create a button to go back to the main page -->
 <button id="back-to-top-btn" style="cursor: pointer" onclick="window.location.href='index.html'">Back To Main Page</button>

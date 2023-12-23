@@ -6,6 +6,7 @@ const main = document.getElementById("main");
 const IMGPATH = "https://image.tmdb.org/t/p/w1280";
 const favoriteButton = document.getElementById("favorite-btn");
 const searchTitle = document.getElementById("search-title");
+let initialMainContent;
 
 function getClassByRate(vote){
     if (vote >= 8) {
@@ -90,15 +91,15 @@ async function getMovies(url) {
         allMovies = allMovies.concat(data.results);
     }
 
-    // Sort movies by vote_average in descending order
     allMovies.sort((a, b) => b.vote_average - a.vote_average);
 
-    // Display the sorted movies
     if (allMovies.length > 0) {
         showMovies(allMovies.slice(0, numberOfMovies));
+        document.getElementById('clear-search-btn').style.display = 'block'; // Show the button
     }
     else {
         main.innerHTML = `<p>No movie with the specified search term found. Please try again.</p>`;
+        document.getElementById('clear-search-btn').style.display = 'none'; // Hide the button if no results
     }
 }
 
@@ -142,6 +143,8 @@ function showMovies(movies){
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    initialMainContent = document.getElementById('main').innerHTML;
+
     const movieId = localStorage.getItem('selectedMovieId');
     if (movieId) {
         fetchMovieDetails(movieId);
@@ -149,6 +152,14 @@ document.addEventListener('DOMContentLoaded', () => {
     else {
         document.getElementById('movie-details-container').innerHTML = '<p>Movie details not found.</p>';
     }
+
+    document.getElementById('clear-search-btn').style.display = 'none';
+
+    updateClock();
+});
+
+document.getElementById('clear-search-btn').addEventListener('click', () => {
+    location.reload();
 });
 
 async function fetchMovieDetails(movieId) {
@@ -157,13 +168,11 @@ async function fetchMovieDetails(movieId) {
     const url2 = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${code}&append_to_response=videos`;
 
     try {
-        // Fetch the movie details
         const response = await fetch(url);
         const movie = await response.json();
         const response2 = await fetch(url2);
         const movie2 = await response2.json();
         populateMovieDetails(movie);
-        // Fetch and display the trailer
         const trailers = movie2.videos.results.filter(video => video.type === 'Trailer');
         if (trailers.length > 0) {
             const trailerUrl = `https://www.youtube.com/watch?v=${trailers[0].key}`;
@@ -173,15 +182,18 @@ async function fetchMovieDetails(movieId) {
     catch (error) {
         console.error('Error fetching movie details:', error);
     }
+    const movieDetailsContainer = document.getElementById('movie-details-container');
+    if (movieDetailsContainer.innerHTML.includes('Watch Trailer')) {
+        createTrailerButton(trailerUrl); // Use the appropriate trailer URL
+    }
 }
 
 function createTrailerButton(trailerUrl) {
     const trailerButton = document.createElement('button');
     trailerButton.textContent = 'Watch Trailer';
     trailerButton.onclick = () => window.open(trailerUrl, '_blank');
-    trailerButton.classList.add('trailer-button'); // Add a class for styling
+    trailerButton.classList.add('trailer-button');
 
-    // Find the element to insert the button after
     const movieRating = document.getElementById('movie-rating');
     movieRating.parentNode.insertBefore(trailerButton, movieRating.nextSibling);
 }
@@ -214,12 +226,10 @@ function populateMovieDetails(movie) {
     const movieRating = movie.vote_average.toFixed(1);
     document.getElementById('movie-image').src = `https://image.tmdb.org/t/p/w1280${movie.poster_path}`;
     document.getElementById('movie-title').textContent = movie.title;
-    // document.getElementById('movie-description').textContent = movie.overview;
     document.getElementById('movie-rating').textContent = `IMDB Rating: ${movieRating}`;
     document.title = movie.title + " - Movie Details";
 
     const movieImage = document.getElementById('movie-image');
-    const movieTitle = document.getElementById('movie-title');
     const movieDescription = document.getElementById('movie-description');
 
     if (movie.poster_path) {
@@ -227,7 +237,6 @@ function populateMovieDetails(movie) {
         movieImage.alt = movie.title;
     }
     else {
-        // Hide the image element and show a message
         movieImage.style.display = 'none';
         const noImageText = document.createElement('h2');
         noImageText.textContent = 'Image Not Available';
@@ -290,17 +299,16 @@ function populateMovieDetails(movie) {
         }
     }
 
-    // Display the cast
     const castHeading = document.createElement('p');
     castHeading.innerHTML = '<strong>Cast:</strong> ';
     document.getElementById('movie-description').appendChild(castHeading);
 
     if (movie.credits && movie.credits.cast.length > 0) {
-        const topTenCast = movie.credits.cast.slice(0, 10); // Get only the first 10 actors
+        const topTenCast = movie.credits.cast.slice(0, 10);
         topTenCast.forEach((actor, index) => {
             const actorLink = document.createElement('span');
             actorLink.textContent = actor.name;
-            actorLink.classList.add('actor-link'); // Add class for styling
+            actorLink.classList.add('actor-link');
             actorLink.addEventListener('click', () => {
                 localStorage.setItem('selectedActorId', actor.id);
                 window.location.href = 'actor-details.html';
@@ -308,7 +316,6 @@ function populateMovieDetails(movie) {
 
             castHeading.appendChild(actorLink);
 
-            // Add a comma after each actor name except the last one
             if (index < topTenCast.length - 1) {
                 castHeading.appendChild(document.createTextNode(', '));
             }
@@ -335,14 +342,12 @@ function populateMovieDetails(movie) {
                 movieLink.style.color = 'white';
             });
             movieLink.addEventListener('click', () => {
-                localStorage.setItem('selectedMovieId', similarMovie.id); // Store the clicked movie's ID
-                window.location.href = 'movie-details.html'; // Redirect to the details page
+                localStorage.setItem('selectedMovieId', similarMovie.id);
+                window.location.href = 'movie-details.html';
             });
 
-            // Append the clickable movie link
             similarMoviesHeading.appendChild(movieLink);
 
-            // If not the last movie, add a comma and space
             if (index < movie.similar.results.length - 1) {
                 similarMoviesHeading.appendChild(document.createTextNode(', '));
             }
@@ -351,7 +356,6 @@ function populateMovieDetails(movie) {
     else {
         similarMoviesHeading.appendChild(document.createTextNode('None available.'));
     }
-    // Keywords
     const keywordsElement = document.createElement('p');
     keywordsElement.innerHTML = `<strong>Keywords:</strong> ${keywords}`;
     movieDescription.appendChild(keywordsElement);
@@ -369,7 +373,6 @@ async function showMovieOfTheDay(){
         const movies = data.results;
         const randomMovie = movies[Math.floor(Math.random() * movies.length)];
 
-        // Store the selected movie ID in localStorage and redirect to movie-details page
         localStorage.setItem('selectedMovieId', randomMovie.id);
         window.location.href = 'movie-details.html';
     }
@@ -383,6 +386,7 @@ function updateClock() {
     var now = new Date();
     var hours = now.getHours();
     var minutes = now.getMinutes();
+    hours = hours < 10 ? '0' + hours : hours;
     minutes = minutes < 10 ? '0' + minutes : minutes;
     var timeString = hours + ':' + minutes;
     document.getElementById('clock').innerHTML = timeString;
