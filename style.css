@@ -5,8 +5,8 @@
 }
 
 body {
-    background-image: url("universe.jpg");
-    background-size: 100vw 100vh;
+    background-image: url("https://wallpaperaccess.com/full/433561.jpg");
+    background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -998,19 +998,19 @@ p {
     }
 
     .movie-left img {
-        width: 90% !important;
+        width: 90% !important; /* Full width */
         height: 1000px !important;
         overflow: hidden;
     }
 
     .actor-left img {
-        width: 90% !important;
+        width: 90% !important; /* Full width */
         height: 1000px !important;
         overflow: hidden;
     }
 
     .director-left img {
-        width: 90% !important;
+        width: 90% !important; /* Full width */
         height: 1000px !important;
         overflow: hidden;
     }
@@ -1230,12 +1230,7 @@ p {
 
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
     body {
-        background-size: 100vw 100vh;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-        font-family: "Poppins", sans-serif;
-        margin: 0;
-        align-content: center;
+        background-size: auto;
+        background-repeat: repeat;
     }
 }
