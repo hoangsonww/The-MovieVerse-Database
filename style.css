@@ -5,7 +5,7 @@
 }
 
 body {
-    background-image: url("https://wallpaperaccess.com/full/433561.jpg");
+    background-image: url("universe.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -998,19 +998,19 @@ p {
     }
 
     .movie-left img {
-        width: 90% !important; /* Full width */
+        width: 90% !important;
         height: 1000px !important;
         overflow: hidden;
     }
 
     .actor-left img {
-        width: 90% !important; /* Full width */
+        width: 90% !important;
         height: 1000px !important;
         overflow: hidden;
     }
 
     .director-left img {
-        width: 90% !important; /* Full width */
+        width: 90% !important;
         height: 1000px !important;
         overflow: hidden;
     }
@@ -1230,6 +1230,7 @@ p {
 
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
     body {
+        background-image: url("https://wallpaperaccess.com/full/433561.jpg");
         background-size: auto;
         background-repeat: repeat;
     }

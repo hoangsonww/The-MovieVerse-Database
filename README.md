@@ -63,6 +63,14 @@ Upon launching The MovieVerse, you'll be greeted with a user-friendly interface 
 - Click on any movie card to view its detailed information.
 - Navigate to the About page to learn more about the project and its creator.
 - Return home at any time by clicking the 'Home' button.
+- Chat with our chatbot, MovieBot, to learn more about the application.
+- Create a watchlist by clicking the 'Add to Favorites' button on any movie in its movie-details page.
+- View your watchlist by clicking the 'Favorites' button on the navigation bar.
+- View detailed information about a movie by clicking the 'Details' button on any movie in your watchlist.
+- View detailed information about a director by clicking the 'Details' button on any director in a movie's details page.
+- View detailed information about an actor by clicking the 'Details' button on any actor in a movie's details page.
+- Create a movie timeline by clicking the 'Timeline' button on the navigation bar.
+- And more!
 
 ## Contributing
 
