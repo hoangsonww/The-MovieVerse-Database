@@ -531,6 +531,14 @@ p {
     height: 100vh;
 }
 
+.movie-details-body2 {
+    background-image: url("https://wallpaperaccess.com/full/433561.jpg");
+    background-position: center;
+    height: 100vh;
+    background-size: auto;
+    background-repeat: repeat;
+}
+
 .favorites-btn {
     background-color: #7378c5;
     border: none;
