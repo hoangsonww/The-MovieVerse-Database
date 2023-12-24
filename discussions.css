@@ -535,3 +535,10 @@ main {
     }
 
 }
+
+@media (max-width: 705px) {
+    #search-title,
+    #alt-title {
+        display: none;
+    }
+}
