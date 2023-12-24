@@ -254,9 +254,29 @@ ol li:hover {
     border: 1px solid #ff8623;
 }
 
-#chatbotInput {
-    width: 96.3%;
+#sendButton {
     padding: 10px;
+    margin-top: 10px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 1rem;
+    color: white;
+    background-color: #ff8623;
+    border: none;
+    cursor: pointer;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#sendButton:hover {
+    background-color: #7f4caf;
+    transition: 0.1s linear;
+}
+
+#chatbotInput {
+    width: 100%;
+    padding: 10px 20px;
     border: 1px solid #ff8623;
     border-radius: 8px;
     font-family: inherit;
@@ -264,6 +284,7 @@ ol li:hover {
     background-color: transparent;
     color: white;
     margin-top: 10px;
+    box-sizing: border-box;
 }
 
 #chatbotInput:focus {

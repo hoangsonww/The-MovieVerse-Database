@@ -8,18 +8,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('clear-search-btn').style.display = 'none';
 });
 
-function sendMessage(message) {
-    chatbotBody.innerHTML += `
-        <div style="text-align: right; margin-bottom: 10px; color: white;">You: ${message}</div>
-    `;
-    let botReply = movieVerseResponse(message);  // Renamed function for clarity
-    setTimeout(() => {
-        chatbotBody.innerHTML += `
-            <div style="text-align: left; margin-bottom: 10px; color: #bbb;">MovieVerse Assistant: ${botReply}</div>
-        `;
-    }, 1000);
-}
-
 const search = document.getElementById("search");
 const searchButton = document.getElementById("button-search");
 const searchTitle = document.getElementById("search-title");
@@ -68,6 +56,12 @@ function initializeChatbot() {
             sendMessage(chatbotInput.value);
             chatbotInput.value = "";
         }
+    });
+
+    const sendButton = document.getElementById("sendButton");
+    sendButton.addEventListener("click", function() {
+        sendMessage(chatbotInput.value);
+        chatbotInput.value = "";
     });
 
     // Define the sendMessage function inside initializeChatbot to ensure scope
