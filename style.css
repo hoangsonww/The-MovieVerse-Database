@@ -6,7 +6,7 @@
 
 body {
     background-image: url("universe.jpg");
-    background-size: cover;
+    background-size: 100vw 100vh;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -1230,8 +1230,12 @@ p {
 
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
     body {
-        background-image: url("https://wallpaperaccess.com/full/433561.jpg");
-        background-size: auto;
-        background-repeat: repeat;
+        background-size: 100vw 100vh;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        font-family: "Poppins", sans-serif;
+        margin: 0;
+        align-content: center;
     }
 }
