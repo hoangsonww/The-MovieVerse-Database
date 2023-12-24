@@ -193,11 +193,11 @@ function createTrailerButton(trailerUrl) {
     trailerButton.textContent = 'Watch Trailer';
     trailerButton.onclick = () => window.open(trailerUrl, '_blank');
     trailerButton.classList.add('trailer-button');
+    trailerButton.style.font = 'inherit';
 
     const movieRating = document.getElementById('movie-rating');
     movieRating.parentNode.insertBefore(trailerButton, movieRating.nextSibling);
 }
-
 
 function toggleFavorite(movie) {
     let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
