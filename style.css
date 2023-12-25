@@ -5,7 +5,7 @@
 }
 
 body {
-    background-image: url("universe.jpg");
+    background-image: url("./images/universe.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -524,7 +524,7 @@ p {
 }
 
 .movie-details-body {
-    background-image: url("universe.jpg");
+    background-image: url("./images/universe.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -532,7 +532,7 @@ p {
 }
 
 .movie-details-body2 {
-    background-image: url("universe.jpg");
+    background-image: url("./images/universe.jpg");
     background-position: center;
     height: 100vh;
     background-size: auto;

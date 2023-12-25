@@ -287,6 +287,10 @@ ol li:hover {
     box-sizing: border-box;
 }
 
+.highlight {
+    color: #ffd06d;
+}
+
 #chatbotInput:focus {
     outline: none;
     background-color: #ff8623;
