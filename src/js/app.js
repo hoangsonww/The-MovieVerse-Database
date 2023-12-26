@@ -126,12 +126,23 @@ async function getMovies(url, mainElement) {
     const numberOfMovies = calculateMoviesToDisplay();
     const pagesToFetch = numberOfMovies <= 20 ? 1 : 2;
     let allMovies = [];
+
     for (let page = 1; page <= pagesToFetch; page++) {
         const response = await fetch(`${url}&page=${page}`);
         const data = await response.json();
         allMovies = allMovies.concat(data.results);
     }
-    allMovies.sort((a, b) => b.vote_average - a.vote_average);
+
+    const popularityThreshold = 0.5;
+
+    allMovies.sort((a, b) => {
+        const popularityDifference = Math.abs(a.popularity - b.popularity);
+        if (popularityDifference < popularityThreshold) {
+            return b.vote_average - a.vote_average;
+        }
+        return b.popularity - a.popularity;
+    });
+
     if (allMovies.length > 0) {
         showMovies(allMovies.slice(0, numberOfMovies), mainElement);
         document.getElementById('clear-search-btn').style.display = 'inline-block'; // Show the button
@@ -140,6 +151,7 @@ async function getMovies(url, mainElement) {
         mainElement.innerHTML = `<p>No movie with the specified search term found. Please try again.</p>`;
         document.getElementById('clear-search-btn').style.display = 'none'; // Hide the button if no results
     }
+
     document.getElementById('alt-title').innerHTML = '';
 }
 

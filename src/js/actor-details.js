@@ -1,6 +1,6 @@
 const search = document.getElementById("search");
 const searchButton = document.getElementById("button-search");
-const form = document.getElementById("form");
+const form = document.getElementById("form1");
 const SEARCHPATH = "https://api.themoviedb.org/3/search/movie?&api_key=c5a20c861acf7bb8d9e987dcc7f1b558&query=";
 const main = document.getElementById("main");
 const IMGPATH = "https://image.tmdb.org/t/p/w1280";
@@ -94,7 +94,15 @@ async function getMovies(url) {
         allMovies = allMovies.concat(data.results);
     }
 
-    allMovies.sort((a, b) => b.vote_average - a.vote_average);
+    const popularityThreshold = 0.5;
+
+    allMovies.sort((a, b) => {
+        const popularityDifference = Math.abs(a.popularity - b.popularity);
+        if (popularityDifference < popularityThreshold) {
+            return b.vote_average - a.vote_average;
+        }
+        return b.popularity - a.popularity;
+    });
 
     if (allMovies.length > 0) {
         showMovies(allMovies.slice(0, numberOfMovies));

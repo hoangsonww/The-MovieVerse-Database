@@ -1,11 +1,12 @@
 const search = document.getElementById("search");
 const searchButton = document.getElementById("button-search");
-const form = document.getElementById("form");
+const form = document.getElementById("form1");
 const SEARCHPATH = "https://api.themoviedb.org/3/search/movie?&api_key=c5a20c861acf7bb8d9e987dcc7f1b558&query=";
 const main = document.getElementById("main");
 const IMGPATH = "https://image.tmdb.org/t/p/w1280";
 const favoriteButton = document.getElementById("favorite-btn");
 const searchTitle = document.getElementById("search-title");
+
 let initialMainContent;
 
 function getClassByRate(vote){
@@ -27,7 +28,6 @@ form.addEventListener('submit', (e) => {
     if (searchTerm) {
         getMovies(SEARCHPATH + searchTerm);
         searchTitle.innerHTML = 'Search Results for: ' + searchTerm;
-        otherTitle.innerHTML = 'Check out other movies:';
         search.value = '';
     }
     else {
@@ -42,7 +42,6 @@ searchButton.addEventListener('click', (e) => {
     if (searchTerm) {
         getMovies(SEARCHPATH + searchTerm);
         searchTitle.innerHTML = 'Search Results for: ' + searchTerm;
-        otherTitle.innerHTML = 'Check out other movies:';
         search.value = '';
     }
     else {
@@ -91,7 +90,15 @@ async function getMovies(url) {
         allMovies = allMovies.concat(data.results);
     }
 
-    allMovies.sort((a, b) => b.vote_average - a.vote_average);
+    const popularityThreshold = 0.5;
+
+    allMovies.sort((a, b) => {
+        const popularityDifference = Math.abs(a.popularity - b.popularity);
+        if (popularityDifference < popularityThreshold) {
+            return b.vote_average - a.vote_average;
+        }
+        return b.popularity - a.popularity;
+    });
 
     if (allMovies.length > 0) {
         showMovies(allMovies.slice(0, numberOfMovies));
@@ -182,10 +189,6 @@ async function fetchMovieDetails(movieId) {
     catch (error) {
         console.error('Error fetching movie details:', error);
     }
-    const movieDetailsContainer = document.getElementById('movie-details-container');
-    if (movieDetailsContainer.innerHTML.includes('Watch Trailer')) {
-        createTrailerButton(trailerUrl); // Use the appropriate trailer URL
-    }
 }
 
 function createTrailerButton(trailerUrl) {
@@ -250,7 +253,6 @@ function populateMovieDetails(movie) {
     const runtime = movie.runtime + ' minutes';
     const budget = movie.budget === 0 ? 'Unknown' : `$${movie.budget.toLocaleString()}`;
     const revenue = movie.revenue === 0 ? 'Unknown' : `$${movie.revenue.toLocaleString()}`;
-    const productionCompanies = movie.production_companies.map(pc => pc.name).join(', ');
     const tagline = movie.tagline ? movie.tagline : 'No tagline found';
     const languages = movie.spoken_languages.map(lang => lang.name).join(', ');
     const countries = movie.production_countries.map(country => country.name).join(', ');
@@ -273,7 +275,6 @@ function populateMovieDetails(movie) {
         <p><strong>Runtime:</strong> ${runtime}</p>
         <p><strong>Budget:</strong> ${budget}</p>
         <p><strong>Revenue:</strong> ${revenue}</p>
-        <p><strong>Production Companies:</strong> ${productionCompanies}</p>
         <p><strong>Tagline:</strong> ${tagline}</p>
         <p><strong>Languages:</strong> ${languages}</p>
         <p><strong>Countries of Production:</strong> ${countries}</p>
@@ -325,6 +326,32 @@ function populateMovieDetails(movie) {
         castHeading.appendChild(document.createTextNode('None available.'));
     }
 
+    const productionCompanies = movie.production_companies;
+    const productionCompaniesElement = document.createElement('p');
+    productionCompaniesElement.innerHTML = '<strong>Production Companies:</strong> ';
+
+    productionCompanies.forEach((company, index) => {
+        const companyLink = document.createElement('a');
+        companyLink.textContent = company.name;
+        companyLink.style.cursor = 'pointer';
+        companyLink.style.textDecoration = 'underline';
+        companyLink.href = '#';
+        companyLink.classList.add('company-link');
+        companyLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.setItem('selectedCompanyId', company.id);
+            window.location.href = 'company-details.html';
+        });
+
+        productionCompaniesElement.appendChild(companyLink);
+
+        if (index < productionCompanies.length - 1) {
+            productionCompaniesElement.appendChild(document.createTextNode(', '));
+        }
+    });
+
+    document.getElementById('movie-description').appendChild(productionCompaniesElement);
+
     const similarMoviesHeading = document.createElement('p');
     similarMoviesHeading.innerHTML = '<strong>Similar Movies:</strong> ';
     document.getElementById('movie-description').appendChild(similarMoviesHeading);
@@ -356,6 +383,7 @@ function populateMovieDetails(movie) {
     else {
         similarMoviesHeading.appendChild(document.createTextNode('None available.'));
     }
+
     const keywordsElement = document.createElement('p');
     keywordsElement.innerHTML = `<strong>Keywords:</strong> ${keywords}`;
     movieDescription.appendChild(keywordsElement);

@@ -1,6 +1,6 @@
 const search = document.getElementById("search");
 const searchButton = document.getElementById("button-search");
-const form = document.getElementById("form1");
+const form = document.getElementById("form");
 const SEARCHPATH = "https://api.themoviedb.org/3/search/movie?&api_key=c5a20c861acf7bb8d9e987dcc7f1b558&query=";
 const main = document.getElementById("main");
 const IMGPATH = "https://image.tmdb.org/t/p/w1280";
@@ -21,31 +21,29 @@ function getClassByRate(vote){
 form.addEventListener('submit', (e) => {
     e.preventDefault();
     const searchTerm = search.value.trim();
+
     if (searchTerm) {
         getMovies(SEARCHPATH + searchTerm);
         searchTitle.innerHTML = 'Search Results for: ' + searchTerm;
-        otherTitle.innerHTML = 'Check out other movies:';
         search.value = '';
     }
     else {
         searchTitle.innerHTML = 'Please enter a search term.';
     }
-    document.getElementById('clear-search-btn').style.display = 'block';
 });
 
 searchButton.addEventListener('click', (e) => {
     e.preventDefault();
     const searchTerm = search.value;
+
     if (searchTerm) {
         getMovies(SEARCHPATH + searchTerm);
         searchTitle.innerHTML = 'Search Results for: ' + searchTerm;
-        otherTitle.innerHTML = 'Check out other movies:';
         search.value = '';
     }
     else {
         searchTitle.innerHTML = 'Please enter a search term.';
     }
-    document.getElementById('clear-search-btn').style.display = 'block';
 });
 
 function calculateMoviesToDisplay() {
@@ -101,17 +99,24 @@ async function getMovies(url) {
 
     if (allMovies.length > 0) {
         showMovies(allMovies.slice(0, numberOfMovies));
-        document.getElementById('clear-search-btn').style.display = 'block'; // Show the button
+        document.getElementById('clear-search-btn').style.display = 'block';
     }
     else {
         main.innerHTML = `<p>No movie with the specified search term found. Please try again.</p>`;
-        document.getElementById('clear-search-btn').style.display = 'none'; // Hide the button if no results
+        document.getElementById('clear-search-btn').style.display = 'none';
     }
 }
 
 document.getElementById('clear-search-btn').addEventListener('click', () => {
-    location.reload();
+    window.location.reload();
 });
+
+function clearMovieDetails() {
+    const companyDetailsContainer = document.getElementById('company-details-container');
+    if (companyDetailsContainer) {
+        companyDetailsContainer.innerHTML = '';
+    }
+}
 
 function showMovies(movies){
     main.innerHTML = '';
@@ -120,9 +125,11 @@ function showMovies(movies){
         const movieE1 = document.createElement('div');
         const voteAverage = vote_average.toFixed(1);
         movieE1.classList.add('movie');
+
         const movieImage = poster_path
             ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
             : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
+
         movieE1.innerHTML = `
             ${movieImage} 
             <div class="movie-info" style="cursor: pointer;">
@@ -133,106 +140,123 @@ function showMovies(movies){
                 <h4>Movie Overview: </h4>
                 ${overview}
             </div>`;
+
         movieE1.addEventListener('click', () => {
-            localStorage.setItem('selectedMovieId', id); // Store the movie ID
+            localStorage.setItem('selectedMovieId', id);
             window.location.href = 'movie-details.html';
         });
+
         main.appendChild(movieE1);
     });
 }
 
-function clearMovieDetails() {
-    const movieDetailsContainer = document.getElementById('director-details-container');
-    if (movieDetailsContainer) {
-        movieDetailsContainer.innerHTML = '';
-    }
-}
-
 document.addEventListener('DOMContentLoaded', () => {
-    const directorId = localStorage.getItem('selectedDirectorId');
-    if (directorId) {
-        fetchDirectorDetails(directorId);
-    }
-    else {
-        document.getElementById('director-details-container').innerHTML = '<p>Director details not found.</p>';
+    const companyId = localStorage.getItem('selectedCompanyId');
+    if (companyId) {
+        fetchCompanyDetails(companyId);
+        fetchCompanyMovies(companyId);
     }
 });
 
-async function fetchDirectorDetails(directorId) {
-    const directorUrl = `https://api.themoviedb.org/3/person/${directorId}?api_key=c5a20c861acf7bb8d9e987dcc7f1b558`;
-    const creditsUrl = `https://api.themoviedb.org/3/person/${directorId}/movie_credits?api_key=c5a20c861acf7bb8d9e987dcc7f1b558`;
+async function fetchCompanyDetails(companyId) {
+    const url = `https://api.themoviedb.org/3/company/${companyId}?api_key=c5a20c861acf7bb8d9e987dcc7f1b558`;
     try {
-        const [directorResponse, creditsResponse] = await Promise.all([
-            fetch(directorUrl),
-            fetch(creditsUrl)
-        ]);
+        const response = await fetch(url);
+        const company = await response.json();
 
-        const director = await directorResponse.json();
-        const credits = await creditsResponse.json();
+        const logoImg = document.getElementById('company-logo');
+        if (company.logo_path) {
+            logoImg.src = `https://image.tmdb.org/t/p/w500${company.logo_path}`;
+        } else {
+            logoImg.style.display = 'none';
+            const logoFallbackText = document.createElement('p');
+            logoFallbackText.textContent = 'Logo Not Available';
+            logoImg.parentNode.insertBefore(logoFallbackText, logoImg);
+        }
 
-        if (director.success === false) {
-            document.getElementById('director-details-container').innerHTML = '<h2>No Information is Available for this Director</h2>';
+        document.getElementById('company-name').textContent = company.name || 'Name Not Available';
+        document.getElementById('company-headquarters').textContent = company.headquarters || 'Headquarters Not Available';
+        document.getElementById('company-country').textContent = company.origin_country || 'Country Not Available';
+
+        const homepage = company.homepage || '#';
+        const companyWebsite = document.getElementById('company-website');
+        if (homepage !== '#') {
+            companyWebsite.href = homepage;
+            companyWebsite.textContent = homepage;
         }
         else {
-            populateDirectorDetails(director, credits);
+            companyWebsite.textContent = 'Website Not Available';
         }
     }
     catch (error) {
-        console.error('Error fetching director details:', error);
-        document.getElementById('director-details-container').innerHTML = '<h2>Error fetching director details</h2>';
+        console.error('Error fetching company details:', error);
     }
 }
 
-function populateDirectorDetails(director, credits) {
-    const directorImage = document.getElementById('director-image');
-    const directorName = document.getElementById('director-name');
-    const directorDescription = document.getElementById('director-description');
-    if (director.profile_path) {
-        directorImage.src = `https://image.tmdb.org/t/p/w1280${director.profile_path}`;
-        directorName.textContent = director.name;
-        document.title = `${director.name} - Director's Details`;
-    }
-    else {
-        directorImage.style.display = 'none';
-        directorName.textContent = director.name;
-        const noImageText = document.createElement('h2');
-        noImageText.textContent = 'Image Not Available';
-        noImageText.style.textAlign = 'center';
-        document.querySelector('.director-left').appendChild(noImageText);
-    }
-    directorDescription.innerHTML = `
-        <p><strong>Biography:</strong> ${director.biography || 'N/A'}</p>
-        <p><strong>Date of Birth:</strong> ${director.birthday || 'N/A'}</p>
-        <p><strong>Age:</strong> ${director.birthday ? calculateAge(director.birthday) : 'N/A'}</p>
-        <p><strong>Place of Birth:</strong> ${director.place_of_birth || 'N/A'}</p>
-        <p><strong>Known For:</strong> Directing</p>
-    `;
-    const filmographyHeading = document.createElement('p');
-    filmographyHeading.innerHTML = '<strong>Filmography:</strong> ';
-    directorDescription.appendChild(filmographyHeading);
-    const movieList = document.createElement('div');
-    movieList.classList.add('movie-list');
-    credits.crew.forEach(movie => {
-        if (movie.job === "Director") {
-            const movieLink = document.createElement('span');
-            movieLink.textContent = movie.title;
-            movieLink.classList.add('movie-link');
-            movieLink.addEventListener('click', () => {
-                localStorage.setItem('selectedMovieId', movie.id);
-                window.location.href = 'movie-details.html';
-            });
-            movieList.appendChild(movieLink);
-            movieList.appendChild(document.createTextNode(', '));
+async function fetchCompanyMovies(companyId) {
+    const url = `https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_companies=${companyId}`;
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        if (data.results.length === 0) {
+            const companyMoviesContainer = document.getElementById('company-movies-container');
+            companyMoviesContainer.innerHTML = `<p>No movies found for this company.</p>`;
+            return;
         }
-    });
-    filmographyHeading.appendChild(movieList);
+        displayCompanyMovies(data.results);
+    }
+    catch (error) {
+        console.error('Error fetching movies:', error);
+    }
 }
 
-function calculateAge(dob) {
-    const date = new Date(dob);
-    const ageDifMs = Date.now() - date.getTime();
-    const ageDate = new Date(ageDifMs);
-    return Math.abs(ageDate.getUTCFullYear() - 1970);
+async function showMovieOfTheDay(){
+    const year = new Date().getFullYear();
+    const url = `https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        const movies = data.results;
+        const randomMovie = movies[Math.floor(Math.random() * movies.length)];
+
+        localStorage.setItem('selectedMovieId', randomMovie.id);
+        window.location.href = 'movie-details.html';
+    }
+    catch (error) {
+        console.error('Error fetching movie:', error);
+        alert('Failed to fetch the movie of the day. Please try again later.');
+    }
+}
+
+function displayCompanyMovies(movies) {
+    const moviesList = document.getElementById('company-movies-list');
+    movies.forEach((movie, index) => {
+        const movieContainer = document.createElement('span');
+
+        const movieLink = document.createElement('span');
+        movieLink.textContent = movie.title;
+        movieLink.style.cursor = 'pointer';
+        movieLink.style.textDecoration = 'underline';
+        movieLink.addEventListener('mouseenter', () => {
+            movieLink.style.color = '#f509d9';
+        });
+        movieLink.addEventListener('mouseleave', () => {
+            movieLink.style.color = 'white';
+        });
+        movieLink.addEventListener('click', () => {
+            localStorage.setItem('selectedMovieId', movie.id);
+            window.location.href = 'movie-details.html';
+        });
+
+        movieContainer.appendChild(movieLink);
+
+        if (index < movies.length - 1) {
+            movieContainer.appendChild(document.createTextNode(','));
+        }
+
+        moviesList.appendChild(movieContainer);
+    });
 }
 
 function updateClock() {

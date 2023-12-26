@@ -23,12 +23,23 @@ async function getMovies(url) {
     const numberOfMovies = calculateMoviesToDisplay();
     const pagesToFetch = numberOfMovies <= 20 ? 1 : 2;
     let allMovies = [];
+
     for (let page = 1; page <= pagesToFetch; page++) {
         const response = await fetch(`${url}&page=${page}`);
         const data = await response.json();
         allMovies = allMovies.concat(data.results);
     }
-    allMovies.sort((a, b) => b.vote_average - a.vote_average);
+
+    const popularityThreshold = 0.5;
+
+    allMovies.sort((a, b) => {
+        const popularityDifference = Math.abs(a.popularity - b.popularity);
+        if (popularityDifference < popularityThreshold) {
+            return b.vote_average - a.vote_average;
+        }
+        return b.popularity - a.popularity;
+    });
+
     if (allMovies.length > 0) {
         showMovies(allMovies.slice(0, numberOfMovies), main);
     }
@@ -43,6 +54,8 @@ function clearMovieDetails() {
         movieDetailsContainer.innerHTML = '';
     }
 }
+
+const form = document.getElementById('form1');
 
 form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -173,19 +186,6 @@ function getClassByRate(vote) {
     }
 }
 
-function updateClock() {
-    var now = new Date();
-    var hours = now.getHours();
-    var minutes = now.getMinutes();
-    hours = hours < 10 ? '0' + hours : hours;
-    minutes = minutes < 10 ? '0' + minutes : minutes;
-    var timeString = hours + ':' + minutes;
-    document.getElementById('clock').innerHTML = timeString;
-}
-
-setInterval(updateClock, 1000);
-window.onload = updateClock;
-
 async function showMovieOfTheDay(){
     const year = new Date().getFullYear();
     const url = `https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
@@ -202,3 +202,16 @@ async function showMovieOfTheDay(){
         alert('Failed to fetch the movie of the day. Please try again later.');
     }
 }
+
+function updateClock() {
+    var now = new Date();
+    var hours = now.getHours();
+    var minutes = now.getMinutes();
+    hours = hours < 10 ? '0' + hours : hours;
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    var timeString = hours + ':' + minutes;
+    document.getElementById('clock').innerHTML = timeString;
+}
+
+setInterval(updateClock, 1000);
+window.onload = updateClock;

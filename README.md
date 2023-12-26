@@ -81,16 +81,20 @@ Upon launching The MovieVerse, you'll be greeted with a user-friendly interface 
 - [MySQL](https://www.mysql.com/)
 - [Apache Cordova](https://cordova.apache.org/)
 - [Bootstrap](https://getbootstrap.com/)
-- [Material UI](https://material-ui.com/)
 - [React Bootstrap](https://react-bootstrap.github.io/)
-- [React Router](https://reactrouter.com/)
 - [React Icons](https://react-icons.github.io/react-icons/)
 - [Django](https://www.djangoproject.com/)
 - [Django REST Framework](https://www.django-rest-framework.org/)
-- [Python](https://www.python.org/)
-- [JavaScript](https://www.javascript.com/)
-- [SASS](https://sass-lang.com/)s
+- [Flask](https://flask.palletsprojects.com/en/1.1.x/)
+- [Flask RESTful](https://flask-restful.readthedocs.io/en/latest/)
+- [SASS](https://sass-lang.com/)
 - [Single Spa](https://single-spa.js.org/)
+- [Webpack](https://webpack.js.org/)
+- [Babel](https://babeljs.io/)
+- [Docker](https://www.docker.com/)
+- [JavaScript](https://www.javascript.com/)
+- [HTML](https://html.com/)
+- [CSS](https://www.w3.org/Style/CSS/Overview.en.html)
 
 ## Contributing
 
@@ -116,4 +120,4 @@ Project Link: [https://github.com/hoangsonww/The-MovieVerse-Database](https://gi
 
 ---
 
-Remember, The MovieVerse is an ever-evolving platform. I am continually enhancing the user experience and adding new features, like the Movie Timeline, to help you navigate the vast sea of cinema with ease and excitement.
+Please also note that the MovieVerse is an ever-evolving platform. I am continually enhancing the user experience and adding new features, like the Movie Timeline, to help you navigate the vast sea of cinema with ease and excitement.

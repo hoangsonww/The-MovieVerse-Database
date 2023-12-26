@@ -24,6 +24,10 @@ body {
     min-height: 100vh;
 }
 
+#form {
+    margin-top: -14px;
+}
+
 .overview {
     position: absolute;
     padding: 2rem;
@@ -68,7 +72,7 @@ body {
     text-align: center;
     background-color: transparent;
     margin-top: 50px;
-    margin-left: 35px;
+    left: 50%;
 }
 
 .movie {
@@ -287,8 +291,8 @@ ol li:hover {
     box-sizing: border-box;
 }
 
-.highlight {
-    color: #ffd06d;
+.highlight1 {
+    color: orange;
 }
 
 #chatbotInput:focus {
@@ -567,3 +571,17 @@ main {
         display: none;
     }
 }
+
+#movie-match-btn2 {
+    position: fixed;
+    bottom: 180px;
+    right: 30px;
+    background-color: #7378c5;
+    font: inherit;
+    color: black;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    z-index: 1000;
+}
+

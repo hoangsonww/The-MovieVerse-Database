@@ -119,11 +119,18 @@ async function getMovies(url) {
         allMovies = allMovies.concat(data.results);
     }
 
-    // Sort movies by vote_average in descending order
-    allMovies.sort((a, b) => b.vote_average - a.vote_average);
+    const popularityThreshold = 0.5;
+
+    allMovies.sort((a, b) => {
+        const popularityDifference = Math.abs(a.popularity - b.popularity);
+        if (popularityDifference < popularityThreshold) {
+            return b.vote_average - a.vote_average;
+        }
+        return b.popularity - a.popularity;
+    });
+
     document.getElementById('clear-search-btn').style.display = 'block';
 
-    // Display the sorted movies
     if (allMovies.length > 0) {
         showMovies(allMovies.slice(0, numberOfMovies));
         document.getElementById('clear-search-btn').style.display = 'none'; // Hide the button if no results

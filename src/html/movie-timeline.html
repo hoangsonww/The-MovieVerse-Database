@@ -9,18 +9,18 @@
     <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
 </head>
 <body class="movie-details-body">
-    <header style="margin-bottom: -50px">
+    <header style="margin-bottom: -20px">
         <h1 id="my-heading">
             The Movie Timeline
         </h1>
-        <div id="local-time">
+        <div id="local-time" style="margin-left: -20px">
             <p id="time-label">Current Time:</p>
             <h1 id="clock" class="clock"></h1>
         </div>
         <button class="back-btn" onclick="window.location.href='../../index.html'">Home</button>
         <button class="about" onclick="window.location.href='about.html'">About</button>
         <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="Go to your favorites list">Favorites</button>
-        <form id="form">
+        <form id="form1">
             <input
                     type="text"
                     id="search"
@@ -44,6 +44,9 @@
             <!-- Movies will be dynamically loaded here -->
         </div>
     </div>
+
+    <button id="movie-match-btn2" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!">Movie Match</button>
+
     <!-- Create a button to go to the Movie of the Day page -->
     <button id="movie-of-the-day-btn2" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!">Movie of the Day</button>
 
