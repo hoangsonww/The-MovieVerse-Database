@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>MovieVerse Trivia</title>
+    <link rel="stylesheet" href="../css/trivia.css">
+    <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body>
+
+    <header style="margin-bottom: -50px">
+        <h1 id="my-heading">
+            The Mo<span class="highlight">vieV</span>erse
+        </h1>
+
+        <button class="back-btn" onclick="window.location.href='../../index.html'">Home</button>
+        <button class="about" onclick="window.location.href='about.html'">About</button>
+        <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="Go to your favorites list">Favorites</button>
+
+        <form id="form">
+            <input
+                    type="text"
+                    id="search"
+                    placeholder="Search For Any Movie..."
+                    class="search"
+            />
+            <button type="button" id="button-search" onclick="">Search</button>
+        </form>
+    </header>
+
+    <div>
+        <h1 id="trivia-label">Movie Trivia Quiz</h1>
+        <button id="clear-search-btn">Clear Search Results</button>
+    </div>
+
+    <main id="main"></main>
+
+    <form id="quiz-form" style="margin-bottom: 30px">
+        <div id="quiz-container"></div>
+        <button type="button" id="regenerate-questions" style="color: black">Get New Questions</button>
+        <button type="submit" id="submit" style="color: black">Submit Answers</button>
+    </form>
+
+    <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 140px">Movie Timeline</button>
+    <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 100px">Movie of the Day</button>
+    <button id="discussions-btn" onclick="window.location.href='discussions.html'" title="Want to know more about movies? Chat with our intelligent chatbot!" style="bottom: 60px">MovieVerse Chatbot</button>
+    <button id="back-to-top-btn" onclick="window.location.href='../../index.html'">Back To Main Page</button>
+
+    <script src="../js/quiz.js"></script>
+
+</body>
+
+</html>

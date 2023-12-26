@@ -288,7 +288,7 @@ function populateMovieDetails(movie) {
         if (director) {
             const directorAge = director.birthday ? calculateAge(director.birthday) : 'N/A';
             const directorElement = document.createElement('p');
-            directorElement.innerHTML = `<strong>Director:</strong> <a href="director-details.html" class="director-link">${director.name}</a>`;
+            directorElement.innerHTML = `<strong>Director:</strong> <a href="../html/director-details.html" class="director-link">${director.name}</a>`;
             directorElement.querySelector('.director-link').addEventListener('click', (e) => {
                 e.preventDefault();
                 localStorage.setItem('selectedDirectorId', director.id);

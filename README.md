@@ -72,6 +72,26 @@ Upon launching The MovieVerse, you'll be greeted with a user-friendly interface 
 - Create a movie timeline by clicking the 'Timeline' button on the navigation bar.
 - And more!
 
+## Technologies
+- [React](https://reactjs.org/)
+- [Vue](https://vuejs.org/)
+- [Node.js](https://nodejs.org/en/)
+- [Express](https://expressjs.com/)
+- [MongoDB](https://www.mongodb.com/)
+- [MySQL](https://www.mysql.com/)
+- [Apache Cordova](https://cordova.apache.org/)
+- [Bootstrap](https://getbootstrap.com/)
+- [Material UI](https://material-ui.com/)
+- [React Bootstrap](https://react-bootstrap.github.io/)
+- [React Router](https://reactrouter.com/)
+- [React Icons](https://react-icons.github.io/react-icons/)
+- [Django](https://www.djangoproject.com/)
+- [Django REST Framework](https://www.django-rest-framework.org/)
+- [Python](https://www.python.org/)
+- [JavaScript](https://www.javascript.com/)
+- [SASS](https://sass-lang.com/)s
+- [Single Spa](https://single-spa.js.org/)
+
 ## Contributing
 
 Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.

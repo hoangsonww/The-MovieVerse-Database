@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Actor Details</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Director Details</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/director-details.js" defer></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="actor-details.js" defer></script>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
 </head>
 
 <body class="movie-details-body">
@@ -18,7 +18,7 @@
             <p id="time-label">Current Time:</p>
             <h1 id="clock" class="clock"></h1>
         </div>
-        <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+        <button class="back-btn" onclick="window.location.href='../../index.html'">Home</button>
         <button class="about" onclick="window.location.href='about.html'">About</button>
         <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="Go to your favorites list">Favorites</button>
         <form id="form">
@@ -37,24 +37,24 @@
         <button id="clear-search-btn" style="display: none;">Clear Search Results</button>
     </div>
 
-    <main id="main" style="margin-left: 25px">
+    <main id="main" style="margin-left: 25px; margin-bottom: -40px">
 
     </main>
 
-    <div class="details-container" id="actor-details-container">
-        <!-- Left side for Actor Image -->
-        <div class="actor-left">
-            <h2 id="actor-name" class="actor-header"></h2>
-            <img id="actor-image" alt="Actor Image" style="width: 25vw"/>
+    <div class="details-container" id="director-details-container">
+        <!-- Left side for Director Image -->
+        <div class="director-left">
+            <h2 id="director-name" class="director-header"></h2>
+            <img id="director-image" alt="director Image" style="width: 25vw"/>
         </div>
 
         <!-- Right side for Description and Info -->
-        <div class="actor-right" id="actor-description">
-            <!-- Actor details will be populated here -->
+        <div class="director-right" id="director-description">
+            <!-- Director details will be populated here -->
         </div>
     </div>
 
-    <script src="actor-details.js"></script>
+    <script src="../js/director-details.js"></script>
 
     <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 115px">Movie Timeline</button>
 
@@ -66,5 +66,25 @@
     <!-- Create a button to go to the Trivia Game page -->
     <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="margin-bottom: -50px" title="Play a quick trivia to test your knowledge about movies!">MovieVerse Trivia</button>
 </body>
+
+<script>
+    async function showMovieOfTheDay() {
+        const year = new Date().getFullYear();
+        const url = `https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            const movies = data.results;
+            const randomMovie = movies[Math.floor(Math.random() * movies.length)];
+
+            localStorage.setItem('selectedMovieId', randomMovie.id);
+            window.location.href = './movie-details.html';
+        }
+        catch (error) {
+            console.error('Error fetching movie:', error);
+            alert('Failed to fetch the movie of the day. Please try again later.');
+        }
+    }
+</script>
 
 </html>
