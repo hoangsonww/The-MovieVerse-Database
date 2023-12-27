@@ -173,13 +173,15 @@ async function fetchMovieDetails(movieId) {
     const code = 'c5a20c861acf7bb8d9e987dcc7f1b558';
     const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${code}&append_to_response=credits,keywords,similar`;
     const url2 = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${code}&append_to_response=videos`;
+    const imdbUrl = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${code}&append_to_response=external_ids`;
 
     try {
         const response = await fetch(url);
         const movie = await response.json();
+        const imdbId = movie.imdb_id;
+        fetchImdbRating(imdbId, movie);
         const response2 = await fetch(url2);
         const movie2 = await response2.json();
-        populateMovieDetails(movie);
         const trailers = movie2.videos.results.filter(video => video.type === 'Trailer');
         if (trailers.length > 0) {
             const trailerUrl = `https://www.youtube.com/watch?v=${trailers[0].key}`;
@@ -188,6 +190,22 @@ async function fetchMovieDetails(movieId) {
     }
     catch (error) {
         console.error('Error fetching movie details:', error);
+    }
+}
+
+async function fetchImdbRating(imdbId, movieData) {
+    const omdbApiKey = '2ba8e536';
+    const omdbUrl = `http://www.omdbapi.com/?i=${imdbId}&apikey=${omdbApiKey}`;
+
+    try {
+        const response = await fetch(omdbUrl);
+        const imdbData = await response.json();
+        const imdbRating = imdbData.imdbRating;
+        populateMovieDetails(movieData, imdbRating);
+    }
+    catch (error) {
+        console.error('Error fetching IMDb rating:', error);
+        populateMovieDetails(movieData, 'N/A');
     }
 }
 
@@ -225,11 +243,12 @@ function updateFavoriteButton(movieId) {
     }
 }
 
-function populateMovieDetails(movie) {
+function populateMovieDetails(movie, imdbRating) {
     const movieRating = movie.vote_average.toFixed(1);
     document.getElementById('movie-image').src = `https://image.tmdb.org/t/p/w1280${movie.poster_path}`;
     document.getElementById('movie-title').textContent = movie.title;
-    document.getElementById('movie-rating').textContent = `IMDB Rating: ${movieRating}`;
+    const imdbLink = `https://www.imdb.com/title/${movie.imdb_id}`;
+    document.getElementById('movie-rating').innerHTML = `<a href="${imdbLink}" target="_blank" style="text-decoration: none; color: inherit;" title="Click to go to its IMDb page!">IMDB Rating: ${imdbRating}</a>`;
     document.title = movie.title + " - Movie Details";
 
     const movieImage = document.getElementById('movie-image');
@@ -244,7 +263,7 @@ function populateMovieDetails(movie) {
         const noImageText = document.createElement('h2');
         noImageText.textContent = 'Image Not Available';
         noImageText.style.textAlign = 'center';
-        document.querySelector('.movie-left').appendChild(noImageText); // Append this message in the left section
+        document.querySelector('.movie-left').appendChild(noImageText);
     }
 
     const overview = movie.overview;
