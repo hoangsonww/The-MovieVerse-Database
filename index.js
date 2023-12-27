@@ -1,7 +1,3 @@
-/**
- * The main elements to display movies in.
- * @type {HTMLElement} The main element to display movies in.
- */
 const main = document.getElementById("main");
 const main2 = document.getElementById("main2");
 const main3 = document.getElementById("main3");
@@ -29,16 +25,22 @@ const searchButton = document.getElementById("button-search");
 const searchTitle = document.getElementById("search-title");
 const otherTitle = document.getElementById("other1");
 
+let searchPerformed = false;
+
 /**
  * Fetches movies from the specified URL and displays them in the main element.
  * @param url The URL to fetch movies from
  * @param mainElement The element to display the movies in
  * @returns {Promise<void>} A promise that resolves when the movies are displayed
  */
-async function getMovies(url, mainElement) {
+async function getMovies(url, mainElement, isSearch = false) {
     const numberOfMovies = calculateMoviesToDisplay();
     const pagesToFetch = numberOfMovies <= 20 ? 1 : 2;
     let allMovies = [];
+
+    if (isSearch) {
+        searchPerformed = true;
+    }
 
     for (let page = 1; page <= pagesToFetch; page++) {
         const response = await fetch(`${url}&page=${page}`);
@@ -156,7 +158,9 @@ function calculateMoviesToDisplay() {
 }
 
 window.addEventListener('resize', () => {
-    getMovies(DATABASEURL, main);
+    if (!searchPerformed) {
+        getMovies(DATABASEURL, main);
+    }
 });
 
 /**
@@ -180,7 +184,7 @@ form.addEventListener('submit', (e) => {
     e.preventDefault();
     const searchTerm = search.value.trim();
     if (searchTerm) {
-        getMovies(SEARCHPATH + searchTerm, main);
+        getMovies(SEARCHPATH + searchTerm, main, true);
         searchTitle.innerHTML = 'Search Results for: ' + searchTerm;
         otherTitle.innerHTML = 'Check out other movies, too:';
         search.value = '';
@@ -194,7 +198,7 @@ searchButton.addEventListener('click', (e) => {
     e.preventDefault();
     const searchTerm = search.value;
     if (searchTerm) {
-        getMovies(SEARCHPATH + searchTerm, main);
+        getMovies(SEARCHPATH + searchTerm, main, true);
         searchTitle.innerHTML = 'Search Results for: ' + searchTerm;
         otherTitle.innerHTML = 'Check out other movies:';
         search.value = '';
