@@ -1,0 +1,54 @@
+@host = http://localhost:8000
+@authToken = 123xyz
+
+### List Movies
+GET {{host}}/api/movies/
+Accept: application/json
+
+### Get Movie Details
+GET {{host}}/api/movies/1/
+Accept: application/json
+
+### User Login
+POST {{host}}/api/auth/login/
+Content-Type: application/json
+
+{
+  "username": "user",
+  "password": "password"
+}
+
+### User Registration
+POST {{host}}/api/auth/register/
+Content-Type: application/json
+
+{
+  "username": "new_user",
+  "email": "new_user@example.com",
+  "password": "new_password"
+}
+
+### Add Movie Review
+POST {{host}}/api/reviews/
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "movie_id": 1,
+  "review": "Great movie!",
+  "rating": 5
+}
+
+### Update Movie Review
+PUT {{host}}/api/reviews/1/
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "review": "Updated review text",
+  "rating": 4
+}
+
+### Delete Movie Review
+DELETE {{host}}/api/reviews/1/
+Authorization: Bearer {{authToken}}

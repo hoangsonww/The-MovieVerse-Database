@@ -39,14 +39,18 @@
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "django": "^1.0.0",
+    "docker": "^1.0.0",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "i18next": "^23.7.11",
     "jsonwebtoken": "^9.0.2",
+    "kubernetes": "^1.0.0",
     "mongoose": "^8.0.3",
+    "node": "^21.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.21.1",
-    "single-spa": "^6.0.0"
+    "single-spa": "^6.0.0",
+    "vue": "^3.3.13"
   }
 }
