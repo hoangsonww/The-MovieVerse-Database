@@ -1,0 +1,8 @@
+{
+  "siteId": "your-netlify-site-id",
+  "deployId": "your-netlify-deploy-id",
+  "buildId": "your-netlify-build-id",
+  "context": "production",
+  "branch": "main",
+  "commitRef": "your-git-commit-ref"
+}

@@ -7,6 +7,10 @@
     <meta charset="UTF-8">
     <!-- Set the title of the page -->
     <title>The MovieVerse</title>
+    <!-- Set the title of the page for SEO -->
+    <meta property="og:title" content="The MovieVerse - Your Ultimate Movie Guide" />
+    <!-- Set the description of the page -->
+    <meta name="description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more.">
     <!-- Set the viewport to the device width and initial scale to 1.0 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Link to the external CSS file -->
@@ -23,9 +27,11 @@
     <!-- Create a header for the page -->
     <header>
         <!-- Set the title of the website -->
-        <h1 id="my-heading" style="margin-bottom: -10px">
-            The Mo<span class="highlight">vieV</span>erse
-        </h1>
+        <a href="index.html" style="text-decoration: none; color: inherit; cursor: pointer">
+            <h1 id="my-heading" style="margin-bottom: -10px">
+                The Mo<span class="highlight">vieV</span>erse
+            </h1>
+        </a>
 
         <div id="local-time">
             <p id="time-label">Current Time:</p>
@@ -93,6 +99,7 @@
     <!-- Create a section for the most popular movies -->
     <div class="genres" style="margin-left: 25px">
         <h2 id="search-title">Most Popular: </h2>
+        <button type="button" id="button-clear" style="display: none;">Clear Search</button>
     </div>
 
     <!-- Create a main section for the most popular movies -->

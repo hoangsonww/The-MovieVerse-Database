@@ -167,7 +167,8 @@ async function fetchCompanyDetails(companyId) {
         const logoImg = document.getElementById('company-logo');
         if (company.logo_path) {
             logoImg.src = `https://image.tmdb.org/t/p/w500${company.logo_path}`;
-        } else {
+        }
+        else {
             logoImg.style.display = 'none';
             const logoFallbackText = document.createElement('p');
             logoFallbackText.textContent = 'Logo Not Available';
@@ -177,6 +178,7 @@ async function fetchCompanyDetails(companyId) {
         document.getElementById('company-name').textContent = company.name || 'Name Not Available';
         document.getElementById('company-headquarters').textContent = company.headquarters || 'Headquarters Not Available';
         document.getElementById('company-country').textContent = company.origin_country || 'Country Not Available';
+        document.title = `${company.name} - Company Details`;
 
         const homepage = company.homepage || '#';
         const companyWebsite = document.getElementById('company-website');

@@ -278,11 +278,6 @@ header h1 {
     background-color: transparent;
 }
 
-h2:hover {
-    color: #f509d9;
-    transition: 0.1s linear;
-}
-
 #trivia-btn {
     position: fixed;
     bottom: 60px;
@@ -538,6 +533,31 @@ h2:hover {
     font-weight: bold;
     color: #ffeb3b;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+#imdbRating, #rtRating {
+    text-decoration: none;
+    color: inherit;
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+#imdbRating:hover {
+    color: #f509d9;
+}
+
+#rtRating:hover {
+    color: #f509d9;
+}
+
+#movie-rating h2:hover {
+    color: initial;
+}
+
+h2:hover {
+    color: #f509d9;
+    transition: 0.1s linear;
 }
 
 p {
@@ -1506,4 +1526,21 @@ p {
         max-width: 100%;
         height: auto;
     }
+}
+
+#button-clear {
+    background-color: #7378c5;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 15px;
+    font: inherit;
+    cursor: pointer;
+    margin-left: 10px;
+    color: #000000;
+    margin-right: 40px;
+}
+
+#button-clear:hover {
+    background-color: #ff8623;
+    transition: background-color 0.3s ease;
 }

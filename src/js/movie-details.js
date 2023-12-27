@@ -179,7 +179,7 @@ async function fetchMovieDetails(movieId) {
         const response = await fetch(url);
         const movie = await response.json();
         const imdbId = movie.imdb_id;
-        fetchImdbRating(imdbId, movie);
+        fetchMovieRatings(imdbId, movie);
         const response2 = await fetch(url2);
         const movie2 = await response2.json();
         const trailers = movie2.videos.results.filter(video => video.type === 'Trailer');
@@ -193,19 +193,27 @@ async function fetchMovieDetails(movieId) {
     }
 }
 
-async function fetchImdbRating(imdbId, movieData) {
+async function fetchMovieRatings(imdbId, tmdbMovieData) {
     const omdbApiKey = '2ba8e536';
     const omdbUrl = `http://www.omdbapi.com/?i=${imdbId}&apikey=${omdbApiKey}`;
 
     try {
         const response = await fetch(omdbUrl);
-        const imdbData = await response.json();
-        const imdbRating = imdbData.imdbRating;
-        populateMovieDetails(movieData, imdbRating);
+        const data = await response.json();
+        let imdbRating = data.imdbRating ? data.imdbRating : 'N/A';
+
+        if (imdbRating === 'N/A' && tmdbMovieData.vote_average) {
+            imdbRating = tmdbMovieData.vote_average.toFixed(1);
+        }
+
+        const rtRatingObj = data.Ratings.find(rating => rating.Source === "Rotten Tomatoes");
+        const rtRating = rtRatingObj ? rtRatingObj.Value : 'N/A';
+
+        populateMovieDetails(tmdbMovieData, imdbRating, rtRating);
     }
     catch (error) {
-        console.error('Error fetching IMDb rating:', error);
-        populateMovieDetails(movieData, 'N/A');
+        console.error('Error fetching movie ratings:', error);
+        populateMovieDetails(tmdbMovieData, 'N/A', 'N/A');
     }
 }
 
@@ -215,6 +223,7 @@ function createTrailerButton(trailerUrl) {
     trailerButton.onclick = () => window.open(trailerUrl, '_blank');
     trailerButton.classList.add('trailer-button');
     trailerButton.style.font = 'inherit';
+    trailerButton.title = 'Click to watch the trailer of this movie on YouTube!';
 
     const movieRating = document.getElementById('movie-rating');
     movieRating.parentNode.insertBefore(trailerButton, movieRating.nextSibling);
@@ -243,12 +252,26 @@ function updateFavoriteButton(movieId) {
     }
 }
 
-function populateMovieDetails(movie, imdbRating) {
+function getRtSlug(title) {
+    return title.toLowerCase()
+        .replace(/part one/g, 'part_1')
+        .replace(/-/g, '')
+        .replace(/&/g, 'and')
+        .replace(/ /g, '_')
+        .replace(/[^\w-]/g, '');
+}
+
+function populateMovieDetails(movie, imdbRating, rtRating) {
     const movieRating = movie.vote_average.toFixed(1);
     document.getElementById('movie-image').src = `https://image.tmdb.org/t/p/w1280${movie.poster_path}`;
     document.getElementById('movie-title').textContent = movie.title;
     const imdbLink = `https://www.imdb.com/title/${movie.imdb_id}`;
-    document.getElementById('movie-rating').innerHTML = `<a href="${imdbLink}" target="_blank" style="text-decoration: none; color: inherit;" title="Click to go to its IMDb page!">IMDB Rating: ${imdbRating}</a>`;
+    const rtLink = rtRating !== 'N/A' ? `https://www.rottentomatoes.com/m/${getRtSlug(movie.title)}` : '#';
+    document.getElementById('movie-rating').innerHTML = `
+        <a id="imdbRatingLink" href="${imdbLink}" target="_blank" title="Click to go to this movie's IMDb page!" style="text-decoration: none; color: inherit;">IMDB Rating: ${imdbRating}</a>
+        <br>
+        <a id="rtRatingLink" href="${rtLink}" target="_blank" title="Click to go to this movie's Rotten Tomatoes page!" style="text-decoration: none; color: inherit;">Rotten Tomatoes: ${rtRating}</a>
+    `;
     document.title = movie.title + " - Movie Details";
 
     const movieImage = document.getElementById('movie-image');
