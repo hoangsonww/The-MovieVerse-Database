@@ -372,6 +372,9 @@ function populateMovieDetails(movie, imdbRating, rtRating) {
     const productionCompaniesElement = document.createElement('p');
     productionCompaniesElement.innerHTML = '<strong>Production Companies:</strong> ';
 
+    if (productionCompanies.length === 0) {
+        productionCompaniesElement.innerHTML += 'None available.';
+    }
     productionCompanies.forEach((company, index) => {
         const companyLink = document.createElement('a');
         companyLink.textContent = company.name;

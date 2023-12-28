@@ -20,6 +20,12 @@
                 The Mo<span class="highlight">vieV</span>erse
             </h1>
         </a>
+
+        <div id="local-time">
+            <p id="time-label">Current Time:</p>
+            <h2 id="clock" class="clock"></h2>
+        </div>
+
         <button class="back-btn" onclick="window.location.href='../../index.html'">Home</button>
         <button class="about" onclick="window.location.href='about.html'">About</button>
         <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="Go to your favorites list">Favorites</button>
@@ -113,6 +119,19 @@
                 alert('Failed to fetch the movie of the day. Please try again later.');
             }
         }
+
+        function updateClock() {
+            var now = new Date();
+            var hours = now.getHours();
+            var minutes = now.getMinutes();
+            hours = hours < 10 ? '0' + hours : hours;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            var timeString = hours + ':' + minutes;
+            document.getElementById('clock').innerHTML = timeString;
+        }
+
+        setInterval(updateClock, 1000);
+        window.onload = updateClock;
     </script>
 </body>
 
