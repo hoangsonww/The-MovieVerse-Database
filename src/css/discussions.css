@@ -164,6 +164,21 @@ header h1 {
     z-index: 1000;
 }
 
+#trailerButton {
+    background-color: #7378c5;
+    font: inherit;
+    color: black;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+#trailerButton:hover {
+    background-color: #ff8623;
+    transition: 0.3s ease-in;
+}
+
 #movie-of-the-day-btn:hover {
     background-color: #ff8623;
     transition: 0.1s linear;

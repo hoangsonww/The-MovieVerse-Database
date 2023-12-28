@@ -46,11 +46,9 @@ function calculateMoviesToDisplay() {
 }
 
 function initializeChatbot() {
-    // Getting elements that may have been reloaded in the DOM
     const chatbotInput = document.getElementById("chatbotInput");
     const chatbotBody = document.getElementById("chatbotBody");
-
-    // Reattaching the event listener for Enter key on chatbot input
+    sendInitialInstructions();
     chatbotInput.addEventListener("keydown", function(event) {
         if (event.key === "Enter") {
             sendMessage(chatbotInput.value);
@@ -64,17 +62,20 @@ function initializeChatbot() {
         chatbotInput.value = "";
     });
 
-    // Define the sendMessage function inside initializeChatbot to ensure scope
     function sendMessage(message) {
         chatbotBody.innerHTML += `
-            <div style="text-align: right; margin-bottom: 10px; color: white;">You: ${message}</div>
-        `;
+        <div style="text-align: right; margin-bottom: 10px; color: white;"><span style="color: #ff8623">You:</span> ${message}</div>
+    `;
+
         let botReply = movieVerseResponse(message);
         setTimeout(() => {
             chatbotBody.innerHTML += `
-                <div style="text-align: left; margin-bottom: 10px; color: #bbb;">MovieVerse Assistant: ${botReply}</div>
-            `;
+            <div style="text-align: left; margin-bottom: 10px; color: #fff;"><span style="color: #ff8623">MovieVerse Assistant:</span> ${botReply}</div>
+        `;
+            scrollToBottom();
         }, 1000);
+
+        scrollToBottom();
     }
 }
 
@@ -121,6 +122,27 @@ function getClassByRate(vote){
     }
 }
 
+function sendInitialInstructions() {
+    const initialMessage = `
+        Welcome to MovieVerse Assistant! Here's how you can use me: 
+        To find details about a movie, type "Show me details about [movie name]",
+        to watch a movie trailer, type "Show trailer for [movie name]", 
+        to get information about a director, type "Details about director [director's name]", 
+        to learn about an actor, type "Details about actor [actor's name]", 
+        to find information on a production company, type "Details about company [company name]", 
+        and you can also ask about genres, top-rated movies, latest movies, and more.
+        How may I assist you today?
+    `;
+    chatbotBody.innerHTML += `
+        <div style="text-align: left; margin-bottom: 10px; color: #fff;"><span style="color: #ff8623">MovieVerse Assistant:</span> ${initialMessage}</div>
+    `;
+    scrollToBottom();
+}
+
+function scrollToBottom() {
+    chatbotBody.scrollTop = chatbotBody.scrollHeight;
+}
+
 async function getMovies(url, mainElement) {
     clearMovieDetails();
     const numberOfMovies = calculateMoviesToDisplay();
@@ -145,11 +167,11 @@ async function getMovies(url, mainElement) {
 
     if (allMovies.length > 0) {
         showMovies(allMovies.slice(0, numberOfMovies), mainElement);
-        document.getElementById('clear-search-btn').style.display = 'inline-block'; // Show the button
+        document.getElementById('clear-search-btn').style.display = 'inline-block';
     }
     else {
         mainElement.innerHTML = `<p>No movie with the specified search term found. Please try again.</p>`;
-        document.getElementById('clear-search-btn').style.display = 'none'; // Hide the button if no results
+        document.getElementById('clear-search-btn').style.display = 'none';
     }
 
     document.getElementById('alt-title').innerHTML = '';
@@ -157,7 +179,7 @@ async function getMovies(url, mainElement) {
 
 document.getElementById('clear-search-btn').addEventListener('click', function() {
     document.getElementById('main').innerHTML = initialMainContent;
-    initializeChatbot(); // Re-initialize chatbot after restoring content
+    initializeChatbot();
     searchTitle.innerHTML = '';
     this.style.display = 'none';
 });
@@ -197,8 +219,143 @@ function clearMovieDetails() {
     }
 }
 
+async function fetchAndRedirectToMovieDetails(movieName) {
+    const searchUrl = SEARCHPATH + encodeURIComponent(movieName);
+    try {
+        const response = await fetch(searchUrl);
+        const data = await response.json();
+        const movie = data.results[0];
+        if (movie) {
+            localStorage.setItem('selectedMovieId', movie.id);
+            window.location.href = 'movie-details.html';
+        }
+        else {
+            alert('Movie not found. Please try another search.');
+        }
+    }
+    catch (error) {
+        console.error('Error fetching movie details:', error);
+        alert('Failed to fetch movie details. Please try again later.');
+    }
+}
+
+async function fetchMovieTrailer(movieName) {
+    const searchUrl = SEARCHPATH + encodeURIComponent(movieName);
+    try {
+        const response = await fetch(searchUrl);
+        const data = await response.json();
+        const movie = data.results[0];
+        if (movie) {
+            const trailerUrl = await getTrailerUrl(movie.id);
+            if (trailerUrl) {
+                createTrailerButton(trailerUrl, movie.title);
+            }
+            else {
+                chatbotBody.innerHTML += '<div>No trailer available for this movie.</div>';
+            }
+        }
+        else {
+            chatbotBody.innerHTML += '<div>Movie not found. Please try another search.</div>';
+        }
+    }
+    catch (error) {
+        console.error('Error fetching movie trailer:', error);
+    }
+}
+
+async function getTrailerUrl(movieId) {
+    const trailerApiUrl = `https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=c5a20c861acf7bb8d9e987dcc7f1b558`;
+    try {
+        const response = await fetch(trailerApiUrl);
+        const data = await response.json();
+        const trailer = data.results.find(video => video.type === 'Trailer' && video.site === 'YouTube');
+        return trailer ? `https://www.youtube.com/watch?v=${trailer.key}` : null;
+    }
+    catch (error) {
+        console.error('Error fetching trailer:', error);
+        return null;
+    }
+}
+
+function createTrailerButton(trailerUrl, movieTitle) {
+    const buttonId = "trailerButton";
+    chatbotBody.innerHTML += `
+        <button id="trailerButton" style="margin-top: 10px;">Watch Trailer for ${movieTitle}</button>
+    `;
+    chatbotBody.addEventListener('click', function(event) {
+        if (event.target && event.target.id === buttonId) {
+            window.open(trailerUrl, '_blank');
+        }
+    });
+}
+
+async function fetchPersonDetails(name, type) {
+    const searchUrl = `https://api.themoviedb.org/3/search/person?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&query=${encodeURIComponent(name)}`;
+    try {
+        const response = await fetch(searchUrl);
+        const data = await response.json();
+        const person = data.results[0];
+        if (person) {
+            localStorage.setItem(type === 'director' ? 'selectedDirectorId' : 'selectedActorId', person.id);
+            window.location.href = type === 'director' ? 'director-details.html' : 'actor-details.html';
+        }
+        else {
+            alert(`${type.charAt(0).toUpperCase() + type.slice(1)} not found. Please try another search.`);
+        }
+    }
+    catch (error) {
+        console.error(`Error fetching ${type} details:`, error);
+        alert(`Failed to fetch ${type} details. Please try again later.`);
+    }
+}
+
+async function fetchCompanyDetails(companyName) {
+    const searchUrl = `https://api.themoviedb.org/3/search/company?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&query=${encodeURIComponent(companyName)}`;
+    try {
+        const response = await fetch(searchUrl);
+        const data = await response.json();
+        const company = data.results[0];
+        if (company) {
+            localStorage.setItem('selectedCompanyId', company.id);
+            window.location.href = 'company-details.html';
+        }
+        else {
+            alert('Company not found. Please try another search.');
+        }
+    }
+    catch (error) {
+        console.error('Error fetching company details:', error);
+        alert('Failed to fetch company details. Please try again later.');
+    }
+}
+
 function movieVerseResponse(message) {
     const lowerMessage = message.toLowerCase();
+    if (lowerMessage.startsWith("show me details about ") || lowerMessage.startsWith("i want to know more about ")) {
+        const movieName = lowerMessage.replace("show me details about ", "").replace("i want to know more about ", "");
+        fetchAndRedirectToMovieDetails(movieName);
+        return `Searching for details about "${movieName}". Please wait...`;
+    }
+    if (lowerMessage.startsWith("show trailer for ")) {
+        const movieName = lowerMessage.replace("show trailer for ", "");
+        fetchMovieTrailer(movieName);
+        return `Searching for the trailer of "${movieName}". Please wait...`;
+    }
+    if (lowerMessage.startsWith("details about director ")) {
+        const directorName = lowerMessage.replace("details about director ", "");
+        fetchPersonDetails(directorName, 'director');
+        return `Searching for details about director "${directorName}". Please wait...`;
+    }
+    if (lowerMessage.startsWith("details about actor ")) {
+        const actorName = lowerMessage.replace("details about actor ", "");
+        fetchPersonDetails(actorName, 'actor');
+        return `Searching for details about actor "${actorName}". Please wait...`;
+    }
+    if (lowerMessage.startsWith("details about company ")) {
+        const companyName = lowerMessage.replace("details about company ", "");
+        fetchCompanyDetails(companyName);
+        return `Searching for details about company "${companyName}". Please wait...`;
+    }
     if (lowerMessage.includes("hello") || lowerMessage.includes("hi") || lowerMessage.includes("hey")) {
         return "Hello! How can I assist you with MovieVerse today?";
     } else if (lowerMessage.includes("how are you")) {
