@@ -213,32 +213,13 @@ searchButton.addEventListener('click', (e) => {
     }
 });
 
-document.addEventListener('mousemove', function(event) {
-    const sideNav = document.getElementById('side-nav');
-    if (event.clientX < 10 && !sideNav.classList.contains('manual-toggle')) {
-        sideNav.style.left = '0';
-    }
-});
-
-document.getElementById('side-nav').addEventListener('mouseleave', function() {
-    const sideNav = document.getElementById('side-nav');
-    if (!sideNav.classList.contains('manual-toggle')) {
-        sideNav.style.left = '-250px';
-    }
-});
-
 /**
  * Toggles the side navigation bar.
  */
 function toggleNav() {
     const sideNav = document.getElementById('side-nav');
     sideNav.classList.toggle('manual-toggle');
-    if (sideNav.classList.contains('manual-toggle')) {
-        sideNav.style.left = '0px';
-    }
-    else {
-        sideNav.style.left = '-250px';
-    }
+    adjustNavBar();
 }
 
 /**
@@ -248,9 +229,38 @@ function removeNavBar() {
     const sideNav = document.getElementById('side-nav');
     if (sideNav.classList.contains('manual-toggle')) {
         sideNav.classList.remove('manual-toggle');
+    }
+    adjustNavBar();
+}
+
+/**
+ * Adjusts the side navigation bar.
+ */
+function adjustNavBar() {
+    const sideNav = document.getElementById('side-nav');
+    if (sideNav.classList.contains('manual-toggle')) {
+        sideNav.style.left = '0px';
+    }
+    else {
         sideNav.style.left = '-250px';
     }
 }
+
+// Hover event to open the navbar
+document.addEventListener('mousemove', function(event) {
+    const sideNav = document.getElementById('side-nav');
+    if (event.clientX < 10 && !sideNav.classList.contains('manual-toggle')) {
+        sideNav.style.left = '0';
+    }
+});
+
+// Mouse leave event to close the navbar if not manually toggled
+document.getElementById('side-nav').addEventListener('mouseleave', function() {
+    const sideNav = document.getElementById('side-nav');
+    if (!sideNav.classList.contains('manual-toggle')) {
+        sideNav.style.left = '-250px';
+    }
+});
 
 /**
  * Scrolls to the top of the page.

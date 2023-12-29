@@ -587,6 +587,13 @@ main {
     }
 }
 
+@media (max-height: 930px) {
+    #search-title,
+    #alt-title {
+        display: none;
+    }
+}
+
 #movie-match-btn2 {
     position: fixed;
     bottom: 180px;

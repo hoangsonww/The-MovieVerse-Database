@@ -27,6 +27,7 @@ form.addEventListener('submit', (e) => {
 
     if (searchTerm) {
         getMovies(SEARCHPATH + searchTerm);
+        document.getElementById("genresDiv").style.display = "flex";
         searchTitle.innerHTML = 'Search Results for: ' + searchTerm;
         search.value = '';
     }
@@ -41,6 +42,7 @@ searchButton.addEventListener('click', (e) => {
 
     if (searchTerm) {
         getMovies(SEARCHPATH + searchTerm);
+        document.getElementById("genresDiv").style.display = "flex";
         searchTitle.innerHTML = 'Search Results for: ' + searchTerm;
         search.value = '';
     }

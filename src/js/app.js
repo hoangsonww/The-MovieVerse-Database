@@ -124,18 +124,23 @@ function getClassByRate(vote){
 
 function sendInitialInstructions() {
     const initialMessage = `
-        Welcome to MovieVerse Assistant! Here's how you can use me: 
-        To find details about a movie, type "Show me details about [movie name]",
-        to watch a movie trailer, type "Show trailer for [movie name]", 
-        to get information about a director, type "Details about director [director's name]", 
-        to learn about an actor, type "Details about actor [actor's name]", 
-        to find information on a production company, type "Details about company [company name]", 
-        and you can also ask about genres, top-rated movies, latest movies, and more.
-        How may I assist you today?
+        <div style="text-align: left">
+            <span style="color: #ff8623;">MovieVerse Assistant:</span>
+            <span style="display: inline-block; text-align: left; color: #fff;">
+                Welcome to MovieVerse Assistant! Here's how you can use me:
+            </span>
+        </div>
+        <ul style="text-align: left; margin-bottom: 10px; color: #fff;">
+            <li>To find details about a movie, type "Show me details about [movie name]".</li>
+            <li>To watch a movie trailer, type "Show trailer for [movie name]".</li>
+            <li>To get information about a director, type "Details about director [director's name]".</li>
+            <li>To learn about an actor, type "Details about actor [actor's name]".</li>
+            <li>To find information on a production company, type "Details about company [company name]".</li>
+            <li>You can also ask about genres, top-rated movies, latest movies, and many more!</li>
+        </ul>
+        <div style="text-align: left; color: #fff;">How may I assist you today?</div>
     `;
-    chatbotBody.innerHTML += `
-        <div style="text-align: left; margin-bottom: 10px; color: #fff;"><span style="color: #ff8623">MovieVerse Assistant:</span> ${initialMessage}</div>
-    `;
+    chatbotBody.innerHTML += `<div>${initialMessage}</div>`;
     scrollToBottom();
 }
 
