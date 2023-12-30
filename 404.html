@@ -8,61 +8,34 @@
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <style>
-        body {
+        .center-text {
             text-align: center;
-            padding: 50px;
-            background-image: url("../../images/universe.jpg");
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            font-family: "Poppins", sans-serif;
-            margin: 0;
-            align-content: center;
-            color: #ff8623; /* Adjust color to match header */
         }
-        h1 {
-            font-size: 50px;
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 40px;
-            background: #fff;
-            text-align: center;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        .back-btn {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-        .back-btn:hover {
-            background-color: #0056b3;
+        .center-button {
+            display: block;
+            margin: 20px auto;
         }
     </style>
 </head>
 <body class="movie-details-body2">
-    <!-- Reuse header from your main page -->
+    <!-- Header with buttons -->
     <header>
         <a href="index.html" style="text-decoration: none; color: inherit; cursor: pointer">
             <h1 id="my-heading" style="margin-bottom: -10px">
                 The Mo<span class="highlight">vieV</span>erse
             </h1>
         </a>
+
+        <button class="back-btn" onclick="window.location.href='index.html'" title="Go back to homepage">Home</button>
+        <button class="about" onclick="window.location.href='./src/html/about.html'" title="About this wonderful app!">About</button>
+        <button class="favorites-btn" onclick="window.location.href='./src/html/favorites.html'" title="Go to your favorites list">Favorites</button>
     </header>
 
     <!-- Main 404 content -->
-    <div class="container">
-        <h1>404</h1>
+    <div class="center-text" style="padding: 150px;">
+        <h1 style="font-size: 50px; color: #ff8623;">404</h1>
         <p>Sorry, the page you are looking for cannot be found.</p>
-        <a href="index.html" class="back-btn">Go Back to Home</a>
+        <a href="index.html" class="back-btn center-button">Go Back to Home</a>
     </div>
 </body>
 </html>
