@@ -1,38 +1,108 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-        <loc>https://www.sonnguyenhoang.com/</loc>
+        <loc>https://hoangsonww.github.io/The-MovieVerse-Database/</loc>
         <lastmod>2023-12-30</lastmod>
         <priority>1.00</priority>
     </url>
     <url>
-        <loc>https://www.sonnguyenhoang.com/#home</loc>
+        <loc>https://hoangsonww.github.io/The-MovieVerse-Database/#main</loc>
         <lastmod>2023-12-30</lastmod>
         <priority>0.80</priority>
     </url>
     <url>
-        <loc>https://www.sonnguyenhoang.com/#about</loc>
+        <loc>https://hoangsonww.github.io/The-MovieVerse-Database/#main17</loc>
         <lastmod>2023-12-30</lastmod>
-        <priority>0.80</priority>
+        <priority>0.70</priority>
     </url>
     <url>
-        <loc>https://www.sonnguyenhoang.com/#skills</loc>
+        <loc>https://hoangsonww.github.io/The-MovieVerse-Database/#main18</loc>
         <lastmod>2023-12-30</lastmod>
-        <priority>0.80</priority>
+        <priority>0.70</priority>
     </url>
     <url>
-        <loc>https://www.sonnguyenhoang.com/#services</loc>
+        <loc>https://hoangsonww.github.io/The-MovieVerse-Database/#main20</loc>
         <lastmod>2023-12-30</lastmod>
-        <priority>0.80</priority>
+        <priority>0.70</priority>
     </url>
     <url>
-        <loc>https://www.sonnguyenhoang.com/#portfolio</loc>
+        <loc>https://hoangsonww.github.io/The-MovieVerse-Database/#main3</loc>
         <lastmod>2023-12-30</lastmod>
-        <priority>0.80</priority>
+        <priority>0.60</priority>
     </url>
     <url>
-        <loc>https://www.sonnguyenhoang.com/#contact</loc>
+        <loc>https://hoangsonww.github.io/The-MovieVerse-Database/#main4</loc>
         <lastmod>2023-12-30</lastmod>
-        <priority>0.80</priority>
+        <priority>0.60</priority>
     </url>
+    <url>
+        <loc>https://hoangsonww.github.io/The-MovieVerse-Database/#main21</loc>
+        <lastmod>2023-12-30</lastmod>
+        <priority>0.60</priority>
+    </url>
+    <url>
+        <loc>https://hoangsonww.github.io/The-MovieVerse-Database/#main5</loc>
+        <lastmod>2023-12-30</lastmod>
+        <priority>0.60</priority>
+    </url>
+    <url>
+        <loc>https://hoangsonww.github.io/The-MovieVerse-Database/#main6</loc>
+        <lastmod>2023-12-30</lastmod>
+        <priority>0.60</priority>
+    </url>
+    <url>
+        <loc>https://hoangsonww.github.io/The-MovieVerse-Database/#main7</loc>
+        <lastmod>2023-12-30</lastmod>
+        <priority>0.60</priority>
+    </url>
+    <url>
+        <loc>https://hoangsonww.github.io/The-MovieVerse-Database/#main8</loc>
+        <lastmod>2023-12-30</lastmod>
+        <priority>0.60</priority>
+    </url>
+    <url>
+        <loc>https://hoangsonww.github.io/The-MovieVerse-Database/#main9</loc>
+        <lastmod>2023-12-30</lastmod>
+        <priority>0.60</priority>
+    </url>
+    <url>
+        <loc>https://hoangsonww.github.io/The-MovieVerse-Database/#main10</loc>
+        <lastmod>2023-12-30</lastmod>
+        <priority>0.60</priority>
+    </url>
+    <url>
+        <loc>https://hoangsonww.github.io/The-MovieVerse-Database/#main11</loc>
+        <lastmod>2023-12-30</lastmod>
+        <priority>0.60</priority>
+    </url>
+    <url>
+        <loc>https://hoangsonww.github.io/The-MovieVerse-Database/#main12</loc>
+        <lastmod>2023-12-30</lastmod>
+        <priority>0.60</priority>
+    </url>
+    <url>
+        <loc>https://hoangsonww.github.io/The-MovieVerse-Database/#main13</loc>
+        <lastmod>2023-12-30</lastmod>
+        <priority>0.60</priority>
+		</url>
+		<url>
+		    <loc>https://hoangsonww.github.io/The-MovieVerse-Database/#main14</loc>
+		    <lastmod>2023-12-30</lastmod>
+		    <priority>0.60</priority>
+		</url>
+		<url>
+		    <loc>https://hoangsonww.github.io/The-MovieVerse-Database/#main15</loc>
+		    <lastmod>2023-12-30</lastmod>
+		    <priority>0.60</priority>
+		</url>
+		<url>
+		    <loc>https://hoangsonww.github.io/The-MovieVerse-Database/#main16</loc>
+		    <lastmod>2023-12-30</lastmod>
+		    <priority>0.60</priority>
+		</url>
+		<url>
+		    <loc>https://hoangsonww.github.io/The-MovieVerse-Database/#main19</loc>
+		    <lastmod>2023-12-30</lastmod>
+		    <priority>0.60</priority>
+		</url>
 </urlset>
