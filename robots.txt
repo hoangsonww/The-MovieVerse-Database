@@ -1,2 +1,7 @@
 User-agent: *
-Disallow:
+Disallow: /database/
+Disallow: /middleware/
+Disallow: /project-config/
+
+Sitemap: https://hoangsonww.github.io/The-MovieVerse-Database/sitemap.xml
+Host: https://hoangsonww.github.io/The-MovieVerse-Database
