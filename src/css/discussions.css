@@ -525,7 +525,10 @@ main {
         margin-top: 20px;
     }
     .search {
-        margin-top: 5px;
+        margin-top: 10px;
+    }
+    #chatbot-container {
+        margin-top: 15px;
     }
 }
 
