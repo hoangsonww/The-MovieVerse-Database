@@ -520,6 +520,15 @@ main {
     cursor: pointer;
 }
 
+@media (max-width: 780px) {
+    #my-heading {
+        margin-top: 20px;
+    }
+    .search {
+        margin-top: 5px;
+    }
+}
+
 #button-search:hover {
     background-color: #ff8623;
     transition: 0.1s linear;
