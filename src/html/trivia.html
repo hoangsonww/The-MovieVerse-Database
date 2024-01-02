@@ -10,6 +10,7 @@
     <meta property="og:title" content="The MovieVerse - Your Ultimate Movie Guide" />
     <!-- Set the description of the page -->
     <meta name="description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
 </head>
 
 <body>
@@ -24,6 +25,11 @@
         <button class="back-btn" onclick="window.location.href='../../index.html'">Home</button>
         <button class="about" onclick="window.location.href='about.html'">About</button>
         <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="Go to your favorites list">Favorites</button>
+
+        <button id="googleSignInBtn" onclick="handleSignInOut()" title="Sign In/Out">
+            <span>Sign In</span>
+            <i class="fas fa-sign-in-alt"></i>
+        </button>
 
         <form id="form">
             <input
@@ -54,7 +60,7 @@
     <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 100px">Movie of the Day</button>
     <button id="discussions-btn" onclick="window.location.href='discussions.html'" title="Want to know more about movies? Chat with our intelligent chatbot!" style="bottom: 60px">MovieVerse Chatbot</button>
     <button id="back-to-top-btn" onclick="window.location.href='../../index.html'">Back To Main Page</button>
-
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="../js/quiz.js"></script>
 
 </body>

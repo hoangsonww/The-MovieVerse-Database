@@ -11,6 +11,7 @@
     <meta name="description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more.">
     <script src="../js/actor-details.js" defer></script>
     <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
 </head>
 
 <body class="movie-details-body">
@@ -27,6 +28,10 @@
         <button class="back-btn" onclick="window.location.href='../../index.html'">Home</button>
         <button class="about" onclick="window.location.href='about.html'">About</button>
         <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="Go to your favorites list">Favorites</button>
+        <button id="googleSignInBtn" onclick="handleSignInOut()" title="Sign In/Out">
+            <span>Sign In</span>
+            <i class="fas fa-sign-in-alt"></i>
+        </button>
         <form id="form1">
             <input
                     type="text"
@@ -73,6 +78,9 @@
 
     <!-- Create a button to go to the Trivia Game page -->
     <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="margin-bottom: -50px" title="Play a quick trivia to test your knowledge about movies!">MovieVerse Trivia</button>
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+
 </body>
 
 </html>

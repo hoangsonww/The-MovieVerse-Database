@@ -76,6 +76,12 @@
         <!-- Create a button to go to the Favorites page -->
         <button class="favorites-btn" onclick="window.location.href='./src/html/favorites.html'" title="Go to your favorites list">Favorites</button>
 
+        <!-- Create a button to go to the Sign-in page -->
+        <button id="googleSignInBtn" onclick="handleSignInOut()" title="Sign In/Out">
+            <span>Sign In</span>
+            <i class="fas fa-sign-in-alt"></i>
+        </button>
+
         <!-- Create a search form with an input and a button -->
         <form id="form">
             <input
@@ -339,6 +345,8 @@
 
     <!-- Create a button to go back to the top of the page -->
     <button id="back-to-top-btn" onclick="scrollToTop()">Back To Top</button>
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
 
 </body>
 

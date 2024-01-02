@@ -11,6 +11,7 @@
     <meta name="description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more.">
     <link rel="stylesheet" href="../css/style.css"/>
     <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
 </head>
 
 <body class="movie-details-body">
@@ -29,6 +30,10 @@
         <button class="back-btn" onclick="window.location.href='../../index.html'">Home</button>
         <button class="about" onclick="window.location.href='about.html'">About</button>
         <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="Go to your favorites list">Favorites</button>
+        <button id="googleSignInBtn" onclick="handleSignInOut()" title="Sign In/Out">
+            <span>Sign In</span>
+            <i class="fas fa-sign-in-alt"></i>
+        </button>
         <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!">Movie Match</button>
         <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 140px">Movie Timeline</button>
         <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 100px">Movie of the Day</button>
@@ -145,7 +150,60 @@
 
         setInterval(updateClock, 1000);
         window.onload = updateClock;
+
+        let isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
+        updateSignInButton();
+
+        function handleSignInOut() {
+            const signInOutButton = document.getElementById('googleSignInBtn');
+            const signInOutText = signInOutButton.querySelector('span');
+            const signInOutIcon = signInOutButton.querySelector('i');
+
+            if (!isSignedIn) {
+                signInOutText.textContent = 'Sign Out';
+                signInOutIcon.className = 'fas fa-sign-out-alt';
+                isSignedIn = true;
+                localStorage.setItem('isSignedIn', isSignedIn);
+                gapi.auth2.getAuthInstance().signIn();
+            }
+            else {
+                signInOutText.textContent = 'Sign In';
+                signInOutIcon.className = 'fas fa-sign-in-alt';
+                isSignedIn = false;
+                localStorage.setItem('isSignedIn', isSignedIn);
+                gapi.auth2.getAuthInstance().signOut();
+            }
+        }
+
+        function updateSignInButton() {
+            const signInOutButton = document.getElementById('googleSignInBtn');
+            const signInOutText = signInOutButton.querySelector('span');
+            const signInOutIcon = signInOutButton.querySelector('i');
+            if (isSignedIn) {
+                signInOutText.textContent = 'Sign Out';
+                signInOutIcon.className = 'fas fa-sign-out-alt';
+            }
+            else {
+                signInOutText.textContent = 'Sign In';
+                signInOutIcon.className = 'fas fa-sign-in-alt';
+            }
+        }
+
+        function initClient() {
+            gapi.load('auth2', function() {
+                gapi.auth2.init({
+                    client_id: '979580896903-hllisv9ev8pgn302e2959o7mlgkp2k9s.apps.googleusercontent.com' // Replace with your Google Client ID
+                });
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            updateSignInButton();
+            initClient();
+        });
     </script>
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
 </body>
 
 </html>
