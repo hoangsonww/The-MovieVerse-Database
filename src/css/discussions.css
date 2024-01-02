@@ -388,7 +388,7 @@ ol li:hover {
     cursor: pointer;
     position: absolute;
     top: 0;
-    margin-left: 322px;
+    left: 338px;
     border-radius: 8px;
     padding: 0 10px;
     box-sizing: border-box;
@@ -470,7 +470,8 @@ ol li:hover {
 }
 
 @media (max-width: 906px) {
-    #local-time {
+    #local-time,
+    #googleSignInBtn {
         display: none;
     }
 }
@@ -583,19 +584,15 @@ main {
     }
 
     .back-btn {
-        margin-left: -140px;
+        margin-left: -90px;
     }
 
     .about {
-        margin-left: -50px;
+        margin-left: 0px;
     }
 
     .favorites-btn {
-        margin-left: 43px;
-    }
-
-    #googleSignInBtn {
-        left: 50px;
+        margin-left: 93px;
     }
 
     header {
@@ -644,4 +641,3 @@ main {
     cursor: pointer;
     z-index: 1000;
 }
-
