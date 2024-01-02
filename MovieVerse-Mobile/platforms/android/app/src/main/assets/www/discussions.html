@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+
+<head>
+
+    <!-- Set the title of the page -->
+    <title>MovieVerse Chatbot</title>
+
+    <!-- Link to the external CSS file -->
+    <link rel="stylesheet" href="discussions.css"/>
+
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+
+<body>
+
+<!-- Create a header for the page -->
+<header>
+    <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+    <button class="about" onclick="window.location.href='about.html'">About</button>
+    <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="Go to your favorites list">Favorites</button>
+    <button id="discussions-btn" onclick="window.location.href='discussions.html'" style="margin-bottom: -39px">MovieVerse Chatbot</button>
+    <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="margin-bottom: -40px">Trivia Game</button>
+    <h1>Welcome to the MovieVerse Chatbot!</h1>
+
+</header>
+
+<main>
+
+    <!-- Create a heading for the section -->
+    <h2>The MovieVerse Assistant</h2>
+    <h4>Here, you can ask the chatbot about any movie-related topics or questions!</h4>
+
+    <!-- Chatbot UI -->
+    <div id="chatbotContainer">
+        <div id="chatbotHeader">MovieVerse Assistant</div>
+        <div id="chatbotBody"></div>
+        <input id="chatbotInput" type="text" placeholder="Ask me about anything...">
+    </div>
+
+</main>
+
+<!-- Create a button to go back to the main page -->
+<button id="back-to-top-btn" style="cursor: pointer" onclick="window.location.href='index.html'">Back To Main Page</button>
+
+<!-- Link to the external JavaScript file -->
+<script src="./app.js"></script>
+
+</body>
+
+</html>

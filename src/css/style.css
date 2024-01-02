@@ -1325,11 +1325,15 @@ p {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    text-align: center;
     margin: 0 auto;
     margin-top: 60px;
     padding: 20px;
     width: 100%;
+}
+
+body {
+    overflow-x: hidden;
+    max-width: 100%;
 }
 
 .movie-match-container {

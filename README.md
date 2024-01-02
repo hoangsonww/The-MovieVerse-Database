@@ -6,6 +6,7 @@ Welcome to The MovieVerse - your digital compass to the cinematic universe. This
 
 ## Table of Contents
 
+- [App Image](#app-image)
 - [Introduction](#introduction)
 - [Features](#features)
 - [Getting Started](#getting-started)
@@ -14,6 +15,11 @@ Welcome to The MovieVerse - your digital compass to the cinematic universe. This
 - [Credits](#credits)
 - [License](#license)
 - [Contact](#contact)
+
+## App Image
+<p align="center">
+  <img src="images/screenshot.png" alt="The MovieVerse App Interface"/>
+</p>
 
 ## Introduction
 

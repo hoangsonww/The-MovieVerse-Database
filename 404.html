@@ -17,7 +17,7 @@
         }
     </style>
 </head>
-<body class="movie-details-body2">
+<body class="movie-details-body">
     <!-- Header with buttons -->
     <header>
         <a href="index.html" style="text-decoration: none; color: inherit; cursor: pointer">
@@ -26,9 +26,19 @@
             </h1>
         </a>
 
+        <div id="local-time">
+            <p id="time-label">Your Current Time:</p>
+            <h2 id="clock" class="clock"></h2>
+        </div>
+
         <button class="back-btn" onclick="window.location.href='index.html'" title="Go back to homepage">Home</button>
         <button class="about" onclick="window.location.href='./src/html/about.html'" title="About this wonderful app!">About</button>
         <button class="favorites-btn" onclick="window.location.href='./src/html/favorites.html'" title="Go to your favorites list">Favorites</button>
+        <button id="movie-match-btn3" onclick="window.location.href='./src/html/movie-match.html'" title="Find a movie that matches your mood, genre, and time period!">Movie Match</button>
+        <button id="movie-timeline-btn" onclick="window.location.href='./src/html/movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 140px">Movie Timeline</button>
+        <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 100px">Movie of the Day</button>
+        <button id="discussions-btn" onclick="window.location.href='./src/html/discussions.html'" style="margin-bottom: -39px" title="Engage in movie discussions">MovieVerse Chatbot</button>
+        <button id="trivia-btn" onclick="window.location.href='./src/html/trivia.html'" style="margin-bottom: -40px" title="Test your movie knowledge">MovieVerse Trivia</button>
     </header>
 
     <!-- Main 404 content -->
@@ -36,5 +46,51 @@
         <h1 style="font-size: 50px; color: #ff8623;">404</h1>
         <p>Sorry, the page you are looking for cannot be found.</p>
     </div>
+
+    <script>
+        async function showMovieOfTheDay() {
+            const year = new Date().getFullYear();
+            const url = `https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                const movies = data.results;
+
+                if (movies.length > 0) {
+                    const randomMovie = movies[Math.floor(Math.random() * movies.length)];
+                    localStorage.setItem('selectedMovieId', randomMovie.id);
+                    window.location.href = 'src/html/movie-details.html';
+                }
+                else {
+                    fallbackMovieSelection();
+                }
+            }
+            catch (error) {
+                console.error('Error fetching movie:', error);
+                fallbackMovieSelection();
+            }
+        }
+
+        function fallbackMovieSelection() {
+            const fallbackMovies = [432413, 299534, 1726, 562, 118340, 455207, 493922, 447332, 22970, 530385, 27205, 264660, 120467, 603, 577922, 76341, 539, 419704, 515001, 118340, 424, 98];
+            const randomFallbackMovie = fallbackMovies[Math.floor(Math.random() * fallbackMovies.length)];
+            localStorage.setItem('selectedMovieId', randomFallbackMovie);
+            window.location.href = 'src/html/movie-details.html';
+        }
+
+        function updateClock() {
+            var now = new Date();
+            var hours = now.getHours();
+            var minutes = now.getMinutes();
+            hours = hours < 10 ? '0' + hours : hours;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            var timeString = hours + ':' + minutes;
+            document.getElementById('clock').innerHTML = timeString;
+        }
+
+        setInterval(updateClock, 1000);
+        window.onload = updateClock;
+    </script>
 </body>
 </html>
