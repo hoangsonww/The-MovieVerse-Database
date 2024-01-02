@@ -583,15 +583,19 @@ main {
     }
 
     .back-btn {
-        margin-left: -90px;
+        margin-left: -140px;
     }
 
     .about {
-        margin-left: 0px;
+        margin-left: -50px;
     }
 
     .favorites-btn {
-        margin-left: 93px;
+        margin-left: 43px;
+    }
+
+    #googleSignInBtn {
+        left: 50px;
     }
 
     header {

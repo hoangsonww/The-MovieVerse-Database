@@ -171,6 +171,57 @@ document.getElementById('clear-search-btn').addEventListener('click', () => {
     location.reload();
 });
 
+let isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
+updateSignInButton();
+
+function handleSignInOut() {
+    const signInOutButton = document.getElementById('googleSignInBtn');
+    const signInOutText = signInOutButton.querySelector('span');
+    const signInOutIcon = signInOutButton.querySelector('i');
+
+    if (!isSignedIn) {
+        signInOutText.textContent = 'Sign Out';
+        signInOutIcon.className = 'fas fa-sign-out-alt';
+        isSignedIn = true;
+        localStorage.setItem('isSignedIn', isSignedIn);
+        gapi.auth2.getAuthInstance().signIn();
+    }
+    else {
+        signInOutText.textContent = 'Sign In';
+        signInOutIcon.className = 'fas fa-sign-in-alt';
+        isSignedIn = false;
+        localStorage.setItem('isSignedIn', isSignedIn);
+        gapi.auth2.getAuthInstance().signOut();
+    }
+}
+
+function updateSignInButton() {
+    const signInOutButton = document.getElementById('googleSignInBtn');
+    const signInOutText = signInOutButton.querySelector('span');
+    const signInOutIcon = signInOutButton.querySelector('i');
+    if (isSignedIn) {
+        signInOutText.textContent = 'Sign Out';
+        signInOutIcon.className = 'fas fa-sign-out-alt';
+    }
+    else {
+        signInOutText.textContent = 'Sign In';
+        signInOutIcon.className = 'fas fa-sign-in-alt';
+    }
+}
+
+function initClient() {
+    gapi.load('auth2', function() {
+        gapi.auth2.init({
+            client_id: '979580896903-hllisv9ev8pgn302e2959o7mlgkp2k9s.apps.googleusercontent.com' // Replace with your Google Client ID
+        });
+    });
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    updateSignInButton();
+    initClient();
+});
+
 async function fetchMovieDetails(movieId) {
     const code = 'c5a20c861acf7bb8d9e987dcc7f1b558';
     const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${code}&append_to_response=credits,keywords,similar`;
@@ -437,57 +488,6 @@ function populateMovieDetails(movie, imdbRating, rtRating) {
     updateFavoriteButton(movie.id);
     favoriteButton.addEventListener('click', () => toggleFavorite(movie));
 }
-
-let isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
-updateSignInButton();
-
-function handleSignInOut() {
-    const signInOutButton = document.getElementById('googleSignInBtn');
-    const signInOutText = signInOutButton.querySelector('span');
-    const signInOutIcon = signInOutButton.querySelector('i');
-
-    if (!isSignedIn) {
-        signInOutText.textContent = 'Sign Out';
-        signInOutIcon.className = 'fas fa-sign-out-alt';
-        isSignedIn = true;
-        localStorage.setItem('isSignedIn', isSignedIn);
-        gapi.auth2.getAuthInstance().signIn();
-    }
-    else {
-        signInOutText.textContent = 'Sign In';
-        signInOutIcon.className = 'fas fa-sign-in-alt';
-        isSignedIn = false;
-        localStorage.setItem('isSignedIn', isSignedIn);
-        gapi.auth2.getAuthInstance().signOut();
-    }
-}
-
-function updateSignInButton() {
-    const signInOutButton = document.getElementById('googleSignInBtn');
-    const signInOutText = signInOutButton.querySelector('span');
-    const signInOutIcon = signInOutButton.querySelector('i');
-    if (isSignedIn) {
-        signInOutText.textContent = 'Sign Out';
-        signInOutIcon.className = 'fas fa-sign-out-alt';
-    }
-    else {
-        signInOutText.textContent = 'Sign In';
-        signInOutIcon.className = 'fas fa-sign-in-alt';
-    }
-}
-
-function initClient() {
-    gapi.load('auth2', function() {
-        gapi.auth2.init({
-            client_id: '979580896903-hllisv9ev8pgn302e2959o7mlgkp2k9s.apps.googleusercontent.com' // Replace with your Google Client ID
-        });
-    });
-}
-
-document.addEventListener("DOMContentLoaded", function() {
-    updateSignInButton();
-    initClient();
-});
 
 async function showMovieOfTheDay() {
     const year = new Date().getFullYear();
