@@ -3,189 +3,59 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <!--
-    Remove this if you only support browsers that support async/await.
-    This is needed by babel to share largeish helper code for compiling async/await in older
-    browsers. More information at https://github.com/single-spa/create-single-spa/issues/112
-  -->
-    <script src="/runtime.min.js"></script>
-    <!--
-    This CSP allows any SSL-enabled host and for arbitrary eval(), but you should limit these directives further to increase your app's security.
-    Learn more about CSP policies at https://content-security-policy.com/#directive
-  -->
-    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: localhost:* data:; script-src 'unsafe-inline' 'unsafe-eval' https: localhost:*; connect-src https: localhost:* ws://localhost:*; style-src 'unsafe-inline' https:; object-src 'none';"> -->
-    <meta name="importmap-type" content="systemjs-importmap" />
-    <!-- If you wish to turn off import-map-overrides for specific environments (prod), uncomment the line below -->
-    <!-- More info at https://github.com/joeldenning/import-map-overrides/blob/master/docs/configuration.md#domain-list -->
-    <!-- <meta name="import-map-overrides-domains" content="denylist:prod.example.com" /> -->
+    <title>The MovieVerse Database</title>
 
-    <!-- Shared dependencies go into this import map. Your shared dependencies must be of one of the following formats:
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
 
-    1. System.register (preferred when possible) - https://github.com/systemjs/systemjs/blob/master/docs/system-register.md
-    2. UMD - https://github.com/umdjs/umd
-    3. Global variable
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
 
-    More information about shared dependencies can be found at https://single-spa.js.org/docs/recommended-setup#sharing-with-import-maps.
-  -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-            href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,400;0,600;0,700;1,600;1,700&display=swap"
-            rel="stylesheet"
-    />
-    <script type="systemjs-importmap">
-        {
-          "imports": {
-            "single-spa": "/single-spa.min.js"
-          }
-        }
-    </script>
-    <link rel="preload" href="/single-spa.min.js" as="script" />
+    <!-- Vue.js -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
 
-    <!-- Add your organization's prod import map URL to this script's src  -->
-    <!-- <script type="systemjs-importmap" src="/importmap.json"></script> -->
-    <% if (isLocal) { %>
-    <script type="systemjs-importmap">
-        {
-          "imports": {
-            "react": "./react.production.min.js",
-            "react-dom": "./react-dom.production.min.js",
-            "@app/root-config": "/app-root-config.js",
-            "@app/react-app": "<%=REACT_HOST%>/app-react-app.js",
-          "kaka-angular": "<%=ANGULAR_HOST%>/main.<%=COMMIT_HASH%>.js"
-        }
-      }
-    </script>
-    <% } else { %>
-    <script type="systemjs-importmap">
-        {
-          "imports": {
-            "react": "./react.production.min.js",
-            "react-dom": "./react-dom.production.min.js",
-            "@app/root-config": "/app-root-config.js",
-            "@app/react-app": "<%=REACT_HOST%>/app-react-app.js",
-          "kaka-angular": "/resources/angular/main.<%=COMMIT_HASH%>.js"
-        }
-      }
-    </script>
-    <% } %>
-
-    <!--<meta charset="utf-8" />-->
-    <!--<meta http-equiv="X-UA-Compatible" content="IE=edge" />-->
-    <!--<meta name="google" content="notranslate" />-->
-    <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <!--<meta name="theme-color" content="#000000" />-->
-    <!--<link rel="icon" href="favicon.ico" />-->
-    <!--<link rel="manifest" href="manifest.webapp" />-->
-    <link rel="stylesheet" href="content/css/loading.css" />
-    <!--&lt;!&ndash; jhipster-needle-add-resources-to-root - JHipster will add new resources here &ndash;&gt;-->
-
-    <base href="/" />
-    <meta charset="utf-8" />
-    <title>
-        The MovieVerse Database
-    </title>
-    <meta property="og:locale" content="en_US" />
-    <meta property="og:type" content="website" />
-    <meta name="viewport" content="width=1080, initial-scale=1.0" />
-
-    <link rel="shortcut icon" href="./content/images/favicon.webp" />
-
-    <link
-            rel="stylesheet"
-            href="/content/css/bootstrap.min.css"
-            type="text/css"
-    />
-
-    <link
-            rel="stylesheet"
-            href="/content/css/font-awesome.min.css"
-            type="text/css"
-    />
-
-    <meta property="og:site_name" content="The MovieVerse Database" />
-    <meta property="og:title" content="The MovieVerse Database" />
-    <meta
-            property="og:description"
-            content="The MovieVerse Database is a free and open-source movie database. It's completely user driven by people like you."
-    />
-    <meta property="og:url" content="https://www.themovieverse.com/" />
-    <meta
-            property="og:image"
-            content="https://www.themovieverse.com/content/images/logo.webp"
-    />
-    <meta
-            property="og:image:secure_url"
-            content="https://www.themovieverse.com/content/images/logo.webp"
-    />
-    <meta property="og:image:type" content="image/webp" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-
-    <script>
-        // show an error message if the app loading takes more than 4 sec
-        window.onload = function () {
-            setTimeout(showError, 4000)
-        }
-        function showError() {
-            var errorElm = document.getElementById('jhipster-error')
-            if (errorElm && errorElm.style) {
-                errorElm.style.display = 'block'
-            }
-        }
-    </script>
-    <script src="/content/js/video.min.js"></script>
-    <script src="/player-<%=VIDEO_PLAYER_VERSION%>.js"></script>
-
-    <script
-            type="text/javascript"
-            src="/content/js/bootstrap-slider.js"
-    ></script>
-    <script type="text/javascript" src="/content/js/jquery.min.js"></script>
-    <script type="text/javascript" src="/content/js/moment.min.js"></script>
-    <script
-            type="text/javascript"
-            src="/content/js/daterangepicker.min.js"
-    ></script>
-    <script
-            type="text/javascript"
-            src="/content/js/jquery.slimscroll.js"
-    ></script>
-
-    <!--
-    If you need to support Angular applications, uncomment the script tag below to ensure only one instance of ZoneJS is loaded
-    Learn more about why at https://single-spa.js.org/docs/ecosystem-angular/#zonejs
-  -->
-    <script src="/zone.min.js"></script>
-
-    <script src="/import-map-overrides.js"></script>
-    <% if (isLocal) { %>
-        <script src="/system.js"></script>
-        <script src="/amd.js"></script>
-    <% } else { %>
-        <script src="/system.min.js"></script>
-        <script src="/amd.min.js"></script>
-    <% } %>
+    <!-- React and ReactDOM -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.production.min.js"></script>
 </head>
-<script>
-    window.onload = function () {
-      if (window.location.pathname === "/") {
-        window.location.href = "/kaka-angular#/authenticated/live";
-      }
-    };
-</script>
 <body>
-<noscript> You need to enable JavaScript to run this app. </noscript>
+<noscript>You need to enable JavaScript to run this app.</noscript>
+
+<!-- React Root Element -->
+<div id="react-root"></div>
+
+<!-- Vue Root Element -->
+<div id="vue-root"></div>
+
+<!-- Initialize React and Vue -->
 <script>
-    System.import('@app/root-config')
+    // React Component
+    class MyReactComponent extends React.Component {
+        render() {
+            return (
+                <div className="react-component">
+                    Hello from React!
+                </div>
+            );
+        }
+    }
+
+    // Render React Component
+    ReactDOM.render(<MyReactComponent />, document.getElementById('react-root'));
+
+    // Vue Instance
+    new Vue({
+        el: '#vue-root',
+        data: {
+            message: 'Hello from Vue!'
+        },
+        template: '<div class="vue-component">{{ message }}</div>'
+    });
 </script>
-<import-map-overrides-full
-        show-when-local-storage="devtools"
-        dev-libs
-></import-map-overrides-full>
+
+<!-- Bootstrap and other necessary JavaScript -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>

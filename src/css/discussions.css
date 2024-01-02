@@ -527,8 +527,8 @@ main {
     .search {
         margin-top: 10px;
     }
-    #chatbot-container {
-        margin-top: 15px;
+    #chatbotContainer {
+        top: 55%;
     }
 }
 
