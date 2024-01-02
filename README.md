@@ -39,6 +39,9 @@ There is also a mobile version of The MovieVerse, which is developed using Apach
 - **Movie Details Page**: Each movie comes with its own detailed page, offering a plethora of information from cast to similar movies.
 - **Community Engagement**: Share your movie experiences and become part of The MovieVerse community.
 - **Movie Timeline**: Explore the evolution of cinema by selecting a specific time period and discovering movies from that era.
+- **User Sign On**: Create an account and log in with Google to unlock additional features, such as rating movies and writing reviews.
+- **Movie Matching**: Find movies that match your preferences by rating movies and writing reviews.
+- **Movie ChatBot**: Chat with our chatbot, MovieBot, to learn more about the application.
 
 ## Getting Started
 
@@ -76,6 +79,7 @@ Upon launching The MovieVerse, you'll be greeted with a user-friendly interface 
 - View detailed information about a director by clicking the 'Details' button on any director in a movie's details page.
 - View detailed information about an actor by clicking the 'Details' button on any actor in a movie's details page.
 - Create a movie timeline by clicking the 'Timeline' button on the navigation bar.
+- View a list of movies from a specific time period by clicking on the corresponding year in the timeline.
 - And more!
 
 ## Technologies
@@ -126,4 +130,5 @@ Project Link: [https://github.com/hoangsonww/The-MovieVerse-Database](https://gi
 
 ---
 
-Please also note that the MovieVerse is an ever-evolving platform. I am continually enhancing the user experience and adding new features, like the Movie Timeline, to help you navigate the vast sea of cinema with ease and excitement.
+Please also note that the MovieVerse is an ever-evolving platform. I am continually enhancing the user experience and adding new features, like the Movie Timeline, to help you navigate the vast sea of cinema with ease and excitement. 
+Also note that you can get the most out of our app with a desktop and by signing in with Google. 
