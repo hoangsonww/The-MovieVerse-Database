@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Your Favorite Movies</title>
+    <title>Your Favorite Movies & Watchlists</title>
     <link rel="stylesheet" href="../css/style.css">
     <script src="../js/movie-details.js" defer></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -32,9 +32,73 @@
         <button class="back-btn" onclick="window.location.href='../../index.html'">Home</button>
         <button class="about" onclick="window.location.href='about.html'">About</button>
         <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="Go to your favorites list">Favorites</button>
+
+        <form id="form">
+            <input
+                    type="text"
+                    id="search"
+                    placeholder="Search For Any Movie..."
+                    class="search"
+            />
+            <button type="button" id="button-search" onclick="">Search</button>
+        </form>
     </header>
 
-    <main id="favorites-main" style="margin-top: 75px"></main>
+    <!-- Buttons for Watch List Actions -->
+    <div class="watchlist-buttons-container">
+        <button id="create-watchlist-btn">Create a Watch List</button>
+        <button id="edit-watchlist-btn">Edit a Watch List</button>
+        <button id="delete-watchlist-btn">Delete a Watch List</button>
+    </div>
+
+    <main id="search-container" style="position: relative">
+        <h2 id="search-title"></h2>
+        <button id="clear-search-btn" class="clear-search1" style="display: none; color: white; position: absolute; right: 0; top: 60px;">Clear Search Results</button>
+        <main id="search-results"></main>
+    </main>
+
+    <!-- Modals for Each Action -->
+    <div id="create-watchlist-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" title="Close this modal" onclick="closeModal('create-watchlist-modal')">&times;</span>
+            <h2>Create a Watch List</h2>
+            <form id="create-watchlist-form">
+                <label>Name:</label>
+                <input type="text" id="new-watchlist-name" required>
+                <div style="height: 20px"></div>
+                <label>Description:</label>
+                <textarea id="new-watchlist-description"></textarea>
+                <button type="submit" id="button">Create</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="edit-watchlist-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" title="Close this modal" onclick="closeModal('edit-watchlist-modal')">&times;</span>
+            <h2>Edit a Watch List</h2>
+            <form id="edit-watchlist-form">
+                <!-- Dynamically populate this form based on user selection -->
+            </form>
+        </div>
+    </div>
+
+    <div id="delete-watchlist-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" title="Close this modal" onclick="closeModal('delete-watchlist-modal')">&times;</span>
+            <h2>Delete a Watch List</h2>
+            <form id="delete-watchlist-form">
+                <!-- Dynamically populate this form based on user selection -->
+            </form>
+        </div>
+    </div>
+
+    <!-- Section for Displaying Watch Lists -->
+    <div id="watchlists-display-section">
+        <!-- Dynamically populated watch lists will go here -->
+    </div>
+
+    <main id="favorites-main" style="margin-top: 75px; text-align: center"></main>
 
     <button id="movie-match-btn" onclick="window.location.href='movie-match.html'" title="Find movies that match your mood and preferences!" style="bottom: 180px">Movie Match</button>
     <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 140px">Movie Timeline</button>
@@ -65,11 +129,12 @@
         document.addEventListener('DOMContentLoaded', () => {
             const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
             const favoritesMain = document.getElementById('favorites-main');
+            favoritesMain.style.textAlign = 'center';
             if (favorites.length > 0) {
                 favorites.forEach(movieId => fetchMovieDetails(movieId));
             }
             else {
-                favoritesMain.innerHTML = '<p>No favorites added yet.</p>';
+                favoritesMain.innerHTML = '<div style="text-align: center"><p style="text-align: center">No favorites added yet.</p></div>';
             }
         });
 
@@ -139,6 +204,491 @@
             localStorage.setItem('selectedMovieId', randomFallbackMovie);
             window.location.href = 'movie-details.html';
         }
+
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        document.getElementById('delete-watchlist-btn').addEventListener('click', () => openModal('delete-watchlist-modal'));
+
+        async function getMovieTitle(movieId) {
+            const apiKey = 'c5a20c861acf7bb8d9e987dcc7f1b558';
+            const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}`;
+
+            try {
+                const response = await fetch(url);
+                const movie = await response.json();
+                return movie.title;
+            }
+            catch (error) {
+                console.error('Error fetching movie title:', error);
+                return 'Unknown Movie';
+            }
+        }
+
+        async function populateCreateModalWithFavorites() {
+            const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+            const createForm = document.getElementById('create-watchlist-form');
+
+            let moviesContainer = document.getElementById('movies-container');
+            let moviesLabel = document.getElementById('movies-label-create'); // New ID for the label
+
+            // Check if moviesContainer already exists, clear its contents
+            if (moviesContainer) {
+                moviesContainer.innerHTML = '';
+            } else {
+                // Create moviesContainer if it doesn't exist
+                moviesContainer = document.createElement('div');
+                moviesContainer.id = 'movies-container';
+                createForm.insertBefore(moviesContainer, createForm.querySelector('button[type="submit"]'));
+            }
+
+            // Check if moviesLabel already exists, if not, create it
+            if (!moviesLabel) {
+                moviesLabel = document.createElement('label');
+                moviesLabel.id = 'movies-label-create'; // Assign the new ID
+                moviesLabel.textContent = 'Select Movies:';
+                moviesLabel.htmlFor = 'movies-container';
+                createForm.insertBefore(moviesLabel, moviesContainer);
+            }
+
+            for (const movieId of favorites) {
+                const movieTitle = await getMovieTitle(movieId);
+                const movieItem = document.createElement('div');
+                movieItem.classList.add('movie-item');
+
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.id = `movie-${movieId}`;
+                checkbox.value = movieId;
+                checkbox.name = "favoritedMovies";
+
+                const label = document.createElement('label');
+                label.htmlFor = `movie-${movieId}`;
+                label.textContent = movieTitle;
+
+                movieItem.appendChild(checkbox);
+                movieItem.appendChild(label);
+                moviesContainer.appendChild(movieItem);
+            }
+        }
+
+        document.getElementById('create-watchlist-btn').addEventListener('click', function() {
+            populateCreateModalWithFavorites();
+            openModal('create-watchlist-modal');
+        });
+
+        document.getElementById('create-watchlist-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('new-watchlist-name').value;
+            const description = document.getElementById('new-watchlist-description').value;
+            const selectedMovies = Array.from(document.querySelectorAll('#movies-container input[name="favoritedMovies"]:checked')).map(checkbox => checkbox.value);
+
+            let watchlists = JSON.parse(localStorage.getItem('watchlists')) || [];
+            watchlists.push({ name, description, movies: selectedMovies, createdAt: new Date().toISOString() });
+
+            localStorage.setItem('watchlists', JSON.stringify(watchlists));
+            closeModal('create-watchlist-modal');
+            updateWatchListsDisplay();
+        });
+
+        document.getElementById('edit-watchlist-btn').addEventListener('click', async function() {
+            await populateEditModal();
+            openModal('edit-watchlist-modal');
+        });
+
+        async function populateEditModal() {
+            const watchlists = JSON.parse(localStorage.getItem('watchlists')) || [];
+            const editForm = document.getElementById('edit-watchlist-form');
+            editForm.innerHTML = '';
+
+            const select = document.createElement('select');
+            select.id = 'watchlist-select';
+            watchlists.forEach((watchlist, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = watchlist.name;
+                select.appendChild(option);
+            });
+            const watchlistLabel = document.createElement('label');
+            watchlistLabel.textContent = 'Select Watch List:';
+            watchlistLabel.htmlFor = 'watchlist-select';
+            editForm.appendChild(watchlistLabel);
+            editForm.appendChild(select);
+
+            const nameInput = document.createElement('input');
+            nameInput.type = 'text';
+            nameInput.id = 'edit-watchlist-name';
+
+            const descInput = document.createElement('textarea');
+            descInput.id = 'edit-watchlist-description';
+
+            const moviesContainer = document.createElement('div');
+            moviesContainer.id = 'edit-movies-container';
+
+            const nameLabel = document.createElement('label');
+            nameLabel.textContent = 'Watch List Name:';
+            nameLabel.htmlFor = 'edit-watchlist-name';
+            editForm.appendChild(nameLabel);
+            editForm.appendChild(nameInput);
+
+            const descLabel = document.createElement('label');
+            descLabel.textContent = 'Description:';
+            descLabel.htmlFor = 'edit-watchlist-description';
+            editForm.appendChild(descLabel);
+            editForm.appendChild(descInput);
+            editForm.appendChild(moviesContainer);
+
+            const moviesLabel = document.createElement('label');
+            moviesLabel.textContent = 'Select Movies:';
+            moviesLabel.htmlFor = 'edit-movies-container';
+            editForm.appendChild(moviesLabel);
+            editForm.appendChild(moviesContainer)
+
+            const updateFields = async index => {
+                const selectedWatchlist = watchlists[index];
+                nameInput.value = selectedWatchlist.name;
+                descInput.value = selectedWatchlist.description;
+                moviesContainer.innerHTML = '';
+
+                for (const movieId of selectedWatchlist.movies) {
+                    const movieTitle = await getMovieTitle(movieId);
+
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.id = `edit-movie-${movieId}`;
+                    checkbox.value = movieId;
+                    checkbox.checked = true;
+
+                    const label = document.createElement('label');
+                    label.htmlFor = `edit-movie-${movieId}`;
+                    label.textContent = movieTitle;
+
+                    moviesContainer.appendChild(checkbox);
+                    moviesContainer.appendChild(label);
+                    moviesContainer.appendChild(document.createElement('br'));
+                }
+            };
+
+            select.addEventListener('change', function() {
+                updateFields(this.value);
+            });
+
+            if (watchlists.length > 0) {
+                await updateFields(0);
+            }
+
+            const submitButton = document.createElement('button');
+            submitButton.type = 'submit';
+            submitButton.textContent = 'Save Changes';
+            editForm.appendChild(submitButton);
+        }
+
+        document.getElementById('edit-watchlist-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const selectedIndex = document.getElementById('watchlist-select').value;
+            const newName = document.getElementById('edit-watchlist-name').value;
+            const newDescription = document.getElementById('edit-watchlist-description').value;
+            const selectedMovies = Array.from(document.querySelectorAll('#edit-movies-container input[type="checkbox"]:checked')).map(checkbox => checkbox.value);
+
+            let watchlists = JSON.parse(localStorage.getItem('watchlists')) || [];
+            watchlists[selectedIndex] = { name: newName, description: newDescription, movies: selectedMovies };
+
+            localStorage.setItem('watchlists', JSON.stringify(watchlists));
+            closeModal('edit-watchlist-modal');
+            updateWatchListsDisplay();
+        });
+
+        function populateDeleteModal() {
+            const watchlists = JSON.parse(localStorage.getItem('watchlists')) || [];
+            const deleteForm = document.getElementById('delete-watchlist-form');
+            deleteForm.innerHTML = '';
+
+            const select = document.createElement('select');
+            select.id = 'delete-watchlist-select';
+            watchlists.forEach((watchlist, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = watchlist.name;
+                select.appendChild(option);
+            });
+            const watchlistLabel = document.createElement('label');
+            watchlistLabel.textContent = 'Select Watch List to Delete:';
+            watchlistLabel.htmlFor = 'delete-watchlist-select';
+            deleteForm.appendChild(watchlistLabel);
+            deleteForm.appendChild(select);
+
+            const deleteButton = document.createElement('button');
+            deleteButton.type = 'button';
+            deleteButton.textContent = 'Delete';
+            deleteForm.appendChild(deleteButton);
+
+            deleteButton.addEventListener('click', function() {
+                const selectedIndex = select.value;
+                let watchlists = JSON.parse(localStorage.getItem('watchlists')) || [];
+                watchlists.splice(selectedIndex, 1);
+                localStorage.setItem('watchlists', JSON.stringify(watchlists));
+                closeModal('delete-watchlist-modal');
+                updateWatchListsDisplay();
+            });
+        }
+
+        document.getElementById('delete-watchlist-btn').addEventListener('click', populateDeleteModal);
+
+        async function updateWatchListsDisplay() {
+            const watchlists = JSON.parse(localStorage.getItem('watchlists')) || [];
+            const displaySection = document.getElementById('watchlists-display-section');
+            displaySection.innerHTML = '';
+
+            for (const watchlist of watchlists) {
+                const watchlistDiv = document.createElement('div');
+                watchlistDiv.className = 'watchlist';
+
+                const title = document.createElement('h3');
+                title.textContent = watchlist.name;
+                title.className = 'watchlist-title';
+                title.title = 'Title of this watch list';
+
+                const description = document.createElement('p');
+                description.textContent = watchlist.description;
+                description.className = 'watchlist-description';
+                description.title = 'Description of this watch list';
+
+                watchlistDiv.appendChild(title);
+                watchlistDiv.appendChild(description);
+
+                const moviesContainer = document.createElement('div');
+                moviesContainer.className = 'movies-container';
+                moviesContainer.style.flexWrap = 'wrap';
+
+                for (const movieId of watchlist.movies) {
+                    const movieCard = await fetchMovieDetails(movieId);
+                    moviesContainer.appendChild(movieCard);
+                }
+
+                watchlistDiv.appendChild(moviesContainer);
+                displaySection.appendChild(watchlistDiv);
+            }
+
+            const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+            if (favorites.length > 0) {
+                const favoritesDiv = document.createElement('div');
+                favoritesDiv.className = 'watchlist';
+
+                const title = document.createElement('h3');
+                title.textContent = "Favorited Movies";
+                title.className = 'watchlist-title';
+
+                const description = document.createElement('p');
+                description.textContent = "A collection of your favorited movies.";
+                description.className = 'watchlist-description';
+
+                favoritesDiv.appendChild(title);
+                favoritesDiv.appendChild(description);
+
+                const moviesContainer = document.createElement('div');
+                moviesContainer.className = 'movies-container';
+
+                for (const movieId of favorites) {
+                    const movieCard = await fetchMovieDetails(movieId);
+                    moviesContainer.appendChild(movieCard);
+                }
+
+                favoritesDiv.appendChild(moviesContainer);
+                displaySection.appendChild(favoritesDiv);
+            }
+        }
+
+        async function fetchMovieDetails(movieId) {
+            const code = 'c5a20c861acf7bb8d9e987dcc7f1b558';
+            const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${code}&append_to_response=credits,keywords,similar`;
+
+            try {
+                const response = await fetch(url);
+                const movie = await response.json();
+                return createMovieCard(movie);
+            }
+            catch (error) {
+                console.error('Error fetching movie details:', error);
+                const errorDiv = document.createElement('div');
+                errorDiv.textContent = 'Error loading movie details.';
+                return errorDiv;
+            }
+        }
+
+        function createMovieCard(movie) {
+            const movieEl = document.createElement('div');
+            movieEl.classList.add('movie');
+
+            movieEl.innerHTML = `
+                <img src="${IMGPATH + movie.poster_path}" alt="${movie.title}">
+                <div class="movie-info">
+                    <h3>${movie.title}</h3>
+                    <span class="${getClassByRate(movie.vote_average.toFixed(1))}">${movie.vote_average.toFixed(1)}</span>
+                </div>
+                <div class="overview">
+                    <h4>Movie Overview:</h4>
+                    ${movie.overview}
+                </div>`;
+            movieEl.addEventListener('click', () => {
+                localStorage.setItem('selectedMovieId', movie.id);
+                window.location.href = 'movie-details.html';
+            });
+
+            return movieEl;
+        }
+
+        document.addEventListener('DOMContentLoaded', updateWatchListsDisplay);
+
+        const searchForm = document.getElementById('form');
+        const searchBtn = document.getElementById('button-search');
+        const searchResultsMain = document.getElementById('search-results');
+        const altTitle = document.getElementById('search-title');
+
+        function getClassByRate(vote){
+            if (vote >= 8) {
+                return 'green';
+            }
+            else if (vote >= 5) {
+                return 'orange';
+            }
+            else {
+                return 'red';
+            }
+        }
+
+        searchForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const searchTerm = search.value.trim();
+
+            if (searchTerm) {
+                getMovies(SEARCHPATH + searchTerm);
+                altTitle.innerHTML = 'Search Results for: ' + searchTerm;
+                document.getElementById('search-container').style.display = 'flex'; // Show the container
+                search.value = '';
+            }
+            else {
+                altTitle.innerHTML = 'Please enter a search term.';
+                document.getElementById('search-container').style.display = 'none'; // Hide the container
+            }
+        });
+
+        searchBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const searchTerm = search.value;
+
+            if (searchTerm) {
+                getMovies(SEARCHPATH + searchTerm);
+                altTitle.innerHTML = 'Search Results for: ' + searchTerm;
+                document.getElementById('search-container').style.display = 'flex'; // Show the container
+                search.value = '';
+            }
+            else {
+                altTitle.innerHTML = 'Please enter a search term.';
+                document.getElementById('search-container').style.display = 'none'; // Hide the container
+            }
+        });
+
+        async function getMovies(url) {
+            const numberOfMovies = calculateMoviesToDisplay();
+            const pagesToFetch = numberOfMovies <= 20 ? 1 : 2;
+            let allMovies = [];
+
+            for (let page = 1; page <= pagesToFetch; page++) {
+                const response = await fetch(`${url}&page=${page}`);
+                const data = await response.json();
+                allMovies = allMovies.concat(data.results);
+            }
+
+            const popularityThreshold = 0.5;
+
+            allMovies.sort((a, b) => {
+                const popularityDifference = Math.abs(a.popularity - b.popularity);
+                if (popularityDifference < popularityThreshold) {
+                    return b.vote_average - a.vote_average;
+                }
+                return b.popularity - a.popularity;
+            });
+
+            if (allMovies.length > 0) {
+                showMovies(allMovies.slice(0, numberOfMovies));
+                document.getElementById('clear-search-btn').style.display = 'block'; // Show the button
+            }
+            else {
+                searchResultsMain.innerHTML = `<p>No movie with the specified search term found. Please try again.</p>`;
+                document.getElementById('clear-search-btn').style.display = 'none'; // Hide the button if no results
+            }
+        }
+
+        function showMovies(movies){
+            searchResultsMain.innerHTML = '';
+            movies.forEach((movie) => {
+                const { id, poster_path, title, vote_average, overview } = movie;
+                const movieE1 = document.createElement('div');
+                const voteAverage = vote_average.toFixed(1);
+                movieE1.classList.add('movie');
+
+                const movieImage = poster_path
+                    ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
+                    : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
+
+                movieE1.innerHTML = `
+            ${movieImage}
+            <div class="movie-info" style="cursor: pointer;">
+                <h3>${title}</h3>
+                <span class="${getClassByRate(vote_average)}">${voteAverage}</span>
+            </div>
+            <div class="overview" style="cursor: pointer;">
+                <h4>Movie Overview: </h4>
+                ${overview}
+            </div>`;
+
+                movieE1.addEventListener('click', () => {
+                    localStorage.setItem('selectedMovieId', id); // Store the movie ID
+                    window.location.href = 'movie-details.html';
+                });
+
+                searchResultsMain.appendChild(movieE1);
+            });
+        }
+
+        document.getElementById('clear-search-btn').addEventListener('click', () => {
+            location.reload();
+        });
+
+        function calculateMoviesToDisplay() {
+            const screenWidth = window.innerWidth;
+            if (screenWidth <= 689.9) return 10;
+            if (screenWidth <= 1021.24) return 20;
+            if (screenWidth <= 1353.74) return 21;
+            if (screenWidth <= 1684.9) return 20;
+            if (screenWidth <= 2017.49) return 20;
+            if (screenWidth <= 2349.99) return 18;
+            if (screenWidth <= 2681.99) return 21;
+            if (screenWidth <= 3014.49) return 24;
+            if (screenWidth <= 3345.99) return 27;
+            if (screenWidth <= 3677.99) return 20;
+            if (screenWidth <= 4009.99) return 22;
+            if (screenWidth <= 4340.99) return 24;
+            if (screenWidth <= 4673.49) return 26;
+            if (screenWidth <= 5005.99) return 28;
+            if (screenWidth <= 5337.99) return 30;
+            if (screenWidth <= 5669.99) return 32;
+            if (screenWidth <= 6001.99) return 34;
+            if (screenWidth <= 6333.99) return 36;
+            if (screenWidth <= 6665.99) return 38;
+            if (screenWidth <= 6997.99) return 40;
+            if (screenWidth <= 7329.99) return 42;
+            if (screenWidth <= 7661.99) return 44;
+            if (screenWidth <= 7993.99) return 46;
+            if (screenWidth <= 8325.99) return 48;
+            return 20;
+        }
+
     </script>
 
 </body>

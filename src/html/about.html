@@ -4,13 +4,36 @@
 <head>
     <meta charset="UTF-8">
     <title>About The MovieVerse</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Set the title of the page for SEO -->
-    <meta property="og:title" content="The MovieVerse - Your Ultimate Movie Guide" />
+    <meta property="og:title" content="About The MovieVerse - Your Ultimate Movie Guide" />
     <!-- Set the description of the page -->
     <meta name="description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more.">
-    <link rel="stylesheet" href="../css/style.css"/>
+    <!-- Set the viewport to the device width and initial scale to 1.0 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- SEO meta tags -->
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="website" />
+    <meta http-equiv="content-language" content="en" />
+    <meta property="og:description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more." />
+    <meta property="og:url" content="https://hoangsonww.github.io/The-MovieVerse-Database/src/html/about.html" />
+    <meta property="og:site_name" content="About The MovieVerse" />
+    <meta property="og:image" content="https://hoangsonww.github.io/The-MovieVerse-Database/images/image.png"/>
+    <meta property="og:favicon" content="./images/favicon.ico" />
+    <meta name="keywords" content="movies, film guide, directors, actors, movie genres, cinema, film reviews">
+    <meta name="author" content="Son Nguyen Hoang">
+    <link rel="canonical" href="https://hoangsonww.github.io/The-MovieVerse-Database/"/>
+    <meta name="robots" content="index, follow">
+    <meta name="rating" content="General">
+    <meta name="revisit-after" content="3 days">
+    <meta name="distribution" content="global">
+    <meta http-equiv="content-language" content="en">
+    <meta name="language" content="en">
     <meta name="theme-color" content="#7378c5">
+    <meta name="twitter:card" content="https://hoangsonww.github.io/The-MovieVerse-Database/images/image.png"/>
+    <meta name="twitter:title" content="The MovieVerse - Your Ultimate Movie Guide">
+    <meta name="twitter:description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more.">
+    <meta name="twitter:image" content="https://hoangsonww.github.io/The-MovieVerse-Database/images/image.png"/>
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <link rel="stylesheet" href="../css/style.css"/>
     <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
 </head>
@@ -62,7 +85,7 @@
             <li><strong>High-Quality Movie Trailers:</strong> Watch the latest trailers in high quality, providing a sneak peek into the movies you're interested in.</li>
             <li><strong>Director and Actor Insights:</strong> Delve into the careers of your favorite directors and actors, with dedicated pages detailing their filmography and impact on cinema.</li>
             <li><strong>Interactive Movie Details:</strong> Explore in-depth movie details, including behind-the-scenes facts, making-of stories, and exclusive interviews.</li>
-            <li><strong>Community Driven Recommendations:</strong> Get movie recommendations based on community ratings and reviews, tailored to your preferences and viewing history.</li>
+            <li><strong>Watchlists:</strong> Save movies to your watchlist, ensuring you never miss out on a movie you want to watch.</li>
             <li><strong>Seamless User Interface:</strong> Enjoy an intuitive and user-friendly interface that makes navigating through the vast collection of movies effortless and enjoyable.</li>
             <li><strong>Regular Updates and Features:</strong> Experience constantly updated content and new features, ensuring a fresh and dynamic user experience every time you visit.</li>
         </ul>
@@ -193,7 +216,7 @@
         function initClient() {
             gapi.load('auth2', function() {
                 gapi.auth2.init({
-                    client_id: '979580896903-hllisv9ev8pgn302e2959o7mlgkp2k9s.apps.googleusercontent.com' // Replace with your Google Client ID
+                    client_id: '979580896903-hllisv9ev8pgn302e2959o7mlgkp2k9s.apps.googleusercontent.com'
                 });
             });
         }

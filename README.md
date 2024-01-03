@@ -1,4 +1,4 @@
-# The MovieVerse
+# The MovieVerse App
 
 Welcome to The MovieVerse - your digital compass to the cinematic universe. This application is designed to serve as a bridge connecting movie enthusiasts with an extensive collection of films across various genres and time periods. Dive into an ocean of narratives, where stories come to life, right at your fingertips.
 
@@ -42,6 +42,7 @@ There is also a mobile version of The MovieVerse, which is developed using Apach
 - **User Sign On**: Create an account and log in with Google to unlock additional features, such as rating movies and writing reviews.
 - **Movie Matching**: Find movies that match your preferences by rating movies and writing reviews.
 - **Movie ChatBot**: Chat with our chatbot, MovieBot, to learn more about the application.
+- **Movie Watchlists**: Create a watchlist by adding movies to your favorites and view them at any time. You can also create multiple watchlists for different genres, time periods, or any other criteria you desire!
 
 ## Getting Started
 
