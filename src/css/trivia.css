@@ -11,6 +11,12 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    overflow-x: hidden;
+}
+
+html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
 }
 
 #googleSignInBtn {

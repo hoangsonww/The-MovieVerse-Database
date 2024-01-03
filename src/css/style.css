@@ -49,6 +49,7 @@ p {
 main {
     display: flex;
     flex-wrap: wrap;
+    margin-left: 25px;
 }
 
 html {
@@ -59,6 +60,7 @@ html {
     text-align: center;
     color: orange;
     scroll-behavior: smooth;
+    margin-left: 25px;
 }
 
 .main2 p {
@@ -596,6 +598,7 @@ p {
     height: 100vh;
     background-size: auto;
     background-repeat: repeat;
+    width: 100vw;
 }
 
 .favorites-btn {
@@ -1014,9 +1017,169 @@ p {
     z-index: 10;
 }
 
+#main3 {
+    margin-left: 25px;
+}
+
+#main4 {
+    margin-left: 25px;
+}
+
+#main5 {
+    margin-left: 25px;
+}
+
+#main6 {
+    margin-left: 25px;
+}
+
+#main7 {
+    margin-left: 25px;
+}
+
+#main8 {
+    margin-left: 25px;
+}
+
+#main9 {
+    margin-left: 25px;
+}
+
+#main10 {
+    margin-left: 25px;
+}
+
+#main11 {
+    margin-left: 25px;
+}
+
+#main12 {
+    margin-left: 25px;
+}
+
+#main13 {
+    margin-left: 25px;
+}
+
+#main14 {
+    margin-left: 25px;
+}
+
+#main15 {
+    margin-left: 25px;
+}
+
+#main16 {
+    margin-left: 25px;
+}
+
+#main17 {
+    margin-left: 25px;
+}
+
+#main18 {
+    margin-left: 25px;
+}
+
+#main19 {
+    margin-left: 25px;
+}
+
+#main20 {
+    margin-left: 25px;
+}
+
+#main21 {
+    margin-left: 25px;
+}
+
 @media (max-width: 840px) {
-    .movie-details-body3 {
-        margin-left: -15px;
+    #indexLink {
+        margin-bottom: -15px;
+    }
+
+    #main {
+        margin-left: 10px;
+    }
+
+    #main2 {
+        margin-left: 10px;
+    }
+
+    #main3 {
+        margin-left: 10px;
+    }
+
+    #main4 {
+        margin-left: 10px;
+    }
+
+    #main5 {
+        margin-left: 10px;
+    }
+
+    #main6 {
+        margin-left: 10px;
+    }
+
+    #main7 {
+        margin-left: 10px;
+    }
+
+    #main8 {
+        margin-left: 10px;
+    }
+
+    #main9 {
+        margin-left: 10px;
+    }
+
+    #main10 {
+        margin-left: 10px;
+    }
+
+    #main11 {
+        margin-left: 10px;
+    }
+
+    #main12 {
+        margin-left: 10px;
+    }
+
+    #main13 {
+        margin-left: 10px;
+    }
+
+    #main14 {
+        margin-left: 10px;
+    }
+
+    #main15 {
+        margin-left: 10px;
+    }
+
+    #main16 {
+        margin-left: 10px;
+    }
+
+    #main17 {
+        margin-left: 10px;
+    }
+
+    #main18 {
+        margin-left: 10px;
+    }
+
+    #main19 {
+        margin-left: 10px;
+    }
+
+    #main20 {
+        margin-left: 10px;
+    }
+
+    #main21 {
+        margin-left: 10px;
     }
 
     .back-btn {
