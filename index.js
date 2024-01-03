@@ -504,7 +504,7 @@ function updateSignInButton() {
 function initClient() {
     gapi.load('auth2', function() {
         gapi.auth2.init({
-            client_id: '979580896903-hllisv9ev8pgn302e2959o7mlgkp2k9s.apps.googleusercontent.com' // Replace with your Google Client ID
+            client_id: '154461832638-fpkleb6uhogkacq9k93721o8mjr2qc8t.apps.googleusercontent.com'
         });
     });
 }
@@ -529,3 +529,12 @@ function updateClock() {
 
 setInterval(updateClock, 1000);
 window.onload = updateClock;
+
+document.addEventListener('DOMContentLoaded', function() {
+    if (!localStorage.getItem('firstClearDone')) {
+        localStorage.clear();
+        localStorage.setItem('firstClearDone', 'true');
+        console.log('Local storage cleared for this user');
+        window.location.reload();
+    }
+});

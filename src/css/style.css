@@ -111,6 +111,11 @@ header h1 {
     text-align: center;
 }
 
+#privacy-header {
+    color: #ff8623;
+    text-align: center;
+}
+
 .highlight {
     color: orange;
 }
@@ -1528,6 +1533,10 @@ textarea {
     #clear-search-btn {
         margin-top: 40px;
     }
+
+    .watchlist-buttons-container {
+        margin-left: -3px;
+    }
 }
 
 .year-input-container {
@@ -1722,7 +1731,7 @@ body {
     cursor: pointer;
     position: absolute;
     top: 0;
-    margin-left: 316px;
+    margin-left: 315px;
     border-radius: 8px;
     padding: 0 10px;
     box-sizing: border-box;

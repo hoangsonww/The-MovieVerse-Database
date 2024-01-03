@@ -581,7 +581,7 @@ function updateSignInButton() {
 function initClient() {
     gapi.load('auth2', function() {
         gapi.auth2.init({
-            client_id: '979580896903-hllisv9ev8pgn302e2959o7mlgkp2k9s.apps.googleusercontent.com' // Replace with your Google Client ID
+            client_id: '154461832638-fpkleb6uhogkacq9k93721o8mjr2qc8t.apps.googleusercontent.com'
         });
     });
 }

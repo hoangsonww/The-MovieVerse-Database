@@ -13,6 +13,7 @@
     <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <meta name="theme-color" content="#7378c5">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
 </head>
 <body class="movie-details-body">
     <header style="margin-bottom: -60px">
@@ -32,6 +33,11 @@
         <button class="back-btn" onclick="window.location.href='../../index.html'">Home</button>
         <button class="about" onclick="window.location.href='about.html'">About</button>
         <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="Go to your favorites list">Favorites</button>
+
+        <button id="googleSignInBtn" onclick="handleSignInOut()" title="Sign In/Out">
+            <span>Sign In</span>
+            <i class="fas fa-sign-in-alt"></i>
+        </button>
 
         <form id="form">
             <input
@@ -235,22 +241,20 @@
             const createForm = document.getElementById('create-watchlist-form');
 
             let moviesContainer = document.getElementById('movies-container');
-            let moviesLabel = document.getElementById('movies-label-create'); // New ID for the label
+            let moviesLabel = document.getElementById('movies-label-create');
 
-            // Check if moviesContainer already exists, clear its contents
             if (moviesContainer) {
                 moviesContainer.innerHTML = '';
-            } else {
-                // Create moviesContainer if it doesn't exist
+            }
+            else {
                 moviesContainer = document.createElement('div');
                 moviesContainer.id = 'movies-container';
                 createForm.insertBefore(moviesContainer, createForm.querySelector('button[type="submit"]'));
             }
 
-            // Check if moviesLabel already exists, if not, create it
             if (!moviesLabel) {
                 moviesLabel = document.createElement('label');
-                moviesLabel.id = 'movies-label-create'; // Assign the new ID
+                moviesLabel.id = 'movies-label-create';
                 moviesLabel.textContent = 'Select Movies:';
                 moviesLabel.htmlFor = 'movies-container';
                 createForm.insertBefore(moviesLabel, moviesContainer);
@@ -303,8 +307,14 @@
 
         async function populateEditModal() {
             const watchlists = JSON.parse(localStorage.getItem('watchlists')) || [];
+            const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
             const editForm = document.getElementById('edit-watchlist-form');
             editForm.innerHTML = '';
+
+            const selectLabel = document.createElement('label');
+            selectLabel.textContent = 'Select A Watch List:';
+            selectLabel.setAttribute("for", "watchlist-select");
+            editForm.appendChild(selectLabel);
 
             const select = document.createElement('select');
             select.id = 'watchlist-select';
@@ -314,15 +324,16 @@
                 option.textContent = watchlist.name;
                 select.appendChild(option);
             });
-            const watchlistLabel = document.createElement('label');
-            watchlistLabel.textContent = 'Select Watch List:';
-            watchlistLabel.htmlFor = 'watchlist-select';
-            editForm.appendChild(watchlistLabel);
-            editForm.appendChild(select);
+
+            const nameLabel = document.createElement('label');
+            nameLabel.textContent = 'Watch List Name:';
 
             const nameInput = document.createElement('input');
             nameInput.type = 'text';
             nameInput.id = 'edit-watchlist-name';
+
+            const descLabel = document.createElement('label');
+            descLabel.textContent = 'Description:';
 
             const descInput = document.createElement('textarea');
             descInput.id = 'edit-watchlist-description';
@@ -330,56 +341,51 @@
             const moviesContainer = document.createElement('div');
             moviesContainer.id = 'edit-movies-container';
 
-            const nameLabel = document.createElement('label');
-            nameLabel.textContent = 'Watch List Name:';
-            nameLabel.htmlFor = 'edit-watchlist-name';
-            editForm.appendChild(nameLabel);
-            editForm.appendChild(nameInput);
-
-            const descLabel = document.createElement('label');
-            descLabel.textContent = 'Description:';
-            descLabel.htmlFor = 'edit-watchlist-description';
-            editForm.appendChild(descLabel);
-            editForm.appendChild(descInput);
-            editForm.appendChild(moviesContainer);
-
             const moviesLabel = document.createElement('label');
             moviesLabel.textContent = 'Select Movies:';
-            moviesLabel.htmlFor = 'edit-movies-container';
-            editForm.appendChild(moviesLabel);
-            editForm.appendChild(moviesContainer)
 
-            const updateFields = async index => {
-                const selectedWatchlist = watchlists[index];
-                nameInput.value = selectedWatchlist.name;
-                descInput.value = selectedWatchlist.description;
+            editForm.appendChild(select);
+            editForm.appendChild(nameLabel);
+            editForm.appendChild(nameInput);
+            editForm.appendChild(descLabel);
+            editForm.appendChild(descInput);
+            editForm.appendChild(moviesLabel);
+            editForm.appendChild(moviesContainer);
+
+            const updateForm = async (watchlist) => {
+                nameInput.value = watchlist.name;
+                descInput.value = watchlist.description;
                 moviesContainer.innerHTML = '';
 
-                for (const movieId of selectedWatchlist.movies) {
+                for (const movieId of favorites) {
                     const movieTitle = await getMovieTitle(movieId);
+                    const isChecked = watchlist.movies.includes(movieId.toString());
+
+                    const movieItem = document.createElement('div');
+                    movieItem.classList.add('movie-item');
 
                     const checkbox = document.createElement('input');
                     checkbox.type = 'checkbox';
                     checkbox.id = `edit-movie-${movieId}`;
                     checkbox.value = movieId;
-                    checkbox.checked = true;
+                    checkbox.checked = isChecked;
 
                     const label = document.createElement('label');
                     label.htmlFor = `edit-movie-${movieId}`;
                     label.textContent = movieTitle;
 
-                    moviesContainer.appendChild(checkbox);
-                    moviesContainer.appendChild(label);
-                    moviesContainer.appendChild(document.createElement('br'));
+                    movieItem.appendChild(checkbox);
+                    movieItem.appendChild(label);
+                    moviesContainer.appendChild(movieItem);
                 }
             };
 
             select.addEventListener('change', function() {
-                updateFields(this.value);
+                updateForm(watchlists[this.value]);
             });
 
             if (watchlists.length > 0) {
-                await updateFields(0);
+                updateForm(watchlists[0]);
             }
 
             const submitButton = document.createElement('button');
@@ -416,6 +422,7 @@
                 option.textContent = watchlist.name;
                 select.appendChild(option);
             });
+
             const watchlistLabel = document.createElement('label');
             watchlistLabel.textContent = 'Select Watch List to Delete:';
             watchlistLabel.htmlFor = 'delete-watchlist-select';
@@ -428,8 +435,10 @@
             deleteForm.appendChild(deleteButton);
 
             deleteButton.addEventListener('click', function() {
-                const selectedIndex = select.value;
                 let watchlists = JSON.parse(localStorage.getItem('watchlists')) || [];
+                const selectedIndex = select.value;
+                const watchListName = watchlists[selectedIndex].name;
+                if (!confirm('Are you sure you want to delete the watch list titled "' + watchListName + '"?')) return;
                 watchlists.splice(selectedIndex, 1);
                 localStorage.setItem('watchlists', JSON.stringify(watchlists));
                 closeModal('delete-watchlist-modal');
@@ -444,34 +453,46 @@
             const displaySection = document.getElementById('watchlists-display-section');
             displaySection.innerHTML = '';
 
-            for (const watchlist of watchlists) {
-                const watchlistDiv = document.createElement('div');
-                watchlistDiv.className = 'watchlist';
+            if (watchlists.length === 0) {
+                displaySection.innerHTML = '<p style="text-align: center">No watch lists found. Click on "Create a Watch List" to start adding movies.</p>';
+            }
+            else {
+                for (const watchlist of watchlists) {
+                    const watchlistDiv = document.createElement('div');
+                    watchlistDiv.className = 'watchlist';
 
-                const title = document.createElement('h3');
-                title.textContent = watchlist.name;
-                title.className = 'watchlist-title';
-                title.title = 'Title of this watch list';
+                    const title = document.createElement('h3');
+                    title.textContent = watchlist.name;
+                    title.className = 'watchlist-title';
+                    title.title = 'Title of this watch list';
 
-                const description = document.createElement('p');
-                description.textContent = watchlist.description;
-                description.className = 'watchlist-description';
-                description.title = 'Description of this watch list';
+                    const description = document.createElement('p');
+                    description.textContent = watchlist.description;
+                    description.className = 'watchlist-description';
+                    description.title = 'Description of this watch list';
 
-                watchlistDiv.appendChild(title);
-                watchlistDiv.appendChild(description);
+                    watchlistDiv.appendChild(title);
+                    watchlistDiv.appendChild(description);
 
-                const moviesContainer = document.createElement('div');
-                moviesContainer.className = 'movies-container';
-                moviesContainer.style.flexWrap = 'wrap';
+                    if (watchlist.movies.length === 0) {
+                        const noMoviesMessage = document.createElement('p');
+                        noMoviesMessage.textContent = 'This watch list is empty. Use the "Edit a Watch List" button to add movies.';
+                        noMoviesMessage.style.textAlign = 'center';
+                        watchlistDiv.appendChild(noMoviesMessage);
+                    }
+                    else {
+                        const moviesContainer = document.createElement('div');
+                        moviesContainer.className = 'movies-container';
+                        moviesContainer.style.flexWrap = 'wrap';
 
-                for (const movieId of watchlist.movies) {
-                    const movieCard = await fetchMovieDetails(movieId);
-                    moviesContainer.appendChild(movieCard);
+                        for (const movieId of watchlist.movies) {
+                            const movieCard = await fetchMovieDetails(movieId);
+                            moviesContainer.appendChild(movieCard);
+                        }
+                        watchlistDiv.appendChild(moviesContainer);
+                    }
+                    displaySection.appendChild(watchlistDiv);
                 }
-
-                watchlistDiv.appendChild(moviesContainer);
-                displaySection.appendChild(watchlistDiv);
             }
 
             const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
@@ -568,12 +589,12 @@
             if (searchTerm) {
                 getMovies(SEARCHPATH + searchTerm);
                 altTitle.innerHTML = 'Search Results for: ' + searchTerm;
-                document.getElementById('search-container').style.display = 'flex'; // Show the container
+                document.getElementById('search-container').style.display = 'flex';
                 search.value = '';
             }
             else {
                 altTitle.innerHTML = 'Please enter a search term.';
-                document.getElementById('search-container').style.display = 'none'; // Hide the container
+                document.getElementById('search-container').style.display = 'none';
             }
         });
 
@@ -584,12 +605,12 @@
             if (searchTerm) {
                 getMovies(SEARCHPATH + searchTerm);
                 altTitle.innerHTML = 'Search Results for: ' + searchTerm;
-                document.getElementById('search-container').style.display = 'flex'; // Show the container
+                document.getElementById('search-container').style.display = 'flex';
                 search.value = '';
             }
             else {
                 altTitle.innerHTML = 'Please enter a search term.';
-                document.getElementById('search-container').style.display = 'none'; // Hide the container
+                document.getElementById('search-container').style.display = 'none';
             }
         });
 
@@ -616,11 +637,11 @@
 
             if (allMovies.length > 0) {
                 showMovies(allMovies.slice(0, numberOfMovies));
-                document.getElementById('clear-search-btn').style.display = 'block'; // Show the button
+                document.getElementById('clear-search-btn').style.display = 'block';
             }
             else {
                 searchResultsMain.innerHTML = `<p>No movie with the specified search term found. Please try again.</p>`;
-                document.getElementById('clear-search-btn').style.display = 'none'; // Hide the button if no results
+                document.getElementById('clear-search-btn').style.display = 'none';
             }
         }
 
@@ -648,7 +669,7 @@
             </div>`;
 
                 movieE1.addEventListener('click', () => {
-                    localStorage.setItem('selectedMovieId', id); // Store the movie ID
+                    localStorage.setItem('selectedMovieId', id);
                     window.location.href = 'movie-details.html';
                 });
 
@@ -688,6 +709,57 @@
             if (screenWidth <= 8325.99) return 48;
             return 20;
         }
+
+        let signedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
+        updateSignInButton();
+
+        function handleSignInOut() {
+            const signInOutButton = document.getElementById('googleSignInBtn');
+            const signInOutText = signInOutButton.querySelector('span');
+            const signInOutIcon = signInOutButton.querySelector('i');
+
+            if (!signedIn) {
+                signInOutText.textContent = 'Sign Out';
+                signInOutIcon.className = 'fas fa-sign-out-alt';
+                signedIn = true;
+                localStorage.setItem('isSignedIn', signedIn);
+                gapi.auth2.getAuthInstance().signIn();
+            }
+            else {
+                signInOutText.textContent = 'Sign In';
+                signInOutIcon.className = 'fas fa-sign-in-alt';
+                signedIn = false;
+                localStorage.setItem('isSignedIn', signedIn);
+                gapi.auth2.getAuthInstance().signOut();
+            }
+        }
+
+        function updateSignInButton() {
+            const signInOutButton = document.getElementById('googleSignInBtn');
+            const signInOutText = signInOutButton.querySelector('span');
+            const signInOutIcon = signInOutButton.querySelector('i');
+            if (signedIn) {
+                signInOutText.textContent = 'Sign Out';
+                signInOutIcon.className = 'fas fa-sign-out-alt';
+            }
+            else {
+                signInOutText.textContent = 'Sign In';
+                signInOutIcon.className = 'fas fa-sign-in-alt';
+            }
+        }
+
+        function initClient() {
+            gapi.load('auth2', function() {
+                gapi.auth2.init({
+                    client_id: '154461832638-fpkleb6uhogkacq9k93721o8mjr2qc8t.apps.googleusercontent.com'
+                });
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            updateSignInButton();
+            initClient();
+        });
 
     </script>
 
