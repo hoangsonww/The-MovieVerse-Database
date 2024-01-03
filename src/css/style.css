@@ -590,6 +590,14 @@ p {
     background-repeat: repeat;
 }
 
+.movie-details-body3 {
+    background-image: url("../../images/universe.jpg");
+    background-position: center;
+    height: 100vh;
+    background-size: auto;
+    background-repeat: repeat;
+}
+
 .favorites-btn {
     background-color: #7378c5;
     border: none;
@@ -1007,6 +1015,10 @@ p {
 }
 
 @media (max-width: 840px) {
+    .movie-details-body3 {
+        margin-left: -15px;
+    }
+
     .back-btn {
         background-color: #7378c5;
         border: none;
@@ -1021,7 +1033,7 @@ p {
         cursor: pointer;
         position: absolute;
         top: 0;
-        margin-left: -200px;
+        margin-left: -180px;
         border-radius: 8px;
     }
 
@@ -1039,7 +1051,7 @@ p {
         cursor: pointer;
         position: absolute;
         top: 0;
-        margin-left: -20px;
+        margin-left: 0;
         border-radius: 8px;
     }
 
@@ -1056,7 +1068,7 @@ p {
         cursor: pointer;
         position: absolute;
         top: 0;
-        margin-left: 168px;
+        margin-left: 188px;
         border-radius: 8px;
         padding-left: 10px;
         padding-right: 10px;
