@@ -16,7 +16,7 @@ Welcome to The MovieVerse - your digital compass to the cinematic universe. This
 - [License](#license)
 - [Contact](#contact)
 
-## App Image
+## User Interface
 <p align="center">
   <img src="images/screenshot.png" alt="The MovieVerse App Interface"/>
 </p>

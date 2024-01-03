@@ -1268,6 +1268,10 @@ p {
         flex-direction: column;
     }
 
+    #movie-details-container {
+        margin-top: 10px;
+    }
+
     .movie-left {
         margin-top: -60px;
         padding-top: 20px;
