@@ -529,12 +529,3 @@ function updateClock() {
 
 setInterval(updateClock, 1000);
 window.onload = updateClock;
-
-document.addEventListener('DOMContentLoaded', function() {
-    if (!localStorage.getItem('firstClearDone')) {
-        localStorage.clear();
-        localStorage.setItem('firstClearDone', 'true');
-        console.log('Local storage cleared for this user');
-        window.location.reload();
-    }
-});
