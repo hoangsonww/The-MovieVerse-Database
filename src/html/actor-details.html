@@ -13,6 +13,7 @@
     <meta name="theme-color" content="#7378c5">
     <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <script src="../js/settings.js"></script>
 </head>
 
 <body class="movie-details-body">
@@ -68,6 +69,8 @@
 
     <script src="../js/actor-details.js"></script>
 
+    <button id="settings-btn" style="position: fixed; bottom: 185px">Settings</button>
+
     <button id="movie-match-btn" onclick="window.location.href='movie-match.html'" title="Find movies that match your mood and preferences!" style="bottom: 150px">Movie Match</button>
 
     <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 115px">Movie Timeline</button>
@@ -82,6 +85,34 @@
 
     <script src="https://apis.google.com/js/platform.js" async defer></script>
 
+    <script>
+        document.getElementById('settings-btn').addEventListener('click', () => {
+            window.location.href = 'settings.html';
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            applySettings();
+
+            function applySettings() {
+                const savedBg = localStorage.getItem('backgroundImage');
+                const savedTextColor = localStorage.getItem('textColor');
+                const savedFontSize = localStorage.getItem('fontSize');
+
+                if (savedBg) {
+                    document.body.style.backgroundImage = `url('${savedBg}')`;
+                }
+                if (savedTextColor) {
+                    document.querySelectorAll('h1, h2, h3, p, span, div, button, input, select, textarea').forEach(element => {
+                        element.style.color = savedTextColor;
+                    });
+                }
+                if (savedFontSize) {
+                    const size = savedFontSize === 'small' ? '12px' : savedFontSize === 'medium' ? '16px' : '20px';
+                    document.body.style.fontSize = size;
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>

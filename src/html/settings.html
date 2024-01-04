@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MovieVerse Settings</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <style>
+        .settings-container {
+            text-align: center;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .settings-section {
+            margin-bottom: 30px;
+            width: 80%;
+            max-width: 500px;
+        }
+
+        .settings-section select,
+        .settings-section input[type="color"] {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 2px solid #7378c5;
+            background-color: #22254b;
+            color: white;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .settings-section h2 {
+            color: #ff8623;
+            margin-bottom: 10px;
+        }
+
+        .settings-section label {
+            font-size: 20px;
+            color: #ff8623;
+            display: block;
+        }
+
+        body, html {
+            height: 100%;
+            margin: 0;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        header {
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        main {
+            margin-left: -10px;
+        }
+
+        #search-results {
+            margin-left: 60px;
+            z-index: 1000;
+        }
+
+        @media (max-width: 900px) {
+            #search-results {
+                margin-left: 0;
+            }
+        }
+
+        #reset-button {
+            display: block;
+            background-color: #ff8623;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 20px auto;
+        }
+
+        #reset-button:hover {
+            background-color: #7378c5;
+            transition: background-color 0.3s ease;
+        }
+
+        #search-results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            margin-left: 25px;
+        }
+
+        #search-title {
+            margin: 0;
+        }
+    </style>
+</head>
+<body class="movie-details-body">
+    <header>
+        <a href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer">
+            <h1 id="my-heading" style="margin-bottom: -10px">
+                The Mo<span class="highlight">vieV</span>erse
+            </h1>
+        </a>
+
+        <div id="local-time">
+            <p id="time-label">Your Current Time:</p>
+            <h2 id="clock" class="clock"></h2>
+        </div>
+
+        <button class="back-btn" onclick="window.location.href='../../index.html'">Home</button>
+        <button class="about" onclick="window.location.href='about.html'">About</button>
+        <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="Go to your favorites list">Favorites</button>
+        <button id="googleSignInBtn" onclick="handleSignInOut()" title="Sign In/Out">
+            <span>Sign In</span>
+            <i class="fas fa-sign-in-alt"></i>
+        </button>
+        <form id="form">
+            <input
+                    type="text"
+                    id="search"
+                    placeholder="Search For Any Movie..."
+                    class="search"
+            />
+            <button type="button" id="button-search" onclick="">Search</button>
+        </form>
+        <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!">Movie Match</button>
+        <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 140px">Movie Timeline</button>
+        <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 100px">Movie of the Day</button>
+        <button id="discussions-btn" onclick="window.location.href='discussions.html'" style="margin-bottom: -39px" title="Engage in movie discussions">MovieVerse Chatbot</button>
+        <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="margin-bottom: -40px" title="Test your movie knowledge">MovieVerse Trivia</button>
+    </header>
+
+    <div id="search-results-header">
+        <h2 id="search-title"></h2>
+        <button id="clear-search-btn" style="display: none">Clear Search Results</button>
+    </div>
+
+    <main id="search-results"></main>
+
+    <main id="settings-container" class="settings-container">
+        <!-- Background Setting -->
+        <div class="settings-section">
+            <h2>Change Background</h2>
+            <select id="background-select" style="font: inherit">
+                <option style="font: inherit" value="../../images/universe-1.png">Default</option>
+                <option style="font: inherit" value="../../images/universe.jpg">Universe 1</option>
+                <option style="font: inherit" value="../../images/universe-2.png">Universe 2</option>
+                <option style="font: inherit" value="../../images/universe-3.jpg">Universe 3</option>
+                <option style="font: inherit" value="../../images/universe-4.png">Universe 4</option>
+                <option style="font: inherit" value="../../images/universe-5.png">Universe 5</option>
+                <option style="font: inherit" value="../../images/universe-6.png">Universe 6</option>
+                <option style="font: inherit" value="../../images/universe-7.png">Universe 7</option>
+                <option style="font: inherit" value="../../images/universe-8.png">Universe 8</option>
+                <option style="font: inherit" value="../../images/universe-9.png">Universe 9</option>
+                <option style="font: inherit" value="../../images/universe-10.png">Universe 10</option>
+                <option style="font: inherit" value="../../images/black.jpeg">Black</option>
+                <option style="font: inherit" value="../../images/grey.png">Grey</option>
+                <option style="font: inherit" value="../../images/blue.jpg">Blue</option>
+                <option style="font: inherit" value="../../images/silver.png">Silver</option>
+                <option style="font: inherit" value="../../images/gold.jpg">Gold</option>
+                <option style="font: inherit" value="../../images/rose.png">Rose</option>
+                <option style="font: inherit" value="../../images/pink.png">Pink</option>
+                <option style="font: inherit" value="../../images/red.jpg">Red</option>
+                <option style="font: inherit" value="../../images/green.jpg">Green</option>
+                <option style="font: inherit" value="../../images/brown.jpg">Brown</option>
+                <option style="font: inherit" value="../../images/purple.jpg">Purple</option>
+                <option style="font: inherit" value="../../images/orange.jpg">Orange</option>
+                <option style="font: inherit" value="../../images/yellow.jpg">Light Yellow</option>
+            </select>
+        </div>
+
+        <!-- Text Color Setting -->
+        <div class="settings-section">
+            <h2>Change Text Color</h2>
+            <label for="text-color-input">Text Color:</label>
+            <input type="color" style="min-height: 50px" id="text-color-input">
+        </div>
+
+        <!-- Additional Setting: Font Size -->
+        <div class="settings-section">
+            <h2>Change Font Size</h2>
+            <label style="font: inherit" for="font-size-select">Font Size:</label>
+            <select style="font: inherit" id="font-size-select">
+                <option style="font: inherit" value="small">Small</option>
+                <option style="font: inherit" value="medium" selected>Medium</option>
+                <option style="font: inherit" value="large">Large</option>
+            </select>
+        </div>
+
+        <button style="font: inherit" id="reset-button">Reset to Defaults</button>
+    </main>
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+    <script src="../js/settings.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            applySettings();
+
+            function applySettings() {
+                const savedBg = localStorage.getItem('backgroundImage');
+                const savedTextColor = localStorage.getItem('textColor');
+                const savedFontSize = localStorage.getItem('fontSize');
+
+                if (savedBg) {
+                    document.body.style.backgroundImage = `url('${savedBg}')`;
+                }
+                if (savedTextColor) {
+                    document.querySelectorAll('h1, h2, h3, p, span, div, button, input, select, textarea').forEach(element => {
+                        element.style.color = savedTextColor;
+                    });
+                }
+                if (savedFontSize) {
+                    const size = savedFontSize === 'small' ? '12px' : savedFontSize === 'medium' ? '16px' : '20px';
+                    document.body.style.fontSize = size;
+                }
+            }
+        });
+
+        let signedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
+        updateSignInButton();
+
+        function handleSignInOut() {
+            const signInOutButton = document.getElementById('googleSignInBtn');
+            const signInOutText = signInOutButton.querySelector('span');
+            const signInOutIcon = signInOutButton.querySelector('i');
+
+            if (!signedIn) {
+                signInOutText.textContent = 'Sign Out';
+                signInOutIcon.className = 'fas fa-sign-out-alt';
+                signedIn = true;
+                localStorage.setItem('isSignedIn', signedIn);
+                gapi.auth2.getAuthInstance().signIn();
+            }
+            else {
+                signInOutText.textContent = 'Sign In';
+                signInOutIcon.className = 'fas fa-sign-in-alt';
+                signedIn = false;
+                localStorage.setItem('isSignedIn', signedIn);
+                gapi.auth2.getAuthInstance().signOut();
+            }
+        }
+
+        function updateSignInButton() {
+            const signInOutButton = document.getElementById('googleSignInBtn');
+            const signInOutText = signInOutButton.querySelector('span');
+            const signInOutIcon = signInOutButton.querySelector('i');
+            if (signedIn) {
+                signInOutText.textContent = 'Sign Out';
+                signInOutIcon.className = 'fas fa-sign-out-alt';
+            }
+            else {
+                signInOutText.textContent = 'Sign In';
+                signInOutIcon.className = 'fas fa-sign-in-alt';
+            }
+        }
+
+        function initClient() {
+            gapi.load('auth2', function() {
+                gapi.auth2.init({
+                    client_id: '154461832638-fpkleb6uhogkacq9k93721o8mjr2qc8t.apps.googleusercontent.com'
+                });
+            });
+        }
+
+        const SEARCHPATH = "https://api.themoviedb.org/3/search/movie?&api_key=c5a20c861acf7bb8d9e987dcc7f1b558&query=";
+        const IMGPATH = "https://image.tmdb.org/t/p/w1280";
+
+        document.addEventListener("DOMContentLoaded", function() {
+            updateSignInButton();
+            initClient();
+        });
+
+        const searchForm = document.getElementById('form');
+        const searchBtn = document.getElementById('button-search');
+        const searchResultsMain = document.getElementById('search-results');
+        const altTitle = document.getElementById('search-title');
+
+        function getClassByRate(vote){
+            if (vote >= 8) {
+                return 'green';
+            }
+            else if (vote >= 5) {
+                return 'orange';
+            }
+            else {
+                return 'red';
+            }
+        }
+
+        searchForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const searchTerm = search.value.trim();
+
+            if (searchTerm) {
+                getMovies(SEARCHPATH + searchTerm);
+                altTitle.innerHTML = 'Search Results for: ' + searchTerm;
+                document.getElementById('search-container').style.display = 'flex';
+                search.value = '';
+            }
+            else {
+                altTitle.innerHTML = 'Please enter a search term.';
+                document.getElementById('search-container').style.display = 'none';
+            }
+        });
+
+        searchBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const searchTerm = search.value;
+
+            if (searchTerm) {
+                getMovies(SEARCHPATH + searchTerm);
+                altTitle.innerHTML = 'Search Results for: ' + searchTerm;
+                document.getElementById('search-container').style.display = 'flex';
+                search.value = '';
+            }
+            else {
+                altTitle.innerHTML = 'Please enter a search term.';
+                document.getElementById('search-container').style.display = 'none';
+            }
+        });
+
+        async function getMovies(url) {
+            const numberOfMovies = calculateMoviesToDisplay();
+            const pagesToFetch = numberOfMovies <= 20 ? 1 : 2;
+            let allMovies = [];
+
+            for (let page = 1; page <= pagesToFetch; page++) {
+                const response = await fetch(`${url}&page=${page}`);
+                const data = await response.json();
+                allMovies = allMovies.concat(data.results);
+            }
+
+            const popularityThreshold = 0.5;
+
+            allMovies.sort((a, b) => {
+                const popularityDifference = Math.abs(a.popularity - b.popularity);
+                if (popularityDifference < popularityThreshold) {
+                    return b.vote_average - a.vote_average;
+                }
+                return b.popularity - a.popularity;
+            });
+
+            if (allMovies.length > 0) {
+                showMovies(allMovies.slice(0, numberOfMovies));
+                document.getElementById('clear-search-btn').style.display = 'block';
+            }
+            else {
+                searchResultsMain.innerHTML = `<p>No movie with the specified search term found. Please try again.</p>`;
+                document.getElementById('clear-search-btn').style.display = 'none';
+            }
+        }
+
+        function showMovies(movies){
+            searchResultsMain.innerHTML = '';
+            movies.forEach((movie) => {
+                const { id, poster_path, title, vote_average, overview } = movie;
+                const movieE1 = document.createElement('div');
+                const voteAverage = vote_average.toFixed(1);
+                movieE1.classList.add('movie');
+
+                const movieImage = poster_path
+                    ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
+                    : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
+
+                movieE1.innerHTML = `
+            ${movieImage}
+            <div class="movie-info" style="cursor: pointer;">
+                <h3>${title}</h3>
+                <span class="${getClassByRate(vote_average)}">${voteAverage}</span>
+            </div>
+            <div class="overview" style="cursor: pointer;">
+                <h4>Movie Overview: </h4>
+                ${overview}
+            </div>`;
+
+                movieE1.addEventListener('click', () => {
+                    localStorage.setItem('selectedMovieId', id);
+                    window.location.href = 'movie-details.html';
+                });
+
+                searchResultsMain.appendChild(movieE1);
+            });
+        }
+
+        document.getElementById('clear-search-btn').addEventListener('click', () => {
+            location.reload();
+        });
+
+        function calculateMoviesToDisplay() {
+            const screenWidth = window.innerWidth;
+            if (screenWidth <= 689.9) return 10;
+            if (screenWidth <= 1021.24) return 20;
+            if (screenWidth <= 1353.74) return 21;
+            if (screenWidth <= 1684.9) return 20;
+            if (screenWidth <= 2017.49) return 20;
+            if (screenWidth <= 2349.99) return 18;
+            if (screenWidth <= 2681.99) return 21;
+            if (screenWidth <= 3014.49) return 24;
+            if (screenWidth <= 3345.99) return 27;
+            if (screenWidth <= 3677.99) return 20;
+            if (screenWidth <= 4009.99) return 22;
+            if (screenWidth <= 4340.99) return 24;
+            if (screenWidth <= 4673.49) return 26;
+            if (screenWidth <= 5005.99) return 28;
+            if (screenWidth <= 5337.99) return 30;
+            if (screenWidth <= 5669.99) return 32;
+            if (screenWidth <= 6001.99) return 34;
+            if (screenWidth <= 6333.99) return 36;
+            if (screenWidth <= 6665.99) return 38;
+            if (screenWidth <= 6997.99) return 40;
+            if (screenWidth <= 7329.99) return 42;
+            if (screenWidth <= 7661.99) return 44;
+            if (screenWidth <= 7993.99) return 46;
+            if (screenWidth <= 8325.99) return 48;
+            return 20;
+        }
+    </script>
+</body>
+</html>

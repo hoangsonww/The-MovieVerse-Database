@@ -205,7 +205,10 @@ document.addEventListener('DOMContentLoaded', () => {
         fetchDirectorDetails(directorId);
     }
     else {
-        document.getElementById('director-details-container').innerHTML = '<p>Director details not found.</p>';
+        document.getElementById('director-details-container').innerHTML = `
+            <div style="display: flex; justify-content: center; align-items: center; text-align: center; margin-top: 40px; width: 100vw;">
+                <h2>Director details not found.</h2>
+            </div>`;
     }
 });
 

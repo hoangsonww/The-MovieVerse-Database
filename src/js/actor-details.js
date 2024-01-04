@@ -159,7 +159,10 @@ document.addEventListener('DOMContentLoaded', () => {
         fetchActorDetails(actorId);
     }
     else {
-        document.getElementById('actor-details-container').innerHTML = '<p>Actor details not found.</p>';
+        document.getElementById('actor-details-container').innerHTML = `
+            <div style="display: flex; justify-content: center; align-items: center; text-align: center; width: 100vw;">
+                <h2>Actor details not found.</h2>
+            </div>`;
     }
 
     document.getElementById('clear-search-btn').style.display = 'none';

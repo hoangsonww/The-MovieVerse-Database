@@ -156,6 +156,13 @@ document.addEventListener('DOMContentLoaded', () => {
         fetchCompanyDetails(companyId);
         fetchCompanyMovies(companyId);
     }
+    else {
+        const companyDetailsContainer = document.getElementById('company-details-container');
+        companyDetailsContainer.innerHTML = `
+            <div style="display: flex; justify-content: center; align-items: center; text-align: center; width: 100vw;">
+                <h2>Company details not found.</h2>
+            </div>`;
+    }
 });
 
 async function fetchCompanyDetails(companyId) {
@@ -194,6 +201,11 @@ async function fetchCompanyDetails(companyId) {
     }
     catch (error) {
         console.error('Error fetching company details:', error);
+        const companyDetailsContainer = document.getElementById('company-details-container');
+        companyDetailsContainer.innerHTML = `
+            <div style="display: flex; justify-content: center; align-items: center; height: 100vh; text-align: center; width: 100vw;">
+                <h2>Company details not found.</h2>
+            </div>`;
     }
 }
 
