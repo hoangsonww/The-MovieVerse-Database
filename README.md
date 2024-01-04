@@ -1,12 +1,12 @@
 # The MovieVerse App
 
-Welcome to The MovieVerse - your digital compass to the cinematic universe. This application is designed to serve as a bridge connecting movie enthusiasts with an extensive collection of films across various genres and time periods. Dive into an ocean of narratives, where stories come to life, right at your fingertips.
+Welcome to The MovieVerse - your digital compass to the cinematic universe. This application is designed to serve as a bridge connecting movie enthusiasts with an extensive collection of films across various genres and time periods. Dive into an ocean of narratives, where stories come to life, right at your fingertips. This app is available at [https://movie-verse.com](https://movie-verse.com), and will soon also be available on the App Store and Google Play Store.
 
 ---
 
 ## Table of Contents
 
-- [App Image](#app-image)
+- [User Interface](#user-interface)
 - [Introduction](#introduction)
 - [Features](#features)
 - [Getting Started](#getting-started)
@@ -44,27 +44,6 @@ There is also a mobile version of The MovieVerse, which is developed using Apach
 - **Movie ChatBot**: Chat with our chatbot, MovieBot, to learn more about the application.
 - **Movie Watchlists**: Create a watchlist by adding movies to your favorites and view them at any time. You can also create multiple watchlists for different genres, time periods, or any other criteria you desire!
 
-## Getting Started
-
-To get a local copy up and running, follow these simple steps:
-
-1. Clone the repository:
-   ```
-   git clone https://github.com/hoangsonww/The-MovieVerse-Database.git
-   ```
-2. Navigate to the project directory:
-   ```
-   cd MovieVerse
-   ```
-3. Install dependencies (if any):
-   ```
-   npm install
-   ```
-4. Start the application:
-   ```
-   npm start
-   ```
-
 ## Usage
 
 Upon launching The MovieVerse, you'll be greeted with a user-friendly interface where you can:
@@ -90,6 +69,7 @@ Upon launching The MovieVerse, you'll be greeted with a user-friendly interface 
 - [Express](https://expressjs.com/)
 - [MongoDB](https://www.mongodb.com/)
 - [MySQL](https://www.mysql.com/)
+- [Google Firebase](https://firebase.google.com/)
 - [Apache Cordova](https://cordova.apache.org/)
 - [Bootstrap](https://getbootstrap.com/)
 - [React Bootstrap](https://react-bootstrap.github.io/)
@@ -103,9 +83,16 @@ Upon launching The MovieVerse, you'll be greeted with a user-friendly interface 
 - [Webpack](https://webpack.js.org/)
 - [Babel](https://babeljs.io/)
 - [Docker](https://www.docker.com/)
+- [Emscripten](https://emscripten.org/)
+- [C](https://en.wikipedia.org/wiki/C_(programming_language))
 - [JavaScript](https://www.javascript.com/)
+- [Vanilla JS](http://vanilla-js.com/)
 - [HTML](https://html.com/)
 - [CSS](https://www.w3.org/Style/CSS/Overview.en.html)
+- [Python](https://www.python.org/)
+- [Java](https://www.java.com/en/)
+- [Swift](https://developer.apple.com/swift/)
+- [Google Cloud Platform](https://cloud.google.com/)
 
 ## Contributing
 
@@ -118,6 +105,43 @@ If you have a suggestion that would make this better, please fork the repo and c
 3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
+6. Install Emscritpen (refer to the README.md file in utils directory [here](utils/README.md).
+7. Compile the C code (refer to the README.md file in utils directory [here](utils/README.md).
+8. Take a look at the project configuration directory (project-config) and make sure that the paths are correct.
+9. Visit the backend directory and install the dependencies (if any):
+    ```
+    npm install
+    ```
+10. Start the backend server:
+    ```
+    npm start
+    ```
+11. Visit the frontend directory (root) and install the dependencies (if any):
+    ```
+    npm install
+    ```
+12. Start the frontend server:
+    ```
+    npm start
+    ```
+13. Visit the mobile app directory and install the dependencies (if any):
+    ```
+    npm install
+    ```
+14. Start the mobile app server:
+    ```
+    npm start
+    ```
+15. Enjoy and let me know if you have any questions!
+
+## Privacy Policy
+
+The MovieVerse is committed to protecting your privacy. This Privacy Policy explains how your personal information is collected, used, and disclosed by The MovieVerse.
+Feel free to visit our [Privacy Policy](https://movie-verse.com/src/html/privacy-policy) page to learn more.
+
+## Terms of Service
+
+By accessing or using The MovieVerse, you agree to be bound by our [Terms of Service](https://movie-verse.com/src/html/terms-of-service).
 
 ## License
 

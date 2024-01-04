@@ -1196,6 +1196,46 @@ textarea {
     }
 }
 
+#custom-bg-upload {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 2px solid #7378c5;
+    background-color: #22254b;
+    color: white;
+    font-size: 16px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+#custom-bg-name {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 2px solid #7378c5;
+    background-color: #22254b;
+    color: white;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+#upload-bg-btn {
+    background-color: #ff8623;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 20px auto;
+    display: block;
+}
+
+#upload-bg-btn:hover {
+    background-color: #7378c5;
+    transition: background-color 0.3s ease;
+}
+
 #settings-btn {
     background-color: #7378c5;
     bottom: 260px;

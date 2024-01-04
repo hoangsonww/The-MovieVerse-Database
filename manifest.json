@@ -1,11 +1,11 @@
 {
-  "name": "The MovieVerse App",
-  "short_name": "MovieVerse",
+  "name": "The MovieVerse App - Your Ultimate Movie Database, Anytime, Anywhere",
+  "short_name": "The MovieVerse App",
   "start_url": "index.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#7378c5",
-  "description": "The MovieVerse App - Your Ultimate Movie Database, Anywhere",
+  "description": "An app that provides you with the latest movies and TV shows, and also allows you to save your favorites, create watchlists, and much more!",
   "icons": [
     {
       "src": "images/image.png",

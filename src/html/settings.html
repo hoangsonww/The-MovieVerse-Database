@@ -102,6 +102,23 @@
         #search-title {
             margin: 0;
         }
+
+        .button-group button {
+            background-color: #ff8623;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .button-group button:hover {
+            background-color: #7378c5;
+            transition: background-color 0.3s ease;
+        }
+
     </style>
 </head>
 <body class="movie-details-body">
@@ -112,7 +129,7 @@
             </h1>
         </a>
 
-        <div id="local-time">
+        <div id="local-time" style="position: relative; left: 5vw">
             <p id="time-label">Your Current Time:</p>
             <h2 id="clock" class="clock"></h2>
         </div>
@@ -147,10 +164,10 @@
 
     <main id="search-results"></main>
 
-    <main id="settings-container" class="settings-container">
+    <main id="settings-container" class="settings-container" style="margin-bottom: 200px">
         <!-- Background Setting -->
         <div class="settings-section">
-            <h2>Change Background</h2>
+            <h2>Change App Background</h2>
             <select id="background-select" style="font: inherit">
                 <option style="font: inherit" value="../../images/universe-1.png">Default</option>
                 <option style="font: inherit" value="../../images/universe.jpg">Universe 1</option>
@@ -177,6 +194,16 @@
                 <option style="font: inherit" value="../../images/orange.jpg">Orange</option>
                 <option style="font: inherit" value="../../images/yellow.jpg">Light Yellow</option>
             </select>
+        </div>
+
+        <div class="settings-section">
+            <h2>Upload A Custom Background</h2>
+            <input type="file" id="custom-bg-upload" accept="image/*" style="margin-bottom: 10px; font: inherit">
+            <input type="text" id="custom-bg-name" placeholder="Enter image name..." style="margin-bottom: 10px; font: inherit">
+            <div class="button-group">
+                <button id="upload-bg-btn" style="font: inherit">Upload</button>
+                <button id="delete-uploaded-btn" style="font: inherit">Delete Uploaded Images</button>
+            </div>
         </div>
 
         <!-- Text Color Setting -->
