@@ -393,6 +393,7 @@ header h1 {
     font-size: 36px;
     text-align: center;
     background-color: transparent;
+    margin-left: 40px;
 }
 
 h2:hover {
@@ -490,6 +491,10 @@ main {
 }
 
 @media (max-width: 840px) {
+    #my-heading {
+        margin-left: 0;
+    }
+
     .back-btn {
         background-color: #7378c5;
         border: none;

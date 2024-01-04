@@ -14,7 +14,49 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <meta name="theme-color" content="#7378c5">
     <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <style>
+        .watchlist-controls {
+            position: absolute;
+            top: 10px;
+            display: flex;
+            align-items: start;
+            gap: 5px;
+        }
+
+        .watchlist-controls button {
+            background: none;
+            border: none;
+            color: #ff8623;
+            cursor: pointer;
+            height: 20px;
+            width: 20px;
+            margin-right: 8px;
+            font-size: 18px;
+        }
+
+        .watchlist.pinned .watchlist-controls #pin-btn {
+            color: #7378c5;
+        }
+
+        .watchlist-controls button:hover {
+            color: #7378c5;
+        }
+
+        .watchlist-controls button:first-child {
+            order: -1;
+        }
+
+        .watchlist {
+            position: relative;
+            padding-top: 30px;
+        }
+
+        .watchlist.pinned {
+            border: 2px solid yellow;
+        }
+    </style>
 </head>
+
 <body class="movie-details-body">
     <header style="margin-bottom: -60px">
         <div id="header-title">
@@ -119,6 +161,14 @@
     <script src="../js/movie-details.js"></script>
 
     <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            updateClock();
+            loadWatchLists();
+            updateSignInButton();
+            initClient();
+            updateFavorites();
+        });
+
         function updateClock() {
             var now = new Date();
             var hours = now.getHours();
@@ -132,7 +182,7 @@
         setInterval(updateClock, 1000);
         window.onload = updateClock;
 
-        document.addEventListener('DOMContentLoaded', () => {
+        function updateFavorites() {
             const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
             const favoritesMain = document.getElementById('favorites-main');
             favoritesMain.style.textAlign = 'center';
@@ -142,7 +192,7 @@
             else {
                 favoritesMain.innerHTML = '<div style="text-align: center"><p style="text-align: center">No favorites added yet.</p></div>';
             }
-        });
+        }
 
         async function fetchMovieDetails(movieId) {
             const favoritesContainer = document.getElementById('favorites-main');
@@ -282,9 +332,14 @@
         }
 
         document.getElementById('create-watchlist-btn').addEventListener('click', function() {
+            document.getElementById('create-watchlist-form').reset();
             populateCreateModalWithFavorites();
             openModal('create-watchlist-modal');
         });
+
+        function generateUniqueId() {
+            return Date.now().toString(36) + Math.random().toString(36).substr(2);
+        }
 
         document.getElementById('create-watchlist-form').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -293,11 +348,20 @@
             const selectedMovies = Array.from(document.querySelectorAll('#movies-container input[name="favoritedMovies"]:checked')).map(checkbox => checkbox.value);
 
             let watchlists = JSON.parse(localStorage.getItem('watchlists')) || [];
-            watchlists.push({ name, description, movies: selectedMovies, createdAt: new Date().toISOString() });
+            const uniqueId = generateUniqueId();
+            watchlists.push({
+                id: uniqueId,
+                name,
+                description,
+                movies: selectedMovies,
+                pinned: false,
+                createdAt: new Date().toISOString()
+            });
 
             localStorage.setItem('watchlists', JSON.stringify(watchlists));
             closeModal('create-watchlist-modal');
             updateWatchListsDisplay();
+            window.location.reload();
         });
 
         document.getElementById('edit-watchlist-btn').addEventListener('click', async function() {
@@ -402,11 +466,18 @@
             const selectedMovies = Array.from(document.querySelectorAll('#edit-movies-container input[type="checkbox"]:checked')).map(checkbox => checkbox.value);
 
             let watchlists = JSON.parse(localStorage.getItem('watchlists')) || [];
-            watchlists[selectedIndex] = { name: newName, description: newDescription, movies: selectedMovies };
+            watchlists[selectedIndex] = {
+                id: watchlists[selectedIndex].id,
+                name: newName,
+                description: newDescription,
+                movies: selectedMovies,
+                pinned: watchlists[selectedIndex].pinned
+            };
 
             localStorage.setItem('watchlists', JSON.stringify(watchlists));
             closeModal('edit-watchlist-modal');
             updateWatchListsDisplay();
+            window.location.reload();
         });
 
         function populateDeleteModal() {
@@ -443,6 +514,7 @@
                 localStorage.setItem('watchlists', JSON.stringify(watchlists));
                 closeModal('delete-watchlist-modal');
                 updateWatchListsDisplay();
+                window.location.reload();
             });
         }
 
@@ -464,12 +536,10 @@
                     const title = document.createElement('h3');
                     title.textContent = watchlist.name;
                     title.className = 'watchlist-title';
-                    title.title = 'Title of this watch list';
 
                     const description = document.createElement('p');
                     description.textContent = watchlist.description;
                     description.className = 'watchlist-description';
-                    description.title = 'Description of this watch list';
 
                     watchlistDiv.appendChild(title);
                     watchlistDiv.appendChild(description);
@@ -491,36 +561,9 @@
                         }
                         watchlistDiv.appendChild(moviesContainer);
                     }
+                    addWatchListControls(watchlistDiv);
                     displaySection.appendChild(watchlistDiv);
                 }
-            }
-
-            const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-            if (favorites.length > 0) {
-                const favoritesDiv = document.createElement('div');
-                favoritesDiv.className = 'watchlist';
-
-                const title = document.createElement('h3');
-                title.textContent = "Favorited Movies";
-                title.className = 'watchlist-title';
-
-                const description = document.createElement('p');
-                description.textContent = "A collection of your favorited movies.";
-                description.className = 'watchlist-description';
-
-                favoritesDiv.appendChild(title);
-                favoritesDiv.appendChild(description);
-
-                const moviesContainer = document.createElement('div');
-                moviesContainer.className = 'movies-container';
-
-                for (const movieId of favorites) {
-                    const movieCard = await fetchMovieDetails(movieId);
-                    moviesContainer.appendChild(movieCard);
-                }
-
-                favoritesDiv.appendChild(moviesContainer);
-                displaySection.appendChild(favoritesDiv);
             }
         }
 
@@ -562,8 +605,6 @@
 
             return movieEl;
         }
-
-        document.addEventListener('DOMContentLoaded', updateWatchListsDisplay);
 
         const searchForm = document.getElementById('form');
         const searchBtn = document.getElementById('button-search');
@@ -756,11 +797,163 @@
             });
         }
 
-        document.addEventListener("DOMContentLoaded", function() {
-            updateSignInButton();
-            initClient();
-        });
+        async function loadWatchLists() {
+            const watchlists = JSON.parse(localStorage.getItem('watchlists')) || [];
+            const displaySection = document.getElementById('watchlists-display-section');
 
+            if (watchlists.length === 0) {
+                displaySection.innerHTML = '<p style="text-align: center">No watch lists found. Click on "Create a Watch List" to start adding movies.</p>';
+            }
+            else {
+                watchlists.sort((a, b) => (b.pinned === a.pinned) ? 0 : b.pinned ? 1 : -1);
+
+                for (const watchlist of watchlists) {
+                    const watchlistDiv = await createWatchListDiv(watchlist);
+                    if (watchlist.pinned) {
+                        watchlistDiv.classList.add('pinned');
+                    }
+                    displaySection.appendChild(watchlistDiv);
+                }
+            }
+
+            const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+            if (favorites.length > 0) {
+                const favoritesDiv = document.createElement('div');
+                favoritesDiv.className = 'watchlist';
+                favoritesDiv.id = 'favorites-watchlist';
+
+                const title = document.createElement('h3');
+                title.textContent = "Favorited Movies";
+                title.className = 'watchlist-title';
+
+                const description = document.createElement('p');
+                description.textContent = "A collection of your favorited movies.";
+                description.className = 'watchlist-description';
+
+                favoritesDiv.appendChild(title);
+                favoritesDiv.appendChild(description);
+
+                const moviesContainer = document.createElement('div');
+                moviesContainer.className = 'movies-container';
+
+                for (const movieId of favorites) {
+                    const movieCard = await fetchMovieDetails(movieId);
+                    moviesContainer.appendChild(movieCard);
+                }
+
+                favoritesDiv.appendChild(moviesContainer);
+                displaySection.appendChild(favoritesDiv);
+            }
+            else {
+                const favoritesMain = document.getElementById('favorites-watchlist');
+                favoritesMain.innerHTML = '<div style="text-align: center"><p style="text-align: center">No favorites added yet.</p></div>';
+                window.location.reload();
+            }
+        }
+
+        function isListPinned(watchlistId) {
+            const watchlists = JSON.parse(localStorage.getItem('watchlists')) || [];
+            const watchlist = watchlists.find(watchlist => watchlist.id === watchlistId);
+            return watchlist.pinned;
+        }
+
+        function addWatchListControls(watchlistDiv, watchlistId) {
+            const controlContainer = document.createElement('div');
+            controlContainer.className = 'watchlist-controls';
+
+            const pinBtn = document.createElement('button');
+            pinBtn.id = 'pin-btn';
+            pinBtn.innerHTML = '<i class="fas fa-thumbtack"></i>';
+            pinBtn.onclick = function() { pinWatchList(watchlistDiv, watchlistId); };
+            pinBtn.title = isListPinned(watchlistId) ? 'Unpin this watch list' : 'Pin this watch list';
+
+            const moveUpBtn = document.createElement('button');
+            moveUpBtn.innerHTML = '<i class="fas fa-arrow-up"></i>';
+            moveUpBtn.onclick = function() { moveWatchList(watchlistDiv, true); };
+            moveUpBtn.title = 'Move this watch list up';
+
+            const moveDownBtn = document.createElement('button');
+            moveDownBtn.innerHTML = '<i class="fas fa-arrow-down"></i>';
+            moveDownBtn.onclick = function() { moveWatchList(watchlistDiv, false); };
+            moveDownBtn.title = 'Move this watch list down';
+
+            controlContainer.appendChild(pinBtn);
+            controlContainer.appendChild(moveUpBtn);
+            controlContainer.appendChild(moveDownBtn);
+
+            watchlistDiv.appendChild(controlContainer);
+        }
+
+        function createWatchListDiv(watchlist) {
+            const watchlistDiv = document.createElement('div');
+            watchlistDiv.className = 'watchlist';
+            watchlistDiv.setAttribute('data-watchlist-id', watchlist.id);
+
+            const title = document.createElement('h3');
+            title.textContent = watchlist.name;
+            title.className = 'watchlist-title';
+
+            const description = document.createElement('p');
+            description.textContent = watchlist.description;
+            description.className = 'watchlist-description';
+
+            watchlistDiv.appendChild(title);
+            watchlistDiv.appendChild(description);
+
+            const moviesContainer = document.createElement('div');
+            moviesContainer.className = 'movies-container';
+            moviesContainer.style.flexWrap = 'wrap';
+            watchlist.movies.forEach(movieId => {
+                fetchMovieDetails(movieId).then(movieCard => moviesContainer.appendChild(movieCard));
+            });
+            watchlistDiv.appendChild(moviesContainer);
+
+            addWatchListControls(watchlistDiv, watchlist.id);
+
+            return watchlistDiv;
+        }
+
+        function updateWatchlistsOrderInLS() {
+            const watchlistsDivs = document.querySelectorAll('#watchlists-display-section > .watchlist');
+            let watchlists = JSON.parse(localStorage.getItem('watchlists')) || [];
+            const newOrder = Array.from(watchlistsDivs).map(div => div.getAttribute('data-watchlist-id'));
+
+            watchlists.sort((a, b) => newOrder.indexOf(a.id) - newOrder.indexOf(b.id));
+            localStorage.setItem('watchlists', JSON.stringify(watchlists));
+        }
+
+        function moveWatchList(watchlistDiv, moveUp) {
+            const sibling = moveUp ? watchlistDiv.previousElementSibling : watchlistDiv.nextElementSibling;
+            if (sibling) {
+                const parent = watchlistDiv.parentNode;
+                if (moveUp) {
+                    parent.insertBefore(watchlistDiv, sibling);
+                }
+                else {
+                    parent.insertBefore(sibling, watchlistDiv);
+                }
+                updateWatchlistsOrderInLS();
+                updateWatchListsDisplay();
+            }
+        }
+
+        function pinWatchList(watchlistDiv, watchlistId) {
+            const isPinned = watchlistDiv.classList.contains('pinned');
+            let watchlists = JSON.parse(localStorage.getItem('watchlists')) || [];
+
+            watchlists.forEach(watchlist => {
+                if (watchlist.id === watchlistId) {
+                    watchlist.pinned = !isPinned;
+                }
+            });
+
+            watchlists.sort((a, b) => (b.pinned === a.pinned) ? 0 : b.pinned ? -1 : 1);
+
+            localStorage.setItem('watchlists', JSON.stringify(watchlists));
+            watchlistDiv.classList.toggle('pinned');
+            loadWatchLists();
+            window.location.reload();
+        }
     </script>
 
 </body>

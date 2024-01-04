@@ -74,8 +74,9 @@ body {
     font-size: 36px;
     text-align: center;
     background-color: transparent;
-    margin-top: 50px;
+    margin-top: 15px;
     left: 50%;
+    margin-left: 41px;
 }
 
 .movie {
@@ -481,7 +482,7 @@ ol li:hover {
 
 #local-time {
     margin-top: 30px;
-    margin-left: 80px;
+    margin-left: 60px;
     align-items: center;
 }
 
@@ -616,6 +617,9 @@ main {
         align-items: center;
     }
 
+    #my-heading {
+        margin-left: 0;
+    }
 }
 
 @media (max-width: 705px) {

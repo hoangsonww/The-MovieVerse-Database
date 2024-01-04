@@ -129,6 +129,8 @@ Son Nguyen Hoang - [@hoangsonww](https://github.com/hoangsonww)
 
 Project Link: [https://github.com/hoangsonww/The-MovieVerse-Database](https://github.com/hoangsonww/The-MovieVerse-Database)
 
+Email: [Personal Email](mailto:hoangson091104@gmail.com) or [Official MovieVerse Email](mailto:info@movie-verse.com)
+
 ---
 
 Please also note that the MovieVerse is an ever-evolving platform. I am continually enhancing the user experience and adding new features, like the Movie Timeline, to help you navigate the vast sea of cinema with ease and excitement. 

@@ -510,6 +510,7 @@ function initClient() {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
+    checkAndClearLocalStorage();
     updateSignInButton();
     initClient();
 });
@@ -529,3 +530,23 @@ function updateClock() {
 
 setInterval(updateClock, 1000);
 window.onload = updateClock;
+
+function checkAndClearLocalStorage() {
+    const hasCleared = localStorage.getItem('hasClearedMovieVerseData');
+
+    if (!hasCleared) {
+        clearMovieVerseLocalStorage();
+        localStorage.setItem('hasClearedMovieVerseData', 'true');
+        window.location.reload();
+    }
+}
+
+function clearMovieVerseLocalStorage() {
+    localStorage.removeItem('favorites');
+    localStorage.removeItem('watchlists');
+    localStorage.removeItem('selectedMovieId');
+    localStorage.removeItem('isSignedIn');
+    localStorage.removeItem('selectedDirectorId');
+    localStorage.removeItem('selectedActorId');
+    localStorage.removeItem('selectedCompanyId');
+}

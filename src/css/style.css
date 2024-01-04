@@ -283,6 +283,7 @@ header h1 {
     font-size: 36px;
     text-align: center;
     background-color: transparent;
+    margin-left: 40px;
 }
 
 #trivia-btn {
@@ -604,6 +605,14 @@ p {
     background-size: auto;
     background-repeat: repeat;
     width: 100vw;
+}
+
+.movie-details-body4 {
+    background-image: url("../../images/universe.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
 }
 
 .favorites-btn {
@@ -1189,7 +1198,7 @@ textarea {
 
 #local-time {
     position: absolute;
-    left: 51%;
+    left: 49.5%;
     transform: translateX(-50%);
     padding: 10px;
     border-radius: 10px;
@@ -1275,6 +1284,14 @@ textarea {
 @media (max-width: 840px) {
     #movie-match-main {
         margin-left: -100px;
+    }
+
+    #my-heading {
+        margin-left: 0;
+    }
+
+    .movie-details-body4 {
+        background-image: url("../../images/black.jpeg");
     }
 
     #indexLink {
@@ -1758,7 +1775,7 @@ body {
 
 #movie-match-form {
     background-color: transparent;
-    border: 2px solid #121280;
+    border: 2px solid #7378c5;
     border-radius: 50px;
     padding: 20px;
     max-width: 500px;
