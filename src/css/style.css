@@ -1581,6 +1581,10 @@ textarea {
         margin-bottom: 250px;
     }
 
+    #descriptionP {
+        margin-top: -100px;
+    }
+
     .actor-right {
         margin-top: -20px;
         height: 100% !important;

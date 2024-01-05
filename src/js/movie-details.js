@@ -599,7 +599,7 @@ function populateMovieDetails(movie, imdbRating, rtRating) {
     }
 
     document.getElementById('movie-description').innerHTML += `
-        <p style="margin-top: -100px"><strong>Description: </strong>${overview}</p>
+        <p id="descriptionP"><strong>Description: </strong>${overview}</p>
         <p><strong>Genres:</strong> ${genres}</p>
         <p><strong>Release Date:</strong> ${releaseDate}</p>
         <p><strong>Runtime:</strong> ${runtime}</p>
