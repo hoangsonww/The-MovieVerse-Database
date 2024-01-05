@@ -1575,7 +1575,7 @@ textarea {
     }
 
     .movie-right {
-        margin-top: -100px;
+        margin-top: 0;
         height: 100% !important;
         overflow: visible;
         margin-bottom: 250px;
