@@ -17,7 +17,7 @@ body {
 
 #movie-match-btn {
     position: fixed;
-    bottom: 220px; /* Adjust as per layout */
+    bottom: 220px;
     right: 30px;
     background-color: #7378c5;
     color: black;
@@ -1208,6 +1208,10 @@ textarea {
     cursor: pointer;
 }
 
+#movie-details-container {
+    margin-top: 10px;
+}
+
 #custom-bg-name {
     width: 100%;
     padding: 10px;
@@ -1525,7 +1529,7 @@ textarea {
     }
 
     #movie-details-container {
-        margin-top: 10px;
+        margin-top: 15px;
     }
 
     .movie-left {
@@ -2035,7 +2039,29 @@ body {
     margin-right: 40px;
 }
 
+#rating-value:hover {
+    color: #f509d9;
+}
+
 #button-clear:hover {
     background-color: #ff8623;
     transition: background-color 0.3s ease;
+}
+
+.rating {
+    display: flex;
+    justify-content: flex-end;
+    direction: rtl;
+    color: grey;
+    font-size: 20px;
+}
+
+.rating .star {
+    cursor: pointer;
+    transition: color 200ms;
+}
+
+.rating .star:hover,
+.rating .star:hover ~ .star {
+    color: gold;
 }

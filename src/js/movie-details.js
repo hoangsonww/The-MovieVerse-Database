@@ -151,6 +151,36 @@ function showMovies(movies){
     });
 }
 
+function setStarRating(rating) {
+    const stars = document.querySelectorAll('.rating .star');
+    stars.forEach(star => {
+        star.style.color = star.dataset.value > rating ? 'grey' : 'gold';
+    });
+    document.getElementById('rating-value').textContent = `${rating}.0/5.0`;
+}
+
+document.querySelectorAll('.rating .star').forEach(star => {
+    star.addEventListener('mouseover', (e) => {
+        setStarRating(e.target.dataset.value);
+    });
+
+    star.addEventListener('mouseout', () => {
+        const movieId = localStorage.getItem('selectedMovieId');
+        const savedRatings = JSON.parse(localStorage.getItem('movieRatings')) || {};
+        const movieRating = savedRatings[movieId] || 0;
+        setStarRating(movieRating);
+    });
+
+    star.addEventListener('click', (e) => {
+        const movieId = localStorage.getItem('selectedMovieId');
+        const rating = e.target.dataset.value;
+        const savedRatings = JSON.parse(localStorage.getItem('movieRatings')) || {};
+        savedRatings[movieId] = rating;
+        localStorage.setItem('movieRatings', JSON.stringify(savedRatings));
+        setStarRating(rating);
+    });
+});
+
 document.addEventListener('DOMContentLoaded', () => {
     initialMainContent = document.getElementById('main').innerHTML;
 
@@ -168,6 +198,10 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('clear-search-btn').style.display = 'none';
 
     updateClock();
+
+    const savedRatings = JSON.parse(localStorage.getItem('movieRatings')) || {};
+    const movieRating = savedRatings[movieId] || 0;
+    setStarRating(movieRating);
 });
 
 document.getElementById('clear-search-btn').addEventListener('click', () => {
