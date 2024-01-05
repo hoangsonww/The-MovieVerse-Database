@@ -533,7 +533,6 @@ window.onload = updateClock;
 
 function checkAndClearLocalStorage() {
     const hasCleared = localStorage.getItem('hasClearedMovieVerseData');
-
     if (!hasCleared) {
         clearMovieVerseLocalStorage();
         localStorage.setItem('hasClearedMovieVerseData', 'true');
@@ -549,4 +548,5 @@ function clearMovieVerseLocalStorage() {
     localStorage.removeItem('selectedDirectorId');
     localStorage.removeItem('selectedActorId');
     localStorage.removeItem('selectedCompanyId');
+    localStorage.removeItem('movieRatings');
 }

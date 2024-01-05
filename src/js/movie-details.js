@@ -143,7 +143,7 @@ function showMovies(movies){
             </div>`;
 
         movieE1.addEventListener('click', () => {
-            localStorage.setItem('selectedMovieId', id); // Store the movie ID
+            localStorage.setItem('selectedMovieId', id);
             window.location.href = 'movie-details.html';
         });
 
