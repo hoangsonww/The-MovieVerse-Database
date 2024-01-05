@@ -121,10 +121,10 @@
             <h2>Create a Watch List</h2>
             <form id="create-watchlist-form">
                 <label>Name:</label>
-                <input type="text" id="new-watchlist-name" required>
+                <input type="text" id="new-watchlist-name" style="font: inherit" required>
                 <div style="height: 20px"></div>
                 <label>Description:</label>
-                <textarea id="new-watchlist-description"></textarea>
+                <textarea id="new-watchlist-description" style="font: inherit"></textarea>
                 <button type="submit" id="button">Create</button>
             </form>
         </div>
@@ -404,6 +404,7 @@
 
             const select = document.createElement('select');
             select.id = 'watchlist-select';
+            select.style.font = 'inherit';
             watchlists.forEach((watchlist, index) => {
                 const option = document.createElement('option');
                 option.value = index;
@@ -417,12 +418,14 @@
             const nameInput = document.createElement('input');
             nameInput.type = 'text';
             nameInput.id = 'edit-watchlist-name';
+            nameInput.style.font = 'inherit';
 
             const descLabel = document.createElement('label');
             descLabel.textContent = 'Description:';
 
             const descInput = document.createElement('textarea');
             descInput.id = 'edit-watchlist-description';
+            descInput.style.font = 'inherit';
 
             const moviesContainer = document.createElement('div');
             moviesContainer.id = 'edit-movies-container';
@@ -509,6 +512,7 @@
 
             const select = document.createElement('select');
             select.id = 'delete-watchlist-select';
+            select.style.font = 'inherit';
             watchlists.forEach((watchlist, index) => {
                 const option = document.createElement('option');
                 option.value = index;

@@ -16,7 +16,7 @@ const SEARCHPATH = "https://api.themoviedb.org/3/search/movie?&api_key=c5a20c861
 const searchTitle = document.getElementById("select-text");
 const searchButton = document.getElementById("button-search");
 const search = document.getElementById("search");
-const main = document.getElementById("movies-container");
+const main = document.getElementById("movies-container1");
 
 async function getMovies(url) {
     clearMovieDetails();
@@ -136,7 +136,7 @@ async function fetchMoviesByTimePeriod(startYear, endYear) {
     const data = await response.json();
     const numberOfMovies = calculateMoviesToDisplay();
     const moviesToShow = data.results.slice(0, numberOfMovies);
-    showMovies(moviesToShow, document.getElementById('movies-container'));
+    showMovies(moviesToShow, document.getElementById('movies-container1'));
 }
 
 document.getElementById('load-movies').addEventListener('click', () => {

@@ -4,7 +4,7 @@
 
 # This script generates a .env file used by the MovieVerse application
 # to set environment variables for different configurations like API keys,
-# database URIs, etc. This file is not published to GitHub for security reasons -
+# databases URIs, etc. This file is not published to GitHub for security reasons -
 # so be sure to replace with your own values.
 
 # Check if .env file already exists

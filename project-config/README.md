@@ -71,5 +71,3 @@ To effectively use these configuration files, it is essential to have a basic un
 These files are pre-configured for a standard setup but might require adjustments to fit specific project needs or environments. Always review and customize them according to your project requirements.
 
 ---
-
-This README provides a basic overview and should be supplemented with more specific documentation for individual configurations as needed. The settings defined in these files are crucial for the project's performance, security, and maintainability.

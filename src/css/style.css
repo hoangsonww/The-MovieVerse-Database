@@ -1716,17 +1716,24 @@ textarea {
     flex-direction: column;
 }
 
+#movies-container1 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-left: 30px;
+}
+
 #movies-container .movie-item {
     display: flex;
     align-items: center;
-    margin-bottom: 10px; /* Adjust for spacing between items */
+    margin-bottom: 10px;
 }
 
 .movies-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 20px; /* Adjust as needed */
+    gap: 20px;
 }
 
 .center-container {

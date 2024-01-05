@@ -1,7 +1,7 @@
--- Create a database (Uncomment if needed)
+-- Create a databases (Uncomment if needed)
 CREATE DATABASE MovieVerseDB;
 
--- Switch to the MovieVerseDB database (Uncomment if needed)
+-- Switch to the MovieVerseDB databases (Uncomment if needed)
 \c MovieVerseDB
 
 -- Create table for storing movie details
