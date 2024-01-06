@@ -140,6 +140,7 @@ function showMovies(movies){
         });
         main.appendChild(movieE1);
     });
+    applySettings();
 }
 
 function clearMovieDetails() {
@@ -248,6 +249,7 @@ function populateActorDetails(actor, credits) {
         <p><strong>Popularity Score:</strong> ${actor.popularity.toFixed(2)}</p>
     `;
     document.getElementById('actor-description').appendChild(popularity);
+    applySettings();
 }
 
 let isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
@@ -299,6 +301,7 @@ function initClient() {
 document.addEventListener("DOMContentLoaded", function() {
     updateSignInButton();
     initClient();
+    applySettings();
 });
 
 async function showMovieOfTheDay() {
@@ -350,3 +353,27 @@ function updateClock() {
 
 setInterval(updateClock, 1000);
 window.onload = updateClock;
+
+function applySettings() {
+    const savedBg = localStorage.getItem('backgroundImage');
+    const savedTextColor = localStorage.getItem('textColor');
+    const savedFontSize = localStorage.getItem('fontSize');
+
+    if (savedBg) {
+        document.body.style.backgroundImage = `url('${savedBg}')`;
+    }
+    if (savedTextColor) {
+        applyTextColor(savedTextColor);
+    }
+    if (savedFontSize) {
+        const size = savedFontSize === 'small' ? '12px' : savedFontSize === 'medium' ? '16px' : '20px';
+        document.body.style.fontSize = size;
+    }
+}
+
+function applyTextColor(color) {
+    document.querySelectorAll('h1, h2, h3, p, a, span, div, button, input, select, textarea, label, li')
+        .forEach(element => {
+            element.style.color = color;
+        });
+}

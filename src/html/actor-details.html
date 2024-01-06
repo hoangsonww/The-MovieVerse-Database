@@ -59,7 +59,7 @@
         <!-- Left side for Actor Image -->
         <div class="actor-left">
             <h2 id="actor-name" class="actor-header"></h2>
-            <img id="actor-image" alt="Actor Image" style="width: 25vw"/>
+            <img id="actor-image" alt="Loading Actor Details..." style="width: 25vw"/>
         </div>
 
         <!-- Right side for Description and Info -->
@@ -103,7 +103,7 @@
                     document.body.style.backgroundImage = `url('${savedBg}')`;
                 }
                 if (savedTextColor) {
-                    document.querySelectorAll('h1, h2, h3, p, span, div, button, input, select, textarea').forEach(element => {
+                    document.querySelectorAll('h1, h2, h3, p, a, span, div, button, input, select, textarea, label, li').forEach(element => {
                         element.style.color = savedTextColor;
                     });
                 }

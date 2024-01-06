@@ -149,6 +149,7 @@ function showMovies(movies){
 
         main.appendChild(movieE1);
     });
+    applySettings();
 }
 
 function setStarRating(rating) {
@@ -196,7 +197,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     document.getElementById('clear-search-btn').style.display = 'none';
-
     updateClock();
 
     const savedRatings = JSON.parse(localStorage.getItem('movieRatings')) || {};
@@ -453,6 +453,7 @@ const twoLetterLangCodes = [
 document.addEventListener("DOMContentLoaded", function() {
     updateSignInButton();
     initClient();
+    applySettings();
 });
 
 async function fetchMovieDetails(movieId) {
@@ -479,6 +480,27 @@ async function fetchMovieDetails(movieId) {
     }
 }
 
+function getRatingDetails(rating) {
+    let details = {color: 'black', text: rating};
+
+    switch (rating) {
+        case 'R':
+            details = {color: 'red', text: 'R (Restricted)'};
+            break;
+        case 'PG-13':
+            details = {color: 'yellow', text: 'PG-13 (Parents Strongly Cautioned)'};
+            break;
+        case 'PG':
+            details = {color: 'orange', text: 'PG (Parental Guidance Suggested)'};
+            break;
+        case 'G':
+            details = {color: 'green', text: 'G (General Audiences)'};
+            break;
+    }
+
+    return details;
+}
+
 async function fetchMovieRatings(imdbId, tmdbMovieData) {
     const omdbApiKey = '2ba8e536';
     const omdbUrl = `http://www.omdbapi.com/?i=${imdbId}&apikey=${omdbApiKey}`;
@@ -489,18 +511,54 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
         let imdbRating = data.imdbRating ? data.imdbRating : 'N/A';
 
         if (imdbRating === 'N/A' && tmdbMovieData.vote_average) {
-            imdbRating = tmdbMovieData.vote_average.toFixed(1);
+            imdbRating = (tmdbMovieData.vote_average / 2).toFixed(1) * 2;
         }
 
         const rtRatingObj = data.Ratings.find(rating => rating.Source === "Rotten Tomatoes");
-        const rtRating = rtRatingObj ? rtRatingObj.Value : 'N/A';
+        let rtRating = rtRatingObj ? rtRatingObj.Value : 'N/A';
 
-        populateMovieDetails(tmdbMovieData, imdbRating, rtRating);
+        let metascore = data.Metascore ? `${data.Metascore}/100` : 'N/A';
+        let awards = data.Awards;
+        let rated = data.Rated ? data.Rated : 'Rating information unavailable';
+
+        if (awards === 'N/A') {
+            awards = 'No awards information available';
+        }
+        if (metascore === 'N/A/100') {
+            const metacriticsRatingValue = imdbRating !== 'N/A' ? parseFloat(imdbRating) : (tmdbMovieData.vote_average / 2);
+            metascore = calculateFallbackMetacriticsRating(metacriticsRatingValue, tmdbMovieData.vote_average) + '/100';
+        }
+        if (rtRating === 'N/A') {
+            const imdbRatingValue = imdbRating !== 'N/A' ? parseFloat(imdbRating) : (tmdbMovieData.vote_average / 2);
+            rtRating = calculateFallbackRTRating(imdbRatingValue, tmdbMovieData.vote_average)
+        }
+        populateMovieDetails(tmdbMovieData, imdbRating, rtRating, metascore, awards, rated);
     }
     catch (error) {
         console.error('Error fetching movie ratings:', error);
-        populateMovieDetails(tmdbMovieData, 'N/A', 'N/A');
+        const fallbackImdbRating = (tmdbMovieData.vote_average / 2).toFixed(1) * 2;
+        populateMovieDetails(tmdbMovieData, fallbackImdbRating, 'N/A', 'No metascore information available', 'No awards information available');
     }
+}
+
+function calculateFallbackRTRating(imdbRating, tmdbRating) {
+    const normalizedImdbRating = imdbRating * 10;
+    const normalizedTmdbRating = tmdbRating * 10;
+
+    const weightImdb = 0.8;
+    const weightTmdb = 0.1;
+
+    return ((normalizedImdbRating * weightImdb) + (normalizedTmdbRating * weightTmdb)).toFixed(0) + '%'; // Calculate fallback RT rating out of 100% scale (in case data is not available from OMDB)
+}
+
+function calculateFallbackMetacriticsRating(imdbRating, tmdbRating) {
+    const normalizedImdbRating = imdbRating * 10;
+    const normalizedTmdbRating = tmdbRating * 10;
+
+    const weightImdb = 0.8;
+    const weightTmdb = 0.1;
+
+    return ((normalizedImdbRating * weightImdb) + (normalizedTmdbRating * weightTmdb)).toFixed(0); // Calculate fallback Metacritics rating out of 100 scale (in case data is not available from OMDB)
 }
 
 function createTrailerButton(trailerUrl) {
@@ -540,6 +598,7 @@ function updateFavoriteButton(movieId) {
 
 function getRtSlug(title) {
     return title.toLowerCase()
+        .replace(/:/g, '')
         .replace(/part one/g, 'part_1')
         .replace(/-/g, '')
         .replace(/&/g, 'and')
@@ -547,21 +606,36 @@ function getRtSlug(title) {
         .replace(/[^\w-]/g, '');
 }
 
-function populateMovieDetails(movie, imdbRating, rtRating) {
+function createMetacriticSlug(title) {
+    return title.toLowerCase()
+        .replace(/part\sone/g, 'part-1')
+        .replace(/:|_|-|\s/g, '-')
+        .replace(/&/g, 'and')
+        .replace(/--+/g, '-')
+        .replace(/[^\w-]/g, '');
+}
+
+function populateMovieDetails(movie, imdbRating, rtRating, metascore, awards, rated) {
     const movieRating = movie.vote_average.toFixed(1);
     document.getElementById('movie-image').src = `https://image.tmdb.org/t/p/w1280${movie.poster_path}`;
     document.getElementById('movie-title').textContent = movie.title;
     const imdbLink = `https://www.imdb.com/title/${movie.imdb_id}`;
     const rtLink = rtRating !== 'N/A' ? `https://www.rottentomatoes.com/m/${getRtSlug(movie.title)}` : '#';
+    const metaCriticsLink = metascore !== 'N/A' ? `https://www.metacritic.com/movie/${createMetacriticSlug(movie.title)}` : '#';
+    const ratingDetails = getRatingDetails(rated);
+
+    const ratedElement = rated ? `<p id="movie-rated-element"><strong>Rated:</strong> <span style="color: ${ratingDetails.color};"><strong>${ratingDetails.text}</strong></span></p>` : '';
+
     document.getElementById('movie-rating').innerHTML = `
         <a id="imdbRatingLink" href="${imdbLink}" target="_blank" title="Click to go to this movie's IMDb page!" style="text-decoration: none; color: inherit;">IMDB Rating: ${imdbRating}</a>
-        <br>
-        <a id="rtRatingLink" href="${rtLink}" target="_blank" title="Click to go to this movie's Rotten Tomatoes page!" style="text-decoration: none; color: inherit;">Rotten Tomatoes: ${rtRating}</a>
     `;
     document.title = movie.title + " - Movie Details";
 
     const movieImage = document.getElementById('movie-image');
     const movieDescription = document.getElementById('movie-description');
+
+    const metascoreElement = metascore ? `<p><strong>Metascore:</strong> <a id="metacritics" href="${metaCriticsLink}">${metascore}</a></p>` : '';
+    const awardsElement = awards ? `<p><strong>Awards:</strong> ${awards}</p>` : '';
 
     if (movie.poster_path) {
         movieImage.src = IMGPATH + movie.poster_path;
@@ -576,12 +650,11 @@ function populateMovieDetails(movie, imdbRating, rtRating) {
     }
 
     const fullLanguage = twoLetterLangCodes.find(lang => lang.code === movie.original_language).name;
-
     const overview = movie.overview;
     const genres = movie.genres.map(genre => genre.name).join(', ');
     const releaseDate = movie.release_date;
-    const budget = movie.budget === 0 ? 'Unknown' : `$${movie.budget.toLocaleString()}`;
-    const revenue = movie.revenue === 0 ? 'Unknown' : `$${movie.revenue.toLocaleString()}`;
+    const budget = movie.budget === 0 ? 'Information Not Available' : `$${movie.budget.toLocaleString()}`;
+    const revenue = movie.revenue <= 1000 ? 'Information Not Available' : `$${movie.revenue.toLocaleString()}`;
     const tagline = movie.tagline ? movie.tagline : 'No tagline found';
     const languages = movie.spoken_languages.map(lang => lang.name).join(', ');
     const countries = movie.production_countries.map(country => country.name).join(', ');
@@ -613,9 +686,8 @@ function populateMovieDetails(movie, imdbRating, rtRating) {
 
     document.getElementById('movie-description').innerHTML += `
         <p id="descriptionP"><strong>Description: </strong>${overview}</p>
-        <p><strong>Tagline:</strong> ${tagline}</p>
         <p><strong>Genres:</strong> ${genres}</p>
-        <p><strong>Content Classification:</strong> ${adultContentIndicator}</p>
+        ${ratedElement}
         ${movieStatus}
         <p><strong>Release Date:</strong> ${releaseDate}</p>
         <p><strong>Runtime:</strong> ${runtime}</p>
@@ -625,7 +697,11 @@ function populateMovieDetails(movie, imdbRating, rtRating) {
         <p><strong>Countries of Production:</strong> ${countries}</p>
         <p><strong>Original Language:</strong> ${originalLanguage}</p>
         <p><strong>Popularity Score:</strong> <span class="${isPopular ? 'popular' : ''}">${popularityText}</span></p>
-        <p><strong>Averaged User Ratings:</strong> ${scaledRating}/5.0 (based on <strong>${movie.vote_count}</strong> votes)</p>
+        <p style="cursor: pointer" title="Your rating also counts - it might take a while for us to update!"><strong>Averaged User Ratings:</strong> <span id="userRatings">${scaledRating}/5.0 (based on <strong>${movie.vote_count}</strong> votes)</span></p>
+        ${awardsElement}
+        ${metascoreElement}
+        <p><strong>Rotten Tomatoes:</strong> <a href="${rtLink}" id="rating">${rtRating}</a></p>
+        <p><strong>Tagline:</strong> ${tagline}</p>
     `;
 
     if (movie.credits && movie.credits.crew) {
@@ -713,7 +789,7 @@ function populateMovieDetails(movie, imdbRating, rtRating) {
                 movieLink.style.color = '#f509d9';
             });
             movieLink.addEventListener('mouseleave', () => {
-                movieLink.style.color = 'white';
+                movieLink.style.color = getSavedTextColor();
             });
             movieLink.addEventListener('click', () => {
                 localStorage.setItem('selectedMovieId', similarMovie.id);
@@ -736,6 +812,27 @@ function populateMovieDetails(movie, imdbRating, rtRating) {
     movieDescription.appendChild(keywordsElement);
     updateFavoriteButton(movie.id);
     favoriteButton.addEventListener('click', () => toggleFavorite(movie));
+
+    if (ratedElement.includes('Restricted')) {
+        document.getElementById('movie-rated-element').title = 'This movie is rated R (Restricted). It contains adult content and it is not recommended for children under 17.';
+    }
+    else if (ratedElement.includes('Strongly Cautioned')) {
+        document.getElementById('movie-rated-element').title = 'This movie is rated PG-13 (Parents Strongly Cautioned). Some material may be inappropriate for children under 13.';
+    }
+    else if (ratedElement.includes('Parental Guidance')) {
+        document.getElementById('movie-rated-element').title = 'This movie is rated PG (Parental Guidance Suggested). Some material may not be suitable for children.';
+    }
+    else if (ratedElement.includes('General')) {
+        document.getElementById('movie-rated-element').title = 'This movie is rated G (General Audiences). All ages admitted.';
+    }
+    else {
+        document.getElementById('movie-rated-element').title = 'Rating information unavailable.';
+    }
+    applySettings();
+}
+
+function getSavedTextColor() {
+    return localStorage.getItem('textColor') || 'white';
 }
 
 async function showMovieOfTheDay() {
@@ -781,3 +878,27 @@ function updateClock() {
 
 setInterval(updateClock, 1000);
 window.onload = updateClock;
+
+function applySettings() {
+    const savedBg = localStorage.getItem('backgroundImage');
+    const savedTextColor = localStorage.getItem('textColor');
+    const savedFontSize = localStorage.getItem('fontSize');
+
+    if (savedBg) {
+        document.body.style.backgroundImage = `url('${savedBg}')`;
+    }
+    if (savedTextColor) {
+        applyTextColor(savedTextColor);
+    }
+    if (savedFontSize) {
+        const size = savedFontSize === 'small' ? '12px' : savedFontSize === 'medium' ? '16px' : '20px';
+        document.body.style.fontSize = size;
+    }
+}
+
+function applyTextColor(color) {
+    document.querySelectorAll('h1, h2, h3, p, a, span, div, button, input, select, textarea, label, li')
+        .forEach(element => {
+            element.style.color = color;
+        });
+}

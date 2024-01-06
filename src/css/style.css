@@ -13,6 +13,7 @@ body {
     font-family: "Poppins", sans-serif;
     margin: 0;
     align-content: center;
+    overflow-x: hidden;
 }
 
 #movie-match-btn {
@@ -54,6 +55,7 @@ main {
 
 html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
 }
 
 .main2 {
@@ -506,6 +508,22 @@ header h1 {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
+#rating {
+    color: inherit;
+}
+
+#rating:hover {
+    color: #f509d9;
+}
+
+#metacritics {
+    color: inherit;
+}
+
+#metacritics:hover {
+    color: #f509d9;
+}
+
 .director-header {
     text-align: center;
     align-self: center;
@@ -551,6 +569,14 @@ header h1 {
     font-weight: bold;
     color: #ffeb3b;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+#userRatings {
+    color: inherit;
+}
+
+#userRatings:hover {
+    color: #f509d9;
 }
 
 #imdbRating, #rtRating {
@@ -1243,6 +1269,10 @@ textarea {
     cursor: pointer;
     margin: 20px auto;
     display: block;
+}
+
+#descriptionP {
+    margin-top: -10px;
 }
 
 #upload-bg-btn:hover {

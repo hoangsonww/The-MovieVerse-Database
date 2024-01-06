@@ -126,6 +126,7 @@ function initClient() {
 document.addEventListener("DOMContentLoaded", function() {
     updateSignInButton();
     initClient();
+    applySettings();
 });
 
 async function getMovies(url) {
@@ -185,11 +186,12 @@ function showMovies(movies){
                 ${overview}
             </div>`;
         movieE1.addEventListener('click', () => {
-            localStorage.setItem('selectedMovieId', id); // Store the movie ID
+            localStorage.setItem('selectedMovieId', id);
             window.location.href = 'movie-details.html';
         });
         main.appendChild(movieE1);
     });
+    applySettings();
 }
 
 function clearMovieDetails() {
@@ -280,6 +282,7 @@ function populateDirectorDetails(director, credits) {
         }
     });
     filmographyHeading.appendChild(movieList);
+    applySettings();
 }
 
 function calculateAge(dob) {
@@ -301,3 +304,27 @@ function updateClock() {
 
 setInterval(updateClock, 1000);
 window.onload = updateClock;
+
+function applySettings() {
+    const savedBg = localStorage.getItem('backgroundImage');
+    const savedTextColor = localStorage.getItem('textColor');
+    const savedFontSize = localStorage.getItem('fontSize');
+
+    if (savedBg) {
+        document.body.style.backgroundImage = `url('${savedBg}')`;
+    }
+    if (savedTextColor) {
+        applyTextColor(savedTextColor);
+    }
+    if (savedFontSize) {
+        const size = savedFontSize === 'small' ? '12px' : savedFontSize === 'medium' ? '16px' : '20px';
+        document.body.style.fontSize = size;
+    }
+}
+
+function applyTextColor(color) {
+    document.querySelectorAll('h1, h2, h3, p, a, span, div, button, input, select, textarea, label, li')
+        .forEach(element => {
+            element.style.color = color;
+        });
+}

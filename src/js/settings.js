@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     textColorInput.addEventListener('input', function() {
-        document.querySelectorAll('h1, h2, h3, p, span, div, button, input, select, textarea, label').forEach(element => {
+        document.querySelectorAll('h1, h2, h3, p, a, span, div, button, input, select, textarea, label, li').forEach(element => {
             element.style.color = this.value;
         });
         localStorage.setItem('textColor', this.value);
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
         bgSelect.value = foundImage ? foundImage.dataURL : savedBg;
 
         if (savedTextColor) {
-            document.querySelectorAll('h1, h2, h3, p, span, div, button, input, select, textarea, label').forEach(element => {
+            document.querySelectorAll('h1, h2, h3, p, a, span, div, button, input, select, textarea, label, li').forEach(element => {
                 element.style.color = savedTextColor;
             });
             textColorInput.value = savedTextColor;

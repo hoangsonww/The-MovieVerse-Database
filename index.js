@@ -101,6 +101,7 @@ function showMovies(movies, mainElement) {
 
         mainElement.appendChild(movieEl);
     });
+    applySettings();
 }
 
 clearButton.addEventListener('click', () => {
@@ -513,6 +514,7 @@ document.addEventListener("DOMContentLoaded", function() {
     checkAndClearLocalStorage();
     updateSignInButton();
     initClient();
+    applySettings();
 });
 
 /**
@@ -532,10 +534,10 @@ setInterval(updateClock, 1000);
 window.onload = updateClock;
 
 function checkAndClearLocalStorage() {
-    const hasCleared = localStorage.getItem('hasClearedMovieVerseData');
+    const hasCleared = localStorage.getItem('hasUserClearedMovieVerseData');
     if (!hasCleared) {
         clearMovieVerseLocalStorage();
-        localStorage.setItem('hasClearedMovieVerseData', 'true');
+        localStorage.setItem('hasUserClearedMovieVerseData', 'true');
         window.location.reload();
     }
 }
@@ -549,4 +551,28 @@ function clearMovieVerseLocalStorage() {
     localStorage.removeItem('selectedActorId');
     localStorage.removeItem('selectedCompanyId');
     localStorage.removeItem('movieRatings');
+}
+
+function applySettings() {
+    const savedBg = localStorage.getItem('backgroundImage');
+    const savedTextColor = localStorage.getItem('textColor');
+    const savedFontSize = localStorage.getItem('fontSize');
+
+    if (savedBg) {
+        document.body.style.backgroundImage = `url('${savedBg}')`;
+    }
+    if (savedTextColor) {
+        applyTextColor(savedTextColor);
+    }
+    if (savedFontSize) {
+        const size = savedFontSize === 'small' ? '12px' : savedFontSize === 'medium' ? '16px' : '20px';
+        document.body.style.fontSize = size;
+    }
+}
+
+function applyTextColor(color) {
+    document.querySelectorAll('h1, h2, h3, p, a, span, div, button, input, select, textarea, label, li')
+        .forEach(element => {
+            element.style.color = color;
+        });
 }

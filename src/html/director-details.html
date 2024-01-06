@@ -59,7 +59,7 @@
         <!-- Left side for Director Image -->
         <div class="director-left">
             <h2 id="director-name" class="director-header"></h2>
-            <img id="director-image" alt="director Image" style="width: 25vw"/>
+            <img id="director-image" alt="Loading Director Details..." style="width: 25vw"/>
         </div>
 
         <!-- Right side for Description and Info -->
@@ -135,7 +135,7 @@
                 document.body.style.backgroundImage = `url('${savedBg}')`;
             }
             if (savedTextColor) {
-                document.querySelectorAll('h1, h2, h3, p, span, div, button, input, select, textarea').forEach(element => {
+                document.querySelectorAll('h1, h2, h3, p, a, span, div, button, input, select, textarea, label, li').forEach(element => {
                     element.style.color = savedTextColor;
                 });
             }
