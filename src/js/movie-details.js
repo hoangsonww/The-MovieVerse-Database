@@ -519,7 +519,7 @@ function getRatingDetails(rating) {
 
 async function fetchMovieRatings(imdbId, tmdbMovieData) {
     const omdbApiKey = '2ba8e536';
-    const omdbUrl = `http://www.omdbapi.com/?i=${imdbId}&apikey=${omdbApiKey}`;
+    const omdbUrl = `https://www.omdbapi.com/?i=${imdbId}&apikey=${omdbApiKey}`;
 
     try {
         const response = await fetch(omdbUrl);
