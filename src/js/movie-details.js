@@ -812,23 +812,21 @@ function populateMovieDetails(movie, imdbRating, rtRating, metascore, awards, ra
     movieDescription.appendChild(keywordsElement);
     updateFavoriteButton(movie.id);
     favoriteButton.addEventListener('click', () => toggleFavorite(movie));
-
-    if (ratedElement.includes('Restricted')) {
-        document.getElementById('movie-rated-element').title = 'This movie is rated R (Restricted). It contains adult content and it is not recommended for children under 17.';
-    }
-    else if (ratedElement.includes('Strongly Cautioned')) {
-        document.getElementById('movie-rated-element').title = 'This movie is rated PG-13 (Parents Strongly Cautioned). Some material may be inappropriate for children under 13.';
-    }
-    else if (ratedElement.includes('Parental Guidance')) {
-        document.getElementById('movie-rated-element').title = 'This movie is rated PG (Parental Guidance Suggested). Some material may not be suitable for children.';
-    }
-    else if (ratedElement.includes('General')) {
-        document.getElementById('movie-rated-element').title = 'This movie is rated G (General Audiences). All ages admitted.';
-    }
-    else {
-        document.getElementById('movie-rated-element').title = 'Rating information unavailable.';
-    }
     applySettings();
+    const movieRatedElement = document.getElementById('movie-rated-element');
+    if (movieRatedElement) {
+        if (ratedElement.includes('Restricted')) {
+            movieRatedElement.title = 'This movie is rated R (Restricted). It contains adult content and it is not recommended for children under 17.';
+        } else if (ratedElement.includes('Strongly Cautioned')) {
+            movieRatedElement.title = 'This movie is rated PG-13 (Parents Strongly Cautioned). Some material may be inappropriate for children under 13.';
+        } else if (ratedElement.includes('Parental Guidance')) {
+            movieRatedElement.title = 'This movie is rated PG (Parental Guidance Suggested). Some material may not be suitable for children.';
+        } else if (ratedElement.includes('General')) {
+            movieRatedElement.title = 'This movie is rated G (General Audiences). All ages admitted.';
+        } else {
+            movieRatedElement.title = 'Rating information unavailable.';
+        }
+    }
 }
 
 function getSavedTextColor() {
