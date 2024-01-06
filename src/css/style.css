@@ -515,6 +515,16 @@ header h1 {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
+.adult-indicator {
+    color: red;
+    font-weight: bold;
+}
+
+.general-indicator {
+    color: green;
+    font-weight: bold;
+}
+
 .movie-description {
     font-size: 1rem;
     color: white;

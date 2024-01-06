@@ -104,11 +104,11 @@ async function getMovies(url) {
 
     if (allMovies.length > 0) {
         showMovies(allMovies.slice(0, numberOfMovies));
-        document.getElementById('clear-search-btn').style.display = 'block'; // Show the button
+        document.getElementById('clear-search-btn').style.display = 'block';
     }
     else {
         main.innerHTML = `<p>No movie with the specified search term found. Please try again.</p>`;
-        document.getElementById('clear-search-btn').style.display = 'none'; // Hide the button if no results
+        document.getElementById('clear-search-btn').style.display = 'none';
     }
 }
 
@@ -129,7 +129,7 @@ function showMovies(movies){
 
         const movieImage = poster_path
             ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
-            : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
+            : `<div class="no-image" style="text-align: center; padding: 20px;">Movie Image Not Available</div>`;
 
         movieE1.innerHTML = `
             ${movieImage} 
@@ -570,7 +570,7 @@ function populateMovieDetails(movie, imdbRating, rtRating) {
     else {
         movieImage.style.display = 'none';
         const noImageText = document.createElement('h2');
-        noImageText.textContent = 'Image Not Available';
+        noImageText.textContent = 'Movie Image Not Available';
         noImageText.style.textAlign = 'center';
         document.querySelector('.movie-left').appendChild(noImageText);
     }
@@ -580,38 +580,52 @@ function populateMovieDetails(movie, imdbRating, rtRating) {
     const overview = movie.overview;
     const genres = movie.genres.map(genre => genre.name).join(', ');
     const releaseDate = movie.release_date;
-    const runtime = movie.runtime + ' minutes';
     const budget = movie.budget === 0 ? 'Unknown' : `$${movie.budget.toLocaleString()}`;
     const revenue = movie.revenue === 0 ? 'Unknown' : `$${movie.revenue.toLocaleString()}`;
     const tagline = movie.tagline ? movie.tagline : 'No tagline found';
     const languages = movie.spoken_languages.map(lang => lang.name).join(', ');
     const countries = movie.production_countries.map(country => country.name).join(', ');
     const originalLanguage = fullLanguage;
-    const popularityScore = movie.popularity.toFixed(2);
+    const popularityScore = movie.popularity.toFixed(0);
     const status = movie.status;
-    const userScore = movie.vote_average;
     const voteCount = movie.vote_count.toLocaleString();
     let keywords = movie.keywords ? movie.keywords.keywords.map(kw => kw.name).join(', ') : 'None Available';
     const similarTitles = movie.similar ? movie.similar.results.map(m => m.title).join(', ') : 'None Available';
+    const scaledRating = (movie.vote_average / 2).toFixed(1);
 
     if (keywords.length === 0) {
         keywords = 'None Available';
     }
 
+    const popularityThreshold = 80;
+    const isPopular = movie.popularity >= popularityThreshold;
+    const popularityText = isPopular ? `${popularityScore} (This movie is popular)` : `${popularityScore} (This movie is unpopular)`;
+
+    const adultContentIndicator = movie.adult
+        ? `<span class="adult-indicator">Adult Content</span>`
+        : `<span class="general-indicator">General Audience</span>`;
+
+    const movieStatus = `<p><strong>Status:</strong> ${movie.status}</p>`;
+
+    const runtime = movie.runtime > 0
+        ? movie.runtime + ' minutes'
+        : 'Runtime Info Not Available';
+
     document.getElementById('movie-description').innerHTML += `
         <p id="descriptionP"><strong>Description: </strong>${overview}</p>
+        <p><strong>Tagline:</strong> ${tagline}</p>
         <p><strong>Genres:</strong> ${genres}</p>
+        <p><strong>Content Classification:</strong> ${adultContentIndicator}</p>
+        ${movieStatus}
         <p><strong>Release Date:</strong> ${releaseDate}</p>
         <p><strong>Runtime:</strong> ${runtime}</p>
         <p><strong>Budget:</strong> ${budget}</p>
         <p><strong>Revenue:</strong> ${revenue}</p>
-        <p><strong>Tagline:</strong> ${tagline}</p>
         <p><strong>Languages:</strong> ${languages}</p>
         <p><strong>Countries of Production:</strong> ${countries}</p>
         <p><strong>Original Language:</strong> ${originalLanguage}</p>
-        <p><strong>Popularity Score:</strong> ${popularityScore}</p>
-        <p><strong>Status:</strong> ${status}</p>
-        <p><strong>User Score:</strong> ${userScore} (based on ${voteCount} votes)</p>
+        <p><strong>Popularity Score:</strong> <span class="${isPopular ? 'popular' : ''}">${popularityText}</span></p>
+        <p><strong>Averaged User Ratings:</strong> ${scaledRating}/5.0 (based on <strong>${movie.vote_count}</strong> votes)</p>
     `;
 
     if (movie.credits && movie.credits.crew) {
