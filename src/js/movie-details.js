@@ -481,20 +481,36 @@ async function fetchMovieDetails(movieId) {
 }
 
 function getRatingDetails(rating) {
-    let details = {color: 'black', text: rating};
+    let details = { color: 'black', text: rating, description: '' };
 
     switch (rating) {
         case 'R':
-            details = {color: 'red', text: 'R (Restricted)'};
+            details = {
+                color: 'red',
+                text: 'R (Restricted)',
+                description: ' - No one 17 and under admitted'
+            };
             break;
         case 'PG-13':
-            details = {color: 'yellow', text: 'PG-13 (Parents Strongly Cautioned)'};
+            details = {
+                color: 'yellow',
+                text: 'PG-13 (Parents Strongly Cautioned)',
+                description: ' - May be inappropriate for children under 13'
+            };
             break;
         case 'PG':
-            details = {color: 'orange', text: 'PG (Parental Guidance Suggested)'};
+            details = {
+                color: 'orange',
+                text: 'PG (Parental Guidance Suggested)',
+                description: ' - May not be suitable for children'
+            };
             break;
         case 'G':
-            details = {color: 'green', text: 'G (General Audiences)'};
+            details = {
+                color: 'green',
+                text: 'G (General Audiences)',
+                description: ' - All ages admitted'
+            };
             break;
     }
 
@@ -623,8 +639,7 @@ function populateMovieDetails(movie, imdbRating, rtRating, metascore, awards, ra
     const rtLink = rtRating !== 'N/A' ? `https://www.rottentomatoes.com/m/${getRtSlug(movie.title)}` : '#';
     const metaCriticsLink = metascore !== 'N/A' ? `https://www.metacritic.com/movie/${createMetacriticSlug(movie.title)}` : '#';
     const ratingDetails = getRatingDetails(rated);
-
-    const ratedElement = rated ? `<p id="movie-rated-element"><strong>Rated:</strong> <span style="color: ${ratingDetails.color};"><strong>${ratingDetails.text}</strong></span></p>` : '';
+    const ratedElement = rated ? `<p id="movie-rated-element"><strong>Rated:</strong> <span style="color: ${ratingDetails.color};"><strong>${ratingDetails.text}</strong>${ratingDetails.description}</span></p>` : '';
 
     document.getElementById('movie-rating').innerHTML = `
         <a id="imdbRatingLink" href="${imdbLink}" target="_blank" title="Click to go to this movie's IMDb page!" style="text-decoration: none; color: inherit;">IMDB Rating: ${imdbRating}</a>
@@ -813,20 +828,6 @@ function populateMovieDetails(movie, imdbRating, rtRating, metascore, awards, ra
     updateFavoriteButton(movie.id);
     favoriteButton.addEventListener('click', () => toggleFavorite(movie));
     applySettings();
-    const movieRatedElement = document.getElementById('movie-rated-element');
-    if (movieRatedElement) {
-        if (ratedElement.includes('Restricted')) {
-            movieRatedElement.title = 'This movie is rated R (Restricted). It contains adult content and it is not recommended for children under 17.';
-        } else if (ratedElement.includes('Strongly Cautioned')) {
-            movieRatedElement.title = 'This movie is rated PG-13 (Parents Strongly Cautioned). Some material may be inappropriate for children under 13.';
-        } else if (ratedElement.includes('Parental Guidance')) {
-            movieRatedElement.title = 'This movie is rated PG (Parental Guidance Suggested). Some material may not be suitable for children.';
-        } else if (ratedElement.includes('General')) {
-            movieRatedElement.title = 'This movie is rated G (General Audiences). All ages admitted.';
-        } else {
-            movieRatedElement.title = 'Rating information unavailable.';
-        }
-    }
 }
 
 function getSavedTextColor() {
