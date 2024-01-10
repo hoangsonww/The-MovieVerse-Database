@@ -1,8 +1,8 @@
 {
-  "name": "io.cordova.hellocordova",
-  "displayName": "HelloCordova",
+  "name": "themovieverseapp",
+  "displayName": "The MovieVerse App",
   "version": "1.0.0",
-  "description": "A sample Apache Cordova application that responds to the deviceready event.",
+  "description": "An interactive movie database app that allows users to search for movies, view movie details, and save movies to their favorites list",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,8 +10,8 @@
   "keywords": [
     "ecosystem:cordova"
   ],
-  "author": "Apache Cordova Team",
-  "license": "Apache-2.0",
+  "author": "Son Nguyen Hoang",
+  "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.23.6",
     "@babel/preset-env": "^7.23.6",
@@ -54,6 +54,9 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.21.1",
     "single-spa": "^6.0.0",
-    "vue": "^3.3.13"
+    "vue": "^3.3.13",
+    "vue-router": "^4.0.12",
+    "vuex": "^4.0.2",
+    "webpack-dev-server": "^4.7.3"
   }
 }
