@@ -60,6 +60,7 @@ Upon launching The MovieVerse, you'll be greeted with a user-friendly interface 
 - View detailed information about an actor by clicking the 'Details' button on any actor in a movie's details page.
 - Create a movie timeline by clicking the 'Timeline' button on the navigation bar.
 - View a list of movies from a specific time period by clicking on the corresponding year in the timeline.
+- View all your interesting statistics with a dynamically updating display that will work best on a desktop. On mobile, you can click the 'About' button on the top navbar to view your statistics.
 - And more!
 
 ## Technologies

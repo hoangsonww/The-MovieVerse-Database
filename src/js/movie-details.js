@@ -145,12 +145,183 @@ function showMovies(movies){
         movieE1.addEventListener('click', () => {
             localStorage.setItem('selectedMovieId', id);
             window.location.href = 'movie-details.html';
+            updateMovieVisitCount(id, title);
         });
 
         main.appendChild(movieE1);
     });
     applySettings();
 }
+
+function updateMovieVisitCount(movieId, movieTitle) {
+    let movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
+    if (!movieVisits[movieId]) {
+        movieVisits[movieId] = { count: 0, title: movieTitle };
+    }
+    movieVisits[movieId].count += 1;
+    localStorage.setItem('movieVisits', JSON.stringify(movieVisits));
+}
+
+function rotateUserStats() {
+    const stats = [
+        {
+            label: "Your Current Time",
+            getValue: () => {
+                const now = new Date();
+                let hours = now.getHours();
+                let minutes = now.getMinutes();
+                hours = hours < 10 ? '0' + hours : hours;
+                minutes = minutes < 10 ? '0' + minutes : minutes;
+                return `${hours}:${minutes}`;
+            }
+        },
+        { label: "Most Visited Movie", getValue: getMostVisitedMovie },
+        { label: "Your Most Visited Director", getValue: getMostVisitedDirector },
+        { label: "Your Most Visited Actor", getValue: getMostVisitedActor },
+        {
+            label: "Your Unique Movies Discovered",
+            getValue: () => {
+                const viewedMovies = JSON.parse(localStorage.getItem('uniqueMoviesViewed')) || [];
+                return viewedMovies.length;
+            }
+        },
+        {
+            label: "Your Favorited Movies",
+            getValue: () => {
+                const favoritedMovies = JSON.parse(localStorage.getItem('favorites')) || [];
+                return favoritedMovies.length;
+            }
+        },
+        {
+            label: "Your Most Common Favorited Genre",
+            getValue: getMostCommonGenre
+        },
+        { label: "Your Created Watchlists", getValue: () => localStorage.getItem('watchlistsCreated') || 0 },
+        { label: "Your Average Movie Rating", getValue: () => localStorage.getItem('averageMovieRating') || 'Not Rated' },
+        {
+            label: "Your Unique Directors Discovered",
+            getValue: () => {
+                const viewedDirectors = JSON.parse(localStorage.getItem('uniqueDirectorsViewed')) || [];
+                return viewedDirectors.length;
+            }
+        },
+        {
+            label: "Your Unique Actors Discovered",
+            getValue: () => {
+                const viewedActors = JSON.parse(localStorage.getItem('uniqueActorsViewed')) || [];
+                return viewedActors.length;
+            }
+        },
+        {
+            label: "Your Unique Production Companies Discovered",
+            getValue: () => {
+                const viewedCompanies = JSON.parse(localStorage.getItem('uniqueCompaniesViewed')) || [];
+                return viewedCompanies.length;
+            }
+        },
+        { label: "Your Trivia Accuracy", getValue: getTriviaAccuracy }
+    ];
+
+    let currentStatIndex = 0;
+
+    function updateStatDisplay() {
+        const currentStat = stats[currentStatIndex];
+        document.getElementById('stats-label').textContent = currentStat.label + ':';
+        document.getElementById('stats-display').textContent = currentStat.getValue();
+        currentStatIndex = (currentStatIndex + 1) % stats.length;
+    }
+
+    updateStatDisplay();
+
+    const localTimeDiv = document.getElementById('local-time');
+    let statRotationInterval = setInterval(updateStatDisplay, 3000);
+
+    localTimeDiv.addEventListener('click', () => {
+        clearInterval(statRotationInterval);
+        updateStatDisplay();
+        statRotationInterval = setInterval(updateStatDisplay, 3000);
+    });
+}
+
+function updateMovieVisitCount(movieId, movieTitle) {
+    let movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
+    if (!movieVisits[movieId]) {
+        movieVisits[movieId] = { count: 0, title: movieTitle };
+    }
+    movieVisits[movieId].count += 1;
+    localStorage.setItem('movieVisits', JSON.stringify(movieVisits));
+}
+
+function getMostVisitedDirector() {
+    const directorVisits = JSON.parse(localStorage.getItem('directorVisits')) || {};
+    let mostVisitedDirector = '';
+    let maxVisits = 0;
+
+    for (const directorId in directorVisits) {
+        if (directorVisits[directorId].count > maxVisits) {
+            mostVisitedDirector = directorVisits[directorId].name;
+            maxVisits = directorVisits[directorId].count;
+        }
+    }
+
+    return mostVisitedDirector || 'Not Available';
+}
+
+function getMostVisitedMovie() {
+    const movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
+    let mostVisitedMovie = '';
+    let maxVisits = 0;
+
+    for (const movieId in movieVisits) {
+        if (movieVisits[movieId].count > maxVisits) {
+            mostVisitedMovie = movieVisits[movieId].title;
+            maxVisits = movieVisits[movieId].count;
+        }
+    }
+
+    return mostVisitedMovie || 'Not Available';
+}
+
+function getMostVisitedActor() {
+    const actorVisits = JSON.parse(localStorage.getItem('actorVisits')) || {};
+    let mostVisitedActor = '';
+    let maxVisits = 0;
+
+    for (const actorId in actorVisits) {
+        if (actorVisits[actorId].count > maxVisits) {
+            mostVisitedActor = actorVisits[actorId].name;
+            maxVisits = actorVisits[actorId].count;
+        }
+    }
+
+    return mostVisitedActor || 'Not Available';
+}
+
+function getTriviaAccuracy() {
+    let triviaStats = JSON.parse(localStorage.getItem('triviaStats')) || { totalCorrect: 0, totalAttempted: 0 };
+    if (triviaStats.totalAttempted === 0) {
+        return 'No trivia attempted';
+    }
+    let accuracy = (triviaStats.totalCorrect / triviaStats.totalAttempted) * 100;
+    return `${accuracy.toFixed(1)}% accuracy`;
+}
+
+function getMostCommonGenre() {
+    const favoriteGenres = JSON.parse(localStorage.getItem('favoriteGenres')) || {};
+    let mostCommonGenre = '';
+    let maxCount = 0;
+
+    for (const genre in favoriteGenres) {
+        if (favoriteGenres[genre] > maxCount) {
+            mostCommonGenre = genre;
+            maxCount = favoriteGenres[genre];
+        }
+    }
+
+    return mostCommonGenre || 'Not Available';
+}
+
+document.addEventListener('DOMContentLoaded', rotateUserStats);
 
 function setStarRating(rating) {
     const stars = document.querySelectorAll('.rating .star');
@@ -179,8 +350,36 @@ document.querySelectorAll('.rating .star').forEach(star => {
         savedRatings[movieId] = rating;
         localStorage.setItem('movieRatings', JSON.stringify(savedRatings));
         setStarRating(rating);
+        updateAverageMovieRating(movieId, rating);
+        window.location.reload();
     });
 });
+
+function updateUniqueDirectorsViewed(directorId) {
+    let viewedDirectors = JSON.parse(localStorage.getItem('uniqueDirectorsViewed')) || [];
+    if (!viewedDirectors.includes(directorId)) {
+        viewedDirectors.push(directorId);
+        localStorage.setItem('uniqueDirectorsViewed', JSON.stringify(viewedDirectors));
+    }
+}
+
+function updateActorVisitCount(actorId, actorName) {
+    let actorVisits = JSON.parse(localStorage.getItem('actorVisits')) || {};
+    if (!actorVisits[actorId]) {
+        actorVisits[actorId] = { count: 0, name: actorName };
+    }
+    actorVisits[actorId].count += 1;
+    localStorage.setItem('actorVisits', JSON.stringify(actorVisits));
+}
+
+function updateDirectorVisitCount(directorId, directorName) {
+    let directorVisits = JSON.parse(localStorage.getItem('directorVisits')) || {};
+    if (!directorVisits[directorId]) {
+        directorVisits[directorId] = { count: 0, name: directorName };
+    }
+    directorVisits[directorId].count += 1;
+    localStorage.setItem('directorVisits', JSON.stringify(directorVisits));
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     initialMainContent = document.getElementById('main').innerHTML;
@@ -197,7 +396,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     document.getElementById('clear-search-btn').style.display = 'none';
-    updateClock();
 
     const savedRatings = JSON.parse(localStorage.getItem('movieRatings')) || {};
     const movieRating = savedRatings[movieId] || 0;
@@ -456,6 +654,8 @@ document.addEventListener("DOMContentLoaded", function() {
     applySettings();
 });
 
+window.addEventListener('resize', positionTrailerButton);
+
 async function fetchMovieDetails(movieId) {
     const code = 'c5a20c861acf7bb8d9e987dcc7f1b558';
     const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${code}&append_to_response=credits,keywords,similar`;
@@ -472,7 +672,8 @@ async function fetchMovieDetails(movieId) {
         const trailers = movie2.videos.results.filter(video => video.type === 'Trailer');
         if (trailers.length > 0) {
             const trailerUrl = `https://www.youtube.com/watch?v=${trailers[0].key}`;
-            createTrailerButton(trailerUrl);
+            trailerButton = createTrailerButton(trailerUrl);
+            positionTrailerButton();
         }
     }
     catch (error) {
@@ -584,20 +785,43 @@ function createTrailerButton(trailerUrl) {
     trailerButton.classList.add('trailer-button');
     trailerButton.style.font = 'inherit';
     trailerButton.title = 'Click to watch the trailer of this movie on YouTube!';
+    return trailerButton;
+}
 
-    const movieRating = document.getElementById('movie-rating');
-    movieRating.parentNode.insertBefore(trailerButton, movieRating.nextSibling);
+let trailerButton;
+
+function positionTrailerButton() {
+    if (!trailerButton) return;
+
+    if (window.innerWidth <= 900) {
+        const movieDescription = document.getElementById('movie-description');
+        movieDescription.parentNode.insertBefore(trailerButton, movieDescription);
+    }
+    else {
+        const movieRating = document.getElementById('movie-rating');
+        movieRating.parentNode.insertBefore(trailerButton, movieRating.nextSibling);
+    }
 }
 
 function toggleFavorite(movie) {
     let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    let favoriteGenres = JSON.parse(localStorage.getItem('favoriteGenres')) || {};
+
     if (favorites.includes(movie.id)) {
         favorites = favorites.filter(favId => favId !== movie.id);
+        movie.genres.forEach(genre => {
+            favoriteGenres[genre.name] = favoriteGenres[genre.name] ? favoriteGenres[genre.name] - 1 : 0;
+        });
     }
     else {
         favorites.push(movie.id);
+        movie.genres.forEach(genre => {
+            favoriteGenres[genre.name] = favoriteGenres[genre.name] ? favoriteGenres[genre.name] + 1 : 1;
+        });
     }
+
     localStorage.setItem('favorites', JSON.stringify(favorites));
+    localStorage.setItem('favoriteGenres', JSON.stringify(favoriteGenres));
     updateFavoriteButton(movie.id);
 }
 
@@ -730,6 +954,8 @@ function populateMovieDetails(movie, imdbRating, rtRating, metascore, awards, ra
                 localStorage.setItem('selectedDirectorId', director.id);
                 document.title = `${director.name} - Director's Details`;
                 window.location.href = 'director-details.html';
+                updateUniqueDirectorsViewed(director.id);
+                updateDirectorVisitCount(director.id, director.name);
             });
             document.getElementById('movie-description').appendChild(directorElement);
         }
@@ -748,6 +974,8 @@ function populateMovieDetails(movie, imdbRating, rtRating, metascore, awards, ra
             actorLink.addEventListener('click', () => {
                 localStorage.setItem('selectedActorId', actor.id);
                 window.location.href = 'actor-details.html';
+                updateUniqueActorsViewed(actor.id);
+                updateActorVisitCount(actor.id, actor.name);
             });
 
             castHeading.appendChild(actorLink);
@@ -779,6 +1007,7 @@ function populateMovieDetails(movie, imdbRating, rtRating, metascore, awards, ra
             e.preventDefault();
             localStorage.setItem('selectedCompanyId', company.id);
             window.location.href = 'company-details.html';
+            updateUniqueCompaniesViewed(company.id);
         });
 
         productionCompaniesElement.appendChild(companyLink);
@@ -826,12 +1055,43 @@ function populateMovieDetails(movie, imdbRating, rtRating, metascore, awards, ra
     keywordsElement.innerHTML = `<strong>Keywords:</strong> ${keywords}`;
     movieDescription.appendChild(keywordsElement);
     updateFavoriteButton(movie.id);
-    favoriteButton.addEventListener('click', () => toggleFavorite(movie));
+    favoriteButton.addEventListener('click', () => {
+        toggleFavorite(movie);
+        updateMoviesFavorited(movie.id);
+        window.location.reload();
+    });
+    updateMoviesFavorited(movie.id);
     applySettings();
 }
 
 function getSavedTextColor() {
     return localStorage.getItem('textColor') || 'white';
+}
+
+function updateMoviesFavorited(movieId) {
+    let favoritedMovies = JSON.parse(localStorage.getItem('moviesFavorited')) || [];
+    if (!favoritedMovies.includes(movieId)) {
+        favoritedMovies.push(movieId);
+        localStorage.setItem('moviesFavorited', JSON.stringify(favoritedMovies));
+    }
+}
+
+function updateAverageMovieRating(movieId, newRating) {
+    const savedRatings = JSON.parse(localStorage.getItem('movieRatings')) || {};
+
+    // Update the rating for the current movie
+    savedRatings[movieId] = newRating;
+    localStorage.setItem('movieRatings', JSON.stringify(savedRatings));
+
+    // Recalculate the average rating
+    let totalRating = 0;
+    let totalMoviesRated = 0;
+    for (let id in savedRatings) {
+        totalRating += parseFloat(savedRatings[id]);
+        totalMoviesRated++;
+    }
+    let averageRating = totalMoviesRated > 0 ? (totalRating / totalMoviesRated) : 0;
+    localStorage.setItem('averageMovieRating', averageRating.toFixed(1).toString());
 }
 
 async function showMovieOfTheDay() {
@@ -858,25 +1118,28 @@ async function showMovieOfTheDay() {
     }
 }
 
+function updateUniqueActorsViewed(actorId) {
+    let viewedActors = JSON.parse(localStorage.getItem('uniqueActorsViewed')) || [];
+    if (!viewedActors.includes(actorId)) {
+        viewedActors.push(actorId);
+        localStorage.setItem('uniqueActorsViewed', JSON.stringify(viewedActors));
+    }
+}
+
+function updateUniqueCompaniesViewed(companyId) {
+    let viewedCompanies = JSON.parse(localStorage.getItem('uniqueCompaniesViewed')) || [];
+    if (!viewedCompanies.includes(companyId)) {
+        viewedCompanies.push(companyId);
+        localStorage.setItem('uniqueCompaniesViewed', JSON.stringify(viewedCompanies));
+    }
+}
+
 function fallbackMovieSelection() {
     const fallbackMovies = [432413, 299534, 1726, 562, 118340, 455207, 493922, 447332, 22970, 530385, 27205, 264660, 120467, 603, 577922, 76341, 539, 419704, 515001, 118340, 424, 98];
     const randomFallbackMovie = fallbackMovies[Math.floor(Math.random() * fallbackMovies.length)];
     localStorage.setItem('selectedMovieId', randomFallbackMovie);
     window.location.href = 'movie-details.html';
 }
-
-function updateClock() {
-    var now = new Date();
-    var hours = now.getHours();
-    var minutes = now.getMinutes();
-    hours = hours < 10 ? '0' + hours : hours;
-    minutes = minutes < 10 ? '0' + minutes : minutes;
-    var timeString = hours + ':' + minutes;
-    document.getElementById('clock').innerHTML = timeString;
-}
-
-setInterval(updateClock, 1000);
-window.onload = updateClock;
 
 function applySettings() {
     const savedBg = localStorage.getItem('backgroundImage');

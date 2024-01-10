@@ -64,18 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-function updateClock() {
-    var now = new Date();
-    var hours = now.getHours();
-    var minutes = now.getMinutes();
-    hours = hours < 10 ? '0' + hours : hours;
-    minutes = minutes < 10 ? '0' + minutes : minutes;
-    var timeString = hours + ':' + minutes;
-    document.getElementById('clock').innerHTML = timeString;
-}
-setInterval(updateClock, 1000);
-window.onload = updateClock;
-
 function loadCustomBackgrounds() {
     const bgSelect = document.getElementById('background-select');
     const customImages = JSON.parse(localStorage.getItem('customImages')) || [];

@@ -178,8 +178,9 @@ function showMovies(movies){
             </div>`;
 
         movieE1.addEventListener('click', () => {
-            localStorage.setItem('selectedMovieId', id); // Store the movie ID
+            localStorage.setItem('selectedMovieId', id);
             window.location.href = 'movie-details.html';
+            updateMovieVisitCount(id, title);
         });
 
         main.appendChild(movieE1);
@@ -241,6 +242,7 @@ function generateRandomQuestions() {
 document.getElementById('quiz-form').addEventListener('submit', function(event) {
     event.preventDefault();
     let score = 0;
+    let totalQuestions = 10;
 
     questionBank.forEach((question, index) => {
         const selectedAnswer = document.querySelector(`input[name="q${index}"]:checked`);
@@ -249,8 +251,27 @@ document.getElementById('quiz-form').addEventListener('submit', function(event) 
         }
     });
 
-    alert(`Your score is ${score} out of 10`);
+    updateTriviaStats(score, totalQuestions);
+    alert(`Your score is ${score} out of ${totalQuestions}`);
 });
+
+function updateTriviaStats(correctAnswers, totalQuestions) {
+    let triviaStats = JSON.parse(localStorage.getItem('triviaStats')) || { totalCorrect: 0, totalAttempted: 0 };
+
+    triviaStats.totalCorrect += correctAnswers;
+    triviaStats.totalAttempted += totalQuestions;
+
+    localStorage.setItem('triviaStats', JSON.stringify(triviaStats));
+}
+
+function getTriviaAccuracy() {
+    let triviaStats = JSON.parse(localStorage.getItem('triviaStats')) || { totalCorrect: 0, totalAttempted: 0 };
+    if (triviaStats.totalAttempted === 0) {
+        return 'No trivia attempted';
+    }
+    let accuracy = (triviaStats.totalCorrect / triviaStats.totalAttempted) * 100;
+    return `${accuracy.toFixed(1)}% accuracy`;
+}
 
 document.getElementById('regenerate-questions').addEventListener('click', generateRandomQuestions);
 

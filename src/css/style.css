@@ -89,6 +89,7 @@ header {
 
 #main {
     align-self: center;
+    margin-left: 45px;
 }
 
 .search::placeholder {
@@ -1297,88 +1298,87 @@ textarea {
 }
 
 #local-time {
-    position: absolute;
-    left: 49.5%;
-    transform: translateX(-50%);
+    left: 100%;
+    transform: translateX(0%);
     padding: 10px;
     border-radius: 10px;
     z-index: 10;
 }
 
 #main3 {
-    margin-left: 25px;
+    margin-left: 45px;
 }
 
 #main4 {
-    margin-left: 25px;
+    margin-left: 45px;
 }
 
 #main5 {
-    margin-left: 25px;
+    margin-left: 45px;
 }
 
 #main6 {
-    margin-left: 25px;
+    margin-left: 45px;
 }
 
 #main7 {
-    margin-left: 25px;
+    margin-left: 45px;
 }
 
 #main8 {
-    margin-left: 25px;
+    margin-left: 45px;
 }
 
 #main9 {
-    margin-left: 25px;
+    margin-left: 45px;
 }
 
 #main10 {
-    margin-left: 25px;
+    margin-left: 45px;
 }
 
 #main11 {
-    margin-left: 25px;
+    margin-left: 45px;
 }
 
 #main12 {
-    margin-left: 25px;
+    margin-left: 45px;
 }
 
 #main13 {
-    margin-left: 25px;
+    margin-left: 45px;
 }
 
 #main14 {
-    margin-left: 25px;
+    margin-left: 45px;
 }
 
 #main15 {
-    margin-left: 25px;
+    margin-left: 45px;
 }
 
 #main16 {
-    margin-left: 25px;
+    margin-left: 45px;
 }
 
 #main17 {
-    margin-left: 25px;
+    margin-left: 45px;
 }
 
 #main18 {
-    margin-left: 25px;
+    margin-left: 45px;
 }
 
 #main19 {
-    margin-left: 25px;
+    margin-left: 45px;
 }
 
 #main20 {
-    margin-left: 25px;
+    margin-left: 45px;
 }
 
 #main21 {
-    margin-left: 25px;
+    margin-left: 45px;
 }
 
 @media (max-width: 840px) {
