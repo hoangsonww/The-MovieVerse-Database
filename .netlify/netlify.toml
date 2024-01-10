@@ -1,0 +1,12 @@
+# Global settings applied to the whole site.
+[build]
+base = "/"
+publish = "build"
+command = "npm run build"
+
+# Redirects
+[[redirects]]
+from = "/old-path"
+to = "/new-path"
+status = 301
+force = true

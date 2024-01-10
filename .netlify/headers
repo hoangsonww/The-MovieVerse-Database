@@ -1,0 +1,3 @@
+# Custom headers for static assets
+/static/*
+  Cache-Control: max-age=31536000
