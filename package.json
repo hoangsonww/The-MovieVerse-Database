@@ -5,7 +5,19 @@
   "description": "An interactive movie database app that allows users to search for movies, view movie details, and save movies to their favorites list",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "install-deps": "npm install",
+    "start": "webpack-dev-server --mode development --open",
+    "build": "webpack --mode production",
+    "test": "jest",
+    "lint": "eslint . --ext .js,.jsx",
+    "lint:fix": "eslint . --ext .js,.jsx --fix",
+    "format": "prettier --write '**/*.{js,jsx,json,css,scss,html}'",
+    "serve": "http-server dist -o",
+    "dev:android": "cordova run android",
+    "dev:ios": "cordova run ios",
+    "build:android": "cordova build android",
+    "build:ios": "cordova build ios",
+    "eject": "react-scripts eject"
   },
   "keywords": [
     "ecosystem:cordova"
@@ -57,6 +69,12 @@
     "vue": "^3.3.13",
     "vue-router": "^4.0.12",
     "vuex": "^4.0.2",
-    "webpack-dev-server": "^4.7.3"
+    "webpack-dev-server": "^4.7.3",
+    "lodash": "^4.17.21",
+    "styled-components": "^5.3.5",
+    "ramda": "^0.28.0",
+    "react-redux": "^7.2.6",
+    "redux": "^4.1.2",
+    "redux-thunk": "^2.4.1"
   }
 }
