@@ -106,6 +106,10 @@ function showMovies(movies, mainElement) {
     applySettings();
 }
 
+/**
+ * Updates the list of unique movies viewed in local storage.
+ * @param movieId The ID of the movie to add to the list
+ */
 function updateUniqueMoviesViewed(movieId) {
     let viewedMovies = JSON.parse(localStorage.getItem('uniqueMoviesViewed')) || [];
     if (!viewedMovies.includes(movieId)) {
@@ -118,6 +122,9 @@ clearButton.addEventListener('click', () => {
     window.location.reload();
 });
 
+/**
+ * Rotates the user stats displayed in the main element.
+ */
 function rotateUserStats() {
     const stats = [
         {
@@ -199,6 +206,11 @@ function rotateUserStats() {
     });
 }
 
+/**
+ * A function to update the visit count for the specified movie.
+ * @param movieId The ID of the movie to update the visit count for
+ * @param movieTitle The title of the movie to update the visit count for
+ */
 function updateMovieVisitCount(movieId, movieTitle) {
     let movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
     if (!movieVisits[movieId]) {
@@ -208,6 +220,10 @@ function updateMovieVisitCount(movieId, movieTitle) {
     localStorage.setItem('movieVisits', JSON.stringify(movieVisits));
 }
 
+/**
+ * A function to get the most visited movie.
+ * @returns {string} The name of the most visited movie.
+ */
 function getMostVisitedMovie() {
     const movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
     let mostVisitedMovie = '';
@@ -219,10 +235,13 @@ function getMostVisitedMovie() {
             maxVisits = movieVisits[movieId].count;
         }
     }
-
     return mostVisitedMovie || 'Not Available';
 }
 
+/**
+ * A function to update the visit count for the specified actor.
+ * @returns {string} The name of the most visited actor.
+ */
 function getMostVisitedActor() {
     const actorVisits = JSON.parse(localStorage.getItem('actorVisits')) || {};
     let mostVisitedActor = '';
@@ -234,10 +253,13 @@ function getMostVisitedActor() {
             maxVisits = actorVisits[actorId].count;
         }
     }
-
     return mostVisitedActor || 'Not Available';
 }
 
+/**
+ * A function to update the visit count for the specified director.
+ * @returns {string} The name of the most visited director.
+ */
 function getMostVisitedDirector() {
     const directorVisits = JSON.parse(localStorage.getItem('directorVisits')) || {};
     let mostVisitedDirector = '';
@@ -249,10 +271,13 @@ function getMostVisitedDirector() {
             maxVisits = directorVisits[directorId].count;
         }
     }
-
     return mostVisitedDirector || 'Not Available';
 }
 
+/**
+ * A function to get the user's trivia accuracy.
+ * @returns {string} The trivia accuracy.
+ */
 function getTriviaAccuracy() {
     let triviaStats = JSON.parse(localStorage.getItem('triviaStats')) || { totalCorrect: 0, totalAttempted: 0 };
     if (triviaStats.totalAttempted === 0) {
@@ -262,6 +287,10 @@ function getTriviaAccuracy() {
     return `${accuracy.toFixed(1)}% accuracy`;
 }
 
+/**
+ * A function to get the user's most common genre.
+ * @returns {string} The user's most common genre.
+ */
 function getMostCommonGenre() {
     const favoriteGenres = JSON.parse(localStorage.getItem('favoriteGenres')) || {};
     let mostCommonGenre = '';
@@ -273,7 +302,6 @@ function getMostCommonGenre() {
             maxCount = favoriteGenres[genre];
         }
     }
-
     return mostCommonGenre || 'Not Available';
 }
 
@@ -639,6 +667,9 @@ function showMoviesDirectorSpotlight(movies) {
 let isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
 updateSignInButton();
 
+/**
+ * Handles the sign in/out button click using Google Sign In.
+ */
 function handleSignInOut() {
     const signInOutButton = document.getElementById('googleSignInBtn');
     const signInOutText = signInOutButton.querySelector('span');
@@ -660,6 +691,9 @@ function handleSignInOut() {
     }
 }
 
+/**
+ * Updates the sign in/out button based on the user's sign in status.
+ */
 function updateSignInButton() {
     const signInOutButton = document.getElementById('googleSignInBtn');
     const signInOutText = signInOutButton.querySelector('span');
@@ -674,6 +708,9 @@ function updateSignInButton() {
     }
 }
 
+/**
+ * Initializes the Google Sign In client.
+ */
 function initClient() {
     gapi.load('auth2', function() {
         gapi.auth2.init({
@@ -689,6 +726,9 @@ document.addEventListener("DOMContentLoaded", function() {
     applySettings();
 });
 
+/**
+ * Checks if the user has cleared their local storage and clears it if they haven't.
+ */
 function checkAndClearLocalStorage() {
     const hasCleared = localStorage.getItem('hasUserClearedMovieVerseData');
     if (!hasCleared) {
@@ -698,6 +738,9 @@ function checkAndClearLocalStorage() {
     }
 }
 
+/**
+ * Clears the MovieVerse local storage.
+ */
 function clearMovieVerseLocalStorage() {
     localStorage.removeItem('favorites');
     localStorage.removeItem('watchlists');
@@ -721,6 +764,9 @@ function clearMovieVerseLocalStorage() {
     localStorage.removeItem('moviesFavorited');
 }
 
+/**
+ * Apply the user's settings.
+ */
 function applySettings() {
     const savedBg = localStorage.getItem('backgroundImage');
     const savedTextColor = localStorage.getItem('textColor');
@@ -738,6 +784,10 @@ function applySettings() {
     }
 }
 
+/**
+ * Applies the specified text color to all text elements on the page.
+ * @param color The color to apply.
+ */
 function applyTextColor(color) {
     document.querySelectorAll('h1, h2, h3, p, a, span, div, button, input, select, textarea, label, li')
         .forEach(element => {
