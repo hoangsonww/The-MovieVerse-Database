@@ -670,19 +670,31 @@ updateSignInButton();
 /**
  * Handles the sign in/out button click using Google Sign In.
  */
-function handleSignInOut() {
+async function handleSignInOut() {
     const signInOutButton = document.getElementById('googleSignInBtn');
     const signInOutText = signInOutButton.querySelector('span');
     const signInOutIcon = signInOutButton.querySelector('i');
 
     if (!isSignedIn) {
-        signInOutText.textContent = 'Sign Out';
-        signInOutIcon.className = 'fas fa-sign-out-alt';
-        isSignedIn = true;
-        localStorage.setItem('isSignedIn', isSignedIn);
-        gapi.auth2.getAuthInstance().signIn();
-    }
-    else {
+        try {
+            await gapi.auth2.getAuthInstance().signIn();
+            // Sign in successful
+            signInOutText.textContent = 'Sign Out';
+            signInOutIcon.className = 'fas fa-sign-out-alt';
+            isSignedIn = true;
+            localStorage.setItem('isSignedIn', isSignedIn);
+        } catch (error) {
+            // Handle the pop-up being blocked
+            if (error.error === 'popup_closed_by_user') {
+                alert('Sign-in was blocked by your browser. Please enable pop-ups for this site and try again.');
+            }
+            else {
+                // Handle other errors
+                console.error('Error during sign-in:', error);
+            }
+        }
+    } else {
+        // Sign out logic
         signInOutText.textContent = 'Sign In';
         signInOutIcon.className = 'fas fa-sign-in-alt';
         isSignedIn = false;
