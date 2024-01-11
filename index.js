@@ -676,44 +676,31 @@ function handleSignInOut() {
     const signInOutIcon = signInOutButton.querySelector('i');
 
     if (!isSignedIn) {
-        if (isPopupBlocked()) {
-            alert('Please allow popups for this site to sign in.');
+        let popup = window.open('', '_blank', 'width=1,height=1,left=-9999,top=-9999'); // attempt to open an off-screen popup
+
+        if (!popup || popup.outerWidth === 0 || popup.outerHeight === 0 || popup.closed) {
+            alert('Pop-ups are blocked. Please allow pop-ups for this site to sign in.');
+            if (popup) {
+                popup.close();
+            }
+            return; // Exit the function without changing the button state
         }
+
+        popup.close(); // Close the popup immediately if it was successfully opened
+
+        // Update the button state to 'Sign Out'
         signInOutText.textContent = 'Sign Out';
         signInOutIcon.className = 'fas fa-sign-out-alt';
         isSignedIn = true;
         localStorage.setItem('isSignedIn', JSON.stringify(isSignedIn));
         gapi.auth2.getAuthInstance().signIn();
-    }
-    else {
+    } else {
+        // Logic for signing out
         signInOutText.textContent = 'Sign In';
         signInOutIcon.className = 'fas fa-sign-in-alt';
         isSignedIn = false;
         localStorage.setItem('isSignedIn', JSON.stringify(isSignedIn));
         gapi.auth2.getAuthInstance().signOut();
-    }
-}
-
-/**
- * Checks if popups are blocked in the user's browser.
- * @returns {boolean} True if popups are blocked, false otherwise.
- */
-function isPopupBlocked() {
-    let popup = window.open("", "popup_tester", "width=100,height=100");
-    try {
-        if (!popup || popup.closed || typeof popup.closed === 'undefined' || popup.outerHeight === 0) {
-            if (popup) {
-                popup.close();
-            }
-            return true;
-        }
-        else {
-            popup.close();
-            return false;
-        }
-    }
-    catch (e) {
-        return true;
     }
 }
 
