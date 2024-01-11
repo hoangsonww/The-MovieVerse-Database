@@ -676,22 +676,20 @@ async function handleSignInOut() {
     const signInOutIcon = signInOutButton.querySelector('i');
 
     if (!isSignedIn) {
-        try {
-            await gapi.auth2.getAuthInstance().signIn();
-            // Sign in successful
-            signInOutText.textContent = 'Sign Out';
-            signInOutIcon.className = 'fas fa-sign-out-alt';
-            isSignedIn = true;
-            localStorage.setItem('isSignedIn', isSignedIn);
-        } catch (error) {
-            // Handle the pop-up being blocked
-            if (error.error === 'popup_closed_by_user') {
-                alert('Sign-in was blocked by your browser. Please enable pop-ups for this site and try again.');
-            }
-            else {
-                // Handle other errors
+        if (!isPopupBlocked()) {
+            try {
+                await gapi.auth2.getAuthInstance().signIn();
+                // Sign in successful
+                signInOutText.textContent = 'Sign Out';
+                signInOutIcon.className = 'fas fa-sign-out-alt';
+                isSignedIn = true;
+                localStorage.setItem('isSignedIn', isSignedIn);
+            } catch (error) {
+                // Handle errors during sign-in
                 console.error('Error during sign-in:', error);
             }
+        } else {
+            alert('Sign-in was blocked by your browser. Please enable pop-ups for this site and try again.');
         }
     } else {
         // Sign out logic
@@ -702,6 +700,23 @@ async function handleSignInOut() {
         gapi.auth2.getAuthInstance().signOut();
     }
 }
+
+/**
+ * Checks if popups are blocked in the user's browser.
+ * @returns {boolean} True if popups are blocked, false otherwise.
+ */
+function isPopupBlocked() {
+    let popup = window.open("", "popup_tester", "width=100,height=100");
+    if (!popup || popup.closed || typeof popup.closed === 'undefined') {
+        // Popup blocked
+        return true;
+    } else {
+        // Popup not blocked
+        popup.close();
+        return false;
+    }
+}
+
 
 /**
  * Updates the sign in/out button based on the user's sign in status.
