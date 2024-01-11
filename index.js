@@ -670,29 +670,23 @@ updateSignInButton();
 /**
  * Handles the sign in/out button click using Google Sign In.
  */
-async function handleSignInOut() {
+function handleSignInOut() {
     const signInOutButton = document.getElementById('googleSignInBtn');
     const signInOutText = signInOutButton.querySelector('span');
     const signInOutIcon = signInOutButton.querySelector('i');
 
     if (!isSignedIn) {
-        if (!isPopupBlocked()) {
-            try {
-                await gapi.auth2.getAuthInstance().signIn();
-                // Sign in successful
-                signInOutText.textContent = 'Sign Out';
-                signInOutIcon.className = 'fas fa-sign-out-alt';
-                isSignedIn = true;
-                localStorage.setItem('isSignedIn', isSignedIn);
-            } catch (error) {
-                // Handle errors during sign-in
-                console.error('Error during sign-in:', error);
-            }
-        } else {
-            alert('Sign-in was blocked by your browser. Please enable pop-ups for this site and try again.');
+        if (isPopupBlocked()) {
+            alert('Please allow popups for this site to sign in.');
+            return;
         }
-    } else {
-        // Sign out logic
+        signInOutText.textContent = 'Sign Out';
+        signInOutIcon.className = 'fas fa-sign-out-alt';
+        isSignedIn = true;
+        localStorage.setItem('isSignedIn', isSignedIn);
+        gapi.auth2.getAuthInstance().signIn();
+    }
+    else {
         signInOutText.textContent = 'Sign In';
         signInOutIcon.className = 'fas fa-sign-in-alt';
         isSignedIn = false;
@@ -701,22 +695,16 @@ async function handleSignInOut() {
     }
 }
 
-/**
- * Checks if popups are blocked in the user's browser.
- * @returns {boolean} True if popups are blocked, false otherwise.
- */
 function isPopupBlocked() {
     let popup = window.open("", "popup_tester", "width=100,height=100");
     if (!popup || popup.closed || typeof popup.closed === 'undefined') {
-        // Popup blocked
         return true;
-    } else {
-        // Popup not blocked
+    }
+    else {
         popup.close();
         return false;
     }
 }
-
 
 /**
  * Updates the sign in/out button based on the user's sign in status.
