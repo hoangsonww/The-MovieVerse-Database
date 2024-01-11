@@ -676,7 +676,7 @@ function handleSignInOut() {
     const signInOutIcon = signInOutButton.querySelector('i');
 
     if (!isSignedIn) {
-        let popup = window.open('', '_blank', 'width=1,height=1,left=-9999,top=-9999'); // attempt to open an off-screen popup
+        let popup = window.open('', '_blank', 'width=1,height=1,left=-9999,top=-9999');
         if (!popup || popup.outerWidth === 0 || popup.outerHeight === 0 || popup.closed) {
             alert('Pop-ups are blocked. Please allow pop-ups for this site to sign in.');
             if (popup) {
