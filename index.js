@@ -678,31 +678,42 @@ function handleSignInOut() {
     if (!isSignedIn) {
         if (isPopupBlocked()) {
             alert('Please allow popups for this site to sign in.');
-            return;
         }
         signInOutText.textContent = 'Sign Out';
         signInOutIcon.className = 'fas fa-sign-out-alt';
         isSignedIn = true;
-        localStorage.setItem('isSignedIn', isSignedIn);
+        localStorage.setItem('isSignedIn', JSON.stringify(isSignedIn));
         gapi.auth2.getAuthInstance().signIn();
     }
     else {
         signInOutText.textContent = 'Sign In';
         signInOutIcon.className = 'fas fa-sign-in-alt';
         isSignedIn = false;
-        localStorage.setItem('isSignedIn', isSignedIn);
+        localStorage.setItem('isSignedIn', JSON.stringify(isSignedIn));
         gapi.auth2.getAuthInstance().signOut();
     }
 }
 
+/**
+ * Checks if popups are blocked in the user's browser.
+ * @returns {boolean} True if popups are blocked, false otherwise.
+ */
 function isPopupBlocked() {
     let popup = window.open("", "popup_tester", "width=100,height=100");
-    if (!popup || popup.closed || typeof popup.closed === 'undefined') {
-        return true;
+    try {
+        if (!popup || popup.closed || typeof popup.closed === 'undefined' || popup.outerHeight === 0) {
+            if (popup) {
+                popup.close();
+            }
+            return true;
+        }
+        else {
+            popup.close();
+            return false;
+        }
     }
-    else {
-        popup.close();
-        return false;
+    catch (e) {
+        return true;
     }
 }
 
