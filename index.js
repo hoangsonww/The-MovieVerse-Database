@@ -677,25 +677,21 @@ function handleSignInOut() {
 
     if (!isSignedIn) {
         let popup = window.open('', '_blank', 'width=1,height=1,left=-9999,top=-9999'); // attempt to open an off-screen popup
-
         if (!popup || popup.outerWidth === 0 || popup.outerHeight === 0 || popup.closed) {
             alert('Pop-ups are blocked. Please allow pop-ups for this site to sign in.');
             if (popup) {
                 popup.close();
             }
-            return; // Exit the function without changing the button state
+            return;
         }
-
-        popup.close(); // Close the popup immediately if it was successfully opened
-
-        // Update the button state to 'Sign Out'
+        popup.close();
         signInOutText.textContent = 'Sign Out';
         signInOutIcon.className = 'fas fa-sign-out-alt';
         isSignedIn = true;
         localStorage.setItem('isSignedIn', JSON.stringify(isSignedIn));
         gapi.auth2.getAuthInstance().signIn();
-    } else {
-        // Logic for signing out
+    }
+    else {
         signInOutText.textContent = 'Sign In';
         signInOutIcon.className = 'fas fa-sign-in-alt';
         isSignedIn = false;
