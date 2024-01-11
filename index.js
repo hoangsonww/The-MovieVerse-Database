@@ -718,7 +718,7 @@ function updateSignInButton() {
 }
 
 document.getElementById('googleSignInBtn').addEventListener('click', function () {
-    alert('Please ensure that you have pop-ups enabled for this site to sign in properly.');
+    alert('Please ensure that you have pop-ups enabled for this site to sign you in/out properly. Otherwise, you may not be signed in/out properly.');
 });
 
 /**
