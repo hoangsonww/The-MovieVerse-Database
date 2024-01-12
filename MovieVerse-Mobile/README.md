@@ -21,10 +21,53 @@ MovieVerse is a dynamic, user-friendly mobile application that offers an extensi
 - **Movie Details**: Tap on any movie to view detailed information, including ratings, overviews, and more.
 - **Responsive Design**: Enjoy a consistent and engaging user experience on both iPhones and iPads.
 
+### And many more!
+
 ## Installation
 
 1. **Download the App**: Visit the App Store and search for "MovieVerse" to download and install the app on your iOS device.
 2. **Open MovieVerse**: Tap on the MovieVerse icon on your home screen to launch the app.
+
+## Development
+
+### Prerequisites
+- [Xcode](https://developer.apple.com/xcode/) 12.5 or later
+- [CocoaPods](https://cocoapods.org/) 1.10.1 or later
+- [Android Studio](https://developer.android.com/studio) 4.2.1 or later
+- [Android SDK](https://developer.android.com/studio#downloads) 30.0.3 or later
+- [Apache Cordova](https://cordova.apache.org/) 10.0.0 or later
+- [Node.js](https://nodejs.org/en/) 14.17.0 or later
+- [npm](https://www.npmjs.com/) 6.14.13 or later
+
+### Instructions
+1. **Clone the Repository**: Clone the repository to your local machine using the following command:
+```
+git clone
+```
+2. **Install Dependencies**: Navigate to the project directory and install the dependencies using the following command:
+```
+npm install
+```
+3. **Add iOS Platform**: Add the iOS platform to the project using the following command:
+```
+cordova platform add ios
+```
+4. **Add Android Platform**: Add the Android platform to the project using the following command:
+```
+cordova platform add android
+```
+5. **Build the Project**: Build the project using the following command:
+```
+cordova build ios
+cordova build android
+```
+6. **Run the Project**: Run the project using the following command:
+```
+cordova emulate ios
+cordova emulate android
+```
+7. **Open the Project**: Open the project in Xcode or Android Studio to view the source code and test the app within the simulator.
+8. **Enjoy coding!**
 
 ## Usage
 
@@ -48,7 +91,7 @@ MovieVerse is a dynamic, user-friendly mobile application that offers an extensi
 
 ## Support
 
-For support, feedback, or inquiries, please email us at hoangson091104@gmail.com.
+For support, feedback, or inquiries, please email us at [info@movie-verse.com](mailto:info@movie-verse.com).
 
 ## Updates and Feedback
 

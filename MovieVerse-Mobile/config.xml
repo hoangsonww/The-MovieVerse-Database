@@ -2,15 +2,15 @@
 <widget id="io.cordova.hellocordova" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>MovieVerse</name>
     <description>Your Ultimate Movie and Filmography Database</description>
-    <author email="hoangson091104@gmail.com" href="https://hoangsonww.github.io/My-Portfolio-Website/">
+    <author email="info@movie-verse.com" href="https://sonnguyenhoang.com/">
         David Nguyen
     </author>
     <platform name="ios">
-        <!-- iOS icons -->
+        <!-- iOS icon -->
         <icon src="www/icons/iOSIcon.png" width="180" height="180"/>
     </platform>
     <platform name="android">
-        <!-- Android icons -->
+        <!-- Android icon -->
         <icon src="www/icons/AndroidIcon.png" density="xxxhdpi"/>
     </platform>
     <content src="index.html" />

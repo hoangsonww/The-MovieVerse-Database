@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>MovieVerse Trivia</title>
+    <link rel="stylesheet" href="../css/trivia.css">
+    <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Set the title of the page for SEO -->
+    <meta property="og:title" content="The MovieVerse - Your Ultimate Movie Guide" />
+    <!-- Set the description of the page -->
+    <meta name="description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <meta name="theme-color" content="#7378c5">
+    <script src="../js/settings.js"></script>
+    <link rel="manifest" href="../../manifest.json">
+</head>
+
+<body>
+
+    <header style="margin-bottom: -50px">
+        <a href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer; margin-bottom: 5px">
+            <h1 id="my-heading" style="margin-bottom: -10px">
+                The Mo<span class="highlight">vieV</span>erse
+            </h1>
+        </a>
+
+        <button class="back-btn" onclick="window.location.href='../../index.html'">Home</button>
+        <button class="about" onclick="window.location.href='about.html'">About</button>
+        <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="Go to your favorites list">Favorites</button>
+
+        <button id="googleSignInBtn" onclick="handleSignInOut()" title="Sign In/Out">
+            <span>Sign In</span>
+            <i class="fas fa-sign-in-alt"></i>
+        </button>
+
+        <form id="form">
+            <input
+                    type="text"
+                    id="search"
+                    placeholder="Search For Any Movie..."
+                    class="search"
+            />
+            <button type="button" id="button-search" onclick="">Search</button>
+        </form>
+    </header>
+
+    <div>
+        <h1 id="trivia-label">Movie Trivia Quiz</h1>
+        <button id="clear-search-btn">Clear Search Results</button>
+    </div>
+
+    <main id="main"></main>
+
+    <form id="quiz-form" style="margin-bottom: 30px">
+        <div id="quiz-container"></div>
+        <button type="button" id="regenerate-questions" style="color: black">Get New Questions</button>
+        <button type="submit" id="submit" style="color: black">Submit Answers</button>
+    </form>
+
+    <button id="settings-btn" style="position: fixed; bottom: 220px">Settings</button>
+    <button id="movie-match-btn2" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!">Movie Match</button>
+    <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 140px">Movie Timeline</button>
+    <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 100px">Movie of the Day</button>
+    <button id="discussions-btn" onclick="window.location.href='discussions.html'" title="Want to know more about movies? Chat with our intelligent chatbot!" style="bottom: 60px">MovieVerse Chatbot</button>
+    <button id="back-to-top-btn" onclick="window.location.href='../../index.html'">Back To Main Page</button>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="../js/quiz.js"></script>
+
+    <script>
+        document.getElementById('settings-btn').addEventListener('click', () => {
+            window.location.href = 'settings.html';
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            applySettings();
+
+            function applySettings() {
+                const savedBg = localStorage.getItem('backgroundImage');
+                const savedTextColor = localStorage.getItem('textColor');
+                const savedFontSize = localStorage.getItem('fontSize');
+
+                if (savedBg) {
+                    document.body.style.backgroundImage = `url('${savedBg}')`;
+                }
+                if (savedTextColor) {
+                    document.querySelectorAll('h1, h2, h3, p, a, span, div, button, input, select, textarea, label, li').forEach(element => {
+                        element.style.color = savedTextColor;
+                    });
+                }
+                if (savedFontSize) {
+                    const size = savedFontSize === 'small' ? '12px' : savedFontSize === 'medium' ? '16px' : '20px';
+                    document.body.style.fontSize = size;
+                }
+            }
+        });
+    </script>
+
+</body>
+
+</html>

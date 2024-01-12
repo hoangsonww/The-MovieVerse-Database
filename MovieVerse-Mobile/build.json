@@ -1,0 +1,10 @@
+{
+  "ios": {
+    "debug": {
+      "deploymentTarget": "17.0"
+    },
+    "release": {
+      "deploymentTarget": "17.0"
+    }
+  }
+}
