@@ -18,7 +18,7 @@ Welcome to The MovieVerse - your digital compass to the cinematic universe. This
 
 ## User Interface
 <p align="center">
-  <img src="images/screenshot.png" alt="The MovieVerse App Interface"/>
+  <img src="../images/screenshot.png" alt="The MovieVerse App Interface"/>
 </p>
 
 ## Introduction
