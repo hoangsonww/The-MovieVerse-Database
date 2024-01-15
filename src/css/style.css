@@ -625,7 +625,7 @@ p {
     background-image: url("../../images/universe.jpg");
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
+    background-repeat: repeat;
 }
 
 .movie-details-body2 {
