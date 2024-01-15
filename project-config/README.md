@@ -15,8 +15,7 @@ Welcome to the `project-config` directory of the MovieVerse App! This directory 
 7. [babel.config.json](#babel.config.json)
 8. [docker-compose.yml](#docker-compose.yml)
 9. [nginx.conf](#nginx.conf)
-10. [serviceWorker.js](#serviceWorker.js)
-11. [webpack.config.js](#webpack.config.js)
+10. [webpack.config.js](#webpack.config.js)
 
 ## Overview
 
@@ -53,10 +52,6 @@ A YAML file used to define and run multi-container Docker applications. With thi
 ### nginx.conf
 
 Configuration file for Nginx, a web server used to handle HTTP requests, redirect traffic, serve static files, and more. This file includes settings like server blocks, location blocks, and other directives.
-
-### serviceWorker.js
-
-A JavaScript file used to create a service worker, a script run by the browser in the background, separate from a web page. It is primarily used for features that don't need a web page or user interaction, like push notifications and background sync.
 
 ### webpack.config.js
 

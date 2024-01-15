@@ -791,15 +791,21 @@ function createTrailerButton(trailerUrl) {
 let trailerButton;
 
 function positionTrailerButton() {
-    if (!trailerButton) return;
+    const movieRatingElement = document.getElementById('movie-rating');
+    if (!trailerButton || !movieRatingElement) return;
 
     if (window.innerWidth <= 900) {
         const movieDescription = document.getElementById('movie-description');
         movieDescription.parentNode.insertBefore(trailerButton, movieDescription);
+        movieRatingElement.style.marginTop = '5px';
+        movieRatingElement.style.marginBottom = '5px';
+        movieRatingElement.style.fontSize = '30px';
+
+        trailerButton.parentNode.insertBefore(movieRatingElement, trailerButton.nextSibling);
     }
     else {
-        const movieRating = document.getElementById('movie-rating');
-        movieRating.parentNode.insertBefore(trailerButton, movieRating.nextSibling);
+        const movieRightDiv = document.querySelector('.movie-right');
+        movieRightDiv.prepend(movieRatingElement);
     }
 }
 
