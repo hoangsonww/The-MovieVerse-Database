@@ -1619,7 +1619,7 @@ textarea {
         margin-top: 0;
         height: 100% !important;
         overflow: visible;
-        margin-bottom: 250px;
+        margin-bottom: 5px;
     }
 
     #descriptionP {
