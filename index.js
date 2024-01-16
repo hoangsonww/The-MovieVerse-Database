@@ -378,12 +378,6 @@ function calculateMoviesToDisplay() {
     return 20;
 }
 
-window.addEventListener('resize', () => {
-    if (!searchPerformed) {
-        getMovies(DATABASEURL, main);
-    }
-});
-
 /**
  * Returns the CSS class to use for the specified vote average.
  * @param vote
