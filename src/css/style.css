@@ -1383,10 +1383,6 @@ textarea {
 }
 
 @media (max-width: 840px) {
-    #movie-match-main {
-        margin-left: -100px;
-    }
-
     #my-heading {
         margin-left: 0;
     }
@@ -1846,7 +1842,6 @@ textarea {
     margin-top: 60px;
     padding: 20px;
     width: 100%;
-    margin-left: 25px;
 }
 
 body {
