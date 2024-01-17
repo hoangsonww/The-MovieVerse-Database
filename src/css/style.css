@@ -775,6 +775,10 @@ p {
     margin-bottom: 20px;
 }
 
+#aboutHeader {
+    margin-top: -25px;
+}
+
 #main2 p, #main2 ul, #main2 li {
     text-align: left;
     margin: auto;
