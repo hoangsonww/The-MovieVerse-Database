@@ -670,15 +670,6 @@ function handleSignInOut() {
     const signInOutIcon = signInOutButton.querySelector('i');
 
     if (!isSignedIn) {
-        let popup = window.open('', '_blank', 'width=1,height=1,left=-9999,top=-9999');
-        if (!popup || popup.outerWidth === 0 || popup.outerHeight === 0 || popup.closed) {
-            alert('Pop-ups are blocked. Please allow pop-ups for this site to sign in.');
-            if (popup) {
-                popup.close();
-            }
-            return;
-        }
-        popup.close();
         signInOutText.textContent = 'Sign Out';
         signInOutIcon.className = 'fas fa-sign-out-alt';
         isSignedIn = true;
@@ -712,7 +703,7 @@ function updateSignInButton() {
 }
 
 document.getElementById('googleSignInBtn').addEventListener('click', function () {
-    alert('Please ensure that you have pop-ups enabled for this site to sign you in/out properly. Otherwise, you may not be signed in/out properly.');
+    alert('Please ensure that you have pop-ups enabled for this site to sign you in/out properly. Otherwise, you may not be signed in/out properly. (If you have already disabled pop-up blockers, you may ignore this message.)');
 });
 
 /**
@@ -737,10 +728,11 @@ document.addEventListener("DOMContentLoaded", function() {
  * Checks if the user has cleared their local storage and clears it if they haven't.
  */
 function checkAndClearLocalStorage() {
-    const hasCleared = localStorage.getItem('hasUserClearedMovieVerseData');
+    const hasCleared = localStorage.getItem('hasUserClearedMovieVerseData2');
     if (!hasCleared) {
         clearMovieVerseLocalStorage();
-        localStorage.setItem('hasUserClearedMovieVerseData', 'true');
+        localStorage.setItem('hasUserClearedMovieVerseData2', 'true');
+        localStorage.removeItem('hasUserClearedMovieVerseData');
         window.location.reload();
     }
 }

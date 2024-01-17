@@ -11,6 +11,10 @@ document.getElementById('end-year').addEventListener('keypress', function(event)
     }
 });
 
+document.getElementById('googleSignInBtn').addEventListener('click', function () {
+    alert('Please ensure that you have pop-ups enabled for this site to sign you in/out properly. Otherwise, you may not be signed in/out properly. (If you have already disabled pop-up blockers, you may ignore this message.)');
+});
+
 const IMGPATH = "https://image.tmdb.org/t/p/w1280";
 const SEARCHPATH = "https://api.themoviedb.org/3/search/movie?&api_key=c5a20c861acf7bb8d9e987dcc7f1b558&query=";
 const searchTitle = document.getElementById("select-text");

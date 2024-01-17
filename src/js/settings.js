@@ -64,6 +64,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+document.getElementById('googleSignInBtn').addEventListener('click', function () {
+    alert('Please ensure that you have pop-ups enabled for this site to sign you in/out properly. Otherwise, you may not be signed in/out properly. (If you have already disabled pop-up blockers, you may ignore this message.)');
+});
+
 function loadCustomBackgrounds() {
     const bgSelect = document.getElementById('background-select');
     const customImages = JSON.parse(localStorage.getItem('customImages')) || [];
