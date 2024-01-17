@@ -866,8 +866,9 @@ function populateMovieDetails(movie, imdbRating, rtRating, metascore, awards, ra
     const ratedElement = rated ? `<p id="movie-rated-element"><strong>Rated:</strong> <span style="color: ${ratingDetails.color};"><strong>${ratingDetails.text}</strong>${ratingDetails.description}</span></p>` : '';
 
     document.getElementById('movie-rating').innerHTML = `
-        <a id="imdbRatingLink" href="${imdbLink}" target="_blank" title="Click to go to this movie's IMDb page!" style="text-decoration: none; color: inherit;">IMDB Rating: ${imdbRating}</a>
+        <a id="imdbRatingLink" href="${imdbLink}" target="_blank" title="Click to go to this movie's IMDb page!" style="text-decoration: none; color: inherit">IMDB Rating: ${imdbRating}</a>
     `;
+    document.getElementById('movie-rating').style.marginTop = '120px';
     document.title = movie.title + " - Movie Details";
 
     const movieImage = document.getElementById('movie-image');
