@@ -37,9 +37,5 @@ ENV PYTHONUNBUFFERED=1 \
 # Expose port for the backend
 EXPOSE 8080
 
-# Start Gunicorn (adjust the number of workers and threads as necessary)
+# Start Gunicorn
 CMD ["gunicorn", "--bind", "0.0.0.0:8080", "--workers", "3", "--threads", "3", "myproject.wsgi:application"]
-CMD ["python", "manage.py", "runserver"]
-CMD ["python", "manage.py", "collectstatic", "--noinput"]
-CMD ["python", "manage.py", "migrate"]
-CMD ["python", "manage.py", "createsuperuser"]
