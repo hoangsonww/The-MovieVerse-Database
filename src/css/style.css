@@ -582,6 +582,14 @@ header h1 {
     color: #f509d9;
 }
 
+#githubLink {
+    color: inherit;
+}
+
+#githubLink:hover {
+    color: #ff8623;
+}
+
 #imdbRating, #rtRating {
     text-decoration: none;
     color: inherit;
