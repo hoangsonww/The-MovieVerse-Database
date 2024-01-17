@@ -761,6 +761,8 @@ function clearMovieVerseLocalStorage() {
     localStorage.removeItem('textColor');
     localStorage.removeItem('fontSize');
     localStorage.removeItem('moviesFavorited');
+    localStorage.removeItem('hasUserClearedMovieVerseData');
+    window.location.reload();
 }
 
 /**
