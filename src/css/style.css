@@ -590,6 +590,18 @@ header h1 {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
+@media (max-width: 900px) {
+    .movie-rating {
+        position: fixed;
+        bottom: 20px;
+        left: 0;
+        right: 0;
+        text-align: center;
+        z-index: 1000; /* Ensure it stays on top of other elements */
+    }
+}
+
+
 #imdbRating:hover {
     color: #f509d9;
 }
