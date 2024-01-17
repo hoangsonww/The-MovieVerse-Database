@@ -15,10 +15,19 @@
         .content-area {
             margin-left: -10px
         }
+
+        #mail {
+            color: white;
+        }
+
+        #mail:hover {
+            color: #ff8623;
+            text-decoration: underline;
+        }
     </style>
 </head>
 
-<body class="movie-details-body">
+<body class="movie-details-body" style="margin-left: -10px">
 
     <header id="homepage-header">
         <a id="indexLink" href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer">
@@ -31,7 +40,7 @@
         <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="Go to your favorites list">Favorites</button>
     </header>
 
-    <main class="content-area" style="text-align: center; min-width: 100vw">
+    <main class="content-area" style="text-align: center; min-width: 100vw;">
         <div style="text-align: center; min-width: 100vw">
             <h1 id="tos-header" style="color: #ff8623">Terms of Service</h1>
         </div>
@@ -88,7 +97,7 @@
 
         <div style="text-align: center; min-width: 100vw; margin-bottom: 200px">
             <h2 style="color: white">Contact Us</h2>
-            <p>If you have any questions about these Terms, please contact us at info@movie-verse.com.</p>
+            <p>If you have any questions about these Terms, please contact us at <a id="mail" href="mailto:info@movie-verse.com">info@movie-verse.com</a>.</p>
         </div>
 
     </main>
