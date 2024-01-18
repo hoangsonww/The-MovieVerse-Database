@@ -665,6 +665,7 @@ updateSignInButton();
  * Handles the sign in/out button click using Google Sign In.
  */
 function handleSignInOut() {
+    window.location.reload();
     const signInOutButton = document.getElementById('googleSignInBtn');
     const signInOutText = signInOutButton.querySelector('span');
     const signInOutIcon = signInOutButton.querySelector('i');
@@ -728,11 +729,12 @@ document.addEventListener("DOMContentLoaded", function() {
  * Checks if the user has cleared their local storage and clears it if they haven't.
  */
 function checkAndClearLocalStorage() {
-    const hasCleared = localStorage.getItem('hasUserClearedMovieVerseData2');
+    const hasCleared = localStorage.getItem('hasUserClearedMovieVerseData3');
     if (!hasCleared) {
         clearMovieVerseLocalStorage();
-        localStorage.setItem('hasUserClearedMovieVerseData2', 'true');
+        localStorage.setItem('hasUserClearedMovieVerseData3', 'true');
         localStorage.removeItem('hasUserClearedMovieVerseData');
+        localStorage.removeItem('hasUserClearedMovieVerseData2');
         window.location.reload();
     }
 }
@@ -762,6 +764,7 @@ function clearMovieVerseLocalStorage() {
     localStorage.removeItem('fontSize');
     localStorage.removeItem('moviesFavorited');
     localStorage.removeItem('hasUserClearedMovieVerseData');
+    localStorage.removeItem('hasUserClearedMovieVerseData2');
     window.location.reload();
 }
 

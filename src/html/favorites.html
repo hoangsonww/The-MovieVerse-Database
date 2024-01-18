@@ -347,6 +347,10 @@
             return `${accuracy.toFixed(1)}% accuracy`;
         }
 
+        document.getElementById('googleSignInBtn').addEventListener('click', function () {
+            alert('Please ensure that you have pop-ups enabled for this site to sign you in/out properly. Otherwise, you may not be signed in/out properly. (If you have already disabled pop-up blockers, you may ignore this message.)');
+        });
+
         function getMostCommonGenre() {
             const favoriteGenres = JSON.parse(localStorage.getItem('favoriteGenres')) || {};
             let mostCommonGenre = '';
@@ -934,6 +938,7 @@
         updateSignInButton();
 
         function handleSignInOut() {
+            window.location.reload();
             const signInOutButton = document.getElementById('googleSignInBtn');
             const signInOutText = signInOutButton.querySelector('span');
             const signInOutIcon = signInOutButton.querySelector('i');

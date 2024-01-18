@@ -710,6 +710,7 @@ let isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
 updateSignInButton();
 
 function handleSignInOut() {
+    window.location.reload();
     const signInOutButton = document.getElementById('googleSignInBtn');
     const signInOutText = signInOutButton.querySelector('span');
     const signInOutIcon = signInOutButton.querySelector('i');

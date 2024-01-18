@@ -7,6 +7,15 @@
     <link rel="stylesheet" href="../css/style.css"/>
     <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
     <link rel="manifest" href="../../manifest.json">
+    <meta name="robots" content="index, follow">
+    <meta name="rating" content="General">
+    <meta name="revisit-after" content="3 days">
+    <meta name="distribution" content="global">
+    <meta http-equiv="content-language" content="en">
+    <meta name="language" content="en">
+    <meta name="theme-color" content="#7378c5">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <style>
         body, html {
             margin: 0;
@@ -33,34 +42,32 @@
 </head>
 
 <body class="movie-details-body">
-    <header id="homepage-header">
-        <!-- Set the title of the website -->
-        <a id="indexLink" href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer" title="Click to go back to the home page">
+    <header>
+        <a href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer" title="Click to go back to the home page">
             <h1 id="my-heading" style="margin-bottom: -10px">
                 The Mo<span class="highlight">vieV</span>erse
             </h1>
         </a>
 
-        <!-- Create a button to go back to the home page -->
-        <button class="back-btn" onclick="window.location.href='../../index.html'" title="Go back to homepage">Home</button>
+        <div id="local-time" style="display: flex; align-items: center; justify-content: start; cursor: pointer;">
+            <p id="stats-label" class="clock" style="font-size: 16px; margin-right: 10px;"></p>
+            <h1 id="stats-display" class="clock" style="font-size: 20px;"></h1>
+        </div>
 
-        <!-- Create a button to go to the About page -->
-        <button class="about" onclick="window.location.href='about.html'" title="About this wonderful app!">About</button>
-
-        <!-- Create a button to go to the Favorites page -->
+        <button class="back-btn" onclick="window.location.href='../../index.html'">Home</button>
+        <button class="about" onclick="window.location.href='about.html'">About</button>
         <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="Go to your favorites list">Favorites</button>
-
+        <button id="googleSignInBtn" onclick="handleSignInOut()" title="Sign In/Out">
+            <span>Sign In</span>
+            <i class="fas fa-sign-in-alt"></i>
+        </button>
+        <button id="settings-btn" style="position: fixed; bottom: 220px">Settings</button>
+        <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!">Movie Match</button>
+        <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 140px">Movie Timeline</button>
+        <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 100px">Movie of the Day</button>
+        <button id="discussions-btn" onclick="window.location.href='discussions.html'" style="margin-bottom: -39px" title="Engage in movie discussions">MovieVerse Chatbot</button>
+        <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="margin-bottom: -40px" title="Test your movie knowledge">MovieVerse Trivia</button>
     </header>
-
-    <button id="settings-btn" style="position: fixed; bottom: 150px">Settings</button>
-
-    <button id="movie-match-btn2" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!">Movie Match</button>
-
-    <button id="movie-of-the-day-btn2" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!">Movie of the Day</button>
-
-    <button id="discussions-btn" onclick="window.location.href='discussions.html'" title="Want to know more about movies? Chat with our intelligent chatbot!" style="margin-bottom: -55px">MovieVerse Chatbot</button>
-
-    <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="margin-bottom: -50px" title="Play a quick trivia to test your knowledge about movies!">MovieVerse Trivia</button>
 
     <main class="content-area" style="text-align: center;   ">
         <div style="text-align: center; width: 99vw">
@@ -114,6 +121,62 @@
     </main>
 
     <script>
+        let isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
+        updateSignInButton();
+
+        function handleSignInOut() {
+            window.location.reload();
+            const signInOutButton = document.getElementById('googleSignInBtn');
+            const signInOutText = signInOutButton.querySelector('span');
+            const signInOutIcon = signInOutButton.querySelector('i');
+
+            if (!isSignedIn) {
+                signInOutText.textContent = 'Sign Out';
+                signInOutIcon.className = 'fas fa-sign-out-alt';
+                isSignedIn = true;
+                localStorage.setItem('isSignedIn', isSignedIn);
+                gapi.auth2.getAuthInstance().signIn();
+            }
+            else {
+                signInOutText.textContent = 'Sign In';
+                signInOutIcon.className = 'fas fa-sign-in-alt';
+                isSignedIn = false;
+                localStorage.setItem('isSignedIn', isSignedIn);
+                gapi.auth2.getAuthInstance().signOut();
+            }
+        }
+
+        document.getElementById('googleSignInBtn').addEventListener('click', function () {
+            alert('Please ensure that you have pop-ups enabled for this site to sign you in/out properly. Otherwise, you may not be signed in/out properly. (If you have already disabled pop-up blockers, you may ignore this message.)');
+        });
+
+        function updateSignInButton() {
+            const signInOutButton = document.getElementById('googleSignInBtn');
+            const signInOutText = signInOutButton.querySelector('span');
+            const signInOutIcon = signInOutButton.querySelector('i');
+            if (isSignedIn) {
+                signInOutText.textContent = 'Sign Out';
+                signInOutIcon.className = 'fas fa-sign-out-alt';
+            }
+            else {
+                signInOutText.textContent = 'Sign In';
+                signInOutIcon.className = 'fas fa-sign-in-alt';
+            }
+        }
+
+        function initClient() {
+            gapi.load('auth2', function() {
+                gapi.auth2.init({
+                    client_id: '154461832638-fpkleb6uhogkacq9k93721o8mjr2qc8t.apps.googleusercontent.com'
+                });
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            updateSignInButton();
+            initClient();
+        });
+
         document.getElementById('settings-btn').addEventListener('click', () => {
             window.location.href = 'settings.html';
         });
@@ -164,6 +227,181 @@
                 fallbackMovieSelection();
             }
         }
+
+        function updateFavorites() {
+            const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+            const favoritesMain = document.getElementById('favorites-main');
+            favoritesMain.style.textAlign = 'center';
+            if (favorites.length > 0) {
+                favorites.forEach(movieId => fetchMovieDetails(movieId));
+            }
+            else {
+                favoritesMain.innerHTML = '<div style="display: flex; justify-content: center; align-items: center; text-align: center; width: 100vw;">\n' +
+                    '                <h2 style="color: white">No Favorite Movies Added Yet.</h2>\n' +
+                    '            </div>`;';
+            }
+        }
+
+        function rotateUserStats() {
+            const stats = [
+                {
+                    label: "Your Current Time",
+                    getValue: () => {
+                        const now = new Date();
+                        let hours = now.getHours();
+                        let minutes = now.getMinutes();
+                        hours = hours < 10 ? '0' + hours : hours;
+                        minutes = minutes < 10 ? '0' + minutes : minutes;
+                        return `${hours}:${minutes}`;
+                    }
+                },
+                { label: "Most Visited Movie", getValue: getMostVisitedMovie },
+                { label: "Your Most Visited Director", getValue: getMostVisitedDirector },
+                { label: "Your Most Visited Actor", getValue: getMostVisitedActor },
+                {
+                    label: "Your Unique Movies Discovered",
+                    getValue: () => {
+                        const viewedMovies = JSON.parse(localStorage.getItem('uniqueMoviesViewed')) || [];
+                        return viewedMovies.length;
+                    }
+                },
+                {
+                    label: "Your Favorited Movies",
+                    getValue: () => {
+                        const favoritedMovies = JSON.parse(localStorage.getItem('favorites')) || [];
+                        return favoritedMovies.length;
+                    }
+                },
+                {
+                    label: "Your Most Common Favorited Genre",
+                    getValue: getMostCommonGenre
+                },
+                { label: "Your Created Watchlists", getValue: () => localStorage.getItem('watchlistsCreated') || 0 },
+                { label: "Your Average Movie Rating", getValue: () => localStorage.getItem('averageMovieRating') || 'Not Rated' },
+                {
+                    label: "Your Unique Directors Discovered",
+                    getValue: () => {
+                        const viewedDirectors = JSON.parse(localStorage.getItem('uniqueDirectorsViewed')) || [];
+                        return viewedDirectors.length;
+                    }
+                },
+                {
+                    label: "Your Unique Actors Discovered",
+                    getValue: () => {
+                        const viewedActors = JSON.parse(localStorage.getItem('uniqueActorsViewed')) || [];
+                        return viewedActors.length;
+                    }
+                },
+                {
+                    label: "Your Unique Production Companies Discovered",
+                    getValue: () => {
+                        const viewedCompanies = JSON.parse(localStorage.getItem('uniqueCompaniesViewed')) || [];
+                        return viewedCompanies.length;
+                    }
+                },
+                { label: "Your Trivia Accuracy", getValue: getTriviaAccuracy }
+            ];
+
+            let currentStatIndex = 0;
+
+            function updateStatDisplay() {
+                const currentStat = stats[currentStatIndex];
+                document.getElementById('stats-label').textContent = currentStat.label + ':';
+                document.getElementById('stats-display').textContent = currentStat.getValue();
+                currentStatIndex = (currentStatIndex + 1) % stats.length;
+            }
+
+            updateStatDisplay();
+
+            const localTimeDiv = document.getElementById('local-time');
+            let statRotationInterval = setInterval(updateStatDisplay, 3000);
+
+            localTimeDiv.addEventListener('click', () => {
+                clearInterval(statRotationInterval);
+                updateStatDisplay();
+                statRotationInterval = setInterval(updateStatDisplay, 3000);
+            });
+        }
+
+        function updateMovieVisitCount(movieId, movieTitle) {
+            let movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
+            if (!movieVisits[movieId]) {
+                movieVisits[movieId] = { count: 0, title: movieTitle };
+            }
+            movieVisits[movieId].count += 1;
+            localStorage.setItem('movieVisits', JSON.stringify(movieVisits));
+        }
+
+        function getMostVisitedMovie() {
+            const movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
+            let mostVisitedMovie = '';
+            let maxVisits = 0;
+
+            for (const movieId in movieVisits) {
+                if (movieVisits[movieId].count > maxVisits) {
+                    mostVisitedMovie = movieVisits[movieId].title;
+                    maxVisits = movieVisits[movieId].count;
+                }
+            }
+
+            return mostVisitedMovie || 'Not Available';
+        }
+
+        function getMostVisitedActor() {
+            const actorVisits = JSON.parse(localStorage.getItem('actorVisits')) || {};
+            let mostVisitedActor = '';
+            let maxVisits = 0;
+
+            for (const actorId in actorVisits) {
+                if (actorVisits[actorId].count > maxVisits) {
+                    mostVisitedActor = actorVisits[actorId].name;
+                    maxVisits = actorVisits[actorId].count;
+                }
+            }
+
+            return mostVisitedActor || 'Not Available';
+        }
+
+        function getMostVisitedDirector() {
+            const directorVisits = JSON.parse(localStorage.getItem('directorVisits')) || {};
+            let mostVisitedDirector = '';
+            let maxVisits = 0;
+
+            for (const directorId in directorVisits) {
+                if (directorVisits[directorId].count > maxVisits) {
+                    mostVisitedDirector = directorVisits[directorId].name;
+                    maxVisits = directorVisits[directorId].count;
+                }
+            }
+
+            return mostVisitedDirector || 'Not Available';
+        }
+
+        function getTriviaAccuracy() {
+            let triviaStats = JSON.parse(localStorage.getItem('triviaStats')) || { totalCorrect: 0, totalAttempted: 0 };
+            if (triviaStats.totalAttempted === 0) {
+                return 'No trivia attempted';
+            }
+            let accuracy = (triviaStats.totalCorrect / triviaStats.totalAttempted) * 100;
+            return `${accuracy.toFixed(1)}% accuracy`;
+        }
+
+        function getMostCommonGenre() {
+            const favoriteGenres = JSON.parse(localStorage.getItem('favoriteGenres')) || {};
+            let mostCommonGenre = '';
+            let maxCount = 0;
+
+            for (const genre in favoriteGenres) {
+                if (favoriteGenres[genre] > maxCount) {
+                    mostCommonGenre = genre;
+                    maxCount = favoriteGenres[genre];
+                }
+            }
+
+            return mostCommonGenre || 'Not Available';
+        }
+
+        document.addEventListener('DOMContentLoaded', rotateUserStats);
     </script>
 
 </body>
