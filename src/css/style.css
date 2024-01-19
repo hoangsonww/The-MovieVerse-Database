@@ -172,12 +172,43 @@ header h1 {
     border-radius: 8px;
 }
 
+#profileBtn {
+    background-color: #7378c5;
+    border: none;
+    color: white;
+    width: 85px;
+    height: 40px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font: inherit;
+    font-size: 16px;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    margin-left: 316px;
+    border-radius: 8px;
+}
+
+#profileBtn:hover {
+    background-color: #ff8623;
+    transition: 0.3s ease-in;
+}
+
 #mobileGoogleSignInBtn {
+    display: none;
+}
+
+#mobileProfileBtn {
     display: none;
 }
 
 @media screen and (max-width: 900px) {
     #mobileGoogleSignInBtn {
+        display: block;
+    }
+
+    #mobileProfileBtn {
         display: block;
     }
 }
@@ -1408,9 +1439,18 @@ textarea {
     margin-left: 45px;
 }
 
+#mobileProfileBtn:hover {
+    background-color: #ff8623;
+    transition: 0.1s ease-in;
+}
+
 @media (max-width: 840px) {
     #my-heading {
         margin-left: 0;
+    }
+
+    #profileBtn {
+        display: none;
     }
 
     .movie-details-body4 {
@@ -1875,6 +1915,22 @@ textarea {
     margin-bottom: 300px;
 }
 
+.profile-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.profile-image-container img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.profile-info p {
+    margin: 10px 0;
+}
+
 body {
     overflow-x: hidden;
     max-width: 100%;
@@ -1891,7 +1947,7 @@ body {
     cursor: pointer;
     position: absolute;
     top: 0;
-    margin-left: 315px;
+    margin-left: 405px;
     border-radius: 8px;
     padding: 0 10px;
     box-sizing: border-box;
@@ -1915,6 +1971,20 @@ body {
     cursor: pointer;
     border-radius: 8px;
     padding: 0 10px;
+}
+
+#mobileProfileBtn {
+    background-color: #7378c5;
+    border: none;
+    color: white;
+    height: 40px;
+    text-align: center;
+    font: inherit;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 8px;
+    padding: 0 10px;
+    margin-left: 5px;
 }
 
 #googleSignInBtn:hover {

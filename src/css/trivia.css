@@ -19,6 +19,29 @@ html {
     overflow-x: hidden;
 }
 
+#profileBtn {
+    background-color: #7378c5;
+    border: none;
+    color: white;
+    width: 85px;
+    height: 40px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font: inherit;
+    font-size: 16px;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    margin-left: 316px;
+    border-radius: 8px;
+}
+
+#profileBtn:hover {
+    background-color: #ff8623;
+    transition: 0.3s ease-in;
+}
+
 #googleSignInBtn {
     background-color: #7378c5;
     border: none;
@@ -30,7 +53,7 @@ html {
     cursor: pointer;
     position: absolute;
     top: 0;
-    margin-left: 315px;
+    margin-left: 405px;
     border-radius: 8px;
     padding: 0 10px;
     box-sizing: border-box;
@@ -501,7 +524,8 @@ main {
 }
 
 @media (max-width: 900px) {
-    #local-time {
+    #local-time,
+    #profileBtn {
         display: none;
     }
 }
