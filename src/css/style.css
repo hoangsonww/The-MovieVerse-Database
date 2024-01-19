@@ -172,6 +172,16 @@ header h1 {
     border-radius: 8px;
 }
 
+#mobileGoogleSignInBtn {
+    display: none;
+}
+
+@media screen and (max-width: 900px) {
+    #mobileGoogleSignInBtn {
+        display: block;
+    }
+}
+
 .back-btn:hover {
     background-color: #ff8623;
     transition: 0.3s ease-in;
@@ -1887,9 +1897,34 @@ body {
     box-sizing: border-box;
 }
 
+.mobile-sign-in-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 12px;
+    margin-bottom: 10px;
+}
+
+#mobileGoogleSignInBtn {
+    background-color: #7378c5;
+    border: none;
+    color: white;
+    height: 40px;
+    text-align: center;
+    font: inherit;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 8px;
+    padding: 0 10px;
+}
+
 #googleSignInBtn:hover {
     background-color: #ff8623;
-    transition: 0.3s ease-in;
+    transition: 0.1s ease-in;
+}
+
+#mobileGoogleSignInBtn:hover {
+    background-color: #ff8623;
+    transition: 0.1s ease-in;
 }
 
 .movie-match-container {

@@ -406,52 +406,44 @@ document.getElementById('clear-search-btn').addEventListener('click', () => {
     location.reload();
 });
 
-let isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
-updateSignInButton();
-
 function handleSignInOut() {
-    window.location.reload();
-    const signInOutButton = document.getElementById('googleSignInBtn');
-    const signInOutText = signInOutButton.querySelector('span');
-    const signInOutIcon = signInOutButton.querySelector('i');
+    const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
 
-    if (!isSignedIn) {
-        signInOutText.textContent = 'Sign Out';
-        signInOutIcon.className = 'fas fa-sign-out-alt';
-        isSignedIn = true;
-        localStorage.setItem('isSignedIn', isSignedIn);
-        gapi.auth2.getAuthInstance().signIn();
-    }
-    else {
-        signInOutText.textContent = 'Sign In';
-        signInOutIcon.className = 'fas fa-sign-in-alt';
-        isSignedIn = false;
-        localStorage.setItem('isSignedIn', isSignedIn);
-        gapi.auth2.getAuthInstance().signOut();
-    }
-}
-
-function updateSignInButton() {
-    const signInOutButton = document.getElementById('googleSignInBtn');
-    const signInOutText = signInOutButton.querySelector('span');
-    const signInOutIcon = signInOutButton.querySelector('i');
     if (isSignedIn) {
-        signInOutText.textContent = 'Sign Out';
-        signInOutIcon.className = 'fas fa-sign-out-alt';
+        localStorage.setItem('isSignedIn', JSON.stringify(false));
+        alert('You have been signed out.');
     }
     else {
-        signInOutText.textContent = 'Sign In';
-        signInOutIcon.className = 'fas fa-sign-in-alt';
+        window.location.href = 'sign-in.html';
+        return;
+    }
+
+    updateSignInButtonState();
+}
+
+function updateSignInButtonState() {
+    const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
+
+    const signInText = document.getElementById('signInOutText');
+    const signInIcon = document.getElementById('signInIcon');
+    const signOutIcon = document.getElementById('signOutIcon');
+
+    if (isSignedIn) {
+        signInText.textContent = 'Sign Out';
+        signInIcon.style.display = 'none';
+        signOutIcon.style.display = 'inline-block';
+    }
+    else {
+        signInText.textContent = 'Sign In';
+        signInIcon.style.display = 'inline-block';
+        signOutIcon.style.display = 'none';
     }
 }
 
-function initClient() {
-    gapi.load('auth2', function() {
-        gapi.auth2.init({
-            client_id: '154461832638-fpkleb6uhogkacq9k93721o8mjr2qc8t.apps.googleusercontent.com'
-        });
-    });
-}
+document.addEventListener("DOMContentLoaded", function() {
+    updateSignInButtonState();
+    document.getElementById('googleSignInBtn').addEventListener('click', handleSignInOut);
+});
 
 const twoLetterLangCodes = [
     { "code": "aa", "name": "Afar" },
@@ -768,10 +760,6 @@ function calculateFallbackRTRating(imdbRating, tmdbRating) {
 
     return ((normalizedImdbRating * weightImdb) + (normalizedTmdbRating * weightTmdb)).toFixed(0) + '%'; // Calculate fallback RT rating out of 100% scale (in case data is not available from OMDB)
 }
-
-document.getElementById('googleSignInBtn').addEventListener('click', function () {
-    alert('Please ensure that you have pop-ups enabled for this site to sign you in/out properly. Otherwise, you may not be signed in/out properly. (If you have already disabled pop-up blockers, you may ignore this message.)');
-});
 
 function calculateFallbackMetacriticsRating(imdbRating, tmdbRating) {
     const normalizedImdbRating = imdbRating * 10;

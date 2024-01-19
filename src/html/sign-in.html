@@ -2,47 +2,91 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Privacy Policy - The MovieVerse</title>
+    <title>Sign In - The MovieVerse</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../css/style.css"/>
-    <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
-    <link rel="manifest" href="../../manifest.json">
-    <meta name="robots" content="index, follow">
-    <meta name="rating" content="General">
-    <meta name="revisit-after" content="3 days">
-    <meta name="distribution" content="global">
-    <meta http-equiv="content-language" content="en">
-    <meta name="language" content="en">
-    <meta name="theme-color" content="#7378c5">
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="website" />
+    <meta http-equiv="content-language" content="en" />
+    <meta name="twitter:card" content="https://movie-verse.com/images/image.png"/>
+    <meta property="og:description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more." />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link rel="icon" href="../../images/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="../css/style.css"/>
+    <meta name="theme-color" content="#7378c5">
+    <link rel="manifest" href="../../manifest.json">
     <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-        }
-
-        .content-area {
-            margin: 0 auto;
-            max-width: 800px;
-            padding: 0;
+        .sign-in-form-container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 20px;
+            background-color: rgba(211, 211, 211, 0.5);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
             text-align: center;
+            backdrop-filter: blur(5px);
         }
 
-        #linkWeb {
+        .sign-in-form-container h1 {
+            color: black;
+        }
+
+        .sign-in-form-container p {
+            color: black;
+        }
+
+        .sign-in-form-container input[type="email"],
+        .sign-in-form-container input[type="password"],
+        .sign-in-form-container button {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font: inherit;
+        }
+
+        .sign-in-form-container button[type="submit"] {
+            background-color: #7378c5;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .sign-in-form-container button[type="button"] {
+            background-color: #f0f0f0;
+            color: #333;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #createAccountBtn:hover {
+            background-color: #d3d3d3;
+            color: #1B1B1B;
+        }
+
+        .sign-in-form-container button:hover {
+            background-color: #ff8623;
             color: white;
         }
 
-        #linkWeb:hover {
-            color: #ff8623;
-            text-decoration: underline;
+        .sign-in-form-container form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .sign-in-form-container h2 {
+            color: black;
+            margin-bottom: 20px;
         }
     </style>
 </head>
-
 <body class="movie-details-body">
-    <header>
-        <a href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer" title="Click to go back to the home page">
+    <header id="homepage-header">
+        <a id="indexLink" href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer">
             <h1 id="my-heading" style="margin-bottom: -10px">
                 The Mo<span class="highlight">vieV</span>erse
             </h1>
@@ -53,113 +97,29 @@
             <h1 id="stats-display" class="clock" style="font-size: 20px;"></h1>
         </div>
 
-        <button class="back-btn" onclick="window.location.href='../../index.html'">Home</button>
-        <button class="about" onclick="window.location.href='about.html'">About</button>
-        <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="Go to your favorites list">Favorites</button>
-        <button id="googleSignInBtn" class="nav-btn" onclick="handleSignInOut()" title="Sign In/Out">
-            <span id="signInOutText">Sign In</span>
-            <i class="fas fa-sign-in-alt" id="signInIcon"></i>
-            <i class="fas fa-sign-out-alt" id="signOutIcon" style="display: none;"></i>
-        </button>
-        <button id="settings-btn" style="position: fixed; bottom: 220px">Settings</button>
-        <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!">Movie Match</button>
-        <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 140px">Movie Timeline</button>
-        <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 100px">Recommendation</button>
-        <button id="discussions-btn" onclick="window.location.href='discussions.html'" style="margin-bottom: -39px" title="Engage in movie discussions">MovieVerse Chatbot</button>
-        <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="margin-bottom: -40px" title="Test your movie knowledge">MovieVerse Trivia</button>
+        <button class="back-btn nav-btn" onclick="window.location.href='../../index.html'" title="Go back to homepage">Home</button>
+        <button class="about nav-btn" onclick="window.location.href='about.html'" title="About this wonderful app!">About</button>
+        <button class="favorites-btn nav-btn" onclick="window.location.href='favorites.html'" title="Go to your favorites list">Favorites</button>
+        <button id="settings-btn" style="position: fixed; bottom: 220px; z-index: 1000">Settings</button>
+        <button id="movie-match-btn3" style="z-index: 1000" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!">Movie Match</button>
+        <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 140px; z-index: 1000">Movie Timeline</button>
+        <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 100px; z-index: 1000">Recommendation</button>
+        <button id="discussions-btn" onclick="window.location.href='discussions.html'" style="margin-bottom: -39px; z-index: 1000" title="Engage in movie discussions">MovieVerse Chatbot</button>
+        <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="margin-bottom: -40px; z-index: 1000" title="Test your movie knowledge">MovieVerse Trivia</button>
     </header>
-
-    <main class="content-area" style="text-align: center;   ">
-        <div style="text-align: center; width: 99vw">
-            <h1 id="privacy-header">Privacy Policy</h1>
-        </div>
-
-        <div style="text-align: center;   ">
-        <h2 style="color: white">Introduction</h2>
-        <p>At The MovieVerse, accessible from <a id="linkWeb" href="https://movie-verse.com">https://movie-verse.com</a>, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by The MovieVerse and how we use it.</p>
-        </div>
-
-        <div style="text-align: center;   ">
-        <h2 style="color: white">Consent</h2>
-        <p>By using our website, you hereby consent to our Privacy Policy and agree to its terms.</p>
-        </div>
-
-        <div style="text-align: center;   ">
-        <h2 style="color: white">Information we collect</h2>
-        <p>The personal information that you are asked to provide, and the reasons why you are asked to provide it, will be made clear to you at the point we ask you to provide your personal information.</p>
-        <p>If you contact us directly, we may receive additional information about you such as your name, email address, the contents of the message and/or attachments you may send us, and any other information you may choose to provide.</p>
-        </div>
-
-        <div style="text-align: center;   ">
-        <h2 style="color: #ffffff">How we use your information</h2>
-        <p>We use the information we collect in various ways, including to:</p>
-        <ul style="color: white; list-style: none">
-            <li>Provide, operate, and maintain our website</li>
-            <li>Improve, personalize, and expand our website</li>
-            <li>Understand and analyze how you use our website</li>
-            <li>Develop new products, services, features, and functionality</li>
-            <li>Communicate with you, either directly or through one of our partners, including for customer service, to provide you with updates and other information relating to the website, and for marketing and promotional purposes</li>
-            <li>Send you emails</li>
-            <li>Find and prevent fraud</li>
-        </ul>
-        </div>
-
-        <div style="text-align: center;   ">
-        <h2 style="color: white">Log Files</h2>
-        <p>The MovieVerse follows a standard procedure of using log files.</p>
-        <p>These files log visitors when they visit websites. All hosting companies do this and a part of hosting services' analytics.</p>
-        <p>These are not linked to any information that is personally identifiable.</p>
-        <p>The purpose of the information is for analyzing trends, administering the site, tracking users' movement on the website, and gathering demographic information.</p>
-        </div>
-
-        <div style="text-align: center;   ; margin-bottom: 200px">
-        <h2 style="color: white">Cookies and Web Beacons</h2>
-        <p>Like any other website, The MovieVerse uses 'cookies'. These cookies are used to store information including visitors' preferences, and the pages on the website that the visitor accessed or visited.</p>
-        <p>The information is used to optimize the users' experience by customizing our web page content based on visitors' browser type and/or other information.</p>
-        </div>
-
-    </main>
-
+    <div class="sign-in-form-container">
+        <form id="signInForm">
+            <h2>Sign In</h2>
+            <p>Sign in to save your stats, watchlists, get personalized movie recommendation, and more!</p>
+            <input type="email" id="signInEmail" placeholder="Email" required>
+            <input type="password" id="signInPassword" placeholder="Password" required>
+            <button type="submit">Sign In</button>
+            <button type="button" id="createAccountBtn">Create an Account</button>
+            <button type="button" id="resetPasswordBtn" onclick="window.location.href='reset-password.html'">Reset Password</button>
+        </form>
+    </div>
+    <script src="../js/sign-in.js"></script>
     <script>
-        function handleSignInOut() {
-            const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
-
-            if (isSignedIn) {
-                localStorage.setItem('isSignedIn', JSON.stringify(false));
-                alert('You have been signed out.');
-            }
-            else {
-                window.location.href = 'sign-in.html';
-                return;
-            }
-
-            updateSignInButtonState();
-        }
-
-        function updateSignInButtonState() {
-            const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
-
-            const signInText = document.getElementById('signInOutText');
-            const signInIcon = document.getElementById('signInIcon');
-            const signOutIcon = document.getElementById('signOutIcon');
-
-            if (isSignedIn) {
-                signInText.textContent = 'Sign Out';
-                signInIcon.style.display = 'none';
-                signOutIcon.style.display = 'inline-block';
-            }
-            else {
-                signInText.textContent = 'Sign In';
-                signInIcon.style.display = 'inline-block';
-                signOutIcon.style.display = 'none';
-            }
-        }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            updateSignInButtonState();
-            document.getElementById('googleSignInBtn').addEventListener('click', handleSignInOut);
-        });
-
         document.getElementById('settings-btn').addEventListener('click', () => {
             window.location.href = 'settings.html';
         });
@@ -186,30 +146,6 @@
                 }
             }
         });
-
-        async function showMovieOfTheDay() {
-            const year = new Date().getFullYear();
-            const url = `https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
-
-            try {
-                const response = await fetch(url);
-                const data = await response.json();
-                const movies = data.results;
-
-                if (movies.length > 0) {
-                    const randomMovie = movies[Math.floor(Math.random() * movies.length)];
-                    localStorage.setItem('selectedMovieId', randomMovie.id);
-                    window.location.href = 'movie-details.html';
-                }
-                else {
-                    fallbackMovieSelection();
-                }
-            }
-            catch (error) {
-                console.error('Error fetching movie:', error);
-                fallbackMovieSelection();
-            }
-        }
 
         function rotateUserStats() {
             const stats = [
@@ -372,7 +308,5 @@
 
         document.addEventListener('DOMContentLoaded', rotateUserStats);
     </script>
-
 </body>
-
 </html>

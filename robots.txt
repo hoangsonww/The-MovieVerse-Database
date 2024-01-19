@@ -3,5 +3,5 @@ Disallow: /database/
 Disallow: /middleware/
 Disallow: /project-config/
 
-Sitemap: https://hoangsonww.github.io/The-MovieVerse-Database/sitemap.xml
-Host: https://hoangsonww.github.io/The-MovieVerse-Database
+Sitemap: https://movie-verse.com/sitemap.xml
+Host: https://movie-verse.com/

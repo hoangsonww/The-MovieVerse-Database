@@ -2,162 +2,177 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>https://movie-verse.com/</loc>
-        <lastmod>2023-12-30</lastmod>
+        <lastmod>2024-01-18</lastmod>
         <priority>1.00</priority>
     </url>
     <url>
         <loc>https://movie-verse.com/#main</loc>
-        <lastmod>2023-12-30</lastmod>
+        <lastmod>2024-01-18</lastmod>
         <priority>0.80</priority>
     </url>
     <url>
         <loc>https://movie-verse.com/#main17</loc>
-        <lastmod>2023-12-30</lastmod>
+        <lastmod>2024-01-18</lastmod>
         <priority>0.60</priority>
     </url>
     <url>
         <loc>https://movie-verse.com/#main18</loc>
-        <lastmod>2023-12-30</lastmod>
+        <lastmod>2024-01-18</lastmod>
         <priority>0.60</priority>
     </url>
     <url>
         <loc>https://movie-verse.com/#main20</loc>
-        <lastmod>2023-12-30</lastmod>
+        <lastmod>2024-01-18</lastmod>
         <priority>0.60</priority>
     </url>
     <url>
         <loc>https://movie-verse.com/#main3</loc>
-        <lastmod>2023-12-30</lastmod>
+        <lastmod>2024-01-18</lastmod>
         <priority>0.60</priority>
     </url>
     <url>
         <loc>https://movie-verse.com/#main4</loc>
-        <lastmod>2023-12-30</lastmod>
+        <lastmod>2024-01-18</lastmod>
         <priority>0.60</priority>
     </url>
     <url>
         <loc>https://movie-verse.com/#main21</loc>
-        <lastmod>2023-12-30</lastmod>
+        <lastmod>2024-01-18</lastmod>
         <priority>0.60</priority>
     </url>
     <url>
         <loc>https://movie-verse.com/#main5</loc>
-        <lastmod>2023-12-30</lastmod>
+        <lastmod>2024-01-18</lastmod>
         <priority>0.60</priority>
     </url>
     <url>
         <loc>https://movie-verse.com/#main6</loc>
-        <lastmod>2023-12-30</lastmod>
+        <lastmod>2024-01-18</lastmod>
         <priority>0.60</priority>
     </url>
     <url>
         <loc>https://movie-verse.com/#main7</loc>
-        <lastmod>2023-12-30</lastmod>
+        <lastmod>2024-01-18</lastmod>
         <priority>0.60</priority>
     </url>
     <url>
         <loc>https://movie-verse.com/#main8</loc>
-        <lastmod>2023-12-30</lastmod>
+        <lastmod>2024-01-18</lastmod>
         <priority>0.60</priority>
     </url>
     <url>
         <loc>https://movie-verse.com/#main9</loc>
-        <lastmod>2023-12-30</lastmod>
+        <lastmod>2024-01-18</lastmod>
         <priority>0.60</priority>
     </url>
     <url>
         <loc>https://movie-verse.com/#main10</loc>
-        <lastmod>2023-12-30</lastmod>
+        <lastmod>2024-01-18</lastmod>
         <priority>0.60</priority>
     </url>
     <url>
         <loc>https://movie-verse.com/#main11</loc>
-        <lastmod>2023-12-30</lastmod>
+        <lastmod>2024-01-18</lastmod>
         <priority>0.60</priority>
     </url>
     <url>
         <loc>https://movie-verse.com/#main12</loc>
-        <lastmod>2023-12-30</lastmod>
+        <lastmod>2024-01-18</lastmod>
         <priority>0.60</priority>
     </url>
     <url>
         <loc>https://movie-verse.com/#main13</loc>
-        <lastmod>2023-12-30</lastmod>
+        <lastmod>2024-01-18</lastmod>
         <priority>0.60</priority>
     </url>
     <url>
         <loc>https://movie-verse.com/#main14</loc>
-        <lastmod>2023-12-30</lastmod>
+        <lastmod>2024-01-18</lastmod>
         <priority>0.60</priority>
     </url>
     <url>
         <loc>https://movie-verse.com/#main15</loc>
-        <lastmod>2023-12-30</lastmod>
+        <lastmod>2024-01-18</lastmod>
         <priority>0.60</priority>
     </url>
     <url>
         <loc>https://movie-verse.com/#main16</loc>
-        <lastmod>2023-12-30</lastmod>
+        <lastmod>2024-01-18</lastmod>
         <priority>0.60</priority>
     </url>
     <url>
         <loc>https://movie-verse.com/#main19</loc>
-        <lastmod>2023-12-30</lastmod>
+        <lastmod>2024-01-18</lastmod>
         <priority>0.60</priority>
     </url>
     <url>
         <loc>https://movie-verse.com/src/html/about.html</loc>
-        <lastmod>2023-12-30</lastmod>
+        <lastmod>2024-01-18</lastmod>
         <priority>0.60</priority>
     </url>
     <url>
         <loc>https://movie-verse.com/src/html/favorites.html</loc>
-        <lastmod>2023-12-30</lastmod>
+        <lastmod>2024-01-18</lastmod>
         <priority>0.80</priority>
     </url>
     <url>
         <loc>https://movie-verse.com/src/html/movie-match.html</loc>
-        <lastmod>2023-12-30</lastmod>
+        <lastmod>2024-01-18</lastmod>
         <priority>0.80</priority>
     </url>
     <url>
         <loc>https://movie-verse.com/src/html/movie-timeline.html</loc>
-        <lastmod>2023-12-30</lastmod>
+        <lastmod>2024-01-18</lastmod>
         <priority>0.80</priority>
     </url>
     <url>
         <loc>https://movie-verse.com/src/html/discussions.html</loc>
-        <lastmod>2023-12-30</lastmod>
+        <lastmod>2024-01-18</lastmod>
         <priority>0.80</priority>
     </url>
     <url>
         <loc>https://movie-verse.com/src/html/trivia.html</loc>
-        <lastmod>2023-12-30</lastmod>
+        <lastmod>2024-01-18</lastmod>
         <priority>0.60</priority>
     </url>
     <url>
         <loc>https://movie-verse.com/src/html/settings.html</loc>
-        <lastmod>2023-12-30</lastmod>
+        <lastmod>2024-01-18</lastmod>
         <priority>0.80</priority>
     </url>
     <url>
         <loc>https://movie-verse.com/src/html/movie-details.html</loc>
-        <lastmod>2023-12-30</lastmod>
+        <lastmod>2024-01-18</lastmod>
         <priority>0.80</priority>
     </url>
     <url>
         <loc>https://movie-verse.com/src/html/director-details.html</loc>
-        <lastmod>2023-12-30</lastmod>
+        <lastmod>2024-01-18</lastmod>
         <priority>0.80</priority>
     </url>
     <url>
         <loc>https://movie-verse.com/src/html/actor-details.html</loc>
-        <lastmod>2023-12-30</lastmod>
+        <lastmod>2024-01-18</lastmod>
         <priority>0.80</priority>
     </url>
     <url>
         <loc>https://movie-verse.com/src/html/company-details.html</loc>
-        <lastmod>2023-12-30</lastmod>
+        <lastmod>2024-01-18</lastmod>
+        <priority>0.80</priority>
+    </url>
+    <url>
+        <loc>https://movie-verse.com/src/html/sign-in.html</loc>
+        <lastmod>2024-01-18</lastmod>
+        <priority>0.80</priority>
+    </url>
+    <url>
+        <loc>https://movie-verse.com/src/html/create-account.html</loc>
+        <lastmod>2024-01-18</lastmod>
+        <priority>0.80</priority>
+    </url>
+    <url>
+        <loc>https://movie-verse.com/src/html/reset-password.html</loc>
+        <lastmod>2024-01-18</lastmod>
         <priority>0.80</priority>
     </url>
 </urlset>

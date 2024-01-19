@@ -14,7 +14,6 @@
     <meta http-equiv="content-language" content="en">
     <meta name="language" content="en">
     <meta name="theme-color" content="#7378c5">
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <style>
         body, html {
@@ -58,14 +57,15 @@
         <button class="back-btn" onclick="window.location.href='../../index.html'">Home</button>
         <button class="about" onclick="window.location.href='about.html'">About</button>
         <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="Go to your favorites list">Favorites</button>
-        <button id="googleSignInBtn" onclick="handleSignInOut()" title="Sign In/Out">
-            <span>Sign In</span>
-            <i class="fas fa-sign-in-alt"></i>
+        <button id="googleSignInBtn" class="nav-btn" onclick="handleSignInOut()" title="Sign In/Out">
+            <span id="signInOutText">Sign In</span>
+            <i class="fas fa-sign-in-alt" id="signInIcon"></i>
+            <i class="fas fa-sign-out-alt" id="signOutIcon" style="display: none;"></i>
         </button>
         <button id="settings-btn" style="position: fixed; bottom: 220px">Settings</button>
         <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!">Movie Match</button>
         <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 140px">Movie Timeline</button>
-        <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 100px">Movie of the Day</button>
+        <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 100px">Recommendation</button>
         <button id="discussions-btn" onclick="window.location.href='discussions.html'" style="margin-bottom: -39px" title="Engage in movie discussions">MovieVerse Chatbot</button>
         <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="margin-bottom: -40px" title="Test your movie knowledge">MovieVerse Trivia</button>
     </header>
@@ -133,60 +133,43 @@
     </main>
 
     <script>
-        let isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
-        updateSignInButton();
-
         function handleSignInOut() {
-            window.location.reload();
-            const signInOutButton = document.getElementById('googleSignInBtn');
-            const signInOutText = signInOutButton.querySelector('span');
-            const signInOutIcon = signInOutButton.querySelector('i');
+            const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
 
-            if (!isSignedIn) {
-                signInOutText.textContent = 'Sign Out';
-                signInOutIcon.className = 'fas fa-sign-out-alt';
-                isSignedIn = true;
-                localStorage.setItem('isSignedIn', isSignedIn);
-                gapi.auth2.getAuthInstance().signIn();
-            }
-            else {
-                signInOutText.textContent = 'Sign In';
-                signInOutIcon.className = 'fas fa-sign-in-alt';
-                isSignedIn = false;
-                localStorage.setItem('isSignedIn', isSignedIn);
-                gapi.auth2.getAuthInstance().signOut();
-            }
-        }
-
-        document.getElementById('googleSignInBtn').addEventListener('click', function () {
-            alert('Please ensure that you have pop-ups enabled for this site to sign you in/out properly. Otherwise, you may not be signed in/out properly. (If you have already disabled pop-up blockers, you may ignore this message.)');
-        });
-
-        function updateSignInButton() {
-            const signInOutButton = document.getElementById('googleSignInBtn');
-            const signInOutText = signInOutButton.querySelector('span');
-            const signInOutIcon = signInOutButton.querySelector('i');
             if (isSignedIn) {
-                signInOutText.textContent = 'Sign Out';
-                signInOutIcon.className = 'fas fa-sign-out-alt';
+                localStorage.setItem('isSignedIn', JSON.stringify(false));
+                alert('You have been signed out.');
             }
             else {
-                signInOutText.textContent = 'Sign In';
-                signInOutIcon.className = 'fas fa-sign-in-alt';
+                window.location.href = 'sign-in.html';
+                return;
             }
+
+            updateSignInButtonState();
         }
 
-        function initClient() {
-            gapi.load('auth2', function() {
-                gapi.auth2.init({
-                    client_id: '154461832638-fpkleb6uhogkacq9k93721o8mjr2qc8t.apps.googleusercontent.com'
-                });
-            });
+        function updateSignInButtonState() {
+            const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
+
+            const signInText = document.getElementById('signInOutText');
+            const signInIcon = document.getElementById('signInIcon');
+            const signOutIcon = document.getElementById('signOutIcon');
+
+            if (isSignedIn) {
+                signInText.textContent = 'Sign Out';
+                signInIcon.style.display = 'none';
+                signOutIcon.style.display = 'inline-block';
+            }
+            else {
+                signInText.textContent = 'Sign In';
+                signInIcon.style.display = 'inline-block';
+                signOutIcon.style.display = 'none';
+            }
         }
 
         document.addEventListener("DOMContentLoaded", function() {
-            updateSignInButton();
-            initClient();
+            updateSignInButtonState();
+            document.getElementById('googleSignInBtn').addEventListener('click', handleSignInOut);
         });
 
         document.getElementById('settings-btn').addEventListener('click', () => {

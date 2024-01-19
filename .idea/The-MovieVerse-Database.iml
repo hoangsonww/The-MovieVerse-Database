@@ -9,5 +9,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="systemjs" level="application" />
+    <orderEntry type="library" name="react-dom" level="application" />
   </component>
 </module>

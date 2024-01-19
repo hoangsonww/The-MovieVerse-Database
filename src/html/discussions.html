@@ -4,10 +4,8 @@
 
 <head>
 
-    <!-- Set the title of the page -->
     <title>MovieVerse Chatbot</title>
 
-    <!-- Link to the external CSS file -->
     <link rel="stylesheet" href="../css/discussions.css"/>
 
     <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
@@ -29,7 +27,6 @@
     <link rel="manifest" href="../../manifest.json">
 </head>
 
-<!-- Create a header for the page -->
 <header>
     <div id="header-title">
         <a href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer" title="Click to go back to the home page">
@@ -48,9 +45,10 @@
     <button class="about" onclick="window.location.href='about.html'">About</button>
     <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="Go to your favorites list">Favorites</button>
 
-    <button id="googleSignInBtn" onclick="handleSignInOut()" title="Sign In/Out">
-        <span>Sign In</span>
-        <i class="fas fa-sign-in-alt"></i>
+    <button id="googleSignInBtn" class="nav-btn" onclick="handleSignInOut()" title="Sign In/Out">
+        <span id="signInOutText">Sign In</span>
+        <i class="fas fa-sign-in-alt" id="signInIcon"></i>
+        <i class="fas fa-sign-out-alt" id="signOutIcon" style="display: none;"></i>
     </button>
 
     <div id="search-container" style="margin-top: 10px">
@@ -87,7 +85,6 @@
     <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 60px">Movie of the Day</button>
     <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="margin-bottom: -80px">MovieVerse Trivia</button>
 
-    <!-- Link to the external JavaScript file -->
     <script src="../js/app.js"></script>
 
     <script>

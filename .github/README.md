@@ -39,7 +39,7 @@ There is also a mobile version of The MovieVerse, which is developed using Apach
 - **Movie Details Page**: Each movie comes with its own detailed page, offering a plethora of information from cast to similar movies.
 - **Community Engagement**: Share your movie experiences and become part of The MovieVerse community.
 - **Movie Timeline**: Explore the evolution of cinema by selecting a specific time period and discovering movies from that era.
-- **User Sign On**: Create an account and log in with Google to unlock additional features, such as rating movies and writing reviews.
+- **User Sign On**: Create an account and log in with MovieVerse to unlock additional features, such as rating movies and writing reviews.
 - **Movie Matching**: Find movies that match your preferences by rating movies and writing reviews.
 - **Movie ChatBot**: Chat with our chatbot, MovieBot, to learn more about the application.
 - **Movie Watchlists**: Create a watchlist by adding movies to your favorites and view them at any time. You can also create multiple watchlists for different genres, time periods, or any other criteria you desire!
@@ -60,10 +60,11 @@ Upon launching The MovieVerse, you'll be greeted with a user-friendly interface 
 - View detailed information about an actor by clicking the 'Details' button on any actor in a movie's details page.
 - Create a movie timeline by clicking the 'Timeline' button on the navigation bar.
 - View a list of movies from a specific time period by clicking on the corresponding year in the timeline.
+- Sign up for an account by clicking the 'Sign Up' button on the navigation bar. You can also sign in to your account by clicking the 'Sign In' button. We will save your watchlist and other information so that you can access it at any time!
 - View all your interesting statistics with a dynamically updating display that will work best on a desktop. On mobile, you can click the 'About' button on the top navbar to view your statistics.
 - And more!
 
-## Technologies
+## Technology Stack
 - [React](https://reactjs.org/)
 - [Vue](https://vuejs.org/)
 - [Node.js](https://nodejs.org/en/)
@@ -85,6 +86,7 @@ Upon launching The MovieVerse, you'll be greeted with a user-friendly interface 
 - [Babel](https://babeljs.io/)
 - [Docker](https://www.docker.com/)
 - [Emscripten](https://emscripten.org/)
+- [WebAssembly](https://webassembly.org/)
 - [C](https://en.wikipedia.org/wiki/C_(programming_language))
 - [JavaScript](https://www.javascript.com/)
 - [Vanilla JS](http://vanilla-js.com/)
@@ -93,7 +95,6 @@ Upon launching The MovieVerse, you'll be greeted with a user-friendly interface 
 - [Python](https://www.python.org/)
 - [Java](https://www.java.com/en/)
 - [Swift](https://developer.apple.com/swift/)
-- [Google Cloud Platform](https://cloud.google.com/)
 
 ## Contributing
 
@@ -152,11 +153,13 @@ Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
 
 Son Nguyen Hoang - [@hoangsonww](https://github.com/hoangsonww)
 
+Website: [https://movie-verse.com](https://movie-verse.com)
+
 Project Link: [https://github.com/hoangsonww/The-MovieVerse-Database](https://github.com/hoangsonww/The-MovieVerse-Database)
 
-Email: [Personal Email](mailto:hoangson091104@gmail.com) or [Official MovieVerse Email](mailto:info@movie-verse.com)
+Email: [My Personal Email](mailto:hoangson091104@gmail.com) or [Official MovieVerse Email](mailto:info@movie-verse.com)
 
 ---
 
 Please also note that the MovieVerse is an ever-evolving platform. I am continually enhancing the user experience and adding new features, like the Movie Timeline, to help you navigate the vast sea of cinema with ease and excitement. 
-Also note that you can get the most out of our app with a desktop and by signing in with Google. 
+ 
