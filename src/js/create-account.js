@@ -20,15 +20,15 @@ document.getElementById('createAccountForm').addEventListener('submit', function
         return;
     }
 
-    const accounts = JSON.parse(localStorage.getItem('accounts')) || [];
+    const accounts = JSON.parse(localStorage.getItem('accountsMovieVerse')) || [];
     if (accounts.some(account => account.email === email)) {
         alert('An account with this email already exists.');
         return;
     }
 
     accounts.push({ email, password });
-    localStorage.setItem('accounts', JSON.stringify(accounts));
-    alert('Account created successfully! Now please sign in in the sign in page to proceed.');
+    localStorage.setItem('accountsMovieVerse', JSON.stringify(accounts));
+    alert('Account created successfully! Now please sign in on the sign in page to proceed.');
     window.location.href = 'sign-in.html';
 });
 

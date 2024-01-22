@@ -624,11 +624,11 @@ header h1 {
 }
 
 #githubLink {
-    color: inherit;
+    color: white !important;
 }
 
 #githubLink:hover {
-    color: #ff8623;
+    color: #ff8623 !important;
 }
 
 #imdbRating, #rtRating {

@@ -707,12 +707,13 @@ document.addEventListener("DOMContentLoaded", function() {
  * Checks if the user has cleared their local storage and clears it if they haven't.
  */
 function checkAndClearLocalStorage() {
-    const hasCleared = localStorage.getItem('hasUserClearedMovieVerseData3');
+    const hasCleared = localStorage.getItem('hasClearedMovieVerseDataLS');
     if (!hasCleared) {
         clearMovieVerseLocalStorage();
-        localStorage.setItem('hasUserClearedMovieVerseData3', 'true');
+        localStorage.setItem('hasClearedMovieVerseDataLS', 'true');
         localStorage.removeItem('hasUserClearedMovieVerseData');
         localStorage.removeItem('hasUserClearedMovieVerseData2');
+        localStorage.removeItem('hasUserClearedMovieVerseData3')
         window.location.reload();
     }
 }
@@ -743,8 +744,14 @@ function clearMovieVerseLocalStorage() {
     localStorage.removeItem('moviesFavorited');
     localStorage.removeItem('hasUserClearedMovieVerseData');
     localStorage.removeItem('hasUserClearedMovieVerseData2');
+    localStorage.removeItem('hasUserClearedMovieVerseData3');
     localStorage.removeItem('movieVisits');
-    localStorage.removeItem('accounts');
+    localStorage.removeItem('accountsMovieVerse');
+    localStorage.removeItem('profileInfo');
+    localStorage.removeItem('profileImage');
+    localStorage.removeItem('directorVisits');
+    localStorage.removeItem('actorVisits');
+    localStorage.removeItem('isSignedIn');
     window.location.reload();
 }
 

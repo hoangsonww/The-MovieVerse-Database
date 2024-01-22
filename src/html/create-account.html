@@ -61,6 +61,19 @@
             color: black;
             margin-bottom: 20px;
         }
+
+        #back-to-sign-in {
+            background-color: #7378c5;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #back-to-sign-in:hover {
+            background-color: #22254b;
+            color: white;
+        }
     </style>
 </head>
 <body class="movie-details-body">
@@ -93,6 +106,7 @@
             <input type="password" id="newPassword" placeholder="Password" required>
             <input type="password" id="confirmPassword" placeholder="Re-type Password" required>
             <button type="submit">Create Account</button>
+            <button type="button" id="back-to-sign-in" onclick="window.location.href='sign-in.html'">Back to Sign In</button>
         </form>
     </div>
     <script src="../js/create-account.js"></script>

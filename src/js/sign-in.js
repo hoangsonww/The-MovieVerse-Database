@@ -3,7 +3,7 @@ document.getElementById('signInForm').addEventListener('submit', function(event)
     const email = document.getElementById('signInEmail').value;
     const password = document.getElementById('signInPassword').value;
 
-    const accounts = JSON.parse(localStorage.getItem('accounts')) || [];
+    const accounts = JSON.parse(localStorage.getItem('accountsMovieVerse')) || [];
     const accountExists = accounts.some(account => account.email === email && account.password === password);
 
     if (accountExists) {
