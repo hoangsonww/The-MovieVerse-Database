@@ -45,10 +45,6 @@ There is also a mobile version of The MovieVerse, which is developed using Apach
 - **Movie ChatBot**: Chat with our chatbot, MovieBot, to learn more about the application.
 - **Movie Watchlists**: Create a watchlist by adding movies to your favorites and view them at any time. You can also create multiple watchlists for different genres, time periods, or any other criteria you desire!
 
-Certainly! To condense the "Usage" section while maintaining the essence of the descriptions, we can organize the information into a bulleted list with sub-categories. This approach makes it easier to read and more aesthetically pleasing, without losing any important details. Here's the revised "Usage" section:
-
----
-
 ## Usage
 
 **Exploring The MovieVerse:**
