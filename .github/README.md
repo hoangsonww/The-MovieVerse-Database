@@ -12,13 +12,14 @@ Welcome to The MovieVerse - your digital compass to the cinematic universe. This
 - [Getting Started](#getting-started)
 - [Usage](#usage)
 - [Contributing](#contributing)
-- [Credits](#credits)
 - [License](#license)
 - [Contact](#contact)
 
 ## User Interface
-<p align="center">
-  <img src="../images/screenshot.png" alt="The MovieVerse App Interface"/>
+<p align="center" style="cursor: pointer">
+  <a href="https://movie-verse.com">
+    <img src="../images/screenshot.png" alt="The MovieVerse App Interface"/>
+  </a>
 </p>
 
 ## Introduction
@@ -44,58 +45,66 @@ There is also a mobile version of The MovieVerse, which is developed using Apach
 - **Movie ChatBot**: Chat with our chatbot, MovieBot, to learn more about the application.
 - **Movie Watchlists**: Create a watchlist by adding movies to your favorites and view them at any time. You can also create multiple watchlists for different genres, time periods, or any other criteria you desire!
 
+Certainly! To condense the "Usage" section while maintaining the essence of the descriptions, we can organize the information into a bulleted list with sub-categories. This approach makes it easier to read and more aesthetically pleasing, without losing any important details. Here's the revised "Usage" section:
+
+---
+
 ## Usage
 
-Upon launching The MovieVerse, you'll be greeted with a user-friendly interface where you can:
+**Exploring The MovieVerse:**
+- **Search and Discover**: Utilize the search bar to find movies by title, actor, director, or genre.
+- **Movie Cards**: Click on movie cards for detailed information, including cast, crew, and reviews.
+- **About and Home**: Navigate to the About page for more on the project; use the 'Home' button to return to the main page.
 
-- Use the search bar to find your desired movie.
-- Click on any movie card to view its detailed information.
-- Navigate to the About page to learn more about the project and its creator.
-- Return home at any time by clicking the 'Home' button.
-- Chat with our chatbot, MovieBot, to learn more about the application.
-- Create a watchlist by clicking the 'Add to Favorites' button on any movie in its movie-details page.
-- View your watchlist by clicking the 'Favorites' button on the navigation bar.
-- View detailed information about a movie by clicking the 'Details' button on any movie in your watchlist.
-- View detailed information about a director by clicking the 'Details' button on any director in a movie's details page.
-- View detailed information about an actor by clicking the 'Details' button on any actor in a movie's details page.
-- Create a movie timeline by clicking the 'Timeline' button on the navigation bar.
-- View a list of movies from a specific time period by clicking on the corresponding year in the timeline.
-- Sign up for an account by clicking the 'Sign Up' button on the navigation bar. You can also sign in to your account by clicking the 'Sign In' button. We will save your watchlist and other information so that you can access it at any time!
-- View all your interesting statistics with a dynamically updating display that will work best on a desktop. On mobile, you can click the 'About' button on the top navbar to view your statistics.
-- And more!
+**Interactivity and Community:**
+- **MovieBot Chat**: Interact with MovieBot for insights about the app.
+- **Watchlists**: Create and manage your movie watchlists by adding favorites.
+- **Movie Ratings**: Rate movies and view the average rating for each film.
+- **Favorite Movies**: Add movies to your favorites and view them at any time.
+- **Community Features**: Rate movies, write reviews, and engage with the MovieVerse community.
+
+**Deep Dives into Cinema:**
+- **Movie Details**: Access comprehensive information on movies, directors, and actors via 'Details' buttons.
+- **Cinematic Timeline**: Explore the movie timeline, discovering films from different eras.
+- **Statistics and More**: View dynamically updating statistics, with a tailored experience on desktop and mobile.
+- **Movie Recommendations**: Find movies that match your preferences by rating movies and writing reviews.
+- **Movie Matching**: Find movies that match your preferences by rating movies and writing reviews.
+
+**Account Management:**
+- **User Accounts**: Sign up/in for personalized features like saving watchlists.
+- **Comprehensive Navigation**: Utilize the navigation bar for easy access to features like favorites, timelines, and account options.
+- **User Profile**: View your profile, including your watchlists, ratings, and reviews.
+
+**Optimized for All Users:**
+- **Responsive Design**: Seamlessly use The MovieVerse on various devices and screen sizes.
+- **Continuous Updates**: Regular enhancements for a better user experience.
+- **Mobile App**: Download the mobile app for an even more immersive experience. (Coming soon!)
+- **Accessibility**: The MovieVerse is designed to be accessible to all users, including those with disabilities.
+- **Privacy and Security**: The MovieVerse is committed to protecting your privacy and security. (See [Privacy Policy](https://movie-verse.com/src/html/privacy-policy) and [Terms of Service](https://movie-verse.com/src/html/terms-of-service) for more information.)
+- **Open-Source**: The MovieVerse is an open-source project, and contributions are welcome. (See [Contributing](#contributing) for more information.)
+- **Free to Use**: The MovieVerse is free to use and will always be free to use.
+- **No Ads**: The MovieVerse is ad-free and will always be ad-free.
+
+**And So Much More!**
 
 ## Technology Stack
-- [React](https://reactjs.org/)
-- [Vue](https://vuejs.org/)
-- [Node.js](https://nodejs.org/en/)
-- [Express](https://expressjs.com/)
-- [MongoDB](https://www.mongodb.com/)
-- [MySQL](https://www.mysql.com/)
-- [Google Firebase](https://firebase.google.com/)
-- [Apache Cordova](https://cordova.apache.org/)
-- [Bootstrap](https://getbootstrap.com/)
-- [React Bootstrap](https://react-bootstrap.github.io/)
-- [React Icons](https://react-icons.github.io/react-icons/)
-- [Django](https://www.djangoproject.com/)
-- [Django REST Framework](https://www.django-rest-framework.org/)
-- [Flask](https://flask.palletsprojects.com/en/1.1.x/)
-- [Flask RESTful](https://flask-restful.readthedocs.io/en/latest/)
-- [SASS](https://sass-lang.com/)
-- [Single Spa](https://single-spa.js.org/)
-- [Webpack](https://webpack.js.org/)
-- [Babel](https://babeljs.io/)
-- [Docker](https://www.docker.com/)
-- [Emscripten](https://emscripten.org/)
-- [WebAssembly](https://webassembly.org/)
-- [C](https://en.wikipedia.org/wiki/C_(programming_language))
-- [JavaScript](https://www.javascript.com/)
-- [Vanilla JS](http://vanilla-js.com/)
-- [HTML](https://html.com/)
-- [CSS](https://www.w3.org/Style/CSS/Overview.en.html)
-- [Python](https://www.python.org/)
-- [Java](https://www.java.com/en/)
-- [Swift](https://developer.apple.com/swift/)
-- [Google Analytics](https://analytics.google.com/analytics/web/)
+
+| Frontend Technologies                                             | Backend Technologies                                                   | Database Technologies                           | Mobile App Development                                            | Additional Technologies                                         |
+|-------------------------------------------------------------------|------------------------------------------------------------------------|-------------------------------------------------|-------------------------------------------------------------------|-----------------------------------------------------------------|
+| [React](https://reactjs.org/)                                     | [Node.js](https://nodejs.org/en/)                                      | [MongoDB](https://www.mongodb.com/)             | [Apache Cordova](https://cordova.apache.org/)                     | [Webpack](https://webpack.js.org/)                              |
+| [Vue](https://vuejs.org/)                                         | [Express](https://expressjs.com/)                                      | [MySQL](https://www.mysql.com/)                 | [React Native](https://reactnative.dev/)                          | [Babel](https://babeljs.io/)                                    |
+| [HTML](https://html.com/)                                         | [Django](https://www.djangoproject.com/)                               | [Google Firebase](https://firebase.google.com/) | [Swift (for iOS development)](https://developer.apple.com/swift/) | [Docker](https://www.docker.com/)                               |
+| [CSS](https://www.w3.org/Style/CSS/Overview.en.html)              | [Django REST Framework](https://www.django-rest-framework.org/)        |                                                 |                                                                   | [Emscripten](https://emscripten.org/)                           |
+| [JavaScript (Vanilla JS)](http://vanilla-js.com/)                 | [Flask](https://flask.palletsprojects.com/en/1.1.x/)                   |                                                 |                                                                   | [WebAssembly](https://webassembly.org/)                         |
+| [TypeScript](https://www.typescriptlang.org/)                     | [Flask RESTful](https://flask-restful.readthedocs.io/en/latest/)       |                                                 |                                                                   | [C](https://en.wikipedia.org/wiki/C_(programming_language))     |
+| [Bootstrap](https://getbootstrap.com/)                            | [Python](https://www.python.org/)                                      |                                                 |                                                                   | [Google Analytics](https://analytics.google.com/analytics/web/) |
+| [React Bootstrap](https://react-bootstrap.github.io/)             | [Java](https://www.java.com/en/)                                       |                                                 |                                                                   |                                                                 |
+| [React Icons](https://react-icons.github.io/react-icons/)         | [GraphQL](https://graphql.org/)                                        |                                                 |                                                                   |                                                                 |
+| [SASS](https://sass-lang.com/)                                    | [Ruby on Rails](https://rubyonrails.org/)                              |                                                 |                                                                   |                                                                 |
+| [Single Spa](https://single-spa.js.org/)                          | [C (Emscripten, WebAssembly)](https://emscripten.org/)                 |                                                 |                                                                   |                                                                 |
+| [Redux](https://redux.js.org/)                                    | [JavaScript](https://www.javascript.com/)                              |                                                 |                                                                   |                                                                 |
+| [Next.js](https://nextjs.org/)                                    |                                                                        |                                                 |                                                                   |                                                                 |
+
 
 ## Contributing
 
@@ -108,8 +117,8 @@ If you have a suggestion that would make this better, please fork the repo and c
 3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
-6. Install Emscritpen (refer to the README.md file in utils directory [here](utils/README.md).
-7. Compile the C code (refer to the README.md file in utils directory [here](utils/README.md).
+6. Install Emscripten (refer to the README.md file in utils directory [here](utils/README.md).)
+7. Compile the C code (refer to the README.md file in utils directory [here](utils/README.md).)
 8. Take a look at the project configuration directory (project-config) and make sure that the paths are correct.
 9. Visit the backend directory and install the dependencies (if any):
     ```
@@ -140,6 +149,7 @@ If you have a suggestion that would make this better, please fork the repo and c
 ## Privacy Policy
 
 The MovieVerse is committed to protecting your privacy. This Privacy Policy explains how your personal information is collected, used, and disclosed by The MovieVerse.
+
 Feel free to visit our [Privacy Policy](https://movie-verse.com/src/html/privacy-policy) page to learn more.
 
 ## Terms of Service
