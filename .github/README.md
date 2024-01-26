@@ -95,6 +95,7 @@ Upon launching The MovieVerse, you'll be greeted with a user-friendly interface 
 - [Python](https://www.python.org/)
 - [Java](https://www.java.com/en/)
 - [Swift](https://developer.apple.com/swift/)
+- [Google Analytics](https://analytics.google.com/analytics/web/)
 
 ## Contributing
 
