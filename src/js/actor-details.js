@@ -18,6 +18,16 @@ function getClassByRate(vote){
     }
 }
 
+function updateBrowserURL(name) {
+    const nameSlug = createNameSlug(name);
+    const newURL = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + nameSlug;
+    window.history.replaceState({ path: newURL }, '', newURL);
+}
+
+function createNameSlug(name) {
+    return name.toLowerCase().replace(/ /g, '-').replace(/[^\w-]/g, '');
+}
+
 document.getElementById('clear-search-btn').addEventListener('click', () => {
     location.reload();
 });
@@ -106,11 +116,11 @@ async function getMovies(url) {
 
     if (allMovies.length > 0) {
         showMovies(allMovies.slice(0, numberOfMovies));
-        document.getElementById('clear-search-btn').style.display = 'block'; // Show the button
+        document.getElementById('clear-search-btn').style.display = 'block';
     }
     else {
         main.innerHTML = `<p>No movie with the specified search term found. Please try again.</p>`;
-        document.getElementById('clear-search-btn').style.display = 'none'; // Hide the button if no results
+        document.getElementById('clear-search-btn').style.display = 'none';
     }
 }
 
@@ -185,6 +195,7 @@ async function fetchActorDetails(actorId) {
             document.getElementById('actor-details-container').innerHTML = '<h2>No Information is Available for this Actor</h2>';
         }
         else {
+            updateBrowserURL(actor.name);
             populateActorDetails(actor, credits);
         }
     }

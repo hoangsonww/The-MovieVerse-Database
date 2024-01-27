@@ -668,6 +668,7 @@ async function fetchMovieDetails(movieId) {
             trailerButton = createTrailerButton(trailerUrl);
             positionTrailerButton();
         }
+        updateBrowserURL(movie.title);
     }
     catch (error) {
         console.error('Error fetching movie details:', error);
@@ -704,6 +705,77 @@ function getRatingDetails(rating) {
                 color: 'green',
                 text: 'G (General Audiences)',
                 description: ' - All ages admitted'
+            };
+            break;
+        case 'NC-17':
+            details = {
+                color: 'darkred',
+                text: 'NC-17 (Adults Only)',
+                description: ' - No one 17 and under admitted'
+            };
+            break;
+        case 'TV-Y':
+            details = {
+                color: 'lightgreen',
+                text: 'TV-Y (All Children)',
+                description: ' - Appropriate for all children'
+            };
+            break;
+        case 'TV-Y7':
+            details = {
+                color: 'lightblue',
+                text: 'TV-Y7 (Directed to Older Children)',
+                description: ' - Suitable for children ages 7 and up'
+            };
+            break;
+        case 'TV-G':
+            details = {
+                color: 'green',
+                text: 'TV-G (General Audience)',
+                description: ' - Suitable for all ages'
+            };
+            break;
+        case 'TV-PG':
+            details = {
+                color: 'orange',
+                text: 'TV-PG (Parental Guidance Suggested)',
+                description: ' - May not be suitable for younger children'
+            };
+            break;
+        case 'TV-14':
+            details = {
+                color: 'yellow',
+                text: 'TV-14 (Parents Strongly Cautioned)',
+                description: ' - May be inappropriate for children under 14'
+            };
+            break;
+        case 'TV-MA':
+            details = {
+                color: 'red',
+                text: 'TV-MA (Mature Audience Only)',
+                description: ' - Specifically designed to be viewed by adults'
+            };
+            break;
+        case 'NR':
+            details = {
+                color: 'grey',
+                text: 'NR (Not Rated)',
+                description: ' - Movie has not been officially rated'
+            };
+            break;
+        case 'UR':
+        case 'Unrated':
+            details = {
+                color: 'grey',
+                text: 'UR (Unrated)',
+                description: ' - Contains content not used in the rated version'
+            };
+            break;
+        default:
+            details = {
+                color: 'white',
+                text: rating,
+                description: ' - Rating information not available'
             };
             break;
     }
@@ -749,6 +821,16 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
         const fallbackImdbRating = (tmdbMovieData.vote_average / 2).toFixed(1) * 2;
         populateMovieDetails(tmdbMovieData, fallbackImdbRating, 'N/A', 'No metascore information available', 'No awards information available');
     }
+}
+
+function updateBrowserURL(title) {
+    const nameSlug = createNameSlug(title);
+    const newURL = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + nameSlug;
+    window.history.replaceState({ path: newURL }, '', newURL);
+}
+
+function createNameSlug(title) {
+    return title.toLowerCase().replace(/ /g, '-').replace(/[^\w-]/g, '');
 }
 
 function calculateFallbackRTRating(imdbRating, tmdbRating) {
@@ -1073,11 +1155,9 @@ function updateMoviesFavorited(movieId) {
 function updateAverageMovieRating(movieId, newRating) {
     const savedRatings = JSON.parse(localStorage.getItem('movieRatings')) || {};
 
-    // Update the rating for the current movie
     savedRatings[movieId] = newRating;
     localStorage.setItem('movieRatings', JSON.stringify(savedRatings));
 
-    // Recalculate the average rating
     let totalRating = 0;
     let totalMoviesRated = 0;
     for (let id in savedRatings) {

@@ -171,7 +171,6 @@ function getMostCommonGenre() {
             maxCount = favoriteGenres[genre];
         }
     }
-
     return mostCommonGenre || 'Not Available';
 }
 
@@ -227,7 +226,6 @@ function initializeChatbot() {
         chatbotBody.innerHTML += `
         <div style="text-align: right; margin-bottom: 10px; color: white;"><span style="color: #ff8623">You:</span> ${message}</div>
     `;
-
         let botReply = movieVerseResponse(message);
         setTimeout(() => {
             chatbotBody.innerHTML += `
@@ -235,7 +233,6 @@ function initializeChatbot() {
         `;
             scrollToBottom();
         }, 1000);
-
         scrollToBottom();
     }
 }
@@ -525,6 +522,8 @@ function movieVerseResponse(message) {
     }
     if (lowerMessage.includes("hello") || lowerMessage.includes("hi") || lowerMessage.includes("hey")) {
         return "Hello! How can I assist you with MovieVerse today?";
+    } else if (lowerMessage.includes("bye") || lowerMessage.includes("goodbye")) {
+        return "Goodbye! Thank you for using MovieVerse Assistant and have a nice day!";
     } else if (lowerMessage.includes("how are you")) {
         return "I'm your digital MovieVerse assistant, ready to help! How can I assist you with movie info?";
     } else if (lowerMessage.includes("search movie")) {
@@ -634,13 +633,13 @@ function movieVerseResponse(message) {
     } else if (lowerMessage.includes("do you have classics from the 80s")) {
         return "Absolutely! The 80s were iconic. Dive into classics like 'E.T.', 'The Breakfast Club', or 'Back to the Future'. Ready for some nostalgia?";
     } else if (lowerMessage.includes("movie suggestions based on genre")) {
-        return "Sure! Let me know your favorite genre, and I'll suggest a movie accordingly!";
+        return "Sure! Let me know your favorite genre, and I'll suggest some movies accordingly!";
     } else if (lowerMessage.includes("movie suggestions based on actor")) {
-        return "Of course! Let me know your favorite actor, and I'll suggest a movie accordingly!";
+        return "Of course! Let me know your favorite actor, and I'll suggest some movies accordingly!";
     } else if (lowerMessage.includes("movie suggestions based on director")) {
-        return "Of course! Let me know your favorite director, and I'll suggest a movie accordingly!";
+        return "Of course! Let me know your favorite director, and I'll suggest some movies accordingly!";
     } else if (lowerMessage.includes("movie suggestions based on year")) {
-        return "Of course! Let me know your favorite year, and I'll suggest a movie accordingly!";
+        return "Of course! Let me know your favorite year, and I'll suggest some movies accordingly!";
     } else if (lowerMessage.includes("movie") || lowerMessage.includes("movies")) {
         return "You can search for a movie using the search field above!";
     } else if (lowerMessage.includes("1900s")) {
@@ -673,6 +672,8 @@ function movieVerseResponse(message) {
         return "Movies in 2022 include: Thor: Love and Thunder, Doctor Strange in the Multiverse of Madness, etc.";
     } else if (lowerMessage.includes("2023")) {
         return "Movies in 2023 include: The Flash, Black Panther: Wakanda Forever, etc.";
+    } else if (lowerMessage.includes("2024")) {
+        return "Movies in 2024 include: Indiana Jones 5, The Batman, etc.";
     } else {
         return "Sorry, I didn't catch that. Can you rephrase or ask another question about movies?";
     }

@@ -25,7 +25,7 @@ const urlsToCache = [
     '../html/trivia.html',
     '../html/settings.html',
     '../html/favorites.html',
-    '../html/discussions.html',
+    '../html/chatbot.html',
     '../html/settings.html',
     '../html/privacy-policy.html',
     '../html/terms-of-service.html',

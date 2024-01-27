@@ -507,7 +507,19 @@ main {
     color: #f509d9;
 }
 
+#trivia-label {
+    margin-top: 50px
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+}
+
+
 #clear-search-btn {
+    display: block;
+    margin: 20px auto;
     background-color: #7378c5;
     color: black;
     border: none;
@@ -524,7 +536,6 @@ main {
 }
 
 @media (max-width: 900px) {
-    #local-time,
     #profileBtn {
         display: none;
     }

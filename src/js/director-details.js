@@ -218,6 +218,7 @@ async function fetchDirectorDetails(directorId) {
             document.getElementById('director-details-container').innerHTML = '<h2>No Information is Available for this Director</h2>';
         }
         else {
+            updateBrowserURL(director.name);
             populateDirectorDetails(director, credits);
         }
     }
@@ -463,4 +464,14 @@ function applyTextColor(color) {
         .forEach(element => {
             element.style.color = color;
         });
+}
+
+function updateBrowserURL(name) {
+    const nameSlug = createNameSlug(name);
+    const newURL = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + nameSlug;
+    window.history.replaceState({ path: newURL }, '', newURL);
+}
+
+function createNameSlug(name) {
+    return name.toLowerCase().replace(/ /g, '-').replace(/[^\w-]/g, '');
 }

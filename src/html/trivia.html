@@ -6,9 +6,7 @@
     <link rel="stylesheet" href="../css/trivia.css">
     <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Set the title of the page for SEO -->
     <meta property="og:title" content="The MovieVerse - Your Ultimate Movie Guide" />
-    <!-- Set the description of the page -->
     <meta name="description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <meta name="theme-color" content="#7378c5">
@@ -61,7 +59,9 @@
 
     <div>
         <h1 id="trivia-label">Movie Trivia Quiz</h1>
-        <button id="clear-search-btn">Clear Search Results</button>
+        <div class="button-container">
+            <button id="clear-search-btn">Clear Search Results</button>
+        </div>
     </div>
 
     <main id="main"></main>
@@ -76,7 +76,7 @@
     <button id="movie-match-btn2" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!">Movie Match</button>
     <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 140px">Movie Timeline</button>
     <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 100px">Recommendation</button>
-    <button id="discussions-btn" onclick="window.location.href='discussions.html'" title="Want to know more about movies? Chat with our intelligent chatbot!" style="bottom: 60px">MovieVerse Chatbot</button>
+    <button id="discussions-btn" onclick="window.location.href='chatbot.html'" title="Want to know more about movies? Chat with our intelligent chatbot!" style="bottom: 60px">MovieVerse Chatbot</button>
     <button id="back-to-top-btn" onclick="window.location.href='../../index.html'">Back To Main Page</button>
     <script src="../js/quiz.js"></script>
 

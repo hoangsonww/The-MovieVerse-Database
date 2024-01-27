@@ -456,7 +456,6 @@ function adjustNavBar() {
     }
 }
 
-// Hover event to open the navbar
 document.addEventListener('mousemove', function(event) {
     const sideNav = document.getElementById('side-nav');
     if (event.clientX < 10 && !sideNav.classList.contains('manual-toggle')) {
@@ -464,7 +463,6 @@ document.addEventListener('mousemove', function(event) {
     }
 });
 
-// Mouse leave event to close the navbar if not manually toggled
 document.getElementById('side-nav').addEventListener('mouseleave', function() {
     const sideNav = document.getElementById('side-nav');
     if (!sideNav.classList.contains('manual-toggle')) {

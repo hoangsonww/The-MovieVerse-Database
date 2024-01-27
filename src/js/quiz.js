@@ -77,35 +77,32 @@ function getClassByRate(vote){
     }
 }
 
+const form = document.getElementById("form");
+
 form.addEventListener('submit', (e) => {
     e.preventDefault();
     const searchTerm = search.value.trim();
-
-    if (searchTerm) {
-        getMovies(SEARCHPATH + searchTerm);
-        searchTitle.innerHTML = 'Search Results for: ' + searchTerm;
-        search.value = '';
-    }
-    else {
-        searchTitle.innerHTML = 'Please enter a search term.';
-    }
-    document.getElementById('clear-search-btn').style.display = 'block'; // Show the button
+    handleSearch(searchTerm);
 });
 
 searchButton.addEventListener('click', (e) => {
     e.preventDefault();
-    const searchTerm = search.value;
+    const searchTerm = search.value.trim();
+    handleSearch(searchTerm);
+});
 
+function handleSearch(searchTerm) {
     if (searchTerm) {
         getMovies(SEARCHPATH + searchTerm);
         searchTitle.innerHTML = 'Search Results for: ' + searchTerm;
         search.value = '';
+        document.getElementById('clear-search-btn').style.display = 'block';
     }
     else {
         searchTitle.innerHTML = 'Please enter a search term.';
+        document.getElementById('clear-search-btn').style.display = 'none';
     }
-    document.getElementById('clear-search-btn').style.display = 'block';
-});
+}
 
 async function getMovies(url) {
     clearMovieDetails();
@@ -133,11 +130,10 @@ async function getMovies(url) {
 
     if (allMovies.length > 0) {
         showMovies(allMovies.slice(0, numberOfMovies));
-        document.getElementById('clear-search-btn').style.display = 'none'; // Hide the button if no results
     }
     else {
         main.innerHTML = `<p>No movie with the specified search term found. Please try again.</p>`;
-        document.getElementById('clear-search-btn').style.display = 'none'; // Hide the button if no results
+        document.getElementById('clear-search-btn').style.display = 'none';
     }
 }
 

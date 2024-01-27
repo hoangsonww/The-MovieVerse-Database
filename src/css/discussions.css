@@ -339,8 +339,6 @@ ol li:hover {
 
 #chatbotInput:focus {
     outline: none;
-    background-color: #ff8623;
-    color: black;
 }
 
 #chatbotBody > div {
