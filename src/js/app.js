@@ -674,6 +674,8 @@ function movieVerseResponse(message) {
         return "Movies in 2023 include: The Flash, Black Panther: Wakanda Forever, etc.";
     } else if (lowerMessage.includes("2024")) {
         return "Movies in 2024 include: Indiana Jones 5, The Batman, etc.";
+    } else if (lowerMessage.includes("movieverse analytics") || lowerMessage.includes("movieverse stats") || lowerMessage.includes("movieverse insights")) {
+        return "MovieVerse Analytics provides insights into user activity, popular movies, and more. You can access it by pressing the About button on the top right, then selecting MovieVerse Analytics at the bottom of the page.";
     } else {
         return "Sorry, I didn't catch that. Can you rephrase or ask another question about movies?";
     }
