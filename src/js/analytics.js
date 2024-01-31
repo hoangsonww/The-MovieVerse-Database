@@ -140,7 +140,7 @@ async function loadMoviesByLanguageChart() {
 
 async function loadVoteCountByGenreChart() {
     const genreResponse = await fetchData(`${BASE_URL}/genre/movie/list?api_key=${string}`);
-    const genres = genreResponse.genres.slice(0, 5); // Limiting to 5 genres
+    const genres = genreResponse.genres.slice(0, 5);
     const genreNames = [];
     const averageVoteCounts = [];
 
