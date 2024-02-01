@@ -121,10 +121,19 @@
         }
 
     </style>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-CQKJ67FXZ4');
+    </script>
 </head>
 <body class="movie-details-body">
     <header>
-        <a href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer">
+        <a href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer" title="Click to go back to the home page">
             <h1 id="my-heading" style="margin-bottom: -10px">
                 The Mo<span class="highlight">vieV</span>erse
             </h1>
@@ -138,9 +147,14 @@
         <button class="back-btn" onclick="window.location.href='../../index.html'">Home</button>
         <button class="about" onclick="window.location.href='about.html'">About</button>
         <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="Go to your favorites list">Favorites</button>
-        <button id="googleSignInBtn" onclick="handleSignInOut()" title="Sign In/Out">
-            <span>Sign In</span>
-            <i class="fas fa-sign-in-alt"></i>
+        <button id="googleSignInBtn" class="nav-btn" onclick="handleSignInOut()" title="Sign In/Out">
+            <span id="signInOutText">Sign In</span>
+            <i class="fas fa-sign-in-alt" id="signInIcon"></i>
+            <i class="fas fa-sign-out-alt" id="signOutIcon" style="display: none;"></i>
+        </button>
+        <button id="profileBtn" class="nav-btn" onclick="window.location.href='user-profile.html'" title="Go to your profile">
+            <span id="profileText">Profile</span>
+            <i class="fas fa-user" id="profileIcon"></i>
         </button>
         <form id="form">
             <input
@@ -153,8 +167,8 @@
         </form>
         <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!">Movie Match</button>
         <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 140px">Movie Timeline</button>
-        <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 100px">Movie of the Day</button>
-        <button id="discussions-btn" onclick="window.location.href='discussions.html'" style="margin-bottom: -39px" title="Engage in movie discussions">MovieVerse Chatbot</button>
+        <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 100px">Recommendation</button>
+        <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="margin-bottom: -39px" title="Engage in movie discussions">MovieVerse Chatbot</button>
         <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="margin-bottom: -40px" title="Test your movie knowledge">MovieVerse Trivia</button>
     </header>
 
@@ -228,8 +242,6 @@
         <button style="font: inherit" id="reset-button">Reset to Defaults</button>
     </main>
 
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-
     <script src="../js/settings.js"></script>
 
     <script>
@@ -256,51 +268,44 @@
             }
         });
 
-        let signedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
-        updateSignInButton();
-
         function handleSignInOut() {
-            const signInOutButton = document.getElementById('googleSignInBtn');
-            const signInOutText = signInOutButton.querySelector('span');
-            const signInOutIcon = signInOutButton.querySelector('i');
+            const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
 
-            if (!signedIn) {
-                signInOutText.textContent = 'Sign Out';
-                signInOutIcon.className = 'fas fa-sign-out-alt';
-                signedIn = true;
-                localStorage.setItem('isSignedIn', signedIn);
-                gapi.auth2.getAuthInstance().signIn();
+            if (isSignedIn) {
+                localStorage.setItem('isSignedIn', JSON.stringify(false));
+                alert('You have been signed out.');
             }
             else {
-                signInOutText.textContent = 'Sign In';
-                signInOutIcon.className = 'fas fa-sign-in-alt';
-                signedIn = false;
-                localStorage.setItem('isSignedIn', signedIn);
-                gapi.auth2.getAuthInstance().signOut();
+                window.location.href = 'sign-in.html';
+                return;
             }
+
+            updateSignInButtonState();
         }
 
-        function updateSignInButton() {
-            const signInOutButton = document.getElementById('googleSignInBtn');
-            const signInOutText = signInOutButton.querySelector('span');
-            const signInOutIcon = signInOutButton.querySelector('i');
-            if (signedIn) {
-                signInOutText.textContent = 'Sign Out';
-                signInOutIcon.className = 'fas fa-sign-out-alt';
+        function updateSignInButtonState() {
+            const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
+
+            const signInText = document.getElementById('signInOutText');
+            const signInIcon = document.getElementById('signInIcon');
+            const signOutIcon = document.getElementById('signOutIcon');
+
+            if (isSignedIn) {
+                signInText.textContent = 'Sign Out';
+                signInIcon.style.display = 'none';
+                signOutIcon.style.display = 'inline-block';
             }
             else {
-                signInOutText.textContent = 'Sign In';
-                signInOutIcon.className = 'fas fa-sign-in-alt';
+                signInText.textContent = 'Sign In';
+                signInIcon.style.display = 'inline-block';
+                signOutIcon.style.display = 'none';
             }
         }
 
-        function initClient() {
-            gapi.load('auth2', function() {
-                gapi.auth2.init({
-                    client_id: '154461832638-fpkleb6uhogkacq9k93721o8mjr2qc8t.apps.googleusercontent.com'
-                });
-            });
-        }
+        document.addEventListener("DOMContentLoaded", function() {
+            updateSignInButtonState();
+            document.getElementById('googleSignInBtn').addEventListener('click', handleSignInOut);
+        });
 
         const SEARCHPATH = "https://api.themoviedb.org/3/search/movie?&api_key=c5a20c861acf7bb8d9e987dcc7f1b558&query=";
         const IMGPATH = "https://image.tmdb.org/t/p/w1280";

@@ -1,4 +1,5 @@
 const CACHE_NAME = 'movieverse-cache-v1';
+
 const urlsToCache = [
     '/',
     '../../index.html',
@@ -10,7 +11,7 @@ const urlsToCache = [
     'settings.js',
     '../../images/favicon.ico',
     '../../images/image.png',
-    'app.js',
+    'chatbot.js',
     'movie-details.js',
     'movie-timeline.js',
     'quiz.js',
@@ -55,6 +56,8 @@ const urlsToCache = [
     '../../images/universe-9.png',
     '../../images/universe-10.png',
     '../../images/yellow.jpg',
+    'chart.js',
+    '../html/analytics.html',
 ];
 
 self.addEventListener('install', event => {

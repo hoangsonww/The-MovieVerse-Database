@@ -2,24 +2,30 @@
 <html lang="en" style="overflow-x: hidden">
 <head>
     <meta charset="UTF-8">
-    <title>Movie Match</title>
+    <title>Movie Match - The MovieVerse</title>
     <link rel="stylesheet" href="../css/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Set the title of the page for SEO -->
     <meta property="og:title" content="The MovieVerse - Your Ultimate Movie Guide" />
-    <!-- Set the description of the page -->
     <meta name="description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more.">
     <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <meta name="theme-color" content="#7378c5">
     <script src="../js/settings.js"></script>
     <link rel="manifest" href="../../manifest.json">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-CQKJ67FXZ4');
+    </script>
 </head>
 
 <body class="movie-details-body" style="overflow-x: hidden">
 
     <header style="margin-bottom: -60px">
-        <a id="indexLink" href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer; margin-bottom: -34px">
+        <a id="indexLink" href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer; margin-bottom: -34px" title="Click to go back to the home page">
             <h1 id="my-heading">
                 The Mo<span class="highlight">vieV</span>erse
             </h1>
@@ -31,9 +37,14 @@
         <button class="back-btn" onclick="window.location.href='../../index.html'">Home</button>
         <button class="about" onclick="window.location.href='about.html'">About</button>
         <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="Go to your favorites list">Favorites</button>
-        <button id="googleSignInBtn" onclick="handleSignInOut()" title="Sign In/Out">
-            <span>Sign In</span>
-            <i class="fas fa-sign-in-alt"></i>
+        <button id="googleSignInBtn" class="nav-btn" onclick="handleSignInOut()" title="Sign In/Out">
+            <span id="signInOutText">Sign In</span>
+            <i class="fas fa-sign-in-alt" id="signInIcon"></i>
+            <i class="fas fa-sign-out-alt" id="signOutIcon" style="display: none;"></i>
+        </button>
+        <button id="profileBtn" class="nav-btn" onclick="window.location.href='user-profile.html'" title="Go to your profile">
+            <span id="profileText">Profile</span>
+            <i class="fas fa-user" id="profileIcon"></i>
         </button>
         <form id="form1">
             <input
@@ -46,7 +57,7 @@
         </form>
     </header>
 
-    <main id="movie-match-main" style="margin-left: 10px">
+    <main id="movie-match-main">
         <div class="movie-match-container">
             <h2 id="search-title">Find Your Movie Match</h2>
             <form id="movie-match-form">
@@ -87,17 +98,9 @@
 
     <button id="settings-btn" style="position: fixed; bottom: 150px">Settings</button>
     <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 115px">Movie Timeline</button>
-
-    <!-- Create a button to go to the Movie of the Day page -->
-    <button id="movie-of-the-day-btn2" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!">Movie of the Day</button>
-
-    <!-- Create a button to go to the Movie Discussions page -->
-    <button id="discussions-btn" onclick="window.location.href='discussions.html'" title="Want to know more about movies? Chat with our intelligent chatbot!" style="margin-bottom: -55px">MovieVerse Chatbot</button>
-
-    <!-- Create a button to go to the Trivia Game page -->
+    <button id="movie-of-the-day-btn2" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!">Recommendation</button>
+    <button id="discussions-btn" onclick="window.location.href='chatbot.html'" title="Want to know more about movies? Chat with our intelligent chatbot!" style="margin-bottom: -55px">MovieVerse Chatbot</button>
     <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="margin-bottom: -50px" title="Play a quick trivia to test your knowledge about movies!">MovieVerse Trivia</button>
-
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
 
     <script>
         async function showMovieOfTheDay() {
