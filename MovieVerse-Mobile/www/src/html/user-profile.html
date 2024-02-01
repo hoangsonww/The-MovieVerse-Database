@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile - The MovieVerse</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="website" />
+    <meta http-equiv="content-language" content="en" />
+    <meta name="twitter:card" content="https://movie-verse.com/images/image.png"/>
+    <meta property="og:description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more." />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link rel="icon" href="../../images/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="../css/style.css"/>
+    <meta name="theme-color" content="#7378c5">
+    <link rel="manifest" href="../../manifest.json">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-CQKJ67FXZ4');
+    </script>
+    <style>
+        h1 {
+            color: #ff8623;
+        }
+
+        h1:hover {
+            color: #f509d9;
+            transition: 0.1s ease;
+        }
+
+        .profile-container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 20px;
+            background-color: rgba(211, 211, 211, 0.5);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            text-align: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .profile-container input[type="text"],
+        .profile-container input[type="date"],
+        .profile-container input[type="file"],
+        .profile-container button {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font: inherit;
+        }
+
+        .profile-container button {
+            background-color: #7378c5;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .profile-container button:hover {
+            background-color: #ff8623;
+            color: white;
+        }
+
+        .profile-container h2, .profile-container p {
+            color: black;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 400px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        #editProfileForm input {
+            font: inherit;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            flex-grow: 1;
+        }
+
+        .modal-content {
+            padding-bottom: 20px;
+        }
+
+        .dob-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .dob-container label {
+            margin-right: 10px;
+            margin-top: 10px;
+            color: black;
+        }
+
+        .dob-container input[type="date"] {
+            flex-grow: 1;
+        }
+
+        .profile-image-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        #removeProfileImage {
+            position: absolute;
+            top: 0;
+            background: none;
+            border: none;
+            color: red;
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 0;
+            line-height: 1;
+            margin: 0;
+        }
+
+        #removeProfileImage:hover {
+            color: #ff8623;
+        }
+    </style>
+    <script src="../js/user-profile.js"></script>
+</head>
+<body class="movie-details-body">
+    <header id="homepage-header">
+        <a id="indexLink" href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer">
+            <h1 id="my-heading" style="margin-bottom: -10px">
+                The Mo<span class="highlight">vieV</span>erse
+            </h1>
+        </a>
+
+        <div id="local-time" style="display: flex; align-items: center; justify-content: start; cursor: pointer;">
+            <p id="stats-label" class="clock" style="font-size: 16px; margin-right: 10px;"></p>
+            <h1 id="stats-display" class="clock" style="font-size: 20px;"></h1>
+        </div>
+
+        <button class="back-btn nav-btn" onclick="window.location.href='../../index.html'" title="Go back to homepage">Home</button>
+        <button class="about nav-btn" onclick="window.location.href='about.html'" title="About this wonderful app!">About</button>
+        <button class="favorites-btn nav-btn" onclick="window.location.href='favorites.html'" title="Go to your favorites list">Favorites</button>
+        <button id="profileBtn" class="nav-btn" onclick="window.location.href='user-profile.html'" title="Go to your profile">
+            <span id="profileText">Profile</span>
+            <i class="fas fa-user" id="profileIcon"></i>
+        </button>
+        <button id="googleSignInBtn" class="nav-btn" onclick="handleSignInOut()" title="Sign In/Out">
+            <span id="signInOutText">Sign In</span>
+            <i class="fas fa-sign-in-alt" id="signInIcon"></i>
+            <i class="fas fa-sign-out-alt" id="signOutIcon" style="display: none;"></i>
+        </button>
+        <button id="settings-btn" style="position: fixed; bottom: 220px; z-index: 1000">Settings</button>
+        <button id="movie-match-btn3" style="z-index: 1000" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!">Movie Match</button>
+        <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 140px; z-index: 1000">Movie Timeline</button>
+        <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 100px; z-index: 1000">Recommendation</button>
+        <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="margin-bottom: -39px; z-index: 1000" title="Engage in movie discussions">MovieVerse Chatbot</button>
+        <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="margin-bottom: -40px; z-index: 1000" title="Test your movie knowledge">MovieVerse Trivia</button>
+    </header>
+
+    <h1 id="welcomeMessage" style="text-align: center; margin-top: 30px;"></h1>
+
+    <div id="profileContainer" class="profile-container" style="margin-bottom: 300px">
+        <div class="profile-image-container">
+            <img id="profileImage" style="cursor: pointer" title="Click to upload a new profile image" onclick="document.getElementById('imageUpload').click()" src="../../images/user-default.png" alt="Profile Image" />
+            <button id="removeProfileImage" title="Click to remove the current profile image" onclick="removeProfileImage()" style="display: none;">&times;</button>
+        </div>
+        <input type="file" id="imageUpload" accept="image/*" hidden onchange="uploadImage()" />
+        <button onclick="document.getElementById('imageUpload').click()">Upload Profile Image</button>
+
+        <div class="profile-info">
+            <p id="usernameDisplay">Username: <span></span></p>
+            <p id="dobDisplay">Date of Birth: <span></span></p>
+            <p id="bioDisplay">Bio: <span></span></p>
+            <p id="favoriteGenresDisplay">Favorite Genres: <span></span></p>
+            <p id="locationDisplay">Location: <span></span></p>
+            <p id="favoriteMovieDisplay">Favorite Movie: <span></span></p>
+            <p id="hobbiesDisplay">Hobbies: <span></span></p>
+            <p id="favoriteActorDisplay"><strong>Favorite Actor:</strong> <span></span></p>
+            <p id="favoriteDirectorDisplay"><strong>Favorite Director:</strong> <span></span></p>
+            <p id="personalQuoteDisplay"><strong>Personal Quote:</strong> <span></span></p>
+        </div>
+        <button id="editProfileBtn">Edit Profile Details</button>
+    </div>
+
+    <p id="signInPrompt" style="text-align: center; font-size: 24px; margin-top: 100px;"></p>
+
+    <div id="editProfileModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header" style="margin-bottom: 20px">
+                <h2>Edit Profile Details</h2>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <form id="editProfileForm">
+                <input type="text" id="editUsername" placeholder="Username">
+                <div class="dob-container">
+                    <label for="editDob">Date of Birth:</label>
+                    <input type="date" id="editDob">
+                </div>
+                <input type="text" id="editBio" placeholder="Bio">
+                <input type="text" id="editFavoriteGenres" placeholder="Favorite Genres">
+                <input type="text" id="editLocation" placeholder="Location">
+                <input type="text" id="editFavoriteMovie" placeholder="Favorite Movie">
+                <input type="text" id="editHobbies" placeholder="Hobbies">
+                <input type="text" id="editFavoriteActor" placeholder="Favorite Actor">
+                <input type="text" id="editFavoriteDirector" placeholder="Favorite Director">
+                <input type="text" id="editPersonalQuote" placeholder="Personal Quote">
+                <button type="button" id="saveChanges" onclick="saveProfileChanges()">Save Changes</button>
+                <button type="button" id="cancelEdit" onclick="closeModal()">Cancel</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        async function showMovieOfTheDay() {
+            const year = new Date().getFullYear();
+            const url = `https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                const movies = data.results;
+
+                if (movies.length > 0) {
+                    const randomMovie = movies[Math.floor(Math.random() * movies.length)];
+                    localStorage.setItem('selectedMovieId', randomMovie.id);
+                    window.location.href = 'movie-details.html';
+                }
+                else {
+                    fallbackMovieSelection();
+                }
+            }
+            catch (error) {
+                console.error('Error fetching movie:', error);
+                fallbackMovieSelection();
+            }
+        }
+
+        document.getElementById('settings-btn').addEventListener('click', () => {
+            window.location.href = 'settings.html';
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            applySettings();
+
+            function applySettings() {
+                const defaultBg = '../../images/universe-1.png';
+                const savedBg = localStorage.getItem('backgroundImage') || defaultBg;
+                const savedTextColor = localStorage.getItem('textColor');
+                const savedFontSize = localStorage.getItem('fontSize');
+                document.body.style.backgroundImage = `url('${savedBg}')`;
+
+                if (savedTextColor) {
+                    document.querySelectorAll('h1, h2, h3, p, a, span, div, button, input, select, textarea, label, li').forEach(element => {
+                        element.style.color = savedTextColor;
+                    });
+                }
+
+                if (savedFontSize) {
+                    const size = savedFontSize === 'small' ? '12px' : savedFontSize === 'medium' ? '16px' : '20px';
+                    document.body.style.fontSize = size;
+                }
+            }
+        });
+
+        function rotateUserStats() {
+            const stats = [
+                {
+                    label: "Your Current Time",
+                    getValue: () => {
+                        const now = new Date();
+                        let hours = now.getHours();
+                        let minutes = now.getMinutes();
+                        hours = hours < 10 ? '0' + hours : hours;
+                        minutes = minutes < 10 ? '0' + minutes : minutes;
+                        return `${hours}:${minutes}`;
+                    }
+                },
+                { label: "Most Visited Movie", getValue: getMostVisitedMovie },
+                { label: "Your Most Visited Director", getValue: getMostVisitedDirector },
+                { label: "Your Most Visited Actor", getValue: getMostVisitedActor },
+                {
+                    label: "Your Unique Movies Discovered",
+                    getValue: () => {
+                        const viewedMovies = JSON.parse(localStorage.getItem('uniqueMoviesViewed')) || [];
+                        return viewedMovies.length;
+                    }
+                },
+                {
+                    label: "Your Favorited Movies",
+                    getValue: () => {
+                        const favoritedMovies = JSON.parse(localStorage.getItem('favorites')) || [];
+                        return favoritedMovies.length;
+                    }
+                },
+                {
+                    label: "Your Most Common Favorited Genre",
+                    getValue: getMostCommonGenre
+                },
+                { label: "Your Created Watchlists", getValue: () => localStorage.getItem('watchlistsCreated') || 0 },
+                { label: "Your Average Movie Rating", getValue: () => localStorage.getItem('averageMovieRating') || 'Not Rated' },
+                {
+                    label: "Your Unique Directors Discovered",
+                    getValue: () => {
+                        const viewedDirectors = JSON.parse(localStorage.getItem('uniqueDirectorsViewed')) || [];
+                        return viewedDirectors.length;
+                    }
+                },
+                {
+                    label: "Your Unique Actors Discovered",
+                    getValue: () => {
+                        const viewedActors = JSON.parse(localStorage.getItem('uniqueActorsViewed')) || [];
+                        return viewedActors.length;
+                    }
+                },
+                {
+                    label: "Your Unique Production Companies Discovered",
+                    getValue: () => {
+                        const viewedCompanies = JSON.parse(localStorage.getItem('uniqueCompaniesViewed')) || [];
+                        return viewedCompanies.length;
+                    }
+                },
+                { label: "Your Trivia Accuracy", getValue: getTriviaAccuracy }
+            ];
+
+            let currentStatIndex = 0;
+
+            function updateStatDisplay() {
+                const currentStat = stats[currentStatIndex];
+                document.getElementById('stats-label').textContent = currentStat.label + ':';
+                document.getElementById('stats-display').textContent = currentStat.getValue();
+                currentStatIndex = (currentStatIndex + 1) % stats.length;
+            }
+
+            updateStatDisplay();
+
+            const localTimeDiv = document.getElementById('local-time');
+            let statRotationInterval = setInterval(updateStatDisplay, 3000);
+
+            localTimeDiv.addEventListener('click', () => {
+                clearInterval(statRotationInterval);
+                updateStatDisplay();
+                statRotationInterval = setInterval(updateStatDisplay, 3000);
+            });
+        }
+
+        function updateMovieVisitCount(movieId, movieTitle) {
+            let movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
+            if (!movieVisits[movieId]) {
+                movieVisits[movieId] = { count: 0, title: movieTitle };
+            }
+            movieVisits[movieId].count += 1;
+            localStorage.setItem('movieVisits', JSON.stringify(movieVisits));
+        }
+
+        function getMostVisitedMovie() {
+            const movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
+            let mostVisitedMovie = '';
+            let maxVisits = 0;
+
+            for (const movieId in movieVisits) {
+                if (movieVisits[movieId].count > maxVisits) {
+                    mostVisitedMovie = movieVisits[movieId].title;
+                    maxVisits = movieVisits[movieId].count;
+                }
+            }
+
+            return mostVisitedMovie || 'Not Available';
+        }
+
+        function getMostVisitedActor() {
+            const actorVisits = JSON.parse(localStorage.getItem('actorVisits')) || {};
+            let mostVisitedActor = '';
+            let maxVisits = 0;
+
+            for (const actorId in actorVisits) {
+                if (actorVisits[actorId].count > maxVisits) {
+                    mostVisitedActor = actorVisits[actorId].name;
+                    maxVisits = actorVisits[actorId].count;
+                }
+            }
+
+            return mostVisitedActor || 'Not Available';
+        }
+
+        function getMostVisitedDirector() {
+            const directorVisits = JSON.parse(localStorage.getItem('directorVisits')) || {};
+            let mostVisitedDirector = '';
+            let maxVisits = 0;
+
+            for (const directorId in directorVisits) {
+                if (directorVisits[directorId].count > maxVisits) {
+                    mostVisitedDirector = directorVisits[directorId].name;
+                    maxVisits = directorVisits[directorId].count;
+                }
+            }
+
+            return mostVisitedDirector || 'Not Available';
+        }
+
+        function getTriviaAccuracy() {
+            let triviaStats = JSON.parse(localStorage.getItem('triviaStats')) || { totalCorrect: 0, totalAttempted: 0 };
+            if (triviaStats.totalAttempted === 0) {
+                return 'No trivia attempted';
+            }
+            let accuracy = (triviaStats.totalCorrect / triviaStats.totalAttempted) * 100;
+            return `${accuracy.toFixed(1)}% accuracy`;
+        }
+
+        function getMostCommonGenre() {
+            const favoriteGenres = JSON.parse(localStorage.getItem('favoriteGenres')) || {};
+            let mostCommonGenre = '';
+            let maxCount = 0;
+
+            for (const genre in favoriteGenres) {
+                if (favoriteGenres[genre] > maxCount) {
+                    mostCommonGenre = genre;
+                    maxCount = favoriteGenres[genre];
+                }
+            }
+
+            return mostCommonGenre || 'Not Available';
+        }
+
+        document.addEventListener('DOMContentLoaded', rotateUserStats);
+
+        function handleSignInOut() {
+            const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
+
+            if (isSignedIn) {
+                localStorage.setItem('isSignedIn', JSON.stringify(false));
+                alert('You have been signed out.');
+            }
+            else {
+                window.location.href = 'sign-in.html';
+                return;
+            }
+
+            updateSignInButtonState();
+        }
+
+        function updateSignInButtonState() {
+            const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
+
+            const signInText = document.getElementById('signInOutText');
+            const signInIcon = document.getElementById('signInIcon');
+            const signOutIcon = document.getElementById('signOutIcon');
+
+            if (isSignedIn) {
+                signInText.textContent = 'Sign Out';
+                signInIcon.style.display = 'none';
+                signOutIcon.style.display = 'inline-block';
+            }
+            else {
+                signInText.textContent = 'Sign In';
+                signInIcon.style.display = 'inline-block';
+                signOutIcon.style.display = 'none';
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            updateSignInButtonState();
+            document.getElementById('googleSignInBtn').addEventListener('click', handleSignInOut);
+        });
+    </script>
+
+</body>
+</html>

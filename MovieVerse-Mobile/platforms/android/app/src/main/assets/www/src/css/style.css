@@ -14,12 +14,14 @@ body {
     margin: 0;
     align-content: center;
     overflow-x: hidden;
+    min-height: 100vh;
+    overflow-y: auto;
 }
 
 #movie-match-btn {
     position: fixed;
     bottom: 220px;
-    right: 30px;
+    right: 20px;
     background-color: #7378c5;
     color: black;
     border-radius: 8px;
@@ -170,6 +172,47 @@ header h1 {
     border-radius: 8px;
 }
 
+#profileBtn {
+    background-color: #7378c5;
+    border: none;
+    color: white;
+    width: 85px;
+    height: 40px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font: inherit;
+    font-size: 16px;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    margin-left: 316px;
+    border-radius: 8px;
+}
+
+#profileBtn:hover {
+    background-color: #ff8623;
+    transition: 0.3s ease-in;
+}
+
+#mobileGoogleSignInBtn {
+    display: none;
+}
+
+#mobileProfileBtn {
+    display: none;
+}
+
+@media screen and (max-width: 900px) {
+    #mobileGoogleSignInBtn {
+        display: block;
+    }
+
+    #mobileProfileBtn {
+        display: block;
+    }
+}
+
 .back-btn:hover {
     background-color: #ff8623;
     transition: 0.3s ease-in;
@@ -261,7 +304,7 @@ header h1 {
 #back-to-top-btn {
     position: fixed;
     bottom: 20px;
-    right: 30px;
+    right: 20px;
     background-color: #7378c5;
     font: inherit;
     color: black;
@@ -292,7 +335,7 @@ header h1 {
 #trivia-btn {
     position: fixed;
     bottom: 60px;
-    right: 30px;
+    right: 20px;
     background-color: #7378c5;
     font: inherit;
     color: black;
@@ -314,7 +357,7 @@ header h1 {
 #discussions-btn {
     position: fixed;
     bottom: 100px;
-    right: 30px;
+    right: 20px;
     background-color: #7378c5;
     font: inherit;
     color: black;
@@ -331,7 +374,7 @@ header h1 {
 #movie-of-the-day-btn {
     position: fixed;
     bottom: 140px;
-    right: 30px;
+    right: 20px;
     background-color: #7378c5;
     font: inherit;
     color: black;
@@ -348,7 +391,7 @@ header h1 {
 #movie-of-the-day-btn2 {
     position: fixed;
     bottom: 80px;
-    right: 30px;
+    right: 20px;
     background-color: #7378c5;
     font: inherit;
     color: black;
@@ -580,6 +623,14 @@ header h1 {
     color: #f509d9;
 }
 
+#githubLink {
+    color: white !important;
+}
+
+#githubLink:hover {
+    color: #ff8623 !important;
+}
+
 #imdbRating, #rtRating {
     text-decoration: none;
     color: inherit;
@@ -598,6 +649,10 @@ header h1 {
 
 #movie-rating h2:hover {
     color: initial;
+}
+
+h2 {
+    font-size: 1.74rem;
 }
 
 h2:hover {
@@ -623,8 +678,7 @@ p {
     background-image: url("../../images/universe.jpg");
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
-    height: 100vh;
+    background-repeat: repeat;
 }
 
 .movie-details-body2 {
@@ -754,12 +808,16 @@ p {
     max-width: 800px;
     margin: auto;
     padding: 20px;
-    margin-bottom: 200px;
+    margin-bottom: 300px;
 }
 
 #main2 h2, #main2 h3 {
     color: #ff8623;
     margin-bottom: 20px;
+}
+
+#aboutHeader {
+    margin-top: -25px;
 }
 
 #main2 p, #main2 ul, #main2 li {
@@ -1063,6 +1121,15 @@ p {
     top: 5px;
 }
 
+#search-results {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+    margin-left: 0;
+}
+
 #search-container {
     display: none;
     background-color: rgba(255, 255, 255, 0.1);
@@ -1272,6 +1339,47 @@ textarea {
     display: block;
 }
 
+.chart-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+    justify-content: center;
+}
+
+.chart-box {
+    background-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+    width: 100%;
+    max-width: 600px;
+    height: 400px;
+    margin: 20px auto;
+    opacity: 1;
+}
+
+canvas {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 900px) {
+    .chart-container {
+        flex-direction: column;
+    }
+    .chart-box {
+        height: auto;
+    }
+}
+
+.chart-title {
+    text-align: center;
+    color: #ff710d;
+    margin-bottom: 15px;
+}
+
 #descriptionP {
     margin-top: -10px;
 }
@@ -1284,7 +1392,7 @@ textarea {
 #settings-btn {
     background-color: #7378c5;
     bottom: 260px;
-    right: 30px;
+    right: 20px;
     color: black;
     border-radius: 8px;
     border: none;
@@ -1381,13 +1489,18 @@ textarea {
     margin-left: 45px;
 }
 
-@media (max-width: 840px) {
-    #movie-match-main {
-        margin-left: -100px;
-    }
+#mobileProfileBtn:hover {
+    background-color: #ff8623;
+    transition: 0.1s ease-in;
+}
 
+@media (max-width: 840px) {
     #my-heading {
         margin-left: 0;
+    }
+
+    #profileBtn {
+        display: none;
     }
 
     .movie-details-body4 {
@@ -1618,7 +1731,7 @@ textarea {
         margin-top: 0;
         height: 100% !important;
         overflow: visible;
-        margin-bottom: 250px;
+        margin-bottom: 5px;
     }
 
     #descriptionP {
@@ -1656,7 +1769,7 @@ textarea {
     }
 
     #clear-search-btn {
-        margin-top: 40px;
+        margin-top: 5px;
     }
 
     .watchlist-buttons-container {
@@ -1740,7 +1853,7 @@ textarea {
 #movie-timeline-btn {
     position: fixed;
     bottom: 180px;
-    right: 30px;
+    right: 20px;
     background-color: #7378c5;
     font: inherit;
     color: black;
@@ -1768,7 +1881,6 @@ textarea {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    margin-left: 30px;
 }
 
 #movies-container .movie-item {
@@ -1785,6 +1897,14 @@ textarea {
 }
 
 .center-container {
+    text-align: center;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.center-container1 {
     text-align: center;
     flex-direction: column;
     align-items: center;
@@ -1832,8 +1952,12 @@ textarea {
 #search-title {
     color: #ff8623;
     text-align: center;
-    font-size: 2rem;
+    font-size: 1.74rem;
     margin-bottom: 20px;
+}
+
+#search-title:hover {
+    color: #f509d9;
 }
 
 #movie-match-main {
@@ -1845,7 +1969,23 @@ textarea {
     margin-top: 60px;
     padding: 20px;
     width: 100%;
-    margin-left: 25px;
+    margin-bottom: 300px;
+}
+
+.profile-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.profile-image-container img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.profile-info p {
+    margin: 10px 0;
 }
 
 body {
@@ -1864,15 +2004,54 @@ body {
     cursor: pointer;
     position: absolute;
     top: 0;
-    margin-left: 315px;
+    margin-left: 405px;
     border-radius: 8px;
     padding: 0 10px;
     box-sizing: border-box;
 }
 
+.mobile-sign-in-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 12px;
+    margin-bottom: 10px;
+}
+
+#mobileGoogleSignInBtn {
+    background-color: #7378c5;
+    border: none;
+    color: white;
+    height: 40px;
+    text-align: center;
+    font: inherit;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 8px;
+    padding: 0 10px;
+}
+
+#mobileProfileBtn {
+    background-color: #7378c5;
+    border: none;
+    color: white;
+    height: 40px;
+    text-align: center;
+    font: inherit;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 8px;
+    padding: 0 10px;
+    margin-left: 5px;
+}
+
 #googleSignInBtn:hover {
     background-color: #ff8623;
-    transition: 0.3s ease-in;
+    transition: 0.1s ease-in;
+}
+
+#mobileGoogleSignInBtn:hover {
+    background-color: #ff8623;
+    transition: 0.1s ease-in;
 }
 
 .movie-match-container {
@@ -1940,7 +2119,7 @@ body {
 #movie-match-btn2 {
     position: fixed;
     bottom: 115px;
-    right: 30px;
+    right: 20px;
     background-color: #7378c5;
     font: inherit;
     color: black;
@@ -1957,7 +2136,7 @@ body {
 #movie-match-btn3 {
     position: fixed;
     bottom: 180px;
-    right: 30px;
+    right: 20px;
     background-color: #7378c5;
     font: inherit;
     color: black;
@@ -1992,10 +2171,6 @@ body {
 
 #company-movies-list span {
     margin: 0;
-}
-
-#company-details-container {
-    margin-left: 25px;
 }
 
 .company-link {
@@ -2052,7 +2227,7 @@ body {
     color: purple;
 }
 
-@media (max-width: 840px) {
+@media (max-width: 900px) {
     .company-details-container {
         display: flex;
         flex-direction: column;
@@ -2060,6 +2235,12 @@ body {
     }
 
     .company-left {
+        width: 100%;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .company-right {
         width: 100%;
         margin: 0 auto;
         text-align: center;

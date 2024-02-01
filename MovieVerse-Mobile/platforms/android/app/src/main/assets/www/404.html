@@ -18,6 +18,14 @@
             margin: 20px auto;
         }
     </style>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-CQKJ67FXZ4');
+    </script>
 </head>
 <body class="movie-details-body">
     <!-- Header with buttons -->
@@ -40,7 +48,7 @@
         <button id="movie-match-btn3" onclick="window.location.href='./src/html/movie-match.html'" title="Find a movie that matches your mood, genre, and time period!">Movie Match</button>
         <button id="movie-timeline-btn" onclick="window.location.href='./src/html/movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 140px">Movie Timeline</button>
         <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 100px">Movie of the Day</button>
-        <button id="discussions-btn" onclick="window.location.href='./src/html/discussions.html'" style="margin-bottom: -39px" title="Engage in movie discussions">MovieVerse Chatbot</button>
+        <button id="discussions-btn" onclick="window.location.href='src/html/chatbot.html'" style="margin-bottom: -39px" title="Engage in movie discussions">MovieVerse Chatbot</button>
         <button id="trivia-btn" onclick="window.location.href='./src/html/trivia.html'" style="margin-bottom: -40px" title="Test your movie knowledge">MovieVerse Trivia</button>
     </header>
 
@@ -103,18 +111,18 @@
             applySettings();
 
             function applySettings() {
-                const savedBg = localStorage.getItem('backgroundImage');
+                const defaultBg = '../../images/universe-1.png';
+                const savedBg = localStorage.getItem('backgroundImage') || defaultBg;
                 const savedTextColor = localStorage.getItem('textColor');
                 const savedFontSize = localStorage.getItem('fontSize');
+                document.body.style.backgroundImage = `url('${savedBg}')`;
 
-                if (savedBg) {
-                    document.body.style.backgroundImage = `url('${savedBg}')`;
-                }
                 if (savedTextColor) {
-                    document.querySelectorAll('h1, h2, h3, p, span, div, button, input, select, textarea').forEach(element => {
+                    document.querySelectorAll('h1, h2, h3, p, a, span, div, button, input, select, textarea, label, li').forEach(element => {
                         element.style.color = savedTextColor;
                     });
                 }
+
                 if (savedFontSize) {
                     const size = savedFontSize === 'small' ? '12px' : savedFontSize === 'medium' ? '16px' : '20px';
                     document.body.style.fontSize = size;
