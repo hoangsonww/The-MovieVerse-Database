@@ -1,8 +1,0 @@
-{
-  "siteId": "your-netlify-site-id-mine-is-not-published-here",
-  "deployId": "your-netlify-deploy-id-mine-is-not-published-here",
-  "buildId": "your-netlify-build-id-mine-is-not-published-here",
-  "context": "production",
-  "branch": "main",
-  "commitRef": "your-git-commit-ref-mine-is-not-stated-here"
-}
