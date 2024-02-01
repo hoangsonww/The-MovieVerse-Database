@@ -41,7 +41,7 @@ The HTML directory includes all the markup files necessary for the structure of 
 The JavaScript directory contains scripts that add interactivity and functionality to the web pages.
 
 - `actor-details.js`: Handles the dynamic functionality on the actor details page.
-- `app.js`: The main JavaScript file that initiates the app.
+- `chatbot.js`: The main JavaScript file that initiates the app.
 - `company-details.js`: Script for handling company details functionality.
 - `create-account.js`: Handles the create account functionality.
 - `director-details.js`: Manages functionality on the director details page.

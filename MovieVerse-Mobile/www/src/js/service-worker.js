@@ -10,7 +10,7 @@ const urlsToCache = [
     'settings.js',
     '../../images/favicon.ico',
     '../../images/image.png',
-    'app.js',
+    'chatbot.js',
     'movie-details.js',
     'movie-timeline.js',
     'quiz.js',

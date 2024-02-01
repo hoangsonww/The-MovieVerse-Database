@@ -1,4 +1,4 @@
-const { sendMessage, movieVerseResponse } = require('../src/js/app.js');
+const { sendMessage, movieVerseResponse } = require('../src/js/chatbot.js');
 const { describe, it} = require("node:test");
 const expect = require("expect");
 
