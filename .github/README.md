@@ -78,7 +78,7 @@ There is also a mobile version of The MovieVerse, which is developed using Apach
 | [SASS](https://sass-lang.com/)                                    | [Ruby on Rails](https://rubyonrails.org/)                        |                                                 |                                                                   |                                                                 |
 | [Single Spa](https://single-spa.js.org/)                          | [C (Emscripten, WebAssembly)](https://emscripten.org/)           |                                                 |                                                                   |                                                                 |
 | [Redux](https://redux.js.org/)                                    | [JavaScript](https://www.javascript.com/)                        |                                                 |                                                                   |                                                                 |
-| [Next.js](https://nextjs.org/)                                    | [TMDB API](https://www.themoviedb.org/)                          |                                                 |                                                                   |                                                                 |
+| [Next.js](https://nextjs.org/)                                    |                           |                                                 |                                                                   |                                                                 |
 
 
 ## Contributing
