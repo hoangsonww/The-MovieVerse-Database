@@ -20,6 +20,7 @@ This directory contains the Cascading Style Sheets (CSS) files responsible for t
 The HTML directory includes all the markup files necessary for the structure of the web pages.
 
 - `about.html`: Contains information about the MovieVerse app.
+- `analytics.html`: A page for viewing database analytics and user interactions.
 - `actor-details.html`: A detailed view of actor profiles.
 - `company-details.html`: Provides information about movie production companies.
 - `create-account.html`: Allows users to create an account on MovieVerse.
@@ -40,12 +41,14 @@ The HTML directory includes all the markup files necessary for the structure of 
 
 The JavaScript directory contains scripts that add interactivity and functionality to the web pages.
 
+- `about.js`: Handles the functionality for the about page.
+- `analytics.js`: Script for handling database analytics and tracking user interactions.
 - `actor-details.js`: Handles the dynamic functionality on the actor details page.
 - `chatbot.js`: The main JavaScript file that initiates the app.
 - `company-details.js`: Script for handling company details functionality.
 - `create-account.js`: Handles the create account functionality.
 - `director-details.js`: Manages functionality on the director details page.
-- `index.ejs`: A template for the entry point of the app.
+- `index.ejs`: A file for the entry point of the app.
 - `movie-details.js`: Script for the movie details page.
 - `movie-timeline.js`: Manages the timeline functionality for movies.
 - `quiz.js`: Handles the trivia quiz functionalities.
