@@ -1239,6 +1239,30 @@ p {
     background-color: #ff8623;
 }
 
+#subheading {
+    color: white;
+}
+
+#subheading:hover {
+    color: #f509d9;
+    transition: 0.1s linear;
+}
+
+#aboutHeader:hover {
+    color: #f509d9;
+    transition: 0.1s linear;
+}
+
+#profileLink {
+    color: white !important;
+    text-decoration: underline !important;
+}
+
+#profileLink:hover {
+    color: #ff8623 !important;
+    transition: 0.1s linear;
+}
+
 textarea {
     resize: none;
 }

@@ -13,9 +13,6 @@ document.getElementById('movie-match-form').addEventListener('submit', function(
     findMovieMatch(mood, genre, period);
 });
 
-/**
- * Rotates the user stats and movie quotes displayed in the main element.
- */
 function rotateUserStats() {
     const stats = [
         {

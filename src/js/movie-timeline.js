@@ -18,9 +18,6 @@ const searchButton = document.getElementById("button-search");
 const search = document.getElementById("search");
 const main = document.getElementById("search-results");
 
-/**
- * Rotates the user stats and movie quotes displayed in the main element.
- */
 function rotateUserStats() {
     const stats = [
         {

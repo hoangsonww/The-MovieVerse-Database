@@ -16,9 +16,6 @@ const SEARCHPATH = "https://api.themoviedb.org/3/search/movie?&api_key=c5a20c861
 const IMGPATH = "https://image.tmdb.org/t/p/w1280";
 const main = document.getElementById("main");
 
-/**
- * Rotates the user stats and movie quotes displayed in the main element.
- */
 function rotateUserStats() {
     const stats = [
         {

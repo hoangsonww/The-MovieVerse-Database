@@ -18,9 +18,6 @@ function getClassByRate(vote){
     }
 }
 
-/**
- * Rotates the user stats and movie quotes displayed in the main element.
- */
 function rotateUserStats() {
     const stats = [
         {
