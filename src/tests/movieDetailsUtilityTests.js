@@ -1,4 +1,4 @@
-const { getRtSlug, createMetacriticSlug } = require('../src/js/movie-details');
+const { getRtSlug, createMetacriticSlug } = require('../js/movie-details');
 const {describe, it} = require("node:test");
 const expect = require("expect");
 

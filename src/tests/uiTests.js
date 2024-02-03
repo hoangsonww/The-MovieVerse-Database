@@ -1,4 +1,4 @@
-const { toggleNav, removeNavBar } = require('../index.js');
+const { toggleNav, removeNavBar } = require('../../index.js');
 const { screen, fireEvent } = require('@testing-library/dom');
 const {describe, it} = require("node:test");
 const expect = require("expect");

@@ -1,4 +1,4 @@
-const { getClassByRate, calculateMoviesToDisplay } = require('../index.js');
+const { getClassByRate, calculateMoviesToDisplay } = require('../../index.js');
 const { it, describe} = require("node:test");
 const expect = require("expect");
 
