@@ -31,6 +31,7 @@ The HTML directory includes all the markup files necessary for the structure of 
 - `movie-match.html`: A feature that helps users find movies matching their mood, genre, and time period preferences.
 - `movie-timeline.html`: A timeline view of movies.
 - `privacy-policy.html`: Outlines the app's approach to user privacy.
+- `profile.html`: A user's profile page.
 - `reset-password.html`: Allows users to reset their password.
 - `settings.html`: Allows users to customize their MovieVerse experience.
 - `sign-in.html`: Allows users to sign in to their MovieVerse account.
@@ -58,6 +59,8 @@ The JavaScript directory contains scripts that add interactivity and functionali
 - `service-worker.js`: Service worker script for the app to allow for offline functionality.
 - `settings.js`: Script for handling user settings.
 - `sign-in.js`: Script for handling user sign-in.
+- `trivia.js`: Script for the trivia game.
+- `user-profile.js`: Script for managing user profiles.
 - `single-spa-config.js`: Configuration file for the single-spa framework used in the app.
 
 ### React Directory
