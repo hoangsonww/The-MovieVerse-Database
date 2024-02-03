@@ -37,6 +37,15 @@
     <script src="index.js" defer></script>
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <link rel="manifest" href="manifest.json">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-CQKJ67FXZ4');
+    </script>
 </head>
 
 <body class="movie-details-body3">
@@ -55,9 +64,18 @@
         <button id="nav-toggle" class="nav-toggle" title="Toggle side navbar (Or you can just hover on the left edge to toggle it!)" onclick="toggleNav()">
             <i class="fas fa-bars"></i>
         </button>
-        <button class="back-btn" onclick="window.location.href='index.html'" title="Go back to homepage">Home</button>
-        <button class="about" onclick="window.location.href='./src/html/about.html'" title="About this wonderful app!">About</button>
-        <button class="favorites-btn" onclick="window.location.href='./src/html/favorites.html'" title="Go to your favorites list">Favorites</button>
+        <button class="back-btn nav-btn" onclick="window.location.href='index.html'" title="Go back to homepage">Home</button>
+        <button class="about nav-btn" onclick="window.location.href='./src/html/about.html'" title="About this wonderful app!">About</button>
+        <button class="favorites-btn nav-btn" onclick="window.location.href='./src/html/favorites.html'" title="Go to your favorites list">Favorites</button>
+        <button id="profileBtn" class="nav-btn" onclick="window.location.href='./src/html/user-profile.html'" title="Go to your profile">
+            <span id="profileText">Profile</span>
+            <i class="fas fa-user" id="profileIcon"></i>
+        </button>
+        <button id="googleSignInBtn" class="nav-btn" onclick="handleSignInOut()" title="Sign In/Out">
+            <span id="signInOutText">Sign In</span>
+            <i class="fas fa-sign-in-alt" id="signInIcon"></i>
+            <i class="fas fa-sign-out-alt" id="signOutIcon" style="display: none;"></i>
+        </button>
 
         <form id="form">
             <input
@@ -78,6 +96,7 @@
             <button id="button-remove" title="Close the navbar" onclick="removeNavBar()">Close</button>
         </div>
         <ul style="overflow-y: auto">
+            <li><a href="src/html/analytics.html">MovieVerse Analytics</a></li>
             <li><a href="#main">Most Popular</a></li>
             <li><a href="#main17">Award-Winning</a></li>
             <li><a href="#main18">Hidden Gems</a></li>
@@ -100,6 +119,19 @@
             <li><a href="#main19">Classic</a></li>
         </ul>
     </nav>
+
+    <div class="mobile-sign-in-container">
+        <button id="mobileGoogleSignInBtn" class="nav-btn" onclick="handleSignInOut()" title="Sign In/Out">
+            <span id="mobileSignInOutText">Sign In</span>
+            <i class="fas fa-sign-in-alt" id="mobileSignInIcon"></i>
+            <i class="fas fa-sign-out-alt" id="mobileSignOutIcon" style="display: none;"></i>
+        </button>
+
+        <button id="mobileProfileBtn" class="nav-btn" onclick="window.location.href='./src/html/user-profile.html'" title="Go to your profile">
+            <span id="mobileProfileText">Profile</span>
+            <i class="fas fa-user" id="mobileProfileIcon"></i>
+        </button>
+    </div>
 
     <div class="genres" style="margin-left: 25px">
         <h2 id="search-title">Most Popular: </h2>
@@ -261,16 +293,16 @@
         <h2 id="other">Trending <span class="highlight">CLASSIC</span> Movies: </h2>
     </div>
 
-    <main id="main19">
+    <main id="main19" style="margin-bottom: 230px">
 
     </main>
 
     <button id="movie-match-btn" onclick="window.location.href='src/html/movie-match.html'" title="Find movies that match your mood and preferences!" style="bottom: 220px">Movie Match</button>
     <button id="movie-timeline-btn" onclick="window.location.href='src/html/movie-timeline.html'" title="Explore movies through different eras!">Movie Timeline</button>
-    <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!">Movie of the Day</button>
-    <button id="discussions-btn" onclick="window.location.href='./src/html/discussions.html'" title="Want to know more about movies? Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
+    <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!">Recommendation</button>
+    <button id="discussions-btn" onclick="window.location.href='src/html/chatbot.html'" title="Want to know more about movies? Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
     <button id="trivia-btn" onclick="window.location.href='./src/html/trivia.html'" title="Play a quick trivia to test your knowledge about movies!">MovieVerse Trivia</button>
-    <button id="back-to-top-btn" onclick="scrollToTop()">Back To Top</button>
+    <button id="back-to-top-btn" onclick="window.location.href='#homepage-header'">Back To Top</button>
     <button id="settings-btn" style="position: fixed">Settings</button>
 
     <script>
@@ -300,6 +332,18 @@
                 }
             }
         });
+    </script>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('src/js/service-worker.js').then(function(registration) {
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                }, function(err) {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
     </script>
 
 </body>

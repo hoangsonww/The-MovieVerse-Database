@@ -406,51 +406,44 @@ document.getElementById('clear-search-btn').addEventListener('click', () => {
     location.reload();
 });
 
-let isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
-updateSignInButton();
-
 function handleSignInOut() {
-    const signInOutButton = document.getElementById('googleSignInBtn');
-    const signInOutText = signInOutButton.querySelector('span');
-    const signInOutIcon = signInOutButton.querySelector('i');
+    const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
 
-    if (!isSignedIn) {
-        signInOutText.textContent = 'Sign Out';
-        signInOutIcon.className = 'fas fa-sign-out-alt';
-        isSignedIn = true;
-        localStorage.setItem('isSignedIn', isSignedIn);
-        gapi.auth2.getAuthInstance().signIn();
-    }
-    else {
-        signInOutText.textContent = 'Sign In';
-        signInOutIcon.className = 'fas fa-sign-in-alt';
-        isSignedIn = false;
-        localStorage.setItem('isSignedIn', isSignedIn);
-        gapi.auth2.getAuthInstance().signOut();
-    }
-}
-
-function updateSignInButton() {
-    const signInOutButton = document.getElementById('googleSignInBtn');
-    const signInOutText = signInOutButton.querySelector('span');
-    const signInOutIcon = signInOutButton.querySelector('i');
     if (isSignedIn) {
-        signInOutText.textContent = 'Sign Out';
-        signInOutIcon.className = 'fas fa-sign-out-alt';
+        localStorage.setItem('isSignedIn', JSON.stringify(false));
+        alert('You have been signed out.');
     }
     else {
-        signInOutText.textContent = 'Sign In';
-        signInOutIcon.className = 'fas fa-sign-in-alt';
+        window.location.href = 'sign-in.html';
+        return;
+    }
+
+    updateSignInButtonState();
+}
+
+function updateSignInButtonState() {
+    const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
+
+    const signInText = document.getElementById('signInOutText');
+    const signInIcon = document.getElementById('signInIcon');
+    const signOutIcon = document.getElementById('signOutIcon');
+
+    if (isSignedIn) {
+        signInText.textContent = 'Sign Out';
+        signInIcon.style.display = 'none';
+        signOutIcon.style.display = 'inline-block';
+    }
+    else {
+        signInText.textContent = 'Sign In';
+        signInIcon.style.display = 'inline-block';
+        signOutIcon.style.display = 'none';
     }
 }
 
-function initClient() {
-    gapi.load('auth2', function() {
-        gapi.auth2.init({
-            client_id: '154461832638-fpkleb6uhogkacq9k93721o8mjr2qc8t.apps.googleusercontent.com'
-        });
-    });
-}
+document.addEventListener("DOMContentLoaded", function() {
+    updateSignInButtonState();
+    document.getElementById('googleSignInBtn').addEventListener('click', handleSignInOut);
+});
 
 const twoLetterLangCodes = [
     { "code": "aa", "name": "Afar" },
@@ -675,6 +668,7 @@ async function fetchMovieDetails(movieId) {
             trailerButton = createTrailerButton(trailerUrl);
             positionTrailerButton();
         }
+        updateBrowserURL(movie.title);
     }
     catch (error) {
         console.error('Error fetching movie details:', error);
@@ -711,6 +705,77 @@ function getRatingDetails(rating) {
                 color: 'green',
                 text: 'G (General Audiences)',
                 description: ' - All ages admitted'
+            };
+            break;
+        case 'NC-17':
+            details = {
+                color: 'darkred',
+                text: 'NC-17 (Adults Only)',
+                description: ' - No one 17 and under admitted'
+            };
+            break;
+        case 'TV-Y':
+            details = {
+                color: 'lightgreen',
+                text: 'TV-Y (All Children)',
+                description: ' - Appropriate for all children'
+            };
+            break;
+        case 'TV-Y7':
+            details = {
+                color: 'lightblue',
+                text: 'TV-Y7 (Directed to Older Children)',
+                description: ' - Suitable for children ages 7 and up'
+            };
+            break;
+        case 'TV-G':
+            details = {
+                color: 'green',
+                text: 'TV-G (General Audience)',
+                description: ' - Suitable for all ages'
+            };
+            break;
+        case 'TV-PG':
+            details = {
+                color: 'orange',
+                text: 'TV-PG (Parental Guidance Suggested)',
+                description: ' - May not be suitable for younger children'
+            };
+            break;
+        case 'TV-14':
+            details = {
+                color: 'yellow',
+                text: 'TV-14 (Parents Strongly Cautioned)',
+                description: ' - May be inappropriate for children under 14'
+            };
+            break;
+        case 'TV-MA':
+            details = {
+                color: 'red',
+                text: 'TV-MA (Mature Audience Only)',
+                description: ' - Specifically designed to be viewed by adults'
+            };
+            break;
+        case 'NR':
+            details = {
+                color: 'grey',
+                text: 'NR (Not Rated)',
+                description: ' - Movie has not been officially rated'
+            };
+            break;
+        case 'UR':
+        case 'Unrated':
+            details = {
+                color: 'grey',
+                text: 'UR (Unrated)',
+                description: ' - Contains content not used in the rated version'
+            };
+            break;
+        default:
+            details = {
+                color: 'white',
+                text: rating,
+                description: ' - Rating information not available'
             };
             break;
     }
@@ -756,6 +821,16 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
         const fallbackImdbRating = (tmdbMovieData.vote_average / 2).toFixed(1) * 2;
         populateMovieDetails(tmdbMovieData, fallbackImdbRating, 'N/A', 'No metascore information available', 'No awards information available');
     }
+}
+
+function updateBrowserURL(title) {
+    const nameSlug = createNameSlug(title);
+    const newURL = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + nameSlug;
+    window.history.replaceState({ path: newURL }, '', newURL);
+}
+
+function createNameSlug(title) {
+    return title.toLowerCase().replace(/ /g, '-').replace(/[^\w-]/g, '');
 }
 
 function calculateFallbackRTRating(imdbRating, tmdbRating) {
@@ -866,8 +941,9 @@ function populateMovieDetails(movie, imdbRating, rtRating, metascore, awards, ra
     const ratedElement = rated ? `<p id="movie-rated-element"><strong>Rated:</strong> <span style="color: ${ratingDetails.color};"><strong>${ratingDetails.text}</strong>${ratingDetails.description}</span></p>` : '';
 
     document.getElementById('movie-rating').innerHTML = `
-        <a id="imdbRatingLink" href="${imdbLink}" target="_blank" title="Click to go to this movie's IMDb page!" style="text-decoration: none; color: inherit;">IMDB Rating: ${imdbRating}</a>
+        <a id="imdbRatingLink" href="${imdbLink}" target="_blank" title="Click to go to this movie's IMDb page!" style="text-decoration: none; color: inherit">IMDB Rating: ${imdbRating}</a>
     `;
+    document.getElementById('movie-rating').style.marginTop = '120px';
     document.title = movie.title + " - Movie Details";
 
     const movieImage = document.getElementById('movie-image');
@@ -1079,11 +1155,9 @@ function updateMoviesFavorited(movieId) {
 function updateAverageMovieRating(movieId, newRating) {
     const savedRatings = JSON.parse(localStorage.getItem('movieRatings')) || {};
 
-    // Update the rating for the current movie
     savedRatings[movieId] = newRating;
     localStorage.setItem('movieRatings', JSON.stringify(savedRatings));
 
-    // Recalculate the average rating
     let totalRating = 0;
     let totalMoviesRated = 0;
     for (let id in savedRatings) {

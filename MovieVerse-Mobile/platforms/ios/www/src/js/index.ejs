@@ -16,46 +16,60 @@
 
     <!-- React and ReactDOM -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.production.min.js"></script>
+
+    <!-- React DOM -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.production.min.js"></script>
 </head>
+
 <body>
-<noscript>You need to enable JavaScript to run this app.</noscript>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
 
-<!-- React Root Element -->
-<div id="react-root"></div>
+    <!-- React Root Element -->
+    <div id="react-root"></div>
 
-<!-- Vue Root Element -->
-<div id="vue-root"></div>
+    <!-- Vue Root Element -->
+    <div id="vue-root"></div>
 
-<!-- Initialize React and Vue -->
-<script>
-    // React Component
-    class MyReactComponent extends React.Component {
-        render() {
-            return (
-                <div className="react-component">
-                    Hello from React!
-                </div>
-            );
+    <!-- Initialize React and Vue -->
+    <script>
+        // React Component
+        class MyReactComponent extends React.Component {
+            render() {
+                return (
+                    <div className="react-component">
+                        MovieVerse App - React Component
+                    </div>
+                );
+            }
         }
-    }
 
-    // Render React Component
-    ReactDOM.render(<MyReactComponent />, document.getElementById('react-root'));
+        // Render React Component
+        ReactDOM.render(<MyReactComponent />, document.getElementById('react-root'));
 
-    // Vue Instance
-    new Vue({
-        el: '#vue-root',
-        data: {
-            message: 'Hello from Vue!'
-        },
-        template: '<div class="vue-component">{{ message }}</div>'
-    });
-</script>
+        // Vue Instance
+        new Vue({
+            el: '#vue-root',
+            data: {
+                message: 'MovieVerse App - Vue Component!'
+            },
+            template: '<div class="vue-component">{{ message }}</div>'
+        });
+    </script>
 
-<!-- Bootstrap and other necessary JavaScript -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- Page content, which will be dynamically populated by JS -->
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center">The MovieVerse Database</h1>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap and other necessary JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
 </body>
+
 </html>

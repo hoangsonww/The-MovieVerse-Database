@@ -378,12 +378,6 @@ function calculateMoviesToDisplay() {
     return 20;
 }
 
-window.addEventListener('resize', () => {
-    if (!searchPerformed) {
-        getMovies(DATABASEURL, main);
-    }
-});
-
 /**
  * Returns the CSS class to use for the specified vote average.
  * @param vote
@@ -462,7 +456,6 @@ function adjustNavBar() {
     }
 }
 
-// Hover event to open the navbar
 document.addEventListener('mousemove', function(event) {
     const sideNav = document.getElementById('side-nav');
     if (event.clientX < 10 && !sideNav.classList.contains('manual-toggle')) {
@@ -470,23 +463,12 @@ document.addEventListener('mousemove', function(event) {
     }
 });
 
-// Mouse leave event to close the navbar if not manually toggled
 document.getElementById('side-nav').addEventListener('mouseleave', function() {
     const sideNav = document.getElementById('side-nav');
     if (!sideNav.classList.contains('manual-toggle')) {
         sideNav.style.left = '-250px';
     }
 });
-
-/**
- * Scrolls to the top of the page.
- */
-function scrollToTop() {
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-    });
-}
 
 /**
  * The URLs to fetch movies from.
@@ -664,19 +646,72 @@ function showMoviesDirectorSpotlight(movies) {
     });
 }
 
+function handleSignInOut() {
+    const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
+
+    if (isSignedIn) {
+        localStorage.setItem('isSignedIn', JSON.stringify(false));
+        alert('You have been signed out.');
+    }
+    else {
+        window.location.href = 'src/html/sign-in.html';
+        return;
+    }
+
+    updateSignInButtonState();
+}
+
+function updateSignInButtonState() {
+    const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
+
+    const signInText = document.getElementById('signInOutText');
+    const signInIcon = document.getElementById('signInIcon');
+    const signOutIcon = document.getElementById('signOutIcon');
+
+    if (isSignedIn) {
+        signInText.textContent = 'Sign Out';
+        signInIcon.style.display = 'none';
+        signOutIcon.style.display = 'inline-block';
+    }
+    else {
+        signInText.textContent = 'Sign In';
+        signInIcon.style.display = 'inline-block';
+        signOutIcon.style.display = 'none';
+    }
+
+    const mobileSignInText = document.getElementById('mobileSignInOutText');
+    const mobileSignInIcon = document.getElementById('mobileSignInIcon');
+    const mobileSignOutIcon = document.getElementById('mobileSignOutIcon');
+
+    if (isSignedIn) {
+        mobileSignInText.textContent = 'Sign Out';
+        mobileSignInIcon.style.display = 'none';
+        mobileSignOutIcon.style.display = 'inline-block';
+    }
+    else {
+        mobileSignInText.textContent = 'Sign In';
+        mobileSignInIcon.style.display = 'inline-block';
+        mobileSignOutIcon.style.display = 'none';
+    }
+}
+
 document.addEventListener("DOMContentLoaded", function() {
     checkAndClearLocalStorage();
-    applySettings();
+    updateSignInButtonState();
+    document.getElementById('googleSignInBtn').addEventListener('click', handleSignInOut);
 });
 
 /**
  * Checks if the user has cleared their local storage and clears it if they haven't.
  */
 function checkAndClearLocalStorage() {
-    const hasCleared = localStorage.getItem('hasUserClearedMovieVerseData');
+    const hasCleared = localStorage.getItem('hasClearedMovieVerseDataLS');
     if (!hasCleared) {
         clearMovieVerseLocalStorage();
-        localStorage.setItem('hasUserClearedMovieVerseData', 'true');
+        localStorage.setItem('hasClearedMovieVerseDataLS', 'true');
+        localStorage.removeItem('hasUserClearedMovieVerseData');
+        localStorage.removeItem('hasUserClearedMovieVerseData2');
+        localStorage.removeItem('hasUserClearedMovieVerseData3')
         window.location.reload();
     }
 }
@@ -705,6 +740,17 @@ function clearMovieVerseLocalStorage() {
     localStorage.removeItem('textColor');
     localStorage.removeItem('fontSize');
     localStorage.removeItem('moviesFavorited');
+    localStorage.removeItem('hasUserClearedMovieVerseData');
+    localStorage.removeItem('hasUserClearedMovieVerseData2');
+    localStorage.removeItem('hasUserClearedMovieVerseData3');
+    localStorage.removeItem('movieVisits');
+    localStorage.removeItem('accountsMovieVerse');
+    localStorage.removeItem('profileInfo');
+    localStorage.removeItem('profileImage');
+    localStorage.removeItem('directorVisits');
+    localStorage.removeItem('actorVisits');
+    localStorage.removeItem('isSignedIn');
+    window.location.reload();
 }
 
 /**

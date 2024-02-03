@@ -77,35 +77,32 @@ function getClassByRate(vote){
     }
 }
 
+const form = document.getElementById("form");
+
 form.addEventListener('submit', (e) => {
     e.preventDefault();
     const searchTerm = search.value.trim();
-
-    if (searchTerm) {
-        getMovies(SEARCHPATH + searchTerm);
-        searchTitle.innerHTML = 'Search Results for: ' + searchTerm;
-        search.value = '';
-    }
-    else {
-        searchTitle.innerHTML = 'Please enter a search term.';
-    }
-    document.getElementById('clear-search-btn').style.display = 'block'; // Show the button
+    handleSearch(searchTerm);
 });
 
 searchButton.addEventListener('click', (e) => {
     e.preventDefault();
-    const searchTerm = search.value;
+    const searchTerm = search.value.trim();
+    handleSearch(searchTerm);
+});
 
+function handleSearch(searchTerm) {
     if (searchTerm) {
         getMovies(SEARCHPATH + searchTerm);
         searchTitle.innerHTML = 'Search Results for: ' + searchTerm;
         search.value = '';
+        document.getElementById('clear-search-btn').style.display = 'block';
     }
     else {
         searchTitle.innerHTML = 'Please enter a search term.';
+        document.getElementById('clear-search-btn').style.display = 'none';
     }
-    document.getElementById('clear-search-btn').style.display = 'block'; // Show the button
-});
+}
 
 async function getMovies(url) {
     clearMovieDetails();
@@ -133,11 +130,10 @@ async function getMovies(url) {
 
     if (allMovies.length > 0) {
         showMovies(allMovies.slice(0, numberOfMovies));
-        document.getElementById('clear-search-btn').style.display = 'none'; // Hide the button if no results
     }
     else {
         main.innerHTML = `<p>No movie with the specified search term found. Please try again.</p>`;
-        document.getElementById('clear-search-btn').style.display = 'none'; // Hide the button if no results
+        document.getElementById('clear-search-btn').style.display = 'none';
     }
 }
 
@@ -308,53 +304,41 @@ function fallbackMovieSelection() {
     window.location.href = 'movie-details.html';
 }
 
-let isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
-updateSignInButton();
-
 function handleSignInOut() {
-    const signInOutButton = document.getElementById('googleSignInBtn');
-    const signInOutText = signInOutButton.querySelector('span');
-    const signInOutIcon = signInOutButton.querySelector('i');
+    const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
 
-    if (!isSignedIn) {
-        signInOutText.textContent = 'Sign Out';
-        signInOutIcon.className = 'fas fa-sign-out-alt';
-        isSignedIn = true;
-        localStorage.setItem('isSignedIn', isSignedIn);
-        gapi.auth2.getAuthInstance().signIn();
-    }
-    else {
-        signInOutText.textContent = 'Sign In';
-        signInOutIcon.className = 'fas fa-sign-in-alt';
-        isSignedIn = false;
-        localStorage.setItem('isSignedIn', isSignedIn);
-        gapi.auth2.getAuthInstance().signOut();
-    }
-}
-
-function updateSignInButton() {
-    const signInOutButton = document.getElementById('googleSignInBtn');
-    const signInOutText = signInOutButton.querySelector('span');
-    const signInOutIcon = signInOutButton.querySelector('i');
     if (isSignedIn) {
-        signInOutText.textContent = 'Sign Out';
-        signInOutIcon.className = 'fas fa-sign-out-alt';
+        localStorage.setItem('isSignedIn', JSON.stringify(false));
+        alert('You have been signed out.');
     }
     else {
-        signInOutText.textContent = 'Sign In';
-        signInOutIcon.className = 'fas fa-sign-in-alt';
+        window.location.href = 'sign-in.html';
+        return;
     }
+
+    updateSignInButtonState();
 }
 
-function initClient() {
-    gapi.load('auth2', function() {
-        gapi.auth2.init({
-            client_id: '154461832638-fpkleb6uhogkacq9k93721o8mjr2qc8t.apps.googleusercontent.com'
-        });
-    });
+function updateSignInButtonState() {
+    const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
+
+    const signInText = document.getElementById('signInOutText');
+    const signInIcon = document.getElementById('signInIcon');
+    const signOutIcon = document.getElementById('signOutIcon');
+
+    if (isSignedIn) {
+        signInText.textContent = 'Sign Out';
+        signInIcon.style.display = 'none';
+        signOutIcon.style.display = 'inline-block';
+    }
+    else {
+        signInText.textContent = 'Sign In';
+        signInIcon.style.display = 'inline-block';
+        signOutIcon.style.display = 'none';
+    }
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-    updateSignInButton();
-    initClient();
+    updateSignInButtonState();
+    document.getElementById('googleSignInBtn').addEventListener('click', handleSignInOut);
 });
