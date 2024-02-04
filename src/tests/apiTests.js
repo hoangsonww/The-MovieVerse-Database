@@ -1,5 +1,5 @@
 const axios = require('axios');
-const { getMovies } = require('../index.js');
+const { getMovies } = require('../../index.js');
 const { describe, it} = require("node:test");
 const jest = require("jest");
 const expect = require("expect");

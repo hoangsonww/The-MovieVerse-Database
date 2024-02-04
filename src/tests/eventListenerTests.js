@@ -1,4 +1,4 @@
-const { initEventListeners } = require('../src/js/settings.js');
+const { initEventListeners } = require('../js/settings.js');
 const { it, beforeEach, describe} = require("node:test");
 const { fireEvent} = require("@testing-library/dom");
 

@@ -1,6 +1,9 @@
+let System = window.System = window.System || {};
 System.import('@system-env').then(env => {
+    env.production = true; // Set to true for production
     if (!env.production) {
         // Development URLs
+        let System = window.System;
         System.importMap({
             "imports": {
                 "single-spa": "https://unpkg.com/single-spa/lib/system/single-spa.dev.js",
@@ -12,6 +15,7 @@ System.import('@system-env').then(env => {
     }
     else {
         // Production URLs
+        let System = window.System;
         System.importMap({
             "imports": {
                 "single-spa": "https://unpkg.com/single-spa/lib/system/single-spa.min.js",

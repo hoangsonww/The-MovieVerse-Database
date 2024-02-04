@@ -18,6 +18,16 @@ function getClassByRate(vote){
     }
 }
 
+function updateBrowserURL(name) {
+    const nameSlug = createNameSlug(name);
+    const newURL = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + nameSlug;
+    window.history.replaceState({ path: newURL }, '', newURL);
+}
+
+function createNameSlug(name) {
+    return name.toLowerCase().replace(/ /g, '-').replace(/[^\w-]/g, '');
+}
+
 document.getElementById('clear-search-btn').addEventListener('click', () => {
     location.reload();
 });
@@ -106,11 +116,11 @@ async function getMovies(url) {
 
     if (allMovies.length > 0) {
         showMovies(allMovies.slice(0, numberOfMovies));
-        document.getElementById('clear-search-btn').style.display = 'block'; // Show the button
+        document.getElementById('clear-search-btn').style.display = 'block';
     }
     else {
         main.innerHTML = `<p>No movie with the specified search term found. Please try again.</p>`;
-        document.getElementById('clear-search-btn').style.display = 'none'; // Hide the button if no results
+        document.getElementById('clear-search-btn').style.display = 'none';
     }
 }
 
@@ -185,6 +195,7 @@ async function fetchActorDetails(actorId) {
             document.getElementById('actor-details-container').innerHTML = '<h2>No Information is Available for this Actor</h2>';
         }
         else {
+            updateBrowserURL(actor.name);
             populateActorDetails(actor, credits);
         }
     }
@@ -412,56 +423,44 @@ function getMostCommonGenre() {
 
 document.addEventListener('DOMContentLoaded', rotateUserStats);
 
-let isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
-updateSignInButton();
-
 function handleSignInOut() {
-    const signInOutButton = document.getElementById('googleSignInBtn');
-    const signInOutText = signInOutButton.querySelector('span');
-    const signInOutIcon = signInOutButton.querySelector('i');
+    const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
 
-    if (!isSignedIn) {
-        signInOutText.textContent = 'Sign Out';
-        signInOutIcon.className = 'fas fa-sign-out-alt';
-        isSignedIn = true;
-        localStorage.setItem('isSignedIn', isSignedIn);
-        gapi.auth2.getAuthInstance().signIn();
-    }
-    else {
-        signInOutText.textContent = 'Sign In';
-        signInOutIcon.className = 'fas fa-sign-in-alt';
-        isSignedIn = false;
-        localStorage.setItem('isSignedIn', isSignedIn);
-        gapi.auth2.getAuthInstance().signOut();
-    }
-}
-
-function updateSignInButton() {
-    const signInOutButton = document.getElementById('googleSignInBtn');
-    const signInOutText = signInOutButton.querySelector('span');
-    const signInOutIcon = signInOutButton.querySelector('i');
     if (isSignedIn) {
-        signInOutText.textContent = 'Sign Out';
-        signInOutIcon.className = 'fas fa-sign-out-alt';
+        localStorage.setItem('isSignedIn', JSON.stringify(false));
+        alert('You have been signed out.');
     }
     else {
-        signInOutText.textContent = 'Sign In';
-        signInOutIcon.className = 'fas fa-sign-in-alt';
+        window.location.href = 'sign-in.html';
+        return;
     }
+
+    updateSignInButtonState();
 }
 
-function initClient() {
-    gapi.load('auth2', function() {
-        gapi.auth2.init({
-            client_id: '154461832638-fpkleb6uhogkacq9k93721o8mjr2qc8t.apps.googleusercontent.com'
-        });
-    });
+function updateSignInButtonState() {
+    const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
+
+    const signInText = document.getElementById('signInOutText');
+    const signInIcon = document.getElementById('signInIcon');
+    const signOutIcon = document.getElementById('signOutIcon');
+
+    if (isSignedIn) {
+        signInText.textContent = 'Sign Out';
+        signInIcon.style.display = 'none';
+        signOutIcon.style.display = 'inline-block';
+    }
+    else {
+        signInText.textContent = 'Sign In';
+        signInIcon.style.display = 'inline-block';
+        signOutIcon.style.display = 'none';
+    }
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-    updateSignInButton();
-    initClient();
+    updateSignInButtonState();
     applySettings();
+    document.getElementById('googleSignInBtn').addEventListener('click', handleSignInOut);
 });
 
 async function showMovieOfTheDay() {

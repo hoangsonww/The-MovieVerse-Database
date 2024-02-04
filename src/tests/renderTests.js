@@ -1,4 +1,4 @@
-const { showMovies } = require('../index.js');
+const { showMovies } = require('../../index.js');
 const { screen } = require('@testing-library/dom');
 const { describe, it} = require("node:test");
 const expect = require("expect");

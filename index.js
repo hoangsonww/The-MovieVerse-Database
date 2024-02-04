@@ -1,24 +1,24 @@
-const main = document.getElementById("main");
+const main = document.getElementById("most-popular");
 const main2 = document.getElementById("main2");
-const main3 = document.getElementById("main3");
-const main4 = document.getElementById("main4");
-const main5 = document.getElementById("main5");
-const main6 = document.getElementById("main6");
-const main7 = document.getElementById("main7");
-const main8 = document.getElementById("main8");
-const main9 = document.getElementById("main9");
-const main10 = document.getElementById("main10");
-const main11 = document.getElementById("main11");
-const main12 = document.getElementById("main12");
-const main13 = document.getElementById("main13");
-const main14 = document.getElementById("main14");
-const main15 = document.getElementById("main15");
-const main16 = document.getElementById("main16");
-const main17 = document.getElementById('main17');
-const main18 = document.getElementById('main18');
-const main19 = document.getElementById('main19');
-const main20 = document.getElementById('main20');
-const main21 = document.getElementById('main21');
+const main3 = document.getElementById("action");
+const main4 = document.getElementById("horror");
+const main5 = document.getElementById("documentary");
+const main6 = document.getElementById("animation");
+const main7 = document.getElementById("sci-fi");
+const main8 = document.getElementById("romantic");
+const main9 = document.getElementById("thriller");
+const main10 = document.getElementById("mystery");
+const main11 = document.getElementById("adventure");
+const main12 = document.getElementById("comedy");
+const main13 = document.getElementById("fantasy");
+const main14 = document.getElementById("family");
+const main15 = document.getElementById("tv-series");
+const main16 = document.getElementById("crime");
+const main17 = document.getElementById('award-winning');
+const main18 = document.getElementById('hidden-gems');
+const main19 = document.getElementById('classic');
+const main20 = document.getElementById('director-spotlight');
+const main21 = document.getElementById('korean');
 const form = document.getElementById("form");
 const search = document.getElementById("search");
 const searchButton = document.getElementById("button-search");
@@ -123,7 +123,7 @@ clearButton.addEventListener('click', () => {
 });
 
 /**
- * Rotates the user stats displayed in the main element.
+ * Rotates the user stats and movie quotes displayed in the main element.
  */
 function rotateUserStats() {
     const stats = [
@@ -182,7 +182,88 @@ function rotateUserStats() {
                 return viewedCompanies.length;
             }
         },
-        { label: "Your Trivia Accuracy", getValue: getTriviaAccuracy }
+        { label: "Your Trivia Accuracy", getValue: getTriviaAccuracy },
+        // Movie Quotes
+        {
+            label: "Quote from The Godfather (1972)",
+            getValue: () => "I'm gonna make him an offer he can't refuse."
+        },
+        {
+            label: "Quote from The Dark Knight (2008)",
+            getValue: () => "Why so serious?"
+        },
+        {
+            label: "Quote from Forrest Gump (1994)",
+            getValue: () => "Life was like a box of chocolates. You never know what you're gonna get."
+        },
+        {
+            label: "Quote from Star Wars: Episode V – The Empire Strikes Back (1980)",
+            getValue: () => "No, I am your father."
+        },
+        {
+            label: "Quote from The Terminator (1984)",
+            getValue: () => "I'll be back."
+        },
+        {
+            label: "Quote from Titanic (1997)",
+            getValue: () => "I'm the king of the world!"
+        },
+        {
+            label: "Quote from Casablanca (1942)",
+            getValue: () => "Here's looking at you, kid."
+        },
+        {
+            label: "Quote from The Lord of the Rings: The Two Towers (2002)",
+            getValue: () => "There is some good in this world, and it's worth fighting for."
+        },
+        {
+            label: "Quote from Fight Club (1999)",
+            getValue: () => "The first rule of Fight Club is: You do not talk about Fight Club."
+        },
+        {
+            label: "Quote from Gone with the Wind (1939)",
+            getValue: () => "Frankly, my dear, I don't give a damn."
+        },
+        {
+            label: "Quote from The Wizard of Oz (1939)",
+            getValue: () => "There's no place like home."
+        },
+        {
+            label: "Quote from The Matrix (1999)",
+            getValue: () => "There is no spoon."
+        },
+        {
+            label: "Quote from Gladiator (2000)",
+            getValue: () => "Are you not entertained?"
+        },
+        {
+            label: "Quote from Jaws (1975)",
+            getValue: () => "You're gonna need a bigger boat."
+        },
+        {
+            label: "Quote from A Few Good Men (1992)",
+            getValue: () => "You can't handle the truth!"
+        },
+        {
+            label: "Quote from Sudden Impact (1983)",
+            getValue: () => "Go ahead, make my day."
+        },
+        {
+            label: "Quote from Apollo 13 (1995)",
+            getValue: () => "Houston, we have a problem."
+        },
+        {
+            label: "Quote from Taxi Driver (1976)",
+            getValue: () => "You talkin' to me?"
+        },
+        {
+            label: "Quote from Cool Hand Luke (1967)",
+            getValue: () => "What we've got here is failure to communicate."
+        },
+        {
+            label: "Quote from Back to the Future (1985)",
+            getValue: () => "Great Scott!"
+        },
     ];
 
     let currentStatIndex = 0;

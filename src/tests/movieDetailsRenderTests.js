@@ -1,5 +1,5 @@
 const { screen } = require('@testing-library/dom');
-const { populateMovieDetails } = require('../src/js/movie-details.js');
+const { populateMovieDetails } = require('../js/movie-details.js');
 const { describe, it} = require("node:test");
 const expect = require("expect");
 

@@ -6,11 +6,8 @@
     <title>About The MovieVerse</title>
     <meta property="og:title" content="About The MovieVerse - Your Ultimate Movie Guide" />
     <script src="../js/settings.js"></script>
-    <!-- Set the description of the page -->
     <meta name="description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more.">
-    <!-- Set the viewport to the device width and initial scale to 1.0 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- SEO meta tags -->
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
     <meta http-equiv="content-language" content="en" />
@@ -38,11 +35,34 @@
     <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <link rel="manifest" href="../../manifest.json">
+    <style>
+        #subheading {
+            color: white;
+        }
+
+        #subheading:hover {
+            color: #f509d9;
+            transition: 0.1s linear;
+        }
+
+        #aboutHeader:hover {
+            color: #f509d9;
+            transition: 0.1s linear;
+        }
+    </style>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-CQKJ67FXZ4');
+    </script>
 </head>
 
 <body class="movie-details-body4">
     <header>
-        <a href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer">
+        <a href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer" title="Click to go back to the home page">
             <h1 id="my-heading" style="margin-bottom: -10px">
                 The Mo<span class="highlight">vieV</span>erse
             </h1>
@@ -56,54 +76,55 @@
         <button class="back-btn" onclick="window.location.href='../../index.html'">Home</button>
         <button class="about" onclick="window.location.href='about.html'">About</button>
         <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="Go to your favorites list">Favorites</button>
-        <button id="googleSignInBtn" onclick="handleSignInOut()" title="Sign In/Out">
-            <span>Sign In</span>
-            <i class="fas fa-sign-in-alt"></i>
+        <button id="googleSignInBtn" class="nav-btn" onclick="handleSignInOut()" title="Sign In/Out">
+            <span id="signInOutText">Sign In</span>
+            <i class="fas fa-sign-in-alt" id="signInIcon"></i>
+            <i class="fas fa-sign-out-alt" id="signOutIcon" style="display: none;"></i>
+        </button>
+        <button id="profileBtn" class="nav-btn" onclick="window.location.href='user-profile.html'" title="Go to your profile">
+            <span id="profileText">Profile</span>
+            <i class="fas fa-user" id="profileIcon"></i>
         </button>
         <button id="settings-btn" style="position: fixed; bottom: 220px">Settings</button>
         <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!">Movie Match</button>
         <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 140px">Movie Timeline</button>
-        <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 100px">Movie of the Day</button>
-        <button id="discussions-btn" onclick="window.location.href='discussions.html'" style="margin-bottom: -39px" title="Engage in movie discussions">MovieVerse Chatbot</button>
+        <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 100px">Recommendation</button>
+        <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="margin-bottom: -39px" title="Engage in movie discussions">MovieVerse Chatbot</button>
         <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="margin-bottom: -40px" title="Test your movie knowledge">MovieVerse Trivia</button>
     </header>
 
     <main id="main2">
-        <h2 style="align-self: center">About The MovieVerse</h2>
+        <h2 id="aboutHeader" style="align-self: center">About The MovieVerse</h2>
 
         <p style="color: white">Welcome to The MovieVerse, your ultimate destination for exploring the magic of movies. Created with a vision to celebrate cinematic art, The MovieVerse offers a unique platform for movie lovers to discover, engage, and immerse themselves in the world of film.</p>
 
-        <h3 style="color: white">Core Features:</h3>
+        <h3 id="subheading">Core Features:</h3>
 
         <ul style="align-content: center; color: white">
             <li><strong>Curated Movie Collections:</strong> Explore an array of movies categorized by genre, director, language, and era, including specialized sections like Director's Spotlight and award-winning films.</li>
             <li><strong>Director’s Spotlight:</strong> Discover the masterpieces of legendary directors, updated hourly, highlighting their contribution to cinema.</li>
-            <li><strong>Global Cinema:</strong> Dive deep into the diverse world of international cinema, with dedicated sections for Korean, Vietnamese, and other regional movies.</li>
             <li><strong>Interactive Discussions and Trivia:</strong> Participate in movie discussions and trivia games, enhancing community engagement and knowledge sharing.</li>
-            <li><strong>Advanced Filtering:</strong> Find your next favorite movie with ease using our advanced filtering options based on year, rating, and more.</li>
             <li><strong>Real-Time Movie Trends:</strong> Stay updated with real-time trends in the movie industry, featuring trending movies and up-to-date ratings.
             <li><strong>Movie Timeline:</strong> Journey through cinema history with our Movie Timeline feature. Select a period and explore a curated list of movies from that era, offering a unique way to experience the evolution of film over time.</li>
-            <li><strong>High-Quality Movie Trailers:</strong> Watch the latest trailers in high quality, providing a sneak peek into the movies you're interested in.</li>
             <li><strong>Director and Actor Insights:</strong> Delve into the careers of your favorite directors and actors, with dedicated pages detailing their filmography and impact on cinema.</li>
-            <li><strong>Interactive Movie Details:</strong> Explore in-depth movie details, including behind-the-scenes facts, making-of stories, and exclusive interviews.</li>
+            <li><strong>Sign In/Sign Out:</strong> Sign in to your account to access your personalized movie recommendations, watchlists, and more. We will store your data securely and never share it with third parties.</li>
             <li><strong>Watchlists:</strong> Save movies to your watchlist, ensuring you never miss out on a movie you want to watch.</li>
             <li><strong>Interesting User Stats:</strong> View your dynamic user stats, including your most common favorited genre, your average movie rating, and more.</li>
-            <li><strong>Regular Updates and Features:</strong> Experience constantly updated content and new features, ensuring a fresh and dynamic user experience every time you visit.</li>
-            <li><strong>User Ratings and Reviews:</strong> Rate and review movies, sharing your thoughts and opinions with the MovieVerse community.</li>
-            <li><strong>IMDb and Rotten Tomatoes Ratings:</strong> View IMDb and Rotten Tomatoes ratings for each movie. Each rating next to the movie titles in the movie cards are IMDb ratings.</li>
+            <li><strong>User Ratings and Reviews:</strong> Rate movies on a scale of 1 to 10, with your ratings contributing to the overall rating of each movie in our database & share your thoughts and opinions with the MovieVerse community.</li>
+            <li><strong>IMDb, Metacritics, and Rotten Tomatoes Ratings:</strong> Aside from ratings from our users, you can also view IMDb, Metacritics, and Rotten Tomatoes ratings for each movie directly within our app.</li>
         </ul>
 
-        <h3 style="color: white">Explore Our Other Apps:</h3>
+        <h3 id="subheading">Explore Our Other Apps:</h3>
 
         <ul style="align-content: center; color: white">
             <li>
-                <p style="color: black; text-align: center">Embark on a culinary adventure with RecipeGenie, your go-to database for delightful recipes.</p>
-                <button onclick="window.location.href='https://hoangsonww.github.io/RecipeGenie-App/';" class="app-btn">The RecipeGenie Database</button>
+                <p style="color: black; text-align: center">Organize your thoughts effortlessly with StickyNotes, a simple yet effective note-taking app that can also help you focus on your tasks by setting reminders and pomodoro timers.</p>
+                <button onclick="window.location.href='https://hoangsonww.github.io/The-StickyNotes-App/';" class="app-btn">The StickyNotes App</button>
             </li>
 
             <li>
-                <p style="color: black; text-align: center">Organize your thoughts effortlessly with StickyNotes, a simple yet effective note-taking app.</p>
-                <button onclick="window.location.href='https://hoangsonww.github.io/The-StickyNotes-App/';" class="app-btn">The StickyNotes App</button>
+                <p style="color: black; text-align: center">Embark on a culinary adventure with RecipeGenie, your go-to database for delightful recipes.</p>
+                <button onclick="window.location.href='https://hoangsonww.github.io/RecipeGenie-App/';" class="app-btn">The RecipeGenie Database</button>
             </li>
 
             <li>
@@ -122,15 +143,22 @@
             </li>
         </ul>
 
-        <h3 style="color: white">Our Vision:</h3>
+        <h3 id="subheading">Our Vision:</h3>
         <p style="color: white">Our aim is to create a haven for cinephiles, where the discovery of movies is an adventure. The MovieVerse is more than just a movie database; it's a vibrant community and a hub for sharing cinematic experiences and insights.</p>
 
-        <h3 style="color: white">Join The Journey:</h3>
+        <h3 id="subheading">Join The Journey:</h3>
         <p style="color: white">We're constantly innovating to bring you new and exciting features. Stay tuned for upcoming enhancements, including virtual reality experiences, AI-driven recommendations, and social integration for shared movie experiences.</p>
         <br/>
         <p style="color: white">Become a part of The MovieVerse community today. Your engagement and feedback are invaluable to us. Together, let's celebrate the wonder of movies!</p>
         <br/>
-        <p style="color: white; text-align: center"><em>Thank you for being a part of The MovieVerse. For more insights and updates, connect with us on our <a href="https://github.com/hoangsonww/">GitHub page</a>.</em></p>
+        <p style="color: white; text-align: center"><em>Thank you for being a part of The MovieVerse. For more insights and updates, connect with us on our <a style="text-decoration: underline" id="githubLink" href="https://github.com/hoangsonww/The-MovieVerse-Database">GitHub page</a>.</em></p>
+
+        <h3 id="subheading">Useful Links:</h3>
+        <p style="color: white">Here are some links that you might find useful. You can explore the analytics page of our database <strong style="text-decoration: underline">(MovieVerse Analytics)</strong>, read our <strong style="text-decoration: underline">terms of service</strong>, and review our <strong style="text-decoration: underline">privacy policy</strong>. Feel free to reach out to us if you have any questions or concerns.</p>
+
+        <button onclick="window.location.href='analytics.html'" style="border: none; margin-top: 40px" class="app-btn">MovieVerse Analytics</button>
+        <button onclick="window.location.href='terms-of-service.html'" style="border: none; margin-top: 40px" class="app-btn">Terms of Service</button>
+        <button onclick="window.location.href='privacy-policy.html';" style="border: none; margin-top: 40px" class="app-btn">Privacy Policy</button>
     </main>
 
     <script>
@@ -165,55 +193,43 @@
             window.location.href = 'movie-details.html';
         }
 
-        let isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
-        updateSignInButton();
-
         function handleSignInOut() {
-            const signInOutButton = document.getElementById('googleSignInBtn');
-            const signInOutText = signInOutButton.querySelector('span');
-            const signInOutIcon = signInOutButton.querySelector('i');
+            const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
 
-            if (!isSignedIn) {
-                signInOutText.textContent = 'Sign Out';
-                signInOutIcon.className = 'fas fa-sign-out-alt';
-                isSignedIn = true;
-                localStorage.setItem('isSignedIn', isSignedIn);
-                gapi.auth2.getAuthInstance().signIn();
-            }
-            else {
-                signInOutText.textContent = 'Sign In';
-                signInOutIcon.className = 'fas fa-sign-in-alt';
-                isSignedIn = false;
-                localStorage.setItem('isSignedIn', isSignedIn);
-                gapi.auth2.getAuthInstance().signOut();
-            }
-        }
-
-        function updateSignInButton() {
-            const signInOutButton = document.getElementById('googleSignInBtn');
-            const signInOutText = signInOutButton.querySelector('span');
-            const signInOutIcon = signInOutButton.querySelector('i');
             if (isSignedIn) {
-                signInOutText.textContent = 'Sign Out';
-                signInOutIcon.className = 'fas fa-sign-out-alt';
+                localStorage.setItem('isSignedIn', JSON.stringify(false));
+                alert('You have been signed out.');
             }
             else {
-                signInOutText.textContent = 'Sign In';
-                signInOutIcon.className = 'fas fa-sign-in-alt';
+                window.location.href = 'sign-in.html';
+                return;
             }
+
+            updateSignInButtonState();
         }
 
-        function initClient() {
-            gapi.load('auth2', function() {
-                gapi.auth2.init({
-                    client_id: '154461832638-fpkleb6uhogkacq9k93721o8mjr2qc8t.apps.googleusercontent.com'
-                });
-            });
+        function updateSignInButtonState() {
+            const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
+
+            const signInText = document.getElementById('signInOutText');
+            const signInIcon = document.getElementById('signInIcon');
+            const signOutIcon = document.getElementById('signOutIcon');
+
+            if (isSignedIn) {
+                signInText.textContent = 'Sign Out';
+                signInIcon.style.display = 'none';
+                signOutIcon.style.display = 'inline-block';
+            }
+            else {
+                signInText.textContent = 'Sign In';
+                signInIcon.style.display = 'inline-block';
+                signOutIcon.style.display = 'none';
+            }
         }
 
         document.addEventListener("DOMContentLoaded", function() {
-            updateSignInButton();
-            initClient();
+            updateSignInButtonState();
+            document.getElementById('googleSignInBtn').addEventListener('click', handleSignInOut);
         });
 
         document.getElementById('settings-btn').addEventListener('click', () => {
@@ -404,8 +420,5 @@
 
         document.addEventListener('DOMContentLoaded', rotateUserStats);
     </script>
-
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
 </body>
-
 </html>

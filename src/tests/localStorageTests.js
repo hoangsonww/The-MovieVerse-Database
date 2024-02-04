@@ -1,4 +1,4 @@
-const { saveSetting, loadSetting } = require('../src/js/settings.js');
+const { saveSetting, loadSetting } = require('../js/settings.js');
 const { describe, beforeEach, it} = require("node:test");
 const expect = require("expect");
 

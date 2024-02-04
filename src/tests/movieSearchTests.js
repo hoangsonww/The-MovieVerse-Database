@@ -1,5 +1,5 @@
 const axios = require('axios');
-const { getMovies, showMovies } = require('../src/js/chatbot.js');
+const { getMovies, showMovies } = require('../js/chatbot.js');
 const jest = require("jest");
 const {describe, it} = require("node:test");
 
