@@ -988,9 +988,11 @@ function positionTrailerButton() {
     }
 }
 
-window.addEventListener('resize', () => {
-    positionTrailerButton();
-});
+document.addEventListener('DOMContentLoaded', positionTrailerButton);
+
+// window.addEventListener('resize', () => {
+//     window.location.reload();
+// });
 
 function showTrailerIframe(trailerUrl) {
     trailerUrlGlobal = trailerUrl;
