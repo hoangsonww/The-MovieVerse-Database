@@ -8,6 +8,10 @@ const IMGPATH = "https://image.tmdb.org/t/p/w1280";
 const favoriteButton = document.getElementById("favorite-btn");
 const searchTitle = document.getElementById("search-title");
 
+let prevWindowWidth = window.innerWidth;
+let prevWindowHeight = window.innerHeight;
+let trailerUrlGlobal;
+
 let initialMainContent;
 
 function getClassByRate(vote){
@@ -985,19 +989,29 @@ function positionTrailerButton() {
     }
 }
 
-let trailerUrlGlobal;
-
 window.addEventListener('resize', () => {
-    if (trailerIframeDisplayed) {
+    const currentWindowWidth = window.innerWidth;
+    const currentWindowHeight = window.innerHeight;
+
+    const widthChange = Math.abs(currentWindowWidth - prevWindowWidth);
+    const heightChange = Math.abs(currentWindowHeight - prevWindowHeight);
+
+    const widthThreshold = 50;
+    const heightThreshold = 100;
+
+    if ((widthChange > widthThreshold || heightChange > heightThreshold) && trailerIframeDisplayed) {
         closeTrailerIframe();
-
-        setTimeout(() => {
-            showTrailerIframe(trailerUrlGlobal);
-            const trailerButton = document.querySelector('.trailer-button');
-
-            if (trailerButton) trailerButton.textContent = 'Close Trailer';
-        }, 500);
+        trailerIframeDisplayed = false;
+        const trailerButton = document.querySelector('.trailer-button');
+        if (trailerButton) {
+            trailerButton.textContent = 'Watch Trailer';
+            trailerButton.title = 'Click to watch the trailer of this movie';
+        }
     }
+
+    prevWindowWidth = currentWindowWidth;
+    prevWindowHeight = currentWindowHeight;
+
     positionTrailerButton();
 });
 
