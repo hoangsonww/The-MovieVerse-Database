@@ -216,7 +216,6 @@ function rotateUserStats() {
             }
         },
         { label: "Your Trivia Accuracy", getValue: getTriviaAccuracy },
-        // Movie Quotes
         {
             label: "Quote from The Godfather (1972)",
             getValue: () => "I'm gonna make him an offer he can't refuse."
