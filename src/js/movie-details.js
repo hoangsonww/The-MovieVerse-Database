@@ -989,28 +989,6 @@ function positionTrailerButton() {
 }
 
 window.addEventListener('resize', () => {
-    const currentWindowWidth = window.innerWidth;
-    const currentWindowHeight = window.innerHeight;
-
-    const widthChange = Math.abs(currentWindowWidth - prevWindowWidth);
-    const heightChange = Math.abs(currentWindowHeight - prevWindowHeight);
-
-    const widthThreshold = 50;
-    const heightThreshold = 100;
-
-    if ((widthChange > widthThreshold || heightChange > heightThreshold) && trailerIframeDisplayed) {
-        closeTrailerIframe();
-        trailerIframeDisplayed = false;
-        const trailerButton = document.querySelector('.trailer-button');
-        if (trailerButton) {
-            trailerButton.textContent = 'Watch Trailer';
-            trailerButton.title = 'Click to watch the trailer of this movie';
-        }
-    }
-
-    prevWindowWidth = currentWindowWidth;
-    prevWindowHeight = currentWindowHeight;
-
     positionTrailerButton();
 });
 
