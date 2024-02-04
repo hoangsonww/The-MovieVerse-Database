@@ -321,6 +321,7 @@ function rotateUserStats() {
 
 function updateMovieVisitCount(movieId, movieTitle) {
     let movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
+
     if (!movieVisits[movieId]) {
         movieVisits[movieId] = { count: 0, title: movieTitle };
     }
@@ -943,6 +944,7 @@ function createTrailerButton(trailerUrl) {
     const trailerButton = document.createElement('button');
     trailerButton.textContent = 'Watch Trailer';
     trailerButton.title = 'Click to watch the trailer of this movie';
+
     trailerButton.addEventListener('click', function() {
         if (!trailerIframeDisplayed) {
             showTrailerIframe(trailerUrl);
@@ -955,13 +957,16 @@ function createTrailerButton(trailerUrl) {
             trailerButton.title = 'Click to watch the trailer of this movie';
         }
     });
+
     trailerButton.classList.add('trailer-button');
     trailerButton.style.font = 'inherit';
+
     return trailerButton;
 }
 
 function closeTrailerIframe() {
     const iframeContainer = document.querySelector('.trailer-button + div');
+
     if (iframeContainer) {
         iframeContainer.style.height = '0';
         setTimeout(() => iframeContainer.remove(), 500);
@@ -989,10 +994,6 @@ function positionTrailerButton() {
 }
 
 document.addEventListener('DOMContentLoaded', positionTrailerButton);
-
-// window.addEventListener('resize', () => {
-//     window.location.reload();
-// });
 
 function showTrailerIframe(trailerUrl) {
     trailerUrlGlobal = trailerUrl;
@@ -1042,6 +1043,7 @@ function toggleFavorite(movie) {
 
     localStorage.setItem('favorites', JSON.stringify(favorites));
     localStorage.setItem('favoriteGenres', JSON.stringify(favoriteGenres));
+
     updateFavoriteButton(movie.id);
 }
 
@@ -1077,14 +1079,15 @@ function createMetacriticSlug(title) {
 }
 
 function populateMovieDetails(movie, imdbRating, rtRating, metascore, awards, rated) {
-    const movieRating = movie.vote_average.toFixed(1);
-
     document.getElementById('movie-image').src = `https://image.tmdb.org/t/p/w1280${movie.poster_path}`;
     document.getElementById('movie-title').textContent = movie.title;
 
+    const movieRating = movie.vote_average.toFixed(1);
     const imdbLink = `https://www.imdb.com/title/${movie.imdb_id}`;
+
     const rtLink = rtRating !== 'N/A' ? `https://www.rottentomatoes.com/m/${getRtSlug(movie.title)}` : '#';
     const metaCriticsLink = metascore !== 'N/A' ? `https://www.metacritic.com/movie/${createMetacriticSlug(movie.title)}` : '#';
+
     const ratingDetails = getRatingDetails(rated);
     const ratedElement = rated ? `<p id="movie-rated-element"><strong>Rated:</strong> <span style="color: ${ratingDetails.color};"><strong>${ratingDetails.text}</strong>${ratingDetails.description}</span></p>` : '';
 
@@ -1246,6 +1249,7 @@ function populateMovieDetails(movie, imdbRating, rtRating, metascore, awards, ra
 
     document.getElementById('movie-description').appendChild(productionCompaniesElement);
     const similarMoviesHeading = document.createElement('p');
+
     similarMoviesHeading.innerHTML = '<strong>Similar Movies:</strong> ';
     document.getElementById('movie-description').appendChild(similarMoviesHeading);
 
@@ -1281,6 +1285,7 @@ function populateMovieDetails(movie, imdbRating, rtRating, metascore, awards, ra
 
     const keywordsElement = document.createElement('p');
     keywordsElement.innerHTML = `<strong>Keywords:</strong> ${keywords}`;
+
     movieDescription.appendChild(keywordsElement);
     updateFavoriteButton(movie.id);
 
