@@ -777,62 +777,9 @@ function updateSignInButtonState() {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-    checkAndClearLocalStorage();
     updateSignInButtonState();
     document.getElementById('googleSignInBtn').addEventListener('click', handleSignInOut);
 });
-
-/**
- * Checks if the user has cleared their local storage and clears it if they haven't.
- */
-function checkAndClearLocalStorage() {
-    const hasCleared = localStorage.getItem('hasClearedMovieVerseDataLS');
-    if (!hasCleared) {
-        clearMovieVerseLocalStorage();
-        localStorage.setItem('hasClearedMovieVerseDataLS', 'true');
-        localStorage.removeItem('hasUserClearedMovieVerseData');
-        localStorage.removeItem('hasUserClearedMovieVerseData2');
-        localStorage.removeItem('hasUserClearedMovieVerseData3')
-        window.location.reload();
-    }
-}
-
-/**
- * Clears the MovieVerse local storage.
- */
-function clearMovieVerseLocalStorage() {
-    localStorage.removeItem('favorites');
-    localStorage.removeItem('watchlists');
-    localStorage.removeItem('selectedMovieId');
-    localStorage.removeItem('isSignedIn');
-    localStorage.removeItem('selectedDirectorId');
-    localStorage.removeItem('selectedActorId');
-    localStorage.removeItem('selectedCompanyId');
-    localStorage.removeItem('movieRatings');
-    localStorage.removeItem('triviaStats');
-    localStorage.removeItem('uniqueMoviesViewed');
-    localStorage.removeItem('uniqueDirectorsViewed');
-    localStorage.removeItem('uniqueActorsViewed');
-    localStorage.removeItem('uniqueCompaniesViewed');
-    localStorage.removeItem('favoriteGenres');
-    localStorage.removeItem('watchlistsCreated');
-    localStorage.removeItem('averageMovieRating');
-    localStorage.removeItem('backgroundImage');
-    localStorage.removeItem('textColor');
-    localStorage.removeItem('fontSize');
-    localStorage.removeItem('moviesFavorited');
-    localStorage.removeItem('hasUserClearedMovieVerseData');
-    localStorage.removeItem('hasUserClearedMovieVerseData2');
-    localStorage.removeItem('hasUserClearedMovieVerseData3');
-    localStorage.removeItem('movieVisits');
-    localStorage.removeItem('accountsMovieVerse');
-    localStorage.removeItem('profileInfo');
-    localStorage.removeItem('profileImage');
-    localStorage.removeItem('directorVisits');
-    localStorage.removeItem('actorVisits');
-    localStorage.removeItem('isSignedIn');
-    window.location.reload();
-}
 
 /**
  * Apply the user's settings.
