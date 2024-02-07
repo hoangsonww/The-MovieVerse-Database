@@ -11,5 +11,6 @@
     <orderEntry type="library" name="systemjs" level="application" />
     <orderEntry type="library" name="react-dom" level="application" />
     <orderEntry type="library" name="chart.js" level="application" />
+    <orderEntry type="library" name="systemjs" level="application" />
   </component>
 </module>
