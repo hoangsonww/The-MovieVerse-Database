@@ -6,7 +6,7 @@
 
     <title>MovieVerse Chatbot</title>
 
-    <link rel="stylesheet" href="../css/discussions.css"/>
+    <link rel="stylesheet" href="../css/chatbot.css"/>
 
     <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
 
@@ -45,7 +45,7 @@
         </a>
     </div>
 
-    <div id="local-time" style="cursor: pointer">
+    <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
         <p id="stats-label" class="clock" style="font-size: 16px"></p>
         <h1 id="stats-display" class="clock" style="font-size: 20px"></h1>
     </div>
@@ -93,11 +93,12 @@
 
     </main>
 
-    <button id="settings-btn" style="position: fixed; bottom: 180px">Settings</button>
-    <button id="movie-match-btn2" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!">Movie Match</button>
-    <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 100px">Movie Timeline</button>
-    <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 60px">Movie of the Day</button>
-    <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="margin-bottom: -80px">MovieVerse Trivia</button>
+    <button id="alt-home-btn" onclick="window.location.href='../../index.html'">Home</button>
+    <button id="settings-btn" style="position: fixed; bottom: 150px">Settings</button>
+    <button id="movie-match-btn2" onclick="window.location.href='movie-match.html'" style="bottom: 115px" title="Find a movie that matches your mood, genre, and time period!">Movie Match</button>
+    <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 80px">Movie Timeline</button>
+    <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 45px">Movie of the Day</button>
+    <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 10px">MovieVerse Trivia</button>
 
     <script src="../js/chatbot.js"></script>
 
