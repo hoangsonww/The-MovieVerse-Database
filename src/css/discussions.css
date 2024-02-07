@@ -31,7 +31,6 @@ body {
     background-color: #7378c5;
     border: none;
     color: white;
-    width: 85px;
     height: 40px;
     text-align: center;
     text-decoration: none;
@@ -39,10 +38,11 @@ body {
     font: inherit;
     font-size: 16px;
     cursor: pointer;
+    position: absolute;
+    width: 100px;
     top: 0;
-    left: 338px;
+    margin-left: 322px;
     border-radius: 8px;
-    position: fixed;
 }
 
 #profileBtn:hover {
@@ -413,7 +413,7 @@ ol li:hover {
     cursor: pointer;
     position: absolute;
     top: 0;
-    left: 428px;
+    left: 441px;
     border-radius: 8px;
     padding: 0 10px;
     box-sizing: border-box;
