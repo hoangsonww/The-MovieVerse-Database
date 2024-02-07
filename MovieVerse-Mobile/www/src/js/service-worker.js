@@ -5,7 +5,7 @@ const urlsToCache = [
     '../../index.html',
     '../css/style.css',
     '../css/trivia.css',
-    '../css/discussions.css',
+    '../css/chatbot.css',
     '../../index.js',
     '../../manifest.json',
     'settings.js',
@@ -56,7 +56,7 @@ const urlsToCache = [
     '../../images/universe-9.png',
     '../../images/universe-10.png',
     '../../images/yellow.jpg',
-    'chart.js',
+    'analytics.js',
     '../html/analytics.html',
 ];
 

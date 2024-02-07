@@ -2,10 +2,15 @@ const search = document.getElementById("search");
 const searchButton = document.getElementById("button-search");
 const form = document.getElementById("form1");
 const SEARCHPATH = "https://api.themoviedb.org/3/search/movie?&api_key=c5a20c861acf7bb8d9e987dcc7f1b558&query=";
+
 const main = document.getElementById("main");
 const IMGPATH = "https://image.tmdb.org/t/p/w1280";
 const favoriteButton = document.getElementById("favorite-btn");
 const searchTitle = document.getElementById("search-title");
+
+let prevWindowWidth = window.innerWidth;
+let prevWindowHeight = window.innerHeight;
+let trailerUrlGlobal;
 
 let initialMainContent;
 
@@ -153,15 +158,6 @@ function showMovies(movies){
     applySettings();
 }
 
-function updateMovieVisitCount(movieId, movieTitle) {
-    let movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
-    if (!movieVisits[movieId]) {
-        movieVisits[movieId] = { count: 0, title: movieTitle };
-    }
-    movieVisits[movieId].count += 1;
-    localStorage.setItem('movieVisits', JSON.stringify(movieVisits));
-}
-
 function rotateUserStats() {
     const stats = [
         {
@@ -219,7 +215,27 @@ function rotateUserStats() {
                 return viewedCompanies.length;
             }
         },
-        { label: "Your Trivia Accuracy", getValue: getTriviaAccuracy }
+        { label: "Your Trivia Accuracy", getValue: getTriviaAccuracy },
+        {
+            label: "Quote from Forrest Gump (1994)",
+            getValue: () => "Life was like a box of chocolates. You never know what you're gonna get."
+        },
+        {
+            label: "Quote from The Lord of the Rings: The Two Towers (2002)",
+            getValue: () => "There is some good in this world, and it's worth fighting for."
+        },
+        {
+            label: "Quote from Fight Club (1999)",
+            getValue: () => "The first rule of Fight Club is: You do not talk about Fight Club."
+        },
+        {
+            label: "Quote from The Wizard of Oz (1939)",
+            getValue: () => "There's no place like home."
+        },
+        {
+            label: "Quote from Cool Hand Luke (1967)",
+            getValue: () => "What we've got here is failure to communicate."
+        },
     ];
 
     let currentStatIndex = 0;
@@ -245,6 +261,7 @@ function rotateUserStats() {
 
 function updateMovieVisitCount(movieId, movieTitle) {
     let movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
+
     if (!movieVisits[movieId]) {
         movieVisits[movieId] = { count: 0, title: movieTitle };
     }
@@ -302,6 +319,7 @@ function getTriviaAccuracy() {
     if (triviaStats.totalAttempted === 0) {
         return 'No trivia attempted';
     }
+
     let accuracy = (triviaStats.totalCorrect / triviaStats.totalAttempted) * 100;
     return `${accuracy.toFixed(1)}% accuracy`;
 }
@@ -328,6 +346,7 @@ function setStarRating(rating) {
     stars.forEach(star => {
         star.style.color = star.dataset.value > rating ? 'grey' : 'gold';
     });
+
     document.getElementById('rating-value').textContent = `${rating}.0/5.0`;
 }
 
@@ -368,6 +387,7 @@ function updateActorVisitCount(actorId, actorName) {
     if (!actorVisits[actorId]) {
         actorVisits[actorId] = { count: 0, name: actorName };
     }
+
     actorVisits[actorId].count += 1;
     localStorage.setItem('actorVisits', JSON.stringify(actorVisits));
 }
@@ -377,6 +397,7 @@ function updateDirectorVisitCount(directorId, directorName) {
     if (!directorVisits[directorId]) {
         directorVisits[directorId] = { count: 0, name: directorName };
     }
+
     directorVisits[directorId].count += 1;
     localStorage.setItem('directorVisits', JSON.stringify(directorVisits));
 }
@@ -647,8 +668,6 @@ document.addEventListener("DOMContentLoaded", function() {
     applySettings();
 });
 
-window.addEventListener('resize', positionTrailerButton);
-
 async function fetchMovieDetails(movieId) {
     const code = 'c5a20c861acf7bb8d9e987dcc7f1b558';
     const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${code}&append_to_response=credits,keywords,similar`;
@@ -659,10 +678,13 @@ async function fetchMovieDetails(movieId) {
         const response = await fetch(url);
         const movie = await response.json();
         const imdbId = movie.imdb_id;
+
         fetchMovieRatings(imdbId, movie);
+
         const response2 = await fetch(url2);
         const movie2 = await response2.json();
         const trailers = movie2.videos.results.filter(video => video.type === 'Trailer');
+
         if (trailers.length > 0) {
             const trailerUrl = `https://www.youtube.com/watch?v=${trailers[0].key}`;
             trailerButton = createTrailerButton(trailerUrl);
@@ -790,6 +812,7 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
     try {
         const response = await fetch(omdbUrl);
         const data = await response.json();
+
         let imdbRating = data.imdbRating ? data.imdbRating : 'N/A';
 
         if (imdbRating === 'N/A' && tmdbMovieData.vote_average) {
@@ -806,10 +829,12 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
         if (awards === 'N/A') {
             awards = 'No awards information available';
         }
+
         if (metascore === 'N/A/100') {
             const metacriticsRatingValue = imdbRating !== 'N/A' ? parseFloat(imdbRating) : (tmdbMovieData.vote_average / 2);
             metascore = calculateFallbackMetacriticsRating(metacriticsRatingValue, tmdbMovieData.vote_average) + '/100';
         }
+
         if (rtRating === 'N/A') {
             const imdbRatingValue = imdbRating !== 'N/A' ? parseFloat(imdbRating) : (tmdbMovieData.vote_average / 2);
             rtRating = calculateFallbackRTRating(imdbRatingValue, tmdbMovieData.vote_average)
@@ -853,20 +878,50 @@ function calculateFallbackMetacriticsRating(imdbRating, tmdbRating) {
     return ((normalizedImdbRating * weightImdb) + (normalizedTmdbRating * weightTmdb)).toFixed(0); // Calculate fallback Metacritics rating out of 100 scale (in case data is not available from OMDB)
 }
 
+let trailerIframeDisplayed = false;
+
 function createTrailerButton(trailerUrl) {
     const trailerButton = document.createElement('button');
     trailerButton.textContent = 'Watch Trailer';
-    trailerButton.onclick = () => window.open(trailerUrl, '_blank');
+    trailerButton.title = 'Click to watch the trailer of this movie';
+
+    trailerButton.addEventListener('click', function() {
+        if (!trailerIframeDisplayed) {
+            showTrailerIframe(trailerUrl);
+            trailerButton.textContent = 'Close Trailer';
+            trailerButton.title = 'Click to close the trailer';
+        }
+        else {
+            closeTrailerIframe();
+            trailerButton.textContent = 'Watch Trailer';
+            trailerButton.title = 'Click to watch the trailer of this movie';
+        }
+    });
+
     trailerButton.classList.add('trailer-button');
     trailerButton.style.font = 'inherit';
-    trailerButton.title = 'Click to watch the trailer of this movie on YouTube!';
+
     return trailerButton;
 }
 
-let trailerButton;
+function closeTrailerIframe() {
+    const iframeContainer = document.querySelector('.trailer-button + div');
+
+    if (iframeContainer) {
+        iframeContainer.style.height = '0';
+        setTimeout(() => iframeContainer.remove(), 500);
+    }
+    trailerIframeDisplayed = false;
+}
+
+function getYouTubeVideoId(url) {
+    const urlObj = new URL(url);
+    return urlObj.searchParams.get('v');
+}
 
 function positionTrailerButton() {
-    if (!trailerButton) return;
+    if (!trailerButton)
+        return;
 
     if (window.innerWidth <= 900) {
         const movieDescription = document.getElementById('movie-description');
@@ -876,6 +931,37 @@ function positionTrailerButton() {
         const movieRating = document.getElementById('movie-rating');
         movieRating.parentNode.insertBefore(trailerButton, movieRating.nextSibling);
     }
+}
+
+document.addEventListener('DOMContentLoaded', positionTrailerButton);
+
+function showTrailerIframe(trailerUrl) {
+    trailerUrlGlobal = trailerUrl;
+
+    const iframeContainer = document.createElement('div');
+    iframeContainer.style.position = 'relative';
+    iframeContainer.style.width = '400px';
+    iframeContainer.style.margin = '0 auto';
+    iframeContainer.style.overflow = 'hidden';
+    iframeContainer.style.height = '0';
+    iframeContainer.style.transition = 'height 0.5s ease-in-out';
+
+    const iframe = document.createElement('iframe');
+    iframe.setAttribute('src', `https://www.youtube.com/embed/${getYouTubeVideoId(trailerUrl)}?autoplay=1`);
+    iframe.setAttribute('width', '100%');
+    iframe.setAttribute('height', '315');
+    iframe.setAttribute('frameborder', '0');
+    iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+    iframe.setAttribute('allowfullscreen', true);
+
+    iframeContainer.appendChild(iframe);
+
+    const trailerButton = document.querySelector('.trailer-button');
+    trailerButton.parentNode.insertBefore(iframeContainer, trailerButton.nextSibling);
+
+    setTimeout(() => iframeContainer.style.height = '315px', 50);
+
+    trailerIframeDisplayed = true;
 }
 
 function toggleFavorite(movie) {
@@ -897,12 +983,14 @@ function toggleFavorite(movie) {
 
     localStorage.setItem('favorites', JSON.stringify(favorites));
     localStorage.setItem('favoriteGenres', JSON.stringify(favoriteGenres));
+
     updateFavoriteButton(movie.id);
 }
 
 function updateFavoriteButton(movieId) {
     const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
     const favoriteButton = document.getElementById('favorite-btn');
+
     if (favorites.includes(movieId)) {
         favoriteButton.classList.add('favorited');
     }
@@ -931,12 +1019,15 @@ function createMetacriticSlug(title) {
 }
 
 function populateMovieDetails(movie, imdbRating, rtRating, metascore, awards, rated) {
-    const movieRating = movie.vote_average.toFixed(1);
     document.getElementById('movie-image').src = `https://image.tmdb.org/t/p/w1280${movie.poster_path}`;
     document.getElementById('movie-title').textContent = movie.title;
+
+    const movieRating = movie.vote_average.toFixed(1);
     const imdbLink = `https://www.imdb.com/title/${movie.imdb_id}`;
+
     const rtLink = rtRating !== 'N/A' ? `https://www.rottentomatoes.com/m/${getRtSlug(movie.title)}` : '#';
     const metaCriticsLink = metascore !== 'N/A' ? `https://www.metacritic.com/movie/${createMetacriticSlug(movie.title)}` : '#';
+
     const ratingDetails = getRatingDetails(rated);
     const ratedElement = rated ? `<p id="movie-rated-element"><strong>Rated:</strong> <span style="color: ${ratingDetails.color};"><strong>${ratingDetails.text}</strong>${ratingDetails.description}</span></p>` : '';
 
@@ -968,14 +1059,17 @@ function populateMovieDetails(movie, imdbRating, rtRating, metascore, awards, ra
     const overview = movie.overview;
     const genres = movie.genres.map(genre => genre.name).join(', ');
     const releaseDate = movie.release_date;
+
     const budget = movie.budget === 0 ? 'Information Not Available' : `$${movie.budget.toLocaleString()}`;
     const revenue = movie.revenue <= 1000 ? 'Information Not Available' : `$${movie.revenue.toLocaleString()}`;
     const tagline = movie.tagline ? movie.tagline : 'No tagline found';
     const languages = movie.spoken_languages.map(lang => lang.name).join(', ');
+
     const countries = movie.production_countries.map(country => country.name).join(', ');
     const originalLanguage = fullLanguage;
     const popularityScore = movie.popularity.toFixed(0);
     const status = movie.status;
+
     const voteCount = movie.vote_count.toLocaleString();
     let keywords = movie.keywords ? movie.keywords.keywords.map(kw => kw.name).join(', ') : 'None Available';
     const similarTitles = movie.similar ? movie.similar.results.map(m => m.title).join(', ') : 'None Available';
@@ -1094,8 +1188,8 @@ function populateMovieDetails(movie, imdbRating, rtRating, metascore, awards, ra
     });
 
     document.getElementById('movie-description').appendChild(productionCompaniesElement);
-
     const similarMoviesHeading = document.createElement('p');
+
     similarMoviesHeading.innerHTML = '<strong>Similar Movies:</strong> ';
     document.getElementById('movie-description').appendChild(similarMoviesHeading);
 
@@ -1108,9 +1202,11 @@ function populateMovieDetails(movie, imdbRating, rtRating, metascore, awards, ra
             movieLink.addEventListener('mouseenter', () => {
                 movieLink.style.color = '#f509d9';
             });
+
             movieLink.addEventListener('mouseleave', () => {
                 movieLink.style.color = getSavedTextColor();
             });
+
             movieLink.addEventListener('click', () => {
                 localStorage.setItem('selectedMovieId', similarMovie.id);
                 window.location.href = 'movie-details.html';
@@ -1129,13 +1225,16 @@ function populateMovieDetails(movie, imdbRating, rtRating, metascore, awards, ra
 
     const keywordsElement = document.createElement('p');
     keywordsElement.innerHTML = `<strong>Keywords:</strong> ${keywords}`;
+
     movieDescription.appendChild(keywordsElement);
     updateFavoriteButton(movie.id);
+
     favoriteButton.addEventListener('click', () => {
         toggleFavorite(movie);
         updateMoviesFavorited(movie.id);
         window.location.reload();
     });
+
     updateMoviesFavorited(movie.id);
     applySettings();
 }
@@ -1160,6 +1259,7 @@ function updateAverageMovieRating(movieId, newRating) {
 
     let totalRating = 0;
     let totalMoviesRated = 0;
+
     for (let id in savedRatings) {
         totalRating += parseFloat(savedRatings[id]);
         totalMoviesRated++;

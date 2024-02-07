@@ -23,7 +23,6 @@ html {
     background-color: #7378c5;
     border: none;
     color: white;
-    width: 85px;
     height: 40px;
     text-align: center;
     text-decoration: none;
@@ -32,6 +31,7 @@ html {
     font-size: 16px;
     cursor: pointer;
     position: absolute;
+    width: 100px;
     top: 0;
     margin-left: 316px;
     border-radius: 8px;
@@ -53,7 +53,7 @@ html {
     cursor: pointer;
     position: absolute;
     top: 0;
-    margin-left: 405px;
+    margin-left: 420px;
     border-radius: 8px;
     padding: 0 10px;
     box-sizing: border-box;

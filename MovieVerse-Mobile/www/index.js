@@ -1,24 +1,24 @@
-const main = document.getElementById("main");
+const main = document.getElementById("most-popular");
 const main2 = document.getElementById("main2");
-const main3 = document.getElementById("main3");
-const main4 = document.getElementById("main4");
-const main5 = document.getElementById("main5");
-const main6 = document.getElementById("main6");
-const main7 = document.getElementById("main7");
-const main8 = document.getElementById("main8");
-const main9 = document.getElementById("main9");
-const main10 = document.getElementById("main10");
-const main11 = document.getElementById("main11");
-const main12 = document.getElementById("main12");
-const main13 = document.getElementById("main13");
-const main14 = document.getElementById("main14");
-const main15 = document.getElementById("main15");
-const main16 = document.getElementById("main16");
-const main17 = document.getElementById('main17');
-const main18 = document.getElementById('main18');
-const main19 = document.getElementById('main19');
-const main20 = document.getElementById('main20');
-const main21 = document.getElementById('main21');
+const main3 = document.getElementById("action");
+const main4 = document.getElementById("horror");
+const main5 = document.getElementById("documentary");
+const main6 = document.getElementById("animation");
+const main7 = document.getElementById("sci-fi");
+const main8 = document.getElementById("romantic");
+const main9 = document.getElementById("thriller");
+const main10 = document.getElementById("mystery");
+const main11 = document.getElementById("adventure");
+const main12 = document.getElementById("comedy");
+const main13 = document.getElementById("fantasy");
+const main14 = document.getElementById("family");
+const main15 = document.getElementById("tv-series");
+const main16 = document.getElementById("crime");
+const main17 = document.getElementById('award-winning');
+const main18 = document.getElementById('hidden-gems');
+const main19 = document.getElementById('classic');
+const main20 = document.getElementById('director-spotlight');
+const main21 = document.getElementById('korean');
 const form = document.getElementById("form");
 const search = document.getElementById("search");
 const searchButton = document.getElementById("button-search");
@@ -27,12 +27,6 @@ const otherTitle = document.getElementById("other1");
 const clearButton = document.getElementById("button-clear");
 let searchPerformed = false;
 
-/**
- * Fetches movies from the specified URL and displays them in the main element.
- * @param url The URL to fetch movies from
- * @param mainElement The element to display the movies in
- * @returns {Promise<void>} A promise that resolves when the movies are displayed
- */
 async function getMovies(url, mainElement, isSearch = false) {
     const numberOfMovies = calculateMoviesToDisplay();
     const pagesToFetch = numberOfMovies <= 20 ? 1 : 2;
@@ -67,11 +61,6 @@ async function getMovies(url, mainElement, isSearch = false) {
     }
 }
 
-/**
- * Displays the specified movies in the main element.
- * @param movies The movies to display
- * @param mainElement The element to display the movies in
- */
 function showMovies(movies, mainElement) {
     mainElement.innerHTML = '';
     movies.forEach(movie => {
@@ -106,10 +95,6 @@ function showMovies(movies, mainElement) {
     applySettings();
 }
 
-/**
- * Updates the list of unique movies viewed in local storage.
- * @param movieId The ID of the movie to add to the list
- */
 function updateUniqueMoviesViewed(movieId) {
     let viewedMovies = JSON.parse(localStorage.getItem('uniqueMoviesViewed')) || [];
     if (!viewedMovies.includes(movieId)) {
@@ -122,9 +107,6 @@ clearButton.addEventListener('click', () => {
     window.location.reload();
 });
 
-/**
- * Rotates the user stats displayed in the main element.
- */
 function rotateUserStats() {
     const stats = [
         {
@@ -182,7 +164,27 @@ function rotateUserStats() {
                 return viewedCompanies.length;
             }
         },
-        { label: "Your Trivia Accuracy", getValue: getTriviaAccuracy }
+        { label: "Your Trivia Accuracy", getValue: getTriviaAccuracy },
+        {
+            label: "Quote from Forrest Gump (1994)",
+            getValue: () => "Life was like a box of chocolates. You never know what you're gonna get."
+        },
+        {
+            label: "Quote from The Lord of the Rings: The Two Towers (2002)",
+            getValue: () => "There is some good in this world, and it's worth fighting for."
+        },
+        {
+            label: "Quote from Fight Club (1999)",
+            getValue: () => "The first rule of Fight Club is: You do not talk about Fight Club."
+        },
+        {
+            label: "Quote from The Wizard of Oz (1939)",
+            getValue: () => "There's no place like home."
+        },
+        {
+            label: "Quote from Cool Hand Luke (1967)",
+            getValue: () => "What we've got here is failure to communicate."
+        },
     ];
 
     let currentStatIndex = 0;
@@ -206,11 +208,6 @@ function rotateUserStats() {
     });
 }
 
-/**
- * A function to update the visit count for the specified movie.
- * @param movieId The ID of the movie to update the visit count for
- * @param movieTitle The title of the movie to update the visit count for
- */
 function updateMovieVisitCount(movieId, movieTitle) {
     let movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
     if (!movieVisits[movieId]) {
@@ -220,10 +217,6 @@ function updateMovieVisitCount(movieId, movieTitle) {
     localStorage.setItem('movieVisits', JSON.stringify(movieVisits));
 }
 
-/**
- * A function to get the most visited movie.
- * @returns {string} The name of the most visited movie.
- */
 function getMostVisitedMovie() {
     const movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
     let mostVisitedMovie = '';
@@ -238,10 +231,6 @@ function getMostVisitedMovie() {
     return mostVisitedMovie || 'Not Available';
 }
 
-/**
- * A function to update the visit count for the specified actor.
- * @returns {string} The name of the most visited actor.
- */
 function getMostVisitedActor() {
     const actorVisits = JSON.parse(localStorage.getItem('actorVisits')) || {};
     let mostVisitedActor = '';
@@ -256,10 +245,6 @@ function getMostVisitedActor() {
     return mostVisitedActor || 'Not Available';
 }
 
-/**
- * A function to update the visit count for the specified director.
- * @returns {string} The name of the most visited director.
- */
 function getMostVisitedDirector() {
     const directorVisits = JSON.parse(localStorage.getItem('directorVisits')) || {};
     let mostVisitedDirector = '';
@@ -274,10 +259,6 @@ function getMostVisitedDirector() {
     return mostVisitedDirector || 'Not Available';
 }
 
-/**
- * A function to get the user's trivia accuracy.
- * @returns {string} The trivia accuracy.
- */
 function getTriviaAccuracy() {
     let triviaStats = JSON.parse(localStorage.getItem('triviaStats')) || { totalCorrect: 0, totalAttempted: 0 };
     if (triviaStats.totalAttempted === 0) {
@@ -287,10 +268,6 @@ function getTriviaAccuracy() {
     return `${accuracy.toFixed(1)}% accuracy`;
 }
 
-/**
- * A function to get the user's most common genre.
- * @returns {string} The user's most common genre.
- */
 function getMostCommonGenre() {
     const favoriteGenres = JSON.parse(localStorage.getItem('favoriteGenres')) || {};
     let mostCommonGenre = '';
@@ -307,10 +284,6 @@ function getMostCommonGenre() {
 
 document.addEventListener('DOMContentLoaded', rotateUserStats);
 
-/**
- * Fetches a random movie from the specified URL and redirects to the movie-details page.
- * @returns {Promise<void>} A promise that resolves when the movie is fetched
- */
 async function showMovieOfTheDay() {
     const year = new Date().getFullYear();
     const url = `https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
@@ -335,9 +308,6 @@ async function showMovieOfTheDay() {
     }
 }
 
-/**
- * Fetches a random movie from the specified URL and redirects to the movie-details page.
- */
 function fallbackMovieSelection() {
     const fallbackMovies = [432413, 299534, 1726, 562, 118340, 455207, 493922, 447332, 22970, 530385, 27205, 264660, 120467, 603, 577922, 76341, 539, 419704, 515001, 118340, 424, 98];
     const randomFallbackMovie = fallbackMovies[Math.floor(Math.random() * fallbackMovies.length)];
@@ -345,10 +315,6 @@ function fallbackMovieSelection() {
     window.location.href = 'src/html/movie-details.html';
 }
 
-/**
- * Calculates the number of movies to display based on the screen width.
- * @returns {number} The number of movies to display
- */
 function calculateMoviesToDisplay() {
     const screenWidth = window.innerWidth;
     if (screenWidth <= 689.9) return 10; // 1 movie per row
@@ -378,11 +344,6 @@ function calculateMoviesToDisplay() {
     return 20;
 }
 
-/**
- * Returns the CSS class to use for the specified vote average.
- * @param vote
- * @returns {string}
- */
 function getClassByRate(vote){
     if (vote >= 8) {
         return 'green';
@@ -423,18 +384,12 @@ searchButton.addEventListener('click', (e) => {
     }
 });
 
-/**
- * Toggles the side navigation bar.
- */
 function toggleNav() {
     const sideNav = document.getElementById('side-nav');
     sideNav.classList.toggle('manual-toggle');
     adjustNavBar();
 }
 
-/**
- * Removes the side navigation bar.
- */
 function removeNavBar() {
     const sideNav = document.getElementById('side-nav');
     if (sideNav.classList.contains('manual-toggle')) {
@@ -443,9 +398,6 @@ function removeNavBar() {
     adjustNavBar();
 }
 
-/**
- * Adjusts the side navigation bar.
- */
 function adjustNavBar() {
     const sideNav = document.getElementById('side-nav');
     if (sideNav.classList.contains('manual-toggle')) {
@@ -470,10 +422,6 @@ document.getElementById('side-nav').addEventListener('mouseleave', function() {
     }
 });
 
-/**
- * The URLs to fetch movies from.
- * @type {string}
- */
 const DATABASEURL = "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=c5a20c861acf7bb8d9e987dcc7f1b558&page=1";
 const IMGPATH = "https://image.tmdb.org/t/p/w1280";
 const SEARCHPATH = "https://api.themoviedb.org/3/search/movie?&api_key=c5a20c861acf7bb8d9e987dcc7f1b558&query=";
@@ -496,9 +444,6 @@ const HIDDEN_GEMS_PATH = "https://api.themoviedb.org/3/discover/movie?api_key=c5
 const AWARD_WINNING_PATH = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&sort_by=vote_average.desc&vote_count.gte=1000";
 const CLASSIC_MOVIES_PATH = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&sort_by=popularity.desc&release_date.lte=1980";
 
-/**
- * Fetches movies from the specified URLs and displays them in their respective main elements.
- */
 getMovies(DATABASEURL, main);
 getMovies(ACTIONpath, main3);
 getMovies(HORRORpath, main4);
@@ -557,9 +502,6 @@ const directors = [
 let currentDirectorIndex = 0;
 updateDirectorSpotlight();
 
-/**
- * Changes the director in the spotlight.
- */
 function changeDirector() {
     let randomIndex = Math.floor(Math.random() * directors.length);
     while(randomIndex === currentDirectorIndex) {
@@ -572,19 +514,12 @@ function changeDirector() {
 
 setInterval(updateDirectorSpotlight, 3600000);
 
-/**
- * Calculates the number of movies to display based on the screen width.
- * @returns {number}
- */
 function calculateMoviesToDisplay2() {
     const screenWidth = window.innerWidth;
     const moviesPerRow = Math.floor(screenWidth / 342);
     return moviesPerRow * 2;
 }
 
-/**
- * Updates the director in the spotlight.
- */
 function updateDirectorSpotlight() {
     const director = directors[currentDirectorIndex];
     document.getElementById('spotlight-director-name').textContent = director.name;
@@ -592,11 +527,6 @@ function updateDirectorSpotlight() {
     getDirectorSpotlight(url);
 }
 
-/**
- * Fetches movies from the specified URL and displays them in the main element.
- * @param url The URL to fetch movies from
- * @returns {Promise<void>} A promise that resolves when the movies are displayed
- */
 async function getDirectorSpotlight(url) {
     const numberOfMovies = calculateMoviesToDisplay2();
     const resp = await fetch(url);
@@ -609,10 +539,6 @@ async function getDirectorSpotlight(url) {
     }
 }
 
-/**
- * Displays the specified movies in the main element.
- * @param movies The movies to display
- */
 function showMoviesDirectorSpotlight(movies) {
     main20.innerHTML = ' ';
     movies.forEach((movie) => {
@@ -696,66 +622,10 @@ function updateSignInButtonState() {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-    checkAndClearLocalStorage();
     updateSignInButtonState();
     document.getElementById('googleSignInBtn').addEventListener('click', handleSignInOut);
 });
 
-/**
- * Checks if the user has cleared their local storage and clears it if they haven't.
- */
-function checkAndClearLocalStorage() {
-    const hasCleared = localStorage.getItem('hasClearedMovieVerseDataLS');
-    if (!hasCleared) {
-        clearMovieVerseLocalStorage();
-        localStorage.setItem('hasClearedMovieVerseDataLS', 'true');
-        localStorage.removeItem('hasUserClearedMovieVerseData');
-        localStorage.removeItem('hasUserClearedMovieVerseData2');
-        localStorage.removeItem('hasUserClearedMovieVerseData3')
-        window.location.reload();
-    }
-}
-
-/**
- * Clears the MovieVerse local storage.
- */
-function clearMovieVerseLocalStorage() {
-    localStorage.removeItem('favorites');
-    localStorage.removeItem('watchlists');
-    localStorage.removeItem('selectedMovieId');
-    localStorage.removeItem('isSignedIn');
-    localStorage.removeItem('selectedDirectorId');
-    localStorage.removeItem('selectedActorId');
-    localStorage.removeItem('selectedCompanyId');
-    localStorage.removeItem('movieRatings');
-    localStorage.removeItem('triviaStats');
-    localStorage.removeItem('uniqueMoviesViewed');
-    localStorage.removeItem('uniqueDirectorsViewed');
-    localStorage.removeItem('uniqueActorsViewed');
-    localStorage.removeItem('uniqueCompaniesViewed');
-    localStorage.removeItem('favoriteGenres');
-    localStorage.removeItem('watchlistsCreated');
-    localStorage.removeItem('averageMovieRating');
-    localStorage.removeItem('backgroundImage');
-    localStorage.removeItem('textColor');
-    localStorage.removeItem('fontSize');
-    localStorage.removeItem('moviesFavorited');
-    localStorage.removeItem('hasUserClearedMovieVerseData');
-    localStorage.removeItem('hasUserClearedMovieVerseData2');
-    localStorage.removeItem('hasUserClearedMovieVerseData3');
-    localStorage.removeItem('movieVisits');
-    localStorage.removeItem('accountsMovieVerse');
-    localStorage.removeItem('profileInfo');
-    localStorage.removeItem('profileImage');
-    localStorage.removeItem('directorVisits');
-    localStorage.removeItem('actorVisits');
-    localStorage.removeItem('isSignedIn');
-    window.location.reload();
-}
-
-/**
- * Apply the user's settings.
- */
 function applySettings() {
     const savedBg = localStorage.getItem('backgroundImage');
     const savedTextColor = localStorage.getItem('textColor');
@@ -773,10 +643,6 @@ function applySettings() {
     }
 }
 
-/**
- * Applies the specified text color to all text elements on the page.
- * @param color The color to apply.
- */
 function applyTextColor(color) {
     document.querySelectorAll('h1, h2, h3, p, a, span, div, button, input, select, textarea, label, li')
         .forEach(element => {

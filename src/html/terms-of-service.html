@@ -57,9 +57,9 @@
             </h1>
         </a>
 
-        <div id="local-time" style="display: flex; align-items: center; justify-content: start; cursor: pointer;">
-            <p id="stats-label" class="clock" style="font-size: 16px; margin-right: 10px;"></p>
-            <h1 id="stats-display" class="clock" style="font-size: 20px;"></h1>
+        <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
+            <p id="stats-label" class="clock" style="font-size: 16px"></p>
+            <h1 id="stats-display" class="clock"></h1>
         </div>
 
         <button class="back-btn" onclick="window.location.href='../../index.html'">Home</button>
@@ -296,34 +296,9 @@
                     }
                 },
                 { label: "Your Trivia Accuracy", getValue: getTriviaAccuracy },
-                // Movie Quotes
-                {
-                    label: "Quote from The Godfather (1972)",
-                    getValue: () => "I'm gonna make him an offer he can't refuse."
-                },
-                {
-                    label: "Quote from The Dark Knight (2008)",
-                    getValue: () => "Why so serious?"
-                },
                 {
                     label: "Quote from Forrest Gump (1994)",
                     getValue: () => "Life was like a box of chocolates. You never know what you're gonna get."
-                },
-                {
-                    label: "Quote from Star Wars: Episode V – The Empire Strikes Back (1980)",
-                    getValue: () => "No, I am your father."
-                },
-                {
-                    label: "Quote from The Terminator (1984)",
-                    getValue: () => "I'll be back."
-                },
-                {
-                    label: "Quote from Titanic (1997)",
-                    getValue: () => "I'm the king of the world!"
-                },
-                {
-                    label: "Quote from Casablanca (1942)",
-                    getValue: () => "Here's looking at you, kid."
                 },
                 {
                     label: "Quote from The Lord of the Rings: The Two Towers (2002)",
@@ -334,48 +309,12 @@
                     getValue: () => "The first rule of Fight Club is: You do not talk about Fight Club."
                 },
                 {
-                    label: "Quote from Gone with the Wind (1939)",
-                    getValue: () => "Frankly, my dear, I don't give a damn."
-                },
-                {
                     label: "Quote from The Wizard of Oz (1939)",
                     getValue: () => "There's no place like home."
                 },
                 {
-                    label: "Quote from The Matrix (1999)",
-                    getValue: () => "There is no spoon."
-                },
-                {
-                    label: "Quote from Gladiator (2000)",
-                    getValue: () => "Are you not entertained?"
-                },
-                {
-                    label: "Quote from Jaws (1975)",
-                    getValue: () => "You're gonna need a bigger boat."
-                },
-                {
-                    label: "Quote from A Few Good Men (1992)",
-                    getValue: () => "You can't handle the truth!"
-                },
-                {
-                    label: "Quote from Sudden Impact (1983)",
-                    getValue: () => "Go ahead, make my day."
-                },
-                {
-                    label: "Quote from Apollo 13 (1995)",
-                    getValue: () => "Houston, we have a problem."
-                },
-                {
-                    label: "Quote from Taxi Driver (1976)",
-                    getValue: () => "You talkin' to me?"
-                },
-                {
                     label: "Quote from Cool Hand Luke (1967)",
                     getValue: () => "What we've got here is failure to communicate."
-                },
-                {
-                    label: "Quote from Back to the Future (1985)",
-                    getValue: () => "Great Scott!"
                 },
             ];
 
