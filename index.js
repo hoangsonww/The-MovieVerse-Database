@@ -27,12 +27,6 @@ const otherTitle = document.getElementById("other1");
 const clearButton = document.getElementById("button-clear");
 let searchPerformed = false;
 
-/**
- * Fetches movies from the specified URL and displays them in the main element.
- * @param url The URL to fetch movies from
- * @param mainElement The element to display the movies in
- * @returns {Promise<void>} A promise that resolves when the movies are displayed
- */
 async function getMovies(url, mainElement, isSearch = false) {
     const numberOfMovies = calculateMoviesToDisplay();
     const pagesToFetch = numberOfMovies <= 20 ? 1 : 2;
@@ -67,11 +61,6 @@ async function getMovies(url, mainElement, isSearch = false) {
     }
 }
 
-/**
- * Displays the specified movies in the main element.
- * @param movies The movies to display
- * @param mainElement The element to display the movies in
- */
 function showMovies(movies, mainElement) {
     mainElement.innerHTML = '';
     movies.forEach(movie => {
@@ -106,10 +95,6 @@ function showMovies(movies, mainElement) {
     applySettings();
 }
 
-/**
- * Updates the list of unique movies viewed in local storage.
- * @param movieId The ID of the movie to add to the list
- */
 function updateUniqueMoviesViewed(movieId) {
     let viewedMovies = JSON.parse(localStorage.getItem('uniqueMoviesViewed')) || [];
     if (!viewedMovies.includes(movieId)) {
@@ -122,9 +107,6 @@ clearButton.addEventListener('click', () => {
     window.location.reload();
 });
 
-/**
- * Rotates the user stats and movie quotes displayed in the main element.
- */
 function rotateUserStats() {
     const stats = [
         {
@@ -183,7 +165,6 @@ function rotateUserStats() {
             }
         },
         { label: "Your Trivia Accuracy", getValue: getTriviaAccuracy },
-        // Movie Quotes
         {
             label: "Quote from The Godfather (1972)",
             getValue: () => "I'm gonna make him an offer he can't refuse."
@@ -287,11 +268,6 @@ function rotateUserStats() {
     });
 }
 
-/**
- * A function to update the visit count for the specified movie.
- * @param movieId The ID of the movie to update the visit count for
- * @param movieTitle The title of the movie to update the visit count for
- */
 function updateMovieVisitCount(movieId, movieTitle) {
     let movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
     if (!movieVisits[movieId]) {
@@ -301,10 +277,6 @@ function updateMovieVisitCount(movieId, movieTitle) {
     localStorage.setItem('movieVisits', JSON.stringify(movieVisits));
 }
 
-/**
- * A function to get the most visited movie.
- * @returns {string} The name of the most visited movie.
- */
 function getMostVisitedMovie() {
     const movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
     let mostVisitedMovie = '';
@@ -319,10 +291,6 @@ function getMostVisitedMovie() {
     return mostVisitedMovie || 'Not Available';
 }
 
-/**
- * A function to update the visit count for the specified actor.
- * @returns {string} The name of the most visited actor.
- */
 function getMostVisitedActor() {
     const actorVisits = JSON.parse(localStorage.getItem('actorVisits')) || {};
     let mostVisitedActor = '';
@@ -337,10 +305,6 @@ function getMostVisitedActor() {
     return mostVisitedActor || 'Not Available';
 }
 
-/**
- * A function to update the visit count for the specified director.
- * @returns {string} The name of the most visited director.
- */
 function getMostVisitedDirector() {
     const directorVisits = JSON.parse(localStorage.getItem('directorVisits')) || {};
     let mostVisitedDirector = '';
@@ -355,10 +319,6 @@ function getMostVisitedDirector() {
     return mostVisitedDirector || 'Not Available';
 }
 
-/**
- * A function to get the user's trivia accuracy.
- * @returns {string} The trivia accuracy.
- */
 function getTriviaAccuracy() {
     let triviaStats = JSON.parse(localStorage.getItem('triviaStats')) || { totalCorrect: 0, totalAttempted: 0 };
     if (triviaStats.totalAttempted === 0) {
@@ -368,10 +328,6 @@ function getTriviaAccuracy() {
     return `${accuracy.toFixed(1)}% accuracy`;
 }
 
-/**
- * A function to get the user's most common genre.
- * @returns {string} The user's most common genre.
- */
 function getMostCommonGenre() {
     const favoriteGenres = JSON.parse(localStorage.getItem('favoriteGenres')) || {};
     let mostCommonGenre = '';
@@ -388,10 +344,6 @@ function getMostCommonGenre() {
 
 document.addEventListener('DOMContentLoaded', rotateUserStats);
 
-/**
- * Fetches a random movie from the specified URL and redirects to the movie-details page.
- * @returns {Promise<void>} A promise that resolves when the movie is fetched
- */
 async function showMovieOfTheDay() {
     const year = new Date().getFullYear();
     const url = `https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
@@ -416,9 +368,6 @@ async function showMovieOfTheDay() {
     }
 }
 
-/**
- * Fetches a random movie from the specified URL and redirects to the movie-details page.
- */
 function fallbackMovieSelection() {
     const fallbackMovies = [432413, 299534, 1726, 562, 118340, 455207, 493922, 447332, 22970, 530385, 27205, 264660, 120467, 603, 577922, 76341, 539, 419704, 515001, 118340, 424, 98];
     const randomFallbackMovie = fallbackMovies[Math.floor(Math.random() * fallbackMovies.length)];
@@ -426,10 +375,6 @@ function fallbackMovieSelection() {
     window.location.href = 'src/html/movie-details.html';
 }
 
-/**
- * Calculates the number of movies to display based on the screen width.
- * @returns {number} The number of movies to display
- */
 function calculateMoviesToDisplay() {
     const screenWidth = window.innerWidth;
     if (screenWidth <= 689.9) return 10; // 1 movie per row
@@ -459,11 +404,6 @@ function calculateMoviesToDisplay() {
     return 20;
 }
 
-/**
- * Returns the CSS class to use for the specified vote average.
- * @param vote
- * @returns {string}
- */
 function getClassByRate(vote){
     if (vote >= 8) {
         return 'green';
@@ -504,18 +444,12 @@ searchButton.addEventListener('click', (e) => {
     }
 });
 
-/**
- * Toggles the side navigation bar.
- */
 function toggleNav() {
     const sideNav = document.getElementById('side-nav');
     sideNav.classList.toggle('manual-toggle');
     adjustNavBar();
 }
 
-/**
- * Removes the side navigation bar.
- */
 function removeNavBar() {
     const sideNav = document.getElementById('side-nav');
     if (sideNav.classList.contains('manual-toggle')) {
@@ -524,9 +458,6 @@ function removeNavBar() {
     adjustNavBar();
 }
 
-/**
- * Adjusts the side navigation bar.
- */
 function adjustNavBar() {
     const sideNav = document.getElementById('side-nav');
     if (sideNav.classList.contains('manual-toggle')) {
@@ -551,10 +482,6 @@ document.getElementById('side-nav').addEventListener('mouseleave', function() {
     }
 });
 
-/**
- * The URLs to fetch movies from.
- * @type {string}
- */
 const DATABASEURL = "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=c5a20c861acf7bb8d9e987dcc7f1b558&page=1";
 const IMGPATH = "https://image.tmdb.org/t/p/w1280";
 const SEARCHPATH = "https://api.themoviedb.org/3/search/movie?&api_key=c5a20c861acf7bb8d9e987dcc7f1b558&query=";
@@ -577,9 +504,6 @@ const HIDDEN_GEMS_PATH = "https://api.themoviedb.org/3/discover/movie?api_key=c5
 const AWARD_WINNING_PATH = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&sort_by=vote_average.desc&vote_count.gte=1000";
 const CLASSIC_MOVIES_PATH = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&sort_by=popularity.desc&release_date.lte=1980";
 
-/**
- * Fetches movies from the specified URLs and displays them in their respective main elements.
- */
 getMovies(DATABASEURL, main);
 getMovies(ACTIONpath, main3);
 getMovies(HORRORpath, main4);
@@ -638,9 +562,6 @@ const directors = [
 let currentDirectorIndex = 0;
 updateDirectorSpotlight();
 
-/**
- * Changes the director in the spotlight.
- */
 function changeDirector() {
     let randomIndex = Math.floor(Math.random() * directors.length);
     while(randomIndex === currentDirectorIndex) {
@@ -653,19 +574,12 @@ function changeDirector() {
 
 setInterval(updateDirectorSpotlight, 3600000);
 
-/**
- * Calculates the number of movies to display based on the screen width.
- * @returns {number}
- */
 function calculateMoviesToDisplay2() {
     const screenWidth = window.innerWidth;
     const moviesPerRow = Math.floor(screenWidth / 342);
     return moviesPerRow * 2;
 }
 
-/**
- * Updates the director in the spotlight.
- */
 function updateDirectorSpotlight() {
     const director = directors[currentDirectorIndex];
     document.getElementById('spotlight-director-name').textContent = director.name;
@@ -673,11 +587,6 @@ function updateDirectorSpotlight() {
     getDirectorSpotlight(url);
 }
 
-/**
- * Fetches movies from the specified URL and displays them in the main element.
- * @param url The URL to fetch movies from
- * @returns {Promise<void>} A promise that resolves when the movies are displayed
- */
 async function getDirectorSpotlight(url) {
     const numberOfMovies = calculateMoviesToDisplay2();
     const resp = await fetch(url);
@@ -690,10 +599,6 @@ async function getDirectorSpotlight(url) {
     }
 }
 
-/**
- * Displays the specified movies in the main element.
- * @param movies The movies to display
- */
 function showMoviesDirectorSpotlight(movies) {
     main20.innerHTML = ' ';
     movies.forEach((movie) => {
@@ -781,9 +686,6 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('googleSignInBtn').addEventListener('click', handleSignInOut);
 });
 
-/**
- * Apply the user's settings.
- */
 function applySettings() {
     const savedBg = localStorage.getItem('backgroundImage');
     const savedTextColor = localStorage.getItem('textColor');
@@ -801,10 +703,6 @@ function applySettings() {
     }
 }
 
-/**
- * Applies the specified text color to all text elements on the page.
- * @param color The color to apply.
- */
 function applyTextColor(color) {
     document.querySelectorAll('h1, h2, h3, p, a, span, div, button, input, select, textarea, label, li')
         .forEach(element => {
