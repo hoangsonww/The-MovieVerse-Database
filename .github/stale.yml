@@ -1,27 +1,27 @@
 # Configuration for probot-stale - https://github.com/probot/stale
 
-# Number of days of inactivity before an issue or pull request becomes stale
-daysUntilStale: 60
-
-# Number of days of inactivity before a stale issue or pull request is closed
-daysUntilClose: 7
-
-# Issues or pull requests with these labels will never be considered stale
-exemptLabels:
-  - pinned
-  - security
-  - high-priority
-
-# Label to use when marking an issue or pull request as stale
-staleLabel: stale
-
-# Comment to post when marking an issue or pull request as stale. Set to `false` to disable
-markComment: >
-  Hi there! This issue has been inactive for a while. If the issue is still relevant, please comment on it or make the necessary updates. Otherwise, it will be closed in 7 days.
-
-# Comment to post when closing a stale issue or pull request. Set to `false` to disable
-closeComment: >
-  This issue has been closed due to inactivity.
-
-# Limit the number of actions per hour to avoid hitting rate limits
-limitPerRun: 30
+## Number of days of inactivity before an issue or pull request becomes stale
+#daysUntilStale: 60
+#
+## Number of days of inactivity before a stale issue or pull request is closed
+#daysUntilClose: 7
+#
+## Issues or pull requests with these labels will never be considered stale
+#exemptLabels:
+#  - pinned
+#  - security
+#  - high-priority
+#
+## Label to use when marking an issue or pull request as stale
+#staleLabel: stale
+#
+## Comment to post when marking an issue or pull request as stale. Set to `false` to disable
+#markComment: >
+#  Hi there! This issue has been inactive for a while. If the issue is still relevant, please comment on it or make the necessary updates. Otherwise, it will be closed in 7 days.
+#
+## Comment to post when closing a stale issue or pull request. Set to `false` to disable
+#closeComment: >
+#  This issue has been closed due to inactivity.
+#
+## Limit the number of actions per hour to avoid hitting rate limits
+#limitPerRun: 30
