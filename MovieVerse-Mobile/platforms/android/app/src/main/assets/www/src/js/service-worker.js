@@ -5,7 +5,7 @@ const urlsToCache = [
     '../../index.html',
     '../css/style.css',
     '../css/trivia.css',
-    '../css/discussions.css',
+    '../css/chatbot.css',
     '../../index.js',
     '../../manifest.json',
     'settings.js',
