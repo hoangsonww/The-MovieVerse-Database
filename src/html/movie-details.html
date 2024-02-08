@@ -21,6 +21,12 @@
 
         gtag('config', 'G-CQKJ67FXZ4');
     </script>
+    <style>
+        #comment-modal .modal-content {
+            min-width: 400px;
+            margin-top: 0;
+        }
+    </style>
 </head>
 
 <body class="movie-details-body">
@@ -97,7 +103,7 @@
             <div id="comments-section">
                 <h3>Community Comments</h3>
                 <div id="comments-container"></div>
-                <!-- Toggle Button -->
+                <!-- Toggle Buttons -->
                 <div class="comments-controls">
                     <button id="toggle-comment-modal">Add Comment</button>
                     <button id="prev-page" disabled> &lt; </button>
@@ -106,15 +112,21 @@
                 <!-- Comment Modal -->
                 <div id="comment-modal" class="modal">
                     <div class="modal-content">
-                        <span class="close">&times;</span>
-                        <h3>Add a Comment for This Movie</h3>
+                        <div class="modal-header">
+                            <h3>Add a Comment for This Movie</h3>
+                            <span class="close">&times;</span>
+                        </div>
                         <form id="comment-form">
                             <input type="text" id="user-name" placeholder="Your nickname" required>
                             <textarea id="user-comment" placeholder="Your comment" required></textarea>
                             <button id="post-comment-btn" type="submit">Post Comment</button>
+                            <p style="font-size: 14px; margin-top: 30px">
+                                <em>All comments will be posted anonymously, using the nickname you provided and not your profile name, so you can freely express your ideas!</em>
+                            </p>
                         </form>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
