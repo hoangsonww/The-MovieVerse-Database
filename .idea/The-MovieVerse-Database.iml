@@ -12,5 +12,7 @@
     <orderEntry type="library" name="chart.js" level="application" />
     <orderEntry type="library" name="font-awesome" level="application" />
     <orderEntry type="library" name="font-awesome" level="application" />
+    <orderEntry type="library" name="firebase-firestore" level="application" />
+    <orderEntry type="library" name="firebase-app" level="application" />
   </component>
 </module>

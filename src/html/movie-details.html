@@ -94,6 +94,28 @@
         <div class="movie-right">
             <p id="movie-description" class="movie-description"></p>
             <h2 id="movie-rating" class="movie-rating"></h2>
+            <div id="comments-section">
+                <h3>Community Comments</h3>
+                <div id="comments-container"></div>
+                <!-- Toggle Button -->
+                <div class="comments-controls">
+                    <button id="toggle-comment-modal">Add Comment</button>
+                    <button id="prev-page" disabled> &lt; </button>
+                    <button id="next-page" disabled> &gt; </button>
+                </div>
+                <!-- Comment Modal -->
+                <div id="comment-modal" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <h3>Add a Comment for This Movie</h3>
+                        <form id="comment-form">
+                            <input type="text" id="user-name" placeholder="Your nickname" required>
+                            <textarea id="user-comment" placeholder="Your comment" required></textarea>
+                            <button id="post-comment-btn" type="submit">Post Comment</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -134,6 +156,13 @@
             }
         });
     </script>
+
+    <!-- Include Firebase libraries -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js"></script>
+
+    <!-- Firebase Initialization and Comments Script -->
+    <script src="../js/comments.js" type="module"></script>
 
 </body>
 
