@@ -41,6 +41,21 @@
             font-size: 18px;
         }
 
+        #create-watchlist-modal .modal-content {
+            min-width: 400px;
+            margin-top: 0;
+        }
+
+        #edit-watchlist-modal .modal-content {
+            min-width: 400px;
+            margin-top: 0;
+        }
+
+        #delete-watchlist-modal .modal-content {
+            min-width: 400px;
+            margin-top: 0;
+        }
+
         .watchlist.pinned .watchlist-controls #pin-btn {
             color: #7378c5;
         }
@@ -67,6 +82,13 @@
             justify-content: center;
             gap: 10px;
             margin-left: 0;
+        }
+
+        #local-time {
+            transform: translateX(15%);
+            padding: 10px;
+            border-radius: 10px;
+            z-index: 10;
         }
 
         @media (max-width: 1200px) {
@@ -138,10 +160,10 @@
             <h2>Create a Watch List</h2>
             <form id="create-watchlist-form">
                 <label>Name:</label>
-                <input type="text" id="new-watchlist-name" style="font: inherit" required>
+                <input type="text" id="new-watchlist-name" placeholder="Watchlist's Name" style="font: inherit" required>
                 <div style="height: 20px"></div>
                 <label>Description:</label>
-                <textarea id="new-watchlist-description" style="font: inherit"></textarea>
+                <textarea placeholder="Watchlist Description" id="new-watchlist-description" style="font: inherit"></textarea>
                 <button type="submit" id="button">Create</button>
             </form>
         </div>
@@ -601,6 +623,7 @@
             nameInput.type = 'text';
             nameInput.id = 'edit-watchlist-name';
             nameInput.style.font = 'inherit';
+            nameInput.placeholder = 'New Watchlist Name';
 
             const descLabel = document.createElement('label');
             descLabel.textContent = 'Description:';
@@ -608,6 +631,7 @@
             const descInput = document.createElement('textarea');
             descInput.id = 'edit-watchlist-description';
             descInput.style.font = 'inherit';
+            descInput.placeholder = 'New Watchlist Description';
 
             const moviesContainer = document.createElement('div');
             moviesContainer.id = 'edit-movies-container';

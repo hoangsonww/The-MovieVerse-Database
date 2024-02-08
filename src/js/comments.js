@@ -80,11 +80,11 @@ async function fetchComments() {
     let displayedComments = 0;
 
     if (querySnapshot.empty) {
-        // If there are no comments, display a message
         const noCommentsMsg = document.createElement("p");
         noCommentsMsg.textContent = "No comments for this movie yet.";
         commentsContainer.appendChild(noCommentsMsg);
-    } else {
+    }
+    else {
         querySnapshot.forEach((doc) => {
             if (index >= (currentPage - 1) * commentsPerPage && displayedComments < commentsPerPage) {
                 const comment = doc.data();
@@ -119,7 +119,7 @@ function formatAMPM(date) {
     let minutes = date.getMinutes();
     const ampm = hours >= 12 ? 'PM' : 'AM';
     hours = hours % 12;
-    hours = hours || 12; // the hour '0' should be '12'
+    hours = hours || 12;
     minutes = minutes < 10 ? '0' + minutes : minutes;
     const strTime = hours + ':' + minutes + ' ' + ampm;
     return strTime;
