@@ -105,9 +105,9 @@
                 <div id="comments-container"></div>
                 <!-- Toggle Buttons -->
                 <div class="comments-controls">
-                    <button id="toggle-comment-modal">Add Comment</button>
-                    <button id="prev-page" disabled> &lt; </button>
-                    <button id="next-page" disabled> &gt; </button>
+                    <button id="toggle-comment-modal" title="Add a comment for this movie">Add Comment</button>
+                    <button id="prev-page" title="Previous Page" disabled> &lt; </button>
+                    <button id="next-page" title="Next Page"  disabled> &gt; </button>
                 </div>
                 <!-- Comment Modal -->
                 <div id="comment-modal" class="modal">
@@ -119,7 +119,7 @@
                         <form id="comment-form">
                             <input type="text" id="user-name" placeholder="Your nickname" required>
                             <textarea id="user-comment" placeholder="Your comment" required></textarea>
-                            <button id="post-comment-btn" type="submit">Post Comment</button>
+                            <button id="post-comment-btn" type="submit" title="Post your comment for this movie">Post Comment</button>
                             <p style="font-size: 14px; margin-top: 30px">
                                 <em>All comments will be posted anonymously, using the nickname you provided and not your profile name, so you can freely express your ideas!</em>
                             </p>
