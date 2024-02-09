@@ -4,22 +4,19 @@
 
 ## Overview
 
-The backend of MovieVerse is built using a microservices architecture. This architecture allows independent scalability and flexibility in the development of different functionalities of the app. The microservices include authentication, user management, movie data processing, and more.
+The backend of MovieVerse is built using a microservices architecture. This architecture allows for independent scalability and enhanced flexibility in the development of different functionalities of the app, such as authentication, user management, movie data processing, and more.
 
 ## Architecture
 
-Describe the architecture briefly. Include a diagram if possible.
-
-## Services
+The microservices architecture of MovieVerse is designed to segregate the application into small, loosely coupled services. Each service is focused on a single business capability and can be developed, deployed, and scaled independently.
 
 - **Authentication Service**: Manages user authentication and authorization.
 - **User Service**: Handles user-related operations like profile management.
 - **Movie Service**: Manages movie data and interactions.
+- **Crawler Service**: Dynamically updates the database with new movie data from various online sources.
 - **Review Service**: Handles user reviews and ratings.
-- **Recommendation Service**: Provides movie recommendations to users.
-- **Search Service**: Provides search functionality for movies and users.
-- **Notification Service**: Handles notifications for users.
-- **Messaging Service**: Handles messaging between users.
+- **Recommendation Service**: Provides movie recommendations to users based on their preferences and viewing history.
+- **Search Service**: Offers comprehensive search functionality for movies and users.
 
 ## Getting Started
 
@@ -34,34 +31,42 @@ Describe the architecture briefly. Include a diagram if possible.
 - PostgreSQL
 - Flask
 - Django
-- Microservices
+- Celery for asynchronous task queue
+- Redis or RabbitMQ as a broker for Celery
+- BeautifulSoup4 and Requests for web scraping in the Crawler Service
+- Transformers and PyTorch for AI functionalities within the Crawler Service
 
 ### Installation
 
 1. Clone the repository: `git clone https://github.com/hoangsonww/The-MovieVerse-Database.git`
 2. Navigate to the repository: `cd backend_microservices`
-3. Install the dependencies: `npm install`
-4. Run the server: `npm start`
+3. Follow the specific installation instructions for each service below.
 
 ### Configuration
 
-- Run `setupMicroservices.sh` to set up the environment.
-- Detailed instructions on configuring each service.
+- Execute `setupMicroservices.sh` to configure the environment for all services.
+- Each service has detailed configuration instructions to tailor the environment to your needs.
 
 ### Running the Services
 
-- Instructions on how to run each service independently.
-- Information on using tools like Docker Compose for managing multi-container setups.
-- Instructions on install each service:
-  - `cd service_name`
-  - `npm install`
-  - `npm start`
+To run a specific service:
+
+1. Navigate to the service directory: `cd service_name`
+2. Install dependencies: `npm install` (For Django-based services like the Crawler Service, use `pip install -r requirements.txt`)
+3. Start the service: `npm start` (For Django-based services, use `python manage.py runserver`)
+
+For the Crawler Service, additional steps might include setting up Celery workers and scheduling periodic tasks:
+
+```bash
+celery -A moviereviews worker --loglevel=info
+celery -A moviereviews beat --loglevel=info
+```
 
 ## Testing
 
-- Instructions on how to run tests for each service:
-- `cd service_name`
-- `npm test`
+To run tests for each microservice:
+
+1. Navigate to the service's directory: `cd service_name`
+2. Execute the test command: `npm test` (For Django-based services, use `python manage.py test`)
 
 ---
-
