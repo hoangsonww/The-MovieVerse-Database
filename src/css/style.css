@@ -324,6 +324,45 @@ header h1 {
     border-radius: 8px;
 }
 
+.movie-card {
+    display: flex;
+    background: #fff;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.movie-image {
+    width: 150px;
+    height: 225px;
+    background-size: cover;
+    background-position: center;
+}
+
+.movie-info {
+    padding: 20px;
+    flex-grow: 1;
+}
+
+.tvSeries-info {
+    padding: 20px;
+    flex-grow: 1;
+}
+
+.green {
+    color: #4CAF50;
+}
+
+.orange {
+    color: #FF9800;
+}
+
+.red {
+    color: #F44336;
+}
+
+
 #profileBtn {
     background-color: #7378c5;
     border: none;
@@ -382,21 +421,66 @@ header h1 {
     height: 555px;
 }
 
-.movie img {
+.tvSeries {
+    background-color: #373b69;
+    border-radius: 3px;
+    box-shadow: 0 4px 5px rgba(0,0,0,0.2);
+    margin: 1rem;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    width: 300px;
+    height: 555px;
+}
+
+.movie img, .tvSeries img {
     width: 100%;
 }
 
-.movie-info {
-    color: #eee;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.5rem 1rem 1rem;
-    letter-spacing: 0.5px;
+.movie .overview {
+    position: absolute;
+    padding: 2rem;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: #fff;
+    color: black;
+    transform: translateY(100%);
+    transition: opacity 0.3s ease-in, visibility 0.3s ease-in, transform 0.3s ease-in;
+    overflow-y: auto;
+    visibility: hidden;
+    align-content: center;
+    text-align: center;
+}
+
+.tvSeries .overview {
+    position: absolute;
+    padding: 2rem;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: #fff;
+    color: black;
+    transform: translateY(100%);
+    transition: opacity 0.3s ease-in, visibility 0.3s ease-in, transform 0.3s ease-in;
+    overflow-y: auto;
+    visibility: hidden;
 }
 
 .movie-info h3 {
     margin: 0;
+}
+
+.tvSeries-info h3 {
+    margin: 0;
+}
+
+.tvSeries:hover .overview {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
 }
 
 .movie-info span {
@@ -406,12 +490,31 @@ header h1 {
     padding: 0.25rem 0.5rem;
 }
 
+.tvSeries-info span {
+    background-color: #22254b;
+    border-radius: 3px;
+    font-weight: bold;
+    padding: 0.25rem 0.5rem;
+}
+
+.tvSeries-info span.green {
+    color: rgb(39,189,39);
+}
+
 .movie-info span.green {
     color: rgb(39,189,39);
 }
 
+.tvSeries-info span.orange {
+    color: orange;
+}
+
 .movie-info span.orange {
     color: orange;
+}
+
+.tvSeries-info span.red {
+    color: rgb(189,42,42);
 }
 
 .movie-info span.red {
@@ -1291,6 +1394,43 @@ p {
     margin: 10px;
 }
 
+#movie-match-container1 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0;
+    padding: 20px;
+    margin-left: 0;
+    top: 0;
+}
+
+.active-category {
+    background-color: #ff8623;
+    color: white;
+}
+
+#search-results-label {
+    color: #ff8623;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.category-buttons button {
+    background-color: #7378c5;
+    font: inherit;
+    color: white;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    padding: 10px 15px;
+    margin: 10px;
+    transition: 0.3s ease-in;
+}
+
+.category-buttons button:hover {
+    background-color: #534caf;
+}
+
 .watchlist {
     background-color: rgba(255, 255, 255, 0.1);
     margin: 10px;
@@ -1588,8 +1728,7 @@ canvas {
 }
 
 #local-time {
-    left: 100%;
-    transform: translateX(0%);
+    transform: translateX(10%);
     padding: 10px;
     border-radius: 10px;
     z-index: 10;
@@ -1950,6 +2089,15 @@ canvas {
     letter-spacing: 0.5px;
 }
 
+.tvSeries-info {
+    color: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 1rem 1rem;
+    letter-spacing: 0.5px;
+}
+
 .movie-info h3 {
     margin: 0;
 }
@@ -1990,6 +2138,22 @@ canvas {
     margin: 0 auto;
     padding: 20px;
     flex-direction: column;
+}
+
+#tvseries-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
+    margin: 0 auto;
+    padding: 20px;
+    flex-direction: column;
+}
+
+#tvseries-container .movie-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
 }
 
 #movies-container1 {
@@ -2275,6 +2439,14 @@ body {
     flex-direction: column;
     justify-content: flex-start;
     text-align: center;
+}
+
+.company-left {
+    width: 33.33%;
+}
+
+.company-right {
+    width: 66.67%;
 }
 
 #company-movies-list {

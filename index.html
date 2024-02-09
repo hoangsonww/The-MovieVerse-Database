@@ -84,10 +84,10 @@
             <input
                     type="text"
                     id="search"
-                    placeholder="Search For Any Movie..."
+                    placeholder="Search For Anything..."
                     class="search"
             />
-            <button type="button" id="button-search" onclick="">Search</button>
+            <button type="button" id="button-search" onclick="handleSearch()">Search</button>
         </form>
     </header>
 
@@ -106,6 +106,7 @@
             <li><a href="#director-spotlight">Director's Spotlight</a></li>
             <li><a href="#action">Action</a></li>
             <li><a href="#horror">Horror</a></li>
+            <li><a href="#tv-series">TV Series</a></li>
             <li><a href="#korean">Korean</a></li>
             <li><a href="#documentary">Documentary</a></li>
             <li><a href="#animation">Animation</a></li>
@@ -117,7 +118,6 @@
             <li><a href="#comedy">Comedy</a></li>
             <li><a href="#fantasy">Fantasy</a></li>
             <li><a href="#family">Family</a></li>
-            <li><a href="#tv-series">TV Series</a></li>
             <li><a href="#crime">Crime</a></li>
             <li><a href="#classic">Classic</a></li>
         </ul>
@@ -178,6 +178,12 @@
 
     <main id="horror"></main>
 
+    <div class="genres"  >
+        <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">TV SERIES</span>: </h2>
+    </div>
+
+    <main id="tv-series"></main>
+
     <div class="genres">
         <h2 id="other" style="margin-top: 35px">Best <span class="highlight">KOREAN</span> Movies: </h2>
     </div>
@@ -195,12 +201,6 @@
     </div>
 
     <main id="animation"></main>
-
-    <div class="genres"  >
-        <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">TV SERIES</span>: </h2>
-    </div>
-
-    <main id="tv-series"></main>
 
     <div class="genres"  >
         <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">SCIENCE FICTION</span> Movies: </h2>

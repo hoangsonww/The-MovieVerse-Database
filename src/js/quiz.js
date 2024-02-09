@@ -96,15 +96,16 @@ const form = document.getElementById("form");
 
 form.addEventListener('submit', (e) => {
     e.preventDefault();
-    const searchTerm = search.value.trim();
-    handleSearch(searchTerm);
+    const searchQuery = document.getElementById('search').value;
+    localStorage.setItem('searchQuery', searchQuery);
+    window.location.href = 'search.html';
 });
 
-searchButton.addEventListener('click', (e) => {
-    e.preventDefault();
-    const searchTerm = search.value.trim();
-    handleSearch(searchTerm);
-});
+function handleSearch() {
+    const searchQuery = document.getElementById('search').value;
+    localStorage.setItem('searchQuery', searchQuery);
+    window.location.href = 'search.html';
+}
 
 function handleSearch(searchTerm) {
     if (searchTerm) {
