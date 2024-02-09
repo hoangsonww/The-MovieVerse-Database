@@ -20,6 +20,16 @@
 
         gtag('config', 'G-CQKJ67FXZ4');
     </script>
+
+    <style>
+        label {
+            cursor: pointer;
+        }
+
+        label:hover {
+            color: #f509d9;
+        }
+    </style>
 </head>
 
 <body>
@@ -61,6 +71,19 @@
         <h1 id="trivia-label">Movie Trivia Quiz</h1>
         <div class="button-container">
             <button id="clear-search-btn">Clear Search Results</button>
+        </div>
+    </div>
+
+    <div id="result-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Trivia Results</h3>
+                <span class="close-button" title="Close the trivia results modal">&times;</span>
+            </div>
+            <div id="progress-circle" class="progress-circle">
+                <div id="correct-answers"></div>
+            </div>
+            <p id="result-text"></p>
         </div>
     </div>
 
