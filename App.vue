@@ -8,6 +8,10 @@
       <router-view></router-view>
     </main>
 
+    <aside>
+      <h2>Upcoming Movies</h2>
+    </aside>
+
     <footer>
       <p>&copy; 2023 The MovieVerse. All rights reserved.</p>
     </footer>
