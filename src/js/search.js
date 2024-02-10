@@ -1,5 +1,4 @@
 const form = document.getElementById('form');
-
 const IMGPATH = "https://image.tmdb.org/t/p/w1280";
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -153,6 +152,7 @@ function getTriviaAccuracy() {
     if (triviaStats.totalAttempted === 0) {
         return 'No trivia attempted';
     }
+
     let accuracy = (triviaStats.totalCorrect / triviaStats.totalAttempted) * 100;
     return `${accuracy.toFixed(1)}% accuracy`;
 }
@@ -203,9 +203,11 @@ async function showResults(category) {
 
     if (category === 'movie') {
         apiUrl = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(searchQuery)}`;
-    } else if (category === 'tv') {
+    }
+    else if (category === 'tv') {
         apiUrl = `https://api.themoviedb.org/3/search/tv?api_key=${apiKey}&query=${encodeURIComponent(searchQuery)}`;
-    } else { // For 'person' category
+    }
+    else {
         apiUrl = `https://api.themoviedb.org/3/search/person?api_key=${apiKey}&query=${encodeURIComponent(searchQuery)}`;
     }
 
@@ -215,7 +217,8 @@ async function showResults(category) {
     try {
         const response = await fetch(apiUrl);
         const data = await response.json();
-        displayResults(data.results, category);
+        const sortedResults = data.results.sort((a, b) => b.popularity - a.popularity);
+        displayResults(sortedResults, category);
     }
     catch (error) {
         console.error('Error fetching search results:', error);
@@ -246,17 +249,17 @@ function updateCategoryButtonStyles(selectedCategory) {
     const tvBtn = document.querySelector('[data-category="tv"]');
     const peopleBtn = document.querySelector('[data-category="person"]');
 
-    // Reset button styles
     movieBtn.style.backgroundColor = '';
     tvBtn.style.backgroundColor = '';
     peopleBtn.style.backgroundColor = '';
 
-    // Highlight the selected category button
     if (selectedCategory === 'movie') {
         movieBtn.style.backgroundColor = '#ff8623';
-    } else if (selectedCategory === 'tv') {
+    }
+    else if (selectedCategory === 'tv') {
         tvBtn.style.backgroundColor = '#ff8623';
-    } else if (selectedCategory === 'person') {
+    }
+    else if (selectedCategory === 'person') {
         peopleBtn.style.backgroundColor = '#ff8623';
     }
 }
@@ -276,6 +279,7 @@ const main = document.getElementById('movie-match-container1');
 
 function showMovies(items, container, category) {
     container.innerHTML = '';
+
     items.forEach((item) => {
         const isPerson = !item.title && !item.vote_average;
         const title = item.title || item.name || "N/A";
@@ -339,11 +343,12 @@ function showMovies(items, container, category) {
             }
             else {
                 if (category === 'tv') {
-                    localStorage.setItem('selectedTvSeriesId', id); // Store TV series ID
-                    window.location.href = 'tv-details.html'; // Navigate to TV series details page
-                } else { // Handle movies
+                    localStorage.setItem('selectedTvSeriesId', id);
+                    window.location.href = 'tv-details.html';
+                }
+                else {
                     localStorage.setItem('selectedMovieId', id);
-                    window.location.href = 'movie-details.html'; // Navigate to movie details page
+                    window.location.href = 'movie-details.html';
                 }
                 updateMovieVisitCount(id, title);
             }

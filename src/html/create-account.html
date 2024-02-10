@@ -130,7 +130,7 @@
             <button type="button" id="back-to-sign-in" onclick="window.location.href='sign-in.html'">Back to Sign In</button>
         </form>
     </div>
-    <script src="../js/create-account.js"></script>
+    <script src="../js/create-account.js" type="module"></script>
     <script>
         document.getElementById('settings-btn').addEventListener('click', () => {
             window.location.href = 'settings.html';
@@ -320,6 +320,14 @@
 
         document.addEventListener('DOMContentLoaded', rotateUserStats);
     </script>
+
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
+
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js"></script>
+
+
 </body>
 
 </html>

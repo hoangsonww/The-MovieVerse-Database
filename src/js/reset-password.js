@@ -1,9 +1,26 @@
-document.getElementById('resetPasswordForm').addEventListener('submit', function(event) {
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getFirestore, collection, query, where, getDocs, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyDL6kQnSfUdD8Ut8HFrp9kuivqz1xdXm7k",
+    authDomain: "movieverse-app.firebaseapp.com",
+    projectId: "movieverse-app",
+    storageBucket: "movieverse-app.appspot.com",
+    messagingSenderId: "802943718871",
+    appId: "1:802943718871:web:48bc916cc99e2724212792"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+document.getElementById('resetPasswordForm').addEventListener('submit', async function(event) {
     event.preventDefault();
     const resetEmail = document.getElementById('resetEmail').value;
 
-    const accounts = JSON.parse(localStorage.getItem('accountsMovieVerse')) || [];
-    if (!accounts.some(account => account.email === resetEmail)) {
+    const q = query(collection(db, "users"), where("email", "==", resetEmail));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
         alert("No account with such credentials exists in our database, or you might have mistyped something. Please try again.");
         return;
     }
@@ -11,23 +28,7 @@ document.getElementById('resetPasswordForm').addEventListener('submit', function
     document.getElementById('newPasswordFields').style.display = 'block';
 });
 
-function isValidPassword(password) {
-    const minLength = 8;
-    const hasUppercase = /[A-Z]/.test(password);
-    const hasLowercase = /[a-z]/.test(password);
-    const hasNumbers = /\d/.test(password);
-    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-
-    return (
-        password.length >= minLength &&
-        hasUppercase &&
-        hasLowercase &&
-        hasNumbers &&
-        hasSpecialChar
-    );
-}
-
-function updatePassword() {
+async function updatePassword() {
     const resetEmail = document.getElementById('resetEmail').value;
     const newPassword = document.getElementById('newPassword').value;
     const confirmNewPassword = document.getElementById('confirmNewPassword').value;
@@ -48,17 +49,43 @@ function updatePassword() {
         return;
     }
 
-    let accounts = JSON.parse(localStorage.getItem('accountsMovieVerse')) || [];
-    accounts = accounts.map(account => {
-        if (account.email === resetEmail) {
-            return { ...account, password: newPassword };
-        }
-        return account;
-    });
+    const q = query(collection(db, "users"), where("email", "==", resetEmail));
+    const querySnapshot = await getDocs(q);
 
-    localStorage.setItem('accountsMovieVerse', JSON.stringify(accounts));
-    alert("Password updated successfully!");
-    window.location.href = '../html/sign-in.html';
+    if (!querySnapshot.empty) {
+        querySnapshot.forEach(async (docSnapshot) => {
+            await updateDoc(doc(db, "users", docSnapshot.id), {
+                password: newPassword
+            }).then(() => {
+                alert("Password updated successfully!");
+                window.location.href = 'sign-in.html';
+            }).catch((error) => {
+                console.error("Error updating password: ", error);
+                alert("Failed to update password. Please try again.");
+            });
+        });
+    }
+    else {
+        alert("Failed to find account. Please try again.");
+    }
+}
+
+document.getElementById('updatePasswordButton').addEventListener('click', updatePassword);
+
+function isValidPassword(password) {
+    const minLength = 8;
+    const hasUppercase = /[A-Z]/.test(password);
+    const hasLowercase = /[a-z]/.test(password);
+    const hasNumbers = /\d/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+    return (
+        password.length >= minLength &&
+        hasUppercase &&
+        hasLowercase &&
+        hasNumbers &&
+        hasSpecialChar
+    );
 }
 
 async function showMovieOfTheDay() {

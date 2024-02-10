@@ -2564,10 +2564,10 @@ body {
 }
 
 .rating .star {
+    color: white;
     cursor: pointer;
     transition: color 200ms;
 }
-
 
 .rating .star:hover,
 .rating .star:hover ~ .star {
