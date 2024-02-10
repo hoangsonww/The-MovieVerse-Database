@@ -489,6 +489,31 @@
             }
         }
 
+        document.getElementById('create-watchlist-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('new-watchlist-name').value;
+            const description = document.getElementById('new-watchlist-description').value;
+            const selectedMovies = Array.from(document.querySelectorAll('#movies-container input[name="favoritedMovies"]:checked')).map(checkbox => checkbox.value);
+            const selectedTVSeries = Array.from(document.querySelectorAll('#tvseries-container input[name="favoritedTVSeries"]:checked')).map(checkbox => checkbox.value);
+
+            let watchlists = JSON.parse(localStorage.getItem('watchlists')) || [];
+            const uniqueId = generateUniqueId();
+            watchlists.push({
+                id: uniqueId,
+                name,
+                description,
+                movies: selectedMovies,
+                tvSeries: selectedTVSeries,
+                pinned: false,
+                createdAt: new Date().toISOString()
+            });
+
+            localStorage.setItem('watchlists', JSON.stringify(watchlists));
+            closeModal('create-watchlist-modal');
+            updateWatchListsDisplay();
+            window.location.reload();
+        });
+
         async function getTVSeriesTitle(seriesId) {
             const apiKey = 'c5a20c861acf7bb8d9e987dcc7f1b558';
             const url = `https://api.themoviedb.org/3/tv/${seriesId}?api_key=${apiKey}`;
@@ -537,29 +562,6 @@
         function generateUniqueId() {
             return Date.now().toString(36) + Math.random().toString(36).substr(2);
         }
-
-        document.getElementById('create-watchlist-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const name = document.getElementById('new-watchlist-name').value;
-            const description = document.getElementById('new-watchlist-description').value;
-            const selectedMovies = Array.from(document.querySelectorAll('#movies-container input[name="favoritedMovies"]:checked')).map(checkbox => checkbox.value);
-
-            let watchlists = JSON.parse(localStorage.getItem('watchlists')) || [];
-            const uniqueId = generateUniqueId();
-            watchlists.push({
-                id: uniqueId,
-                name,
-                description,
-                movies: selectedMovies,
-                pinned: false,
-                createdAt: new Date().toISOString()
-            });
-
-            localStorage.setItem('watchlists', JSON.stringify(watchlists));
-            closeModal('create-watchlist-modal');
-            updateWatchListsDisplay();
-            window.location.reload();
-        });
 
         document.getElementById('edit-watchlist-btn').addEventListener('click', async function() {
             await populateEditModal();
@@ -729,44 +731,42 @@
             displaySection.innerHTML = '';
 
             if (watchlists.length === 0) {
-                displaySection.innerHTML = '<p style="text-align: center">No watch lists found. Click on "Create a Watch List" to start adding movies.</p>';
+                displaySection.innerHTML = '<p>No watch lists found. Start adding movies and TV series to your watchlists.</p>';
+                return;
             }
-            else {
-                for (const watchlist of watchlists) {
-                    const watchlistDiv = document.createElement('div');
-                    watchlistDiv.className = 'watchlist';
 
-                    const title = document.createElement('h3');
-                    title.textContent = watchlist.name;
-                    title.className = 'watchlist-title';
+            for (const watchlist of watchlists) {
+                const watchlistDiv = document.createElement('div');
+                watchlistDiv.className = 'watchlist';
 
-                    const description = document.createElement('p');
-                    description.textContent = watchlist.description;
-                    description.className = 'watchlist-description';
+                const title = document.createElement('h3');
+                title.innerText = watchlist.name;
 
-                    watchlistDiv.appendChild(title);
-                    watchlistDiv.appendChild(description);
+                const description = document.createElement('p');
+                description.innerText = watchlist.description;
 
-                    if (watchlist.movies.length === 0) {
-                        const noMoviesMessage = document.createElement('p');
-                        noMoviesMessage.textContent = 'This watch list is empty. Use the "Edit a Watch List" button to add movies.';
-                        noMoviesMessage.style.textAlign = 'center';
-                        watchlistDiv.appendChild(noMoviesMessage);
+                watchlistDiv.appendChild(title);
+                watchlistDiv.appendChild(description);
+
+                if (watchlist.movies && watchlist.movies.length > 0) {
+                    const moviesContainer = document.createElement('div');
+                    for (const movieId of watchlist.movies) {
+                        const movieCard = await fetchMovieDetails(movieId);
+                        moviesContainer.appendChild(movieCard);
                     }
-                    else {
-                        const moviesContainer = document.createElement('div');
-                        moviesContainer.className = 'movies-container';
-                        moviesContainer.style.flexWrap = 'wrap';
-
-                        for (const movieId of watchlist.movies) {
-                            const movieCard = await fetchMovieDetails(movieId);
-                            moviesContainer.appendChild(movieCard);
-                        }
-                        watchlistDiv.appendChild(moviesContainer);
-                    }
-                    addWatchListControls(watchlistDiv);
-                    displaySection.appendChild(watchlistDiv);
+                    watchlistDiv.appendChild(moviesContainer);
                 }
+
+                if (watchlist.tvSeries && watchlist.tvSeries.length > 0) {
+                    const seriesContainer = document.createElement('div');
+                    for (const seriesId of watchlist.tvSeries) {
+                        const seriesCard = await fetchTVSeriesDetails(seriesId);
+                        seriesContainer.appendChild(seriesCard);
+                    }
+                    watchlistDiv.appendChild(seriesContainer);
+                }
+
+                displaySection.appendChild(watchlistDiv);
             }
         }
 
@@ -782,7 +782,7 @@
             catch (error) {
                 console.error('Error fetching movie details:', error);
                 const errorDiv = document.createElement('div');
-                errorDiv.textContent = 'Error loading movie details.';
+                errorDiv.textContent = 'Error loading movie card. Please try refreshing the page.';
                 return errorDiv;
             }
         }
@@ -1074,7 +1074,7 @@
             catch (error) {
                 console.error('Error fetching movie details:', error);
                 const errorDiv = document.createElement('div');
-                errorDiv.textContent = 'Error loading movie details.';
+                errorDiv.textContent = 'Error loading movie details. Please try refreshing the page.';
                 return errorDiv;
             }
         }
@@ -1159,6 +1159,10 @@
             moviesContainer.style.flexWrap = 'wrap';
             watchlist.movies.forEach(movieId => {
                 fetchMovieDetails(movieId).then(movieCard => moviesContainer.appendChild(movieCard));
+            });
+            watchlistDiv.appendChild(moviesContainer);
+            watchlist.tvSeries.forEach(tvSeriesId => {
+                fetchTVSeriesDetails(tvSeriesId).then(tvSeriesCard => moviesContainer.appendChild(tvSeriesCard));
             });
             watchlistDiv.appendChild(moviesContainer);
 
