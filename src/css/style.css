@@ -1396,6 +1396,16 @@ p {
     top: 0;
 }
 
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.checkbox-container label {
+    margin-top: 6px;
+}
+
 .active-category {
     background-color: #ff8623;
     color: white;

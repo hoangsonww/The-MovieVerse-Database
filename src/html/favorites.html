@@ -545,7 +545,7 @@
             const label = document.createElement('label');
             label.htmlFor = `${name}-${id}`;
             label.textContent = title;
-            label.style.marginTop = '10px';
+            label.style.marginTop = '11px';
             label.style.marginLeft = '10px';
 
             item.appendChild(checkbox);
@@ -688,38 +688,53 @@
             const deleteForm = document.getElementById('delete-watchlist-form');
             deleteForm.innerHTML = '';
 
-            const select = document.createElement('select');
-            select.id = 'delete-watchlist-select';
-            select.style.font = 'inherit';
+            if (watchlists.length === 0) {
+                deleteForm.innerHTML = '<p>No watch lists available to delete.</p>';
+                return;
+            }
+
+            const checkboxesContainer = document.createElement('div');
+            checkboxesContainer.id = 'delete-watchlist-checkboxes-container';
+
             watchlists.forEach((watchlist, index) => {
-                const option = document.createElement('option');
-                option.value = index;
-                option.textContent = watchlist.name;
-                select.appendChild(option);
+                const checkboxContainer = document.createElement('div');
+                checkboxContainer.classList.add('checkbox-container');
+
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.id = `delete-watchlist-${index}`;
+                checkbox.value = watchlist.id;
+
+                const label = document.createElement('label');
+                label.htmlFor = `delete-watchlist-${index}`;
+                label.textContent = watchlist.name;
+
+                checkboxContainer.appendChild(checkbox);
+                checkboxContainer.appendChild(label);
+                checkboxesContainer.appendChild(checkboxContainer);
             });
 
-            const watchlistLabel = document.createElement('label');
-            watchlistLabel.textContent = 'Select Watch List to Delete:';
-            watchlistLabel.htmlFor = 'delete-watchlist-select';
-            deleteForm.appendChild(watchlistLabel);
-            deleteForm.appendChild(select);
+            deleteForm.appendChild(checkboxesContainer);
 
             const deleteButton = document.createElement('button');
             deleteButton.type = 'button';
-            deleteButton.textContent = 'Delete';
+            deleteButton.textContent = 'Delete Selected';
+            deleteButton.onclick = deleteSelectedWatchlists;
             deleteForm.appendChild(deleteButton);
+        }
 
-            deleteButton.addEventListener('click', function() {
-                let watchlists = JSON.parse(localStorage.getItem('watchlists')) || [];
-                const selectedIndex = select.value;
-                const watchListName = watchlists[selectedIndex].name;
-                if (!confirm('Are you sure you want to delete the watch list titled "' + watchListName + '"?')) return;
-                watchlists.splice(selectedIndex, 1);
-                localStorage.setItem('watchlists', JSON.stringify(watchlists));
-                closeModal('delete-watchlist-modal');
-                updateWatchListsDisplay();
-                window.location.reload();
-            });
+        async function deleteSelectedWatchlists() {
+            const selectedCheckboxes = document.querySelectorAll('#delete-watchlist-checkboxes-container input[type="checkbox"]:checked');
+            let watchlists = JSON.parse(localStorage.getItem('watchlists')) || [];
+
+            const selectedIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.value);
+            watchlists = watchlists.filter(watchlist => !selectedIds.includes(watchlist.id));
+
+            localStorage.setItem('watchlists', JSON.stringify(watchlists));
+
+            closeModal('delete-watchlist-modal');
+            updateWatchListsDisplay();
+            window.location.reload();
         }
 
         document.getElementById('delete-watchlist-btn').addEventListener('click', populateDeleteModal);

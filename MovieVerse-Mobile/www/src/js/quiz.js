@@ -56,6 +56,21 @@ const questionBank = [
     { question: "In which film is the fictional mineral 'Unobtainium' sought after?", options: ["Avatar", "The Core", "Transformers"], answer: "Avatar" },
     { question: "What is the name of the fictional city where the Batman movies take place?", options: ["Gotham City", "Metropolis", "Star City"], answer: "Gotham City" },
     { question: "Who directed 'The Dark Knight'?", options: ["Christopher Nolan", "Martin Scorsese", "Steven Spielberg"], answer: "Christopher Nolan" },
+    { question: "Who won the Best Actress award at the Oscars in 2021?", options: ["Viola Davis", "Frances McDormand", "Carey Mulligan"], answer: "Frances McDormand" },
+    { question: "Which movie features a dystopian future divided into faction-based societies?", options: ["The Hunger Games", "Divergent", "The Maze Runner"], answer: "Divergent" },
+    { question: "What is the name of the spaceship in 'Alien' (1979)?", options: ["Nostromo", "Serenity", "Millennium Falcon"], answer: "Nostromo" },
+    { question: "Which director is known for the 'Dark Knight' trilogy?", options: ["Christopher Nolan", "Tim Burton", "Joel Schumacher"], answer: "Christopher Nolan" },
+    { question: "In 'The Terminator', what is the name of the company that created Skynet?", options: ["Cyberdyne Systems", "Wayland Industries", "Oscorp"], answer: "Cyberdyne Systems" },
+    { question: "What 1994 film revitalized John Travolta's career?", options: ["Get Shorty", "Pulp Fiction", "Face/Off"], answer: "Pulp Fiction" },
+    { question: "Which movie was incorrectly announced as the Best Picture winner at the 2017 Academy Awards?", options: ["La La Land", "Moonlight", "Manchester by the Sea"], answer: "La La Land" },
+    { question: "What animated film was Disney's first ever full-length feature?", options: ["Snow White and the Seven Dwarfs", "Cinderella", "The Little Mermaid"], answer: "Snow White and the Seven Dwarfs" },
+    { question: "Who directed 'E.T. the Extra-Terrestrial'?", options: ["Steven Spielberg", "George Lucas", "Ridley Scott"], answer: "Steven Spielberg" },
+    { question: "Which film contains the quote, 'There's no place like home'?", options: ["The Wizard of Oz", "Gone with the Wind", "Casablanca"], answer: "The Wizard of Oz" },
+    { question: "What is the highest grossing film of all time (not adjusted for inflation) as of 2023?", options: ["Avengers: Endgame", "Avatar", "Titanic"], answer: "Avatar" },
+    { question: "Who composed the score for 'The Lion King' (1994)?", options: ["John Williams", "Hans Zimmer", "Alan Menken"], answer: "Hans Zimmer" },
+    { question: "Which movie did Leonardo DiCaprio win his first Oscar for Best Actor?", options: ["The Revenant", "The Wolf of Wall Street", "Inception"], answer: "The Revenant" },
+    { question: "In which film does the character Maximus Decimus Meridius appear?", options: ["300", "Gladiator", "Troy"], answer: "Gladiator" },
+    { question: "What is the name of the fictional British spy in the film series created by Ian Fleming?", options: ["James Bond", "Jason Bourne", "Jack Ryan"], answer: "James Bond" },
 ];
 
 const IMGPATH = "https://image.tmdb.org/t/p/w1280";
@@ -81,15 +96,16 @@ const form = document.getElementById("form");
 
 form.addEventListener('submit', (e) => {
     e.preventDefault();
-    const searchTerm = search.value.trim();
-    handleSearch(searchTerm);
+    const searchQuery = document.getElementById('search').value;
+    localStorage.setItem('searchQuery', searchQuery);
+    window.location.href = 'search.html';
 });
 
-searchButton.addEventListener('click', (e) => {
-    e.preventDefault();
-    const searchTerm = search.value.trim();
-    handleSearch(searchTerm);
-});
+function handleSearch() {
+    const searchQuery = document.getElementById('search').value;
+    localStorage.setItem('searchQuery', searchQuery);
+    window.location.href = 'search.html';
+}
 
 function handleSearch(searchTerm) {
     if (searchTerm) {
@@ -235,22 +251,6 @@ function generateRandomQuestions() {
     });
 }
 
-document.getElementById('quiz-form').addEventListener('submit', function(event) {
-    event.preventDefault();
-    let score = 0;
-    let totalQuestions = 10;
-
-    questionBank.forEach((question, index) => {
-        const selectedAnswer = document.querySelector(`input[name="q${index}"]:checked`);
-        if (selectedAnswer && selectedAnswer.value === question.answer) {
-            score++;
-        }
-    });
-
-    updateTriviaStats(score, totalQuestions);
-    alert(`Your score is ${score} out of ${totalQuestions}`);
-});
-
 function updateTriviaStats(correctAnswers, totalQuestions) {
     let triviaStats = JSON.parse(localStorage.getItem('triviaStats')) || { totalCorrect: 0, totalAttempted: 0 };
 
@@ -270,7 +270,6 @@ function getTriviaAccuracy() {
 }
 
 document.getElementById('regenerate-questions').addEventListener('click', generateRandomQuestions);
-
 generateRandomQuestions();
 
 async function showMovieOfTheDay() {
@@ -342,3 +341,62 @@ document.addEventListener("DOMContentLoaded", function() {
     updateSignInButtonState();
     document.getElementById('googleSignInBtn').addEventListener('click', handleSignInOut);
 });
+
+document.getElementById('quiz-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    let answeredQuestions = 0;
+
+    for (let i = 0; i < 10; i++) {
+        if (document.querySelector(`input[name="q${i}"]:checked`)) {
+            answeredQuestions++;
+        }
+    }
+
+    if (answeredQuestions < 10) {
+        const confirmSubmit = confirm(`You have only answered ${answeredQuestions} questions. Are you sure you want to submit?`);
+        if (!confirmSubmit) {
+            return;
+        }
+    }
+
+    calculateAndDisplayResults();
+});
+
+function calculateAndDisplayResults() {
+    let score = 0;
+    questionBank.forEach((question, index) => {
+        const selectedAnswer = document.querySelector(`input[name="q${index}"]:checked`);
+        if (selectedAnswer && selectedAnswer.value === question.answer) {
+            score++;
+        }
+    });
+
+    displayResults(score);
+}
+
+function displayResults(score) {
+    let accuracy = (score / 10) * 100;
+    let progress = accuracy;
+
+    document.getElementById('progress-circle').style.setProperty('--progress', `${progress}%`);
+    document.getElementById('correct-answers').textContent = score;
+    document.getElementById('result-text').textContent = `Your score is ${score} out of 10 (${accuracy.toFixed(1)}% accuracy)`;
+
+    showModal();
+}
+
+function showModal() {
+    const modal = document.getElementById('result-modal');
+    modal.style.display = "block";
+
+    modal.querySelector('.close-button').addEventListener('click', function() {
+        modal.style.display = "none";
+    });
+
+    window.addEventListener('click', function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    });
+}
