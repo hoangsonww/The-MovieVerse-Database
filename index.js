@@ -354,6 +354,7 @@ function removeNavBar() {
     if (sideNav.classList.contains('manual-toggle')) {
         sideNav.classList.remove('manual-toggle');
     }
+
     adjustNavBar();
 }
 
