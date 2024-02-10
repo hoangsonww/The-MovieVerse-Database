@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" style="overflow-x: hidden">
+
 <head>
     <meta charset="UTF-8">
     <title>Search Results - The MovieVerse</title>
@@ -21,126 +22,123 @@
         gtag('config', 'G-CQKJ67FXZ4');
     </script>
     <script src="../js/search.js"></script>
-    <style>
-    </style>
 </head>
 
 <body class="movie-details-body4">
 
-<header style="margin-bottom: -50px">
-    <a href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer" title="Click to go back to the home page">
-        <h1 id="my-heading" style="margin-bottom: -10px">
-            The Mo<span class="highlight">vieV</span>erse
-        </h1>
-    </a>
-    <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
-        <p id="stats-label" class="clock" style="font-size: 16px"></p>
-        <h1 id="stats-display" class="clock"></h1>
-    </div>
-    <button class="back-btn" onclick="window.location.href='../../index.html'">Home</button>
-    <button class="about" onclick="window.location.href='about.html'">About</button>
-    <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="Go to your favorites list">Favorites</button>
-    <button id="googleSignInBtn" class="nav-btn" onclick="handleSignInOut()" title="Sign In/Out">
-        <span id="signInOutText">Sign In</span>
-        <i class="fas fa-sign-in-alt" id="signInIcon"></i>
-        <i class="fas fa-sign-out-alt" id="signOutIcon" style="display: none;"></i>
-    </button>
-    <button id="profileBtn" class="nav-btn" onclick="window.location.href='user-profile.html'" title="Go to your profile">
-        <span id="profileText">Profile</span>
-        <i class="fas fa-user" id="profileIcon"></i>
-    </button>
-    <form id="form">
-        <input
-                type="text"
-                id="search"
-                placeholder="Search For Anything..."
-                class="search"
-        />
-        <button type="button" id="button-search" onclick="handleSearch()">Search</button>
-    </form>
-</header>
+    <header style="margin-bottom: -50px">
+        <a href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer" title="Click to go back to the home page">
+            <h1 id="my-heading" style="margin-bottom: -10px">
+                The Mo<span class="highlight">vieV</span>erse
+            </h1>
+        </a>
+        <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
+            <p id="stats-label" class="clock" style="font-size: 16px"></p>
+            <h1 id="stats-display" class="clock"></h1>
+        </div>
+        <button class="back-btn" onclick="window.location.href='../../index.html'">Home</button>
+        <button class="about" onclick="window.location.href='about.html'">About</button>
+        <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="Go to your favorites list">Favorites</button>
+        <button id="googleSignInBtn" class="nav-btn" onclick="handleSignInOut()" title="Sign In/Out">
+            <span id="signInOutText">Sign In</span>
+            <i class="fas fa-sign-in-alt" id="signInIcon"></i>
+            <i class="fas fa-sign-out-alt" id="signOutIcon" style="display: none;"></i>
+        </button>
+        <button id="profileBtn" class="nav-btn" onclick="window.location.href='user-profile.html'" title="Go to your profile">
+            <span id="profileText">Profile</span>
+            <i class="fas fa-user" id="profileIcon"></i>
+        </button>
+        <form id="form">
+            <input
+                    type="text"
+                    id="search"
+                    placeholder="Search For Anything..."
+                    class="search"
+            />
+            <button type="button" id="button-search" onclick="handleSearch()">Search</button>
+        </form>
+    </header>
 
-<main id="movie-match-main" style="margin-top: 10px">
-    <h2 id="search-results-label">Search Results</h2>
+    <main id="movie-match-main" style="margin-top: 10px">
+        <h2 id="search-results-label">Search Results</h2>
 
-    <div class="category-buttons">
-        <button data-category="movie" onclick="showResults('movie')">Movies</button>
-        <button data-category="tv" onclick="showResults('tv')">TV Series</button>
-        <button data-category="person" onclick="showResults('person')">People</button>
-    </div>
+        <div class="category-buttons">
+            <button data-category="movie" onclick="showResults('movie')">Movies</button>
+            <button data-category="tv" onclick="showResults('tv')">TV Series</button>
+            <button data-category="person" onclick="showResults('person')">People</button>
+        </div>
 
-    <div id="movie-match-container1" class="movie-match-container1">
-        <main id="results">
-        </main>
-    </div>
-</main>
+        <div id="movie-match-container1" class="movie-match-container1">
+            <main id="results">
+            </main>
+        </div>
+    </main>
 
-<button id="settings-btn" style="position: fixed; bottom: 150px">Settings</button>
-<button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 115px">Movie Timeline</button>
-<button id="movie-of-the-day-btn2" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!">Recommendation</button>
-<button id="discussions-btn" onclick="window.location.href='chatbot.html'" title="Want to know more about movies? Chat with our intelligent chatbot!" style="margin-bottom: -55px">MovieVerse Chatbot</button>
-<button id="trivia-btn" onclick="window.location.href='trivia.html'" style="margin-bottom: -50px" title="Play a quick trivia to test your knowledge about movies!">MovieVerse Trivia</button>
+    <button id="settings-btn" style="position: fixed; bottom: 150px">Settings</button>
+    <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 115px">Movie Timeline</button>
+    <button id="movie-of-the-day-btn2" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!">Recommendation</button>
+    <button id="discussions-btn" onclick="window.location.href='chatbot.html'" title="Want to know more about movies? Chat with our intelligent chatbot!" style="margin-bottom: -55px">MovieVerse Chatbot</button>
+    <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="margin-bottom: -50px" title="Play a quick trivia to test your knowledge about movies!">MovieVerse Trivia</button>
 
-<script>
-    async function showMovieOfTheDay() {
-        const year = new Date().getFullYear();
-        const url = `https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+    <script>
+        async function showMovieOfTheDay() {
+            const year = new Date().getFullYear();
+            const url = `https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
 
-        try {
-            const response = await fetch(url);
-            const data = await response.json();
-            const movies = data.results;
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                const movies = data.results;
 
-            if (movies.length > 0) {
-                const randomMovie = movies[Math.floor(Math.random() * movies.length)];
-                localStorage.setItem('selectedMovieId', randomMovie.id);
-                window.location.href = 'movie-details.html';
+                if (movies.length > 0) {
+                    const randomMovie = movies[Math.floor(Math.random() * movies.length)];
+                    localStorage.setItem('selectedMovieId', randomMovie.id);
+                    window.location.href = 'movie-details.html';
+                }
+                else {
+                    fallbackMovieSelection();
+                }
             }
-            else {
+            catch (error) {
+                console.error('Error fetching movie:', error);
                 fallbackMovieSelection();
             }
         }
-        catch (error) {
-            console.error('Error fetching movie:', error);
-            fallbackMovieSelection();
+
+        function fallbackMovieSelection() {
+            const fallbackMovies = [432413, 299534, 1726, 562, 118340, 455207, 493922, 447332, 22970, 530385, 27205, 264660, 120467, 603, 577922, 76341, 539, 419704, 515001, 118340, 424, 98];
+            const randomFallbackMovie = fallbackMovies[Math.floor(Math.random() * fallbackMovies.length)];
+            localStorage.setItem('selectedMovieId', randomFallbackMovie);
+            window.location.href = 'movie-details.html';
         }
-    }
 
-    function fallbackMovieSelection() {
-        const fallbackMovies = [432413, 299534, 1726, 562, 118340, 455207, 493922, 447332, 22970, 530385, 27205, 264660, 120467, 603, 577922, 76341, 539, 419704, 515001, 118340, 424, 98];
-        const randomFallbackMovie = fallbackMovies[Math.floor(Math.random() * fallbackMovies.length)];
-        localStorage.setItem('selectedMovieId', randomFallbackMovie);
-        window.location.href = 'movie-details.html';
-    }
+        document.getElementById('settings-btn').addEventListener('click', () => {
+            window.location.href = 'settings.html';
+        });
 
-    document.getElementById('settings-btn').addEventListener('click', () => {
-        window.location.href = 'settings.html';
-    });
+        document.addEventListener('DOMContentLoaded', () => {
+            applySettings();
 
-    document.addEventListener('DOMContentLoaded', () => {
-        applySettings();
+            function applySettings() {
+                const savedBg = localStorage.getItem('backgroundImage');
+                const savedTextColor = localStorage.getItem('textColor');
+                const savedFontSize = localStorage.getItem('fontSize');
 
-        function applySettings() {
-            const savedBg = localStorage.getItem('backgroundImage');
-            const savedTextColor = localStorage.getItem('textColor');
-            const savedFontSize = localStorage.getItem('fontSize');
-
-            if (savedBg) {
-                document.body.style.backgroundImage = `url('${savedBg}')`;
+                if (savedBg) {
+                    document.body.style.backgroundImage = `url('${savedBg}')`;
+                }
+                if (savedTextColor) {
+                    document.querySelectorAll('h1, h2, h3, p, a, span, div, button, input, select, textarea, label, li').forEach(element => {
+                        element.style.color = savedTextColor;
+                    });
+                }
+                if (savedFontSize) {
+                    const size = savedFontSize === 'small' ? '12px' : savedFontSize === 'medium' ? '16px' : '20px';
+                    document.body.style.fontSize = size;
+                }
             }
-            if (savedTextColor) {
-                document.querySelectorAll('h1, h2, h3, p, a, span, div, button, input, select, textarea, label, li').forEach(element => {
-                    element.style.color = savedTextColor;
-                });
-            }
-            if (savedFontSize) {
-                const size = savedFontSize === 'small' ? '12px' : savedFontSize === 'medium' ? '16px' : '20px';
-                document.body.style.fontSize = size;
-            }
-        }
-    });
-</script>
+        });
+    </script>
 
 </body>
-
 </html>

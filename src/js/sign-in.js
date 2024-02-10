@@ -11,10 +11,12 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+
 const db = getFirestore(app);
 
 document.getElementById('signInForm').addEventListener('submit', async function(event) {
     event.preventDefault();
+
     const email = document.getElementById('signInEmail').value;
     const password = document.getElementById('signInPassword').value;
 
@@ -35,27 +37,3 @@ document.getElementById('signInForm').addEventListener('submit', async function(
 document.getElementById('createAccountBtn').addEventListener('click', function() {
     window.location.href = 'create-account.html';
 });
-
-async function showMovieOfTheDay() {
-    const year = new Date().getFullYear();
-    const url = `https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
-
-    try {
-        const response = await fetch(url);
-        const data = await response.json();
-        const movies = data.results;
-
-        if (movies.length > 0) {
-            const randomMovie = movies[Math.floor(Math.random() * movies.length)];
-            localStorage.setItem('selectedMovieId', randomMovie.id);
-            window.location.href = 'movie-details.html';
-        }
-        else {
-            fallbackMovieSelection();
-        }
-    }
-    catch (error) {
-        console.error('Error fetching movie:', error);
-        fallbackMovieSelection();
-    }
-}
