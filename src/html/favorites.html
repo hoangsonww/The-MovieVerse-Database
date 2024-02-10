@@ -449,49 +449,85 @@
         }
 
         async function populateCreateModalWithFavorites() {
-            const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+            const favoritesMovies = JSON.parse(localStorage.getItem('favorites')) || [];
+            const favoritesTVSeries = JSON.parse(localStorage.getItem('favoritesTVSeries')) || [];
             const createForm = document.getElementById('create-watchlist-form');
 
-            let moviesContainer = document.getElementById('movies-container');
-            let moviesLabel = document.getElementById('movies-label-create');
-
-            if (moviesContainer) {
-                moviesContainer.innerHTML = '';
-            }
-            else {
-                moviesContainer = document.createElement('div');
-                moviesContainer.id = 'movies-container';
-                createForm.insertBefore(moviesContainer, createForm.querySelector('button[type="submit"]'));
+            let container = document.getElementById('favorites-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'favorites-container';
+                createForm.insertBefore(container, createForm.querySelector('button[type="submit"]'));
+            } else {
+                container.innerHTML = ''; // Clear previous content
             }
 
-            if (!moviesLabel) {
-                moviesLabel = document.createElement('label');
-                moviesLabel.id = 'movies-label-create';
-                moviesLabel.textContent = 'Select Favorite Movies:';
-                moviesLabel.htmlFor = 'movies-container';
-                createForm.insertBefore(moviesLabel, moviesContainer);
+            // Section for favorite movies
+            let moviesLabel = document.createElement('label');
+            moviesLabel.textContent = 'Select Favorite Movies:';
+            container.appendChild(moviesLabel);
+
+            let moviesContainer = document.createElement('div');
+            moviesContainer.id = 'movies-container';
+            container.appendChild(moviesContainer);
+
+            for (const movieId of favoritesMovies) {
+                const movieTitle = await getMovieTitle(movieId); // Assuming getMovieTitle can fetch titles by ID
+                appendCheckbox(moviesContainer, movieId, movieTitle, 'favoritedMovies');
             }
 
-            for (const movieId of favorites) {
-                const movieTitle = await getMovieTitle(movieId);
-                const movieItem = document.createElement('div');
-                movieItem.classList.add('movie-item');
+            // Section for favorite TV series
+            let tvSeriesLabel = document.createElement('label');
+            tvSeriesLabel.textContent = 'Select Favorite TV Series:';
+            container.appendChild(tvSeriesLabel);
 
-                const checkbox = document.createElement('input');
-                checkbox.type = 'checkbox';
-                checkbox.id = `movie-${movieId}`;
-                checkbox.value = movieId;
-                checkbox.name = "favoritedMovies";
+            let tvSeriesContainer = document.createElement('div');
+            tvSeriesContainer.id = 'tvseries-container';
+            container.appendChild(tvSeriesContainer);
 
-                const label = document.createElement('label');
-                label.htmlFor = `movie-${movieId}`;
-                label.textContent = movieTitle;
-
-                movieItem.appendChild(checkbox);
-                movieItem.appendChild(label);
-                moviesContainer.appendChild(movieItem);
+            for (const seriesId of favoritesTVSeries) {
+                const seriesTitle = await getTVSeriesTitle(seriesId); // Implement this function similarly to getMovieTitle
+                appendCheckbox(tvSeriesContainer, seriesId, seriesTitle, 'favoritedTVSeries');
             }
         }
+
+        async function getTVSeriesTitle(seriesId) {
+            const apiKey = 'c5a20c861acf7bb8d9e987dcc7f1b558'; // Replace with your actual API key
+            const url = `https://api.themoviedb.org/3/tv/${seriesId}?api_key=${apiKey}`;
+
+            try {
+                const response = await fetch(url);
+                const series = await response.json();
+                return series.name; // Note that for TV series, the title may be under 'name'
+            } catch (error) {
+                console.error('Error fetching TV series title:', error);
+                return 'Unknown Series';
+            }
+        }
+
+        function appendCheckbox(container, id, title, name) {
+            const item = document.createElement('div');
+            item.classList.add('favorite-item');
+            item.style.display = 'flex';
+            item.style.alignItems = 'center';
+
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.id = `${name}-${id}`;
+            checkbox.value = id;
+            checkbox.name = name;
+
+            const label = document.createElement('label');
+            label.htmlFor = `${name}-${id}`;
+            label.textContent = title;
+            label.style.marginTop = '10px';
+            label.style.marginLeft = '10px';
+
+            item.appendChild(checkbox);
+            item.appendChild(label);
+            container.appendChild(item);
+        }
+
 
         document.getElementById('create-watchlist-btn').addEventListener('click', function() {
             document.getElementById('create-watchlist-form').reset();

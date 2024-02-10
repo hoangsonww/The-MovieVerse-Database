@@ -1368,14 +1368,6 @@ p {
     background-color: #ff8623;
 }
 
-#movies-container label,
-#edit-movies-container label {
-    display: inline-block;
-    margin-left: 10px;
-    position: relative;
-    top: 5px;
-}
-
 #search-results {
     display: flex;
     flex-wrap: wrap;
@@ -1414,6 +1406,7 @@ p {
     text-align: center;
     margin-bottom: 20px;
 }
+
 
 .category-buttons button {
     background-color: #7378c5;
@@ -1516,13 +1509,6 @@ p {
     border: 1px solid #7378c5;
     background-color: #22254b;
     color: #fff;
-}
-
-#movies-container input[type='checkbox'],
-#edit-movies-container input[type='checkbox'] {
-    margin-right: 1px;
-    vertical-align: middle;
-    margin-left: 10px;
 }
 
 .modal-content button:hover {
