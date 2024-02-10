@@ -1417,7 +1417,6 @@ p {
     margin-bottom: 20px;
 }
 
-
 .category-buttons button {
     background-color: #7378c5;
     font: inherit;
@@ -2568,6 +2567,7 @@ body {
     cursor: pointer;
     transition: color 200ms;
 }
+
 
 .rating .star:hover,
 .rating .star:hover ~ .star {

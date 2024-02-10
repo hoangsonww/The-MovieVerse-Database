@@ -215,6 +215,7 @@ function populateDirectorDetails(director, credits) {
     const directorImage = document.getElementById('director-image');
     const directorName = document.getElementById('director-name');
     const directorDescription = document.getElementById('director-description');
+
     if (director.profile_path) {
         directorImage.src = `https://image.tmdb.org/t/p/w1280${director.profile_path}`;
         directorName.textContent = director.name;
@@ -228,13 +229,29 @@ function populateDirectorDetails(director, credits) {
         noImageText.style.textAlign = 'center';
         document.querySelector('.director-left').appendChild(noImageText);
     }
+
+    let ageOrStatus;
+    if (director.birthday) {
+        if (director.deathday) {
+            ageOrStatus = calculateAge(director.birthday, director.deathday) + ' (Deceased)';
+        }
+        else {
+            ageOrStatus = calculateAge(director.birthday) + ' (Alive)';
+        }
+    }
+    else {
+        ageOrStatus = 'Unknown';
+    }
+
     directorDescription.innerHTML = `
         <p><strong>Biography:</strong> ${director.biography || 'N/A'}</p>
         <p><strong>Date of Birth:</strong> ${director.birthday || 'N/A'}</p>
-        <p><strong>Age:</strong> ${director.birthday ? calculateAge(director.birthday) : 'N/A'}</p>
+        <p><strong>Date of Death:</strong> ${director.deathday || 'N/A'}</p>
+        <p><strong>Age:</strong> ${ageOrStatus}</p>
         <p><strong>Place of Birth:</strong> ${director.place_of_birth || 'N/A'}</p>
         <p><strong>Known For:</strong> Directing</p>
     `;
+
     const filmographyHeading = document.createElement('p');
     filmographyHeading.innerHTML = '<strong>Filmography:</strong> ';
     directorDescription.appendChild(filmographyHeading);
@@ -254,12 +271,14 @@ function populateDirectorDetails(director, credits) {
         }
     });
     filmographyHeading.appendChild(movieList);
+
     applySettings();
 }
 
-function calculateAge(dob) {
-    const date = new Date(dob);
-    const ageDifMs = Date.now() - date.getTime();
+function calculateAge(dob, deathday = null) {
+    const birthDate = new Date(dob);
+    const referenceDate = deathday ? new Date(deathday) : new Date();
+    const ageDifMs = referenceDate - birthDate.getTime();
     const ageDate = new Date(ageDifMs);
     return Math.abs(ageDate.getUTCFullYear() - 1970);
 }
@@ -419,7 +438,6 @@ function getMostCommonGenre() {
             maxCount = favoriteGenres[genre];
         }
     }
-
     return mostCommonGenre || 'Not Available';
 }
 
@@ -433,9 +451,11 @@ function applySettings() {
     if (savedBg) {
         document.body.style.backgroundImage = `url('${savedBg}')`;
     }
+
     if (savedTextColor) {
         applyTextColor(savedTextColor);
     }
+
     if (savedFontSize) {
         const size = savedFontSize === 'small' ? '12px' : savedFontSize === 'medium' ? '16px' : '20px';
         document.body.style.fontSize = size;
