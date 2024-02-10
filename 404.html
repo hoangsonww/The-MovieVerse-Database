@@ -214,6 +214,17 @@
         <button class="back-btn" onclick="window.location.href='index.html'" title="Go back to homepage">Home</button>
         <button class="about" onclick="window.location.href='./src/html/about.html'" title="About this wonderful app!">About</button>
         <button class="favorites-btn" onclick="window.location.href='./src/html/favorites.html'" title="Go to your favorites list">Favorites</button>
+
+        <form id="form1">
+            <input
+                    type="text"
+                    id="search"
+                    placeholder="Search For Anything..."
+                    class="search"
+            />
+            <button type="button" id="button-search" onclick="handleSearch()">Search</button>
+        </form>
+
         <button id="movie-match-btn3" onclick="window.location.href='./src/html/movie-match.html'" title="Find a movie that matches your mood, genre, and time period!">Movie Match</button>
         <button id="movie-timeline-btn" onclick="window.location.href='./src/html/movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 140px">Movie Timeline</button>
         <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 100px">Movie of the Day</button>
@@ -299,6 +310,21 @@
                 }
             }
         });
+
+        const form = document.getElementById('form1');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const searchQuery = document.getElementById('search').value;
+            localStorage.setItem('searchQuery', searchQuery);
+            window.location.href = 'src/html/search.html';
+        });
+
+        function handleSearch() {
+            const searchQuery = document.getElementById('search').value;
+            localStorage.setItem('searchQuery', searchQuery);
+            window.location.href = 'src/html/search.html';
+        }
     </script>
 </body>
 </html>

@@ -288,36 +288,34 @@ function showMovies(items, container, category) {
         let biography = item.biography || 'Click to view the details of this person.';
 
         const { id, profile_path, poster_path } = item;
-        const imagePath = profile_path || poster_path;
+        const imagePath = profile_path || poster_path ? IMGPATH + (profile_path || poster_path) : null;
 
         const movieEl = document.createElement('div');
         movieEl.classList.add('movie');
 
-        const imageSrc = `${IMGPATH + imagePath}`;
+        let movieContentHTML = `<div class="image-container" style="text-align: center;">`;
 
-        let movieContentHTML = `
-            <img src="${imageSrc}" alt="${title}" style="cursor: pointer;" onError="this.onerror=null;">
-            <div class="movie-info" style="cursor: pointer;">
-                <h3>${title}</h3>`;
+        if (imagePath) {
+            movieContentHTML += `<img src="${imagePath}" alt="${title}" style="cursor: pointer; max-width: 100%; height: auto;" onError="this.parentElement.innerHTML = '<div style=\'text-align: center; padding: 20px;\'>Image Unavailable</div>';">`;
+        }
+        else {
+            movieContentHTML += `<div style="text-align: center; padding: 20px;">Image Unavailable</div>`;
+        }
+
+        movieContentHTML += `</div><div class="movie-info" style="cursor: pointer;"><h3>${title}</h3>`;
 
         if (!isPerson && item.vote_average !== undefined) {
             const voteAverage = item.vote_average.toFixed(1);
             movieContentHTML += `<span class="${getClassByRate(item.vote_average)}">${voteAverage}</span>`;
         }
 
+        movieContentHTML += `</div>`;
+
         if (isPerson) {
-            movieContentHTML += `</div>
-            <div class="overview" style="cursor: pointer;">
-                <h4>Details: </h4>
-                ${biography}
-            </div>`;
+            movieContentHTML += `<div class="overview" style="cursor: pointer;"><h4>Details: </h4>${biography}</div>`;
         }
         else {
-            movieContentHTML += `</div>
-            <div class="overview" style="cursor: pointer;">
-                <h4>Overview: </h4>
-                ${overview}
-            </div>`;
+            movieContentHTML += `<div class="overview" style="cursor: pointer;"><h4>Overview: </h4>${overview}</div>`;
         }
 
         movieEl.innerHTML = movieContentHTML;
@@ -374,7 +372,6 @@ function handleSignInOut() {
 
 function updateSignInButtonState() {
     const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
-
     const signInText = document.getElementById('signInOutText');
     const signInIcon = document.getElementById('signInIcon');
     const signOutIcon = document.getElementById('signOutIcon');

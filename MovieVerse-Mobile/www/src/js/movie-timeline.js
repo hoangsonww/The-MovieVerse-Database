@@ -250,7 +250,7 @@ function showMovies(movies, mainElement) {
         movieEl.classList.add('movie');
         const movieImage = movie.poster_path
             ? `<img src="${IMGPATH + movie.poster_path}" alt="${movie.title}" />`
-            : `<div class="no-image">Image Not Available</div>`;
+            : `<div class="no-image" style="margin-top: 20px; margin-bottom: 20px">Image Not Available</div>`;
         const voteAvg = movie.vote_average.toFixed(1);
         const ratingClass = getClassByRate(movie.vote_average);
         movieEl.innerHTML = `
