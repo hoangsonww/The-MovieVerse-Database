@@ -1122,6 +1122,7 @@
             pinBtn.innerHTML = '<i class="fas fa-thumbtack"></i>';
             pinBtn.onclick = function() { pinWatchList(watchlistDiv, watchlistId); };
             pinBtn.title = isListPinned(watchlistId) ? 'Unpin this watch list' : 'Pin this watch list';
+            pinBtn.style.color = isListPinned(watchlistId) ? '#7378c5' : '#ff8623';
 
             const moveUpBtn = document.createElement('button');
             moveUpBtn.innerHTML = '<i class="fas fa-arrow-up"></i>';
@@ -1134,7 +1135,6 @@
             controlContainer.appendChild(pinBtn);
             controlContainer.appendChild(moveUpBtn);
             controlContainer.appendChild(moveDownBtn);
-
             watchlistDiv.appendChild(controlContainer);
         }
 
