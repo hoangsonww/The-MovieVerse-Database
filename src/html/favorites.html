@@ -468,6 +468,7 @@
 
             let moviesContainer = document.createElement('div');
             moviesContainer.id = 'movies-container';
+            moviesContainer.style.marginTop = '-20px';
             container.appendChild(moviesContainer);
 
             for (const movieId of favoritesMovies) {
@@ -481,6 +482,7 @@
 
             let tvSeriesContainer = document.createElement('div');
             tvSeriesContainer.id = 'tvseries-container';
+            tvSeriesContainer.style.marginTop = '-20px';
             container.appendChild(tvSeriesContainer);
 
             for (const seriesId of favoritesTVSeries) {
@@ -570,7 +572,8 @@
 
         async function populateEditModal() {
             const watchlists = JSON.parse(localStorage.getItem('watchlists')) || [];
-            const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+            const favoritesMovies = JSON.parse(localStorage.getItem('favorites')) || [];
+            const favoritesTVSeries = JSON.parse(localStorage.getItem('favoritesTVSeries')) || [];
             const editForm = document.getElementById('edit-watchlist-form');
             editForm.innerHTML = '';
 
@@ -591,7 +594,6 @@
 
             const nameLabel = document.createElement('label');
             nameLabel.textContent = 'Watch List Name:';
-
             const nameInput = document.createElement('input');
             nameInput.type = 'text';
             nameInput.id = 'edit-watchlist-name';
@@ -600,7 +602,6 @@
 
             const descLabel = document.createElement('label');
             descLabel.textContent = 'Description:';
-
             const descInput = document.createElement('textarea');
             descInput.id = 'edit-watchlist-description';
             descInput.style.font = 'inherit';
@@ -608,10 +609,8 @@
 
             const moviesContainer = document.createElement('div');
             moviesContainer.id = 'edit-movies-container';
-
             const moviesLabel = document.createElement('label');
             moviesLabel.textContent = 'Select Favorite Movies:';
-
             editForm.appendChild(select);
             editForm.appendChild(nameLabel);
             editForm.appendChild(nameInput);
@@ -620,31 +619,30 @@
             editForm.appendChild(moviesLabel);
             editForm.appendChild(moviesContainer);
 
+            const tvSeriesContainer = document.createElement('div');
+            tvSeriesContainer.id = 'edit-tvseries-container';
+            const tvSeriesLabel = document.createElement('label');
+            tvSeriesLabel.textContent = 'Select Favorite TV Series:';
+            tvSeriesLabel.style.marginTop = '20px';
+            editForm.appendChild(tvSeriesLabel);
+            editForm.appendChild(tvSeriesContainer);
+
             const updateForm = async (watchlist) => {
                 nameInput.value = watchlist.name;
                 descInput.value = watchlist.description;
                 moviesContainer.innerHTML = '';
+                tvSeriesContainer.innerHTML = '';
 
-                for (const movieId of favorites) {
+                for (const movieId of favoritesMovies) {
                     const movieTitle = await getMovieTitle(movieId);
                     const isChecked = watchlist.movies.includes(movieId.toString());
+                    appendCheckbox(moviesContainer, movieId, movieTitle, 'favoritedMovies', isChecked);
+                }
 
-                    const movieItem = document.createElement('div');
-                    movieItem.classList.add('movie-item');
-
-                    const checkbox = document.createElement('input');
-                    checkbox.type = 'checkbox';
-                    checkbox.id = `edit-movie-${movieId}`;
-                    checkbox.value = movieId;
-                    checkbox.checked = isChecked;
-
-                    const label = document.createElement('label');
-                    label.htmlFor = `edit-movie-${movieId}`;
-                    label.textContent = movieTitle;
-
-                    movieItem.appendChild(checkbox);
-                    movieItem.appendChild(label);
-                    moviesContainer.appendChild(movieItem);
+                for (const seriesId of favoritesTVSeries) {
+                    const seriesTitle = await getTVSeriesTitle(seriesId);
+                    const isChecked = watchlist.tvSeries.includes(seriesId.toString());
+                    appendCheckbox(tvSeriesContainer, seriesId, seriesTitle, 'favoritedTVSeries', isChecked);
                 }
             };
 
@@ -661,6 +659,7 @@
             submitButton.textContent = 'Save Changes';
             editForm.appendChild(submitButton);
         }
+
 
         document.getElementById('edit-watchlist-form').addEventListener('submit', function(e) {
             e.preventDefault();
