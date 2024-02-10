@@ -56,7 +56,7 @@ const urlsToCache = [
     '../../images/universe-9.png',
     '../../images/universe-10.png',
     '../../images/yellow.jpg',
-    'chart.js',
+    'analytics.js',
     '../html/analytics.html',
 ];
 

@@ -75,7 +75,7 @@ function rotateUserStats() {
                 return viewedCompanies.length;
             }
         },
-        { label: "Your Trivia Accuracy", getValue: getTriviaAccuracy }
+        { label: "Your Trivia Accuracy", getValue: getTriviaAccuracy },
     ];
 
     let currentStatIndex = 0;
@@ -220,31 +220,16 @@ const form = document.getElementById('form1');
 
 form.addEventListener('submit', (e) => {
     e.preventDefault();
-    const searchTerm = search.value.trim();
-    if (searchTerm) {
-        getMovies(SEARCHPATH + searchTerm);
-        searchTitle.innerHTML = 'Search Results for: ' + searchTerm;
-        search.value = '';
-    }
-    else {
-        searchTitle.innerHTML = 'Please enter a search term.';
-    }
-    document.getElementById('clear-search-btn').style.display = 'block';
+    const searchQuery = document.getElementById('search').value;
+    localStorage.setItem('searchQuery', searchQuery);
+    window.location.href = 'search.html';
 });
 
-searchButton.addEventListener('click', (e) => {
-    e.preventDefault();
-    const searchTerm = search.value;
-    if (searchTerm) {
-        getMovies(SEARCHPATH + searchTerm);
-        searchTitle.innerHTML = 'Search Results for: ' + searchTerm;
-        search.value = '';
-    }
-    else {
-        searchTitle.innerHTML = 'Please enter a search term.';
-    }
-    document.getElementById('clear-search-btn').style.display = 'block';
-});
+function handleSearch() {
+    const searchQuery = document.getElementById('search').value;
+    localStorage.setItem('searchQuery', searchQuery);
+    window.location.href = 'search.html';
+}
 
 function updateMovies() {
     let startYear = document.getElementById('start-year').value;
@@ -265,7 +250,7 @@ function showMovies(movies, mainElement) {
         movieEl.classList.add('movie');
         const movieImage = movie.poster_path
             ? `<img src="${IMGPATH + movie.poster_path}" alt="${movie.title}" />`
-            : `<div class="no-image">Image Not Available</div>`;
+            : `<div class="no-image" style="margin-top: 20px; margin-bottom: 20px">Image Not Available</div>`;
         const voteAvg = movie.vote_average.toFixed(1);
         const ratingClass = getClassByRate(movie.vote_average);
         movieEl.innerHTML = `

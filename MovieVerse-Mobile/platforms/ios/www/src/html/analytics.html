@@ -31,9 +31,9 @@
             </h1>
         </a>
 
-        <div id="local-time" style="display: flex; align-items: center; justify-content: start; cursor: pointer;">
-            <p id="stats-label" class="clock" style="font-size: 16px; margin-right: 10px;"></p>
-            <h1 id="stats-display" class="clock" style="font-size: 20px;"></h1>
+        <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
+            <p id="stats-label" class="clock" style="font-size: 16px"></p>
+            <h1 id="stats-display" class="clock"></h1>
         </div>
 
         <button class="back-btn nav-btn" onclick="window.location.href='../../index.html'" title="Go back to homepage">Home</button>
@@ -49,12 +49,21 @@
             <span id="profileText">Profile</span>
             <i class="fas fa-user" id="profileIcon"></i>
         </button>
-        <button id="settings-btn" style="position: fixed; bottom: 220px; z-index: 1000">Settings</button>
-        <button id="movie-match-btn3" style="z-index: 1000" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!">Movie Match</button>
-        <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 140px; z-index: 1000">Movie Timeline</button>
-        <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 100px; z-index: 1000">Recommendation</button>
-        <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="margin-bottom: -39px; z-index: 1000" title="Engage in movie discussions">MovieVerse Chatbot</button>
-        <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="margin-bottom: -40px; z-index: 1000" title="Test your movie knowledge">MovieVerse Trivia</button>
+        <form id="form1">
+            <input
+                    type="text"
+                    id="search"
+                    placeholder="Search For Anything..."
+                    class="search"
+            />
+            <button type="button" id="button-search" onclick="handleSearch()">Search</button>
+        </form>
+        <button id="settings-btn" style="position: fixed; bottom: 185px">Settings</button>
+        <button id="movie-match-btn3" style="bottom: 150px" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!">Movie Match</button>
+        <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 115px">Movie Timeline</button>
+        <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 80px">Recommendation</button>
+        <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="bottom: 45px" title="Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
+        <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 10px" title="Test your movie knowledge">MovieVerse Trivia</button>
     </header>
     <div>
         <h1 class="chart-title">The MovieVerse Analytics</h1>

@@ -301,7 +301,7 @@ function calculateMoviesToDisplay() {
     if (screenWidth <= 1021.24) return 20; // 2 movies per row
     if (screenWidth <= 1353.74) return 21; // 3 movies per row
     if (screenWidth <= 1684.9) return 20; // 4 movies per row
-    if (screenWidth <= 2017.49) return 20; // 5 movies per row
+    if (screenWidth <= 2017.49) return 18; // 5 movies per row
     if (screenWidth <= 2349.99) return 18; // 6 movies per row
     if (screenWidth <= 2681.99) return 21; // 7 movies per row
     if (screenWidth <= 3014.49) return 24; // 8 movies per row
@@ -467,12 +467,6 @@ function changeDirector() {
 
 setInterval(updateDirectorSpotlight, 3600000);
 
-function calculateMoviesToDisplay2() {
-    const screenWidth = window.innerWidth;
-    const moviesPerRow = Math.floor(screenWidth / 342);
-    return moviesPerRow * 2;
-}
-
 function updateDirectorSpotlight() {
     const director = directors[currentDirectorIndex];
     document.getElementById('spotlight-director-name').textContent = director.name;
@@ -481,7 +475,7 @@ function updateDirectorSpotlight() {
 }
 
 async function getDirectorSpotlight(url) {
-    const numberOfMovies = calculateMoviesToDisplay2();
+    const numberOfMovies = calculateMoviesToDisplay();
     const resp = await fetch(url);
     const respData = await resp.json();
     let allMovies = [];

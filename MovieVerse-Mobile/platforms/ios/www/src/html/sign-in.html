@@ -100,20 +100,33 @@
             </h1>
         </a>
 
-        <div id="local-time" style="display: flex; align-items: center; justify-content: start; cursor: pointer;">
-            <p id="stats-label" class="clock" style="font-size: 16px; margin-right: 10px;"></p>
-            <h1 id="stats-display" class="clock" style="font-size: 20px;"></h1>
+        <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
+            <p id="stats-label" class="clock" style="font-size: 16px"></p>
+            <h1 id="stats-display" class="clock"></h1>
         </div>
 
         <button class="back-btn nav-btn" onclick="window.location.href='../../index.html'" title="Go back to homepage">Home</button>
         <button class="about nav-btn" onclick="window.location.href='about.html'" title="About this wonderful app!">About</button>
         <button class="favorites-btn nav-btn" onclick="window.location.href='favorites.html'" title="Go to your favorites list">Favorites</button>
-        <button id="settings-btn" style="position: fixed; bottom: 220px; z-index: 1000">Settings</button>
-        <button id="movie-match-btn3" style="z-index: 1000" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!">Movie Match</button>
-        <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 140px; z-index: 1000">Movie Timeline</button>
-        <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 100px; z-index: 1000">Recommendation</button>
-        <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="margin-bottom: -39px; z-index: 1000" title="Engage in movie discussions">MovieVerse Chatbot</button>
-        <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="margin-bottom: -40px; z-index: 1000" title="Test your movie knowledge">MovieVerse Trivia</button>
+        <button id="profileBtn" class="nav-btn" onclick="window.location.href='user-profile.html'" title="Go to your profile">
+            <span id="profileText">Profile</span>
+            <i class="fas fa-user" id="profileIcon"></i>
+        </button>
+        <form id="form1">
+            <input
+                    type="text"
+                    id="search"
+                    placeholder="Search For Anything..."
+                    class="search"
+            />
+            <button type="button" id="button-search" onclick="handleSearch()">Search</button>
+        </form>
+        <button id="settings-btn" style="position: fixed; bottom: 185px; z-index: 1000">Settings</button>
+        <button id="movie-match-btn3" style="z-index: 1000; bottom: 150px" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!">Movie Match</button>
+        <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 115px; z-index: 1000">Movie Timeline</button>
+        <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 80px; z-index: 1000">Recommendation</button>
+        <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="bottom: 45px; z-index: 1000" title="Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
+        <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 10px; z-index: 1000" title="Test your movie knowledge">MovieVerse Trivia</button>
     </header>
     <div class="sign-in-form-container" style="margin-bottom: 300px">
         <form id="signInForm">
@@ -126,7 +139,7 @@
             <button type="button" id="resetPasswordBtn" onclick="window.location.href='reset-password.html'">Reset Password</button>
         </form>
     </div>
-    <script src="../js/sign-in.js"></script>
+    <script src="../js/sign-in.js" type="module"></script>
     <script>
         document.getElementById('settings-btn').addEventListener('click', () => {
             window.location.href = 'settings.html';
@@ -212,7 +225,7 @@
                         return viewedCompanies.length;
                     }
                 },
-                { label: "Your Trivia Accuracy", getValue: getTriviaAccuracy }
+                { label: "Your Trivia Accuracy", getValue: getTriviaAccuracy },
             ];
 
             let currentStatIndex = 0;
@@ -315,6 +328,48 @@
         }
 
         document.addEventListener('DOMContentLoaded', rotateUserStats);
+
+        const form = document.getElementById('form1');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const searchQuery = document.getElementById('search').value;
+            localStorage.setItem('searchQuery', searchQuery);
+            window.location.href = 'search.html';
+        });
+
+        function handleSearch() {
+            const searchQuery = document.getElementById('search').value;
+            localStorage.setItem('searchQuery', searchQuery);
+            window.location.href = 'search.html';
+        }
+
+        async function showMovieOfTheDay() {
+            const year = new Date().getFullYear();
+            const url = `https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                const movies = data.results;
+
+                if (movies.length > 0) {
+                    const randomMovie = movies[Math.floor(Math.random() * movies.length)];
+                    localStorage.setItem('selectedMovieId', randomMovie.id);
+                    window.location.href = 'movie-details.html';
+                }
+                else {
+                    fallbackMovieSelection();
+                }
+            }
+            catch (error) {
+                console.error('Error fetching movie:', error);
+                fallbackMovieSelection();
+            }
+        }
     </script>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js"></script>
 </body>
 </html>

@@ -35,6 +35,156 @@ body {
     transition: 0.3s ease-in;
 }
 
+#user-name {
+    font: inherit;
+    border-radius: 8px;
+}
+
+#user-comment {
+    font: inherit;
+    border-radius: 8px;
+}
+
+#submit-comment {
+    background-color: #7378c5;
+    font: inherit;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    padding: 10px 15px;
+}
+
+#submit-comment:hover {
+    background-color: #ff8623;
+    transition: 0.3s ease-in;
+}
+
+.comments-controls {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+button:disabled {
+    cursor: not-allowed;
+}
+
+.comments-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+    margin-bottom: 40px;
+    margin-top: 5px;
+}
+
+.modal-header h3 {
+    flex-grow: 1;
+    text-align: center;
+    margin: 0;
+}
+
+.close {
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+}
+
+#toggle-comment-modal, #prev-page, #next-page {
+    background-color: #7378c5;
+    font: inherit;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    padding: 10px 15px;
+    color: white;
+}
+
+#toggle-comment-modal:hover {
+    background-color: #ff8623;
+    transition: 0.3s ease-in;
+}
+
+#prev-page:disabled, #next-page:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+#prev-page:disabled, #next-page:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+#prev-page:hover, #next-page:hover {
+    background-color: #ff8623;
+    transition: 0.3s ease-in;
+}
+
+#comments-section h3 {
+    text-align: center;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 10px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
 p {
     text-align: center;
     color: #a6967e;
@@ -52,7 +202,9 @@ p {
 main {
     display: flex;
     flex-wrap: wrap;
-    margin-left: 25px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
 }
 
 html {
@@ -172,11 +324,49 @@ header h1 {
     border-radius: 8px;
 }
 
+.movie-card {
+    display: flex;
+    background: #fff;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.movie-image {
+    width: 150px;
+    height: 225px;
+    background-size: cover;
+    background-position: center;
+}
+
+.movie-info {
+    padding: 20px;
+    flex-grow: 1;
+}
+
+.tvSeries-info {
+    padding: 20px;
+    flex-grow: 1;
+}
+
+.green {
+    color: #4CAF50;
+}
+
+.orange {
+    color: #FF9800;
+}
+
+.red {
+    color: #F44336;
+}
+
+
 #profileBtn {
     background-color: #7378c5;
     border: none;
     color: white;
-    width: 85px;
     height: 40px;
     text-align: center;
     text-decoration: none;
@@ -185,6 +375,7 @@ header h1 {
     font-size: 16px;
     cursor: pointer;
     position: absolute;
+    width: 100px;
     top: 0;
     margin-left: 316px;
     border-radius: 8px;
@@ -227,23 +418,69 @@ header h1 {
     position: relative;
     overflow: hidden;
     width: 300px;
+    height: 555px;
 }
 
-.movie img {
+.tvSeries {
+    background-color: #373b69;
+    border-radius: 3px;
+    box-shadow: 0 4px 5px rgba(0,0,0,0.2);
+    margin: 1rem;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    width: 300px;
+    height: 555px;
+}
+
+.movie img, .tvSeries img {
     width: 100%;
 }
 
-.movie-info {
-    color: #eee;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.5rem 1rem 1rem;
-    letter-spacing: 0.5px;
+.movie .overview {
+    position: absolute;
+    padding: 2rem;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: #fff;
+    color: black;
+    transform: translateY(100%);
+    transition: opacity 0.3s ease-in, visibility 0.3s ease-in, transform 0.3s ease-in;
+    overflow-y: auto;
+    visibility: hidden;
+    align-content: center;
+    text-align: center;
+}
+
+.tvSeries .overview {
+    position: absolute;
+    padding: 2rem;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: #fff;
+    color: black;
+    transform: translateY(100%);
+    transition: opacity 0.3s ease-in, visibility 0.3s ease-in, transform 0.3s ease-in;
+    overflow-y: auto;
+    visibility: hidden;
 }
 
 .movie-info h3 {
     margin: 0;
+}
+
+.tvSeries-info h3 {
+    margin: 0;
+}
+
+.tvSeries:hover .overview {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
 }
 
 .movie-info span {
@@ -253,12 +490,31 @@ header h1 {
     padding: 0.25rem 0.5rem;
 }
 
+.tvSeries-info span {
+    background-color: #22254b;
+    border-radius: 3px;
+    font-weight: bold;
+    padding: 0.25rem 0.5rem;
+}
+
+.tvSeries-info span.green {
+    color: rgb(39,189,39);
+}
+
 .movie-info span.green {
     color: rgb(39,189,39);
 }
 
+.tvSeries-info span.orange {
+    color: orange;
+}
+
 .movie-info span.orange {
     color: orange;
+}
+
+.tvSeries-info span.red {
+    color: rgb(189,42,42);
 }
 
 .movie-info span.red {
@@ -691,11 +947,10 @@ p {
 
 .movie-details-body3 {
     background-image: url("../../images/universe.jpg");
+    background-size: cover;
     background-position: center;
+    background-repeat: no-repeat;
     height: 100vh;
-    background-size: auto;
-    background-repeat: repeat;
-    width: 100vw;
 }
 
 .movie-details-body4 {
@@ -1113,14 +1368,6 @@ p {
     background-color: #ff8623;
 }
 
-#movies-container label,
-#edit-movies-container label {
-    display: inline-block;
-    margin-left: 10px;
-    position: relative;
-    top: 5px;
-}
-
 #search-results {
     display: flex;
     flex-wrap: wrap;
@@ -1137,6 +1384,53 @@ p {
     border-radius: 8px;
     color: white;
     margin: 10px;
+}
+
+#movie-match-container1 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0;
+    padding: 20px;
+    margin-left: 0;
+    top: 0;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.checkbox-container label {
+    margin-top: 6px;
+}
+
+.active-category {
+    background-color: #ff8623;
+    color: white;
+}
+
+#search-results-label {
+    color: #ff8623;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.category-buttons button {
+    background-color: #7378c5;
+    font: inherit;
+    color: white;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    padding: 10px 15px;
+    margin: 10px;
+    transition: 0.3s ease-in;
+}
+
+.category-buttons button:hover {
+    background-color: #534caf;
 }
 
 .watchlist {
@@ -1226,15 +1520,32 @@ p {
     color: #fff;
 }
 
-#movies-container input[type='checkbox'],
-#edit-movies-container input[type='checkbox'] {
-    margin-right: 1px;
-    vertical-align: middle;
-    margin-left: 10px;
-}
-
 .modal-content button:hover {
     background-color: #ff8623;
+}
+
+#subheading {
+    color: white;
+}
+
+#subheading:hover {
+    color: #f509d9;
+    transition: 0.1s linear;
+}
+
+#aboutHeader:hover {
+    color: #f509d9;
+    transition: 0.1s linear;
+}
+
+#profileLink {
+    color: white !important;
+    text-decoration: underline !important;
+}
+
+#profileLink:hover {
+    color: #ff8623 !important;
+    transition: 0.1s linear;
 }
 
 textarea {
@@ -1405,88 +1716,17 @@ canvas {
     transition: 0.1s ease-in;
 }
 
+@media (max-width: 1000px) {
+    #comments-section {
+        margin-bottom: 210px;
+    }
+}
+
 #local-time {
-    left: 100%;
-    transform: translateX(0%);
+    transform: translateX(10%);
     padding: 10px;
     border-radius: 10px;
     z-index: 10;
-}
-
-#main3 {
-    margin-left: 45px;
-}
-
-#main4 {
-    margin-left: 45px;
-}
-
-#main5 {
-    margin-left: 45px;
-}
-
-#main6 {
-    margin-left: 45px;
-}
-
-#main7 {
-    margin-left: 45px;
-}
-
-#main8 {
-    margin-left: 45px;
-}
-
-#main9 {
-    margin-left: 45px;
-}
-
-#main10 {
-    margin-left: 45px;
-}
-
-#main11 {
-    margin-left: 45px;
-}
-
-#main12 {
-    margin-left: 45px;
-}
-
-#main13 {
-    margin-left: 45px;
-}
-
-#main14 {
-    margin-left: 45px;
-}
-
-#main15 {
-    margin-left: 45px;
-}
-
-#main16 {
-    margin-left: 45px;
-}
-
-#main17 {
-    margin-left: 45px;
-}
-
-#main18 {
-    margin-left: 45px;
-}
-
-#main19 {
-    margin-left: 45px;
-}
-
-#main20 {
-    margin-left: 45px;
-}
-
-#main21 {
-    margin-left: 45px;
 }
 
 #mobileProfileBtn:hover {
@@ -1497,6 +1737,15 @@ canvas {
 @media (max-width: 840px) {
     #my-heading {
         margin-left: 0;
+    }
+
+    #movie-details-body3 {
+        background-image: url("../../images/universe.jpg");
+        background-position: center;
+        height: 100vh;
+        background-size: auto;
+        background-repeat: repeat;
+        width: 100vw;
     }
 
     #profileBtn {
@@ -1511,7 +1760,7 @@ canvas {
         margin-bottom: -15px;
     }
 
-    #main {
+    #most-popular {
         margin-left: 10px;
     }
 
@@ -1519,79 +1768,79 @@ canvas {
         margin-left: 10px;
     }
 
-    #main3 {
+    #action {
         margin-left: 10px;
     }
 
-    #main4 {
+    #horror {
         margin-left: 10px;
     }
 
-    #main5 {
+    #documentary {
         margin-left: 10px;
     }
 
-    #main6 {
+    #animation {
         margin-left: 10px;
     }
 
-    #main7 {
+    #sci-fi {
         margin-left: 10px;
     }
 
-    #main8 {
+    #romantic {
         margin-left: 10px;
     }
 
-    #main9 {
+    #thriller {
         margin-left: 10px;
     }
 
-    #main10 {
+    #mystery {
         margin-left: 10px;
     }
 
-    #main11 {
+    #adventure {
         margin-left: 10px;
     }
 
-    #main12 {
+    #comedy {
         margin-left: 10px;
     }
 
-    #main13 {
+    #fantasy {
         margin-left: 10px;
     }
 
-    #main14 {
+    #family {
         margin-left: 10px;
     }
 
-    #main15 {
+    #tv-series {
         margin-left: 10px;
     }
 
-    #main16 {
+    #crime {
         margin-left: 10px;
     }
 
-    #main17 {
+    #award-winning {
         margin-left: 10px;
     }
 
-    #main18 {
+    #hidden-gems {
         margin-left: 10px;
     }
 
-    #main19 {
+    #classic {
         margin-left: 10px;
     }
 
-    #main20 {
+    #director-spotlight {
         margin-left: 10px;
     }
 
-    #main21 {
+    #korean {
         margin-left: 10px;
     }
 
@@ -1835,6 +2084,15 @@ canvas {
     letter-spacing: 0.5px;
 }
 
+.tvSeries-info {
+    color: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 1rem 1rem;
+    letter-spacing: 0.5px;
+}
+
 .movie-info h3 {
     margin: 0;
 }
@@ -1875,6 +2133,22 @@ canvas {
     margin: 0 auto;
     padding: 20px;
     flex-direction: column;
+}
+
+#tvseries-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
+    margin: 0 auto;
+    padding: 20px;
+    flex-direction: column;
+}
+
+#tvseries-container .movie-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
 }
 
 #movies-container1 {
@@ -2004,7 +2278,7 @@ body {
     cursor: pointer;
     position: absolute;
     top: 0;
-    margin-left: 405px;
+    margin-left: 420px;
     border-radius: 8px;
     padding: 0 10px;
     box-sizing: border-box;
@@ -2162,6 +2436,14 @@ body {
     text-align: center;
 }
 
+.company-left {
+    width: 33.33%;
+}
+
+.company-right {
+    width: 66.67%;
+}
+
 #company-movies-list {
     text-align: center;
     display: flex;
@@ -2282,6 +2564,7 @@ body {
 }
 
 .rating .star {
+    color: white;
     cursor: pointer;
     transition: color 200ms;
 }
