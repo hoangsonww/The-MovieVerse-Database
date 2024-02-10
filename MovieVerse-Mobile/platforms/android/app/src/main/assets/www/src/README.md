@@ -20,6 +20,7 @@ This directory contains the Cascading Style Sheets (CSS) files responsible for t
 The HTML directory includes all the markup files necessary for the structure of the web pages.
 
 - `about.html`: Contains information about the MovieVerse app.
+- `analytics.html`: A page for viewing database analytics and user interactions.
 - `actor-details.html`: A detailed view of actor profiles.
 - `company-details.html`: Provides information about movie production companies.
 - `create-account.html`: Allows users to create an account on MovieVerse.
@@ -30,6 +31,7 @@ The HTML directory includes all the markup files necessary for the structure of 
 - `movie-match.html`: A feature that helps users find movies matching their mood, genre, and time period preferences.
 - `movie-timeline.html`: A timeline view of movies.
 - `privacy-policy.html`: Outlines the app's approach to user privacy.
+- `profile.html`: A user's profile page.
 - `reset-password.html`: Allows users to reset their password.
 - `settings.html`: Allows users to customize their MovieVerse experience.
 - `sign-in.html`: Allows users to sign in to their MovieVerse account.
@@ -40,12 +42,14 @@ The HTML directory includes all the markup files necessary for the structure of 
 
 The JavaScript directory contains scripts that add interactivity and functionality to the web pages.
 
+- `about.js`: Handles the functionality for the about page.
+- `analytics.js`: Script for handling database analytics and tracking user interactions.
 - `actor-details.js`: Handles the dynamic functionality on the actor details page.
 - `chatbot.js`: The main JavaScript file that initiates the app.
 - `company-details.js`: Script for handling company details functionality.
 - `create-account.js`: Handles the create account functionality.
 - `director-details.js`: Manages functionality on the director details page.
-- `index.ejs`: A template for the entry point of the app.
+- `index.ejs`: A file for the entry point of the app.
 - `movie-details.js`: Script for the movie details page.
 - `movie-timeline.js`: Manages the timeline functionality for movies.
 - `quiz.js`: Handles the trivia quiz functionalities.
@@ -55,6 +59,8 @@ The JavaScript directory contains scripts that add interactivity and functionali
 - `service-worker.js`: Service worker script for the app to allow for offline functionality.
 - `settings.js`: Script for handling user settings.
 - `sign-in.js`: Script for handling user sign-in.
+- `trivia.js`: Script for the trivia game.
+- `user-profile.js`: Script for managing user profiles.
 - `single-spa-config.js`: Configuration file for the single-spa framework used in the app.
 
 ### React Directory

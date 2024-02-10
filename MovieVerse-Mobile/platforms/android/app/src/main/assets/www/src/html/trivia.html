@@ -20,6 +20,16 @@
 
         gtag('config', 'G-CQKJ67FXZ4');
     </script>
+
+    <style>
+        label {
+            cursor: pointer;
+        }
+
+        label:hover {
+            color: #f509d9;
+        }
+    </style>
 </head>
 
 <body>
@@ -50,10 +60,11 @@
             <input
                     type="text"
                     id="search"
-                    placeholder="Search For Any Movie..."
+                    placeholder="Search For Anything..."
                     class="search"
+                    style="width: 200px"
             />
-            <button type="button" id="button-search" onclick="">Search</button>
+            <button type="button" id="button-search" onclick="handleSearch()">Search</button>
         </form>
     </header>
 
@@ -61,6 +72,19 @@
         <h1 id="trivia-label">Movie Trivia Quiz</h1>
         <div class="button-container">
             <button id="clear-search-btn">Clear Search Results</button>
+        </div>
+    </div>
+
+    <div id="result-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Trivia Results</h3>
+                <span class="close-button" title="Close the trivia results modal">&times;</span>
+            </div>
+            <div id="progress-circle" class="progress-circle">
+                <div id="correct-answers"></div>
+            </div>
+            <p id="result-text"></p>
         </div>
     </div>
 
@@ -72,12 +96,12 @@
         <button type="submit" id="submit" style="color: black">Submit Answers</button>
     </form>
 
-    <button id="settings-btn" style="position: fixed; bottom: 220px">Settings</button>
-    <button id="movie-match-btn2" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!">Movie Match</button>
-    <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 140px">Movie Timeline</button>
-    <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 100px">Recommendation</button>
-    <button id="discussions-btn" onclick="window.location.href='chatbot.html'" title="Want to know more about movies? Chat with our intelligent chatbot!" style="bottom: 60px">MovieVerse Chatbot</button>
-    <button id="back-to-top-btn" onclick="window.location.href='../../index.html'">Back To Main Page</button>
+    <button id="settings-btn" style="position: fixed; bottom: 185px">Settings</button>
+    <button id="movie-match-btn2" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 150px">Movie Match</button>
+    <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 115px">Movie Timeline</button>
+    <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 80px">Recommendation</button>
+    <button id="discussions-btn" onclick="window.location.href='chatbot.html'" title="Want to know more about movies? Chat with our intelligent chatbot!" style="bottom: 45px">MovieVerse Chatbot</button>
+    <button id="back-to-top-btn" style="bottom: 10px" onclick="window.location.href='../../index.html'">Back To Main Page</button>
     <script src="../js/quiz.js"></script>
 
     <script>

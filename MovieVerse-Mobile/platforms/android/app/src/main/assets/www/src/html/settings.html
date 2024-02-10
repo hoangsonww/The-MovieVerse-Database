@@ -139,9 +139,9 @@
             </h1>
         </a>
 
-        <div id="local-time" style="cursor: pointer">
+        <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
             <p id="stats-label" class="clock" style="font-size: 16px"></p>
-            <h1 id="stats-display" class="clock" style="font-size: 20px"></h1>
+            <h1 id="stats-display" class="clock"></h1>
         </div>
 
         <button class="back-btn" onclick="window.location.href='../../index.html'">Home</button>
@@ -160,16 +160,16 @@
             <input
                     type="text"
                     id="search"
-                    placeholder="Search For Any Movie..."
+                    placeholder="Search For Anything..."
                     class="search"
             />
-            <button type="button" id="button-search" onclick="">Search</button>
+            <button type="button" id="button-search" onclick="handleSearch()">Search</button>
         </form>
-        <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!">Movie Match</button>
-        <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 140px">Movie Timeline</button>
-        <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 100px">Recommendation</button>
-        <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="margin-bottom: -39px" title="Engage in movie discussions">MovieVerse Chatbot</button>
-        <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="margin-bottom: -40px" title="Test your movie knowledge">MovieVerse Trivia</button>
+        <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 150px">Movie Match</button>
+        <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 115px">Movie Timeline</button>
+        <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 80px">Recommendation</button>
+        <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="bottom: 45px" title="Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
+        <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 10px" title="Test your movie knowledge">MovieVerse Trivia</button>
     </header>
 
     <div id="search-results-header">
@@ -518,7 +518,7 @@
                         return viewedCompanies.length;
                     }
                 },
-                { label: "Your Trivia Accuracy", getValue: getTriviaAccuracy }
+                { label: "Your Trivia Accuracy", getValue: getTriviaAccuracy },
             ];
 
             let currentStatIndex = 0;

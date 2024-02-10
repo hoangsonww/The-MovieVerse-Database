@@ -67,6 +67,7 @@ function saveProfileChanges() {
     localStorage.setItem('profileInfo', JSON.stringify(profile));
     closeModal();
     loadProfile();
+    window.location.reload();
 }
 
 function closeModal() {
@@ -83,7 +84,8 @@ function uploadImage() {
             document.getElementById('removeProfileImage').style.display = 'inline';
         };
         reader.readAsDataURL(file);
-    } else {
+    }
+    else {
         alert('File is too large or not an image. Please choose another file.');
     }
 }

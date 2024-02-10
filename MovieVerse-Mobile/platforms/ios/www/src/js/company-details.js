@@ -75,7 +75,7 @@ function rotateUserStats() {
                 return viewedCompanies.length;
             }
         },
-        { label: "Your Trivia Accuracy", getValue: getTriviaAccuracy }
+        { label: "Your Trivia Accuracy", getValue: getTriviaAccuracy },
     ];
 
     let currentStatIndex = 0;
@@ -181,31 +181,16 @@ document.addEventListener('DOMContentLoaded', rotateUserStats);
 
 form.addEventListener('submit', (e) => {
     e.preventDefault();
-    const searchTerm = search.value.trim();
-
-    if (searchTerm) {
-        getMovies(SEARCHPATH + searchTerm);
-        searchTitle.innerHTML = 'Search Results for: ' + searchTerm;
-        search.value = '';
-    }
-    else {
-        searchTitle.innerHTML = 'Please enter a search term.';
-    }
+    const searchQuery = document.getElementById('search').value;
+    localStorage.setItem('searchQuery', searchQuery);
+    window.location.href = 'search.html';
 });
 
-searchButton.addEventListener('click', (e) => {
-    e.preventDefault();
-    const searchTerm = search.value;
-
-    if (searchTerm) {
-        getMovies(SEARCHPATH + searchTerm);
-        searchTitle.innerHTML = 'Search Results for: ' + searchTerm;
-        search.value = '';
-    }
-    else {
-        searchTitle.innerHTML = 'Please enter a search term.';
-    }
-});
+function handleSearch() {
+    const searchQuery = document.getElementById('search').value;
+    localStorage.setItem('searchQuery', searchQuery);
+    window.location.href = 'search.html';
+}
 
 function calculateMoviesToDisplay() {
     const screenWidth = window.innerWidth;
