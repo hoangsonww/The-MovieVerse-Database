@@ -805,16 +805,25 @@
             movieEl.classList.add('movie');
             movieEl.style.cursor = 'pointer';
 
+            const imagePath = movie.poster_path ? IMGPATH + movie.poster_path : null;
+            let imageElement;
+
+            if (imagePath) {
+                imageElement = `<img src="${imagePath}" alt="${movie.title}" style="cursor: pointer; width: 100%; display: block;" onerror="this.onerror=null; this.src=''; this.parentNode.innerHTML='<div style=\'text-align: center; width: 100%;\'>Image Not Available</div>';">`;
+            } else {
+                imageElement = `<div style="text-align: center; width: 100%;">Image Not Available</div>`;
+            }
+
             movieEl.innerHTML = `
-                <img src="${IMGPATH + movie.poster_path}" alt="${movie.title}" style="cursor: pointer">
-                <div class="movie-info" style="cursor: pointer">
-                    <h3>${movie.title}</h3>
-                    <span class="${getClassByRate(movie.vote_average.toFixed(1))}">${movie.vote_average.toFixed(1)}</span>
-                </div>
-                <div class="overview">
-                    <h4>Movie Overview:</h4>
-                    ${movie.overview}
-                </div>`;
+        ${imageElement}
+        <div class="movie-info" style="cursor: pointer">
+            <h3>${movie.title}</h3>
+            <span class="${getClassByRate(movie.vote_average.toFixed(1))}">${movie.vote_average.toFixed(1)}</span>
+        </div>
+        <div class="overview">
+            <h4>Movie Overview:</h4>
+            ${movie.overview}
+        </div>`;
             movieEl.addEventListener('click', () => {
                 localStorage.setItem('selectedMovieId', movie.id);
                 window.location.href = 'movie-details.html';
@@ -850,74 +859,6 @@
             localStorage.setItem('searchQuery', searchQuery);
             window.location.href = 'search.html';
         }
-
-        async function getMovies(url) {
-            const numberOfMovies = calculateMoviesToDisplay();
-            const pagesToFetch = numberOfMovies <= 20 ? 1 : 2;
-            let allMovies = [];
-
-            for (let page = 1; page <= pagesToFetch; page++) {
-                const response = await fetch(`${url}&page=${page}`);
-                const data = await response.json();
-                allMovies = allMovies.concat(data.results);
-            }
-
-            const popularityThreshold = 0.5;
-
-            allMovies.sort((a, b) => {
-                const popularityDifference = Math.abs(a.popularity - b.popularity);
-                if (popularityDifference < popularityThreshold) {
-                    return b.vote_average - a.vote_average;
-                }
-                return b.popularity - a.popularity;
-            });
-
-            if (allMovies.length > 0) {
-                showMovies(allMovies.slice(0, numberOfMovies));
-                document.getElementById('clear-search-btn').style.display = 'block';
-            }
-            else {
-                searchResultsMain.innerHTML = `<p>No movie with the specified search term found. Please try again.</p>`;
-                document.getElementById('clear-search-btn').style.display = 'none';
-            }
-        }
-
-        function showMovies(movies){
-            searchResultsMain.innerHTML = '';
-            movies.forEach((movie) => {
-                const { id, poster_path, title, vote_average, overview } = movie;
-                const movieE1 = document.createElement('div');
-                const voteAverage = vote_average.toFixed(1);
-                movieE1.classList.add('movie');
-
-                const movieImage = poster_path
-                    ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
-                    : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
-
-                movieE1.innerHTML = `
-            ${movieImage}
-            <div class="movie-info" style="cursor: pointer;">
-                <h3>${title}</h3>
-                <span class="${getClassByRate(vote_average)}">${voteAverage}</span>
-            </div>
-            <div class="overview" style="cursor: pointer;">
-                <h4>Movie Overview: </h4>
-                ${overview}
-            </div>`;
-
-                movieE1.addEventListener('click', () => {
-                    localStorage.setItem('selectedMovieId', id);
-                    window.location.href = 'movie-details.html';
-                    updateMovieVisitCount(id, title);
-                });
-
-                searchResultsMain.appendChild(movieE1);
-            });
-        }
-
-        document.getElementById('clear-search-btn').addEventListener('click', () => {
-            location.reload();
-        });
 
         function calculateMoviesToDisplay() {
             const screenWidth = window.innerWidth;
@@ -1097,20 +1038,29 @@
             movieEl.classList.add('movie');
             movieEl.style.cursor = 'pointer';
 
+            const imagePath = movie.poster_path ? IMGPATH + movie.poster_path : null;
+            let imageElement;
+
+            if (imagePath) {
+                imageElement = `<img src="${imagePath}" alt="${movie.title}" style="cursor: pointer; width: 100%; display: block;" onerror="this.onerror=null; this.src=''; this.parentNode.innerHTML='<div style=\'text-align: center; width: 100%;\'>Image Not Available</div>';">`;
+            } else {
+                imageElement = `<div style="text-align: center; width: 100%;">Image Not Available</div>`;
+            }
+
             movieEl.innerHTML = `
-                <img src="${IMGPATH + movie.poster_path}" alt="${movie.title}" style="cursor: pointer">
-                <div class="movie-info" style="cursor: pointer">
-                    <h3>${movie.name}</h3>
-                    <span class="${getClassByRate(movie.vote_average.toFixed(1))}">${movie.vote_average.toFixed(1)}</span>
-                </div>
-                <div class="overview">
-                    <h4>Movie Overview:</h4>
-                    ${movie.overview}
-                </div>`;
+        ${imageElement}
+        <div class="movie-info" style="cursor: pointer">
+            <h3>${movie.name}</h3>
+            <span class="${getClassByRate(movie.vote_average.toFixed(1))}">${movie.vote_average.toFixed(1)}</span>
+        </div>
+        <div class="overview">
+            <h4>TV Series Overview:</h4>
+            ${movie.overview}
+        </div>`;
             movieEl.addEventListener('click', () => {
                 localStorage.setItem('selectedTvSeriesId', movie.id);
                 window.location.href = 'tv-details.html';
-                updateMovieVisitCount(movie.id, movie.title);
+                updateMovieVisitCount(movie.id, movie.name);
             });
 
             return movieEl;

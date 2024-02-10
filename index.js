@@ -574,6 +574,7 @@ function updateSignInButtonState() {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
+    checkAndClearLocalStorage();
     updateSignInButtonState();
     document.getElementById('googleSignInBtn').addEventListener('click', handleSignInOut);
 });
@@ -606,4 +607,43 @@ function handleSearch() {
     const searchQuery = document.getElementById('search').value;
     localStorage.setItem('searchQuery', searchQuery);
     window.location.href = 'src/html/search.html';
+}
+
+function checkAndClearLocalStorage() {
+    const hasCleared = localStorage.getItem('hasUserClearedMovieVerseData');
+    if (!hasCleared) {
+        clearMovieVerseLocalStorage();
+        localStorage.setItem('hasUserClearedMovieVerseData', 'true');
+        window.location.reload();
+    }
+}
+
+function clearMovieVerseLocalStorage() {
+    localStorage.removeItem('favorites');
+    localStorage.removeItem('watchlists');
+    localStorage.removeItem('selectedMovieId');
+    localStorage.removeItem('isSignedIn');
+    localStorage.removeItem('selectedDirectorId');
+    localStorage.removeItem('selectedActorId');
+    localStorage.removeItem('selectedCompanyId');
+    localStorage.removeItem('selectedTvSeriesId');
+    localStorage.removeItem('movieVisits');
+    localStorage.removeItem('actorVisits');
+    localStorage.removeItem('directorVisits');
+    localStorage.removeItem('movieRatings');
+    localStorage.removeItem('triviaStats');
+    localStorage.removeItem('uniqueMoviesViewed');
+    localStorage.removeItem('uniqueDirectorsViewed');
+    localStorage.removeItem('uniqueActorsViewed');
+    localStorage.removeItem('uniqueCompaniesViewed');
+    localStorage.removeItem('favoriteGenres');
+    localStorage.removeItem('watchlistsCreated');
+    localStorage.removeItem('averageMovieRating');
+    localStorage.removeItem('backgroundImage');
+    localStorage.removeItem('textColor');
+    localStorage.removeItem('fontSize');
+    localStorage.removeItem('moviesFavorited');
+    localStorage.removeItem('searchQuery');
+    localStorage.removeItem('selectedTVSeriesId');
+    localStorage.removeItem('favoritesTVSeries');
 }
