@@ -2573,3 +2573,11 @@ body {
 .rating .star:hover ~ .star {
     color: gold;
 }
+
+footer {
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 40px;
+    background-color: #7378c5;
+    color: white;
+}
