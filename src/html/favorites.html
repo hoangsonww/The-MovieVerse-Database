@@ -459,10 +459,9 @@
                 container.id = 'favorites-container';
                 createForm.insertBefore(container, createForm.querySelector('button[type="submit"]'));
             } else {
-                container.innerHTML = ''; // Clear previous content
+                container.innerHTML = '';
             }
 
-            // Section for favorite movies
             let moviesLabel = document.createElement('label');
             moviesLabel.textContent = 'Select Favorite Movies:';
             container.appendChild(moviesLabel);
@@ -472,11 +471,10 @@
             container.appendChild(moviesContainer);
 
             for (const movieId of favoritesMovies) {
-                const movieTitle = await getMovieTitle(movieId); // Assuming getMovieTitle can fetch titles by ID
+                const movieTitle = await getMovieTitle(movieId);
                 appendCheckbox(moviesContainer, movieId, movieTitle, 'favoritedMovies');
             }
 
-            // Section for favorite TV series
             let tvSeriesLabel = document.createElement('label');
             tvSeriesLabel.textContent = 'Select Favorite TV Series:';
             container.appendChild(tvSeriesLabel);
@@ -486,19 +484,19 @@
             container.appendChild(tvSeriesContainer);
 
             for (const seriesId of favoritesTVSeries) {
-                const seriesTitle = await getTVSeriesTitle(seriesId); // Implement this function similarly to getMovieTitle
+                const seriesTitle = await getTVSeriesTitle(seriesId);
                 appendCheckbox(tvSeriesContainer, seriesId, seriesTitle, 'favoritedTVSeries');
             }
         }
 
         async function getTVSeriesTitle(seriesId) {
-            const apiKey = 'c5a20c861acf7bb8d9e987dcc7f1b558'; // Replace with your actual API key
+            const apiKey = 'c5a20c861acf7bb8d9e987dcc7f1b558';
             const url = `https://api.themoviedb.org/3/tv/${seriesId}?api_key=${apiKey}`;
 
             try {
                 const response = await fetch(url);
                 const series = await response.json();
-                return series.name; // Note that for TV series, the title may be under 'name'
+                return series.name;
             } catch (error) {
                 console.error('Error fetching TV series title:', error);
                 return 'Unknown Series';
@@ -1108,15 +1106,19 @@
         function isListPinned(watchlistId) {
             const watchlists = JSON.parse(localStorage.getItem('watchlists')) || [];
             const watchlist = watchlists.find(watchlist => watchlist.id === watchlistId);
-            return watchlist.pinned;
+            return watchlist ? watchlist.pinned : false;
         }
 
         function addWatchListControls(watchlistDiv, watchlistId) {
+            if (!watchlistId) {
+                console.error('Missing watchlistId for', watchlistDiv);
+                return;
+            }
+
             const controlContainer = document.createElement('div');
             controlContainer.className = 'watchlist-controls';
 
             const pinBtn = document.createElement('button');
-            pinBtn.id = 'pin-btn';
             pinBtn.innerHTML = '<i class="fas fa-thumbtack"></i>';
             pinBtn.onclick = function() { pinWatchList(watchlistDiv, watchlistId); };
             pinBtn.title = isListPinned(watchlistId) ? 'Unpin this watch list' : 'Pin this watch list';
@@ -1124,12 +1126,10 @@
             const moveUpBtn = document.createElement('button');
             moveUpBtn.innerHTML = '<i class="fas fa-arrow-up"></i>';
             moveUpBtn.onclick = function() { moveWatchList(watchlistDiv, true); };
-            moveUpBtn.title = 'Move this watch list up';
 
             const moveDownBtn = document.createElement('button');
             moveDownBtn.innerHTML = '<i class="fas fa-arrow-down"></i>';
             moveDownBtn.onclick = function() { moveWatchList(watchlistDiv, false); };
-            moveDownBtn.title = 'Move this watch list down';
 
             controlContainer.appendChild(pinBtn);
             controlContainer.appendChild(moveUpBtn);
@@ -1189,6 +1189,7 @@
                 updateWatchlistsOrderInLS();
                 updateWatchListsDisplay();
             }
+            window.location.reload();
         }
 
         function pinWatchList(watchlistDiv, watchlistId) {
