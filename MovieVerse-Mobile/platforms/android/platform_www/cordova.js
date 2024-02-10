@@ -1516,7 +1516,7 @@ function onMessageFromNative (msg) {
 
 });
 
-// file: ../../cordova-js-src/plugin/android/chatbot.js
+// file: ../../cordova-js-src/plugin/android/app.js
 define("cordova/plugin/android/app", function(require, exports, module) {
 
 var exec = require('cordova/exec');

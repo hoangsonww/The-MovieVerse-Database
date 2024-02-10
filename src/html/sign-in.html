@@ -4,11 +4,29 @@
     <meta charset="UTF-8">
     <title>Sign In - The MovieVerse</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta property="og:locale" content="en_US" />
+    <<meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
     <meta http-equiv="content-language" content="en" />
-    <meta name="twitter:card" content="https://movie-verse.com/images/image.png"/>
     <meta property="og:description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more." />
+    <meta property="og:url" content="https://hoangsonww.github.io/The-MovieVerse-Database/src/html/about.html" />
+    <meta property="og:site_name" content="About The MovieVerse" />
+    <meta property="og:image" content="https://hoangsonww.github.io/The-MovieVerse-Database/images/image.png"/>
+    <meta property="og:favicon" content="./images/favicon.ico" />
+    <meta name="keywords" content="movies, film guide, directors, actors, movie genres, cinema, film reviews">
+    <meta name="author" content="Son Nguyen Hoang">
+    <link rel="canonical" href="https://hoangsonww.github.io/The-MovieVerse-Database/"/>
+    <meta name="robots" content="index, follow">
+    <meta name="rating" content="General">
+    <meta name="revisit-after" content="3 days">
+    <meta name="distribution" content="global">
+    <meta http-equiv="content-language" content="en">
+    <meta name="language" content="en">
+    <meta name="theme-color" content="#7378c5">
+    <meta name="twitter:card" content="https://hoangsonww.github.io/The-MovieVerse-Database/images/image.png"/>
+    <meta name="twitter:title" content="The MovieVerse - Your Ultimate Movie Guide">
+    <meta name="twitter:description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more.">
+    <meta name="twitter:image" content="https://hoangsonww.github.io/The-MovieVerse-Database/images/image.png"/>
+    <meta name="referrer" content="no-referrer-when-downgrade">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <link rel="icon" href="../../images/favicon.ico" type="image/x-icon"/>
     <link rel="stylesheet" href="../css/style.css"/>
@@ -108,6 +126,19 @@
         <button class="back-btn nav-btn" onclick="window.location.href='../../index.html'" title="Go back to homepage">Home</button>
         <button class="about nav-btn" onclick="window.location.href='about.html'" title="About this wonderful app!">About</button>
         <button class="favorites-btn nav-btn" onclick="window.location.href='favorites.html'" title="Go to your favorites list">Favorites</button>
+        <button id="profileBtn" class="nav-btn" onclick="window.location.href='user-profile.html'" title="Go to your profile">
+            <span id="profileText">Profile</span>
+            <i class="fas fa-user" id="profileIcon"></i>
+        </button>
+        <form id="form1">
+            <input
+                    type="text"
+                    id="search"
+                    placeholder="Search For Anything..."
+                    class="search"
+            />
+            <button type="button" id="button-search" onclick="handleSearch()">Search</button>
+        </form>
         <button id="settings-btn" style="position: fixed; bottom: 185px; z-index: 1000">Settings</button>
         <button id="movie-match-btn3" style="z-index: 1000; bottom: 150px" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!">Movie Match</button>
         <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 115px; z-index: 1000">Movie Timeline</button>
@@ -126,7 +157,7 @@
             <button type="button" id="resetPasswordBtn" onclick="window.location.href='reset-password.html'">Reset Password</button>
         </form>
     </div>
-    <script src="../js/sign-in.js"></script>
+    <script src="../js/sign-in.js" type="module"></script>
     <script>
         document.getElementById('settings-btn').addEventListener('click', () => {
             window.location.href = 'settings.html';
@@ -213,26 +244,6 @@
                     }
                 },
                 { label: "Your Trivia Accuracy", getValue: getTriviaAccuracy },
-                {
-                    label: "Quote from Forrest Gump (1994)",
-                    getValue: () => "Life was like a box of chocolates. You never know what you're gonna get."
-                },
-                {
-                    label: "Quote from The Lord of the Rings: The Two Towers (2002)",
-                    getValue: () => "There is some good in this world, and it's worth fighting for."
-                },
-                {
-                    label: "Quote from Fight Club (1999)",
-                    getValue: () => "The first rule of Fight Club is: You do not talk about Fight Club."
-                },
-                {
-                    label: "Quote from The Wizard of Oz (1939)",
-                    getValue: () => "There's no place like home."
-                },
-                {
-                    label: "Quote from Cool Hand Luke (1967)",
-                    getValue: () => "What we've got here is failure to communicate."
-                },
             ];
 
             let currentStatIndex = 0;
@@ -335,6 +346,48 @@
         }
 
         document.addEventListener('DOMContentLoaded', rotateUserStats);
+
+        const form = document.getElementById('form1');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const searchQuery = document.getElementById('search').value;
+            localStorage.setItem('searchQuery', searchQuery);
+            window.location.href = 'search.html';
+        });
+
+        function handleSearch() {
+            const searchQuery = document.getElementById('search').value;
+            localStorage.setItem('searchQuery', searchQuery);
+            window.location.href = 'search.html';
+        }
+
+        async function showMovieOfTheDay() {
+            const year = new Date().getFullYear();
+            const url = `https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                const movies = data.results;
+
+                if (movies.length > 0) {
+                    const randomMovie = movies[Math.floor(Math.random() * movies.length)];
+                    localStorage.setItem('selectedMovieId', randomMovie.id);
+                    window.location.href = 'movie-details.html';
+                }
+                else {
+                    fallbackMovieSelection();
+                }
+            }
+            catch (error) {
+                console.error('Error fetching movie:', error);
+                fallbackMovieSelection();
+            }
+        }
     </script>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js"></script>
 </body>
 </html>

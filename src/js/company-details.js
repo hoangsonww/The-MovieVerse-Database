@@ -76,26 +76,6 @@ function rotateUserStats() {
             }
         },
         { label: "Your Trivia Accuracy", getValue: getTriviaAccuracy },
-        {
-            label: "Quote from Forrest Gump (1994)",
-            getValue: () => "Life was like a box of chocolates. You never know what you're gonna get."
-        },
-        {
-            label: "Quote from The Lord of the Rings: The Two Towers (2002)",
-            getValue: () => "There is some good in this world, and it's worth fighting for."
-        },
-        {
-            label: "Quote from Fight Club (1999)",
-            getValue: () => "The first rule of Fight Club is: You do not talk about Fight Club."
-        },
-        {
-            label: "Quote from The Wizard of Oz (1939)",
-            getValue: () => "There's no place like home."
-        },
-        {
-            label: "Quote from Cool Hand Luke (1967)",
-            getValue: () => "What we've got here is failure to communicate."
-        },
     ];
 
     let currentStatIndex = 0;
@@ -201,31 +181,16 @@ document.addEventListener('DOMContentLoaded', rotateUserStats);
 
 form.addEventListener('submit', (e) => {
     e.preventDefault();
-    const searchTerm = search.value.trim();
-
-    if (searchTerm) {
-        getMovies(SEARCHPATH + searchTerm);
-        searchTitle.innerHTML = 'Search Results for: ' + searchTerm;
-        search.value = '';
-    }
-    else {
-        searchTitle.innerHTML = 'Please enter a search term.';
-    }
+    const searchQuery = document.getElementById('search').value;
+    localStorage.setItem('searchQuery', searchQuery);
+    window.location.href = 'search.html';
 });
 
-searchButton.addEventListener('click', (e) => {
-    e.preventDefault();
-    const searchTerm = search.value;
-
-    if (searchTerm) {
-        getMovies(SEARCHPATH + searchTerm);
-        searchTitle.innerHTML = 'Search Results for: ' + searchTerm;
-        search.value = '';
-    }
-    else {
-        searchTitle.innerHTML = 'Please enter a search term.';
-    }
-});
+function handleSearch() {
+    const searchQuery = document.getElementById('search').value;
+    localStorage.setItem('searchQuery', searchQuery);
+    window.location.href = 'search.html';
+}
 
 function calculateMoviesToDisplay() {
     const screenWidth = window.innerWidth;

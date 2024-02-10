@@ -165,26 +165,6 @@ function rotateUserStats() {
             }
         },
         { label: "Your Trivia Accuracy", getValue: getTriviaAccuracy },
-        {
-            label: "Quote from Forrest Gump (1994)",
-            getValue: () => "Life was like a box of chocolates. You never know what you're gonna get."
-        },
-        {
-            label: "Quote from The Lord of the Rings: The Two Towers (2002)",
-            getValue: () => "There is some good in this world, and it's worth fighting for."
-        },
-        {
-            label: "Quote from Fight Club (1999)",
-            getValue: () => "The first rule of Fight Club is: You do not talk about Fight Club."
-        },
-        {
-            label: "Quote from The Wizard of Oz (1939)",
-            getValue: () => "There's no place like home."
-        },
-        {
-            label: "Quote from Cool Hand Luke (1967)",
-            getValue: () => "What we've got here is failure to communicate."
-        },
     ];
 
     let currentStatIndex = 0;
@@ -321,7 +301,7 @@ function calculateMoviesToDisplay() {
     if (screenWidth <= 1021.24) return 20; // 2 movies per row
     if (screenWidth <= 1353.74) return 21; // 3 movies per row
     if (screenWidth <= 1684.9) return 20; // 4 movies per row
-    if (screenWidth <= 2017.49) return 20; // 5 movies per row
+    if (screenWidth <= 2017.49) return 18; // 5 movies per row
     if (screenWidth <= 2349.99) return 18; // 6 movies per row
     if (screenWidth <= 2681.99) return 21; // 7 movies per row
     if (screenWidth <= 3014.49) return 24; // 8 movies per row
@@ -358,30 +338,9 @@ function getClassByRate(vote){
 
 form.addEventListener('submit', (e) => {
     e.preventDefault();
-    const searchTerm = search.value.trim();
-    if (searchTerm) {
-        getMovies(SEARCHPATH + searchTerm, main, true);
-        searchTitle.innerHTML = 'Search Results for: ' + searchTerm;
-        otherTitle.innerHTML = 'Check out other movies, too:';
-        search.value = '';
-    }
-    else {
-        searchTitle.innerHTML = 'Please enter a search term.';
-    }
-});
-
-searchButton.addEventListener('click', (e) => {
-    e.preventDefault();
-    const searchTerm = search.value;
-    if (searchTerm) {
-        getMovies(SEARCHPATH + searchTerm, main, true);
-        searchTitle.innerHTML = 'Search Results for: ' + searchTerm;
-        otherTitle.innerHTML = 'Check out other movies:';
-        search.value = '';
-    }
-    else {
-        searchTitle.innerHTML = 'Please enter a search term.';
-    }
+    const searchQuery = document.getElementById('search').value;
+    localStorage.setItem('searchQuery', searchQuery);
+    window.location.href = 'src/html/search.html';
 });
 
 function toggleNav() {
@@ -395,6 +354,7 @@ function removeNavBar() {
     if (sideNav.classList.contains('manual-toggle')) {
         sideNav.classList.remove('manual-toggle');
     }
+
     adjustNavBar();
 }
 
@@ -422,7 +382,7 @@ document.getElementById('side-nav').addEventListener('mouseleave', function() {
     }
 });
 
-const DATABASEURL = "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=c5a20c861acf7bb8d9e987dcc7f1b558&page=1";
+const DATABASEURL = "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=c5a20c861acf7bb8d9e987dcc7f1b558";
 const IMGPATH = "https://image.tmdb.org/t/p/w1280";
 const SEARCHPATH = "https://api.themoviedb.org/3/search/movie?&api_key=c5a20c861acf7bb8d9e987dcc7f1b558&query=";
 const ACTIONpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=28&sort_by=popularity.desc&vote_count.gte=8";
@@ -470,33 +430,26 @@ const directors = [
     { name: "Martin Scorsese", id: "1032" },
     { name: "Quentin Tarantino", id: "138" },
     { name: "Christopher Nolan", id: "525" },
-    { name: "Stanley Kubrick", id: "976" },
+    { name: "Stanley Kubrick", id: "240" },
     { name: "David Fincher", id: "7467" },
     { name: "James Cameron", id: "2710" },
-    { name: "Francis Ford Coppola", id: "115" },
+    { name: "Francis Ford Coppola", id: "1776" },
     { name: "Tim Burton", id: "510" },
     { name: "Ridley Scott", id: "578" },
-    { name: "Joel Coen", id: "10544" },
-    { name: "Clint Eastwood", id: "1571" },
-    { name: "Spike Lee", id: "110" },
+    { name: "Joel Coen", id: "1223" },
+    { name: "Spike Lee", id: "5281" },
     { name: "Woody Allen", id: "1243" },
-    { name: "Peter Jackson", id: "1392" },
-    { name: "Oliver Stone", id: "1178" },
-    { name: "David Lynch", id: "7470" },
-    { name: "Roman Polanski", id: "119" },
-    { name: "Wes Anderson", id: "565"},
-    { name: "Sergio Leone", id: "1159" },
-    { name: "Akira Kurosawa", id: "1911" },
-    { name: "Federico Fellini", id: "490" },
-    { name: "Ingmar Bergman", id: "52" },
-    { name: "Billy Wilder", id: "711" },
-    { name: "John Ford", id: "226" },
-    { name: "Orson Welles", id: "336" },
-    { name: "David Lean", id: "2449" },
-    { name: "Fritz Lang", id: "24" },
-    { name: "Frank Capra", id: "1487" },
-    { name: "John Huston", id: "617" },
-    { name: "Stanley Kubrick", id: "976" },
+    { name: "Peter Jackson", id: "108" },
+    { name: "Oliver Stone", id: "1152" },
+    { name: "David Lynch", id: "5602" },
+    { name: "Roman Polanski", id: "3556" },
+    { name: "Wes Anderson", id: "5655"},
+    { name: "Sergio Leone", id: "4385" },
+    { name: "Akira Kurosawa", id: "5026" },
+    { name: "Federico Fellini", id: "4415" },
+    { name: "John Ford", id: "8500" },
+    { name: "Fritz Lang", id: "68" },
+    { name: "Frank Capra", id: "2662" },
 ];
 
 let currentDirectorIndex = 0;
@@ -514,12 +467,6 @@ function changeDirector() {
 
 setInterval(updateDirectorSpotlight, 3600000);
 
-function calculateMoviesToDisplay2() {
-    const screenWidth = window.innerWidth;
-    const moviesPerRow = Math.floor(screenWidth / 342);
-    return moviesPerRow * 2;
-}
-
 function updateDirectorSpotlight() {
     const director = directors[currentDirectorIndex];
     document.getElementById('spotlight-director-name').textContent = director.name;
@@ -528,7 +475,7 @@ function updateDirectorSpotlight() {
 }
 
 async function getDirectorSpotlight(url) {
-    const numberOfMovies = calculateMoviesToDisplay2();
+    const numberOfMovies = calculateMoviesToDisplay();
     const resp = await fetch(url);
     const respData = await resp.json();
     let allMovies = [];
@@ -622,6 +569,7 @@ function updateSignInButtonState() {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
+    checkAndClearLocalStorage();
     updateSignInButtonState();
     document.getElementById('googleSignInBtn').addEventListener('click', handleSignInOut);
 });
@@ -648,4 +596,49 @@ function applyTextColor(color) {
         .forEach(element => {
             element.style.color = color;
         });
+}
+
+function handleSearch() {
+    const searchQuery = document.getElementById('search').value;
+    localStorage.setItem('searchQuery', searchQuery);
+    window.location.href = 'src/html/search.html';
+}
+
+function checkAndClearLocalStorage() {
+    const hasCleared = localStorage.getItem('hasUserClearedMovieVerseData');
+    if (!hasCleared) {
+        clearMovieVerseLocalStorage();
+        localStorage.setItem('hasUserClearedMovieVerseData', 'true');
+        window.location.reload();
+    }
+}
+
+function clearMovieVerseLocalStorage() {
+    localStorage.removeItem('favorites');
+    localStorage.removeItem('watchlists');
+    localStorage.removeItem('selectedMovieId');
+    localStorage.removeItem('isSignedIn');
+    localStorage.removeItem('selectedDirectorId');
+    localStorage.removeItem('selectedActorId');
+    localStorage.removeItem('selectedCompanyId');
+    localStorage.removeItem('selectedTvSeriesId');
+    localStorage.removeItem('movieVisits');
+    localStorage.removeItem('actorVisits');
+    localStorage.removeItem('directorVisits');
+    localStorage.removeItem('movieRatings');
+    localStorage.removeItem('triviaStats');
+    localStorage.removeItem('uniqueMoviesViewed');
+    localStorage.removeItem('uniqueDirectorsViewed');
+    localStorage.removeItem('uniqueActorsViewed');
+    localStorage.removeItem('uniqueCompaniesViewed');
+    localStorage.removeItem('favoriteGenres');
+    localStorage.removeItem('watchlistsCreated');
+    localStorage.removeItem('averageMovieRating');
+    localStorage.removeItem('backgroundImage');
+    localStorage.removeItem('textColor');
+    localStorage.removeItem('fontSize');
+    localStorage.removeItem('moviesFavorited');
+    localStorage.removeItem('searchQuery');
+    localStorage.removeItem('selectedTVSeriesId');
+    localStorage.removeItem('favoritesTVSeries');
 }

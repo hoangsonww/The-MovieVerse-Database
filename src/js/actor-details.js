@@ -34,34 +34,16 @@ document.getElementById('clear-search-btn').addEventListener('click', () => {
 
 form.addEventListener('submit', (e) => {
     e.preventDefault();
-    const searchTerm = search.value.trim();
-
-    if (searchTerm) {
-        getMovies(SEARCHPATH + searchTerm);
-        searchTitle.innerHTML = 'Search Results for: ' + searchTerm;
-        otherTitle.innerHTML = 'Check out other movies:';
-        search.value = '';
-    }
-    else {
-        searchTitle.innerHTML = 'Please enter a search term.';
-    }
-    document.getElementById('clear-search-btn').style.display = 'block';
+    const searchQuery = document.getElementById('search').value;
+    localStorage.setItem('searchQuery', searchQuery);
+    window.location.href = 'search.html';
 });
 
-searchButton.addEventListener('click', (e) => {
-    e.preventDefault();
-    const searchTerm = search.value;
-    if (searchTerm) {
-        getMovies(SEARCHPATH + searchTerm);
-        searchTitle.innerHTML = 'Search Results for: ' + searchTerm;
-        otherTitle.innerHTML = 'Check out other movies:';
-        search.value = '';
-    }
-    else {
-        searchTitle.innerHTML = 'Please enter a search term.';
-    }
-    document.getElementById('clear-search-btn').style.display = 'block';
-});
+function handleSearch() {
+    const searchQuery = document.getElementById('search').value;
+    localStorage.setItem('searchQuery', searchQuery);
+    window.location.href = 'search.html';
+}
 
 function calculateMoviesToDisplay() {
     const screenWidth = window.innerWidth;
@@ -90,75 +72,6 @@ function calculateMoviesToDisplay() {
     if (screenWidth <= 7993.99) return 46;
     if (screenWidth <= 8325.99) return 48;
     return 20;
-}
-
-async function getMovies(url) {
-    clearMovieDetails();
-    const numberOfMovies = calculateMoviesToDisplay();
-    const pagesToFetch = numberOfMovies <= 20 ? 1 : 2;
-    let allMovies = [];
-
-    for (let page = 1; page <= pagesToFetch; page++) {
-        const response = await fetch(`${url}&page=${page}`);
-        const data = await response.json();
-        allMovies = allMovies.concat(data.results);
-    }
-
-    const popularityThreshold = 0.5;
-
-    allMovies.sort((a, b) => {
-        const popularityDifference = Math.abs(a.popularity - b.popularity);
-        if (popularityDifference < popularityThreshold) {
-            return b.vote_average - a.vote_average;
-        }
-        return b.popularity - a.popularity;
-    });
-
-    if (allMovies.length > 0) {
-        showMovies(allMovies.slice(0, numberOfMovies));
-        document.getElementById('clear-search-btn').style.display = 'block';
-    }
-    else {
-        main.innerHTML = `<p>No movie with the specified search term found. Please try again.</p>`;
-        document.getElementById('clear-search-btn').style.display = 'none';
-    }
-}
-
-function showMovies(movies){
-    main.innerHTML = '';
-    movies.forEach((movie) => {
-        const { id, poster_path, title, vote_average, overview } = movie;
-        const movieE1 = document.createElement('div');
-        const voteAverage = vote_average.toFixed(1);
-        movieE1.classList.add('movie');
-        const movieImage = poster_path
-            ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
-            : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
-        movieE1.innerHTML = `
-            ${movieImage} 
-            <div class="movie-info" style="cursor: pointer;">
-                <h3>${title}</h3>
-                <span class="${getClassByRate(vote_average)}">${voteAverage}</span>
-            </div>
-            <div class="overview" style="cursor: pointer;">
-                <h4>Movie Overview: </h4>
-                ${overview}
-            </div>`;
-        movieE1.addEventListener('click', () => {
-            localStorage.setItem('selectedMovieId', id);
-            window.location.href = 'movie-details.html';
-            updateMovieVisitCount(id, title);
-        });
-        main.appendChild(movieE1);
-    });
-    applySettings();
-}
-
-function clearMovieDetails() {
-    const movieDetailsContainer = document.getElementById('actor-details-container');
-    if (movieDetailsContainer) {
-        movieDetailsContainer.innerHTML = '';
-    }
 }
 
 let initialMainContent = '';
@@ -209,6 +122,7 @@ function populateActorDetails(actor, credits) {
     const actorImage = document.getElementById('actor-image');
     const actorName = document.getElementById('actor-name');
     const actorDescription = document.getElementById('actor-description');
+
     if (actor.profile_path) {
         actorImage.src = `https://image.tmdb.org/t/p/w1280${actor.profile_path}`;
         actorName.textContent = actor.name;
@@ -222,19 +136,42 @@ function populateActorDetails(actor, credits) {
         noImageText.style.textAlign = 'center';
         document.querySelector('.actor-left').appendChild(noImageText);
     }
-    document.getElementById('actor-image').src = `https://image.tmdb.org/t/p/w1280${actor.profile_path}`;
-    document.getElementById('actor-name').textContent = actor.name;
+
+    let ageOrStatus;
+    if (actor.birthday) {
+        if (actor.deathday) {
+            ageOrStatus = calculateAge(actor.birthday, actor.deathday) + ' (Deceased)';
+        }
+        else {
+            ageOrStatus = calculateAge(actor.birthday) + ' (Alive)';
+        }
+    }
+    else {
+        ageOrStatus = 'Unknown';
+    }
+
     actorDescription.innerHTML = `
         <p><strong>Biography:</strong> ${actor.biography || 'N/A'}</p>
         <p><strong>Date of Birth:</strong> ${actor.birthday || 'N/A'}</p>
-        <p><strong>Age:</strong> ${actor.birthday ? calculateAge(actor.birthday) : 'N/A'}</p>
+        <p><strong>Date of Death:</strong> ${actor.deathday || 'N/A'}</p>
+        <p><strong>Age:</strong> ${ageOrStatus}</p>
         <p><strong>Place of Birth:</strong> ${actor.place_of_birth || 'N/A'}</p>
         <p><strong>Known For:</strong> ${actor.known_for_department || 'N/A'}</p>
         <p><strong>Height:</strong> ${actor.height || 'N/A'}</p>
     `;
+
+    const gender = document.createElement('div');
+    gender.innerHTML = `<p><strong>Gender:</strong> ${actor.gender === 1 ? 'Female' : actor.gender === 2 ? 'Male' : 'N/A'}</p>`;
+    actorDescription.appendChild(gender);
+
+    const popularity = document.createElement('div');
+    popularity.innerHTML = `<p><strong>Popularity Score:</strong> ${actor.popularity.toFixed(2)}</p>`;
+    actorDescription.appendChild(popularity);
+
     const filmographyHeading = document.createElement('p');
     filmographyHeading.innerHTML = '<strong>Filmography:</strong> ';
-    document.getElementById('actor-description').appendChild(filmographyHeading);
+    actorDescription.appendChild(filmographyHeading);
+
     const movieList = document.createElement('div');
     movieList.classList.add('movie-list');
     credits.cast.forEach(movie => {
@@ -248,18 +185,17 @@ function populateActorDetails(actor, credits) {
         movieList.appendChild(movieLink);
         movieList.appendChild(document.createTextNode(', '));
     });
+
     filmographyHeading.appendChild(movieList);
-    const gender = document.createElement('div');
-    gender.innerHTML = `
-        <p><strong>Gender:</strong> ${actor.gender === 1 ? 'Female' : actor.gender === 2 ? 'Male' : 'N/A'}</p>
-    `;
-    document.getElementById('actor-description').appendChild(gender);
-    const popularity = document.createElement('div');
-    popularity.innerHTML = `
-        <p><strong>Popularity Score:</strong> ${actor.popularity.toFixed(2)}</p>
-    `;
-    document.getElementById('actor-description').appendChild(popularity);
     applySettings();
+}
+
+function calculateAge(birthday, deathday = null) {
+    const birthDate = new Date(birthday);
+    const referenceDate = deathday ? new Date(deathday) : new Date();
+    const diff = referenceDate - birthDate.getTime();
+    const ageDate = new Date(diff);
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
 }
 
 function rotateUserStats() {
@@ -320,26 +256,6 @@ function rotateUserStats() {
             }
         },
         { label: "Your Trivia Accuracy", getValue: getTriviaAccuracy },
-        {
-            label: "Quote from Forrest Gump (1994)",
-            getValue: () => "Life was like a box of chocolates. You never know what you're gonna get."
-        },
-        {
-            label: "Quote from The Lord of the Rings: The Two Towers (2002)",
-            getValue: () => "There is some good in this world, and it's worth fighting for."
-        },
-        {
-            label: "Quote from Fight Club (1999)",
-            getValue: () => "The first rule of Fight Club is: You do not talk about Fight Club."
-        },
-        {
-            label: "Quote from The Wizard of Oz (1939)",
-            getValue: () => "There's no place like home."
-        },
-        {
-            label: "Quote from Cool Hand Luke (1967)",
-            getValue: () => "What we've got here is failure to communicate."
-        },
     ];
 
     let currentStatIndex = 0;
@@ -404,6 +320,7 @@ function getMostVisitedActor() {
 
 function getMostVisitedDirector() {
     const directorVisits = JSON.parse(localStorage.getItem('directorVisits')) || {};
+
     let mostVisitedDirector = '';
     let maxVisits = 0;
 
@@ -460,8 +377,8 @@ function handleSignInOut() {
 
 function updateSignInButtonState() {
     const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
-
     const signInText = document.getElementById('signInOutText');
+
     const signInIcon = document.getElementById('signInIcon');
     const signOutIcon = document.getElementById('signOutIcon');
 
@@ -512,12 +429,6 @@ function fallbackMovieSelection() {
     const randomFallbackMovie = fallbackMovies[Math.floor(Math.random() * fallbackMovies.length)];
     localStorage.setItem('selectedMovieId', randomFallbackMovie);
     window.location.href = 'movie-details.html';
-}
-
-function calculateAge(birthday) {
-    const birthDate = new Date(birthday);
-    const currentDate = new Date();
-    return currentDate.getFullYear() - birthDate.getFullYear();
 }
 
 function applySettings() {

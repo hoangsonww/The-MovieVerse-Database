@@ -449,7 +449,7 @@ function rotateUserStats() {
                 return viewedCompanies.length;
             }
         },
-        { label: "Your Trivia Accuracy", getValue: getTriviaAccuracy }
+        { label: "Your Trivia Accuracy", getValue: getTriviaAccuracy },
     ];
 
     let currentStatIndex = 0;
@@ -553,3 +553,18 @@ function getMostCommonGenre() {
 }
 
 document.addEventListener('DOMContentLoaded', rotateUserStats);
+
+const form = document.getElementById('form1');
+
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const searchQuery = document.getElementById('search').value;
+    localStorage.setItem('searchQuery', searchQuery);
+    window.location.href = 'search.html';
+});
+
+function handleSearch() {
+    const searchQuery = document.getElementById('search').value;
+    localStorage.setItem('searchQuery', searchQuery);
+    window.location.href = 'search.html';
+}

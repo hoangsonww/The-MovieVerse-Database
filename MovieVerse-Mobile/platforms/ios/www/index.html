@@ -49,14 +49,14 @@
 </head>
 
 <body class="movie-details-body3">
-    <header id="homepage-header">
+    <header id="homepage-header" style="margin-bottom: -10px">
         <a id="indexLink" href="index.html" style="text-decoration: none; color: inherit; cursor: pointer">
             <h1 id="my-heading" style="margin-bottom: -10px">
                 The Mo<span class="highlight">vieV</span>erse
             </h1>
         </a>
 
-        <div id="local-time" style="cursor: pointer">
+        <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
             <p id="stats-label" class="clock" style="font-size: 16px"></p>
             <h1 id="stats-display" class="clock"></h1>
         </div>
@@ -64,13 +64,16 @@
         <button id="nav-toggle" class="nav-toggle" title="Toggle side navbar (Or you can just hover on the left edge to toggle it!)" onclick="toggleNav()">
             <i class="fas fa-bars"></i>
         </button>
+
         <button class="back-btn nav-btn" onclick="window.location.href='index.html'" title="Go back to homepage">Home</button>
         <button class="about nav-btn" onclick="window.location.href='./src/html/about.html'" title="About this wonderful app!">About</button>
         <button class="favorites-btn nav-btn" onclick="window.location.href='./src/html/favorites.html'" title="Go to your favorites list">Favorites</button>
+
         <button id="profileBtn" class="nav-btn" onclick="window.location.href='./src/html/user-profile.html'" title="Go to your profile">
             <span id="profileText">Profile</span>
             <i class="fas fa-user" id="profileIcon"></i>
         </button>
+
         <button id="googleSignInBtn" class="nav-btn" onclick="handleSignInOut()" title="Sign In/Out">
             <span id="signInOutText">Sign In</span>
             <i class="fas fa-sign-in-alt" id="signInIcon"></i>
@@ -81,10 +84,10 @@
             <input
                     type="text"
                     id="search"
-                    placeholder="Search For Any Movie..."
+                    placeholder="Search For Anything..."
                     class="search"
             />
-            <button type="button" id="button-search" onclick="">Search</button>
+            <button type="button" id="button-search" onclick="handleSearch()">Search</button>
         </form>
     </header>
 
@@ -97,26 +100,26 @@
         </div>
         <ul style="overflow-y: auto">
             <li><a href="src/html/analytics.html">MovieVerse Analytics</a></li>
-            <li><a href="#main">Most Popular</a></li>
-            <li><a href="#main17">Award-Winning</a></li>
-            <li><a href="#main18">Hidden Gems</a></li>
-            <li><a href="#main20">Director's Spotlight</a></li>
-            <li><a href="#main3">Action</a></li>
-            <li><a href="#main4">Horror</a></li>
-            <li><a href="#main21">Korean</a></li>
-            <li><a href="#main5">Documentary</a></li>
-            <li><a href="#main6">Animated</a></li>
-            <li><a href="#main7">Science Fiction</a></li>
-            <li><a href="#main8">Romantic</a></li>
-            <li><a href="#main9">Thriller</a></li>
-            <li><a href="#main10">Mystery</a></li>
-            <li><a href="#main11">Adventure</a></li>
-            <li><a href="#main12">Comedy</a></li>
-            <li><a href="#main13">Fantasy</a></li>
-            <li><a href="#main14">Family</a></li>
-            <li><a href="#main15">TV Series</a></li>
-            <li><a href="#main16">Crime</a></li>
-            <li><a href="#main19">Classic</a></li>
+            <li><a href="#most-popular">Most Popular</a></li>
+            <li><a href="#award-winning">Award-Winning</a></li>
+            <li><a href="#hidden-gems">Hidden Gems</a></li>
+            <li><a href="#director-spotlight">Director's Spotlight</a></li>
+            <li><a href="#action">Action</a></li>
+            <li><a href="#horror">Horror</a></li>
+            <li><a href="#tv-series">TV Series</a></li>
+            <li><a href="#korean">Korean</a></li>
+            <li><a href="#documentary">Documentary</a></li>
+            <li><a href="#animation">Animation</a></li>
+            <li><a href="#sci-fi">Science Fiction</a></li>
+            <li><a href="#romantic">Romantic</a></li>
+            <li><a href="#thriller">Thriller</a></li>
+            <li><a href="#mystery">Mystery</a></li>
+            <li><a href="#adventure">Adventure</a></li>
+            <li><a href="#comedy">Comedy</a></li>
+            <li><a href="#fantasy">Fantasy</a></li>
+            <li><a href="#family">Family</a></li>
+            <li><a href="#crime">Crime</a></li>
+            <li><a href="#classic">Classic</a></li>
         </ul>
     </nav>
 
@@ -133,177 +136,139 @@
         </button>
     </div>
 
-    <div class="genres" style="margin-left: 25px">
-        <h2 id="search-title">Most Popular: </h2>
+    <div class="genres">
+        <h2 id="search-title" style="margin-top: 35px">Most Popular: </h2>
         <button type="button" id="button-clear" style="display: none;">Clear Search</button>
     </div>
 
-    <main id="main">
-
-    </main>
+    <main id="most-popular"></main>
 
     <div class="genres">
         <h1 id="other1"></h1>
     </div>
 
-    <div class="genres" style="margin-left: 25px">
-        <h2>Award-Winning Movies:</h2>
+    <div class="genres"  >
+        <h2 style="margin-top: 35px">Award-Winning Movies:</h2>
     </div>
 
-    <main id="main17">
+    <main id="award-winning"></main>
 
-    </main>
-
-    <div class="genres" style="margin-left: 25px; display: flex; justify-content: space-between; align-items: center;">
-        <h2 id="director-spotlight-title">Director's Spotlight: <span id="spotlight-director-name">Alfred Hitchcock</span></h2>
+    <div class="genres" style="display: flex; justify-content: space-between; align-items: center;">
+        <h2 id="director-spotlight-title" style="margin-top: 35px">Director's Spotlight: <span id="spotlight-director-name">Alfred Hitchcock</span></h2>
         <button id="change-director-btn" onclick="changeDirector()" style="padding: 5px 10px; cursor: pointer;">Change Director</button>
     </div>
 
-    <main id="main20"></main>
+    <main id="director-spotlight"></main>
 
-    <div class="genres" style="margin-left: 25px">
-        <h2>Hidden Gems:</h2>
+    <div class="genres"  >
+        <h2 style="margin-top: 35px">Hidden Gems:</h2>
     </div>
 
-    <main id="main18">
+    <main id="hidden-gems"></main>
 
-    </main>
-
-    <div class="genres" style="margin-left: 25px">
-        <h2 id="other">Trending <span class="highlight">ACTION</span> Movies: </h2>
+    <div class="genres"  >
+        <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">ACTION</span> Movies: </h2>
     </div>
 
-    <main id="main3">
+    <main id="action"></main>
 
-    </main>
-
-    <div class="genres" style="margin-left: 25px">
-        <h2 id="other">Trending <span class="highlight">HORROR</span> Movies: </h2>
+    <div class="genres"  >
+        <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">HORROR</span> Movies: </h2>
     </div>
 
-    <main id="main4">
+    <main id="horror"></main>
 
-    </main>
-
-    <div class="genres" style="margin-left: 25px">
-        <h2 id="other">Best <span class="highlight">KOREAN</span> Movies: </h2>
+    <div class="genres"  >
+        <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">TV SERIES</span>: </h2>
     </div>
 
-    <main id="main21">
+    <main id="tv-series"></main>
 
-    </main>
-
-    <div class="genres" style="margin-left: 25px">
-        <h2 id="other">Trending <span class="highlight">DOCUMENTARY</span> Movies: </h2>
+    <div class="genres">
+        <h2 id="other" style="margin-top: 35px">Best <span class="highlight">KOREAN</span> Movies: </h2>
     </div>
 
-    <main id="main5">
+    <main id="korean"></main>
 
-    </main>
-
-    <div class="genres" style="margin-left: 25px">
-        <h2 id="other">Trending <span class="highlight">ANIMATED</span> Movies: </h2>
+    <div class="genres"  >
+        <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">DOCUMENTARY</span> Movies: </h2>
     </div>
 
-    <main id="main6">
+    <main id="documentary"></main>
 
-    </main>
-
-    <div class="genres" style="margin-left: 25px">
-        <h2 id="other">Trending <span class="highlight">TV SERIES</span>: </h2>
+    <div class="genres"  >
+        <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">ANIMATED</span> Movies: </h2>
     </div>
 
-    <main id="main15">
+    <main id="animation"></main>
 
-    </main>
-
-    <div class="genres" style="margin-left: 25px">
-        <h2 id="other">Trending <span class="highlight">SCIENCE FICTION</span> Movies: </h2>
+    <div class="genres"  >
+        <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">SCIENCE FICTION</span> Movies: </h2>
     </div>
 
-    <main id="main7">
+    <main id="sci-fi"></main>
 
-    </main>
-
-    <div class="genres" style="margin-left: 25px">
-        <h2 id="other">Trending <span class="highlight">ROMANTIC</span> Movies: </h2>
+    <div class="genres"  >
+        <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">ROMANTIC</span> Movies: </h2>
     </div>
 
-    <main id="main8">
+    <main id="romantic"></main>
 
-    </main>
-
-    <div class="genres" style="margin-left: 25px">
-        <h2 id="other">Trending <span class="highlight">THRILLER</span> Movies: </h2>
+    <div class="genres"  >
+        <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">THRILLER</span> Movies: </h2>
     </div>
 
-    <main id="main9">
+    <main id="thriller"></main>
 
-    </main>
-
-    <div class="genres" style="margin-left: 25px">
-        <h2 id="other">Trending <span class="highlight">MYSTERY</span> Movies: </h2>
+    <div class="genres"  >
+        <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">MYSTERY</span> Movies: </h2>
     </div>
 
-    <main id="main10">
+    <main id="mystery"></main>
 
-    </main>
-
-    <div class="genres" style="margin-left: 25px">
-        <h2 id="other">Trending <span class="highlight">ADVENTURE</span> Movies: </h2>
+    <div class="genres"  >
+        <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">ADVENTURE</span> Movies: </h2>
     </div>
 
-    <main id="main11">
+    <main id="adventure"></main>
 
-    </main>
-
-    <div class="genres" style="margin-left: 25px">
-        <h2 id="other">Trending <span class="highlight">COMEDY</span> Movies: </h2>
+    <div class="genres"  >
+        <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">COMEDY</span> Movies: </h2>
     </div>
 
-    <main id="main12">
+    <main id="comedy"></main>
 
-    </main>
-
-    <div class="genres" style="margin-left: 25px">
-        <h2 id="other">Trending <span class="highlight">FANTASY</span> Movies: </h2>
+    <div class="genres"  >
+        <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">FANTASY</span> Movies: </h2>
     </div>
 
-    <main id="main13">
+    <main id="fantasy"></main>
 
-    </main>
-
-    <div class="genres" style="margin-left: 25px">
-        <h2 id="other">Trending <span class="highlight">FAMILY</span> Movies: </h2>
+    <div class="genres"  >
+        <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">FAMILY</span> Movies: </h2>
     </div>
 
-    <main id="main14">
+    <main id="family"></main>
 
-    </main>
-
-    <div class="genres" style="margin-left: 25px">
-        <h2 id="other">Trending <span class="highlight">CRIME</span> Movies: </h2>
+    <div class="genres"  >
+        <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">CRIME</span> Movies: </h2>
     </div>
 
-    <main id="main16">
+    <main id="crime"></main>
 
-    </main>
-
-    <div class="genres" style="margin-left: 25px">
-        <h2 id="other">Trending <span class="highlight">CLASSIC</span> Movies: </h2>
+    <div class="genres"  >
+        <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">CLASSIC</span> Movies: </h2>
     </div>
 
-    <main id="main19" style="margin-bottom: 230px">
+    <main id="classic" style="margin-bottom: 230px"></main>
 
-    </main>
-
-    <button id="movie-match-btn" onclick="window.location.href='src/html/movie-match.html'" title="Find movies that match your mood and preferences!" style="bottom: 220px">Movie Match</button>
-    <button id="movie-timeline-btn" onclick="window.location.href='src/html/movie-timeline.html'" title="Explore movies through different eras!">Movie Timeline</button>
-    <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!">Recommendation</button>
-    <button id="discussions-btn" onclick="window.location.href='src/html/chatbot.html'" title="Want to know more about movies? Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
-    <button id="trivia-btn" onclick="window.location.href='./src/html/trivia.html'" title="Play a quick trivia to test your knowledge about movies!">MovieVerse Trivia</button>
-    <button id="back-to-top-btn" onclick="window.location.href='#homepage-header'">Back To Top</button>
-    <button id="settings-btn" style="position: fixed">Settings</button>
+    <button id="movie-match-btn" onclick="window.location.href='src/html/movie-match.html'" title="Find movies that match your mood and preferences!" style="bottom: 185px">Movie Match</button>
+    <button id="movie-timeline-btn" onclick="window.location.href='src/html/movie-timeline.html'" style="bottom: 150px" title="Explore movies through different eras!">Movie Timeline</button>
+    <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" style="bottom: 115px" title="Get a recommended movie to watch for today!">Recommendation</button>
+    <button id="discussions-btn" onclick="window.location.href='src/html/chatbot.html'" style="bottom: 80px" title="Want to know more about movies? Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
+    <button id="trivia-btn" onclick="window.location.href='./src/html/trivia.html'" style="bottom: 45px" title="Play a quick trivia to test your knowledge about movies!">MovieVerse Trivia</button>
+    <button id="back-to-top-btn" style="bottom: 10px" onclick="window.location.href='#homepage-header'">Back To Top</button>
+    <button id="settings-btn" style="position: fixed; bottom: 220px">Settings</button>
 
     <script>
         document.getElementById('settings-btn').addEventListener('click', () => {
@@ -312,6 +277,28 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             applySettings();
+
+            document.querySelectorAll('nav a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    const href = this.getAttribute('href');
+                    if (href.startsWith('#')) {
+                        const targetMain = document.querySelector(href);
+                        let targetDiv = targetMain.previousElementSibling;
+                        while(targetDiv && !targetDiv.classList.contains('genres')) {
+                            targetDiv = targetDiv.previousElementSibling;
+                        }
+
+                        if (targetDiv) {
+                            targetDiv.scrollIntoView({behavior: 'smooth'});
+                        }
+                    }
+                    else {
+                        window.location.href = href;
+                    }
+                });
+            });
 
             function applySettings() {
                 const savedBg = localStorage.getItem('backgroundImage');
@@ -346,6 +333,51 @@
         }
     </script>
 
+    <script type="application/ld+json">
+        {
+            "@context": "http://schema.org",
+            "@type": "Movie",
+            "name": "Inception",
+            "image": "https://movie-verse.com/images/inception.jpg",
+            "director": {
+                "@type": "Person",
+                "name": "Christopher Nolan",
+                "url": "https://movie-verse.com/src/html/christopher-nolan.html"
+            },
+            "genre": ["Action", "Adventure", "Sci-Fi"],
+            "actor": [
+                {
+                    "@type": "Person",
+                    "name": "Leonardo DiCaprio",
+                    "url": "https://movie-verse.com/src/html/leonardo-dicaprio.html"
+                }
+            ],
+            "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "8.8",
+                "reviewCount": "1043299",
+                "bestRating": "10",
+                "worstRating": "1"
+            },
+            "review": {
+                "@type": "Review",
+                "author": {
+                    "@type": "Person",
+                    "name": "Jane Doe"
+                },
+                "datePublished": "2020-01-06",
+                "reviewRating": {
+                    "@type": "Rating",
+                    "ratingValue": "9",
+                    "bestRating": "10",
+                    "worstRating": "1"
+                },
+                "reviewBody": "Inception is a masterpiece of narrative complexity, with an innovative structure and a compelling exploration of themes such as dream manipulation and the nature of reality."
+            },
+            "description": "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
+            "datePublished": "2010-07-16",
+            "url": "https://movie-verse.com/src/html/inception.html"
+        }
+    </script>
 </body>
-
 </html>

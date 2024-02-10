@@ -6,6 +6,29 @@
     <link rel="stylesheet" href="../css/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="website" />
+    <meta http-equiv="content-language" content="en" />
+    <meta property="og:description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more." />
+    <meta property="og:url" content="https://hoangsonww.github.io/The-MovieVerse-Database/src/html/about.html" />
+    <meta property="og:site_name" content="About The MovieVerse" />
+    <meta property="og:image" content="https://hoangsonww.github.io/The-MovieVerse-Database/images/image.png"/>
+    <meta property="og:favicon" content="./images/favicon.ico" />
+    <meta name="keywords" content="movies, film guide, directors, actors, movie genres, cinema, film reviews">
+    <meta name="author" content="Son Nguyen Hoang">
+    <link rel="canonical" href="https://hoangsonww.github.io/The-MovieVerse-Database/"/>
+    <meta name="robots" content="index, follow">
+    <meta name="rating" content="General">
+    <meta name="revisit-after" content="3 days">
+    <meta name="distribution" content="global">
+    <meta http-equiv="content-language" content="en">
+    <meta name="language" content="en">
+    <meta name="theme-color" content="#7378c5">
+    <meta name="twitter:card" content="https://hoangsonww.github.io/The-MovieVerse-Database/images/image.png"/>
+    <meta name="twitter:title" content="The MovieVerse - Your Ultimate Movie Guide">
+    <meta name="twitter:description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more.">
+    <meta name="twitter:image" content="https://hoangsonww.github.io/The-MovieVerse-Database/images/image.png"/>
+    <meta name="referrer" content="no-referrer-when-downgrade">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <link rel="manifest" href="../../manifest.json">
     <style>
@@ -160,10 +183,10 @@
             <input
                     type="text"
                     id="search"
-                    placeholder="Search For Any Movie..."
+                    placeholder="Search For Anything..."
                     class="search"
             />
-            <button type="button" id="button-search" onclick="">Search</button>
+            <button type="button" id="button-search" onclick="handleSearch()">Search</button>
         </form>
         <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 150px">Movie Match</button>
         <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 115px">Movie Timeline</button>
@@ -195,6 +218,16 @@
                 <option style="font: inherit" value="../../images/universe-8.png">Universe 8</option>
                 <option style="font: inherit" value="../../images/universe-9.png">Universe 9</option>
                 <option style="font: inherit" value="../../images/universe-10.png">Universe 10</option>
+                <option style="font: inherit" value="../../images/universe-11.png">Universe 11</option>
+                <option style="font: inherit" value="../../images/universe-12.png">Universe 12</option>
+                <option style="font: inherit" value="../../images/universe-13.png">Universe 13</option>
+                <option style="font: inherit" value="../../images/universe-14.png">Universe 14</option>
+                <option style="font: inherit" value="../../images/universe-15.png">Universe 15</option>
+                <option style="font: inherit" value="../../images/universe-16.png">Universe 16</option>
+                <option style="font: inherit" value="../../images/universe-17.png">Universe 17</option>
+                <option style="font: inherit" value="../../images/universe-18.png">Universe 18</option>
+                <option style="font: inherit" value="../../images/universe-19.png">Universe 19</option>
+                <option style="font: inherit" value="../../images/universe-20.png">Universe 20</option>
                 <option style="font: inherit" value="../../images/black.jpeg">Black</option>
                 <option style="font: inherit" value="../../images/grey.png">Grey</option>
                 <option style="font: inherit" value="../../images/blue.jpg">Blue</option>
@@ -519,26 +552,6 @@
                     }
                 },
                 { label: "Your Trivia Accuracy", getValue: getTriviaAccuracy },
-                {
-                    label: "Quote from Forrest Gump (1994)",
-                    getValue: () => "Life was like a box of chocolates. You never know what you're gonna get."
-                },
-                {
-                    label: "Quote from The Lord of the Rings: The Two Towers (2002)",
-                    getValue: () => "There is some good in this world, and it's worth fighting for."
-                },
-                {
-                    label: "Quote from Fight Club (1999)",
-                    getValue: () => "The first rule of Fight Club is: You do not talk about Fight Club."
-                },
-                {
-                    label: "Quote from The Wizard of Oz (1939)",
-                    getValue: () => "There's no place like home."
-                },
-                {
-                    label: "Quote from Cool Hand Luke (1967)",
-                    getValue: () => "What we've got here is failure to communicate."
-                },
             ];
 
             let currentStatIndex = 0;
