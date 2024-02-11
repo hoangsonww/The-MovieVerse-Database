@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     resetButton.addEventListener('click', function() {
         localStorage.removeItem('backgroundImage');
+        localStorage.setItem('backgroundImage', '../../images/universe-1.png')
         localStorage.removeItem('textColor');
         localStorage.removeItem('fontSize');
         window.location.reload();
