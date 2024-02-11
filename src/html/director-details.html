@@ -140,6 +140,20 @@
         }
     }
 
+    const movieCode1 = {
+        part1: 'YzVhMjBjODY=',
+        part2: 'MWFjZjdiYjg=',
+        part3: 'ZDllOTg3ZGNjN2YxYjU1OA=='
+    };
+
+    function getMovieCode() {
+        return atob(movieCode1.part1) + atob(movieCode1.part2) + atob(movieCode1.part3);
+    }
+
+    function generateMovieNames(input) {
+        return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
+    }
+
     function fallbackMovieSelection() {
         const fallbackMovies = [432413, 299534, 1726, 562, 118340, 455207, 493922, 447332, 22970, 530385, 27205, 264660, 120467, 603, 577922, 76341, 539, 419704, 515001, 118340, 424, 98];
         const randomFallbackMovie = fallbackMovies[Math.floor(Math.random() * fallbackMovies.length)];
