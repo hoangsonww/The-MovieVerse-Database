@@ -53,42 +53,42 @@
 
 <body>
 
-<header id="header" style="margin-top: 15px">
-    <div id="header-title">
-        <a href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer" title="Click to go back to the home page">
-            <h1 id="my-heading" style="margin-bottom: -10px">
-                The Mo<span class="highlight">vieV</span>erse
-            </h1>
-        </a>
-    </div>
+    <header id="header" style="margin-top: 15px">
+        <div id="header-title">
+            <a href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer" title="Click to go back to the home page">
+                <h1 id="my-heading" style="margin-bottom: -10px">
+                    The Mo<span class="highlight">vieV</span>erse
+                </h1>
+            </a>
+        </div>
 
-    <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
-        <p id="stats-label" class="clock" style="font-size: 16px"></p>
-        <h1 id="stats-display" class="clock" style="font-size: 20px"></h1>
-    </div>
+        <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
+            <p id="stats-label" class="clock" style="font-size: 16px"></p>
+            <h1 id="stats-display" class="clock" style="font-size: 20px"></h1>
+        </div>
 
-    <button class="back-btn" onclick="window.location.href='../../index.html'">Home</button>
-    <button class="about" onclick="window.location.href='about.html'">About</button>
-    <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="Go to your favorites list">Favorites</button>
+        <button class="back-btn" onclick="window.location.href='../../index.html'">Home</button>
+        <button class="about" onclick="window.location.href='about.html'">About</button>
+        <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="Go to your favorites list">Favorites</button>
 
-    <button id="googleSignInBtn" class="nav-btn" onclick="handleSignInOut()" title="Sign In/Out">
-        <span id="signInOutText">Sign In</span>
-        <i class="fas fa-sign-in-alt" id="signInIcon"></i>
-        <i class="fas fa-sign-out-alt" id="signOutIcon" style="display: none;"></i>
-    </button>
+        <button id="googleSignInBtn" class="nav-btn" onclick="handleSignInOut()" title="Sign In/Out">
+            <span id="signInOutText">Sign In</span>
+            <i class="fas fa-sign-in-alt" id="signInIcon"></i>
+            <i class="fas fa-sign-out-alt" id="signOutIcon" style="display: none;"></i>
+        </button>
 
-    <button id="profileBtn" class="nav-btn" onclick="window.location.href='user-profile.html'" title="Go to your profile">
-        <span id="profileText">Profile</span>
-        <i class="fas fa-user" id="profileIcon"></i>
-    </button>
+        <button id="profileBtn" class="nav-btn" onclick="window.location.href='user-profile.html'" title="Go to your profile">
+            <span id="profileText">Profile</span>
+            <i class="fas fa-user" id="profileIcon"></i>
+        </button>
 
-    <div id="search-container" style="margin-top: 10px">
-        <form id="form">
-            <input type="text" id="search" placeholder="Search For Anything..." class="search" />
-            <button type="button" id="button-search" onclick="handleSearch()">Search</button>
-        </form>
-    </div>
-</header>
+        <div id="search-container" style="margin-top: 10px">
+            <form id="form">
+                <input type="text" id="search" placeholder="Search For Anything..." class="search" />
+                <button type="button" id="button-search" onclick="handleSearch()">Search</button>
+            </form>
+        </div>
+    </header>
 
     <div id="bot-header">
         <h2 id="search-title">The Mov<span class="highlight1">ieV</span>erse As<span class="highlight1">sist</span>ant</h2>
