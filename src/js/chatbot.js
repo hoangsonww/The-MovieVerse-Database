@@ -2,6 +2,24 @@ const chatbotInput = document.getElementById("chatbotInput");
 const chatbotBody = document.getElementById("chatbotBody");
 let initialMainContent;
 
+const movieCode = {
+    part1: 'YzVhMjBjODY=',
+    part2: 'MWFjZjdiYjg=',
+    part3: 'ZDllOTg3ZGNjN2YxYjU1OA=='
+};
+
+function getMovieCode() {
+    return atob(movieCode.part1) + atob(movieCode.part2) + atob(movieCode.part3);
+}
+
+function generateMovieNames(input) {
+    return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
+}
+
+function getMovieVerseData(input) {
+    return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     initialMainContent = document.getElementById('main').innerHTML;
     initializeChatbot();
@@ -12,7 +30,7 @@ const search = document.getElementById("search");
 const searchButton = document.getElementById("button-search");
 const searchTitle = document.getElementById("search-title");
 const otherTitle = document.getElementById("other1");
-const SEARCHPATH = "https://api.themoviedb.org/3/search/movie?&api_key=c5a20c861acf7bb8d9e987dcc7f1b558&query=";
+const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
 const IMGPATH = "https://image.tmdb.org/t/p/w1280";
 const main = document.getElementById("main");
 
@@ -413,7 +431,7 @@ async function fetchMovieTrailer(movieName) {
 }
 
 async function getTrailerUrl(movieId) {
-    const trailerApiUrl = `https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=c5a20c861acf7bb8d9e987dcc7f1b558`;
+    const trailerApiUrl = `https://${getMovieVerseData()}/3/movie/${movieId}/videos?${generateMovieNames()}${getMovieCode()}`;
     try {
         const response = await fetch(trailerApiUrl);
         const data = await response.json();
@@ -439,7 +457,7 @@ function createTrailerButton(trailerUrl, movieTitle) {
 }
 
 async function fetchPersonDetails(name, type) {
-    const searchUrl = `https://api.themoviedb.org/3/search/person?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&query=${encodeURIComponent(name)}`;
+    const searchUrl = `https://${getMovieVerseData()}/3/search/person?${generateMovieNames()}${getMovieCode()}&query=${encodeURIComponent(name)}`;
     try {
         const response = await fetch(searchUrl);
         const data = await response.json();
@@ -459,7 +477,7 @@ async function fetchPersonDetails(name, type) {
 }
 
 async function fetchCompanyDetails(companyName) {
-    const searchUrl = `https://api.themoviedb.org/3/search/company?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&query=${encodeURIComponent(companyName)}`;
+    const searchUrl = `https://${getMovieVerseData()}/3/search/company?${generateMovieNames()}${getMovieCode()}&query=${encodeURIComponent(companyName)}`;
     try {
         const response = await fetch(searchUrl);
         const data = await response.json();
@@ -668,7 +686,7 @@ function movieVerseResponse(message) {
 
 async function showMovieOfTheDay() {
     const year = new Date().getFullYear();
-    const url = `https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+    const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
 
     try {
         const response = await fetch(url);

@@ -127,13 +127,38 @@
 
         .close:hover,
         .close:focus {
-            color: black;
+            color: #ff8623;
             text-decoration: none;
             cursor: pointer;
         }
 
+        #editProfileModal {
+            z-index: 1000;
+            width: 100vw !important;
+        }
+
+        #editProfileModal .modal-content {
+            background-color: #373b69;
+            width: 400px !important;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.5) !important;
+        }
+
         #editProfileForm input {
             font: inherit;
+            border-radius: 8px;
+        }
+
+        #editProfileForm button {
+            background-color: #7378c5;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #editProfileForm button:hover {
+            background-color: #ff8623;
+            color: white;
         }
 
         .modal-header {
@@ -188,6 +213,52 @@
 
         #removeProfileImage:hover {
             color: #ff8623;
+        }
+
+        #editProfileForm .modal-content h2 {
+            color: #ff8623;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #editProfileForm .modal-content label {
+            color: #fff;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        #editProfileForm .modal-content input[type="text"],
+        #editProfileForm .modal-content textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #7378c5;
+            background-color: #22254b;
+            color: #fff;
+        }
+
+        #editProfileForm .modal-content button {
+            background-color: #7378c5;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font: inherit;
+            display: block;
+            margin: 10px auto;
+            transition: background-color 0.3s ease;
+        }
+
+        #editProfileForm .modal-content select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #7378c5;
+            background-color: #22254b;
+            color: #fff;
         }
     </style>
     <script src="../js/user-profile.js"></script>
@@ -270,8 +341,8 @@
             <form id="editProfileForm">
                 <input type="text" id="editUsername" placeholder="Username">
                 <div class="dob-container">
-                    <label for="editDob">Date of Birth:</label>
-                    <input type="date" id="editDob">
+                    <label for="editDob" style="color: white">Date of Birth:</label>
+                    <input type="date" id="editDob" style="padding-left: 5px">
                 </div>
                 <input type="text" id="editBio" placeholder="Bio">
                 <input type="text" id="editFavoriteGenres" placeholder="Favorite Genres">
@@ -288,9 +359,27 @@
     </div>
 
     <script>
+        const movieCodes = {
+            part1: 'YzVhMjBjODY=',
+            part2: 'MWFjZjdiYjg=',
+            part3: 'ZDllOTg3ZGNjN2YxYjU1OA=='
+        };
+
+        function getMovieCode() {
+            return atob(movieCodes.part1) + atob(movieCodes.part2) + atob(movieCodes.part3);
+        }
+
+        function generateMovieNames(input) {
+            return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
+        }
+
+        function getMovieVerseData(input) {
+            return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
+        }
+
         async function showMovieOfTheDay() {
             const year = new Date().getFullYear();
-            const url = `https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+            const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
 
             try {
                 const response = await fetch(url);

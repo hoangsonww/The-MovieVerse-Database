@@ -44,7 +44,7 @@
 </head>
 
 <body class="movie-details-body">
-    <header style="margin-bottom: -50px">
+    <header style="margin-bottom: -50px; margin-top: -25px">
         <a href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer" title="Click to go back to the home page">
             <h1 id="my-heading" style="margin-bottom: -10px">
                 The Mo<span class="highlight">vieV</span>erse
@@ -113,13 +113,16 @@
 
     <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="margin-bottom: -50px" title="Play a quick trivia to test your knowledge about movies!">MovieVerse Trivia</button>
 
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
 </body>
 
 <script>
+    function getMovieVerseData(input) {
+        return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
+    }
+
     async function showMovieOfTheDay() {
         const year = new Date().getFullYear();
-        const url = `https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+        const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
 
         try {
             const response = await fetch(url);
@@ -139,6 +142,20 @@
             console.error('Error fetching movie:', error);
             fallbackMovieSelection();
         }
+    }
+
+    const movieCode1 = {
+        part1: 'YzVhMjBjODY=',
+        part2: 'MWFjZjdiYjg=',
+        part3: 'ZDllOTg3ZGNjN2YxYjU1OA=='
+    };
+
+    function getMovieCode() {
+        return atob(movieCode1.part1) + atob(movieCode1.part2) + atob(movieCode1.part3);
+    }
+
+    function generateMovieNames(input) {
+        return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
     }
 
     function fallbackMovieSelection() {

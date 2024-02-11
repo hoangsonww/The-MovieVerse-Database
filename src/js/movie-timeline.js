@@ -11,8 +11,22 @@ document.getElementById('end-year').addEventListener('keypress', function(event)
     }
 });
 
+const movieCode = {
+    part1: 'YzVhMjBjODY=',
+    part2: 'MWFjZjdiYjg=',
+    part3: 'ZDllOTg3ZGNjN2YxYjU1OA=='
+};
+
+function getMovieCode() {
+    return atob(movieCode.part1) + atob(movieCode.part2) + atob(movieCode.part3);
+}
+
+function generateMovieNames(input) {
+    return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
+}
+
 const IMGPATH = "https://image.tmdb.org/t/p/w1280";
-const SEARCHPATH = "https://api.themoviedb.org/3/search/movie?&api_key=c5a20c861acf7bb8d9e987dcc7f1b558&query=";
+const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
 const searchTitle = document.getElementById("select-text");
 const searchButton = document.getElementById("button-search");
 const search = document.getElementById("search");
@@ -278,7 +292,7 @@ document.getElementById('clear-search-btn').addEventListener('click', () => {
 });
 
 async function fetchMoviesByTimePeriod(startYear, endYear) {
-    const url = `https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&primary_release_date.gte=${startYear}-01-01&primary_release_date.lte=${endYear}-12-31`;
+    const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&primary_release_date.gte=${startYear}-01-01&primary_release_date.lte=${endYear}-12-31`;
     const response = await fetch(url);
     const data = await response.json();
     const numberOfMovies = calculateMoviesToDisplay();
@@ -335,7 +349,7 @@ function getClassByRate(vote) {
 
 async function showMovieOfTheDay() {
     const year = new Date().getFullYear();
-    const url = `https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+    const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
 
     try {
         const response = await fetch(url);
@@ -370,6 +384,10 @@ function handleSignInOut() {
     }
 
     updateSignInButtonState();
+}
+
+function getMovieVerseData(input) {
+    return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
 }
 
 function updateSignInButtonState() {

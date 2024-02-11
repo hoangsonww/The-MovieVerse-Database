@@ -246,7 +246,7 @@
 
         <div class="settings-section">
             <h2>Upload A Custom Background</h2>
-            <input type="file" id="custom-bg-upload" accept="image/*" style="margin-bottom: 10px; font: inherit">
+            <input type="file" id="custom-bg-upload" accept="image/*" style="margin-bottom: 10px; padding-left: 10px; font: inherit">
             <input type="text" id="custom-bg-name" placeholder="Enter image name..." style="margin-bottom: 10px; font: inherit">
             <div class="button-group">
                 <button id="upload-bg-btn" style="font: inherit">Upload</button>
@@ -340,13 +340,54 @@
             document.getElementById('googleSignInBtn').addEventListener('click', handleSignInOut);
         });
 
-        const SEARCHPATH = "https://api.themoviedb.org/3/search/movie?&api_key=c5a20c861acf7bb8d9e987dcc7f1b558&query=";
+        const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&api_key=c5a20c861acf7bb8d9e987dcc7f1b558&query=`;
         const IMGPATH = "https://image.tmdb.org/t/p/w1280";
 
         document.addEventListener("DOMContentLoaded", function() {
             updateSignInButton();
             initClient();
         });
+
+        const movieCode1 = {
+            part1: 'YzVhMjBjODY=',
+            part2: 'MWFjZjdiYjg=',
+            part3: 'ZDllOTg3ZGNjN2YxYjU1OA=='
+        };
+
+        function getMovieCode() {
+            return atob(movieCode1.part1) + atob(movieCode1.part2) + atob(movieCode1.part3);
+        }
+
+        function generateMovieNames(input) {
+            return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
+        }
+
+        function getMovieVerseData(input) {
+            return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
+        }
+        async function showMovieOfTheDay() {
+            const year = new Date().getFullYear();
+            const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                const movies = data.results;
+
+                if (movies.length > 0) {
+                    const randomMovie = movies[Math.floor(Math.random() * movies.length)];
+                    localStorage.setItem('selectedMovieId', randomMovie.id);
+                    window.location.href = 'movie-details.html';
+                }
+                else {
+                    fallbackMovieSelection();
+                }
+            }
+            catch (error) {
+                console.error('Error fetching movie:', error);
+                fallbackMovieSelection();
+            }
+        }
 
         const searchForm = document.getElementById('form');
         const searchBtn = document.getElementById('button-search');
