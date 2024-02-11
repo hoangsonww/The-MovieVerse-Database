@@ -614,12 +614,12 @@ main {
         margin-top: 10px;
     }
     #chatbotContainer {
-        top: 55%;
+        top: 56%
     }
 }
 
-@media (max-height: 680px) {
-    header {
+@media (max-height: 700px) {
+    #header {
         display: none;
     }
     #alt-home-btn {
