@@ -15,7 +15,7 @@ function generateMovieNames(input) {
 const search = document.getElementById("search");
 const searchButton = document.getElementById("button-search");
 const form = document.getElementById("form1");
-const SEARCHPATH = `https://api.themoviedb.org/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
+const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
 
 const main = document.getElementById("main");
 const IMGPATH = "https://image.tmdb.org/t/p/w1280";
@@ -542,9 +542,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
 async function fetchMovieDetails(movieId) {
     const code = `${getMovieCode()}`;
-    const url = `https://api.themoviedb.org/3/movie/27205?${generateMovieNames()}${code}&append_to_response=credits,keywords,similar`;
-    const url2 = `https://api.themoviedb.org/3/movie/27205?${generateMovieNames()}${code}&append_to_response=videos`;
-    const imdbUrl = `https://api.themoviedb.org/3/movie/27205?${generateMovieNames()}${code}&append_to_response=external_ids`;
+    const url = `https://${getMovieVerseData()}/3/movie/27205?${generateMovieNames()}${code}&append_to_response=credits,keywords,similar`;
+    const url2 = `https://${getMovieVerseData()}/3/movie/27205?${generateMovieNames()}${code}&append_to_response=videos`;
+    const imdbUrl = `https://${getMovieVerseData()}/3/movie/27205?${generateMovieNames()}${code}&append_to_response=external_ids`;
 
     try {
         const response = await fetch(url);
@@ -1146,7 +1146,7 @@ function updateAverageMovieRating(movieId, newRating) {
 
 async function showMovieOfTheDay() {
     const year = new Date().getFullYear();
-    const url = `https://api.themoviedb.org/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+    const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
 
     try {
         const response = await fetch(url);
@@ -1182,6 +1182,10 @@ function updateUniqueCompaniesViewed(companyId) {
         viewedCompanies.push(companyId);
         localStorage.setItem('uniqueCompaniesViewed', JSON.stringify(viewedCompanies));
     }
+}
+
+function getMovieVerseData(input) {
+    return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
 }
 
 function fallbackMovieSelection() {

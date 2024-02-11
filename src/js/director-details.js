@@ -56,7 +56,7 @@ function generateMovieNames(input) {
 const search = document.getElementById("search");
 const searchButton = document.getElementById("button-search");
 const form = document.getElementById("form1");
-const SEARCHPATH = `https://api.themoviedb.org/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
+const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
 const main = document.getElementById("main");
 const IMGPATH = "https://image.tmdb.org/t/p/w1280";
 const searchTitle = document.getElementById("search-title");
@@ -74,6 +74,10 @@ function handleSignInOut() {
     }
 
     updateSignInButtonState();
+}
+
+function getMovieVerseData(input) {
+    return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
 }
 
 form.addEventListener('submit', (e) => {
@@ -201,8 +205,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function fetchDirectorDetails(directorId) {
-    const directorUrl = `https://api.themoviedb.org/3/person/${directorId}?${generateMovieNames()}${getMovieCode()}`;
-    const creditsUrl = `https://api.themoviedb.org/3/person/${directorId}/movie_credits?${generateMovieNames()}${getMovieCode()}`;
+    const directorUrl = `https://${getMovieVerseData()}/3/person/${directorId}?${generateMovieNames()}${getMovieCode()}`;
+    const creditsUrl = `https://${getMovieVerseData()}/3/person/${directorId}/movie_credits?${generateMovieNames()}${getMovieCode()}`;
     try {
         const [directorResponse, creditsResponse] = await Promise.all([
             fetch(directorUrl),

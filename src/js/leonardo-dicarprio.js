@@ -16,7 +16,7 @@ function generateMovieNames(input) {
 }
 
 const form = document.getElementById("form1");
-const SEARCHPATH = `https://api.themoviedb.org/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
+const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
 const main = document.getElementById("main");
 const IMGPATH = "https://image.tmdb.org/t/p/w1280";
 const searchTitle = document.getElementById("search-title");
@@ -97,8 +97,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function fetchActorDetails(actorId) {
-    const actorUrl = `https://api.themoviedb.org/3/person/6193?${generateMovieNames()}${getMovieCode()}`;
-    const creditsUrl = `https://api.themoviedb.org/3/person/6193/movie_credits?${generateMovieNames()}${getMovieCode()}`;
+    const actorUrl = `https://${getMovieVerseData()}/3/person/6193?${generateMovieNames()}${getMovieCode()}`;
+    const creditsUrl = `https://${getMovieVerseData()}/3/person/6193/movie_credits?${generateMovieNames()}${getMovieCode()}`;
     try {
         const [actorResponse, creditsResponse] = await Promise.all([
             fetch(actorUrl),
@@ -378,6 +378,10 @@ function handleSignInOut() {
     updateSignInButtonState();
 }
 
+function getMovieVerseData(input) {
+    return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
+}
+
 function updateSignInButtonState() {
     const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
     const signInText = document.getElementById('signInOutText');
@@ -405,7 +409,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 async function showMovieOfTheDay() {
     const year = new Date().getFullYear();
-    const url = `https://api.themoviedb.org/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+    const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
 
     try {
         const response = await fetch(url);

@@ -209,6 +209,10 @@ function generateMovieNames(input) {
     return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
 }
 
+function getMovieVerseData(input) {
+    return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
+}
+
 async function showResults(category) {
     localStorage.setItem('selectedCategory', category);
     const searchQuery = localStorage.getItem('searchQuery');
@@ -216,13 +220,13 @@ async function showResults(category) {
     let movieUrl;
 
     if (category === 'movie') {
-        movieUrl = `https://api.themoviedb.org/3/search/movie?${generateMovieNames()}${movieName}&query=${encodeURIComponent(searchQuery)}`;
+        movieUrl = `https://${getMovieVerseData()}/3/search/movie?${generateMovieNames()}${movieName}&query=${encodeURIComponent(searchQuery)}`;
     }
     else if (category === 'tv') {
-        movieUrl = `https://api.themoviedb.org/3/search/tv?${generateMovieNames()}${movieName}&query=${encodeURIComponent(searchQuery)}`;
+        movieUrl = `https://${getMovieVerseData()}/3/search/tv?${generateMovieNames()}${movieName}&query=${encodeURIComponent(searchQuery)}`;
     }
     else {
-        movieUrl = `https://api.themoviedb.org/3/search/person?${generateMovieNames()}${movieName}&query=${encodeURIComponent(searchQuery)}`;
+        movieUrl = `https://${getMovieVerseData()}/3/search/person?${generateMovieNames()}${movieName}&query=${encodeURIComponent(searchQuery)}`;
     }
 
     const searchLabel = document.getElementById('search-results-label');
@@ -337,7 +341,7 @@ function showMovies(items, container, category) {
         movieEl.addEventListener('click', async () => {
             if (isPerson) {
                 try {
-                    const personDetailsUrl = `https://api.themoviedb.org/3/person/${id}?${generateMovieNames()}${getMovieCode()}`;
+                    const personDetailsUrl = `https://${getMovieVerseData()}/3/person/${id}?${generateMovieNames()}${getMovieCode()}`;
                     const response = await fetch(personDetailsUrl);
                     const personDetails = await response.json();
                     if (personDetails.known_for_department === 'Directing') {

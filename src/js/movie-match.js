@@ -410,7 +410,7 @@ async function getMovies(url, mainElement) {
 const form = document.getElementById('form1');
 
 const IMGPATH = "https://image.tmdb.org/t/p/w1280";
-const SEARCHPATH = `https://api.themoviedb.org/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
+const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
 
 form.addEventListener('submit', (e) => {
     e.preventDefault();

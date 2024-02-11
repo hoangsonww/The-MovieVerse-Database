@@ -412,9 +412,13 @@
 
     document.addEventListener('DOMContentLoaded', rotateUserStats);
 
+    function getMovieVerseData(input) {
+        return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
+    }
+
     async function showMovieOfTheDay() {
         const year = new Date().getFullYear();
-        const url = `https://api.themoviedb.org/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+        const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
 
         try {
             const response = await fetch(url);
@@ -455,7 +459,7 @@
 
     async function getMovieTitle(movieId) {
         const apiKey = `${getMovieCode()}`;
-        const url = `https://api.themoviedb.org/3/movie/${movieId}?${generateMovieNames()}${apiKey}`;
+        const url = `https://${getMovieVerseData()}/3/movie/${movieId}?${generateMovieNames()}${apiKey}`;
 
         try {
             const response = await fetch(url);
@@ -478,7 +482,8 @@
             container = document.createElement('div');
             container.id = 'favorites-container';
             createForm.insertBefore(container, createForm.querySelector('button[type="submit"]'));
-        } else {
+        }
+        else {
             container.innerHTML = '';
         }
 
@@ -538,13 +543,14 @@
 
     async function getTVSeriesTitle(seriesId) {
         const apiKey = `${getMovieCode()}`;
-        const url = `https://api.themoviedb.org/3/tv/${seriesId}?${generateMovieNames()}${apiKey}`;
+        const url = `https://${getMovieVerseData()}/3/tv/${seriesId}?${generateMovieNames()}${apiKey}`;
 
         try {
             const response = await fetch(url);
             const series = await response.json();
             return series.name;
-        } catch (error) {
+        }
+        catch (error) {
             console.error('Error fetching TV series title:', error);
             return 'Unknown Series';
         }
@@ -655,19 +661,21 @@
 
             for (const movieId of favoritesMovies) {
                 const movieTitle = await getMovieTitle(movieId);
-                const isChecked = watchlist.movies.includes(movieId.toString());
-                appendCheckbox(moviesContainer, movieId, movieTitle, 'favoritedMovies', isChecked);
+                appendCheckbox(moviesContainer, movieId, movieTitle, 'favoritedMovies');
             }
 
             for (const seriesId of favoritesTVSeries) {
                 const seriesTitle = await getTVSeriesTitle(seriesId);
-                const isChecked = watchlist.tvSeries.includes(seriesId.toString());
-                appendCheckbox(tvSeriesContainer, seriesId, seriesTitle, 'favoritedTVSeries', isChecked);
+                appendCheckbox(tvSeriesContainer, seriesId, seriesTitle, 'favoritedTVSeries');
             }
         };
 
         select.addEventListener('change', function() {
             updateForm(watchlists[this.value]);
+        });
+
+        selectLabel.addEventListener('click', function() {
+            updateForm(watchlists[select.value]);
         });
 
         if (watchlists.length > 0) {
@@ -679,7 +687,6 @@
         submitButton.textContent = 'Save Changes';
         editForm.appendChild(submitButton);
     }
-
 
     document.getElementById('edit-watchlist-form').addEventListener('submit', function(e) {
         e.preventDefault();
@@ -694,11 +701,13 @@
             name: newName,
             description: newDescription,
             movies: selectedMovies,
+            tvSeries: Array.from(document.querySelectorAll('#edit-tvseries-container input[type="checkbox"]:checked')).map(checkbox => checkbox.value),
             pinned: watchlists[selectedIndex].pinned
         };
 
         localStorage.setItem('watchlists', JSON.stringify(watchlists));
         closeModal('edit-watchlist-modal');
+        window.location.reload();
     });
 
     function populateDeleteModal() {
@@ -804,7 +813,7 @@
 
     async function fetchMovieDetails(movieId) {
         const code = `${getMovieCode()}`;
-        const url = `https://api.themoviedb.org/3/movie/${movieId}?${generateMovieNames()}${code}&append_to_response=credits,keywords,similar`;
+        const url = `https://${getMovieVerseData()}/3/movie/${movieId}?${generateMovieNames()}${code}&append_to_response=credits,keywords,similar`;
 
         try {
             const response = await fetch(url);
@@ -1093,7 +1102,7 @@
 
     async function fetchTVSeriesDetails(tvSeriesId) {
         const code = `${getMovieCode()}`;
-        const url = `https://api.themoviedb.org/3/tv/${tvSeriesId}?${generateMovieNames()}${code}&append_to_response=credits,keywords,similar`;
+        const url = `https://${getMovieVerseData()}/3/tv/${tvSeriesId}?${generateMovieNames()}${code}&append_to_response=credits,keywords,similar`;
 
         try {
             const response = await fetch(url);
@@ -1185,17 +1194,27 @@
         const moviesContainer = document.createElement('div');
         moviesContainer.className = 'movies-container';
         moviesContainer.style.flexWrap = 'wrap';
-        watchlist.movies.forEach(movieId => {
-            fetchMovieDetails(movieId).then(movieCard => moviesContainer.appendChild(movieCard));
-        });
-        watchlistDiv.appendChild(moviesContainer);
-        watchlist.tvSeries.forEach(tvSeriesId => {
-            fetchTVSeriesDetails(tvSeriesId).then(tvSeriesCard => moviesContainer.appendChild(tvSeriesCard));
-        });
-        watchlistDiv.appendChild(moviesContainer);
 
+        if (watchlist.movies === undefined) {
+            moviesContainer.innerHTML = '';
+        }
+        else {
+            watchlist.movies.forEach(movieId => {
+                fetchMovieDetails(movieId).then(movieCard => moviesContainer.appendChild(movieCard));
+            });
+        }
+
+        if (watchlist.tvSeries === undefined) {
+            moviesContainer.innerHTML = '';
+        }
+        else {
+            watchlist.tvSeries.forEach(tvSeriesId => {
+                fetchTVSeriesDetails(tvSeriesId).then(tvSeriesCard => moviesContainer.appendChild(tvSeriesCard));
+            });
+        }
+
+        watchlistDiv.appendChild(moviesContainer);
         addWatchListControls(watchlistDiv, watchlist.id);
-
         return watchlistDiv;
     }
 

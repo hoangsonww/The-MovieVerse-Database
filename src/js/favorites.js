@@ -192,8 +192,8 @@ document.addEventListener('DOMContentLoaded', rotateUserStats);
 
 async function fetchMovieDetails(movieId) {
     const favoritesContainer = document.getElementById('favorites-main');
-    const code = `${getMovieCode()}`;
-    const url = `https://api.themoviedb.org/3/movie/${movieId}?${generateMovieNames()}${code}&append_to_response=credits,keywords,similar`;
+    const code = 'c5a20c861acf7bb8d9e987dcc7f1b558';
+    const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${code}&append_to_response=credits,keywords,similar`;
 
     try {
         const response = await fetch(url);
@@ -229,7 +229,7 @@ async function fetchMovieDetails(movieId) {
 
 async function showMovieOfTheDay() {
     const year = new Date().getFullYear();
-    const url = `https://api.themoviedb.org/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+    const url = `https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
 
     try {
         const response = await fetch(url);
@@ -269,8 +269,8 @@ function closeModal(modalId) {
 document.getElementById('delete-watchlist-btn').addEventListener('click', () => openModal('delete-watchlist-modal'));
 
 async function getMovieTitle(movieId) {
-    const apiKey = `${getMovieCode()}`;
-    const url = `https://api.themoviedb.org/3/movie/${movieId}?${generateMovieNames()}${apiKey}`;
+    const apiKey = 'c5a20c861acf7bb8d9e987dcc7f1b558';
+    const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}`;
 
     try {
         const response = await fetch(url);
@@ -570,8 +570,8 @@ async function updateWatchListsDisplay() {
 }
 
 async function fetchMovieDetails(movieId) {
-    const code = `${getMovieCode()}`;
-    const url = `https://api.themoviedb.org/3/movie/${movieId}?${generateMovieNames()}${code}&append_to_response=credits,keywords,similar`;
+    const code = 'c5a20c861acf7bb8d9e987dcc7f1b558';
+    const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${code}&append_to_response=credits,keywords,similar`;
 
     try {
         const response = await fetch(url);
