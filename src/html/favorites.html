@@ -96,6 +96,12 @@
                 display: none;
             }
         }
+
+        #button {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
     </style>
 </head>
 
@@ -140,14 +146,12 @@
     </form>
 </header>
 
-<!-- Buttons for Watch List Actions -->
 <div class="watchlist-buttons-container">
     <button id="create-watchlist-btn">Create a Watch List</button>
     <button id="edit-watchlist-btn">Edit a Watch List</button>
-    <button id="delete-watchlist-btn">Delete a Watch List</button>
+    <button id="delete-watchlist-btn">Delete Watch Lists</button>
 </div>
 
-<!-- Modals for Each Action -->
 <div id="create-watchlist-modal" class="modal">
     <div class="modal-content">
         <span class="close-button" title="Close this modal" onclick="closeModal('create-watchlist-modal')">&times;</span>
@@ -158,7 +162,7 @@
             <div style="height: 20px"></div>
             <label>Description:</label>
             <textarea placeholder="Watchlist Description" id="new-watchlist-description" style="font: inherit"></textarea>
-            <button type="submit" id="button">Create</button>
+            <button type="submit" id="button" style="display: block; margin-left: auto; color: white; margin-right: auto;">Create</button>
         </form>
     </div>
 </div>
@@ -176,14 +180,14 @@
 <div id="delete-watchlist-modal" class="modal">
     <div class="modal-content">
         <span class="close-button" title="Close this modal" onclick="closeModal('delete-watchlist-modal')">&times;</span>
-        <h2>Delete a Watch List</h2>
+        <h2>Delete Watch Lists</h2>
+        <label>Select watch lists to delete:</label>
         <form id="delete-watchlist-form">
             <!-- Dynamically populate this form based on user selection -->
         </form>
     </div>
 </div>
 
-<!-- Section for Displaying Watch Lists -->
 <div id="watchlists-display-section">
     <!-- Dynamically populated watch lists will go here -->
 </div>
@@ -488,7 +492,7 @@
         }
 
         let moviesLabel = document.createElement('label');
-        moviesLabel.textContent = 'Select Favorite Movies:';
+        moviesLabel.textContent = 'Select favorite movies to include in watchlist:';
         container.appendChild(moviesLabel);
 
         let moviesContainer = document.createElement('div');
@@ -502,7 +506,7 @@
         }
 
         let tvSeriesLabel = document.createElement('label');
-        tvSeriesLabel.textContent = 'Select Favorite TV Series:';
+        tvSeriesLabel.textContent = 'Select favorite TV series to include in watchlist:';
         container.appendChild(tvSeriesLabel);
 
         let tvSeriesContainer = document.createElement('div');
@@ -571,7 +575,7 @@
         const label = document.createElement('label');
         label.htmlFor = `${name}-${id}`;
         label.textContent = title;
-        label.style.marginTop = '11px';
+        label.style.marginTop = '12px';
         label.style.marginLeft = '10px';
 
         item.appendChild(checkbox);
@@ -602,6 +606,16 @@
         const favoritesTVSeries = JSON.parse(localStorage.getItem('favoritesTVSeries')) || [];
         const editForm = document.getElementById('edit-watchlist-form');
         editForm.innerHTML = '';
+
+        if (watchlists.length === 0) {
+            const noWatchlistMsg = document.createElement('div');
+            noWatchlistMsg.textContent = 'No Watchlists Available for Edit';
+            noWatchlistMsg.style.textAlign = 'center';
+            noWatchlistMsg.style.marginTop = '30px';
+            noWatchlistMsg.style.color = 'white';
+            editForm.appendChild(noWatchlistMsg);
+            return;
+        }
 
         const selectLabel = document.createElement('label');
         selectLabel.textContent = 'Select A Watch List:';
@@ -636,7 +650,7 @@
         const moviesContainer = document.createElement('div');
         moviesContainer.id = 'edit-movies-container';
         const moviesLabel = document.createElement('label');
-        moviesLabel.textContent = 'Select Favorite Movies:';
+        moviesLabel.textContent = 'Select favorite movies to include in watchlist:';
         editForm.appendChild(select);
         editForm.appendChild(nameLabel);
         editForm.appendChild(nameInput);
@@ -648,7 +662,7 @@
         const tvSeriesContainer = document.createElement('div');
         tvSeriesContainer.id = 'edit-tvseries-container';
         const tvSeriesLabel = document.createElement('label');
-        tvSeriesLabel.textContent = 'Select Favorite TV Series:';
+        tvSeriesLabel.textContent = 'Select favorite TV series to include in watchlist:';
         tvSeriesLabel.style.marginTop = '20px';
         editForm.appendChild(tvSeriesLabel);
         editForm.appendChild(tvSeriesContainer);
@@ -686,6 +700,12 @@
         submitButton.type = 'submit';
         submitButton.textContent = 'Save Changes';
         editForm.appendChild(submitButton);
+
+        const cancelButton = document.createElement('button');
+        cancelButton.type = 'button';
+        cancelButton.textContent = 'Cancel Changes';
+        cancelButton.onclick = () => closeModal('edit-watchlist-modal');
+        editForm.appendChild(cancelButton);
     }
 
     document.getElementById('edit-watchlist-form').addEventListener('submit', function(e) {
@@ -716,7 +736,7 @@
         deleteForm.innerHTML = '';
 
         if (watchlists.length === 0) {
-            deleteForm.innerHTML = '<p>No watch lists available to delete.</p>';
+            deleteForm.innerHTML = '<p style="margin-top: 20px">No Watchlists Available to Delete.</p>';
             return;
         }
 
@@ -724,21 +744,7 @@
         checkboxesContainer.id = 'delete-watchlist-checkboxes-container';
 
         watchlists.forEach((watchlist, index) => {
-            const checkboxContainer = document.createElement('div');
-            checkboxContainer.classList.add('checkbox-container');
-
-            const checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.id = `delete-watchlist-${index}`;
-            checkbox.value = watchlist.id;
-
-            const label = document.createElement('label');
-            label.htmlFor = `delete-watchlist-${index}`;
-            label.textContent = watchlist.name;
-
-            checkboxContainer.appendChild(checkbox);
-            checkboxContainer.appendChild(label);
-            checkboxesContainer.appendChild(checkboxContainer);
+            appendCheckbox(checkboxesContainer, watchlist.id, watchlist.name, 'watchlistToDelete');
         });
 
         deleteForm.appendChild(checkboxesContainer);
