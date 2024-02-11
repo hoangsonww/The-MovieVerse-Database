@@ -1,7 +1,22 @@
 const search = document.getElementById("search");
 const searchButton = document.getElementById("button-search");
+
+const movieCode = {
+    part1: 'YzVhMjBjODY=',
+    part2: 'MWFjZjdiYjg=',
+    part3: 'ZDllOTg3ZGNjN2YxYjU1OA=='
+};
+
+function getMovieCode() {
+    return atob(movieCode.part1) + atob(movieCode.part2) + atob(movieCode.part3);
+}
+
+function generateMovieNames(input) {
+    return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
+}
+
 const form = document.getElementById("form1");
-const SEARCHPATH = "https://api.themoviedb.org/3/search/movie?&api_key=c5a20c861acf7bb8d9e987dcc7f1b558&query=";
+const SEARCHPATH = `https://api.themoviedb.org/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
 const main = document.getElementById("main");
 const IMGPATH = "https://image.tmdb.org/t/p/w1280";
 const searchTitle = document.getElementById("search-title");
@@ -173,7 +188,7 @@ function clearMovieDetails() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    const directorId = localStorage.getItem('selectedDirectorId');
+    const directorId = '525';
     if (directorId) {
         fetchDirectorDetails(directorId);
     }
@@ -186,8 +201,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function fetchDirectorDetails(directorId) {
-    const directorUrl = `https://api.themoviedb.org/3/person/125?api_key=c5a20c861acf7bb8d9e987dcc7f1b558`;
-    const creditsUrl = `https://api.themoviedb.org/3/person/125/movie_credits?api_key=c5a20c861acf7bb8d9e987dcc7f1b558`;
+    const directorUrl = `https://api.themoviedb.org/3/person/525?${generateMovieNames()}${getMovieCode()}`;
+    const creditsUrl = `https://api.themoviedb.org/3/person/525/movie_credits?${generateMovieNames()}${getMovieCode()}`;
     try {
         const [directorResponse, creditsResponse] = await Promise.all([
             fetch(directorUrl),

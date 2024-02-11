@@ -27,6 +27,7 @@ document.getElementById('signInForm').addEventListener('submit', async function(
     if (!querySnapshot.empty) {
         alert('Successfully signed in!');
         localStorage.setItem('isSignedIn', JSON.stringify(true));
+        localStorage.setItem('currentUserEmail', email);
         window.location.href = '../../index.html';
     }
     else {

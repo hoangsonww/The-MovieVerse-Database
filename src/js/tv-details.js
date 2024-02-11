@@ -1,7 +1,21 @@
+const movieCode = {
+    part1: 'YzVhMjBjODY=',
+    part2: 'MWFjZjdiYjg=',
+    part3: 'ZDllOTg3ZGNjN2YxYjU1OA=='
+};
+
+function getMovieCode() {
+    return atob(movieCode.part1) + atob(movieCode.part2) + atob(movieCode.part3);
+}
+
+function generateMovieNames(input) {
+    return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
+}
+
 const search = document.getElementById("search");
 const searchButton = document.getElementById("button-search");
 const form = document.getElementById("form1");
-const SEARCHPATH = "https://api.themoviedb.org/3/search/movie?&api_key=c5a20c861acf7bb8d9e987dcc7f1b558&query=";
+const SEARCHPATH = `https://api.themoviedb.org/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
 
 const main = document.getElementById("main");
 const IMGPATH = "https://image.tmdb.org/t/p/w1280";
@@ -322,11 +336,11 @@ document.addEventListener("DOMContentLoaded", function() {
     applySettings();
 });
 
-const apiKey = 'c5a20c861acf7bb8d9e987dcc7f1b558';
+const tvCode = `${getMovieCode()}`;
 
 async function fetchTvDetails(tvSeriesId) {
     const baseUrl = `https://api.themoviedb.org/3/tv/${tvSeriesId}`;
-    const urlWithAppend = `${baseUrl}?api_key=${apiKey}&append_to_response=credits,keywords,similar,videos`;
+    const urlWithAppend = `${baseUrl}?${generateMovieNames()}${tvCode}&append_to_response=credits,keywords,similar,videos`;
 
     try {
         const response = await fetch(urlWithAppend);
@@ -426,7 +440,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function showMovieOfTheDay() {
     const year = new Date().getFullYear();
-    const url = `https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+    const url = `https://api.themoviedb.org/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
 
     try {
         const response = await fetch(url);

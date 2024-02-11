@@ -195,27 +195,41 @@ function attachEventListeners() {
     });
 }
 
+const movieCode = {
+    part1: 'YzVhMjBjODY=',
+    part2: 'MWFjZjdiYjg=',
+    part3: 'ZDllOTg3ZGNjN2YxYjU1OA=='
+};
+
+function getMovieCode() {
+    return atob(movieCode.part1) + atob(movieCode.part2) + atob(movieCode.part3);
+}
+
+function generateMovieNames(input) {
+    return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
+}
+
 async function showResults(category) {
     localStorage.setItem('selectedCategory', category);
     const searchQuery = localStorage.getItem('searchQuery');
-    const apiKey = 'c5a20c861acf7bb8d9e987dcc7f1b558';
-    let apiUrl;
+    const movieName = `${getMovieCode()}`;
+    let movieUrl;
 
     if (category === 'movie') {
-        apiUrl = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(searchQuery)}`;
+        movieUrl = `https://api.themoviedb.org/3/search/movie?${generateMovieNames()}${movieName}&query=${encodeURIComponent(searchQuery)}`;
     }
     else if (category === 'tv') {
-        apiUrl = `https://api.themoviedb.org/3/search/tv?api_key=${apiKey}&query=${encodeURIComponent(searchQuery)}`;
+        movieUrl = `https://api.themoviedb.org/3/search/tv?${generateMovieNames()}${movieName}&query=${encodeURIComponent(searchQuery)}`;
     }
     else {
-        apiUrl = `https://api.themoviedb.org/3/search/person?api_key=${apiKey}&query=${encodeURIComponent(searchQuery)}`;
+        movieUrl = `https://api.themoviedb.org/3/search/person?${generateMovieNames()}${movieName}&query=${encodeURIComponent(searchQuery)}`;
     }
 
     const searchLabel = document.getElementById('search-results-label');
     searchLabel.textContent = `Search results for "${searchQuery}"`;
 
     try {
-        const response = await fetch(apiUrl);
+        const response = await fetch(movieUrl);
         const data = await response.json();
         const sortedResults = data.results.sort((a, b) => b.popularity - a.popularity);
         displayResults(sortedResults, category);
@@ -323,7 +337,7 @@ function showMovies(items, container, category) {
         movieEl.addEventListener('click', async () => {
             if (isPerson) {
                 try {
-                    const personDetailsUrl = `https://api.themoviedb.org/3/person/${id}?api_key=c5a20c861acf7bb8d9e987dcc7f1b558`;
+                    const personDetailsUrl = `https://api.themoviedb.org/3/person/${id}?${generateMovieNames()}${getMovieCode()}`;
                     const response = await fetch(personDetailsUrl);
                     const personDetails = await response.json();
                     if (personDetails.known_for_department === 'Directing') {

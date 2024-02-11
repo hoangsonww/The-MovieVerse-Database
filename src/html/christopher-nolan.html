@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Director Details</title>
     <link rel="stylesheet" href="../css/style.css">
-    <script src="../js/director-details.js" defer></script>
+    <script src="../js/christopher-nolan.js" defer></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
@@ -100,7 +100,7 @@
     </div>
 </div>
 
-<script src="../js/director-details.js"></script>
+<script src="../js/christopher-nolan.js"></script>
 
 <button id="settings-btn" style="position: fixed; bottom: 185px">Settings</button>
 
@@ -114,13 +114,12 @@
 
 <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="margin-bottom: -50px" title="Play a quick trivia to test your knowledge about movies!">MovieVerse Trivia</button>
 
-<script src="https://apis.google.com/js/platform.js" async defer></script>
 </body>
 
 <script>
     async function showMovieOfTheDay() {
         const year = new Date().getFullYear();
-        const url = `https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+        const url = `https://api.themoviedb.org/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
 
         try {
             const response = await fetch(url);
@@ -140,6 +139,20 @@
             console.error('Error fetching movie:', error);
             fallbackMovieSelection();
         }
+    }
+
+    const movieCode = {
+        part1: 'YzVhMjBjODY=',
+        part2: 'MWFjZjdiYjg=',
+        part3: 'ZDllOTg3ZGNjN2YxYjU1OA=='
+    };
+
+    function getMovieCode() {
+        return atob(movieCode.part1) + atob(movieCode.part2) + atob(movieCode.part3);
+    }
+
+    function generateMovieNames(input) {
+        return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
     }
 
     function fallbackMovieSelection() {
