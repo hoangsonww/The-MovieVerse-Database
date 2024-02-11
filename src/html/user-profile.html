@@ -342,7 +342,7 @@
                 <input type="text" id="editUsername" placeholder="Username">
                 <div class="dob-container">
                     <label for="editDob" style="color: white">Date of Birth:</label>
-                    <input type="date" id="editDob" style="padding-left: 5px">
+                    <input type="date" id="editDob" style="padding-left: 5px" placeholder="Date of Birth" title=""/>
                 </div>
                 <input type="text" id="editBio" placeholder="Bio">
                 <input type="text" id="editFavoriteGenres" placeholder="Favorite Genres">
@@ -427,6 +427,22 @@
                 }
             }
         });
+
+        // Get today's date
+        let today = new Date();
+
+        // Subtract 18 years from today's date
+        today.setFullYear(today.getFullYear() - 18);
+
+        // Format the date in "yyyy-mm-dd" format
+        let year = today.getFullYear();
+        let month = (today.getMonth() + 1).toString().padStart(2, '0'); // padStart ensures the month is 2 digits
+        let day = today.getDate().toString().padStart(2, '0'); // padStart ensures the day is 2 digits
+
+        let dateMinus18Years = `${year}-${month}-${day}`;
+
+        // Set this date as the value of the input field
+        document.getElementById('editDob').value = dateMinus18Years;
 
         function rotateUserStats() {
             const stats = [
