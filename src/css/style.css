@@ -18,6 +18,10 @@ body {
     overflow-y: auto;
 }
 
+#heading-href {
+    text-decoration: none;
+}
+
 #movie-match-btn {
     position: fixed;
     bottom: 220px;
