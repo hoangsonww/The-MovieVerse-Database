@@ -1,4 +1,5 @@
 document.getElementById('load-movies').addEventListener('click', updateMovies);
+
 document.getElementById('start-year').addEventListener('keypress', function(event) {
     if (event.keyCode === 13) {
         updateMovies();
