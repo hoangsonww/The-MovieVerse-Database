@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function handleProfileDisplay() {
     const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
-    const userEmail = localStorage.getItem('currentUserEmail');
+    const userEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
     const profileKey = `profileInfo-${userEmail}`;
     const profile = JSON.parse(localStorage.getItem(profileKey)) || {};
     const welcomeMessage = document.getElementById('welcomeMessage');
@@ -27,7 +27,7 @@ function handleProfileDisplay() {
 }
 
 function loadProfile() {
-    const userEmail = localStorage.getItem('currentUserEmail');
+    const userEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
     const profileKey = `profileInfo-${userEmail}`;
     const profileImageKey = `profileImage-${userEmail}`;
 
@@ -50,7 +50,7 @@ function loadProfile() {
 }
 
 function saveProfileChanges() {
-    const userEmail = localStorage.getItem('currentUserEmail');
+    const userEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
     const profileKey = `profileInfo-${userEmail}`;
 
     const profile = {
@@ -77,7 +77,7 @@ function closeModal() {
 }
 
 function removeProfileImage() {
-    const userEmail = localStorage.getItem('currentUserEmail');
+    const userEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
     const profileImageKey = `profileImage-${userEmail}`;
 
     localStorage.removeItem(profileImageKey);
@@ -129,7 +129,7 @@ function uploadImage() {
 
     if (file.size > 750 * 1024) {
         resizeImage(file, 1024, 1024, function(resizedBlob) {
-            const userEmail = localStorage.getItem('currentUserEmail');
+            const userEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
             const profileImageKey = `profileImage-${userEmail}`;
             const reader = new FileReader();
             reader.onloadend = function() {
@@ -143,7 +143,7 @@ function uploadImage() {
     else {
         const reader = new FileReader();
         reader.onloadend = function() {
-            const userEmail = localStorage.getItem('currentUserEmail');
+            const userEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
             const profileImageKey = `profileImage-${userEmail}`;
             localStorage.setItem(profileImageKey, reader.result);
             document.getElementById('profileImage').src = reader.result;
@@ -158,7 +158,7 @@ function setupEventListeners() {
     document.getElementById('cancelEdit').addEventListener('click', closeModal);
 
     document.getElementById('editProfileBtn').addEventListener('click', function() {
-        const userEmail = localStorage.getItem('currentUserEmail');
+        const userEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
         const profileKey = `profileInfo-${userEmail}`;
         const profile = JSON.parse(localStorage.getItem(profileKey)) || {};
 
