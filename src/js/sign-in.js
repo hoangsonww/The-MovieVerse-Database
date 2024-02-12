@@ -20,7 +20,7 @@ document.getElementById('signInForm').addEventListener('submit', async function(
     const email = document.getElementById('signInEmail').value;
     const password = document.getElementById('signInPassword').value;
 
-    const usersRef = collection(db, "users");
+    const usersRef = collection(db, "MovieVerseUsers");
     const q = query(usersRef, where("email", "==", email), where("password", "==", password));
     const querySnapshot = await getDocs(q);
 
