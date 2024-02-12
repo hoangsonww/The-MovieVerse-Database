@@ -1,10 +1,9 @@
-const jwt = require('jsonwebtoken'); // JWT for authentication
+const jwt = require('jsonwebtoken');
 const express = require('express');
 
 const app = express();
-app.use(express.json()); // for parsing application/json
+app.use(express.json());
 
-// Logger Middleware
 const logger = (req, res, next) => {
     console.log(`${new Date().toISOString()} - ${req.method} request to ${req.url}`);
     next();
