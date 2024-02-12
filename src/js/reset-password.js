@@ -17,7 +17,7 @@ document.getElementById('resetPasswordForm').addEventListener('submit', async fu
     event.preventDefault();
     const resetEmail = document.getElementById('resetEmail').value;
 
-    const q = query(collection(db, "users"), where("email", "==", resetEmail));
+    const q = query(collection(db, "MovieVerseUsers"), where("email", "==", resetEmail));
     const querySnapshot = await getDocs(q);
 
     if (querySnapshot.empty) {
@@ -49,12 +49,12 @@ async function updatePassword() {
         return;
     }
 
-    const q = query(collection(db, "users"), where("email", "==", resetEmail));
+    const q = query(collection(db, "MovieVerseUsers"), where("email", "==", resetEmail));
     const querySnapshot = await getDocs(q);
 
     if (!querySnapshot.empty) {
         querySnapshot.forEach(async (docSnapshot) => {
-            await updateDoc(doc(db, "users", docSnapshot.id), {
+            await updateDoc(doc(db, "MovieVerseUsers", docSnapshot.id), {
                 password: newPassword
             }).then(() => {
                 alert("Password updated successfully!");
