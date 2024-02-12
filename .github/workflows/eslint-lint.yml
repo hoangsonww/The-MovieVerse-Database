@@ -1,0 +1,19 @@
+name: Lint Code Base
+
+on: push
+
+jobs:
+  eslint:
+    name: ESLint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      - name: Install Dependencies
+        run: npm install
+      - name: Run ESLint
+        run: npx eslint .

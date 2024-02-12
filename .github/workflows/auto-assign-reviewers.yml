@@ -1,0 +1,15 @@
+name: Auto-assign Reviewers
+
+on:
+  pull_request:
+    types: [opened, reopened]
+
+jobs:
+  assign-reviewers:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Assign Reviewers
+        uses: peter-evans/create-pull-request-review@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          reviewers: hoangsonww,kailielexx
