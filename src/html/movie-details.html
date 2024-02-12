@@ -135,12 +135,13 @@
                             <h3>Add a Comment for This Movie</h3>
                             <span class="close">&times;</span>
                         </div>
+                        <p style="font-size: 15px; margin-bottom: 20px">Your review is much appreciated!</p>
                         <form id="comment-form">
                             <input type="text" id="user-name" placeholder="Your nickname" required>
                             <textarea id="user-comment" placeholder="Your comment" required></textarea>
                             <button id="post-comment-btn" type="submit" title="Post your comment for this movie">Post Comment</button>
                             <p style="font-size: 14px; margin-top: 30px">
-                                <em>All comments will be posted anonymously, using the nickname you provided and not your profile name, so you can freely express your ideas!</em>
+                                <em>All comments will be posted anonymously, using the nickname you provided and not your profile name, so you can freely express your opinions!</em>
                             </p>
                         </form>
                     </div>
@@ -188,11 +189,8 @@
         });
     </script>
 
-    <!-- Include Firebase libraries -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js"></script>
-
-    <!-- Firebase Initialization and Comments Script -->
     <script src="../js/comments.js" type="module"></script>
 
 </body>
