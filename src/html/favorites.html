@@ -102,6 +102,42 @@
             margin-left: auto;
             margin-right: auto;
         }
+
+        #how-to-use {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 60px;
+        }
+
+        #how-to-use-btn {
+            background-color: #7378c5;
+            color: white;
+            border-radius: 8px;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font: inherit;
+            cursor: pointer;
+            border: none;
+        }
+
+        #how-to-use-btn:hover {
+            background-color: #ff8623;
+        }
+
+        #how-to-use-section {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 15px;
+            background-color: #7378c5;
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: none;
+            transition: height 0.5s ease-in-out;
+            margin-bottom: 240px;
+        }
     </style>
 </head>
 
@@ -195,6 +231,21 @@
 <main id="favorites-main" style="margin-top: 75px; text-align: center"></main>
 <main id="favorites-main-tv" style="margin-top: 75px; text-align: center"></main>
 
+<div id="how-to-use">
+    <button id="how-to-use-btn">How to Use</button>
+</div>
+
+<div id="how-to-use-section" style="display: none; text-align: center; padding: 20px; margin-top: 20px;">
+    <h4 style="color: white">How to Use MovieVerse Watchlists</h4>
+    <p>First, in order to create a watchlist, you must have at least one favorite movie or TV series. You can add movies and TV series to your favorites by clicking the heart icon on the movie or TV series details page.</p>
+    <p>You can search for any movies or TV shows using the search bar at the top of the page. Once you have added some favorites, you can create a watchlist by clicking the "Create a Watch List" button.</p>
+    <p>The list of movies and TV shows in the create watchlist form will be populated with your favorite movies and TV series. You can select the movies and TV series you want to include in your watchlist and give it a name and description.</p>
+    <p>After creating a watchlist, you can edit or delete it by clicking the "Edit a Watch List" or "Delete Watch Lists" buttons respectively.</p>
+    <p>Remember that when editing a watchlist, you must first select the watchlist you want to edit from the dropdown list. You can then change the name, description, and the movies and TV series included in the watchlist. The list of movies and TV shows will be populated with your favorite movies and TV series.</p>
+    <p>Note that you can only delete watchlists that you have created. You can pin a watchlist to the top of the page by clicking the pin icon next to the watchlist name.</p>
+    <p style="font-weight: bold; margin-top: 30px">Enjoy using MovieVerse Watchlists!</p>
+</div>
+
 <button id="settings-btn" style="position: fixed; bottom: 185px">Settings</button>
 <button id="movie-match-btn" onclick="window.location.href='movie-match.html'" title="Find movies that match your mood and preferences!" style="bottom: 150px">Movie Match</button>
 <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 115px">Movie Timeline</button>
@@ -224,13 +275,26 @@
         return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
     }
 
+    document.getElementById('how-to-use-btn').addEventListener('click', function() {
+        var howToUseSection = document.getElementById('how-to-use-section');
+        if (howToUseSection.style.display === 'none') {
+            howToUseSection.style.display = 'block';
+            window.location.href = '#how-to-use-section';
+            document.getElementById('how-to-use-btn').textContent = 'Hide How to Use';
+        }
+        else {
+            howToUseSection.style.display = 'none';
+            document.getElementById('how-to-use-btn').textContent = 'How to Use';
+        }
+    });
+
     function updateFavorites() {
         const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
         const favoriteTvSeries = JSON.parse(localStorage.getItem('favoritesTVSeries')) || [];
         const favoritesMain = document.getElementById('favorites-main');
         favoritesMain.style.textAlign = 'center';
         if (favorites.length === 0 && favoriteTvSeries.length === 0) {
-            favoritesMain.innerHTML = '<div style="display: flex; justify-content: center; align-items: center; text-align: center;">\n' +
+            favoritesMain.innerHTML = '<div style="display: flex; justify-content: center; align-items: center; text-align: center">\n' +
                 '                <h2 style="color: white">No Favorite Movies & TV Series Added Yet.</h2>\n' +
                 '            </div>`;';
         }
@@ -239,7 +303,7 @@
                 favorites.forEach(movieId => fetchMovieDetails(movieId));
             }
             else {
-                favoritesMain.innerHTML = '<div style="display: flex; justify-content: center; align-items: center; text-align: center;">\n' +
+                favoritesMain.innerHTML = '<div style="display: flex; justify-content: center; align-items: center; text-align: center">\n' +
                     '                <h2 style="color: white">No Favorite Movies Added Yet.</h2>\n' +
                     '            </div>`;';
             }
@@ -248,7 +312,7 @@
             }
             else {
                 favoritesMain.style.marginTop = '0';
-                document.getElementById('favorites-main-tv').innerHTML = '<div style="display: flex; justify-content: center; align-items: center; text-align: center; width: 100vw;">\n' +
+                document.getElementById('favorites-main-tv').innerHTML = '<div style="display: flex; justify-content: center; align-items: center; text-align: center">\n' +
                     '                <h2 style="color: white">No Favorite TV Series Added Yet.</h2>\n' +
                     '            </div>';
             }
@@ -500,9 +564,14 @@
         moviesContainer.style.marginTop = '-20px';
         container.appendChild(moviesContainer);
 
-        for (const movieId of favoritesMovies) {
-            const movieTitle = await getMovieTitle(movieId);
-            appendCheckbox(moviesContainer, movieId, movieTitle, 'favoritedMovies');
+        if (favoritesMovies.length === 0) {
+            moviesContainer.innerHTML = '<p style="margin-top: 20px">No Favorite Movies Added Yet.</p>';
+        }
+        else {
+            for (const movieId of favoritesMovies) {
+                const movieTitle = await getMovieTitle(movieId);
+                appendCheckbox(moviesContainer, movieId, movieTitle, 'favoritedMovies');
+            }
         }
 
         let tvSeriesLabel = document.createElement('label');
@@ -514,9 +583,14 @@
         tvSeriesContainer.style.marginTop = '-20px';
         container.appendChild(tvSeriesContainer);
 
-        for (const seriesId of favoritesTVSeries) {
-            const seriesTitle = await getTVSeriesTitle(seriesId);
-            appendCheckbox(tvSeriesContainer, seriesId, seriesTitle, 'favoritedTVSeries');
+        if (favoritesTVSeries.length === 0) {
+            tvSeriesContainer.innerHTML = '<p style="margin-top: 20px">No Favorite TV Series Added Yet.</p>';
+        }
+        else {
+            for (const seriesId of favoritesTVSeries) {
+                const seriesTitle = await getTVSeriesTitle(seriesId);
+                appendCheckbox(tvSeriesContainer, seriesId, seriesTitle, 'favoritedTVSeries');
+            }
         }
     }
 
@@ -673,14 +747,24 @@
             moviesContainer.innerHTML = '';
             tvSeriesContainer.innerHTML = '';
 
-            for (const movieId of favoritesMovies) {
-                const movieTitle = await getMovieTitle(movieId);
-                appendCheckbox(moviesContainer, movieId, movieTitle, 'favoritedMovies');
+            if (!favoritesMovies || favoritesMovies.length === 0) {
+                moviesContainer.innerHTML = '<p style="margin-top: 20px">No Favorite Movies Added Yet.</p>';
+            }
+            else {
+                for (const movieId of favoritesMovies) {
+                    const movieTitle = await getMovieTitle(movieId);
+                    appendCheckbox(moviesContainer, movieId, movieTitle, 'favoritedMovies');
+                }
             }
 
-            for (const seriesId of favoritesTVSeries) {
-                const seriesTitle = await getTVSeriesTitle(seriesId);
-                appendCheckbox(tvSeriesContainer, seriesId, seriesTitle, 'favoritedTVSeries');
+            if (!favoritesTVSeries || favoritesTVSeries.length === 0) {
+                tvSeriesContainer.innerHTML = '<p style="margin-top: 20px">No Favorite TV Series Added Yet.</p>';
+            }
+            else {
+                for (const seriesId of favoritesTVSeries) {
+                    const seriesTitle = await getTVSeriesTitle(seriesId);
+                    appendCheckbox(tvSeriesContainer, seriesId, seriesTitle, 'favoritedTVSeries');
+                }
             }
         };
 
