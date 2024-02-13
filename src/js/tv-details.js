@@ -342,33 +342,238 @@ document.addEventListener("DOMContentLoaded", function() {
 
 const tvCode = `${getMovieCode()}`;
 
+const twoLetterLangCodes = [
+    { "code": "aa", "name": "Afar" },
+    { "code": "ab", "name": "Abkhazian" },
+    { "code": "ae", "name": "Avestan" },
+    { "code": "af", "name": "Afrikaans" },
+    { "code": "ak", "name": "Akan" },
+    { "code": "am", "name": "Amharic" },
+    { "code": "an", "name": "Aragonese" },
+    { "code": "ar", "name": "Arabic" },
+    { "code": "as", "name": "Assamese" },
+    { "code": "av", "name": "Avaric" },
+    { "code": "ay", "name": "Aymara" },
+    { "code": "az", "name": "Azerbaijani" },
+    { "code": "ba", "name": "Bashkir" },
+    { "code": "be", "name": "Belarusian" },
+    { "code": "bg", "name": "Bulgarian" },
+    { "code": "bh", "name": "Bihari languages" },
+    { "code": "bi", "name": "Bislama" },
+    { "code": "bm", "name": "Bambara" },
+    { "code": "bn", "name": "Bengali" },
+    { "code": "bo", "name": "Tibetan" },
+    { "code": "br", "name": "Breton" },
+    { "code": "bs", "name": "Bosnian" },
+    { "code": "ca", "name": "Catalan; Valencian" },
+    { "code": "ce", "name": "Chechen" },
+    { "code": "ch", "name": "Chamorro" },
+    { "code": "co", "name": "Corsican" },
+    { "code": "cr", "name": "Cree" },
+    { "code": "cs", "name": "Czech" },
+    {
+        "code": "cu",
+        "name": "Church Slavic; Old Slavonic; Church Slavonic; Old Bulgarian; Old Church Slavonic"
+    },
+    { "code": "cv", "name": "Chuvash" },
+    { "code": "cy", "name": "Welsh" },
+    { "code": "da", "name": "Danish" },
+    { "code": "de", "name": "German" },
+    { "code": "dv", "name": "Divehi; Dhivehi; Maldivian" },
+    { "code": "dz", "name": "Dzongkha" },
+    { "code": "ee", "name": "Ewe" },
+    { "code": "el", "name": "Greek, Modern (1453-)" },
+    { "code": "en", "name": "English" },
+    { "code": "eo", "name": "Esperanto" },
+    { "code": "es", "name": "Spanish; Castilian" },
+    { "code": "et", "name": "Estonian" },
+    { "code": "eu", "name": "Basque" },
+    { "code": "fa", "name": "Persian" },
+    { "code": "ff", "name": "Fulah" },
+    { "code": "fi", "name": "Finnish" },
+    { "code": "fj", "name": "Fijian" },
+    { "code": "fo", "name": "Faroese" },
+    { "code": "fr", "name": "French" },
+    { "code": "fy", "name": "Western Frisian" },
+    { "code": "ga", "name": "Irish" },
+    { "code": "gd", "name": "Gaelic; Scomttish Gaelic" },
+    { "code": "gl", "name": "Galician" },
+    { "code": "gn", "name": "Guarani" },
+    { "code": "gu", "name": "Gujarati" },
+    { "code": "gv", "name": "Manx" },
+    { "code": "ha", "name": "Hausa" },
+    { "code": "he", "name": "Hebrew" },
+    { "code": "hi", "name": "Hindi" },
+    { "code": "ho", "name": "Hiri Motu" },
+    { "code": "hr", "name": "Croatian" },
+    { "code": "ht", "name": "Haitian; Haitian Creole" },
+    { "code": "hu", "name": "Hungarian" },
+    { "code": "hy", "name": "Armenian" },
+    { "code": "hz", "name": "Herero" },
+    {
+        "code": "ia",
+        "name": "Interlingua (International Auxiliary Language Association)"
+    },
+    { "code": "id", "name": "Indonesian" },
+    { "code": "ie", "name": "Interlingue; Occidental" },
+    { "code": "ig", "name": "Igbo" },
+    { "code": "ii", "name": "Sichuan Yi; Nuosu" },
+    { "code": "ik", "name": "Inupiaq" },
+    { "code": "io", "name": "Ido" },
+    { "code": "is", "name": "Icelandic" },
+    { "code": "it", "name": "Italian" },
+    { "code": "iu", "name": "Inuktitut" },
+    { "code": "ja", "name": "Japanese" },
+    { "code": "jv", "name": "Javanese" },
+    { "code": "ka", "name": "Georgian" },
+    { "code": "kg", "name": "Kongo" },
+    { "code": "ki", "name": "Kikuyu; Gikuyu" },
+    { "code": "kj", "name": "Kuanyama; Kwanyama" },
+    { "code": "kk", "name": "Kazakh" },
+    { "code": "kl", "name": "Kalaallisut; Greenlandic" },
+    { "code": "km", "name": "Central Khmer" },
+    { "code": "kn", "name": "Kannada" },
+    { "code": "ko", "name": "Korean" },
+    { "code": "kr", "name": "Kanuri" },
+    { "code": "ks", "name": "Kashmiri" },
+    { "code": "ku", "name": "Kurdish" },
+    { "code": "kv", "name": "Komi" },
+    { "code": "kw", "name": "Cornish" },
+    { "code": "ky", "name": "Kirghiz; Kyrgyz" },
+    { "code": "la", "name": "Latin" },
+    { "code": "lb", "name": "Luxembourgish; Letzeburgesch" },
+    { "code": "lg", "name": "Ganda" },
+    { "code": "li", "name": "Limburgan; Limburger; Limburgish" },
+    { "code": "ln", "name": "Lingala" },
+    { "code": "lo", "name": "Lao" },
+    { "code": "lt", "name": "Lithuanian" },
+    { "code": "lu", "name": "Luba-Katanga" },
+    { "code": "lv", "name": "Latvian" },
+    { "code": "mg", "name": "Malagasy" },
+    { "code": "mh", "name": "Marshallese" },
+    { "code": "mi", "name": "Maori" },
+    { "code": "mk", "name": "Macedonian" },
+    { "code": "ml", "name": "Malayalam" },
+    { "code": "mn", "name": "Mongolian" },
+    { "code": "mr", "name": "Marathi" },
+    { "code": "ms", "name": "Malay" },
+    { "code": "mt", "name": "Maltese" },
+    { "code": "my", "name": "Burmese" },
+    { "code": "na", "name": "Nauru" },
+    {
+        "code": "nb",
+        "name": "Bokmål, Norwegian; Norwegian Bokmål"
+    },
+    { "code": "nd", "name": "Ndebele, North; North Ndebele" },
+    { "code": "ne", "name": "Nepali" },
+    { "code": "ng", "name": "Ndonga" },
+    { "code": "nl", "name": "Dutch; Flemish" },
+    { "code": "nn", "name": "Norwegian Nynorsk; Nynorsk, Norwegian" },
+    { "code": "no", "name": "Norwegian" },
+    { "code": "nr", "name": "Ndebele, South; South Ndebele" },
+    { "code": "nv", "name": "Navajo; Navaho" },
+    { "code": "ny", "name": "Chichewa; Chewa; Nyanja" },
+    { "code": "oc", "name": "Occitan (post 1500)" },
+    { "code": "oj", "name": "Ojibwa" },
+    { "code": "om", "name": "Oromo" },
+    { "code": "or", "name": "Oriya" },
+    { "code": "os", "name": "Ossetian; Ossetic" },
+    { "code": "pa", "name": "Panjabi; Punjabi" },
+    { "code": "pi", "name": "Pali" },
+    { "code": "pl", "name": "Polish" },
+    { "code": "ps", "name": "Pushto; Pashto" },
+    { "code": "pt", "name": "Portuguese" },
+    { "code": "qu", "name": "Quechua" },
+    { "code": "rm", "name": "Romansh" },
+    { "code": "rn", "name": "Rundi" },
+    { "code": "ro", "name": "Romanian; Moldavian; Moldovan" },
+    { "code": "ru", "name": "Russian" },
+    { "code": "rw", "name": "Kinyarwanda" },
+    { "code": "sa", "name": "Sanskrit" },
+    { "code": "sc", "name": "Sardinian" },
+    { "code": "sd", "name": "Sindhi" },
+    { "code": "se", "name": "Northern Sami" },
+    { "code": "sg", "name": "Sango" },
+    { "code": "si", "name": "Sinhala; Sinhalese" },
+    { "code": "sk", "name": "Slovak" },
+    { "code": "sl", "name": "Slovenian" },
+    { "code": "sm", "name": "Samoan" },
+    { "code": "sn", "name": "Shona" },
+    { "code": "so", "name": "Somali" },
+    { "code": "sq", "name": "Albanian" },
+    { "code": "sr", "name": "Serbian" },
+    { "code": "ss", "name": "Swati" },
+    { "code": "st", "name": "Sotho, Southern" },
+    { "code": "su", "name": "Sundanese" },
+    { "code": "sv", "name": "Swedish" },
+    { "code": "sw", "name": "Swahili" },
+    { "code": "ta", "name": "Tamil" },
+    { "code": "te", "name": "Telugu" },
+    { "code": "tg", "name": "Tajik" },
+    { "code": "th", "name": "Thai" },
+    { "code": "ti", "name": "Tigrinya" },
+    { "code": "tk", "name": "Turkmen" },
+    { "code": "tl", "name": "Tagalog" },
+    { "code": "tn", "name": "Tswana" },
+    { "code": "to", "name": "Tonga (Tonga Islands)" },
+    { "code": "tr", "name": "Turkish" },
+    { "code": "ts", "name": "Tsonga" },
+    { "code": "tt", "name": "Tatar" },
+    { "code": "tw", "name": "Twi" },
+    { "code": "ty", "name": "Tahitian" },
+    { "code": "ug", "name": "Uighur; Uyghur" },
+    { "code": "uk", "name": "Ukrainian" },
+    { "code": "ur", "name": "Urdu" },
+    { "code": "uz", "name": "Uzbek" },
+    { "code": "ve", "name": "Venda" },
+    { "code": "vi", "name": "Vietnamese" },
+    { "code": "vo", "name": "Volapük" },
+    { "code": "wa", "name": "Walloon" },
+    { "code": "wo", "name": "Wolof" },
+    { "code": "xh", "name": "Xhosa" },
+    { "code": "yi", "name": "Yiddish" },
+    { "code": "yo", "name": "Yoruba" },
+    { "code": "za", "name": "Zhuang; Chuang" },
+    { "code": "zh", "name": "Chinese" },
+    { "code": "zu", "name": "Zulu" }
+];
+
 async function fetchTvDetails(tvSeriesId) {
     const baseUrl = `https://${getMovieVerseData()}/3/tv/${tvSeriesId}`;
     const urlWithAppend = `${baseUrl}?${generateMovieNames()}${tvCode}&append_to_response=credits,keywords,similar,videos`;
-
+    console.log(generateMovieNames())
     try {
         const response = await fetch(urlWithAppend);
         const tvSeriesDetails = await response.json();
 
         populateTvSeriesDetails(tvSeriesDetails);
+        updateBrowserURL(tvSeriesDetails.name);
     }
     catch (error) {
         console.error('Error fetching TV series details:', error);
     }
 }
 
+function getLanguageName(code) {
+    const language = twoLetterLangCodes.find(lang => lang.code === code);
+    return language ? language.name : 'Unknown Language';
+}
+
+function getCountryName(code) {
+    const regionNames = new Intl.DisplayNames(['en'], {type: 'region'});
+    return regionNames.of(code);
+}
+
 function populateTvSeriesDetails(tvSeries) {
     const title = tvSeries.name || 'Title not available';
     document.getElementById('movie-title').textContent = title;
+    document.title = tvSeries.name + " - TV Series";
 
     const posterPath = tvSeries.poster_path ? `https://image.tmdb.org/t/p/w1280${tvSeries.poster_path}` : 'path/to/default/poster.jpg';
     document.getElementById('movie-image').src = posterPath;
     document.getElementById('movie-image').alt = `Poster of ${title}`;
 
     let detailsHTML = `<p><strong>Overview:</strong> ${tvSeries.overview || 'Overview not available.'}</p>`;
-
-    const creators = tvSeries.created_by && tvSeries.created_by.length ? tvSeries.created_by.map(creator => creator.name).join(', ') : 'Information not available';
-    detailsHTML += `<p><strong>Created by:</strong> ${creators}</p>`;
 
     const genres = tvSeries.genres && tvSeries.genres.length ? tvSeries.genres.map(genre => genre.name).join(', ') : 'Genres not available';
     detailsHTML += `<p><strong>Genres:</strong> ${genres}</p>`;
@@ -379,10 +584,34 @@ function populateTvSeriesDetails(tvSeries) {
 
     detailsHTML += `<p><strong>Status:</strong> ${tvSeries.status || 'Not available'}</p>`;
 
-    detailsHTML += `<p><strong>Seasons:</strong> ${tvSeries.number_of_seasons || 0}, <strong>Episodes:</strong> ${tvSeries.number_of_episodes || 0}</p>`;
+    const networks = tvSeries.networks && tvSeries.networks.length ? tvSeries.networks.map(network => network.name).join(', ') : 'Information not available';
+    detailsHTML += `<p><strong>Networks:</strong> ${networks}</p>`;
 
-    if (tvSeries.last_episode_to_air) {
-        detailsHTML += `<p><strong>Last Episode:</strong> ${tvSeries.last_episode_to_air.name || 'Title not available'} - "${tvSeries.last_episode_to_air.overview || 'Overview not available.'}"</p>`;
+    const voteAverage = tvSeries.vote_average ? tvSeries.vote_average.toFixed(1) : 'N/A';
+    const voteCount = tvSeries.vote_count ? tvSeries.vote_count.toLocaleString() : 'N/A';
+    detailsHTML += `<p><strong>User Rating:</strong> <strong>${(voteAverage / 2).toFixed(1)}/5.0</strong> (based on <strong>${voteCount}</strong> votes)</p>`;
+
+    const homepage = tvSeries.homepage ? `<a id="homepage" href="${tvSeries.homepage}" target="_blank">Visit</a>` : 'Not available';
+    detailsHTML += `<p><strong>Homepage:</strong> ${homepage}</p>`;
+
+    if (tvSeries.created_by && tvSeries.created_by.length) {
+        const creatorsLinks = tvSeries.created_by.map(creator =>
+            `<a id="director-link" href="javascript:void(0);" onclick="handleCreatorClick(${creator.id})">${creator.name}</a>`
+        ).join(', ');
+        detailsHTML += `<p><strong>Directors:</strong> ${creatorsLinks}</p>`;
+    }
+    else {
+        detailsHTML += `<p><strong>Directors:</strong> Information not available</p>`;
+    }
+
+    if (tvSeries.credits && tvSeries.credits.cast && tvSeries.credits.cast.length) {
+        let castHTML = tvSeries.credits.cast.slice(0, 100).map(castMember => {
+            return `<a id="cast-info" href="javascript:void(0);" onclick="selectActorId(${castMember.id})">${castMember.name}</a>`;
+        }).join(', ');
+        detailsHTML += `<p><strong>Cast:</strong> ${castHTML}</p>`;
+    }
+    else {
+        detailsHTML += `<p><strong>Cast:</strong> Information not available</p>`;
     }
 
     if (tvSeries.production_companies && tvSeries.production_companies.length) {
@@ -395,15 +624,19 @@ function populateTvSeriesDetails(tvSeries) {
         detailsHTML += `<p><strong>Production Companies:</strong> Information not available</p>`;
     }
 
-    const networks = tvSeries.networks && tvSeries.networks.length ? tvSeries.networks.map(network => network.name).join(', ') : 'Information not available';
-    detailsHTML += `<p><strong>Networks:</strong> ${networks}</p>`;
+    if (tvSeries.similar && tvSeries.similar.results && tvSeries.similar.results.length) {
+        let similarTVHTML = tvSeries.similar.results.slice(0, 5).map(similarTv => {
+            return `<a id="similar-tv" href="javascript:void(0);" onclick="selectTvSeriesId(${similarTv.id})">${similarTv.name}</a>`;
+        }).join(', ');
+        detailsHTML += `<p><strong>Similar TV Series:</strong> ${similarTVHTML}</p>`;
+    }
+    else {
+        detailsHTML += `<p><strong>Similar TV Series:</strong> Information not available</p>`;
+    }
 
-    const voteAverage = tvSeries.vote_average ? tvSeries.vote_average.toFixed(1) : 'N/A';
-    const voteCount = tvSeries.vote_count ? tvSeries.vote_count.toLocaleString() : 'N/A';
-    detailsHTML += `<p><strong>User Rating:</strong> <strong>${(voteAverage / 2).toFixed(1)}/5</strong> (based on <strong>${voteCount}</strong> votes)</p>`;
+    detailsHTML += `<p><strong>Tagline:</strong> ${tvSeries.tagline || 'Not available'}</p>`;
 
-    const homepage = tvSeries.homepage ? `<a id="homepage" href="${tvSeries.homepage}" target="_blank">Visit</a>` : 'Not available';
-    detailsHTML += `<p><strong>Homepage:</strong> ${homepage}</p>`;
+    detailsHTML += `<p><strong>Seasons:</strong> ${tvSeries.number_of_seasons || 0}, <strong>Episodes:</strong> ${tvSeries.number_of_episodes || 0}</p>`;
 
     if (tvSeries.seasons && tvSeries.seasons.length) {
         const seasonsToShow = tvSeries.seasons.slice(0, 9);
@@ -413,14 +646,50 @@ function populateTvSeriesDetails(tvSeries) {
         });
     }
 
-    detailsHTML += `<p><strong>Tagline:</strong> ${tvSeries.tagline || 'Not available'}</p>`;
+    if (tvSeries.origin_country && tvSeries.origin_country.length > 0) {
+        const countryNames = tvSeries.origin_country.map(code => getCountryName(code)).join(', ');
+        detailsHTML += `<p><strong>Country of Origin:</strong> ${countryNames}</p>`;
+    }
+    else {
+        detailsHTML += `<p><strong>Country of Origin:</strong> Information not available</p>`;
+    }
+
+    const languageName = getLanguageName(tvSeries.original_language);
+    detailsHTML += `<p><strong>Original Language:</strong> ${languageName}</p>`;
+
+    if (tvSeries.last_episode_to_air) {
+        detailsHTML += `<p><strong>Last Episode:</strong> ${tvSeries.last_episode_to_air.name || 'Title not available'} - "${tvSeries.last_episode_to_air.overview || 'Overview not available.'}"</p>`;
+    }
+
+    if (tvSeries.keywords && tvSeries.keywords.results && tvSeries.keywords.results.length) {
+        let keywordsHTML = tvSeries.keywords.results.map(keyword => keyword.name).join(', ');
+        detailsHTML += `<p><strong>Keywords:</strong> ${keywordsHTML}</p>`;
+    }
+    else {
+        detailsHTML += `<p><strong>Keywords:</strong> Information not available</p>`;
+    }
 
     document.getElementById('movie-description').innerHTML = detailsHTML;
+}
+
+function selectActorId(actorId) {
+    localStorage.setItem('selectedActorId', actorId);
+    window.location.href = 'actor-details.html'
+}
+
+function selectTvSeriesId(tvSeriesId) {
+    localStorage.setItem('selectedTvSeriesId', tvSeriesId);
+    window.location.href = 'tv-details.html';
 }
 
 function selectCompanyId(companyId) {
     localStorage.setItem('selectedCompanyId', companyId);
     window.location.href = 'company-details.html';
+}
+
+function handleCreatorClick(creatorId) {
+    localStorage.setItem('selectedDirectorId', creatorId);
+    window.location.href = 'director-details.html';
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -495,4 +764,14 @@ function applyTextColor(color) {
         .forEach(element => {
             element.style.color = color;
         });
+}
+
+function updateBrowserURL(title) {
+    const nameSlug = createNameSlug(title);
+    const newURL = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + nameSlug;
+    window.history.replaceState({ path: newURL }, '', newURL);
+}
+
+function createNameSlug(title) {
+    return title.toLowerCase().replace(/ /g, '-').replace(/[^\w-]/g, '');
 }

@@ -81,6 +81,33 @@ button:disabled {
     width: 100%;
 }
 
+#cast-info {
+    color: white;
+    text-decoration: underline;
+}
+
+#cast-info:hover {
+    color: #f509d9;
+}
+
+#similar-tv {
+    color: white;
+    text-decoration: underline;
+}
+
+#similar-tv:hover {
+    color: #f509d9;
+}
+
+#director-link {
+    color: white;
+    text-decoration: underline;
+}
+
+#director-link:hover {
+    color: #f509d9;
+}
+
 .modal-header {
     display: flex;
     align-items: center;
