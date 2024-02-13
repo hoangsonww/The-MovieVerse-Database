@@ -42,7 +42,7 @@ document.getElementById('createAccountForm').addEventListener('submit', async (e
     }
 
     try {
-        await addDoc(collection(db, "users"), {
+        await addDoc(collection(db, "MovieVerseUsers"), {
             email: email,
             password: password
         });
@@ -72,7 +72,7 @@ function isValidPassword(password) {
 }
 
 async function accountExists(email) {
-    const q = query(collection(db, "users"), where("email", "==", email));
+    const q = query(collection(db, "MovieVerseUsers"), where("email", "==", email));
     const querySnapshot = await getDocs(q);
     return !querySnapshot.empty;
 }

@@ -33,6 +33,18 @@ The `static.yml` workflow is designed for deploying static content to GitHub Pag
 
 Our `label.yml` file outlines a workflow for automatically labeling pull requests based on the paths of files that are modified. This automation aids in categorizing pull requests, streamlining the review process, and facilitating easier project management.
 
+### `eslint-lint.yml` - Linting with ESLint
+
+The `eslint-lint.yml` file defines a workflow that runs the ESLint linter on the JavaScript files in the repository. This workflow is triggered on pushes to the main branch and pull requests, ensuring that the JavaScript code in the repository is properly linted.
+
+### `greet-contributors.yml` - Greet New Contributors
+
+The `greet-contributors.yml` file defines a workflow that sends a greeting message to new contributors when they open their first pull request. This workflow is triggered on pull request events and checks if the pull request is the first one opened by the contributor.
+
+### `auto-assign-reviewers.yml` - Automatic Reviewer Assignment
+
+The `auto-assign-reviewers.yml` file defines a workflow that automatically assigns reviewers to pull requests based on the files modified in the pull request. This workflow is triggered on pull request events and assigns reviewers based on the paths of the modified files.
+
 #### Key Features:
 
 - **Automates labeling** based on file paths, simplifying the categorization of pull requests.

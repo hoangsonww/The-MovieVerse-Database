@@ -37,19 +37,19 @@
     <script src="index.js" defer></script>
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <link rel="manifest" href="manifest.json">
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-
-        gtag('js', new Date());
-
-        gtag('config', 'G-CQKJ67FXZ4');
-    </script>
 </head>
 
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-CQKJ67FXZ4');
+</script>
+
 <body class="movie-details-body3">
-    <header id="homepage-header" style="margin-bottom: -10px">
+    <header id="homepage-header" style="margin-bottom: -10px; margin-top: -5px">
         <a id="indexLink" href="index.html" style="text-decoration: none; color: inherit; cursor: pointer">
             <h1 id="my-heading" style="margin-bottom: -10px">
                 The Mo<span class="highlight">vieV</span>erse
@@ -92,9 +92,11 @@
     </header>
 
     <nav id="side-nav" class="side-nav">
-        <h1 id="my-heading" style="margin-bottom: 5px; margin-left: 0">
-            The Mo<span class="highlight">vieV</span>erse Menu
-        </h1>
+        <a href="index.html" id="heading-href">
+            <h1 id="my-heading" style="margin-bottom: 5px; margin-left: 0">
+                The Mo<span class="highlight">vieV</span>erse Menu
+            </h1>
+        </a>
         <div id="button-container">
             <button id="button-remove" title="Close the navbar" onclick="removeNavBar()">Close</button>
         </div>

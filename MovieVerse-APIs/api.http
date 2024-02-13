@@ -24,7 +24,7 @@ Content-Type: application/json
 
 {
   "username": "new_user",
-  "email": "new_user@example.com",
+  "email": "new_user@movie-verse.com",
   "password": "new_password"
 }
 
