@@ -23,6 +23,7 @@ function handleProfileDisplay() {
         profileContainer.style.display = 'none';
         signInPrompt.textContent = 'Please sign in to view your profile';
         signInPrompt.style.fontWeight = '800';
+        signInPrompt.style.color = '#ff8623';
     }
 }
 
