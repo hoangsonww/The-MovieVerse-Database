@@ -38,7 +38,7 @@ If you would like to contribute to the development or improvement of these scrip
 
 ## License
 
-These scripts are part of the StickyNotes application and are subject to the project's overall license terms.
+These scripts are part of the StickyNotes application and are subject to the project's overall license terms. Refer to thr `LICENSE` file in the root directory.
 
 ## Contact
 
