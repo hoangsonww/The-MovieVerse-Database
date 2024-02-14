@@ -95,6 +95,9 @@ async function loadProfile() {
 
         if (docSnap.exists()) {
             profile = { ...profile, ...docSnap.data() };
+            const imageUrl = profile.profileImage || '../../images/user-default.png';
+            document.getElementById('profileImage').src = imageUrl;
+
             profile.hobbies = profile.hobbies && profile.hobbies.length > 0 ? profile.hobbies.join(', ') : 'N/A';
         }
 
@@ -116,7 +119,6 @@ async function loadProfile() {
         console.error("Error loading profile: ", error);
     }
 }
-
 
 async function saveProfileChanges() {
     const userEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
@@ -180,30 +182,26 @@ async function uploadImage() {
     }
 
     try {
-        const resizedBlob = await resizeImage(file, 1024, 1024);
+        const base64Image = await resizeImageAndConvertToBase64(file, 1024, 1024);
 
-        const imageRef = storageRef(storage, `profileImages/${userEmail}`);
-        const snapshot = await uploadBytes(imageRef, resizedBlob);
-        const downloadURL = await getDownloadURL(snapshot.ref);
+        await setDoc(doc(db, 'profiles', userEmail), { profileImageBase64: base64Image }, { merge: true });
+        document.getElementById('profileImage').src = base64Image;
 
-        await setDoc(doc(db, 'profiles', userEmail), { profileImage: downloadURL }, { merge: true });
-        document.getElementById('profileImage').src = downloadURL;
-        document.getElementById('removeProfileImage').style.display = 'inline';
-
-        console.log('Image uploaded and Firestore updated with URL:', downloadURL);
+        console.log('Image processed and Firestore updated');
     }
     catch (error) {
-        console.error("Error during image upload or Firestore update:", error);
-        alert('Error during image upload: ' + error.message);
+        console.error("Error during image processing:", error);
+        alert('Error during image processing: ' + error.message);
     }
 }
 
-function resizeImage(file, maxWidth, maxHeight) {
+function resizeImageAndConvertToBase64(file, maxWidth, maxHeight) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
-        reader.onload = (event) => {
+        reader.onload = (e) => {
             const img = new Image();
             img.onload = () => {
+                const canvas = document.createElement('canvas');
                 let width = img.width;
                 let height = img.height;
 
@@ -220,18 +218,16 @@ function resizeImage(file, maxWidth, maxHeight) {
                     }
                 }
 
-                const canvas = document.createElement('canvas');
                 canvas.width = width;
                 canvas.height = height;
                 const ctx = canvas.getContext('2d');
                 ctx.drawImage(img, 0, 0, width, height);
-
-                canvas.toBlob(resolve, 'image/jpeg', 0.7);
+                const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+                resolve(dataUrl);
             };
-            img.onerror = (error) => reject(error);
-            img.src = event.target.result;
+            img.src = e.target.result;
         };
-        reader.onerror = (error) => reject(error);
+        reader.onerror = error => reject(error);
         reader.readAsDataURL(file);
     });
 }
@@ -244,6 +240,9 @@ function setupEventListeners() {
     document.getElementById('cancelEdit').addEventListener('click', () => {
         closeModal();
     });
+
+    const imageUploadInput = document.getElementById('imageUpload');
+    imageUploadInput.addEventListener('change', uploadImage);
 
     document.getElementById('editProfileBtn').addEventListener('click', async () => {
         const userEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
