@@ -20,7 +20,7 @@
 */
 ;(function() {
 var PLATFORM_VERSION_BUILD_LABEL = '12.0.1';
-// file: src/scripts/require.js
+// file: MovieVerse-Frontend/scripts/require.js
 var require;
 var define;
 
@@ -92,7 +92,7 @@ if (typeof module === 'object' && typeof require === 'function') {
     module.exports.define = define;
 }
 
-// file: src/cordova.js
+// file: MovieVerse-Frontend/cordova.js
 define("cordova", function(require, exports, module) {
 
 // Workaround for Windows 10 in hosted environment case
@@ -330,7 +330,7 @@ module.exports = cordova;
 
 });
 
-// file: ../../cordova-js-src/android/nativeapiprovider.js
+// file: ../../cordova-js-MovieVerse-Frontend/android/nativeapiprovider.js
 define("cordova/android/nativeapiprovider", function(require, exports, module) {
 
 /**
@@ -353,7 +353,7 @@ module.exports = {
 
 });
 
-// file: ../../cordova-js-src/android/promptbasednativeapi.js
+// file: ../../cordova-js-MovieVerse-Frontend/android/promptbasednativeapi.js
 define("cordova/android/promptbasednativeapi", function(require, exports, module) {
 
 /**
@@ -375,7 +375,7 @@ module.exports = {
 
 });
 
-// file: src/common/argscheck.js
+// file: MovieVerse-Frontend/common/argscheck.js
 define("cordova/argscheck", function(require, exports, module) {
 
 var utils = require('cordova/utils');
@@ -468,7 +468,7 @@ moduleExports.enableChecks = true;
 
 });
 
-// file: src/common/base64.js
+// file: MovieVerse-Frontend/common/base64.js
 define("cordova/base64", function(require, exports, module) {
 
 var base64 = exports;
@@ -534,7 +534,7 @@ function uint8ToBase64 (rawData) {
 
 });
 
-// file: src/common/builder.js
+// file: MovieVerse-Frontend/common/builder.js
 define("cordova/builder", function(require, exports, module) {
 
 var utils = require('cordova/utils');
@@ -614,7 +614,7 @@ function include (parent, objects, clobber, merge) {
 
 /**
  * Merge properties from one object onto another recursively.  Properties from
- * the src object will overwrite existing target property.
+ * the MovieVerse-Frontend object will overwrite existing target property.
  *
  * @param target Object to merge properties into.
  * @param src Object to merge properties from.
@@ -650,7 +650,7 @@ exports.assignOrWrapInDeprecateGetter = assignOrWrapInDeprecateGetter;
 
 });
 
-// file: src/common/channel.js
+// file: MovieVerse-Frontend/common/channel.js
 define("cordova/channel", function(require, exports, module) {
 
 var utils = require('cordova/utils');
@@ -911,7 +911,7 @@ module.exports = channel;
 
 });
 
-// file: ../../cordova-js-src/exec.js
+// file: ../../cordova-js-MovieVerse-Frontend/exec.js
 define("cordova/exec", function(require, exports, module) {
 
 /**
@@ -1183,7 +1183,7 @@ module.exports = androidExec;
 
 });
 
-// file: src/common/exec/proxy.js
+// file: MovieVerse-Frontend/common/exec/proxy.js
 define("cordova/exec/proxy", function(require, exports, module) {
 
 // internal map of proxy function
@@ -1213,7 +1213,7 @@ module.exports = {
 
 });
 
-// file: src/common/init.js
+// file: MovieVerse-Frontend/common/init.js
 define("cordova/init", function(require, exports, module) {
 
 var channel = require('cordova/channel');
@@ -1309,7 +1309,7 @@ channel.join(function () {
 
 });
 
-// file: src/common/modulemapper.js
+// file: MovieVerse-Frontend/common/modulemapper.js
 define("cordova/modulemapper", function(require, exports, module) {
 
 var builder = require('cordova/builder');
@@ -1406,7 +1406,7 @@ exports.reset();
 
 });
 
-// file: ../../cordova-js-src/platform.js
+// file: ../../cordova-js-MovieVerse-Frontend/platform.js
 define("cordova/platform", function(require, exports, module) {
 
 // The last resume event that was received that had the result of a plugin call.
@@ -1516,7 +1516,7 @@ function onMessageFromNative (msg) {
 
 });
 
-// file: ../../cordova-js-src/plugin/android/app.js
+// file: ../../cordova-js-MovieVerse-Frontend/plugin/android/app.js
 define("cordova/plugin/android/app", function(require, exports, module) {
 
 var exec = require('cordova/exec');
@@ -1609,7 +1609,7 @@ module.exports = {
 
 });
 
-// file: ../../cordova-js-src/plugin/android/splashscreen.js
+// file: ../../cordova-js-MovieVerse-Frontend/plugin/android/splashscreen.js
 define("cordova/plugin/android/splashscreen", function(require, exports, module) {
 
 var exec = require('cordova/exec');
@@ -1627,7 +1627,7 @@ module.exports = splashscreen;
 
 });
 
-// file: src/common/pluginloader.js
+// file: MovieVerse-Frontend/common/pluginloader.js
 define("cordova/pluginloader", function(require, exports, module) {
 
 var modulemapper = require('cordova/modulemapper');
@@ -1737,7 +1737,7 @@ exports.load = function (callback) {
 
 });
 
-// file: src/common/urlutil.js
+// file: MovieVerse-Frontend/common/urlutil.js
 define("cordova/urlutil", function(require, exports, module) {
 
 /**
@@ -1752,7 +1752,7 @@ exports.makeAbsolute = function makeAbsolute (url) {
 
 });
 
-// file: src/common/utils.js
+// file: MovieVerse-Frontend/common/utils.js
 define("cordova/utils", function(require, exports, module) {
 
 var utils = exports;
@@ -1919,7 +1919,7 @@ utils.alert = function (msg) {
 });
 
 window.cordova = require('cordova');
-// file: src/scripts/bootstrap.js
+// file: MovieVerse-Frontend/scripts/bootstrap.js
 require('cordova/init');
 
 })();
