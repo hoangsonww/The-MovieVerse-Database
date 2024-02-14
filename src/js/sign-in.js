@@ -40,7 +40,6 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-
 const db = getFirestore(app);
 
 document.getElementById('signInForm').addEventListener('submit', async function(event) {

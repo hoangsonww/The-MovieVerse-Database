@@ -261,7 +261,7 @@
             color: #fff;
         }
     </style>
-    <script src="../js/user-profile.js"></script>
+    <script src="../js/user-profile.js" type="module"></script>
 </head>
 <body class="movie-details-body">
     <header id="homepage-header" style="margin-top: -5px">
@@ -649,6 +649,10 @@
             const searchQuery = document.getElementById('search').value;
             localStorage.setItem('searchQuery', searchQuery);
             window.location.href = 'search.html';
+        }
+
+        function closeModal() {
+            document.getElementById('editProfileModal').style.display = 'none';
         }
     </script>
 

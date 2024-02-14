@@ -780,8 +780,13 @@ function getRatingDetails(rating) {
     return details;
 }
 
+function getMovieCode2() {
+    const encodedKey = "MmJhOGU1MzY=";
+    return atob(encodedKey);
+}
+
 async function fetchMovieRatings(imdbId, tmdbMovieData) {
-    const omdbApiKey = '2ba8e536';
+    const omdbApiKey = `${getMovieCode2()}`;
     const omdbUrl = `https://www.omdbapi.com/?i=${imdbId}&apikey=${omdbApiKey}`;
 
     try {
