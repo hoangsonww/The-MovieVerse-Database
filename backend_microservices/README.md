@@ -68,5 +68,6 @@ To run tests for each microservice:
 
 1. Navigate to the service's directory: `cd service_name`
 2. Execute the test command: `npm test` (For Django-based services, use `python manage.py test`)
+3. Remebmber to test the functionalities of the app visually, too!
 
 ---
