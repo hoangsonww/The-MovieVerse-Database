@@ -25,6 +25,7 @@ const searchButton = document.getElementById("button-search");
 const searchTitle = document.getElementById("search-title");
 const otherTitle = document.getElementById("other1");
 const clearButton = document.getElementById("button-clear");
+
 let searchPerformed = false;
 
 async function getMovies(url, mainElement, isSearch = false) {
