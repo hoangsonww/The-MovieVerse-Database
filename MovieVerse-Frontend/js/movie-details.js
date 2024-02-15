@@ -944,45 +944,6 @@ function showTrailerIframe(trailerUrl) {
     trailerIframeDisplayed = true;
 }
 
-function toggleFavorite(movie) {
-    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    let favoriteGenres = JSON.parse(localStorage.getItem('favoriteGenres')) || {};
-
-    if (favorites.includes(movie.id)) {
-        favorites = favorites.filter(favId => favId !== movie.id);
-        movie.genres.forEach(genre => {
-            favoriteGenres[genre.name] = favoriteGenres[genre.name] ? favoriteGenres[genre.name] - 1 : 0;
-        });
-    }
-    else {
-        favorites.push(movie.id);
-        movie.genres.forEach(genre => {
-            favoriteGenres[genre.name] = favoriteGenres[genre.name] ? favoriteGenres[genre.name] + 1 : 1;
-        });
-    }
-
-    localStorage.setItem('favorites', JSON.stringify(favorites));
-    localStorage.setItem('favoriteGenres', JSON.stringify(favoriteGenres));
-
-    updateFavoriteButton(movie.id);
-}
-
-function updateFavoriteButton(movieId) {
-    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    const favoriteButton = document.getElementById('favorite-btn');
-
-    if (favorites.includes(movieId)) {
-        favoriteButton.classList.add('favorited');
-        favoriteButton.style.backgroundColor = 'grey';
-        favoriteButton.title = 'Remove from favorites';
-    }
-    else {
-        favoriteButton.classList.remove('favorited');
-        favoriteButton.style.background = 'transparent';
-        favoriteButton.title = 'Add to favorites';
-    }
-}
-
 function getRtSlug(title) {
     return title.toLowerCase()
         .replace(/:/g, '')
@@ -1211,13 +1172,6 @@ function populateMovieDetails(movie, imdbRating, rtRating, metascore, awards, ra
     keywordsElement.innerHTML = `<strong>Keywords:</strong> ${keywords}`;
 
     movieDescription.appendChild(keywordsElement);
-    updateFavoriteButton(movie.id);
-
-    favoriteButton.addEventListener('click', () => {
-        toggleFavorite(movie);
-        updateMoviesFavorited(movie.id);
-        window.location.reload();
-    });
 
     updateMoviesFavorited(movie.id);
     applySettings();

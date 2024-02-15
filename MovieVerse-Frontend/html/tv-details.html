@@ -175,6 +175,21 @@
 
 <script src="../js/tv-details.js"></script>
 
+<script src="../js/add-to-tv-favorites.js" type="module"></script>
+
+<script type="module">
+    import { toggleFavoriteTVSeries, checkAndUpdateFavoriteButtonTVSeries } from '../js/add-to-tv-favorites.js';
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const favoriteBtn = document.getElementById('favorite-btn');
+        if (favoriteBtn) {
+            favoriteBtn.addEventListener('click', toggleFavoriteTVSeries);
+        }
+    });
+
+    checkAndUpdateFavoriteButtonTVSeries();
+</script>
+
 <script>
     document.getElementById('settings-btn').addEventListener('click', () => {
         window.location.href = 'settings.html';

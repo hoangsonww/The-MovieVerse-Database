@@ -208,48 +208,7 @@ function setStarRating(rating) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    const favoriteBtn = document.getElementById('favorite-btn');
-    const tvSeriesId = localStorage.getItem('selectedTvSeriesId');
-
     setInitialStarRating(tvSeriesId);
-
-    function toggleFavorite() {
-        let favorites = JSON.parse(localStorage.getItem('favoritesTVSeries')) || [];
-        if (favorites.includes(tvSeriesId)) {
-            favorites = favorites.filter(id => id !== tvSeriesId);
-            favoriteBtn.textContent = '❤️';
-            favoriteBtn.title = 'Add to Favorites';
-            favoriteBtn.style.backgroundColor = 'grey';
-        }
-        else {
-            favorites.push(tvSeriesId);
-            favoriteBtn.textContent = '❤️';
-            favoriteBtn.title = 'Remove from Favorites';
-            favoriteBtn.style.background = 'transparent';
-        }
-        localStorage.setItem('favoritesTVSeries', JSON.stringify(favorites));
-    }
-
-    function updateFavoriteButtonUI() {
-        let favorites = JSON.parse(localStorage.getItem('favoritesTVSeries')) || [];
-        if (favorites.includes(tvSeriesId)) {
-            favoriteBtn.textContent = '❤️';
-            favoriteBtn.title = 'Remove from Favorites';
-            favoriteBtn.style.backgroundColor = 'grey';
-        }
-        else {
-            favoriteBtn.textContent = '❤️';
-            favoriteBtn.title = 'Add to Favorites';
-            favoriteBtn.style.background = 'transparent';
-        }
-    }
-
-    favoriteBtn.addEventListener('click', () => {
-        toggleFavorite();
-        updateFavoriteButtonUI();
-    });
-
-    updateFavoriteButtonUI();
 });
 
 function getMovieVerseData(input) {
@@ -541,7 +500,6 @@ const twoLetterLangCodes = [
 async function fetchTvDetails(tvSeriesId) {
     const baseUrl = `https://${getMovieVerseData()}/3/tv/${tvSeriesId}`;
     const urlWithAppend = `${baseUrl}?${generateMovieNames()}${tvCode}&append_to_response=credits,keywords,similar,videos`;
-    console.log(generateMovieNames())
     try {
         const response = await fetch(urlWithAppend);
         const tvSeriesDetails = await response.json();

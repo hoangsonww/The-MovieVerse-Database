@@ -930,75 +930,95 @@ async function loadWatchLists() {
         }
     }
 
-    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    if (favorites.length > 0) {
-        const favoritesDiv = document.createElement('div');
-        favoritesDiv.className = 'watchlist';
-        favoritesDiv.id = 'favorites-watchlist';
+    const usersRef = query(collection(db, "MovieVerseUsers"), where("email", "==", currentUserEmail));
+    const userSnapshot = await getDocs(usersRef);
+    if (!userSnapshot.empty) {
+        const userData = userSnapshot.docs[0].data();
+        const favorites = userData.favorites || [];
+        if (favorites.length > 0) {
+            const favoritesDiv = document.createElement('div');
+            favoritesDiv.className = 'watchlist';
+            favoritesDiv.id = 'favorites-watchlist';
 
-        const title = document.createElement('h3');
-        title.textContent = "Favorite Movies";
-        title.className = 'watchlist-title';
+            const title = document.createElement('h3');
+            title.textContent = "Favorite Movies";
+            title.className = 'watchlist-title';
 
-        const description = document.createElement('p');
-        description.textContent = "A collection of your favorite movies.";
-        description.className = 'watchlist-description';
+            const description = document.createElement('p');
+            description.textContent = "A collection of your favorite movies.";
+            description.className = 'watchlist-description';
 
-        favoritesDiv.appendChild(title);
-        favoritesDiv.appendChild(description);
+            favoritesDiv.appendChild(title);
+            favoritesDiv.appendChild(description);
 
-        const moviesContainer = document.createElement('div');
-        moviesContainer.className = 'movies-container';
+            const moviesContainer = document.createElement('div');
+            moviesContainer.className = 'movies-container';
 
-        for (const movieId of favorites) {
-            const movieCard = await fetchMovieDetails(movieId);
-            moviesContainer.appendChild(movieCard);
+            for (const movieId of favorites) {
+                const movieCard = await fetchMovieDetails(movieId);
+                moviesContainer.appendChild(movieCard);
+            }
+
+            favoritesDiv.appendChild(moviesContainer);
+            displaySection.appendChild(favoritesDiv);
         }
-
-        favoritesDiv.appendChild(moviesContainer);
-        displaySection.appendChild(favoritesDiv);
+        else {
+            const favoritesDiv = document.createElement('div');
+            favoritesDiv.className = 'watchlist';
+            favoritesDiv.id = 'favorites-watchlist';
+            favoritesDiv.innerHTML = '<div style="text-align: center"><h3 style="text-align: center; color: #ff8623">Favorite Movies</h3><p style="text-align: center">No favorite movies added yet.</p></div>';
+            displaySection.appendChild(favoritesDiv);
+        }
     }
     else {
         const favoritesDiv = document.createElement('div');
         favoritesDiv.className = 'watchlist';
         favoritesDiv.id = 'favorites-watchlist';
-        favoritesDiv.innerHTML = '<div style="text-align: center"><p style="text-align: center">No favorites added yet.</p></div>';
-
+        favoritesDiv.innerHTML = '<div style="text-align: center"><h3 style="text-align: center; color: #ff8623">Favorite Movies</h3><p style="text-align: center">No favorite movies added yet.</p></div>';
+        displaySection.appendChild(favoritesDiv);
     }
 
-    const favoritesTVSeries = JSON.parse(localStorage.getItem('favoritesTVSeries')) || [];
-    if (favoritesTVSeries.length > 0) {
-        const favoritesDiv = document.createElement('div');
-        favoritesDiv.className = 'watchlist';
-        favoritesDiv.id = 'favorites-watchlist';
+    const usersRef1 = query(collection(db, "MovieVerseUsers"), where("email", "==", currentUserEmail));
+    const userSnapshot1 = await getDocs(usersRef1);
 
-        const title = document.createElement('h3');
-        title.textContent = "Favorite TV Series";
-        title.className = 'watchlist-title';
+    if (!userSnapshot1.empty) {
+        const userData = userSnapshot.docs[0].data();
+        const favoritesTVSeries = userData.favoritesTVSeries || [];
+        if (favoritesTVSeries.length > 0) {
+            const favoritesDiv = document.createElement('div');
+            favoritesDiv.className = 'watchlist';
+            favoritesDiv.id = 'favorites-tvseries-watchlist';
 
-        const description = document.createElement('p');
-        description.textContent = "A collection of your favorite TV series.";
-        description.className = 'watchlist-description';
+            const title = document.createElement('h3');
+            title.textContent = "Favorite TV Series";
+            title.className = 'watchlist-title';
+            favoritesDiv.appendChild(title);
 
-        favoritesDiv.appendChild(title);
-        favoritesDiv.appendChild(description);
+            const moviesContainer = document.createElement('div');
+            moviesContainer.className = 'movies-container';
 
-        const moviesContainer = document.createElement('div');
-        moviesContainer.className = 'movies-container';
+            for (const tvSeriesId of favoritesTVSeries) {
+                const tvSeriesCard = await fetchTVSeriesDetails(tvSeriesId);
+                moviesContainer.appendChild(tvSeriesCard);
+            }
 
-        for (const movieId of favoritesTVSeries) {
-            const movieCard = await fetchTVSeriesDetails(movieId);
-            moviesContainer.appendChild(movieCard);
+            favoritesDiv.appendChild(moviesContainer);
+            displaySection.appendChild(favoritesDiv);
         }
-
-        favoritesDiv.appendChild(moviesContainer);
-        displaySection.appendChild(favoritesDiv);
+        else {
+            const favoritesDiv = document.createElement('div');
+            favoritesDiv.className = 'watchlist';
+            favoritesDiv.id = 'favorites-tvseries-watchlist';
+            favoritesDiv.innerHTML = '<div style="text-align: center"><h3 style="text-align: center; color: #ff8623">Favorite TV Series</h3><p style="text-align: center">No favorite TV series added yet.</p></div>';
+            displaySection.appendChild(favoritesDiv);
+        }
     }
     else {
         const favoritesDiv = document.createElement('div');
         favoritesDiv.className = 'watchlist';
-        favoritesDiv.id = 'favorites-watchlist';
-        favoritesDiv.innerHTML = '<div style="text-align: center"><p style="text-align: center">No favorites added yet.</p></div>';
+        favoritesDiv.id = 'favorites-tvseries-watchlist';
+        favoritesDiv.innerHTML = '<div style="text-align: center"><h3 style="text-align: center; color: #ff8623">Favorite TV Series</h3><p style="text-align: center">No favorite TV series added yet.</p></div>';
+        displaySection.appendChild(favoritesDiv);
     }
 }
 

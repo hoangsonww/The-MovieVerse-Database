@@ -160,6 +160,21 @@
 
     <script src="../js/movie-details.js"></script>
 
+    <script src="../js/add-to-favorites.js" type="module"></script>
+
+    <script type="module">
+        import { toggleFavorite, checkAndUpdateFavoriteButton } from '../js/add-to-favorites.js';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const favoriteBtn = document.getElementById('favorite-btn');
+            if (favoriteBtn) {
+                favoriteBtn.addEventListener('click', toggleFavorite);
+            }
+        });
+
+        checkAndUpdateFavoriteButton();
+    </script>
+
     <script>
         document.getElementById('settings-btn').addEventListener('click', () => {
             window.location.href = 'settings.html';
