@@ -5,7 +5,7 @@
 }
 
 body {
-    background-image: url("../../images/universe.jpg");
+    background-image: url("../../images/universe-1.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -16,6 +16,10 @@ body {
     overflow-x: hidden;
     min-height: 100vh;
     overflow-y: auto;
+}
+
+#heading-href {
+    text-decoration: none;
 }
 
 #movie-match-btn {
@@ -77,12 +81,38 @@ button:disabled {
     width: 100%;
 }
 
+#cast-info {
+    color: white;
+    text-decoration: underline;
+}
+
+#cast-info:hover {
+    color: #f509d9;
+}
+
+#similar-tv {
+    color: white;
+    text-decoration: underline;
+}
+
+#similar-tv:hover {
+    color: #f509d9;
+}
+
+#director-link {
+    color: white;
+    text-decoration: underline;
+}
+
+#director-link:hover {
+    color: #f509d9;
+}
+
 .modal-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 10px;
-    margin-bottom: 40px;
     margin-top: 5px;
 }
 
@@ -931,14 +961,14 @@ p {
 }
 
 .movie-details-body {
-    background-image: url("../../images/universe.jpg");
+    background-image: url("../../images/universe-1.png");
     background-size: cover;
     background-position: center;
     background-repeat: repeat;
 }
 
 .movie-details-body2 {
-    background-image: url("../../images/universe.jpg");
+    background-image: url("../../images/universe-1.png");
     background-position: center;
     height: 100vh;
     background-size: auto;
@@ -946,7 +976,7 @@ p {
 }
 
 .movie-details-body3 {
-    background-image: url("../../images/universe.jpg");
+    background-image: url("../../images/universe-1.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -954,7 +984,7 @@ p {
 }
 
 .movie-details-body4 {
-    background-image: url("../../images/universe.jpg");
+    background-image: url("../../images/universe-1.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -2572,4 +2602,12 @@ body {
 .rating .star:hover,
 .rating .star:hover ~ .star {
     color: gold;
+}
+
+footer {
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 40px;
+    background-color: #7378c5;
+    color: white;
 }

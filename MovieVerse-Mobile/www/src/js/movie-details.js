@@ -1,17 +1,29 @@
 const search = document.getElementById("search");
 const searchButton = document.getElementById("button-search");
+
+const movieCode = {
+    part1: 'YzVhMjBjODY=',
+    part2: 'MWFjZjdiYjg=',
+    part3: 'ZDllOTg3ZGNjN2YxYjU1OA=='
+};
+
+function getMovieCode() {
+    return atob(movieCode.part1) + atob(movieCode.part2) + atob(movieCode.part3);
+}
+
+function generateMovieNames(input) {
+    return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
+}
+
 const form = document.getElementById("form1");
-const SEARCHPATH = "https://api.themoviedb.org/3/search/movie?&api_key=c5a20c861acf7bb8d9e987dcc7f1b558&query=";
+const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
 
 const main = document.getElementById("main");
 const IMGPATH = "https://image.tmdb.org/t/p/w1280";
 const favoriteButton = document.getElementById("favorite-btn");
 const searchTitle = document.getElementById("search-title");
 
-let prevWindowWidth = window.innerWidth;
-let prevWindowHeight = window.innerHeight;
 let trailerUrlGlobal;
-
 let initialMainContent;
 
 function getClassByRate(vote){
@@ -632,10 +644,10 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 async function fetchMovieDetails(movieId) {
-    const code = 'c5a20c861acf7bb8d9e987dcc7f1b558';
-    const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${code}&append_to_response=credits,keywords,similar`;
-    const url2 = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${code}&append_to_response=videos`;
-    const imdbUrl = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${code}&append_to_response=external_ids`;
+    const code = `${getMovieCode()}`;
+    const url = `https://${getMovieVerseData()}/3/movie/${movieId}?${generateMovieNames()}${code}&append_to_response=credits,keywords,similar`;
+    const url2 = `https://${getMovieVerseData()}/3/movie/${movieId}?${generateMovieNames()}${code}&append_to_response=videos`;
+    const imdbUrl = `https://${getMovieVerseData()}/3/movie/${movieId}?${generateMovieNames()}${code}&append_to_response=external_ids`;
 
     try {
         const response = await fetch(url);
@@ -768,8 +780,13 @@ function getRatingDetails(rating) {
     return details;
 }
 
+function getMovieCode2() {
+    const encodedKey = "MmJhOGU1MzY=";
+    return atob(encodedKey);
+}
+
 async function fetchMovieRatings(imdbId, tmdbMovieData) {
-    const omdbApiKey = '2ba8e536';
+    const omdbApiKey = `${getMovieCode2()}`;
     const omdbUrl = `https://www.omdbapi.com/?i=${imdbId}&apikey=${omdbApiKey}`;
 
     try {
@@ -925,45 +942,6 @@ function showTrailerIframe(trailerUrl) {
     setTimeout(() => iframeContainer.style.height = '315px', 50);
 
     trailerIframeDisplayed = true;
-}
-
-function toggleFavorite(movie) {
-    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    let favoriteGenres = JSON.parse(localStorage.getItem('favoriteGenres')) || {};
-
-    if (favorites.includes(movie.id)) {
-        favorites = favorites.filter(favId => favId !== movie.id);
-        movie.genres.forEach(genre => {
-            favoriteGenres[genre.name] = favoriteGenres[genre.name] ? favoriteGenres[genre.name] - 1 : 0;
-        });
-    }
-    else {
-        favorites.push(movie.id);
-        movie.genres.forEach(genre => {
-            favoriteGenres[genre.name] = favoriteGenres[genre.name] ? favoriteGenres[genre.name] + 1 : 1;
-        });
-    }
-
-    localStorage.setItem('favorites', JSON.stringify(favorites));
-    localStorage.setItem('favoriteGenres', JSON.stringify(favoriteGenres));
-
-    updateFavoriteButton(movie.id);
-}
-
-function updateFavoriteButton(movieId) {
-    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    const favoriteButton = document.getElementById('favorite-btn');
-
-    if (favorites.includes(movieId)) {
-        favoriteButton.classList.add('favorited');
-        favoriteButton.style.backgroundColor = 'grey';
-        favoriteButton.title = 'Remove from favorites';
-    }
-    else {
-        favoriteButton.classList.remove('favorited');
-        favoriteButton.style.background = 'transparent';
-        favoriteButton.title = 'Add to favorites';
-    }
 }
 
 function getRtSlug(title) {
@@ -1194,13 +1172,6 @@ function populateMovieDetails(movie, imdbRating, rtRating, metascore, awards, ra
     keywordsElement.innerHTML = `<strong>Keywords:</strong> ${keywords}`;
 
     movieDescription.appendChild(keywordsElement);
-    updateFavoriteButton(movie.id);
-
-    favoriteButton.addEventListener('click', () => {
-        toggleFavorite(movie);
-        updateMoviesFavorited(movie.id);
-        window.location.reload();
-    });
 
     updateMoviesFavorited(movie.id);
     applySettings();
@@ -1237,7 +1208,7 @@ function updateAverageMovieRating(movieId, newRating) {
 
 async function showMovieOfTheDay() {
     const year = new Date().getFullYear();
-    const url = `https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+    const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
 
     try {
         const response = await fetch(url);
@@ -1280,6 +1251,10 @@ function fallbackMovieSelection() {
     const randomFallbackMovie = fallbackMovies[Math.floor(Math.random() * fallbackMovies.length)];
     localStorage.setItem('selectedMovieId', randomFallbackMovie);
     window.location.href = 'movie-details.html';
+}
+
+function getMovieVerseData(input) {
+    return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
 }
 
 function applySettings() {

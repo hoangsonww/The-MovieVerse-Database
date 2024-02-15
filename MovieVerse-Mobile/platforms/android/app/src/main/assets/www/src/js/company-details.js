@@ -1,7 +1,22 @@
 const search = document.getElementById("search");
 const searchButton = document.getElementById("button-search");
+
+const movieCode = {
+    part1: 'YzVhMjBjODY=',
+    part2: 'MWFjZjdiYjg=',
+    part3: 'ZDllOTg3ZGNjN2YxYjU1OA=='
+};
+
+function getMovieCode() {
+    return atob(movieCode.part1) + atob(movieCode.part2) + atob(movieCode.part3);
+}
+
+function generateMovieNames(input) {
+    return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
+}
+
 const form = document.getElementById("form");
-const SEARCHPATH = "https://api.themoviedb.org/3/search/movie?&api_key=c5a20c861acf7bb8d9e987dcc7f1b558&query=";
+const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
 const main = document.getElementById("main");
 const IMGPATH = "https://image.tmdb.org/t/p/w1280";
 const searchTitle = document.getElementById("search-title");
@@ -312,8 +327,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+function getMovieVerseData(input) {
+    return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
+}
+
 async function fetchCompanyDetails(companyId) {
-    const url = `https://api.themoviedb.org/3/company/${companyId}?api_key=c5a20c861acf7bb8d9e987dcc7f1b558`;
+    const url = `https://${getMovieVerseData()}/3/company/${companyId}?${generateMovieNames()}${getMovieCode()}`;
     try {
         const response = await fetch(url);
         const company = await response.json();
@@ -357,7 +376,7 @@ async function fetchCompanyDetails(companyId) {
 }
 
 async function fetchCompanyMovies(companyId) {
-    const url = `https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_companies=${companyId}`;
+    const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_companies=${companyId}`;
     try {
         const response = await fetch(url);
         const data = await response.json();
@@ -375,7 +394,7 @@ async function fetchCompanyMovies(companyId) {
 
 async function showMovieOfTheDay() {
     const year = new Date().getFullYear();
-    const url = `https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+    const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
 
     try {
         const response = await fetch(url);

@@ -1,21 +1,26 @@
 const search = document.getElementById("search");
 const searchButton = document.getElementById("button-search");
 const form = document.getElementById("form1");
-const SEARCHPATH = "https://api.themoviedb.org/3/search/movie?&api_key=c5a20c861acf7bb8d9e987dcc7f1b558&query=";
 const main = document.getElementById("main");
 const IMGPATH = "https://image.tmdb.org/t/p/w1280";
 const searchTitle = document.getElementById("search-title");
 
-function getClassByRate(vote){
-    if (vote >= 8) {
-        return 'green';
-    }
-    else if (vote >= 5) {
-        return 'orange';
-    }
-    else {
-        return 'red';
-    }
+const movieCode = {
+    part1: 'YzVhMjBjODY=',
+    part2: 'MWFjZjdiYjg=',
+    part3: 'ZDllOTg3ZGNjN2YxYjU1OA=='
+};
+
+function getMovieCode() {
+    return atob(movieCode.part1) + atob(movieCode.part2) + atob(movieCode.part3);
+}
+
+function generateMovieNames(input) {
+    return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
+}
+
+function getMovieVerseData(input) {
+    return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
 }
 
 function updateBrowserURL(name) {
@@ -28,9 +33,7 @@ function createNameSlug(name) {
     return name.toLowerCase().replace(/ /g, '-').replace(/[^\w-]/g, '');
 }
 
-document.getElementById('clear-search-btn').addEventListener('click', () => {
-    location.reload();
-});
+const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
 
 form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -94,8 +97,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function fetchActorDetails(actorId) {
-    const actorUrl = `https://api.themoviedb.org/3/person/${actorId}?api_key=c5a20c861acf7bb8d9e987dcc7f1b558`;
-    const creditsUrl = `https://api.themoviedb.org/3/person/${actorId}/movie_credits?api_key=c5a20c861acf7bb8d9e987dcc7f1b558`;
+    const actorUrl = `https://${getMovieVerseData()}/3/person/${actorId}?${generateMovieNames()}${getMovieCode()}`;
+    const creditsUrl = `https://${getMovieVerseData()}/3/person/${actorId}/movie_credits?${generateMovieNames()}${getMovieCode()}`;
     try {
         const [actorResponse, creditsResponse] = await Promise.all([
             fetch(actorUrl),
@@ -402,7 +405,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 async function showMovieOfTheDay() {
     const year = new Date().getFullYear();
-    const url = `https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+    const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
 
     try {
         const response = await fetch(url);

@@ -1,33 +1,77 @@
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js';
+import { getFirestore, doc, setDoc, collection, updateDoc, getDocs, query, where, deleteDoc } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js';
+
+function translateFBC(value) {
+    return atob(value);
+}
+
+function getFBConfig1() {
+    const fbConfig1 = "QUl6YVN5REw2a1FuU2ZVZDhVdDhIRnJwS3VpdnF6MXhkWG03aw==";
+    return translateFBC(fbConfig1);
+}
+
+function getFBConfig2() {
+    const fbConfig2 = "bW92aWV2ZXJzZS1hcHAuZmlyZWJhc2VhcHAuY29t";
+    return translateFBC(fbConfig2);
+}
+
+function getFBConfig3() {
+    const fbConfig3 = "bW92aWV2ZXJzZS1hcHAuYXBwc3BvdC5jb20=";
+    return translateFBC(fbConfig3);
+}
+
+function getFBConfig4() {
+    const fbConfig4 = "ODAyOTQzNzE4ODcx";
+    return translateFBC(fbConfig4);
+}
+
+function getFBConfig5() {
+    const fbConfig5 = "MTo4MDI5NDM3MTg4NzE6d2ViOjQ4YmM5MTZjYzk5ZTI3MjQyMTI3OTI=";
+    return translateFBC(fbConfig5);
+}
+
+const firebaseConfig = {
+    apiKey: getFBConfig1(),
+    authDomain: getFBConfig2(),
+    projectId: "movieverse-app",
+    storageBucket: getFBConfig3(),
+    messagingSenderId: getFBConfig4(),
+    appId: getFBConfig5()
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
 document.addEventListener("DOMContentLoaded", function() {
-    checkAndReloadPageIfNeeded();
     loadWatchLists();
-    updateSignInButton();
-    initClient();
-    updateFavorites();
 });
 
-function checkAndReloadPageIfNeeded() {
-    const hasReloaded = localStorage.getItem('hasReloaded');
+const tvCode = {
+    part1: 'YzVhMjBjODY=',
+    part2: 'MWFjZjdiYjg=',
+    part3: 'ZDllOTg3ZGNjN2YxYjU1OA=='
+};
 
-    if (!hasReloaded) {
-        localStorage.setItem('hasReloaded', true);
-        window.location.reload();
-    }
+function getMovieCode() {
+    return atob(tvCode.part1) + atob(tvCode.part2) + atob(tvCode.part3);
 }
 
-function updateFavorites() {
-    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    const favoritesMain = document.getElementById('favorites-main');
-    favoritesMain.style.textAlign = 'center';
-    if (favorites.length > 0) {
-        favorites.forEach(movieId => fetchMovieDetails(movieId));
+function generateMovieNames(input) {
+    return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
+}
+
+document.getElementById('how-to-use-btn').addEventListener('click', function() {
+    var howToUseSection = document.getElementById('how-to-use-section');
+    if (howToUseSection.style.display === 'none') {
+        howToUseSection.style.display = 'block';
+        window.location.href = '#how-to-use-section';
+        document.getElementById('how-to-use-btn').textContent = 'Hide Tutorial';
     }
     else {
-        favoritesMain.innerHTML = '<div style="display: flex; justify-content: center; align-items: center; text-align: center; width: 100vw;">\n' +
-            '                <h2 style="color: white">No Favorite Movies Added Yet.</h2>\n' +
-            '            </div>`;';
+        howToUseSection.style.display = 'none';
+        document.getElementById('how-to-use-btn').textContent = 'How to Use';
     }
-}
+});
 
 function rotateUserStats() {
     const stats = [
@@ -190,46 +234,13 @@ function getMostCommonGenre() {
 
 document.addEventListener('DOMContentLoaded', rotateUserStats);
 
-async function fetchMovieDetails(movieId) {
-    const favoritesContainer = document.getElementById('favorites-main');
-    const code = 'c5a20c861acf7bb8d9e987dcc7f1b558';
-    const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${code}&append_to_response=credits,keywords,similar`;
-
-    try {
-        const response = await fetch(url);
-        const movie = await response.json();
-        const movieVoteAverage = movie.vote_average.toFixed(1);
-        const movieEl = document.createElement('div');
-        movieEl.classList.add('movie');
-        movieEl.innerHTML = `
-                <img src="${IMGPATH + movie.poster_path}" alt="${movie.title}" style="cursor: pointer" />
-                <div class="movie-info" style="cursor: pointer;">
-                    <h3>${movie.title}</h3>
-                    <span class="${getClassByRate(movieVoteAverage)}">${movieVoteAverage}</span>
-                </div>
-                <div class="overview" style="cursor: pointer;">
-                    <h4>Movie Overview: </h4>
-                    ${movie.overview}
-                </div>`;
-
-        movieEl.addEventListener('click', () => {
-            localStorage.setItem('selectedMovieId', movie.id);
-            window.location.href = 'movie-details.html';
-            updateMovieVisitCount(movie.id, movie.title);
-        });
-
-        favoritesContainer.appendChild(movieEl);
-
-    }
-    catch (error) {
-        console.error('Error fetching movie details:', error);
-        favoritesContainer.innerHTML += '<p>Error loading movie details.</p>';
-    }
+function getMovieVerseData(input) {
+    return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
 }
 
 async function showMovieOfTheDay() {
     const year = new Date().getFullYear();
-    const url = `https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+    const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
 
     try {
         const response = await fetch(url);
@@ -262,6 +273,17 @@ function openModal(modalId) {
     document.getElementById(modalId).style.display = 'block';
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+    const closeButtons = document.querySelectorAll('.close-button');
+
+    closeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const modalId = this.closest('.modal').id;
+            closeModal(modalId);
+        });
+    });
+});
+
 function closeModal(modalId) {
     document.getElementById(modalId).style.display = 'none';
 }
@@ -269,8 +291,8 @@ function closeModal(modalId) {
 document.getElementById('delete-watchlist-btn').addEventListener('click', () => openModal('delete-watchlist-modal'));
 
 async function getMovieTitle(movieId) {
-    const apiKey = 'c5a20c861acf7bb8d9e987dcc7f1b558';
-    const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}`;
+    const apiKey = `${getMovieCode()}`;
+    const url = `https://${getMovieVerseData()}/3/movie/${movieId}?${generateMovieNames()}${apiKey}`;
 
     try {
         const response = await fetch(url);
@@ -284,49 +306,205 @@ async function getMovieTitle(movieId) {
 }
 
 async function populateCreateModalWithFavorites() {
-    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    let currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser') || '';
+
+    if (!currentUserEmail) {
+        console.log('User is not signed in. Fetching favorites from localStorage.');
+        const favoritesMovies = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
+        const favoritesTVSeries = JSON.parse(localStorage.getItem('favoritesTVSeries')) || [];
+
+        let container = document.getElementById('favorites-container');
+        if (!container) {
+            container = document.createElement('div');
+            container.id = 'favorites-container';
+            document.getElementById('create-watchlist-form').insertBefore(container, document.querySelector('button[type="submit"]'));
+        }
+        else {
+            container.innerHTML = '';
+        }
+
+        let moviesLabel = document.createElement('label');
+        moviesLabel.textContent = 'Select favorite movies to include in watchlist:';
+        container.appendChild(moviesLabel);
+
+        let moviesContainer = document.createElement('div');
+        moviesContainer.id = 'movies-container';
+        moviesContainer.style.marginTop = '-20px';
+        container.appendChild(moviesContainer);
+
+        if (favoritesMovies.length === 0) {
+            moviesContainer.innerHTML = '<p style="margin-top: 20px">No Favorite Movies Added Yet.</p>';
+        }
+        else {
+            for (const movieId of favoritesMovies) {
+                const movieTitle = await getMovieTitle(movieId);
+                appendCheckbox(moviesContainer, movieId, movieTitle, 'favoritedMovies');
+            }
+        }
+
+        let tvSeriesLabel = document.createElement('label');
+        tvSeriesLabel.textContent = 'Select favorite TV series to include in watchlist:';
+        container.appendChild(tvSeriesLabel);
+
+        let tvSeriesContainer = document.createElement('div');
+        tvSeriesContainer.id = 'tvseries-container';
+        tvSeriesContainer.style.marginTop = '-20px';
+        container.appendChild(tvSeriesContainer);
+
+        if (favoritesTVSeries.length === 0) {
+            tvSeriesContainer.innerHTML = '<p style="margin-top: 20px">No Favorite TV Series Added Yet.</p>';
+        }
+        else {
+            for (const seriesId of favoritesTVSeries) {
+                const seriesTitle = await getTVSeriesTitle(seriesId);
+                appendCheckbox(tvSeriesContainer, seriesId, seriesTitle, 'favoritedTVSeries');
+            }
+        }
+        return;
+    }
+
+    const usersRef = query(collection(db, "MovieVerseUsers"), where("email", "==", currentUserEmail));
+    const userSnapshot = await getDocs(usersRef);
+
     const createForm = document.getElementById('create-watchlist-form');
 
-    let moviesContainer = document.getElementById('movies-container');
-    let moviesLabel = document.getElementById('movies-label-create');
-
-    if (moviesContainer) {
-        moviesContainer.innerHTML = '';
+    let container = document.getElementById('favorites-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'favorites-container';
+        createForm.insertBefore(container, createForm.querySelector('button[type="submit"]'));
     }
     else {
-        moviesContainer = document.createElement('div');
+        container.innerHTML = '';
+    }
+
+    if (!userSnapshot.empty) {
+        const userData = userSnapshot.docs[0].data();
+        const favoritesMovies = userData.favoritesMovies || [];
+        const favoritesTVSeries = userData.favoritesTVSeries || [];
+
+        let moviesLabel = document.createElement('label');
+        moviesLabel.textContent = 'Select favorite movies to include in watchlist:';
+        container.appendChild(moviesLabel);
+
+        let moviesContainer = document.createElement('div');
         moviesContainer.id = 'movies-container';
-        createForm.insertBefore(moviesContainer, createForm.querySelector('button[type="submit"]'));
+        moviesContainer.style.marginTop = '-20px';
+        container.appendChild(moviesContainer);
+
+        if (favoritesMovies.length === 0) {
+            moviesContainer.innerHTML = '<p style="margin-top: 20px">No Favorite Movies Added Yet.</p>';
+        }
+        else {
+            for (const movieId of favoritesMovies) {
+                const movieTitle = await getMovieTitle(movieId);
+                appendCheckbox(moviesContainer, movieId, movieTitle, 'favoritedMovies');
+            }
+        }
+
+        let tvSeriesLabel = document.createElement('label');
+        tvSeriesLabel.textContent = 'Select favorite TV series to include in watchlist:';
+        container.appendChild(tvSeriesLabel);
+
+        let tvSeriesContainer = document.createElement('div');
+        tvSeriesContainer.id = 'tvseries-container';
+        tvSeriesContainer.style.marginTop = '-20px';
+        container.appendChild(tvSeriesContainer);
+
+        if (favoritesTVSeries.length === 0) {
+            tvSeriesContainer.innerHTML = '<p style="margin-top: 20px">No Favorite TV Series Added Yet.</p>';
+        }
+        else {
+            for (const seriesId of favoritesTVSeries) {
+                const seriesTitle = await getTVSeriesTitle(seriesId);
+                appendCheckbox(tvSeriesContainer, seriesId, seriesTitle, 'favoritedTVSeries');
+            }
+        }
     }
-
-    if (!moviesLabel) {
-        moviesLabel = document.createElement('label');
-        moviesLabel.id = 'movies-label-create';
-        moviesLabel.textContent = 'Select Movies:';
-        moviesLabel.htmlFor = 'movies-container';
-        createForm.insertBefore(moviesLabel, moviesContainer);
-    }
-
-    for (const movieId of favorites) {
-        const movieTitle = await getMovieTitle(movieId);
-        const movieItem = document.createElement('div');
-        movieItem.classList.add('movie-item');
-
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.id = `movie-${movieId}`;
-        checkbox.value = movieId;
-        checkbox.name = "favoritedMovies";
-
-        const label = document.createElement('label');
-        label.htmlFor = `movie-${movieId}`;
-        label.textContent = movieTitle;
-
-        movieItem.appendChild(checkbox);
-        movieItem.appendChild(label);
-        moviesContainer.appendChild(movieItem);
+    else {
+        container.innerHTML = '<p style="text-align: center">No favorites found. Please add some favorites first.</p>';
     }
 }
+
+document.getElementById('create-watchlist-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const name = document.getElementById('new-watchlist-name').value;
+    const description = document.getElementById('new-watchlist-description').value;
+    const selectedMovies = Array.from(document.querySelectorAll('#movies-container input:checked')).map(checkbox => checkbox.value);
+    const selectedTVSeries = Array.from(document.querySelectorAll('#tvseries-container input:checked')).map(checkbox => checkbox.value);
+    const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
+
+    if (currentUserEmail) {
+        const newWatchlistRef = doc(collection(db, 'watchlists'));
+        await setDoc(newWatchlistRef, {
+            userEmail: currentUserEmail,
+            name,
+            description,
+            movies: selectedMovies,
+            tvSeries: selectedTVSeries,
+            pinned: false,
+            createdAt: new Date().toISOString()
+        });
+    }
+    else {
+        const localWatchlists = JSON.parse(localStorage.getItem('localWatchlists')) || [];
+        localWatchlists.push({
+            id: `local-${new Date().getTime()}`,
+            userEmail: "",
+            name,
+            description,
+            movies: selectedMovies,
+            tvSeries: selectedTVSeries,
+            pinned: false,
+            createdAt: new Date().toISOString()
+        });
+        localStorage.setItem('localWatchlists', JSON.stringify(localWatchlists));
+    }
+
+    closeModal('create-watchlist-modal');
+    loadWatchLists();
+    window.location.reload();
+});
+
+async function getTVSeriesTitle(seriesId) {
+    const apiKey = `${getMovieCode()}`;
+    const url = `https://${getMovieVerseData()}/3/tv/${seriesId}?${generateMovieNames()}${apiKey}`;
+
+    try {
+        const response = await fetch(url);
+        const series = await response.json();
+        return series.name;
+    }
+    catch (error) {
+        console.error('Error fetching TV series title:', error);
+        return 'Unknown Series';
+    }
+}
+
+function appendCheckbox(container, id, title, name) {
+    const item = document.createElement('div');
+    item.classList.add('favorite-item');
+    item.style.display = 'flex';
+    item.style.alignItems = 'center';
+
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.id = `${name}-${id}`;
+    checkbox.value = id;
+    checkbox.name = name;
+
+    const label = document.createElement('label');
+    label.htmlFor = `${name}-${id}`;
+    label.textContent = title;
+    label.style.marginTop = '12px';
+    label.style.marginLeft = '10px';
+
+    item.appendChild(checkbox);
+    item.appendChild(label);
+    container.appendChild(item);
+}
+
 
 document.getElementById('create-watchlist-btn').addEventListener('click', function() {
     document.getElementById('create-watchlist-form').reset();
@@ -339,39 +517,54 @@ function generateUniqueId() {
     return Date.now().toString(36) + Math.random().toString(36).substr(2);
 }
 
-document.getElementById('create-watchlist-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const name = document.getElementById('new-watchlist-name').value;
-    const description = document.getElementById('new-watchlist-description').value;
-    const selectedMovies = Array.from(document.querySelectorAll('#movies-container input[name="favoritedMovies"]:checked')).map(checkbox => checkbox.value);
-
-    let watchlists = JSON.parse(localStorage.getItem('watchlists')) || [];
-    const uniqueId = generateUniqueId();
-    watchlists.push({
-        id: uniqueId,
-        name,
-        description,
-        movies: selectedMovies,
-        pinned: false,
-        createdAt: new Date().toISOString()
-    });
-
-    localStorage.setItem('watchlists', JSON.stringify(watchlists));
-    closeModal('create-watchlist-modal');
-    updateWatchListsDisplay();
-    window.location.reload();
-});
-
 document.getElementById('edit-watchlist-btn').addEventListener('click', async function() {
     await populateEditModal();
     openModal('edit-watchlist-modal');
 });
 
 async function populateEditModal() {
-    const watchlists = JSON.parse(localStorage.getItem('watchlists')) || [];
-    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    let currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
+
+    let watchlists = [];
+    let favoritesMovies = [];
+    let favoritesTVSeries = [];
+
+    if (currentUserEmail) {
+        const qWatchlists = query(collection(db, "watchlists"), where("userEmail", "==", currentUserEmail));
+        const qUsers = query(collection(db, "MovieVerseUsers"), where("email", "==", currentUserEmail));
+
+        const [watchlistsSnapshot, usersSnapshot] = await Promise.all([
+            getDocs(qWatchlists),
+            getDocs(qUsers)
+        ]);
+
+        watchlists = watchlistsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+        if (!usersSnapshot.empty) {
+            const userData = usersSnapshot.docs[0].data();
+            favoritesMovies = userData.favoritesMovies || [];
+            favoritesTVSeries = userData.favoritesTVSeries || [];
+        }
+    }
+    else {
+        console.log('User is not signed in. Fetching watchlists from localStorage.');
+        watchlists = JSON.parse(localStorage.getItem('localWatchlists')) || [];
+        favoritesMovies = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
+        favoritesTVSeries = JSON.parse(localStorage.getItem('favoritesTVSeries')) || [];
+    }
+
     const editForm = document.getElementById('edit-watchlist-form');
     editForm.innerHTML = '';
+
+    if (watchlists.length === 0) {
+        const noWatchlistMsg = document.createElement('div');
+        noWatchlistMsg.textContent = 'No Watchlists Available for Edit';
+        noWatchlistMsg.style.textAlign = 'center';
+        noWatchlistMsg.style.marginTop = '30px';
+        noWatchlistMsg.style.color = 'white';
+        editForm.appendChild(noWatchlistMsg);
+        return;
+    }
 
     const selectLabel = document.createElement('label');
     selectLabel.textContent = 'Select A Watch List:';
@@ -381,34 +574,32 @@ async function populateEditModal() {
     const select = document.createElement('select');
     select.id = 'watchlist-select';
     select.style.font = 'inherit';
-    watchlists.forEach((watchlist, index) => {
+    watchlists.forEach((watchlist) => {
         const option = document.createElement('option');
-        option.value = index;
+        option.value = watchlist.id;
         option.textContent = watchlist.name;
         select.appendChild(option);
     });
 
     const nameLabel = document.createElement('label');
     nameLabel.textContent = 'Watch List Name:';
-
     const nameInput = document.createElement('input');
     nameInput.type = 'text';
     nameInput.id = 'edit-watchlist-name';
     nameInput.style.font = 'inherit';
+    nameInput.placeholder = 'New Watchlist Name';
 
     const descLabel = document.createElement('label');
     descLabel.textContent = 'Description:';
-
     const descInput = document.createElement('textarea');
     descInput.id = 'edit-watchlist-description';
     descInput.style.font = 'inherit';
+    descInput.placeholder = 'New Watchlist Description';
 
     const moviesContainer = document.createElement('div');
     moviesContainer.id = 'edit-movies-container';
-
     const moviesLabel = document.createElement('label');
-    moviesLabel.textContent = 'Select Movies:';
-
+    moviesLabel.textContent = 'Select favorite movies to include in watchlist:';
     editForm.appendChild(select);
     editForm.appendChild(nameLabel);
     editForm.appendChild(nameInput);
@@ -417,36 +608,45 @@ async function populateEditModal() {
     editForm.appendChild(moviesLabel);
     editForm.appendChild(moviesContainer);
 
+    const tvSeriesContainer = document.createElement('div');
+    tvSeriesContainer.id = 'edit-tvseries-container';
+    const tvSeriesLabel = document.createElement('label');
+    tvSeriesLabel.textContent = 'Select favorite TV series to include in watchlist:';
+    tvSeriesLabel.style.marginTop = '20px';
+    editForm.appendChild(tvSeriesLabel);
+    editForm.appendChild(tvSeriesContainer);
+
     const updateForm = async (watchlist) => {
         nameInput.value = watchlist.name;
         descInput.value = watchlist.description;
         moviesContainer.innerHTML = '';
+        tvSeriesContainer.innerHTML = '';
 
-        for (const movieId of favorites) {
-            const movieTitle = await getMovieTitle(movieId);
-            const isChecked = watchlist.movies.includes(movieId.toString());
+        if (!favoritesMovies || favoritesMovies.length === 0) {
+            moviesContainer.innerHTML = '<p style="margin-top: 20px">No Favorite Movies Added Yet.</p>';
+        } else {
+            for (const movieId of favoritesMovies) {
+                const movieTitle = await getMovieTitle(movieId);
+                appendCheckbox(moviesContainer, movieId, movieTitle, 'favoritedMovies');
+            }
+        }
 
-            const movieItem = document.createElement('div');
-            movieItem.classList.add('movie-item');
-
-            const checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.id = `edit-movie-${movieId}`;
-            checkbox.value = movieId;
-            checkbox.checked = isChecked;
-
-            const label = document.createElement('label');
-            label.htmlFor = `edit-movie-${movieId}`;
-            label.textContent = movieTitle;
-
-            movieItem.appendChild(checkbox);
-            movieItem.appendChild(label);
-            moviesContainer.appendChild(movieItem);
+        if (!favoritesTVSeries || favoritesTVSeries.length === 0) {
+            tvSeriesContainer.innerHTML = '<p style="margin-top: 20px">No Favorite TV Series Added Yet.</p>';
+        } else {
+            for (const seriesId of favoritesTVSeries) {
+                const seriesTitle = await getTVSeriesTitle(seriesId);
+                appendCheckbox(tvSeriesContainer, seriesId, seriesTitle, 'favoritedTVSeries');
+            }
         }
     };
 
-    select.addEventListener('change', function() {
+    select.addEventListener('change', function () {
         updateForm(watchlists[this.value]);
+    });
+
+    selectLabel.addEventListener('click', function () {
+        updateForm(watchlists[select.value]);
     });
 
     if (watchlists.length > 0) {
@@ -457,67 +657,112 @@ async function populateEditModal() {
     submitButton.type = 'submit';
     submitButton.textContent = 'Save Changes';
     editForm.appendChild(submitButton);
+
+    const cancelButton = document.createElement('button');
+    cancelButton.type = 'button';
+    cancelButton.textContent = 'Cancel Changes';
+    cancelButton.style.marginTop = '20px';
+    cancelButton.onclick = () => closeModal('edit-watchlist-modal');
+    editForm.appendChild(cancelButton);
 }
 
-document.getElementById('edit-watchlist-form').addEventListener('submit', function(e) {
+document.getElementById('edit-watchlist-form').addEventListener('submit', async function(e) {
     e.preventDefault();
-    const selectedIndex = document.getElementById('watchlist-select').value;
+
+    const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
+    const selectedOption = document.getElementById('watchlist-select');
+    const watchlistId = selectedOption.value;
     const newName = document.getElementById('edit-watchlist-name').value;
     const newDescription = document.getElementById('edit-watchlist-description').value;
     const selectedMovies = Array.from(document.querySelectorAll('#edit-movies-container input[type="checkbox"]:checked')).map(checkbox => checkbox.value);
+    const selectedTVSeries = Array.from(document.querySelectorAll('#edit-tvseries-container input[type="checkbox"]:checked')).map(checkbox => checkbox.value);
 
-    let watchlists = JSON.parse(localStorage.getItem('watchlists')) || [];
-    watchlists[selectedIndex] = {
-        id: watchlists[selectedIndex].id,
-        name: newName,
-        description: newDescription,
-        movies: selectedMovies,
-        pinned: watchlists[selectedIndex].pinned
-    };
+    if (currentUserEmail) {
+        const watchlistRef = doc(db, 'watchlists', watchlistId);
+        await updateDoc(watchlistRef, {
+            name: newName,
+            description: newDescription,
+            movies: selectedMovies,
+            tvSeries: selectedTVSeries
+        });
+    }
+    else {
+        let localWatchlists = JSON.parse(localStorage.getItem('localWatchlists')) || [];
+        let watchlistIndex = localWatchlists.findIndex(watchlist => watchlist.id === watchlistId);
+        if (watchlistIndex !== -1) {
+            localWatchlists[watchlistIndex] = {
+                ...localWatchlists[watchlistIndex],
+                name: newName,
+                description: newDescription,
+                movies: selectedMovies,
+                tvSeries: selectedTVSeries
+            };
+            localStorage.setItem('localWatchlists', JSON.stringify(localWatchlists));
+        }
+    }
 
-    localStorage.setItem('watchlists', JSON.stringify(watchlists));
     closeModal('edit-watchlist-modal');
-    updateWatchListsDisplay();
+    loadWatchLists();
     window.location.reload();
 });
 
-function populateDeleteModal() {
-    const watchlists = JSON.parse(localStorage.getItem('watchlists')) || [];
+async function populateDeleteModal() {
+    let currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
+
     const deleteForm = document.getElementById('delete-watchlist-form');
     deleteForm.innerHTML = '';
 
-    const select = document.createElement('select');
-    select.id = 'delete-watchlist-select';
-    select.style.font = 'inherit';
-    watchlists.forEach((watchlist, index) => {
-        const option = document.createElement('option');
-        option.value = index;
-        option.textContent = watchlist.name;
-        select.appendChild(option);
+    let watchlists = [];
+
+    if (currentUserEmail) {
+        const q = query(collection(db, "watchlists"), where("userEmail", "==", currentUserEmail));
+        const querySnapshot = await getDocs(q);
+        watchlists = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    }
+    else {
+        watchlists = JSON.parse(localStorage.getItem('localWatchlists')) || [];
+    }
+
+    if (watchlists.length === 0) {
+        deleteForm.innerHTML = '<p style="margin-top: 20px">No Watchlists Available to Delete.</p>';
+        return;
+    }
+
+    const checkboxesContainer = document.createElement('div');
+    checkboxesContainer.id = 'delete-watchlist-checkboxes-container';
+
+    watchlists.forEach(watchlist => {
+        appendCheckbox(checkboxesContainer, watchlist.id, watchlist.name, 'watchlistToDelete');
     });
 
-    const watchlistLabel = document.createElement('label');
-    watchlistLabel.textContent = 'Select Watch List to Delete:';
-    watchlistLabel.htmlFor = 'delete-watchlist-select';
-    deleteForm.appendChild(watchlistLabel);
-    deleteForm.appendChild(select);
+    deleteForm.appendChild(checkboxesContainer);
 
     const deleteButton = document.createElement('button');
     deleteButton.type = 'button';
-    deleteButton.textContent = 'Delete';
+    deleteButton.textContent = 'Delete Selected';
+    deleteButton.onclick = deleteSelectedWatchlists;
     deleteForm.appendChild(deleteButton);
+}
 
-    deleteButton.addEventListener('click', function() {
-        let watchlists = JSON.parse(localStorage.getItem('watchlists')) || [];
-        const selectedIndex = select.value;
-        const watchListName = watchlists[selectedIndex].name;
-        if (!confirm('Are you sure you want to delete the watch list titled "' + watchListName + '"?')) return;
-        watchlists.splice(selectedIndex, 1);
-        localStorage.setItem('watchlists', JSON.stringify(watchlists));
-        closeModal('delete-watchlist-modal');
-        updateWatchListsDisplay();
-        window.location.reload();
-    });
+async function deleteSelectedWatchlists() {
+    const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
+    const selectedCheckboxes = document.querySelectorAll('#delete-watchlist-checkboxes-container input[type="checkbox"]:checked');
+    const selectedIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.value);
+
+    if (currentUserEmail) {
+        for (const id of selectedIds) {
+            await deleteDoc(doc(db, 'watchlists', id));
+        }
+    }
+    else {
+        let watchlists = JSON.parse(localStorage.getItem('localWatchlists')) || [];
+        watchlists = watchlists.filter(watchlist => !selectedIds.includes(watchlist.id));
+        localStorage.setItem('localWatchlists', JSON.stringify(watchlists));
+    }
+
+    closeModal('delete-watchlist-modal');
+    loadWatchLists();
+    window.location.reload();
 }
 
 document.getElementById('delete-watchlist-btn').addEventListener('click', populateDeleteModal);
@@ -528,50 +773,48 @@ async function updateWatchListsDisplay() {
     displaySection.innerHTML = '';
 
     if (watchlists.length === 0) {
-        displaySection.innerHTML = '<p style="text-align: center">No watch lists found. Click on "Create a Watch List" to start adding movies.</p>';
+        displaySection.innerHTML = '<p>No watch lists found. Start adding movies and TV series to your watchlists.</p>';
+        return;
     }
-    else {
-        for (const watchlist of watchlists) {
-            const watchlistDiv = document.createElement('div');
-            watchlistDiv.className = 'watchlist';
 
-            const title = document.createElement('h3');
-            title.textContent = watchlist.name;
-            title.className = 'watchlist-title';
+    for (const watchlist of watchlists) {
+        const watchlistDiv = document.createElement('div');
+        watchlistDiv.className = 'watchlist';
 
-            const description = document.createElement('p');
-            description.textContent = watchlist.description;
-            description.className = 'watchlist-description';
+        const title = document.createElement('h3');
+        title.innerText = watchlist.name;
 
-            watchlistDiv.appendChild(title);
-            watchlistDiv.appendChild(description);
+        const description = document.createElement('p');
+        description.innerText = watchlist.description;
 
-            if (watchlist.movies.length === 0) {
-                const noMoviesMessage = document.createElement('p');
-                noMoviesMessage.textContent = 'This watch list is empty. Use the "Edit a Watch List" button to add movies.';
-                noMoviesMessage.style.textAlign = 'center';
-                watchlistDiv.appendChild(noMoviesMessage);
+        watchlistDiv.appendChild(title);
+        watchlistDiv.appendChild(description);
+
+        if (watchlist.movies && watchlist.movies.length > 0) {
+            const moviesContainer = document.createElement('div');
+            for (const movieId of watchlist.movies) {
+                const movieCard = await fetchMovieDetails(movieId);
+                moviesContainer.appendChild(movieCard);
             }
-            else {
-                const moviesContainer = document.createElement('div');
-                moviesContainer.className = 'movies-container';
-                moviesContainer.style.flexWrap = 'wrap';
-
-                for (const movieId of watchlist.movies) {
-                    const movieCard = await fetchMovieDetails(movieId);
-                    moviesContainer.appendChild(movieCard);
-                }
-                watchlistDiv.appendChild(moviesContainer);
-            }
-            addWatchListControls(watchlistDiv);
-            displaySection.appendChild(watchlistDiv);
+            watchlistDiv.appendChild(moviesContainer);
         }
+
+        if (watchlist.tvSeries && watchlist.tvSeries.length > 0) {
+            const seriesContainer = document.createElement('div');
+            for (const seriesId of watchlist.tvSeries) {
+                const seriesCard = await fetchTVSeriesDetails(seriesId);
+                seriesContainer.appendChild(seriesCard);
+            }
+            watchlistDiv.appendChild(seriesContainer);
+        }
+
+        displaySection.appendChild(watchlistDiv);
     }
 }
 
 async function fetchMovieDetails(movieId) {
-    const code = 'c5a20c861acf7bb8d9e987dcc7f1b558';
-    const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${code}&append_to_response=credits,keywords,similar`;
+    const code = `${getMovieCode()}`;
+    const url = `https://${getMovieVerseData()}/3/movie/${movieId}?${generateMovieNames()}${code}&append_to_response=credits,keywords,similar`;
 
     try {
         const response = await fetch(url);
@@ -581,7 +824,7 @@ async function fetchMovieDetails(movieId) {
     catch (error) {
         console.error('Error fetching movie details:', error);
         const errorDiv = document.createElement('div');
-        errorDiv.textContent = 'Error loading movie details.';
+        errorDiv.textContent = 'Error loading movie card. Please try refreshing the page.';
         return errorDiv;
     }
 }
@@ -610,11 +853,6 @@ function createMovieCard(movie) {
     return movieEl;
 }
 
-const searchForm = document.getElementById('form');
-const searchBtn = document.getElementById('button-search');
-const searchResultsMain = document.getElementById('search-results');
-const altTitle = document.getElementById('search-title');
-
 function getClassByRate(vote){
     if (vote >= 8) {
         return 'green';
@@ -627,7 +865,9 @@ function getClassByRate(vote){
     }
 }
 
-form.addEventListener('submit', (e) => {
+const searchForm = document.getElementById('form');
+
+searchForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const searchQuery = document.getElementById('search').value;
     localStorage.setItem('searchQuery', searchQuery);
@@ -663,11 +903,9 @@ async function getMovies(url) {
 
     if (allMovies.length > 0) {
         showMovies(allMovies.slice(0, numberOfMovies));
-        document.getElementById('clear-search-btn').style.display = 'block';
     }
     else {
         searchResultsMain.innerHTML = `<p>No movie with the specified search term found. Please try again.</p>`;
-        document.getElementById('clear-search-btn').style.display = 'none';
     }
 }
 
@@ -703,10 +941,6 @@ function showMovies(movies){
         searchResultsMain.appendChild(movieE1);
     });
 }
-
-document.getElementById('clear-search-btn').addEventListener('click', () => {
-    location.reload();
-});
 
 function calculateMoviesToDisplay() {
     const screenWidth = window.innerWidth;
@@ -777,36 +1011,72 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 async function loadWatchLists() {
-    const watchlists = JSON.parse(localStorage.getItem('watchlists')) || [];
+    const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
     const displaySection = document.getElementById('watchlists-display-section');
 
-    if (watchlists.length === 0) {
-        displaySection.innerHTML = '<p style="text-align: center">No watch lists found. Click on "Create a Watch List" to start adding movies.</p>';
+    if (currentUserEmail) {
+        const q = query(collection(db, "watchlists"), where("userEmail", "==", currentUserEmail));
+        const querySnapshot = await getDocs(q);
+        const watchlists = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+        if (watchlists.length === 0) {
+            displaySection.innerHTML = '<p style="text-align: center">No watch lists found. Click on "Create a Watch List" to start adding movies.</p>';
+        }
+        else {
+            watchlists.sort((a, b) => (b.pinned === a.pinned) ? 0 : b.pinned ? 1 : -1);
+            for (const watchlist of watchlists) {
+                const watchlistDiv = await createWatchListDiv(watchlist);
+                if (watchlist.pinned) {
+                    watchlistDiv.classList.add('pinned');
+                }
+                displaySection.appendChild(watchlistDiv);
+            }
+        }
     }
     else {
-        watchlists.sort((a, b) => (b.pinned === a.pinned) ? 0 : b.pinned ? 1 : -1);
-
-        for (const watchlist of watchlists) {
-            const watchlistDiv = await createWatchListDiv(watchlist);
-            if (watchlist.pinned) {
-                watchlistDiv.classList.add('pinned');
+        let localWatchlists = JSON.parse(localStorage.getItem('localWatchlists')) || [];
+        if (localWatchlists.length === 0) {
+            displaySection.innerHTML = '<p style="text-align: center">No watch lists found. Start by adding movies to your watchlist.</p>';
+        }
+        else {
+            for (const watchlist of localWatchlists) {
+                const watchlistDiv = await createWatchListDiv(watchlist);
+                if (watchlist.pinned) {
+                    watchlistDiv.classList.add('pinned');
+                }
+                displaySection.appendChild(watchlistDiv);
             }
-            displaySection.appendChild(watchlistDiv);
         }
     }
 
-    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    let favorites = [];
+    let favoritesTVSeries = [];
+    if (currentUserEmail) {
+        const usersRef = query(collection(db, "MovieVerseUsers"), where("email", "==", currentUserEmail));
+        const userSnapshot = await getDocs(usersRef);
+
+        if (!userSnapshot.empty) {
+            const userData = userSnapshot.docs[0].data();
+            favorites = userData.favoritesMovies || [];
+            favoritesTVSeries = userData.favoritesTVSeries || [];
+        }
+    }
+    else {
+        favorites = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
+        favoritesTVSeries = JSON.parse(localStorage.getItem('favoritesTVSeries')) || [];
+    }
+
     if (favorites.length > 0) {
         const favoritesDiv = document.createElement('div');
         favoritesDiv.className = 'watchlist';
         favoritesDiv.id = 'favorites-watchlist';
 
         const title = document.createElement('h3');
-        title.textContent = "Favorited Movies";
+        title.textContent = "Favorite Movies";
         title.className = 'watchlist-title';
 
         const description = document.createElement('p');
-        description.textContent = "A collection of your favorited movies.";
+        description.textContent = "A collection of your favorite movies.";
         description.className = 'watchlist-description';
 
         favoritesDiv.appendChild(title);
@@ -824,42 +1094,121 @@ async function loadWatchLists() {
         displaySection.appendChild(favoritesDiv);
     }
     else {
-        const favoritesMain = document.getElementById('favorites-watchlist');
-        favoritesMain.innerHTML = '<div style="text-align: center"><p style="text-align: center">No favorites added yet.</p></div>';
-        window.location.reload();
+        const favoritesDiv = document.createElement('div');
+        favoritesDiv.className = 'watchlist';
+        favoritesDiv.id = 'favorites-watchlist';
+        favoritesDiv.innerHTML = '<div style="text-align: center"><h3 style="text-align: center; font-size: 24px; color: #ff8623">Favorite Movies</h3><p style="text-align: center">No favorite movies added yet.</p></div>';
+        displaySection.appendChild(favoritesDiv);
     }
+
+    if (favoritesTVSeries.length > 0) {
+        const favoritesDiv = document.createElement('div');
+        favoritesDiv.className = 'watchlist';
+        favoritesDiv.id = 'favorites-tvseries-watchlist';
+
+        const title = document.createElement('h3');
+        title.textContent = "Favorite TV Series";
+        title.className = 'watchlist-title';
+
+        const description = document.createElement('p');
+        description.textContent = "A collection of your favorite TV series.";
+        description.className = 'watchlist-description';
+
+        favoritesDiv.appendChild(title);
+        favoritesDiv.appendChild(description);
+
+        const moviesContainer = document.createElement('div');
+        moviesContainer.className = 'movies-container';
+
+        for (const tvSeriesId of favoritesTVSeries) {
+            const tvSeriesCard = await fetchTVSeriesDetails(tvSeriesId);
+            moviesContainer.appendChild(tvSeriesCard);
+        }
+
+        favoritesDiv.appendChild(moviesContainer);
+        displaySection.appendChild(favoritesDiv);
+    }
+    else {
+        const favoritesDiv = document.createElement('div');
+        favoritesDiv.className = 'watchlist';
+        favoritesDiv.id = 'favorites-tvseries-watchlist';
+        favoritesDiv.innerHTML = '<div style="text-align: center"><h3 style="text-align: center; font-size: 24px; color: #ff8623">Favorite TV Series</h3><p style="text-align: center">No favorite TV series added yet.</p></div>';
+        displaySection.appendChild(favoritesDiv);
+        }
+}
+
+async function fetchTVSeriesDetails(tvSeriesId) {
+    const code = `${getMovieCode()}`;
+    const url = `https://${getMovieVerseData()}/3/tv/${tvSeriesId}?${generateMovieNames()}${code}&append_to_response=credits,keywords,similar`;
+
+    try {
+        const response = await fetch(url);
+        const movie = await response.json();
+        return createTVSeriesCard(movie);
+    }
+    catch (error) {
+        const errorDiv = document.createElement('div');
+        errorDiv.textContent = 'Error loading movie details. Please try refreshing the page.';
+        return errorDiv;
+    }
+}
+
+function createTVSeriesCard(movie) {
+    const movieEl = document.createElement('div');
+    movieEl.classList.add('movie');
+    movieEl.style.cursor = 'pointer';
+
+    movieEl.innerHTML = `
+                <img src="${IMGPATH + movie.poster_path}" alt="${movie.title}" style="cursor: pointer">
+                <div class="movie-info" style="cursor: pointer">
+                    <h3>${movie.name}</h3>
+                    <span class="${getClassByRate(movie.vote_average.toFixed(1))}">${movie.vote_average.toFixed(1)}</span>
+                </div>
+                <div class="overview">
+                    <h4>Movie Overview:</h4>
+                    ${movie.overview}
+                </div>`;
+    movieEl.addEventListener('click', () => {
+        localStorage.setItem('selectedTvSeriesId', movie.id);
+        window.location.href = 'tv-details.html';
+        updateMovieVisitCount(movie.id, movie.title);
+    });
+
+    return movieEl;
 }
 
 function isListPinned(watchlistId) {
     const watchlists = JSON.parse(localStorage.getItem('watchlists')) || [];
     const watchlist = watchlists.find(watchlist => watchlist.id === watchlistId);
-    return watchlist.pinned;
+    return watchlist ? watchlist.pinned : false;
 }
 
 function addWatchListControls(watchlistDiv, watchlistId) {
+    if (!watchlistId) {
+        console.error('Missing watchlistId for', watchlistDiv);
+        return;
+    }
+
     const controlContainer = document.createElement('div');
     controlContainer.className = 'watchlist-controls';
 
     const pinBtn = document.createElement('button');
-    pinBtn.id = 'pin-btn';
     pinBtn.innerHTML = '<i class="fas fa-thumbtack"></i>';
     pinBtn.onclick = function() { pinWatchList(watchlistDiv, watchlistId); };
     pinBtn.title = isListPinned(watchlistId) ? 'Unpin this watch list' : 'Pin this watch list';
+    pinBtn.style.color = isListPinned(watchlistId) ? '#7378c5' : '#ff8623';
 
     const moveUpBtn = document.createElement('button');
     moveUpBtn.innerHTML = '<i class="fas fa-arrow-up"></i>';
     moveUpBtn.onclick = function() { moveWatchList(watchlistDiv, true); };
-    moveUpBtn.title = 'Move this watch list up';
 
     const moveDownBtn = document.createElement('button');
     moveDownBtn.innerHTML = '<i class="fas fa-arrow-down"></i>';
     moveDownBtn.onclick = function() { moveWatchList(watchlistDiv, false); };
-    moveDownBtn.title = 'Move this watch list down';
 
     controlContainer.appendChild(pinBtn);
     controlContainer.appendChild(moveUpBtn);
     controlContainer.appendChild(moveDownBtn);
-
     watchlistDiv.appendChild(controlContainer);
 }
 
@@ -882,13 +1231,27 @@ function createWatchListDiv(watchlist) {
     const moviesContainer = document.createElement('div');
     moviesContainer.className = 'movies-container';
     moviesContainer.style.flexWrap = 'wrap';
-    watchlist.movies.forEach(movieId => {
-        fetchMovieDetails(movieId).then(movieCard => moviesContainer.appendChild(movieCard));
-    });
+
+    if (watchlist.movies === undefined) {
+        moviesContainer.innerHTML = '';
+    }
+    else {
+        watchlist.movies.forEach(movieId => {
+            fetchMovieDetails(movieId).then(movieCard => moviesContainer.appendChild(movieCard));
+        });
+    }
+
+    if (watchlist.tvSeries === undefined) {
+        moviesContainer.innerHTML = '';
+    }
+    else {
+        watchlist.tvSeries.forEach(tvSeriesId => {
+            fetchTVSeriesDetails(tvSeriesId).then(tvSeriesCard => moviesContainer.appendChild(tvSeriesCard));
+        });
+    }
+
     watchlistDiv.appendChild(moviesContainer);
-
     addWatchListControls(watchlistDiv, watchlist.id);
-
     return watchlistDiv;
 }
 
@@ -914,6 +1277,7 @@ function moveWatchList(watchlistDiv, moveUp) {
         updateWatchlistsOrderInLS();
         updateWatchListsDisplay();
     }
+    window.location.reload();
 }
 
 function pinWatchList(watchlistDiv, watchlistId) {

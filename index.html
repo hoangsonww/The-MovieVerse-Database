@@ -331,7 +331,7 @@
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
-                navigator.serviceWorker.register('MovieVerse-Frontend/js/service-worker.js').then(function(registration) {
+                navigator.serviceWorker.register('src/js/service-worker.js').then(function(registration) {
                     console.log('ServiceWorker registration successful with scope: ', registration.scope);
                 }, function(err) {
                     console.log('ServiceWorker registration failed: ', err);
@@ -349,14 +349,14 @@
             "director": {
                 "@type": "Person",
                 "name": "Christopher Nolan",
-                "url": "https://movie-verse.com/src/html/christopher-nolan.html"
+                "url": "https://movie-verse.com/MovieVerse-Frontend/html/christopher-nolan.html"
             },
             "genre": ["Action", "Adventure", "Sci-Fi"],
             "actor": [
                 {
                     "@type": "Person",
                     "name": "Leonardo DiCaprio",
-                    "url": "https://movie-verse.com/src/html/leonardo-dicaprio.html"
+                    "url": "https://movie-verse.com/MovieVerse-Frontend/html/leonardo-dicaprio.html"
                 }
             ],
             "aggregateRating": {
@@ -383,7 +383,7 @@
             },
             "description": "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
             "datePublished": "2010-07-16",
-            "url": "https://movie-verse.com/src/html/inception.html"
+            "url": "https://movie-verse.com/MovieVerse-Frontend/html/inception.html"
         }
     </script>
 </body>

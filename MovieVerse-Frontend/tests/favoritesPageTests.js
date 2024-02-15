@@ -10,7 +10,7 @@ describe("Favorites Page Tests", () => {
     let window;
 
     beforeEach(() => {
-        const html = fs.readFileSync(path.join(__dirname, '../MovieVerse-Frontend/html/favorites.html'), 'utf-8');
+        const html = fs.readFileSync(path.join(__dirname, '../src/html/favorites.html'), 'utf-8');
         const dom = new JSDOM(html, { runScripts: 'dangerously', resources: "usable" });
         window = dom.window;
         document = window.document;

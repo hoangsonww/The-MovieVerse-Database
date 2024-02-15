@@ -1,10 +1,10 @@
-# MovieVerse App - The `src` directory
+# MovieVerse App - The `MovieVerse-Frontend` directory
 
 Welcome to the MovieVerse app, your ultimate guide to the world of movies! This application is designed to help users explore and learn about their favorite movies, directors, actors, and more. Dive into an immersive experience with our comprehensive directory structure.
 
 ## Directory Structure
 
-The MovieVerse app's `src` directory is organized into four primary directories: `css`, `html`, `js`, and `react`. Each directory contains specific files that contribute to the functionality and appearance of the app. Here's a detailed overview:
+The MovieVerse app's `MovieVerse-Frontend` directory is organized into four primary directories: `css`, `html`, `js`, and `react`. Each directory contains specific files that contribute to the functionality and appearance of the app. Here's a detailed overview:
 
 ### CSS Directory
 

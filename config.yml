@@ -33,22 +33,22 @@ analytics:
 
 resources:
   css:
-    - "MovieVerse-Frontend/css/style.css"
+    - "src/css/style.css"
     - "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
   js:
-    - "MovieVerse-Frontend/js/settings.js"
+    - "src/js/settings.js"
     - "index.js"
     - "https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"
   favicon: "images/favicon.ico"
   manifest: "manifest.json"
-  service_worker: "MovieVerse-Frontend/js/service-worker.js"
+  service_worker: "src/js/service-worker.js"
 
 paths:
-  about: "./MovieVerse-Frontend/html/about.html"
-  favorites: "./MovieVerse-Frontend/html/favorites.html"
-  user_profile: "./MovieVerse-Frontend/html/user-profile.html"
-  settings: "MovieVerse-Frontend/html/settings.html"
-  movie_match: "MovieVerse-Frontend/html/movie-match.html"
-  movie_timeline: "MovieVerse-Frontend/html/movie-timeline.html"
-  chatbot: "MovieVerse-Frontend/html/chatbot.html"
-  trivia: "./MovieVerse-Frontend/html/trivia.html"
+  about: "./src/html/about.html"
+  favorites: "./src/html/favorites.html"
+  user_profile: "./src/html/user-profile.html"
+  settings: "src/html/settings.html"
+  movie_match: "src/html/movie-match.html"
+  movie_timeline: "src/html/movie-timeline.html"
+  chatbot: "src/html/chatbot.html"
+  trivia: "./src/html/trivia.html"

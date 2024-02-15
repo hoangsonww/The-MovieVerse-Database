@@ -1,11 +1,3 @@
-const search = document.getElementById("search");
-const searchButton = document.getElementById("button-search");
-const form = document.getElementById("form1");
-const SEARCHPATH = "https://api.themoviedb.org/3/search/movie?&api_key=c5a20c861acf7bb8d9e987dcc7f1b558&query=";
-const main = document.getElementById("main");
-const IMGPATH = "https://image.tmdb.org/t/p/w1280";
-const searchTitle = document.getElementById("search-title");
-
 function getClassByRate(vote){
     if (vote >= 8) {
         return 'green';
@@ -16,19 +8,6 @@ function getClassByRate(vote){
     else {
         return 'red';
     }
-}
-
-form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const searchQuery = document.getElementById('search').value;
-    localStorage.setItem('searchQuery', searchQuery);
-    window.location.href = 'search.html';
-});
-
-function handleSearch() {
-    const searchQuery = document.getElementById('search').value;
-    localStorage.setItem('searchQuery', searchQuery);
-    window.location.href = 'search.html';
 }
 
 function calculateMoviesToDisplay() {
@@ -60,6 +39,28 @@ function calculateMoviesToDisplay() {
     return 20;
 }
 
+const movieCode = {
+    part1: 'YzVhMjBjODY=',
+    part2: 'MWFjZjdiYjg=',
+    part3: 'ZDllOTg3ZGNjN2YxYjU1OA=='
+};
+
+function getMovieCode() {
+    return atob(movieCode.part1) + atob(movieCode.part2) + atob(movieCode.part3);
+}
+
+function generateMovieNames(input) {
+    return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
+}
+
+const search = document.getElementById("search");
+const searchButton = document.getElementById("button-search");
+const form = document.getElementById("form1");
+const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
+const main = document.getElementById("main");
+const IMGPATH = "https://image.tmdb.org/t/p/w1280";
+const searchTitle = document.getElementById("search-title");
+
 function handleSignInOut() {
     const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
 
@@ -74,6 +75,24 @@ function handleSignInOut() {
 
     updateSignInButtonState();
 }
+
+function getMovieVerseData(input) {
+    return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
+}
+
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const searchQuery = document.getElementById('search').value;
+    localStorage.setItem('searchQuery', searchQuery);
+    window.location.href = 'search.html';
+});
+
+function handleSearch() {
+    const searchQuery = document.getElementById('search').value;
+    localStorage.setItem('searchQuery', searchQuery);
+    window.location.href = 'search.html';
+}
+
 
 function updateSignInButtonState() {
     const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
@@ -186,8 +205,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function fetchDirectorDetails(directorId) {
-    const directorUrl = `https://api.themoviedb.org/3/person/${directorId}?api_key=c5a20c861acf7bb8d9e987dcc7f1b558`;
-    const creditsUrl = `https://api.themoviedb.org/3/person/${directorId}/movie_credits?api_key=c5a20c861acf7bb8d9e987dcc7f1b558`;
+    const directorUrl = `https://${getMovieVerseData()}/3/person/${directorId}?${generateMovieNames()}${getMovieCode()}`;
+    const creditsUrl = `https://${getMovieVerseData()}/3/person/${directorId}/movie_credits?${generateMovieNames()}${getMovieCode()}`;
     try {
         const [directorResponse, creditsResponse] = await Promise.all([
             fetch(directorUrl),
