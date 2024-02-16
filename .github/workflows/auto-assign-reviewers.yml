@@ -9,7 +9,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Assign Reviewers
-        uses: peter-evans/create-pull-request-review@v1
+        uses: actions/github-script@v6
         with:
+          script: |
+            github.rest.pulls.requestReviewers({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number,
+              reviewers: ['hoangsonww', 'kailielexx']
+            })
           token: ${{ secrets.GITHUB_TOKEN }}
-          reviewers: hoangsonww,kailielexx
