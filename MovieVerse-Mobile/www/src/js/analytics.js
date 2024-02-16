@@ -1,3 +1,24 @@
+const movieCode = {
+    part1: 'YzVhMjBjODY=',
+    part2: 'MWFjZjdiYjg=',
+    part3: 'ZDllOTg3ZGNjN2YxYjU1OA=='
+};
+
+function getMovieCode() {
+    return atob(movieCode.part1) + atob(movieCode.part2) + atob(movieCode.part3);
+}
+
+function generateMovieNames(input) {
+    return String.fromCharCode(97, 112, 105, 95, 107, 101, 121);
+}
+
+function getMovieVerseData(input) {
+    return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
+}
+
+
+const string = `${getMovieCode()}`;
+
 async function fetchData(url) {
     try {
         const response = await fetch(url);
@@ -24,7 +45,7 @@ async function loadMoviesByYearChart() {
 
     for (let year = currentYear - 10; year <= currentYear; year++) {
         years.push(year);
-        const response = await fetchData(`${BASE_URL}/discover/movie?api_key=${string}&primary_release_year=${year}`);
+        const response = await fetchData(`${BASE_URL}/discover/movie?${generateMovieNames()}=${string}&primary_release_year=${year}`);
         movieCounts.push(response.total_results);
     }
 
@@ -41,7 +62,7 @@ async function loadMoviesByYearChart() {
 }
 
 async function loadGenrePopularityChart() {
-    const genresResponse = await fetchData(`${BASE_URL}/genre/movie/list?api_key=${string}`);
+    const genresResponse = await fetchData(`${BASE_URL}/genre/movie/list?${generateMovieNames()}=${string}`);
     const genres = genresResponse.genres;
 
     const genreNames = [];
@@ -49,7 +70,7 @@ async function loadGenrePopularityChart() {
 
     for (const genre of genres) {
         genreNames.push(genre.name);
-        const response = await fetchData(`${BASE_URL}/discover/movie?api_key=${string}&with_genres=${genre.id}`);
+        const response = await fetchData(`${BASE_URL}/discover/movie?${generateMovieNames()}=${string}&with_genres=${genre.id}`);
         genrePopularity.push(response.results.reduce((acc, movie) => acc + movie.popularity, 0) / response.results.length);
     }
 
@@ -70,7 +91,7 @@ async function loadMoviesByCertificationChart() {
     const movieCounts = [];
 
     for (const certification of certifications) {
-        const response = await fetchData(`${BASE_URL}/discover/movie?api_key=${string}&certification_country=US&certification=${certification}`);
+        const response = await fetchData(`${BASE_URL}/discover/movie?${generateMovieNames()}=${string}&certification_country=US&certification=${certification}`);
         movieCounts.push(response.total_results);
     }
 
@@ -93,7 +114,7 @@ async function loadAveragePopularityChart() {
 
     for (let year = currentYear - 4; year <= currentYear; year++) {
         years.push(year);
-        const response = await fetchData(`${BASE_URL}/discover/movie?api_key=${string}&primary_release_year=${year}`);
+        const response = await fetchData(`${BASE_URL}/discover/movie?${generateMovieNames()}=${string}&primary_release_year=${year}`);
         const totalPopularity = response.results.reduce((sum, movie) => sum + movie.popularity, 0);
         averagePopularity.push(totalPopularity / response.results.length);
     }
@@ -118,7 +139,7 @@ async function loadMoviesByLanguageChart() {
     const movieCounts = [];
 
     for (const language of languages) {
-        const response = await fetchData(`${BASE_URL}/discover/movie?api_key=${string}&with_original_language=${language}`);
+        const response = await fetchData(`${BASE_URL}/discover/movie?${generateMovieNames()}=${string}&with_original_language=${language}`);
         movieCounts.push(response.total_results);
     }
 
@@ -139,14 +160,14 @@ async function loadMoviesByLanguageChart() {
 }
 
 async function loadVoteCountByGenreChart() {
-    const genreResponse = await fetchData(`${BASE_URL}/genre/movie/list?api_key=${string}`);
+    const genreResponse = await fetchData(`${BASE_URL}/genre/movie/list?${generateMovieNames()}=${string}`);
     const genres = genreResponse.genres.slice(0, 5);
     const genreNames = [];
     const averageVoteCounts = [];
 
     for (const genre of genres) {
         genreNames.push(genre.name);
-        const response = await fetchData(`${BASE_URL}/discover/movie?api_key=${string}&with_genres=${genre.id}`);
+        const response = await fetchData(`${BASE_URL}/discover/movie?${generateMovieNames()}=${string}&with_genres=${genre.id}`);
         const totalVotes = response.results.reduce((sum, movie) => sum + movie.vote_count, 0);
         averageVoteCounts.push(totalVotes / response.results.length);
     }
@@ -168,7 +189,7 @@ async function loadMovieReleaseDatesByMonthChart() {
     const movieCounts = Array(12).fill(0);
     const currentYear = new Date().getFullYear();
 
-    const response = await fetchData(`${BASE_URL}/discover/movie?api_key=${string}&primary_release_year=${currentYear}`);
+    const response = await fetchData(`${BASE_URL}/discover/movie?${generateMovieNames()}=${string}&primary_release_year=${currentYear}`);
     response.results.forEach(movie => {
         const releaseDate = new Date(movie.release_date);
         movieCounts[releaseDate.getMonth()]++;
@@ -193,7 +214,7 @@ async function loadMoviesByDecadeChart() {
 
     for (const startYear of decadeStartYears) {
         const endYear = startYear + 9;
-        const response = await fetchData(`${BASE_URL}/discover/movie?api_key=${string}&primary_release_date.gte=${startYear}-01-01&primary_release_date.lte=${endYear}-12-31`);
+        const response = await fetchData(`${BASE_URL}/discover/movie?${generateMovieNames()}=${string}&primary_release_date.gte=${startYear}-01-01&primary_release_date.lte=${endYear}-12-31`);
         movieCounts.push(response.total_results);
     }
 
@@ -239,7 +260,7 @@ async function loadMoviesByProductionCountriesChart() {
     const movieCounts = [];
 
     for (const country of countries) {
-        const response = await fetchData(`${BASE_URL}/discover/movie?api_key=${string}&with_original_language=en&region=${country}`);
+        const response = await fetchData(`${BASE_URL}/discover/movie?${generateMovieNames()}=${string}&with_original_language=en&region=${country}`);
         movieCounts.push(response.total_results);
     }
 
@@ -293,11 +314,11 @@ function loadAllCharts() {
 
 document.addEventListener('DOMContentLoaded', loadAllCharts);
 
-const BASE_URL = 'https://api.themoviedb.org/3';
+const BASE_URL = `https://${getMovieVerseData()}/3`;
 
 async function showMovieOfTheDay() {
     const year = new Date().getFullYear();
-    const url = `https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+    const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}=${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
 
     try {
         const response = await fetch(url);
@@ -473,7 +494,6 @@ function rotateUserStats() {
     });
 }
 
-const string = 'c5a20c861acf7bb8d9e987dcc7f1b558';
 function updateMovieVisitCount(movieId, movieTitle) {
     let movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
     if (!movieVisits[movieId]) {

@@ -6,11 +6,31 @@
     <link rel="stylesheet" href="../css/style.css">
     <script src="../js/movie-details.js" defer></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta property="og:title" content="The MovieVerse - Your Ultimate Movie Guide" />
-    <meta name="description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more.">
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="website" />
+    <meta http-equiv="content-language" content="en" />
+    <meta property="og:description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more." />
+    <meta property="og:url" content="https://hoangsonww.github.io/The-MovieVerse-Database/src/html/about.html" />
+    <meta property="og:site_name" content="About The MovieVerse" />
+    <meta property="og:image" content="https://hoangsonww.github.io/The-MovieVerse-Database/images/image.png"/>
+    <meta property="og:favicon" content="./images/favicon.ico" />
+    <meta name="keywords" content="movies, film guide, directors, actors, movie genres, cinema, film reviews">
+    <meta name="author" content="Son Nguyen Hoang">
+    <link rel="canonical" href="https://hoangsonww.github.io/The-MovieVerse-Database/"/>
+    <meta name="robots" content="index, follow">
+    <meta name="rating" content="General">
+    <meta name="revisit-after" content="3 days">
+    <meta name="distribution" content="global">
+    <meta http-equiv="content-language" content="en">
+    <meta name="language" content="en">
+    <meta name="theme-color" content="#7378c5">
+    <meta name="twitter:card" content="https://hoangsonww.github.io/The-MovieVerse-Database/images/image.png"/>
+    <meta name="twitter:title" content="The MovieVerse - Your Ultimate Movie Guide">
+    <meta name="twitter:description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more.">
+    <meta name="twitter:image" content="https://hoangsonww.github.io/The-MovieVerse-Database/images/image.png"/>
+    <meta name="referrer" content="no-referrer-when-downgrade">
     <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
-    <meta name="theme-color" content="#7378c5">
     <script src="../js/settings.js"></script>
     <link rel="manifest" href="../../manifest.json">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
@@ -31,7 +51,7 @@
 
 <body class="movie-details-body">
 
-    <header style="margin-bottom: -60px">
+    <header style="margin-bottom: -60px; margin-top: -5px">
         <a href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer" title="Click to go back to the home page">
             <h1 id="my-heading" style="margin-bottom: -10px">
                 The Mo<span class="highlight">vieV</span>erse
@@ -115,12 +135,13 @@
                             <h3>Add a Comment for This Movie</h3>
                             <span class="close">&times;</span>
                         </div>
+                        <p style="font-size: 15px; margin-bottom: 20px">Your review is much appreciated!</p>
                         <form id="comment-form">
                             <input type="text" id="user-name" placeholder="Your nickname" required>
                             <textarea id="user-comment" placeholder="Your comment" required></textarea>
                             <button id="post-comment-btn" type="submit" title="Post your comment for this movie">Post Comment</button>
                             <p style="font-size: 14px; margin-top: 30px">
-                                <em>All comments will be posted anonymously, using the nickname you provided and not your profile name, so you can freely express your ideas!</em>
+                                <em>All comments will be posted anonymously, using the nickname you provided and not your profile name, so you can freely express your opinions!</em>
                             </p>
                         </form>
                     </div>
@@ -138,6 +159,21 @@
     <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="margin-bottom: -50px" title="Play a quick trivia to test your knowledge about movies!">MovieVerse Trivia</button>
 
     <script src="../js/movie-details.js"></script>
+
+    <script src="../js/add-to-favorites.js" type="module"></script>
+
+    <script type="module">
+        import { toggleFavorite, checkAndUpdateFavoriteButton } from '../js/add-to-favorites.js';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const favoriteBtn = document.getElementById('favorite-btn');
+            if (favoriteBtn) {
+                favoriteBtn.addEventListener('click', toggleFavorite);
+            }
+        });
+
+        checkAndUpdateFavoriteButton();
+    </script>
 
     <script>
         document.getElementById('settings-btn').addEventListener('click', () => {
@@ -168,11 +204,8 @@
         });
     </script>
 
-    <!-- Include Firebase libraries -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js"></script>
-
-    <!-- Firebase Initialization and Comments Script -->
     <script src="../js/comments.js" type="module"></script>
 
 </body>

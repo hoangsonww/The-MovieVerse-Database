@@ -89,12 +89,16 @@ async function fetchComments() {
             if (index >= (currentPage - 1) * commentsPerPage && displayedComments < commentsPerPage) {
                 const comment = doc.data();
                 const commentDate = comment.commentDate.toDate();
-                const timezoneOffset = -commentDate.getTimezoneOffset() / 60;
-                const utcOffset = timezoneOffset >= 0 ? `(UTC+${timezoneOffset})` : `(UTC${timezoneOffset})`;
-                const formattedDate = formatCommentDate(commentDate) + ` ${utcOffset}`;
 
+                const formattedDate = formatCommentDate(commentDate);
+                const formattedTime = formatAMPM(commentDate);
+
+                const timezoneOffset = -commentDate.getTimezoneOffset() / 60;
+                const utcOffset = timezoneOffset >= 0 ? `UTC+${timezoneOffset}` : `UTC${timezoneOffset}`;
                 const commentElement = document.createElement("div");
-                commentElement.innerHTML = `<p><strong>${comment.userName}</strong> at ${formattedDate} commented: <em>${comment.userComment}</em></p>`;
+
+                commentElement.title = `Posted at ${formattedTime} ${utcOffset}`;
+                commentElement.innerHTML = `<p><strong>${comment.userName}</strong> on ${formattedDate}: <em>${comment.userComment}</em></p>`;
                 commentsContainer.appendChild(commentElement);
                 displayedComments++;
             }
@@ -109,8 +113,7 @@ async function fetchComments() {
 function formatCommentDate(commentDate) {
     const formattedDate = commentDate.toLocaleString('default', { month: 'short' }) + " " +
         commentDate.getDate() + "th, " +
-        commentDate.getFullYear() + " at " +
-        formatAMPM(commentDate);
+        commentDate.getFullYear();
     return formattedDate;
 }
 

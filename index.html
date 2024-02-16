@@ -5,7 +5,9 @@
 <head>
     <meta charset="UTF-8">
     <title>The MovieVerse</title>
-    <script src="src/js/settings.js"></script>
+    <script src="MovieVerse-Frontend/js/settings.js"></script>
+
+    <!-- Meta tags for SEO -->
     <meta property="og:title" content="The MovieVerse - Your Ultimate Movie Guide" />
     <meta name="description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -32,7 +34,9 @@
     <meta name="twitter:description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more.">
     <meta name="twitter:image" content="https://movie-verse.com/images/image.png"/>
     <meta name="referrer" content="no-referrer-when-downgrade">
-    <link rel="stylesheet" href="src/css/style.css"/>
+
+    <!-- Stylesheets and scripts -->
+    <link rel="stylesheet" href="MovieVerse-Frontend/css/style.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <script src="index.js" defer></script>
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
@@ -66,10 +70,10 @@
         </button>
 
         <button class="back-btn nav-btn" onclick="window.location.href='index.html'" title="Go back to homepage">Home</button>
-        <button class="about nav-btn" onclick="window.location.href='./src/html/about.html'" title="About this wonderful app!">About</button>
-        <button class="favorites-btn nav-btn" onclick="window.location.href='./src/html/favorites.html'" title="Go to your favorites list">Favorites</button>
+        <button class="about nav-btn" onclick="window.location.href='MovieVerse-Frontend/html/about.html'" title="About this wonderful app!">About</button>
+        <button class="favorites-btn nav-btn" onclick="window.location.href='MovieVerse-Frontend/html/favorites.html'" title="Go to your favorites list">Favorites</button>
 
-        <button id="profileBtn" class="nav-btn" onclick="window.location.href='./src/html/user-profile.html'" title="Go to your profile">
+        <button id="profileBtn" class="nav-btn" onclick="window.location.href='MovieVerse-Frontend/html/user-profile.html'" title="Go to your profile">
             <span id="profileText">Profile</span>
             <i class="fas fa-user" id="profileIcon"></i>
         </button>
@@ -101,7 +105,7 @@
             <button id="button-remove" title="Close the navbar" onclick="removeNavBar()">Close</button>
         </div>
         <ul style="overflow-y: auto">
-            <li><a href="src/html/analytics.html">MovieVerse Analytics</a></li>
+            <li><a href="MovieVerse-Frontend/html/analytics.html">MovieVerse Analytics</a></li>
             <li><a href="#most-popular">Most Popular</a></li>
             <li><a href="#award-winning">Award-Winning</a></li>
             <li><a href="#hidden-gems">Hidden Gems</a></li>
@@ -132,7 +136,7 @@
             <i class="fas fa-sign-out-alt" id="mobileSignOutIcon" style="display: none;"></i>
         </button>
 
-        <button id="mobileProfileBtn" class="nav-btn" onclick="window.location.href='./src/html/user-profile.html'" title="Go to your profile">
+        <button id="mobileProfileBtn" class="nav-btn" onclick="window.location.href='MovieVerse-Frontend/html/user-profile.html'" title="Go to your profile">
             <span id="mobileProfileText">Profile</span>
             <i class="fas fa-user" id="mobileProfileIcon"></i>
         </button>
@@ -268,18 +272,17 @@
         <p>© 2024 The MovieVerse. All rights reserved.</p>
     </footer>
 
-
-    <button id="movie-match-btn" onclick="window.location.href='src/html/movie-match.html'" title="Find movies that match your mood and preferences!" style="bottom: 185px">Movie Match</button>
-    <button id="movie-timeline-btn" onclick="window.location.href='src/html/movie-timeline.html'" style="bottom: 150px" title="Explore movies through different eras!">Movie Timeline</button>
+    <button id="movie-match-btn" onclick="window.location.href='MovieVerse-Frontend/html/movie-match.html'" title="Find movies that match your mood and preferences!" style="bottom: 185px">Movie Match</button>
+    <button id="movie-timeline-btn" onclick="window.location.href='MovieVerse-Frontend/html/movie-timeline.html'" style="bottom: 150px" title="Explore movies through different eras!">Movie Timeline</button>
     <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" style="bottom: 115px" title="Get a recommended movie to watch for today!">Recommendation</button>
-    <button id="discussions-btn" onclick="window.location.href='src/html/chatbot.html'" style="bottom: 80px" title="Want to know more about movies? Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
-    <button id="trivia-btn" onclick="window.location.href='./src/html/trivia.html'" style="bottom: 45px" title="Play a quick trivia to test your knowledge about movies!">MovieVerse Trivia</button>
+    <button id="discussions-btn" onclick="window.location.href='MovieVerse-Frontend/html/chatbot.html'" style="bottom: 80px" title="Want to know more about movies? Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
+    <button id="trivia-btn" onclick="window.location.href='MovieVerse-Frontend/html/trivia.html'" style="bottom: 45px" title="Play a quick trivia to test your knowledge about movies!">MovieVerse Trivia</button>
     <button id="back-to-top-btn" style="bottom: 10px" onclick="window.location.href='#homepage-header'">Back To Top</button>
     <button id="settings-btn" style="position: fixed; bottom: 220px">Settings</button>
 
     <script>
         document.getElementById('settings-btn').addEventListener('click', () => {
-            window.location.href = 'src/html/settings.html';
+            window.location.href = 'MovieVerse-Frontend/html/settings.html';
         });
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -331,7 +334,7 @@
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
-                navigator.serviceWorker.register('src/js/service-worker.js').then(function(registration) {
+                navigator.serviceWorker.register('MovieVerse-Frontend/js/service-worker.js').then(function(registration) {
                     console.log('ServiceWorker registration successful with scope: ', registration.scope);
                 }, function(err) {
                     console.log('ServiceWorker registration failed: ', err);
@@ -349,14 +352,14 @@
             "director": {
                 "@type": "Person",
                 "name": "Christopher Nolan",
-                "url": "https://movie-verse.com/src/html/christopher-nolan.html"
+                "url": "https://movie-verse.com/MovieVerse-Frontend/html/christopher-nolan.html"
             },
             "genre": ["Action", "Adventure", "Sci-Fi"],
             "actor": [
                 {
                     "@type": "Person",
                     "name": "Leonardo DiCaprio",
-                    "url": "https://movie-verse.com/src/html/leonardo-dicaprio.html"
+                    "url": "https://movie-verse.com/MovieVerse-Frontend/html/leonardo-dicaprio.html"
                 }
             ],
             "aggregateRating": {
@@ -383,7 +386,7 @@
             },
             "description": "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
             "datePublished": "2010-07-16",
-            "url": "https://movie-verse.com/src/html/inception.html"
+            "url": "https://movie-verse.com/MovieVerse-Frontend/html/inception.html"
         }
     </script>
 </body>

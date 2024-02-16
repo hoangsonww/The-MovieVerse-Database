@@ -38,7 +38,7 @@ There is also a mobile version of The MovieVerse, which is developed using Apach
 
 **Interactive Features:**
 - **Interactive Database**: Rate movies, write reviews, and read opinions from other users.
-- **Movie Watchlists**: Create and manage watchlists for different genres, time periods, or preferences.
+- **Movie Watchlists**: Create and manage watchlists for different genres, time periods, or preferences. The watchlists are saved to your account for easy access on any device.
 - **Movie Matching**: Discover movies that align with your preferences and ratings.
 
 **Navigating The MovieVerse:**
@@ -61,6 +61,13 @@ There is also a mobile version of The MovieVerse, which is developed using Apach
 - **Free & No Ads**: The MovieVerse is free to use and ad-free for an uninterrupted experience.
 
 **And So Much More!**
+
+## Project Structure
+
+The MovieVerse is a full-stack application with a robust backend and a user-friendly frontend. The project is divided into the following **3 primary** directories:
+1. `MovieVerse-Backend`: The backend directory contains the server-side code, including the API, database, and server configuration.
+2. `MovieVerse-Frontend`: The frontend directory contains the client-side code, including the user interface, user experience, and client configuration.
+3. `MovieVerse-Mobile`: The mobile app directory contains the mobile application code, including the mobile user interface, user experience, and mobile client configuration.
 
 ## Technology Stack
 
@@ -138,14 +145,6 @@ The MovieVerse is committed to fostering a welcoming community. Please refer to 
 ## Security Policy
 
 The MovieVerse is committed to ensuring the security of the platform. Please refer to our [Security Policy](SECURITY.md) for more information.
-
-## Issue Templates
-
-The MovieVerse uses GitHub's issue templates. Please refer to the [Issue Template](ISSUE_TEMPLATE) directory for more information.
-
-## Pull Request Template
-
-The MovieVerse uses GitHub's pull request template. Please refer to the [Pull Request Template](PULL_REQUEST_TEMPLATE.md) file for more information.
 
 ## Contact
 

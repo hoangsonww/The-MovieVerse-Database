@@ -1,6 +1,6 @@
-# README for `APIs` Directory
+# README for `MovieVerse-APIs` Directory
 
-Welcome to the `APIs` directory of the MovieVerse App! This directory is an essential part of the application, containing various files that define and interact with the web APIs. Below is a detailed overview of each file and its role in the project.
+Welcome to the `MovieVerse-APIs` directory of the MovieVerse App! This directory is an essential part of the application, containing various files that define and interact with the web APIs. Below is a detailed overview of each file and its role in the project.
 
 ---
 
@@ -14,7 +14,7 @@ Welcome to the `APIs` directory of the MovieVerse App! This directory is an esse
 
 ## Overview
 
-The `APIs` directory plays a crucial role in interfacing with the web services and APIs that power the MovieVerse application. This directory contains files that help test, define, and document the API endpoints.
+The `MovieVerse-APIs` directory plays a crucial role in interfacing with the web services and APIs that power the MovieVerse application. This directory contains files that help test, define, and document the API endpoints.
 
 ### api.http
 
@@ -31,6 +31,10 @@ Similar to `http-client.env.json`, but used for storing private or sensitive inf
 ### movieverse-openapi.yaml
 
 An OpenAPI (formerly Swagger) specification file that provides a standard, language-agnostic interface to RESTful APIs. It is used to define the MovieVerse API's structure, including endpoints, operations, and parameters.
+
+### api_test_suite.py
+
+This file contains a test suite for the MovieVerse APIs. It uses the `requests` library to send HTTP requests to the API endpoints and validate the responses. The test suite can be run to ensure that the API is functioning as expected.
 
 ## Using these Files
 

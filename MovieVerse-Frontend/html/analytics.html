@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MovieVerse Analytics</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="website" />
+    <meta http-equiv="content-language" content="en" />
+    <meta property="og:description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more." />
+    <meta property="og:url" content="https://movie-verse.com/MovieVerse-Frontend/html/about.html" />
+    <meta property="og:site_name" content="About The MovieVerse" />
+    <meta property="og:image" content="https://movie-verse.com/images/image.png"/>
+    <meta property="og:favicon" content="./images/favicon.ico" />
+    <meta name="keywords" content="movies, film guide, directors, actors, movie genres, cinema, film reviews">
+    <meta name="author" content="Son Nguyen Hoang">
+    <link rel="canonical" href="https://movie-verse.com/"/>
+    <meta name="robots" content="index, follow">
+    <meta name="rating" content="General">
+    <meta name="revisit-after" content="3 days">
+    <meta name="distribution" content="global">
+    <meta http-equiv="content-language" content="en">
+    <meta name="language" content="en">
+    <meta name="theme-color" content="#7378c5">
+    <meta name="twitter:card" content="https://movie-verse.com/images/image.png"/>
+    <meta name="twitter:title" content="The MovieVerse - Your Ultimate Movie Guide">
+    <meta name="twitter:description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more.">
+    <meta name="twitter:image" content="https://movie-verse.com/images/image.png"/>
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link rel="icon" href="../../images/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="../css/style.css"/>
+    <link rel="manifest" href="../../manifest.json">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-CQKJ67FXZ4');
+    </script>
+</head>
+<body class="movie-details-body">
+    <header id="homepage-header" style="margin-top: -5px">
+        <a id="indexLink" href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer">
+            <h1 id="my-heading" style="margin-bottom: -10px">
+                The Mo<span class="highlight">vieV</span>erse
+            </h1>
+        </a>
+
+        <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
+            <p id="stats-label" class="clock" style="font-size: 16px"></p>
+            <h1 id="stats-display" class="clock"></h1>
+        </div>
+
+        <button class="back-btn nav-btn" onclick="window.location.href='../../index.html'" title="Go back to homepage">Home</button>
+        <button class="about nav-btn" onclick="window.location.href='about.html'" title="About this wonderful app!">About</button>
+        <button class="favorites-btn nav-btn" onclick="window.location.href='favorites.html'" title="Go to your favorites list">Favorites</button>
+        <button id="googleSignInBtn" class="nav-btn" onclick="handleSignInOut()" title="Sign In/Out">
+            <span id="signInOutText">Sign In</span>
+            <i class="fas fa-sign-in-alt" id="signInIcon"></i>
+            <i class="fas fa-sign-out-alt" id="signOutIcon" style="display: none;"></i>
+        </button>
+
+        <button id="profileBtn" class="nav-btn" onclick="window.location.href='user-profile.html'" title="Go to your profile">
+            <span id="profileText">Profile</span>
+            <i class="fas fa-user" id="profileIcon"></i>
+        </button>
+        <form id="form1">
+            <input
+                    type="text"
+                    id="search"
+                    placeholder="Search For Anything..."
+                    class="search"
+            />
+            <button type="button" id="button-search" onclick="handleSearch()">Search</button>
+        </form>
+        <button id="settings-btn" style="position: fixed; bottom: 185px">Settings</button>
+        <button id="movie-match-btn3" style="bottom: 150px" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!">Movie Match</button>
+        <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 115px">Movie Timeline</button>
+        <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 80px">Recommendation</button>
+        <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="bottom: 45px" title="Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
+        <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 10px" title="Test your movie knowledge">MovieVerse Trivia</button>
+    </header>
+    <div>
+        <h1 class="chart-title">The MovieVerse Analytics</h1>
+        <p class="chart-description">Here are some interesting and interactive insights about our MovieVerse Database!</p>
+    </div>
+    <div class="chart-container" style="margin-bottom: 200px">
+        <div class="chart-box">
+            <h2 class="chart-title">Number of Movies Released Each Year</h2>
+            <canvas id="chart1"></canvas>
+        </div>
+        <div class="chart-box">
+            <h2 class="chart-title">Popularity of Genres</h2>
+            <canvas id="chart2"></canvas>
+        </div>
+        <div class="chart-box">
+            <h2 class="chart-title">Movies Distribution by Certification</h2>
+            <canvas id="chart3"></canvas>
+        </div>
+        <div class="chart-box">
+            <h2 class="chart-title">Average Movie Popularity Over Time</h2>
+            <canvas id="chart4"></canvas>
+        </div>
+        <div class="chart-box">
+            <h2 class="chart-title">Movies Count by Original Language</h2>
+            <canvas id="chart5"></canvas>
+        </div>
+        <div class="chart-box">
+            <h2 class="chart-title">Average Vote Count by Genre</h2>
+            <canvas id="chart6"></canvas>
+        </div>
+        <div class="chart-box">
+            <h2 class="chart-title">Movie Releases by Month</h2>
+            <canvas id="chart7"></canvas>
+        </div>
+        <div class="chart-box">
+            <h2 class="chart-title">Movie Releases by Decades</h2>
+            <canvas id="chart8"></canvas>
+        </div>
+        <div class="chart-box">
+            <h2 class="chart-title">Movie Releases by Countries</h2>
+            <canvas id="chart9"></canvas>
+        </div>
+    </div>
+
+    <script src="../js/analytics.js"></script>
+</body>
+</html>

@@ -1,13 +1,58 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getFirestore, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
+function isValidPassword(password) {
+    const minLength = 8;
+    const hasUppercase = /[A-Z]/.test(password);
+    const hasLowercase = /[a-z]/.test(password);
+    const hasNumbers = /\d/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+    return (
+        password.length >= minLength &&
+        hasUppercase &&
+        hasLowercase &&
+        hasNumbers &&
+        hasSpecialChar
+    );
+}
+
+function translateFBC(value) {
+    return atob(value);
+}
+
+function getFBConfig1() {
+    const fbConfig1 = "QUl6YVN5REw2a1FuU2ZVZDhVdDhIRnJwS3VpdnF6MXhkWG03aw==";
+    return translateFBC(fbConfig1);
+}
+
+function getFBConfig2() {
+    const fbConfig2 = "bW92aWV2ZXJzZS1hcHAuZmlyZWJhc2VhcHAuY29t";
+    return translateFBC(fbConfig2);
+}
+
+function getFBConfig3() {
+    const fbConfig3 = "bW92aWV2ZXJzZS1hcHAuYXBwc3BvdC5jb20=";
+    return translateFBC(fbConfig3);
+}
+
+function getFBConfig4() {
+    const fbConfig4 = "ODAyOTQzNzE4ODcx";
+    return translateFBC(fbConfig4);
+}
+
+function getFBConfig5() {
+    const fbConfig5 = "MTo4MDI5NDM3MTg4NzE6d2ViOjQ4YmM5MTZjYzk5ZTI3MjQyMTI3OTI=";
+    return translateFBC(fbConfig5);
+}
+
 const firebaseConfig = {
-    apiKey: "AIzaSyDL6kQnSfUdD8Ut8HFrp9kuivqz1xdXm7k",
-    authDomain: "movieverse-app.firebaseapp.com",
+    apiKey: getFBConfig1(),
+    authDomain: getFBConfig2(),
     projectId: "movieverse-app",
-    storageBucket: "movieverse-app.appspot.com",
-    messagingSenderId: "802943718871",
-    appId: "1:802943718871:web:48bc916cc99e2724212792"
+    storageBucket: getFBConfig3(),
+    messagingSenderId: getFBConfig4(),
+    appId: getFBConfig5()
 };
 
 const app = initializeApp(firebaseConfig);
@@ -42,7 +87,7 @@ document.getElementById('createAccountForm').addEventListener('submit', async (e
     }
 
     try {
-        await addDoc(collection(db, "users"), {
+        await addDoc(collection(db, "MovieVerseUsers"), {
             email: email,
             password: password
         });
@@ -55,24 +100,8 @@ document.getElementById('createAccountForm').addEventListener('submit', async (e
     }
 });
 
-function isValidPassword(password) {
-    const minLength = 8;
-    const hasUppercase = /[A-Z]/.test(password);
-    const hasLowercase = /[a-z]/.test(password);
-    const hasNumbers = /\d/.test(password);
-    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-
-    return (
-        password.length >= minLength &&
-        hasUppercase &&
-        hasLowercase &&
-        hasNumbers &&
-        hasSpecialChar
-    );
-}
-
 async function accountExists(email) {
-    const q = query(collection(db, "users"), where("email", "==", email));
+    const q = query(collection(db, "MovieVerseUsers"), where("email", "==", email));
     const querySnapshot = await getDocs(q);
     return !querySnapshot.empty;
 }

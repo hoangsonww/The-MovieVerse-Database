@@ -6,6 +6,29 @@
     <link rel="stylesheet" href="../css/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="website" />
+    <meta http-equiv="content-language" content="en" />
+    <meta property="og:description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more." />
+    <meta property="og:url" content="https://hoangsonww.github.io/The-MovieVerse-Database/src/html/about.html" />
+    <meta property="og:site_name" content="About The MovieVerse" />
+    <meta property="og:image" content="https://hoangsonww.github.io/The-MovieVerse-Database/images/image.png"/>
+    <meta property="og:favicon" content="./images/favicon.ico" />
+    <meta name="keywords" content="movies, film guide, directors, actors, movie genres, cinema, film reviews">
+    <meta name="author" content="Son Nguyen Hoang">
+    <link rel="canonical" href="https://hoangsonww.github.io/The-MovieVerse-Database/"/>
+    <meta name="robots" content="index, follow">
+    <meta name="rating" content="General">
+    <meta name="revisit-after" content="3 days">
+    <meta name="distribution" content="global">
+    <meta http-equiv="content-language" content="en">
+    <meta name="language" content="en">
+    <meta name="theme-color" content="#7378c5">
+    <meta name="twitter:card" content="https://hoangsonww.github.io/The-MovieVerse-Database/images/image.png"/>
+    <meta name="twitter:title" content="The MovieVerse - Your Ultimate Movie Guide">
+    <meta name="twitter:description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more.">
+    <meta name="twitter:image" content="https://hoangsonww.github.io/The-MovieVerse-Database/images/image.png"/>
+    <meta name="referrer" content="no-referrer-when-downgrade">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <link rel="manifest" href="../../manifest.json">
     <style>
@@ -131,8 +154,9 @@
         gtag('config', 'G-CQKJ67FXZ4');
     </script>
 </head>
+
 <body class="movie-details-body">
-    <header>
+    <header style="margin-top: -5px">
         <a href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer" title="Click to go back to the home page">
             <h1 id="my-heading" style="margin-bottom: -10px">
                 The Mo<span class="highlight">vieV</span>erse
@@ -195,6 +219,16 @@
                 <option style="font: inherit" value="../../images/universe-8.png">Universe 8</option>
                 <option style="font: inherit" value="../../images/universe-9.png">Universe 9</option>
                 <option style="font: inherit" value="../../images/universe-10.png">Universe 10</option>
+                <option style="font: inherit" value="../../images/universe-11.png">Universe 11</option>
+                <option style="font: inherit" value="../../images/universe-12.png">Universe 12</option>
+                <option style="font: inherit" value="../../images/universe-13.png">Universe 13</option>
+                <option style="font: inherit" value="../../images/universe-14.png">Universe 14</option>
+                <option style="font: inherit" value="../../images/universe-15.png">Universe 15</option>
+                <option style="font: inherit" value="../../images/universe-16.png">Universe 16</option>
+                <option style="font: inherit" value="../../images/universe-17.png">Universe 17</option>
+                <option style="font: inherit" value="../../images/universe-18.png">Universe 18</option>
+                <option style="font: inherit" value="../../images/universe-19.png">Universe 19</option>
+                <option style="font: inherit" value="../../images/universe-20.png">Universe 20</option>
                 <option style="font: inherit" value="../../images/black.jpeg">Black</option>
                 <option style="font: inherit" value="../../images/grey.png">Grey</option>
                 <option style="font: inherit" value="../../images/blue.jpg">Blue</option>
@@ -213,7 +247,7 @@
 
         <div class="settings-section">
             <h2>Upload A Custom Background</h2>
-            <input type="file" id="custom-bg-upload" accept="image/*" style="margin-bottom: 10px; font: inherit">
+            <input type="file" id="custom-bg-upload" accept="image/*" style="margin-bottom: 10px; padding-left: 10px; font: inherit">
             <input type="text" id="custom-bg-name" placeholder="Enter image name..." style="margin-bottom: 10px; font: inherit">
             <div class="button-group">
                 <button id="upload-bg-btn" style="font: inherit">Upload</button>
@@ -307,13 +341,54 @@
             document.getElementById('googleSignInBtn').addEventListener('click', handleSignInOut);
         });
 
-        const SEARCHPATH = "https://api.themoviedb.org/3/search/movie?&api_key=c5a20c861acf7bb8d9e987dcc7f1b558&query=";
+        const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&api_key=c5a20c861acf7bb8d9e987dcc7f1b558&query=`;
         const IMGPATH = "https://image.tmdb.org/t/p/w1280";
 
         document.addEventListener("DOMContentLoaded", function() {
             updateSignInButton();
             initClient();
         });
+
+        const movieCode1 = {
+            part1: 'YzVhMjBjODY=',
+            part2: 'MWFjZjdiYjg=',
+            part3: 'ZDllOTg3ZGNjN2YxYjU1OA=='
+        };
+
+        function getMovieCode() {
+            return atob(movieCode1.part1) + atob(movieCode1.part2) + atob(movieCode1.part3);
+        }
+
+        function generateMovieNames(input) {
+            return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
+        }
+
+        function getMovieVerseData(input) {
+            return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
+        }
+        async function showMovieOfTheDay() {
+            const year = new Date().getFullYear();
+            const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                const movies = data.results;
+
+                if (movies.length > 0) {
+                    const randomMovie = movies[Math.floor(Math.random() * movies.length)];
+                    localStorage.setItem('selectedMovieId', randomMovie.id);
+                    window.location.href = 'movie-details.html';
+                }
+                else {
+                    fallbackMovieSelection();
+                }
+            }
+            catch (error) {
+                console.error('Error fetching movie:', error);
+                fallbackMovieSelection();
+            }
+        }
 
         const searchForm = document.getElementById('form');
         const searchBtn = document.getElementById('button-search');
