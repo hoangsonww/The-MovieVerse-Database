@@ -35,6 +35,7 @@
     <meta name="twitter:image" content="https://movie-verse.com/images/image.png"/>
     <meta name="referrer" content="no-referrer-when-downgrade">
 
+    <!-- Stylesheets and scripts -->
     <link rel="stylesheet" href="MovieVerse-Frontend/css/style.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <script src="index.js" defer></script>
@@ -334,7 +335,7 @@
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
-                navigator.serviceWorker.register('src/js/service-worker.js').then(function(registration) {
+                navigator.serviceWorker.register('MovieVerse-Frontend/js/service-worker.js').then(function(registration) {
                     console.log('ServiceWorker registration successful with scope: ', registration.scope);
                 }, function(err) {
                     console.log('ServiceWorker registration failed: ', err);
