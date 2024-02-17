@@ -471,7 +471,6 @@ const directors = [
 ];
 
 let currentDirectorIndex = 0;
-
 updateDirectorSpotlight();
 
 function changeDirector() {
