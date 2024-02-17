@@ -37,10 +37,6 @@ Our `label.yml` file outlines a workflow for automatically labeling pull request
 
 The `greet-contributors.yml` file defines a workflow that sends a greeting message to new contributors when they open their first pull request. This workflow is triggered on pull request events and checks if the pull request is the first one opened by the contributor.
 
-### `auto-assign-reviewers.yml` - Automatic Reviewer Assignment
-
-The `auto-assign-reviewers.yml` file defines a workflow that automatically assigns reviewers to pull requests based on the files modified in the pull request. This workflow is triggered on pull request events and assigns reviewers based on the paths of the modified files.
-
 #### Key Features:
 
 - **Automates labeling** based on file paths, simplifying the categorization of pull requests.
