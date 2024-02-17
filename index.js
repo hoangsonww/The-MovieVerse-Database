@@ -19,6 +19,7 @@ const main18 = document.getElementById('hidden-gems');
 const main19 = document.getElementById('classic');
 const main20 = document.getElementById('director-spotlight');
 const main21 = document.getElementById('korean');
+const main22 = document.getElementById('vietnamese');
 
 const form = document.getElementById("form");
 const search = document.getElementById("search");
@@ -199,12 +200,6 @@ function updateMovieVisitCount(movieId, movieTitle) {
     movieVisits[movieId].count += 1;
     localStorage.setItem('movieVisits', JSON.stringify(movieVisits));
 }
-
-const main22 = document.getElementById("vietnamese");
-
-const VIETNAMESE_PATH = `https://api.themoviedb.org/3/discover/movie?api_key=${getMovieCode()}&with_original_language=vi&sort_by=popularity.desc`;
-
-getMovies(VIETNAMESE_PATH, main22);
 
 function getMostVisitedMovie() {
     const movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
@@ -414,6 +409,7 @@ const FANTASYpath = `https://api.themoviedb.org/3/discover/movie?api_key=${getMo
 const FAMILYpath = `https://api.themoviedb.org/3/discover/movie?api_key=${getMovieCode()}&with_genres=10751&sort_by=popularity.desc&vote_count.gte=8`;
 const TVpath = `https://api.themoviedb.org/3/discover/movie?api_key=${getMovieCode()}&with_genres=10770&sort_by=popularity.desc&vote_count.gte=8`;
 const CRIMEpath = `https://api.themoviedb.org/3/discover/movie?api_key=${getMovieCode()}&with_genres=80&sort_by=popularity.desc&vote_count.gte=8`;
+const VIETNAMESE_PATH = `https://api.themoviedb.org/3/discover/movie?api_key=${getMovieCode()}&with_original_language=vi&sort_by=popularity.desc`;
 const KOREAN_PATH = `https://api.themoviedb.org/3/discover/movie?api_key=${getMovieCode()}&with_original_language=ko&sort_by=vote_average.desc,popularity.desc&vote_count.gte=10&vote_average.gte=8`;
 const HIDDEN_GEMS_PATH = `https://api.themoviedb.org/3/discover/movie?api_key=${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&vote_average.gte=7&popularity.lte=10`;
 const AWARD_WINNING_PATH = `https://api.themoviedb.org/3/discover/movie?api_key=${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=1000`;
@@ -437,6 +433,7 @@ getMovies(CRIMEpath, main16);
 getMovies(AWARD_WINNING_PATH, main17);
 getMovies(HIDDEN_GEMS_PATH, main18);
 getMovies(CLASSIC_MOVIES_PATH, main19);
+getMovies(VIETNAMESE_PATH, main22);
 getMovies(KOREAN_PATH, main21);
 
 const directors = [
