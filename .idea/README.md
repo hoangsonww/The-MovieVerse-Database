@@ -2,7 +2,7 @@
 
 ## Introduction
 
-The `.idea` directory is a configuration folder used by JetBrains IntelliJ IDEA, an Integrated Development Environment (IDE) used for software development. It contains a set of XML configuration files that IDEA uses to maintain project settings. These settings are used to ensure that all team members working on the project have a consistent environment, which includes configurations for code style, project dictionaries, and more.
+The `.idea` directory is a configuration folder used by JetBrains IntelliJ IDEA and Webstorm, which are Integrated Development Environments (IDEs) used for software development. It contains a set of XML configuration files that IDEA uses to maintain project settings. These settings are used to ensure that all team members working on the project have a consistent environment, which includes configurations for code style, project dictionaries, and more.
 
 ## Directory Contents
 
