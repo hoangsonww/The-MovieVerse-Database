@@ -6,9 +6,10 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         movies = [
+            # Sample data - for testing purposes only
             {'title': 'The Shawshank Redemption', 'description': 'Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.'},
             {'title': 'The Godfather', 'description': 'The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.'},
-            # Add more movies as needed
+            # More movies will be populated dynamically by the API here
         ]
 
         for movie in movies:
