@@ -20,6 +20,7 @@ const main19 = document.getElementById('classic');
 const main20 = document.getElementById('director-spotlight');
 const main21 = document.getElementById('korean');
 const main22 = document.getElementById('vietnamese');
+const main23 = document.getElementById("indian"); // New section for Indian movies
 
 const form = document.getElementById("form");
 const search = document.getElementById("search");
@@ -413,6 +414,7 @@ const TVpath = `https://api.themoviedb.org/3/discover/movie?api_key=${getMovieCo
 const CRIMEpath = `https://api.themoviedb.org/3/discover/movie?api_key=${getMovieCode()}&with_genres=80&sort_by=popularity.desc&vote_count.gte=8`;
 const VIETNAMESE_PATH = `https://api.themoviedb.org/3/discover/movie?api_key=${getMovieCode()}&with_original_language=vi&sort_by=popularity.desc`;
 const KOREAN_PATH = `https://api.themoviedb.org/3/discover/movie?api_key=${getMovieCode()}&with_original_language=ko&sort_by=vote_average.desc,popularity.desc&vote_count.gte=10&vote_average.gte=8`;
+const INDIAN_PATH = `https://api.themoviedb.org/3/discover/movie?api_key=${getMovieCode()}&with_original_language=hi&sort_by=popularity.desc`; // Fetching Hindi movies as a representation
 const HIDDEN_GEMS_PATH = `https://api.themoviedb.org/3/discover/movie?api_key=${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&vote_average.gte=7&popularity.lte=10`;
 const AWARD_WINNING_PATH = `https://api.themoviedb.org/3/discover/movie?api_key=${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=1000`;
 const CLASSIC_MOVIES_PATH = `https://api.themoviedb.org/3/discover/movie?api_key=${getMovieCode()}&sort_by=popularity.desc&release_date.lte=1980`;
@@ -437,6 +439,7 @@ getMovies(HIDDEN_GEMS_PATH, main18);
 getMovies(CLASSIC_MOVIES_PATH, main19);
 getMovies(VIETNAMESE_PATH, main22);
 getMovies(KOREAN_PATH, main21);
+getMovies(INDIAN_PATH, main23);
 
 const directors = [
     { name: "Alfred Hitchcock", id: "2636" },
