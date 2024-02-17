@@ -31,6 +31,10 @@ body {
     margin-top: -14px;
 }
 
+.highlight:hover {
+    color: #f509d9;
+}
+
 .overview {
     position: absolute;
     padding: 2rem;
