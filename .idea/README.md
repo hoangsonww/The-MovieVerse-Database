@@ -45,3 +45,7 @@ Typically, the `.idea` directory is included in version control with the excepti
 ## Conclusion
 
 The `.idea` directory and its files are an integral part of ensuring that the project's IDE settings are consistent across all team members' environments. Proper understanding and management of these files are crucial for the smooth functioning of the project's development workflow.
+
+## Contact
+
+If you have any concerns, please feel free to contact us at [info@movie-verse.com](mailto:info@movie-verse.com).
