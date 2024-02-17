@@ -17,6 +17,7 @@ The microservices architecture of MovieVerse is designed to segregate the applic
 - **Review Service**: Handles user reviews and ratings.
 - **Recommendation Service**: Provides movie recommendations to users based on their preferences and viewing history.
 - **Search Service**: Offers comprehensive search functionality for movies and users.
+- And more...
 
 ## Getting Started
 
