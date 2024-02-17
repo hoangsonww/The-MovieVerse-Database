@@ -65,4 +65,9 @@ To effectively use these configuration files, it is essential to have a basic un
 
 These files are pre-configured for a standard setup but might require adjustments to fit specific project needs or environments. Always review and customize them according to your project requirements.
 
+## Contributions
+
+If you would like to contribute to the development or improvement of these configuration files, please follow the contribution guidelines outlined in the project's main documentation.
+
+
 ---
