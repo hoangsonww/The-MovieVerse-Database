@@ -1,6 +1,6 @@
 # The MovieVerse App
 
-Welcome to The MovieVerse - your digital compass to the cinematic universe. This application is designed to serve as a bridge connecting movie enthusiasts with an extensive collection of films across various genres and time periods. Dive into an ocean of narratives, where stories come to life, right at your fingertips. This app is available at [https://movie-verse.com](https://movie-verse.com), and will soon also be available on the App Store and Google Play Store.
+Welcome to The MovieVerse - your digital compass to the cinematic universe. Created by Son Nguyen in 2023, this application is designed to serve as a bridge connecting movie enthusiasts with an extensive collection of films across various genres and time periods. Dive into an ocean of narratives, where stories come to life, right at your fingertips. This app is available at [https://movie-verse.com](https://movie-verse.com), and will soon also be available on the App Store and Google Play Store.
 
 ---
 
