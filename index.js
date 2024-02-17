@@ -75,12 +75,15 @@ function showMovies(movies, mainElement) {
             ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
             : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
 
-        const voteAvg = vote_average.toFixed(1);
+        const voteAvg = vote_average > 0 ? vote_average.toFixed(1) : "Unrated";
+
+        const ratingClass = vote_average > 0 ? getClassByRate(vote_average) : "unrated";
+
         movieEl.innerHTML = `
             ${movieImage}
             <div class="movie-info" style="cursor: pointer;">
                 <h3>${title}</h3>
-                <span class="${getClassByRate(vote_average)}">${voteAvg}</span>
+                <span class="${ratingClass}">${voteAvg}</span>
             </div>
             <div class="overview" style="cursor: pointer;">
                 <h4>Movie Intro: </h4>
@@ -96,7 +99,6 @@ function showMovies(movies, mainElement) {
 
         mainElement.appendChild(movieEl);
     });
-    applySettings();
 }
 
 function updateUniqueMoviesViewed(movieId) {
@@ -625,6 +627,7 @@ function handleSearch() {
     localStorage.setItem('searchQuery', searchQuery);
     window.location.href = 'MovieVerse-Frontend/html/search.html';
 }
+
 
 function checkAndClearLocalStorage() {
     const hasCleared = localStorage.getItem('hasUserClearedMovieVerseData2');

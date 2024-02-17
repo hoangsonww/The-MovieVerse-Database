@@ -464,7 +464,10 @@ header h1 {
 }
 
 .movie img, .tvSeries img {
+    height: 435px;
     width: 100%;
+    object-fit: cover; /* This will cover the area of the div without distorting the ratio */
+    display: block;
 }
 
 .movie .overview {
@@ -2112,6 +2115,7 @@ canvas {
     justify-content: space-between;
     padding: 0.5rem 1rem 1rem;
     letter-spacing: 0.5px;
+    padding-top: 14px;
 }
 
 .tvSeries-info {
