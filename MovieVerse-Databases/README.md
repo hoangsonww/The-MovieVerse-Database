@@ -45,4 +45,8 @@ These files are crucial for setting up the backend of the application. Ensure th
 
 You may need to customize these scripts to fit the specific needs of your application. Be sure to regularly back up your databases before making any changes to these scripts.
 
+## Contact
+
+As mentioned, you'll need to contact us if you would like to access our databases or other back-end features. Feel free to reach out to us at [info@movie-verse.com](info@movie-verse.com). We look forward to collaborating with you!
+
 ---
