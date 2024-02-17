@@ -29,9 +29,6 @@ The `static.yml` workflow is designed for deploying static content to GitHub Pag
 - **Manual deployment option** through the GitHub Actions tab, providing flexibility for updates and maintenance.
 - **Concurrency control** to manage deployment flows and ensure stability in production deployments.
 
-### `label.yml` - Automatic Pull Request Labeling
-
-Our `label.yml` file outlines a workflow for automatically labeling pull requests based on the paths of files that are modified. This automation aids in categorizing pull requests, streamlining the review process, and facilitating easier project management.
 
 ### `greet-contributors.yml` - Greet New Contributors
 
