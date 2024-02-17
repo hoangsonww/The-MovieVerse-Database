@@ -200,6 +200,12 @@ function updateMovieVisitCount(movieId, movieTitle) {
     localStorage.setItem('movieVisits', JSON.stringify(movieVisits));
 }
 
+const main22 = document.getElementById("vietnamese");
+
+const VIETNAMESE_PATH = `https://api.themoviedb.org/3/discover/movie?api_key=${getMovieCode()}&with_original_language=vi&sort_by=popularity.desc`;
+
+getMovies(VIETNAMESE_PATH, main22);
+
 function getMostVisitedMovie() {
     const movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
     let mostVisitedMovie = '';
