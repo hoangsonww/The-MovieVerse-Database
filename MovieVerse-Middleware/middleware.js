@@ -11,6 +11,8 @@ const logger = (req, res, next) => {
 
 app.use(logger);
 
+// Authentication Middleware - Verifying the JWT token
+// Note: your_secret_key should be replaced with a secure secret key (mine is not published here)
 const authenticate = (req, res, next) => {
     const authHeader = req.headers.authorization;
     if (authHeader) {
