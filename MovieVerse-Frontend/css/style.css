@@ -307,6 +307,10 @@ header h1 {
     color: orange;
 }
 
+.highlight:hover {
+    color: #ff00dd;
+}
+
 .search:focus {
     outline: none;
     background-color: #22254b;
@@ -464,7 +468,10 @@ header h1 {
 }
 
 .movie img, .tvSeries img {
+    height: 435px;
     width: 100%;
+    object-fit: cover;
+    display: block;
 }
 
 .movie .overview {
@@ -2112,6 +2119,7 @@ canvas {
     justify-content: space-between;
     padding: 0.5rem 1rem 1rem;
     letter-spacing: 0.5px;
+    padding-top: 14px;
 }
 
 .tvSeries-info {

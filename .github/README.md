@@ -1,6 +1,6 @@
 # The MovieVerse App
 
-Welcome to The MovieVerse - your digital compass to the cinematic universe. This application is designed to serve as a bridge connecting movie enthusiasts with an extensive collection of films across various genres and time periods. Dive into an ocean of narratives, where stories come to life, right at your fingertips. This app is available at [https://movie-verse.com](https://movie-verse.com), and will soon also be available on the App Store and Google Play Store.
+Welcome to The MovieVerse - your digital compass to the cinematic universe. Created by [Son Nguyen](https://github.com/hoangsonww) in 2023, this application is designed to serve as a bridge connecting movie enthusiasts with an extensive collection of films across various genres and time periods. Dive into an ocean of narratives, where stories come to life, right at your fingertips. This app is available at [https://movie-verse.com](https://movie-verse.com), and will soon also be available on the App Store and Google Play Store.
 
 ---
 
@@ -34,7 +34,7 @@ There is also a mobile version of The MovieVerse, which is developed using Apach
 
 - **Search Functionality**: Find movies by title, actor, director, or genre with ease.
 - **Movie Details Page**: View detailed information, including synopses, cast, crew, ratings, and reviews.
-- **Curated Lists**: Access collections of new releases, most popular, trending, and genre-specific movies.
+- **Curated Lists**: Access collections of new releases, most popular, trending, genre-specific movies, and many more.
 
 **Interactive Features:**
 - **Interactive Database**: Rate movies, write reviews, and read opinions from other users.
@@ -152,8 +152,8 @@ Son Nguyen Hoang - [@hoangsonww](https://github.com/hoangsonww)
 
 Website: [https://movie-verse.com](https://movie-verse.com)
 
-Email: [My Personal Email](mailto:hoangson091104@gmail.com) or [Official MovieVerse Email](mailto:info@movie-verse.com)
+Email: [Official MovieVerse Email](mailto:info@movie-verse.com)
 
 ---
 
-Please also note that the MovieVerse is an ever-evolving platform. I am continually enhancing the user experience and adding new features, like the Movie Timeline, to help you navigate the vast sea of cinema with ease and excitement. 
+Please also note that the **MovieVerse** is an ever-evolving platform, and more updates are underway. I am continually enhancing the user experience and adding new features, like the Movie Timeline, to help you navigate the vast sea of cinema with ease and excitement. 

@@ -29,26 +29,17 @@ The `static.yml` workflow is designed for deploying static content to GitHub Pag
 - **Manual deployment option** through the GitHub Actions tab, providing flexibility for updates and maintenance.
 - **Concurrency control** to manage deployment flows and ensure stability in production deployments.
 
-### `label.yml` - Automatic Pull Request Labeling
+### `github-actions-deploy.yml` - GitHub Actions Deployment Workflow
 
-Our `label.yml` file outlines a workflow for automatically labeling pull requests based on the paths of files that are modified. This automation aids in categorizing pull requests, streamlining the review process, and facilitating easier project management.
+The `github-actions-deploy.yml` file defines a workflow that automatically deploys our project to a server or cloud environment using GitHub Actions. This workflow is triggered on pushes to the main branch and uses deployment keys for secure and seamless deployment.
 
-### `eslint-lint.yml` - Linting with ESLint
+### `auto-label-issues.yml` - Automatic Issue Labeling
 
-The `eslint-lint.yml` file defines a workflow that runs the ESLint linter on the JavaScript files in the repository. This workflow is triggered on pushes to the main branch and pull requests, ensuring that the JavaScript code in the repository is properly linted.
+The `auto-label-issues.yml` file defines a workflow that automatically labels issues based on the content of the issue body. This workflow is triggered on issue events and uses predefined rules to categorize and label issues.
 
 ### `greet-contributors.yml` - Greet New Contributors
 
 The `greet-contributors.yml` file defines a workflow that sends a greeting message to new contributors when they open their first pull request. This workflow is triggered on pull request events and checks if the pull request is the first one opened by the contributor.
-
-### `auto-assign-reviewers.yml` - Automatic Reviewer Assignment
-
-The `auto-assign-reviewers.yml` file defines a workflow that automatically assigns reviewers to pull requests based on the files modified in the pull request. This workflow is triggered on pull request events and assigns reviewers based on the paths of the modified files.
-
-#### Key Features:
-
-- **Automates labeling** based on file paths, simplifying the categorization of pull requests.
-- **Configurable labels** via a `.github/labeler.yml` file, allowing for custom rules and label management.
 
 ## Getting Started
 

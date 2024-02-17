@@ -177,6 +177,18 @@ p {
     color: #ff8623;
 }
 
+.highlight:hover {
+    color: #f509d9;
+}
+
+footer {
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 40px;
+    background-color: #7378c5;
+    color: white !important;
+}
+
 .button2 {
     background-color: #7378c5;
     font: inherit;

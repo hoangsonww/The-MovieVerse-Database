@@ -41,7 +41,17 @@
         <priority>0.60</priority>
     </url>
     <url>
+        <loc>https://movie-verse.com/#vietnamese</loc>
+        <lastmod>2024-01-18</lastmod>
+        <priority>0.60</priority>
+    </url>
+    <url>
         <loc>https://movie-verse.com/#korean</loc>
+        <lastmod>2024-01-18</lastmod>
+        <priority>0.60</priority>
+    </url>
+    <url>
+        <loc>https://movie-verse.com/#indian</loc>
         <lastmod>2024-01-18</lastmod>
         <priority>0.60</priority>
     </url>

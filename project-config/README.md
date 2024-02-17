@@ -1,4 +1,4 @@
-# README for `project-config` Directory
+# The `project-config` Directory - README
 
 Welcome to the `project-config` directory of the MovieVerse App! This directory contains critical configuration files that define how various aspects of the project are set up and operate. Below is a detailed overview of each file and its purpose within the project.
 
@@ -64,5 +64,17 @@ To effectively use these configuration files, it is essential to have a basic un
 ## Customization and Adaptation
 
 These files are pre-configured for a standard setup but might require adjustments to fit specific project needs or environments. Always review and customize them according to your project requirements.
+
+## Contributions
+
+If you would like to contribute to the development or improvement of these configuration files, please follow the contribution guidelines outlined in the project's main documentation.
+
+## License
+
+These configuration files are part of the MovieVerse App and are subject to the project's overall license terms.
+
+## Contact
+
+For any further questions or requests, please reach out to the project maintainers at [info@movie-verse.com](mailto:info@movie-verse.com).
 
 ---

@@ -19,6 +19,8 @@ const main18 = document.getElementById('hidden-gems');
 const main19 = document.getElementById('classic');
 const main20 = document.getElementById('director-spotlight');
 const main21 = document.getElementById('korean');
+const main22 = document.getElementById('vietnamese');
+const main23 = document.getElementById("indian"); // New section for Indian movies
 
 const form = document.getElementById("form");
 const search = document.getElementById("search");
@@ -74,12 +76,15 @@ function showMovies(movies, mainElement) {
             ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
             : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
 
-        const voteAvg = vote_average.toFixed(1);
+        const voteAvg = vote_average > 0 ? vote_average.toFixed(1) : "Unrated";
+
+        const ratingClass = vote_average > 0 ? getClassByRate(vote_average) : "unrated";
+
         movieEl.innerHTML = `
             ${movieImage}
             <div class="movie-info" style="cursor: pointer;">
                 <h3>${title}</h3>
-                <span class="${getClassByRate(vote_average)}">${voteAvg}</span>
+                <span class="${ratingClass}">${voteAvg}</span>
             </div>
             <div class="overview" style="cursor: pointer;">
                 <h4>Movie Intro: </h4>
@@ -95,7 +100,6 @@ function showMovies(movies, mainElement) {
 
         mainElement.appendChild(movieEl);
     });
-    applySettings();
 }
 
 function updateUniqueMoviesViewed(movieId) {
@@ -275,7 +279,7 @@ document.addEventListener('DOMContentLoaded', rotateUserStats);
 
 async function showMovieOfTheDay() {
     const year = new Date().getFullYear();
-    const url = `https://api.themoviedb.org/3/discover/movie?api_key=${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+    const url = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
 
     try {
         const response = await fetch(url);
@@ -391,27 +395,29 @@ document.getElementById('side-nav').addEventListener('mouseleave', function() {
     }
 });
 
-const DATABASEURL = `https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=${getMovieCode()}`;
+const DATABASEURL = `https://${getMovieVerseData()}/3/discover/movie?sort_by=popularity.desc&api_key=${getMovieCode()}`;
 const IMGPATH = `https://image.tmdb.org/t/p/w1280`;
-const SEARCHPATH = `https://api.themoviedb.org/3/search/movie?&api_key=${getMovieCode()}&query=`;
-const ACTIONpath = `https://api.themoviedb.org/3/discover/movie?api_key=${getMovieCode()}&with_genres=28&sort_by=popularity.desc&vote_count.gte=8`;
-const HORRORpath = `https://api.themoviedb.org/3/discover/movie?api_key=${getMovieCode()}&with_genres=27&sort_by=popularity.desc&vote_count.gte=8`;
-const DOCUMENTARYRpath = `https://api.themoviedb.org/3/discover/movie?api_key=${getMovieCode()}&with_genres=99&sort_by=popularity.desc&vote_count.gte=8`;
-const ANIMATIONpath = `https://api.themoviedb.org/3/discover/movie?api_key=${getMovieCode()}&with_genres=16&sort_by=popularity.desc&vote_count.gte=8`;
-const SCIFIpath = `https://api.themoviedb.org/3/discover/movie?api_key=${getMovieCode()}&with_genres=878&sort_by=popularity.desc&vote_count.gte=8`;
-const ROMANTICpath = `https://api.themoviedb.org/3/discover/movie?api_key=${getMovieCode()}&with_genres=10749&sort_by=popularity.desc&vote_count.gte=8`;
-const THRILLERpath = `https://api.themoviedb.org/3/discover/movie?api_key=${getMovieCode()}&with_genres=53&sort_by=popularity.desc&vote_count.gte=8`;
-const MYSTERYpath = `https://api.themoviedb.org/3/discover/movie?api_key=${getMovieCode()}&with_genres=9648&sort_by=popularity.desc&vote_count.gte=8`;
-const ADVENTUREpath = `https://api.themoviedb.org/3/discover/movie?api_key=${getMovieCode()}&with_genres=12&sort_by=popularity.desc&vote_count.gte=8`;
-const COMEDYpath = `https://api.themoviedb.org/3/discover/movie?api_key=${getMovieCode()}&with_genres=35&sort_by=popularity.desc&vote_count.gte=8`;
-const FANTASYpath = `https://api.themoviedb.org/3/discover/movie?api_key=${getMovieCode()}&with_genres=14&sort_by=popularity.desc&vote_count.gte=8`;
-const FAMILYpath = `https://api.themoviedb.org/3/discover/movie?api_key=${getMovieCode()}&with_genres=10751&sort_by=popularity.desc&vote_count.gte=8`;
-const TVpath = `https://api.themoviedb.org/3/discover/movie?api_key=${getMovieCode()}&with_genres=10770&sort_by=popularity.desc&vote_count.gte=8`;
-const CRIMEpath = `https://api.themoviedb.org/3/discover/movie?api_key=${getMovieCode()}&with_genres=80&sort_by=popularity.desc&vote_count.gte=8`;
-const KOREAN_PATH = `https://api.themoviedb.org/3/discover/movie?api_key=${getMovieCode()}&with_original_language=ko&sort_by=vote_average.desc,popularity.desc&vote_count.gte=10&vote_average.gte=8`;
-const HIDDEN_GEMS_PATH = `https://api.themoviedb.org/3/discover/movie?api_key=${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&vote_average.gte=7&popularity.lte=10`;
-const AWARD_WINNING_PATH = `https://api.themoviedb.org/3/discover/movie?api_key=${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=1000`;
-const CLASSIC_MOVIES_PATH = `https://api.themoviedb.org/3/discover/movie?api_key=${getMovieCode()}&sort_by=popularity.desc&release_date.lte=1980`;
+const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&api_key=${getMovieCode()}&query=`;
+const ACTIONpath = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_genres=28&sort_by=popularity.desc&vote_count.gte=8`;
+const HORRORpath = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_genres=27&sort_by=popularity.desc&vote_count.gte=8`;
+const DOCUMENTARYRpath = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_genres=99&sort_by=popularity.desc&vote_count.gte=8`;
+const ANIMATIONpath = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_genres=16&sort_by=popularity.desc&vote_count.gte=8`;
+const SCIFIpath = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_genres=878&sort_by=popularity.desc&vote_count.gte=8`;
+const ROMANTICpath = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_genres=10749&sort_by=popularity.desc&vote_count.gte=8`;
+const THRILLERpath = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_genres=53&sort_by=popularity.desc&vote_count.gte=8`;
+const MYSTERYpath = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_genres=9648&sort_by=popularity.desc&vote_count.gte=8`;
+const ADVENTUREpath = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_genres=12&sort_by=popularity.desc&vote_count.gte=8`;
+const COMEDYpath = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_genres=35&sort_by=popularity.desc&vote_count.gte=8`;
+const FANTASYpath = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_genres=14&sort_by=popularity.desc&vote_count.gte=8`;
+const FAMILYpath = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_genres=10751&sort_by=popularity.desc&vote_count.gte=8`;
+const TVpath = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_genres=10770&sort_by=popularity.desc&vote_count.gte=8`;
+const CRIMEpath = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_genres=80&sort_by=popularity.desc&vote_count.gte=8`;
+const VIETNAMESE_PATH = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_original_language=vi&sort_by=popularity.desc`;
+const KOREAN_PATH = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_original_language=ko&sort_by=vote_average.desc,popularity.desc&vote_count.gte=10&vote_average.gte=8`;
+const INDIAN_PATH = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_original_language=hi&sort_by=popularity.desc`; // Fetching Hindi movies as a representation
+const HIDDEN_GEMS_PATH = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&vote_average.gte=7&popularity.lte=10`;
+const AWARD_WINNING_PATH = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=1000`;
+const CLASSIC_MOVIES_PATH = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&sort_by=popularity.desc&release_date.lte=1980`;
 
 getMovies(DATABASEURL, main);
 getMovies(ACTIONpath, main3);
@@ -431,7 +437,9 @@ getMovies(CRIMEpath, main16);
 getMovies(AWARD_WINNING_PATH, main17);
 getMovies(HIDDEN_GEMS_PATH, main18);
 getMovies(CLASSIC_MOVIES_PATH, main19);
+getMovies(VIETNAMESE_PATH, main22);
 getMovies(KOREAN_PATH, main21);
+getMovies(INDIAN_PATH, main23);
 
 const directors = [
     { name: "Alfred Hitchcock", id: "2636" },
@@ -463,7 +471,6 @@ const directors = [
 ];
 
 let currentDirectorIndex = 0;
-
 updateDirectorSpotlight();
 
 function changeDirector() {
@@ -481,8 +488,12 @@ setInterval(updateDirectorSpotlight, 3600000);
 function updateDirectorSpotlight() {
     const director = directors[currentDirectorIndex];
     document.getElementById('spotlight-director-name').textContent = director.name;
-    const url = `https://api.themoviedb.org/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_people=${director.id}&sort_by=popularity.desc&sort_by=vote_average.desc`;
+    const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_people=${director.id}&sort_by=popularity.desc&sort_by=vote_average.desc`;
     getDirectorSpotlight(url);
+}
+
+function getMovieVerseData(input) {
+    return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
 }
 
 function generateMovieNames(input) {
@@ -622,6 +633,7 @@ function handleSearch() {
     localStorage.setItem('searchQuery', searchQuery);
     window.location.href = 'MovieVerse-Frontend/html/search.html';
 }
+
 
 function checkAndClearLocalStorage() {
     const hasCleared = localStorage.getItem('hasUserClearedMovieVerseData2');

@@ -45,74 +45,78 @@
 </head>
 
 <body class="movie-details-body">
-<header style="margin-bottom: -50px; margin-top: -5px">
-    <a href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer" title="Click to go back to the home page">
-        <h1 id="my-heading" style="margin-bottom: -10px">
-            The Mo<span class="highlight">vieV</span>erse
-        </h1>
-    </a>
-    <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
-        <p id="stats-label" class="clock" style="font-size: 16px"></p>
-        <h1 id="stats-display" class="clock"></h1>
-    </div>
-    <button class="back-btn" onclick="window.location.href='../../index.html'">Home</button>
-    <button class="about" onclick="window.location.href='about.html'">About</button>
-    <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="Go to your favorites list">Favorites</button>
-    <button id="googleSignInBtn" class="nav-btn" onclick="handleSignInOut()" title="Sign In/Out">
-        <span id="signInOutText">Sign In</span>
-        <i class="fas fa-sign-in-alt" id="signInIcon"></i>
-        <i class="fas fa-sign-out-alt" id="signOutIcon" style="display: none;"></i>
-    </button>
-    <button id="profileBtn" class="nav-btn" onclick="window.location.href='user-profile.html'" title="Go to your profile">
-        <span id="profileText">Profile</span>
-        <i class="fas fa-user" id="profileIcon"></i>
-    </button>
-    <form id="form1">
-        <input
-                type="text"
-                id="search"
-                placeholder="Search For Anything..."
-                class="search"
-        />
-        <button type="button" id="button-search" onclick="handleSearch()">Search</button>
-    </form>
-</header>
+    <header style="margin-bottom: -50px; margin-top: -5px">
+        <a href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer" title="Click to go back to the home page">
+            <h1 id="my-heading" style="margin-bottom: -10px">
+                The Mo<span class="highlight">vieV</span>erse
+            </h1>
+        </a>
+        <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
+            <p id="stats-label" class="clock" style="font-size: 16px"></p>
+            <h1 id="stats-display" class="clock"></h1>
+        </div>
+        <button class="back-btn" onclick="window.location.href='../../index.html'">Home</button>
+        <button class="about" onclick="window.location.href='about.html'">About</button>
+        <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="Go to your favorites list">Favorites</button>
+        <button id="googleSignInBtn" class="nav-btn" onclick="handleSignInOut()" title="Sign In/Out">
+            <span id="signInOutText">Sign In</span>
+            <i class="fas fa-sign-in-alt" id="signInIcon"></i>
+            <i class="fas fa-sign-out-alt" id="signOutIcon" style="display: none;"></i>
+        </button>
+        <button id="profileBtn" class="nav-btn" onclick="window.location.href='user-profile.html'" title="Go to your profile">
+            <span id="profileText">Profile</span>
+            <i class="fas fa-user" id="profileIcon"></i>
+        </button>
+        <form id="form1">
+            <input
+                    type="text"
+                    id="search"
+                    placeholder="Search For Anything..."
+                    class="search"
+            />
+            <button type="button" id="button-search" onclick="handleSearch()">Search</button>
+        </form>
+    </header>
 
-<div class="genres" style="margin-left: 25px">
-    <h2 id="search-title"></h2>
-    <button id="clear-search-btn" style="display: none;">Clear Search Results</button>
-</div>
-
-<main id="main" style="margin-left: 25px; margin-bottom: -40px">
-
-</main>
-
-<div class="details-container" id="director-details-container">
-    <!-- Left side for Director Image -->
-    <div class="director-left">
-        <h2 id="director-name" class="director-header"></h2>
-        <img id="director-image" alt="Loading Director Details..." style="width: 25vw"/>
+    <div class="genres" style="margin-left: 25px">
+        <h2 id="search-title"></h2>
+        <button id="clear-search-btn" style="display: none;">Clear Search Results</button>
     </div>
 
-    <!-- Right side for Description and Info -->
-    <div class="director-right" id="director-description">
-        <!-- Director details will be populated here -->
+    <main id="main" style="margin-left: 25px; margin-bottom: -40px">
+
+    </main>
+
+    <div class="details-container" id="director-details-container">
+        <!-- Left side for Director Image -->
+        <div class="director-left">
+            <h2 id="director-name" class="director-header"></h2>
+            <img id="director-image" alt="Loading Director Details..." style="width: 25vw"/>
+        </div>
+
+        <!-- Right side for Description and Info -->
+        <div class="director-right" id="director-description">
+            <!-- Director details will be populated here -->
+        </div>
     </div>
-</div>
 
-<script src="../js/christopher-nolan.js"></script>
+    <script src="../js/christopher-nolan.js"></script>
 
-<button id="settings-btn" style="position: fixed; bottom: 185px">Settings</button>
+    <button id="settings-btn" style="position: fixed; bottom: 185px">Settings</button>
 
-<button id="movie-match-btn" onclick="window.location.href='movie-match.html'" title="Find movies that match your mood and preferences!" style="bottom: 150px">Movie Match</button>
+    <button id="movie-match-btn" onclick="window.location.href='movie-match.html'" title="Find movies that match your mood and preferences!" style="bottom: 150px">Movie Match</button>
 
-<button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 115px">Movie Timeline</button>
+    <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 115px">Movie Timeline</button>
 
-<button id="movie-of-the-day-btn2" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!">Recommendation</button>
+    <button id="movie-of-the-day-btn2" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!">Recommendation</button>
 
-<button id="discussions-btn" onclick="window.location.href='chatbot.html'" title="Want to know more about movies? Chat with our intelligent chatbot!" style="margin-bottom: -55px">MovieVerse Chatbot</button>
+    <button id="discussions-btn" onclick="window.location.href='chatbot.html'" title="Want to know more about movies? Chat with our intelligent chatbot!" style="margin-bottom: -55px">MovieVerse Chatbot</button>
 
-<button id="trivia-btn" onclick="window.location.href='trivia.html'" style="margin-bottom: -50px" title="Play a quick trivia to test your knowledge about movies!">MovieVerse Trivia</button>
+    <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="margin-bottom: -50px" title="Play a quick trivia to test your knowledge about movies!">MovieVerse Trivia</button>
+
+    <footer>
+        <p>© 2024 The MovieVerse. All rights reserved.</p>
+    </footer>
 
 </body>
 

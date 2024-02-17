@@ -536,13 +536,13 @@ function movieVerseResponse(message) {
     } else if (lowerMessage.includes("movie description") || lowerMessage.includes("tell me about")) {
         return "Sure, please provide the movie name you want to learn about, and I'll fetch its description for you!";
     } else if (lowerMessage.includes("how many movies")) {
-        return "MovieVerse has a vast databases of millions of movies. You can search for any movie, and I'll try to fetch details for you!";
+        return "MovieVerse has a vast MovieVerse-Databases of millions of movies. You can search for any movie, and I'll try to fetch details for you!";
     } else if (lowerMessage.includes("latest movies")) {
         return "I can provide information on recent movie releases. However, for the most up-to-date releases, consider checking the 'Latest Movies' section of MovieVerse!";
     } else if (lowerMessage.includes("recommend a movie") || lowerMessage.includes("suggestion")) {
         return "Certainly! How about watching 'Inception'? It's a critically acclaimed movie with a captivating plot!";
     } else if (lowerMessage.includes("how does this work") || lowerMessage.includes("how to use")) {
-        return "Simply type in your query related to a movie, and I'll provide details from our MovieVerse databases. You can ask about IMDb ratings, descriptions, and more!";
+        return "Simply type in your query related to a movie, and I'll provide details from our MovieVerse MovieVerse-Databases. You can ask about IMDb ratings, descriptions, and more!";
     } else if (lowerMessage.includes("who created this") || lowerMessage.includes("developer")) {
         return "MovieVerse is the result of the hard work of dedicated developers passionate about movies. We hope you find it helpful!";
     } else if (lowerMessage.includes("top rated movies")) {
