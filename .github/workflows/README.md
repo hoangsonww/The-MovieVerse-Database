@@ -30,6 +30,7 @@ The `static.yml` workflow is designed for deploying static content to GitHub Pag
 - **Concurrency control** to manage deployment flows and ensure stability in production deployments.
 
 
+
 ### `greet-contributors.yml` - Greet New Contributors
 
 The `greet-contributors.yml` file defines a workflow that sends a greeting message to new contributors when they open their first pull request. This workflow is triggered on pull request events and checks if the pull request is the first one opened by the contributor.
