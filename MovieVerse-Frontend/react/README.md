@@ -43,7 +43,7 @@ npm run build
 ```
 
 ## Development Notes
-- The project is under active development; thus, components are subject to change.
+- The project is under active development; thus, these components are subject to change.
 - Ensure to replace mock API URLs with actual endpoints.
 - Components are designed with modularity and reusability in mind.
 
