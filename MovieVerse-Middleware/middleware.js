@@ -68,7 +68,7 @@ const validateMovieData = (req, res, next) => {
     next();
 };
 
-// Applying the authentication middleware to a specific route
+// Applying the authentication MovieVerse-Middleware to a specific route
 app.post('/api/movies', authenticate, validateMovieData, (req, res) => {
     const { title, overview, releaseDate } = req.body;
     const movie = {
