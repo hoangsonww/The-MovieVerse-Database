@@ -1,6 +1,6 @@
 # README for `MovieVerse-Databases` Directory
 
-Welcome to the `MovieVerse-Database` directory of the MovieVerse App! This directory contains the SQL and JavaScript files essential for setting up and managing the databases used in the application, including Firebase, MySQL, and MongoDB.
+Welcome to the `MovieVerse-Database` directory of the MovieVerse App! This directory contains the SQL and JavaScript files essential for setting up and managing the databases used in the application, including Firebase, MySQL, and MongoDB. NOTE: These files are only placeholders and do not reflect what are actually used by us in production or development - you need to contact us for more details about using our databases if you would like to contribute and need database access!
 
 ---
 
@@ -43,6 +43,6 @@ These files are crucial for setting up the backend of the application. Ensure th
 
 ## Customization and Adaptation
 
-You may need to customize these scripts to fit the specific needs of your application. Be sure to regularly backup your databases before making any changes to these scripts.
+You may need to customize these scripts to fit the specific needs of your application. Be sure to regularly back up your databases before making any changes to these scripts.
 
 ---
