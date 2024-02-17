@@ -466,7 +466,7 @@ header h1 {
 .movie img, .tvSeries img {
     height: 435px;
     width: 100%;
-    object-fit: cover; /* This will cover the area of the div without distorting the ratio */
+    object-fit: cover;
     display: block;
 }
 
