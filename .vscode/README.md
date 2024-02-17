@@ -41,3 +41,5 @@ The `.vscode` directory is often included in the version control system to share
 ## Conclusion
 
 The `.vscode` directory and the `settings.json` file play a vital role in maintaining a consistent and productive development environment across all contributors. Proper management of this configuration file is key to a harmonious workflow within the VS Code IDE.
+
+---
