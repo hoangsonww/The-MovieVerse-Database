@@ -2619,3 +2619,9 @@ footer {
     background-color: #7378c5;
     color: white;
 }
+
+footer {
+    position: sticky;
+    bottom: 0;
+    /* Additional footer styles (width, background, etc.) */
+}
