@@ -29,7 +29,13 @@ The `static.yml` workflow is designed for deploying static content to GitHub Pag
 - **Manual deployment option** through the GitHub Actions tab, providing flexibility for updates and maintenance.
 - **Concurrency control** to manage deployment flows and ensure stability in production deployments.
 
-### `github-actions-tes`
+### `github-actions-deploy.yml` - GitHub Actions Deployment Workflow
+
+The `github-actions-deploy.yml` file defines a workflow that automatically deploys our project to a server or cloud environment using GitHub Actions. This workflow is triggered on pushes to the main branch and uses deployment keys for secure and seamless deployment.
+
+### `auto-label-issues.yml` - Automatic Issue Labeling
+
+The `auto-label-issues.yml` file defines a workflow that automatically labels issues based on the content of the issue body. This workflow is triggered on issue events and uses predefined rules to categorize and label issues.
 
 ### `greet-contributors.yml` - Greet New Contributors
 
