@@ -69,5 +69,12 @@ These files are pre-configured for a standard setup but might require adjustment
 
 If you would like to contribute to the development or improvement of these configuration files, please follow the contribution guidelines outlined in the project's main documentation.
 
+## License
+
+These configuration files are part of the MovieVerse App and are subject to the project's overall license terms.
+
+## Contact
+
+For any further questions or requests, please reach out to the project maintainers at [info@movie-verse.com](mailto:info@movie-verse.com).
 
 ---
