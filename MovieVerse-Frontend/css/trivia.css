@@ -177,6 +177,10 @@ p {
     color: #ff8623;
 }
 
+.highlight:hover {
+    color: #f509d9;
+}
+
 footer {
     text-align: center;
     padding: 20px 0;

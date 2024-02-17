@@ -1,6 +1,6 @@
-# README for `Database` Directory
+# README for `MovieVerse-Databases` Directory
 
-Welcome to the `Database` directory of the MovieVerse App! This directory contains the SQL and JavaScript files essential for setting up and managing the databases used in the application, including Firebase, MySQL, and MongoDB.
+Welcome to the `MovieVerse-Database` directory of the MovieVerse App! This directory contains the SQL and JavaScript files essential for setting up and managing the databases used in the application, including Firebase, MySQL, and MongoDB.
 
 ---
 
@@ -15,7 +15,7 @@ Welcome to the `Database` directory of the MovieVerse App! This directory contai
 
 ## Overview
 
-The `Database` directory is critical for managing the data structures and schemas for the MovieVerse application. It includes files for setting up relational databases (MySQL) and NoSQL databases (MongoDB, Firebase).
+The `MovieVerse-Database` directory is critical for managing the data structures and schemas for the MovieVerse application. It includes files for setting up relational databases (MySQL) and NoSQL databases (MongoDB, Firebase).
 
 ### movie-user.sql
 
