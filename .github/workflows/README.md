@@ -41,11 +41,6 @@ The `auto-label-issues.yml` file defines a workflow that automatically labels is
 
 The `greet-contributors.yml` file defines a workflow that sends a greeting message to new contributors when they open their first pull request. This workflow is triggered on pull request events and checks if the pull request is the first one opened by the contributor.
 
-#### Key Features:
-
-- **Automates labeling** based on file paths, simplifying the categorization of pull requests.
-- **Configurable labels** via a `.github/labeler.yml` file, allowing for custom rules and label management.
-
 ## Getting Started
 
 To make the most out of these workflows, ensure you have the following:
