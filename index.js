@@ -1,5 +1,4 @@
-const main = document.getElementById("most-popular");
-const main2 = document.getElementById("main2");
+const most_popular_main = document.getElementById("most-popular");
 const action_main = document.getElementById("action");
 const horror_main = document.getElementById("horror");
 const documentary_main = document.getElementById("documentary");
@@ -419,7 +418,7 @@ const HIDDEN_GEMS_PATH = `https://${getMovieVerseData()}/3/discover/movie?api_ke
 const AWARD_WINNING_PATH = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=1000`;
 const CLASSIC_MOVIES_PATH = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&sort_by=popularity.desc&release_date.lte=1980`;
 
-getMovies(DATABASEURL, main);
+getMovies(DATABASEURL, most_popular_main);
 getMovies(ACTIONpath, action_main);
 getMovies(HORRORpath, horror_main);
 getMovies(DOCUMENTARYRpath, documentary_main);
