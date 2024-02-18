@@ -17,9 +17,9 @@ const main16 = document.getElementById("crime");
 const main17 = document.getElementById('award-winning');
 const main18 = document.getElementById('hidden-gems');
 const main19 = document.getElementById('classic');
-const main20 = document.getElementById('director-spotlight');
-const main21 = document.getElementById('korean');
-const main22 = document.getElementById('vietnamese');
+const director_main = document.getElementById('director-spotlight');
+const korean_main = document.getElementById('korean');
+const vietnamese_main = document.getElementById('vietnamese');
 const indian_main = document.getElementById("indian");
 
 const form = document.getElementById("form");
@@ -437,8 +437,8 @@ getMovies(CRIMEpath, main16);
 getMovies(AWARD_WINNING_PATH, main17);
 getMovies(HIDDEN_GEMS_PATH, main18);
 getMovies(CLASSIC_MOVIES_PATH, main19);
-getMovies(VIETNAMESE_PATH, main22);
-getMovies(KOREAN_PATH, main21);
+getMovies(VIETNAMESE_PATH, vietnamese_main);
+getMovies(KOREAN_PATH, korean_main);
 getMovies(INDIAN_PATH, indian_main);
 
 const directors = [
@@ -517,7 +517,7 @@ async function getDirectorSpotlight(url) {
 }
 
 function showMoviesDirectorSpotlight(movies) {
-    main20.innerHTML = ' ';
+    director_main.innerHTML = ' ';
     movies.forEach((movie) => {
         const { id, poster_path, title, vote_average, overview } = movie;
         const movieE1 = document.createElement('div');
@@ -545,7 +545,7 @@ function showMoviesDirectorSpotlight(movies) {
             updateMovieVisitCount(id, title);
         });
 
-        main20.appendChild(movieE1);
+        director_main.appendChild(movieE1);
     });
 }
 
