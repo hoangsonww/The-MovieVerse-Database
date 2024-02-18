@@ -20,7 +20,7 @@ const main19 = document.getElementById('classic');
 const main20 = document.getElementById('director-spotlight');
 const main21 = document.getElementById('korean');
 const main22 = document.getElementById('vietnamese');
-const main23 = document.getElementById("indian"); // New section for Indian movies
+const main23 = document.getElementById("indian");
 
 const form = document.getElementById("form");
 const search = document.getElementById("search");
