@@ -473,23 +473,31 @@ let currentDirectorIndex = 0;
 updateDirectorSpotlight();
 
 function changeDirector() {
-    let randomIndex = Math.floor(Math.random() * directors.length);
-    while(randomIndex === currentDirectorIndex) {
-        randomIndex = Math.floor(Math.random() * directors.length);
+    // Increment the currentDirectorIndex by 1, moving to the next director
+    currentDirectorIndex++;
+
+    // Check if the index has exceeded the length of the directors array
+    if (currentDirectorIndex >= directors.length) {
+        // Reset the index to 0 to loop back to the beginning
+        currentDirectorIndex = 0;
     }
 
-    currentDirectorIndex = randomIndex;
+    // Update the director spotlight with the new director
     updateDirectorSpotlight();
 }
 
-setInterval(updateDirectorSpotlight, 3600000);
+// Call updateDirectorSpotlight every 3600000 milliseconds (1 hour)
+setInterval(changeDirector, 3600000);  // Changed to call changeDirector to actually cycle through directors
 
 function updateDirectorSpotlight() {
     const director = directors[currentDirectorIndex];
     document.getElementById('spotlight-director-name').textContent = director.name;
+    // Construct the URL with the current director's ID
     const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_people=${director.id}&sort_by=popularity.desc&sort_by=vote_average.desc`;
+    // Fetch and display the director's spotlight information
     getDirectorSpotlight(url);
 }
+
 
 function getMovieVerseData(input) {
     return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
