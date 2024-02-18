@@ -1,26 +1,25 @@
-const main = document.getElementById("most-popular");
-const main2 = document.getElementById("main2");
-const main3 = document.getElementById("action");
-const main4 = document.getElementById("horror");
-const main5 = document.getElementById("documentary");
-const main6 = document.getElementById("animation");
-const main7 = document.getElementById("sci-fi");
-const main8 = document.getElementById("romantic");
-const main9 = document.getElementById("thriller");
-const main10 = document.getElementById("mystery");
-const main11 = document.getElementById("adventure");
-const main12 = document.getElementById("comedy");
-const main13 = document.getElementById("fantasy");
-const main14 = document.getElementById("family");
-const main15 = document.getElementById("tv-series");
-const main16 = document.getElementById("crime");
-const main17 = document.getElementById('award-winning');
-const main18 = document.getElementById('hidden-gems');
-const main19 = document.getElementById('classic');
-const main20 = document.getElementById('director-spotlight');
-const main21 = document.getElementById('korean');
-const main22 = document.getElementById('vietnamese');
-const main23 = document.getElementById("indian");
+const most_popular_main = document.getElementById("most-popular");
+const action_main = document.getElementById("action");
+const horror_main = document.getElementById("horror");
+const documentary_main = document.getElementById("documentary");
+const animation_main = document.getElementById("animation");
+const scifi_main = document.getElementById("sci-fi");
+const romantic_main = document.getElementById("romantic");
+const thriller_main = document.getElementById("thriller");
+const mystery_main = document.getElementById("mystery");
+const adventure_main = document.getElementById("adventure");
+const comedy_main = document.getElementById("comedy");
+const fantasy_main = document.getElementById("fantasy");
+const family_main = document.getElementById("family");
+const tv_series_main = document.getElementById("tv-series");
+const crime_main = document.getElementById("crime");
+const award_winning_main = document.getElementById('award-winning');
+const hidden_gems_main = document.getElementById('hidden-gems');
+const classic_main = document.getElementById('classic');
+const director_main = document.getElementById('director-spotlight');
+const korean_main = document.getElementById('korean');
+const vietnamese_main = document.getElementById('vietnamese');
+const indian_main = document.getElementById("indian");
 
 const form = document.getElementById("form");
 const search = document.getElementById("search");
@@ -414,32 +413,32 @@ const TVpath = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMov
 const CRIMEpath = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_genres=80&sort_by=popularity.desc&vote_count.gte=8`;
 const VIETNAMESE_PATH = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_original_language=vi&sort_by=popularity.desc`;
 const KOREAN_PATH = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_original_language=ko&sort_by=vote_average.desc,popularity.desc&vote_count.gte=10&vote_average.gte=8`;
-const INDIAN_PATH = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_original_language=hi&sort_by=popularity.desc`; // Fetching Hindi movies as a representation
+const INDIAN_PATH = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_original_language=hi&sort_by=popularity.desc`;
 const HIDDEN_GEMS_PATH = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&vote_average.gte=7&popularity.lte=10`;
 const AWARD_WINNING_PATH = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=1000`;
 const CLASSIC_MOVIES_PATH = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&sort_by=popularity.desc&release_date.lte=1980`;
 
-getMovies(DATABASEURL, main);
-getMovies(ACTIONpath, main3);
-getMovies(HORRORpath, main4);
-getMovies(DOCUMENTARYRpath, main5);
-getMovies(ANIMATIONpath, main6);
-getMovies(SCIFIpath, main7);
-getMovies(ROMANTICpath, main8);
-getMovies(THRILLERpath, main9);
-getMovies(MYSTERYpath, main10);
-getMovies(ADVENTUREpath, main11);
-getMovies(COMEDYpath, main12);
-getMovies(FANTASYpath, main13);
-getMovies(FAMILYpath, main14);
-getMovies(TVpath, main15);
-getMovies(CRIMEpath, main16);
-getMovies(AWARD_WINNING_PATH, main17);
-getMovies(HIDDEN_GEMS_PATH, main18);
-getMovies(CLASSIC_MOVIES_PATH, main19);
-getMovies(VIETNAMESE_PATH, main22);
-getMovies(KOREAN_PATH, main21);
-getMovies(INDIAN_PATH, main23);
+getMovies(DATABASEURL, most_popular_main);
+getMovies(ACTIONpath, action_main);
+getMovies(HORRORpath, horror_main);
+getMovies(DOCUMENTARYRpath, documentary_main);
+getMovies(ANIMATIONpath, animation_main);
+getMovies(SCIFIpath, scifi_main);
+getMovies(ROMANTICpath, romantic_main);
+getMovies(THRILLERpath, thriller_main);
+getMovies(MYSTERYpath, mystery_main);
+getMovies(ADVENTUREpath, adventure_main);
+getMovies(COMEDYpath, comedy_main);
+getMovies(FANTASYpath, fantasy_main);
+getMovies(FAMILYpath, family_main);
+getMovies(TVpath, tv_series_main);
+getMovies(CRIMEpath, crime_main);
+getMovies(AWARD_WINNING_PATH, award_winning_main);
+getMovies(HIDDEN_GEMS_PATH, hidden_gems_main);
+getMovies(CLASSIC_MOVIES_PATH, classic_main);
+getMovies(VIETNAMESE_PATH, vietnamese_main);
+getMovies(KOREAN_PATH, korean_main);
+getMovies(INDIAN_PATH, indian_main);
 
 const directors = [
     { name: "Alfred Hitchcock", id: "2636" },
@@ -474,20 +473,21 @@ let currentDirectorIndex = 0;
 updateDirectorSpotlight();
 
 function changeDirector() {
-    let randomIndex = Math.floor(Math.random() * directors.length);
-    while(randomIndex === currentDirectorIndex) {
-        randomIndex = Math.floor(Math.random() * directors.length);
+    currentDirectorIndex++;
+
+    if (currentDirectorIndex >= directors.length) {
+        currentDirectorIndex = 0;
     }
 
-    currentDirectorIndex = randomIndex;
     updateDirectorSpotlight();
 }
 
-setInterval(updateDirectorSpotlight, 3600000);
+setInterval(changeDirector, 3600000);
 
 function updateDirectorSpotlight() {
     const director = directors[currentDirectorIndex];
     document.getElementById('spotlight-director-name').textContent = director.name;
+
     const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_people=${director.id}&sort_by=popularity.desc&sort_by=vote_average.desc`;
     getDirectorSpotlight(url);
 }
@@ -517,7 +517,7 @@ async function getDirectorSpotlight(url) {
 }
 
 function showMoviesDirectorSpotlight(movies) {
-    main20.innerHTML = ' ';
+    director_main.innerHTML = ' ';
     movies.forEach((movie) => {
         const { id, poster_path, title, vote_average, overview } = movie;
         const movieE1 = document.createElement('div');
@@ -545,7 +545,7 @@ function showMoviesDirectorSpotlight(movies) {
             updateMovieVisitCount(id, title);
         });
 
-        main20.appendChild(movieE1);
+        director_main.appendChild(movieE1);
     });
 }
 
@@ -633,7 +633,6 @@ function handleSearch() {
     localStorage.setItem('searchQuery', searchQuery);
     window.location.href = 'MovieVerse-Frontend/html/search.html';
 }
-
 
 function checkAndClearLocalStorage() {
     const hasCleared = localStorage.getItem('hasUserClearedMovieVerseData2');
