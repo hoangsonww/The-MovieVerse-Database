@@ -10,13 +10,13 @@
     <meta property="og:type" content="website" />
     <meta http-equiv="content-language" content="en" />
     <meta property="og:description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more." />
-    <meta property="og:url" content="https://hoangsonww.github.io/The-MovieVerse-Database/src/html/about.html" />
+    <meta property="og:url" content="https://movie-verse.com/MovieVerse-Frontend/html/about.html" />
     <meta property="og:site_name" content="About The MovieVerse" />
-    <meta property="og:image" content="https://hoangsonww.github.io/The-MovieVerse-Database/images/image.png"/>
+    <meta property="og:image" content="https://movie-verse.com/images/image.png"/>
     <meta property="og:favicon" content="./images/favicon.ico" />
     <meta name="keywords" content="movies, film guide, directors, actors, movie genres, cinema, film reviews">
     <meta name="author" content="Son Nguyen Hoang">
-    <link rel="canonical" href="https://hoangsonww.github.io/The-MovieVerse-Database/"/>
+    <link rel="canonical" href="https://movie-verse.com/"/>
     <meta name="robots" content="index, follow">
     <meta name="rating" content="General">
     <meta name="revisit-after" content="3 days">
@@ -24,10 +24,10 @@
     <meta http-equiv="content-language" content="en">
     <meta name="language" content="en">
     <meta name="theme-color" content="#7378c5">
-    <meta name="twitter:card" content="https://hoangsonww.github.io/The-MovieVerse-Database/images/image.png"/>
+    <meta name="twitter:card" content="https://movie-verse.com/images/image.png"/>
     <meta name="twitter:title" content="The MovieVerse - Your Ultimate Movie Guide">
     <meta name="twitter:description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more.">
-    <meta name="twitter:image" content="https://hoangsonww.github.io/The-MovieVerse-Database/images/image.png"/>
+    <meta name="twitter:image" content="https://movie-verse.com/images/image.png"/>
     <meta name="referrer" content="no-referrer-when-downgrade">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <link rel="manifest" href="../../manifest.json">
@@ -196,13 +196,6 @@
         <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 10px" title="Test your movie knowledge">MovieVerse Trivia</button>
     </header>
 
-    <div id="search-results-header">
-        <h2 id="search-title"></h2>
-        <button id="clear-search-btn" style="display: none">Clear Search Results</button>
-    </div>
-
-    <main id="search-results"></main>
-
     <main id="settings-container" class="settings-container" style="margin-bottom: 200px">
         <!-- Background Setting -->
         <div class="settings-section">
@@ -341,14 +334,6 @@
             document.getElementById('googleSignInBtn').addEventListener('click', handleSignInOut);
         });
 
-        const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&api_key=c5a20c861acf7bb8d9e987dcc7f1b558&query=`;
-        const IMGPATH = "https://image.tmdb.org/t/p/w1280";
-
-        document.addEventListener("DOMContentLoaded", function() {
-            updateSignInButton();
-            initClient();
-        });
-
         const movieCode1 = {
             part1: 'YzVhMjBjODY=',
             part2: 'MWFjZjdiYjg=',
@@ -389,123 +374,6 @@
                 fallbackMovieSelection();
             }
         }
-
-        const searchForm = document.getElementById('form');
-        const searchBtn = document.getElementById('button-search');
-        const searchResultsMain = document.getElementById('search-results');
-        const altTitle = document.getElementById('search-title');
-
-        function getClassByRate(vote){
-            if (vote >= 8) {
-                return 'green';
-            }
-            else if (vote >= 5) {
-                return 'orange';
-            }
-            else {
-                return 'red';
-            }
-        }
-
-        searchForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const searchTerm = search.value.trim();
-
-            if (searchTerm) {
-                getMovies(SEARCHPATH + searchTerm);
-                altTitle.innerHTML = 'Search Results for: ' + searchTerm;
-                document.getElementById('search-container').style.display = 'flex';
-                search.value = '';
-            }
-            else {
-                altTitle.innerHTML = 'Please enter a search term.';
-                document.getElementById('search-container').style.display = 'none';
-            }
-        });
-
-        searchBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            const searchTerm = search.value;
-
-            if (searchTerm) {
-                getMovies(SEARCHPATH + searchTerm);
-                altTitle.innerHTML = 'Search Results for: ' + searchTerm;
-                document.getElementById('search-container').style.display = 'flex';
-                search.value = '';
-            }
-            else {
-                altTitle.innerHTML = 'Please enter a search term.';
-                document.getElementById('search-container').style.display = 'none';
-            }
-        });
-
-        async function getMovies(url) {
-            const numberOfMovies = calculateMoviesToDisplay();
-            const pagesToFetch = numberOfMovies <= 20 ? 1 : 2;
-            let allMovies = [];
-
-            for (let page = 1; page <= pagesToFetch; page++) {
-                const response = await fetch(`${url}&page=${page}`);
-                const data = await response.json();
-                allMovies = allMovies.concat(data.results);
-            }
-
-            const popularityThreshold = 0.5;
-
-            allMovies.sort((a, b) => {
-                const popularityDifference = Math.abs(a.popularity - b.popularity);
-                if (popularityDifference < popularityThreshold) {
-                    return b.vote_average - a.vote_average;
-                }
-                return b.popularity - a.popularity;
-            });
-
-            if (allMovies.length > 0) {
-                showMovies(allMovies.slice(0, numberOfMovies));
-                document.getElementById('clear-search-btn').style.display = 'block';
-            }
-            else {
-                searchResultsMain.innerHTML = `<p>No movie with the specified search term found. Please try again.</p>`;
-                document.getElementById('clear-search-btn').style.display = 'none';
-            }
-        }
-
-        function showMovies(movies){
-            searchResultsMain.innerHTML = '';
-            movies.forEach((movie) => {
-                const { id, poster_path, title, vote_average, overview } = movie;
-                const movieE1 = document.createElement('div');
-                const voteAverage = vote_average.toFixed(1);
-                movieE1.classList.add('movie');
-
-                const movieImage = poster_path
-                    ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
-                    : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
-
-                movieE1.innerHTML = `
-            ${movieImage}
-            <div class="movie-info" style="cursor: pointer;">
-                <h3>${title}</h3>
-                <span class="${getClassByRate(vote_average)}">${voteAverage}</span>
-            </div>
-            <div class="overview" style="cursor: pointer;">
-                <h4>Movie Overview: </h4>
-                ${overview}
-            </div>`;
-
-                movieE1.addEventListener('click', () => {
-                    localStorage.setItem('selectedMovieId', id);
-                    window.location.href = 'movie-details.html';
-                    updateMovieVisitCount(id, title);
-                });
-
-                searchResultsMain.appendChild(movieE1);
-            });
-        }
-
-        document.getElementById('clear-search-btn').addEventListener('click', () => {
-            location.reload();
-        });
 
         function calculateMoviesToDisplay() {
             const screenWidth = window.innerWidth;
@@ -696,6 +564,25 @@
         }
 
         document.addEventListener('DOMContentLoaded', rotateUserStats);
+
+        const form = document.getElementById('form');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const searchQuery = document.getElementById('search').value;
+            localStorage.setItem('searchQuery', searchQuery);
+            window.location.href = 'search.html';
+        });
+
+        function handleSearch() {
+            const searchQuery = document.getElementById('search').value;
+            localStorage.setItem('searchQuery', searchQuery);
+            window.location.href = 'search.html';
+        }
     </script>
+
+    <footer>
+        <p>© 2024 The MovieVerse. All rights reserved.</p>
+    </footer>
 </body>
 </html>

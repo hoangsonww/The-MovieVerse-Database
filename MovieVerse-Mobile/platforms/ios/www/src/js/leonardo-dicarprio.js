@@ -82,7 +82,7 @@ let initialMainContent = '';
 document.addEventListener('DOMContentLoaded', () => {
     initialMainContent = document.getElementById('main').innerHTML;
 
-    const actorId = localStorage.getItem('selectedActorId');
+    const actorId = 6193;
     if (actorId) {
         fetchActorDetails(actorId);
     }

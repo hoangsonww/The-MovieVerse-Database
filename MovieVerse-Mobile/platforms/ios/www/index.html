@@ -6,6 +6,8 @@
     <meta charset="UTF-8">
     <title>The MovieVerse</title>
     <script src="src/js/settings.js"></script>
+
+    <!-- Meta tags for SEO -->
     <meta property="og:title" content="The MovieVerse - Your Ultimate Movie Guide" />
     <meta name="description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -32,24 +34,26 @@
     <meta name="twitter:description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more.">
     <meta name="twitter:image" content="https://movie-verse.com/images/image.png"/>
     <meta name="referrer" content="no-referrer-when-downgrade">
+
+    <!-- Stylesheets and scripts -->
     <link rel="stylesheet" href="src/css/style.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <script src="index.js" defer></script>
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <link rel="manifest" href="manifest.json">
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-
-        gtag('js', new Date());
-
-        gtag('config', 'G-CQKJ67FXZ4');
-    </script>
 </head>
 
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-CQKJ67FXZ4');
+</script>
+
 <body class="movie-details-body3">
-    <header id="homepage-header" style="margin-bottom: -10px">
+    <header id="homepage-header" style="margin-bottom: -10px; margin-top: -5px">
         <a id="indexLink" href="index.html" style="text-decoration: none; color: inherit; cursor: pointer">
             <h1 id="my-heading" style="margin-bottom: -10px">
                 The Mo<span class="highlight">vieV</span>erse
@@ -66,10 +70,10 @@
         </button>
 
         <button class="back-btn nav-btn" onclick="window.location.href='index.html'" title="Go back to homepage">Home</button>
-        <button class="about nav-btn" onclick="window.location.href='./src/html/about.html'" title="About this wonderful app!">About</button>
-        <button class="favorites-btn nav-btn" onclick="window.location.href='./src/html/favorites.html'" title="Go to your favorites list">Favorites</button>
+        <button class="about nav-btn" onclick="window.location.href='MovieVerse-Frontend/html/about.html'" title="About this wonderful app!">About</button>
+        <button class="favorites-btn nav-btn" onclick="window.location.href='MovieVerse-Frontend/html/favorites.html'" title="Go to your favorites list">Favorites</button>
 
-        <button id="profileBtn" class="nav-btn" onclick="window.location.href='./src/html/user-profile.html'" title="Go to your profile">
+        <button id="profileBtn" class="nav-btn" onclick="window.location.href='MovieVerse-Frontend/html/user-profile.html'" title="Go to your profile">
             <span id="profileText">Profile</span>
             <i class="fas fa-user" id="profileIcon"></i>
         </button>
@@ -92,9 +96,11 @@
     </header>
 
     <nav id="side-nav" class="side-nav">
-        <h1 id="my-heading" style="margin-bottom: 5px; margin-left: 0">
-            The Mo<span class="highlight">vieV</span>erse Menu
-        </h1>
+        <a href="index.html" id="heading-href">
+            <h1 id="my-heading" style="margin-bottom: 5px; margin-left: 0">
+                The Mo<span class="highlight">vieV</span>erse Menu
+            </h1>
+        </a>
         <div id="button-container">
             <button id="button-remove" title="Close the navbar" onclick="removeNavBar()">Close</button>
         </div>
@@ -105,9 +111,11 @@
             <li><a href="#hidden-gems">Hidden Gems</a></li>
             <li><a href="#director-spotlight">Director's Spotlight</a></li>
             <li><a href="#action">Action</a></li>
-            <li><a href="#horror">Horror</a></li>
-            <li><a href="#tv-series">TV Series</a></li>
+            <li><a href="#vietnamese">Vietnamese</a></li>
             <li><a href="#korean">Korean</a></li>
+            <li><a href="#indian">Indian</a></li>
+            <li><a href="#tv-series">TV Series</a></li>
+            <li><a href="#horror">Horror</a></li>
             <li><a href="#documentary">Documentary</a></li>
             <li><a href="#animation">Animation</a></li>
             <li><a href="#sci-fi">Science Fiction</a></li>
@@ -130,7 +138,7 @@
             <i class="fas fa-sign-out-alt" id="mobileSignOutIcon" style="display: none;"></i>
         </button>
 
-        <button id="mobileProfileBtn" class="nav-btn" onclick="window.location.href='./src/html/user-profile.html'" title="Go to your profile">
+        <button id="mobileProfileBtn" class="nav-btn" onclick="window.location.href='MovieVerse-Frontend/html/user-profile.html'" title="Go to your profile">
             <span id="mobileProfileText">Profile</span>
             <i class="fas fa-user" id="mobileProfileIcon"></i>
         </button>
@@ -147,7 +155,7 @@
         <h1 id="other1"></h1>
     </div>
 
-    <div class="genres"  >
+    <div class="genres">
         <h2 style="margin-top: 35px">Award-Winning Movies:</h2>
     </div>
 
@@ -160,85 +168,97 @@
 
     <main id="director-spotlight"></main>
 
-    <div class="genres"  >
+    <div class="genres">
         <h2 style="margin-top: 35px">Hidden Gems:</h2>
     </div>
 
     <main id="hidden-gems"></main>
 
-    <div class="genres"  >
+    <div class="genres">
         <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">ACTION</span> Movies: </h2>
     </div>
 
     <main id="action"></main>
 
-    <div class="genres"  >
-        <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">HORROR</span> Movies: </h2>
+    <div class="genres">
+        <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">VIETNAMESE</span> Movies: </h2>
     </div>
 
-    <main id="horror"></main>
+    <main id="vietnamese"></main>
 
-    <div class="genres"  >
+    <div class="genres">
+        <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">KOREAN</span> Movies: </h2>
+    </div>
+
+    <main id="korean"></main>
+
+    <div class="genres">
+        <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">INDIAN</span> Movies: </h2>
+    </div>
+
+    <main id="indian"></main>
+
+    <div class="genres">
         <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">TV SERIES</span>: </h2>
     </div>
 
     <main id="tv-series"></main>
 
     <div class="genres">
-        <h2 id="other" style="margin-top: 35px">Best <span class="highlight">KOREAN</span> Movies: </h2>
+        <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">HORROR</span> Movies: </h2>
     </div>
 
-    <main id="korean"></main>
+    <main id="horror"></main>
 
-    <div class="genres"  >
+    <div class="genres">
         <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">DOCUMENTARY</span> Movies: </h2>
     </div>
 
     <main id="documentary"></main>
 
-    <div class="genres"  >
+    <div class="genres">
         <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">ANIMATED</span> Movies: </h2>
     </div>
 
     <main id="animation"></main>
 
-    <div class="genres"  >
+    <div class="genres">
         <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">SCIENCE FICTION</span> Movies: </h2>
     </div>
 
     <main id="sci-fi"></main>
 
-    <div class="genres"  >
+    <div class="genres">
         <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">ROMANTIC</span> Movies: </h2>
     </div>
 
     <main id="romantic"></main>
 
-    <div class="genres"  >
+    <div class="genres">
         <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">THRILLER</span> Movies: </h2>
     </div>
 
     <main id="thriller"></main>
 
-    <div class="genres"  >
+    <div class="genres">
         <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">MYSTERY</span> Movies: </h2>
     </div>
 
     <main id="mystery"></main>
 
-    <div class="genres"  >
+    <div class="genres">
         <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">ADVENTURE</span> Movies: </h2>
     </div>
 
     <main id="adventure"></main>
 
-    <div class="genres"  >
+    <div class="genres">
         <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">COMEDY</span> Movies: </h2>
     </div>
 
     <main id="comedy"></main>
 
-    <div class="genres"  >
+    <div class="genres">
         <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">FANTASY</span> Movies: </h2>
     </div>
 
@@ -250,29 +270,33 @@
 
     <main id="family"></main>
 
-    <div class="genres"  >
+    <div class="genres">
         <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">CRIME</span> Movies: </h2>
     </div>
 
     <main id="crime"></main>
 
-    <div class="genres"  >
+    <div class="genres">
         <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">CLASSIC</span> Movies: </h2>
     </div>
 
     <main id="classic" style="margin-bottom: 230px"></main>
 
-    <button id="movie-match-btn" onclick="window.location.href='src/html/movie-match.html'" title="Find movies that match your mood and preferences!" style="bottom: 185px">Movie Match</button>
-    <button id="movie-timeline-btn" onclick="window.location.href='src/html/movie-timeline.html'" style="bottom: 150px" title="Explore movies through different eras!">Movie Timeline</button>
+    <footer>
+        <p>© 2024 The MovieVerse. All rights reserved.</p>
+    </footer>
+
+    <button id="movie-match-btn" onclick="window.location.href='MovieVerse-Frontend/html/movie-match.html'" title="Find movies that match your mood and preferences!" style="bottom: 185px">Movie Match</button>
+    <button id="movie-timeline-btn" onclick="window.location.href='MovieVerse-Frontend/html/movie-timeline.html'" style="bottom: 150px" title="Explore movies through different eras!">Movie Timeline</button>
     <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" style="bottom: 115px" title="Get a recommended movie to watch for today!">Recommendation</button>
-    <button id="discussions-btn" onclick="window.location.href='src/html/chatbot.html'" style="bottom: 80px" title="Want to know more about movies? Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
-    <button id="trivia-btn" onclick="window.location.href='./src/html/trivia.html'" style="bottom: 45px" title="Play a quick trivia to test your knowledge about movies!">MovieVerse Trivia</button>
+    <button id="discussions-btn" onclick="window.location.href='MovieVerse-Frontend/html/chatbot.html'" style="bottom: 80px" title="Want to know more about movies? Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
+    <button id="trivia-btn" onclick="window.location.href='MovieVerse-Frontend/html/trivia.html'" style="bottom: 45px" title="Play a quick trivia to test your knowledge about movies!">MovieVerse Trivia</button>
     <button id="back-to-top-btn" style="bottom: 10px" onclick="window.location.href='#homepage-header'">Back To Top</button>
     <button id="settings-btn" style="position: fixed; bottom: 220px">Settings</button>
 
     <script>
         document.getElementById('settings-btn').addEventListener('click', () => {
-            window.location.href = 'src/html/settings.html';
+            window.location.href = 'MovieVerse-Frontend/html/settings.html';
         });
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -342,14 +366,14 @@
             "director": {
                 "@type": "Person",
                 "name": "Christopher Nolan",
-                "url": "https://movie-verse.com/src/html/christopher-nolan.html"
+                "url": "https://movie-verse.com/MovieVerse-Frontend/html/christopher-nolan.html"
             },
             "genre": ["Action", "Adventure", "Sci-Fi"],
             "actor": [
                 {
                     "@type": "Person",
                     "name": "Leonardo DiCaprio",
-                    "url": "https://movie-verse.com/src/html/leonardo-dicaprio.html"
+                    "url": "https://movie-verse.com/MovieVerse-Frontend/html/leonardo-dicaprio.html"
                 }
             ],
             "aggregateRating": {
@@ -376,8 +400,9 @@
             },
             "description": "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
             "datePublished": "2010-07-16",
-            "url": "https://movie-verse.com/src/html/inception.html"
+            "url": "https://movie-verse.com/MovieVerse-Frontend/html/inception.html"
         }
     </script>
+
 </body>
 </html>

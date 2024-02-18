@@ -19,12 +19,16 @@ const main18 = document.getElementById('hidden-gems');
 const main19 = document.getElementById('classic');
 const main20 = document.getElementById('director-spotlight');
 const main21 = document.getElementById('korean');
+const main22 = document.getElementById('vietnamese');
+const main23 = document.getElementById("indian");
+
 const form = document.getElementById("form");
 const search = document.getElementById("search");
 const searchButton = document.getElementById("button-search");
 const searchTitle = document.getElementById("search-title");
 const otherTitle = document.getElementById("other1");
 const clearButton = document.getElementById("button-clear");
+
 let searchPerformed = false;
 
 async function getMovies(url, mainElement, isSearch = false) {
@@ -59,6 +63,7 @@ async function getMovies(url, mainElement, isSearch = false) {
     else {
         mainElement.innerHTML = `<p>No movie with the specified search term found. Please try again.</p>`;
     }
+
 }
 
 function showMovies(movies, mainElement) {
@@ -71,12 +76,15 @@ function showMovies(movies, mainElement) {
             ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
             : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
 
-        const voteAvg = vote_average.toFixed(1);
+        const voteAvg = vote_average > 0 ? vote_average.toFixed(1) : "Unrated";
+
+        const ratingClass = vote_average > 0 ? getClassByRate(vote_average) : "unrated";
+
         movieEl.innerHTML = `
             ${movieImage}
             <div class="movie-info" style="cursor: pointer;">
                 <h3>${title}</h3>
-                <span class="${getClassByRate(vote_average)}">${voteAvg}</span>
+                <span class="${ratingClass}">${voteAvg}</span>
             </div>
             <div class="overview" style="cursor: pointer;">
                 <h4>Movie Intro: </h4>
@@ -86,13 +94,12 @@ function showMovies(movies, mainElement) {
         movieEl.addEventListener('click', () => {
             localStorage.setItem('selectedMovieId', id);
             updateUniqueMoviesViewed(id);
-            window.location.href = 'src/html/movie-details.html';
+            window.location.href = 'MovieVerse-Frontend/html/movie-details.html';
             updateMovieVisitCount(id, title);
         });
 
         mainElement.appendChild(movieEl);
     });
-    applySettings();
 }
 
 function updateUniqueMoviesViewed(movieId) {
@@ -262,11 +269,17 @@ function getMostCommonGenre() {
     return mostCommonGenre || 'Not Available';
 }
 
+const movieCode = {
+    part1: 'YzVhMjBjODY=',
+    part2: 'MWFjZjdiYjg=',
+    part3: 'ZDllOTg3ZGNjN2YxYjU1OA=='
+};
+
 document.addEventListener('DOMContentLoaded', rotateUserStats);
 
 async function showMovieOfTheDay() {
     const year = new Date().getFullYear();
-    const url = `https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+    const url = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
 
     try {
         const response = await fetch(url);
@@ -276,7 +289,7 @@ async function showMovieOfTheDay() {
         if (movies.length > 0) {
             const randomMovie = movies[Math.floor(Math.random() * movies.length)];
             localStorage.setItem('selectedMovieId', randomMovie.id);
-            window.location.href = 'src/html/movie-details.html';
+            window.location.href = 'MovieVerse-Frontend/html/movie-details.html';
         }
         else {
             fallbackMovieSelection();
@@ -292,7 +305,7 @@ function fallbackMovieSelection() {
     const fallbackMovies = [432413, 299534, 1726, 562, 118340, 455207, 493922, 447332, 22970, 530385, 27205, 264660, 120467, 603, 577922, 76341, 539, 419704, 515001, 118340, 424, 98];
     const randomFallbackMovie = fallbackMovies[Math.floor(Math.random() * fallbackMovies.length)];
     localStorage.setItem('selectedMovieId', randomFallbackMovie);
-    window.location.href = 'src/html/movie-details.html';
+    window.location.href = 'MovieVerse-Frontend/html/movie-details.html';
 }
 
 function calculateMoviesToDisplay() {
@@ -340,7 +353,7 @@ form.addEventListener('submit', (e) => {
     e.preventDefault();
     const searchQuery = document.getElementById('search').value;
     localStorage.setItem('searchQuery', searchQuery);
-    window.location.href = 'src/html/search.html';
+    window.location.href = 'MovieVerse-Frontend/html/search.html';
 });
 
 function toggleNav() {
@@ -354,6 +367,7 @@ function removeNavBar() {
     if (sideNav.classList.contains('manual-toggle')) {
         sideNav.classList.remove('manual-toggle');
     }
+
     adjustNavBar();
 }
 
@@ -381,27 +395,29 @@ document.getElementById('side-nav').addEventListener('mouseleave', function() {
     }
 });
 
-const DATABASEURL = "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=c5a20c861acf7bb8d9e987dcc7f1b558";
-const IMGPATH = "https://image.tmdb.org/t/p/w1280";
-const SEARCHPATH = "https://api.themoviedb.org/3/search/movie?&api_key=c5a20c861acf7bb8d9e987dcc7f1b558&query=";
-const ACTIONpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=28&sort_by=popularity.desc&vote_count.gte=8";
-const HORRORpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=27&sort_by=popularity.desc&vote_count.gte=8";
-const DOCUMENTARYRpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=99&sort_by=popularity.desc&vote_count.gte=8";
-const ANIMATIONpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=16&sort_by=popularity.desc&vote_count.gte=8";
-const SCIFIpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=878&sort_by=popularity.desc&vote_count.gte=8";
-const ROMANTICpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=10749&sort_by=popularity.desc&vote_count.gte=8";
-const THRILLERpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=53&sort_by=popularity.desc&vote_count.gte=8";
-const MYSTERYpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=9648&sort_by=popularity.desc&vote_count.gte=8";
-const ADVENTUREpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=12&sort_by=popularity.desc&vote_count.gte=8";
-const COMEDYpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=35&sort_by=popularity.desc&vote_count.gte=8";
-const FANTASYpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=14&sort_by=popularity.desc&vote_count.gte=8";
-const FAMILYpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=10751&sort_by=popularity.desc&vote_count.gte=8";
-const TVpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=10770&sort_by=popularity.desc&vote_count.gte=8";
-const CRIMEpath = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_genres=80&sort_by=popularity.desc&vote_count.gte=8";
-const KOREAN_PATH = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_original_language=ko&sort_by=vote_average.desc,popularity.desc&vote_count.gte=10&vote_average.gte=8";
-const HIDDEN_GEMS_PATH = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&sort_by=vote_average.desc&vote_count.gte=100&vote_average.gte=7&popularity.lte=10";
-const AWARD_WINNING_PATH = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&sort_by=vote_average.desc&vote_count.gte=1000";
-const CLASSIC_MOVIES_PATH = "https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&sort_by=popularity.desc&release_date.lte=1980";
+const DATABASEURL = `https://${getMovieVerseData()}/3/discover/movie?sort_by=popularity.desc&api_key=${getMovieCode()}`;
+const IMGPATH = `https://image.tmdb.org/t/p/w1280`;
+const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&api_key=${getMovieCode()}&query=`;
+const ACTIONpath = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_genres=28&sort_by=popularity.desc&vote_count.gte=8`;
+const HORRORpath = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_genres=27&sort_by=popularity.desc&vote_count.gte=8`;
+const DOCUMENTARYRpath = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_genres=99&sort_by=popularity.desc&vote_count.gte=8`;
+const ANIMATIONpath = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_genres=16&sort_by=popularity.desc&vote_count.gte=8`;
+const SCIFIpath = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_genres=878&sort_by=popularity.desc&vote_count.gte=8`;
+const ROMANTICpath = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_genres=10749&sort_by=popularity.desc&vote_count.gte=8`;
+const THRILLERpath = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_genres=53&sort_by=popularity.desc&vote_count.gte=8`;
+const MYSTERYpath = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_genres=9648&sort_by=popularity.desc&vote_count.gte=8`;
+const ADVENTUREpath = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_genres=12&sort_by=popularity.desc&vote_count.gte=8`;
+const COMEDYpath = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_genres=35&sort_by=popularity.desc&vote_count.gte=8`;
+const FANTASYpath = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_genres=14&sort_by=popularity.desc&vote_count.gte=8`;
+const FAMILYpath = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_genres=10751&sort_by=popularity.desc&vote_count.gte=8`;
+const TVpath = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_genres=10770&sort_by=popularity.desc&vote_count.gte=8`;
+const CRIMEpath = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_genres=80&sort_by=popularity.desc&vote_count.gte=8`;
+const VIETNAMESE_PATH = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_original_language=vi&sort_by=popularity.desc`;
+const KOREAN_PATH = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_original_language=ko&sort_by=vote_average.desc,popularity.desc&vote_count.gte=10&vote_average.gte=8`;
+const INDIAN_PATH = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_original_language=hi&sort_by=popularity.desc`; // Fetching Hindi movies as a representation
+const HIDDEN_GEMS_PATH = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&vote_average.gte=7&popularity.lte=10`;
+const AWARD_WINNING_PATH = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=1000`;
+const CLASSIC_MOVIES_PATH = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&sort_by=popularity.desc&release_date.lte=1980`;
 
 getMovies(DATABASEURL, main);
 getMovies(ACTIONpath, main3);
@@ -421,7 +437,9 @@ getMovies(CRIMEpath, main16);
 getMovies(AWARD_WINNING_PATH, main17);
 getMovies(HIDDEN_GEMS_PATH, main18);
 getMovies(CLASSIC_MOVIES_PATH, main19);
+getMovies(VIETNAMESE_PATH, main22);
 getMovies(KOREAN_PATH, main21);
+getMovies(INDIAN_PATH, main23);
 
 const directors = [
     { name: "Alfred Hitchcock", id: "2636" },
@@ -430,6 +448,7 @@ const directors = [
     { name: "Quentin Tarantino", id: "138" },
     { name: "Christopher Nolan", id: "525" },
     { name: "Stanley Kubrick", id: "240" },
+    { name: "Bong Joon-ho", id: "21684" },
     { name: "David Fincher", id: "7467" },
     { name: "James Cameron", id: "2710" },
     { name: "Francis Ford Coppola", id: "1776" },
@@ -466,21 +485,27 @@ function changeDirector() {
 
 setInterval(updateDirectorSpotlight, 3600000);
 
-function calculateMoviesToDisplay2() {
-    const screenWidth = window.innerWidth;
-    const moviesPerRow = Math.floor(screenWidth / 342);
-    return moviesPerRow * 2;
-}
-
 function updateDirectorSpotlight() {
     const director = directors[currentDirectorIndex];
     document.getElementById('spotlight-director-name').textContent = director.name;
-    const url = `https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&with_people=${director.id}&sort_by=popularity.desc&sort_by=vote_average.desc`;
+    const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_people=${director.id}&sort_by=popularity.desc&sort_by=vote_average.desc`;
     getDirectorSpotlight(url);
 }
 
+function getMovieVerseData(input) {
+    return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
+}
+
+function generateMovieNames(input) {
+    return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
+}
+
+function getMovieCode() {
+    return atob(movieCode.part1) + atob(movieCode.part2) + atob(movieCode.part3);
+}
+
 async function getDirectorSpotlight(url) {
-    const numberOfMovies = calculateMoviesToDisplay2();
+    const numberOfMovies = calculateMoviesToDisplay();
     const resp = await fetch(url);
     const respData = await resp.json();
     let allMovies = [];
@@ -516,7 +541,7 @@ function showMoviesDirectorSpotlight(movies) {
 
         movieE1.addEventListener('click', () => {
             localStorage.setItem('selectedMovieId', id);
-            window.location.href = 'src/html/movie-details.html';
+            window.location.href = 'MovieVerse-Frontend/html/movie-details.html';
             updateMovieVisitCount(id, title);
         });
 
@@ -532,7 +557,7 @@ function handleSignInOut() {
         alert('You have been signed out.');
     }
     else {
-        window.location.href = 'src/html/sign-in.html';
+        window.location.href = 'MovieVerse-Frontend/html/sign-in.html';
         return;
     }
 
@@ -574,6 +599,7 @@ function updateSignInButtonState() {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
+    checkAndClearLocalStorage();
     updateSignInButtonState();
     document.getElementById('googleSignInBtn').addEventListener('click', handleSignInOut);
 });
@@ -605,5 +631,51 @@ function applyTextColor(color) {
 function handleSearch() {
     const searchQuery = document.getElementById('search').value;
     localStorage.setItem('searchQuery', searchQuery);
-    window.location.href = 'src/html/search.html';
+    window.location.href = 'MovieVerse-Frontend/html/search.html';
+}
+
+
+function checkAndClearLocalStorage() {
+    const hasCleared = localStorage.getItem('hasUserClearedMovieVerseData2');
+    if (!hasCleared) {
+        clearMovieVerseLocalStorage();
+        localStorage.setItem('hasUserClearedMovieVerseData2', 'true');
+        window.location.reload();
+    }
+}
+
+function clearMovieVerseLocalStorage() {
+    localStorage.removeItem('favorites');
+    localStorage.removeItem('localWatchlists');
+    localStorage.removeItem('selectedMovieId');
+    localStorage.removeItem('isSignedIn');
+    localStorage.removeItem('selectedDirectorId');
+    localStorage.removeItem('selectedActorId');
+    localStorage.removeItem('selectedCompanyId');
+    localStorage.removeItem('selectedTvSeriesId');
+    localStorage.removeItem('movieVisits');
+    localStorage.removeItem('actorVisits');
+    localStorage.removeItem('directorVisits');
+    localStorage.removeItem('movieRatings');
+    localStorage.removeItem('triviaStats');
+    localStorage.removeItem('uniqueMoviesViewed');
+    localStorage.removeItem('uniqueDirectorsViewed');
+    localStorage.removeItem('uniqueActorsViewed');
+    localStorage.removeItem('uniqueCompaniesViewed');
+    localStorage.removeItem('favoriteGenres');
+    localStorage.removeItem('watchlistsCreated');
+    localStorage.removeItem('averageMovieRating');
+    localStorage.removeItem('backgroundImage');
+    localStorage.removeItem('textColor');
+    localStorage.removeItem('fontSize');
+    localStorage.removeItem('moviesFavorited');
+    localStorage.removeItem('searchQuery');
+    localStorage.removeItem('selectedTVSeriesId');
+    localStorage.removeItem('favoritesTVSeries');
+    localStorage.removeItem('currentlySignedInMovieVerseUser');
+    localStorage.removeItem('hasUserClearedMovieVerseData');
+    localStorage.removeItem('selectedCategory');
+    localStorage.removeItem('searchQuery');
+    localStorage.removeItem('watchlists');
+    localStorage.removeItem('favoritesMovies');
 }
