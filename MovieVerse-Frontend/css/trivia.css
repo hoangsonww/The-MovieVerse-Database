@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap');
 
+
 body {
     color: #ff903a;
     font-family: "Poppins", sans-serif;
@@ -14,10 +15,12 @@ body {
     overflow-x: hidden;
 }
 
+
 html {
     scroll-behavior: smooth;
     overflow-x: hidden;
 }
+
 
 #profileBtn {
     background-color: #7378c5;
@@ -37,10 +40,12 @@ html {
     border-radius: 8px;
 }
 
+
 #profileBtn:hover {
     background-color: #ff8623;
     transition: 0.3s ease-in;
 }
+
 
 #googleSignInBtn {
     background-color: #7378c5;
@@ -59,10 +64,12 @@ html {
     box-sizing: border-box;
 }
 
+
 #googleSignInBtn:hover {
     background-color: #ff8623;
     transition: 0.3s ease-in;
 }
+
 
 #my-heading {
     color: #ff8623;
@@ -71,6 +78,7 @@ html {
     text-align: center;
     background-color: transparent;
 }
+
 
 #submit {
     background-color: #7378c5;
@@ -81,10 +89,12 @@ html {
     cursor: pointer;
 }
 
+
 #submit:hover {
     background-color: #ff8623;
     transition: 0.1s linear;
 }
+
 
 #back-to-top-btn {
     position: fixed;
@@ -98,14 +108,17 @@ html {
     cursor: pointer;
 }
 
+
 #back-to-top-btn:hover {
     background-color: #ff8623;
     transition: 0.1s linear;
 }
 
+
 html {
     scroll-behavior: smooth;
 }
+
 
 #regenerate-questions {
     background-color: #7378c5;
@@ -116,10 +129,12 @@ html {
     cursor: pointer;
 }
 
+
 #regenerate-questions:hover {
     background-color: #ff8623;
     transition: 0.1s linear;
 }
+
 
 #movie-timeline-btn {
     position: fixed;
@@ -133,10 +148,12 @@ html {
     cursor: pointer;
 }
 
+
 #movie-timeline-btn:hover {
     background-color: #ff8623;
     transition: 0.3s ease-in;
 }
+
 
 #movie-of-the-day-btn {
     position: fixed;
@@ -150,10 +167,12 @@ html {
     cursor: pointer;
 }
 
+
 #movie-of-the-day-btn:hover {
     background-color: #ff8623;
     transition: 0.1s linear;
 }
+
 
 #discussions-btn {
     position: fixed;
@@ -167,19 +186,23 @@ html {
     cursor: pointer;
 }
 
+
 #discussions-btn:hover {
     background-color: #ff8623;
     transition: 0.1s linear;
 }
+
 
 p {
     text-align: center;
     color: #ff8623;
 }
 
+
 .highlight:hover {
     color: #f509d9;
 }
+
 
 footer {
     text-align: center;
@@ -188,6 +211,7 @@ footer {
     background-color: #7378c5;
     color: white !important;
 }
+
 
 .button2 {
     background-color: #7378c5;
@@ -198,14 +222,17 @@ footer {
     position: absolute;
 }
 
+
 main {
     display: flex;
     flex-wrap: wrap;
 }
 
+
 html {
     scroll-behavior: smooth;
 }
+
 
 .main2 {
     text-align: center;
@@ -213,9 +240,11 @@ html {
     scroll-behavior: smooth;
 }
 
+
 .main2 p {
     color: orange;
 }
+
 
 header {
     background-color: transparent;
@@ -223,6 +252,7 @@ header {
     justify-content: flex-end;
     padding: 1.5rem;
 }
+
 
 .search {
     background-color: transparent;
@@ -232,21 +262,25 @@ header {
     font-family: inherit;
     font-size: 1rem;
     padding: 0.5rem 1rem;
-    width: 250px;
+    width: 400px;
 }
+
 
 #main {
     align-self: center;
 }
 
+
 .search::placeholder {
     color: #7378c5;
 }
+
 
 #search:hover {
     outline: none;
     background-color: #22254b;
 }
+
 
 header {
     display: flex;
@@ -256,19 +290,23 @@ header {
     padding-top: -20px;
 }
 
+
 header h1 {
     color: #ff8623;
     text-align: center;
 }
 
+
 .highlight {
     color: orange;
 }
+
 
 .search:focus {
     outline: none;
     background-color: #22254b;
 }
+
 
 .about {
     background-color: #7378c5;
@@ -288,11 +326,13 @@ header h1 {
     border-radius: 8px;
 }
 
+
 .header2 {
     text-align: center;
     align-self: center;
     margin-left: 500px;
 }
+
 
 .back-btn {
     background-color: #7378c5;
@@ -312,10 +352,12 @@ header h1 {
     border-radius: 8px;
 }
 
+
 .back-btn:hover {
     background-color: #ff8623;
     transition: 0.3s ease-in;
 }
+
 
 .movie {
     background-color: #373b69;
@@ -328,9 +370,11 @@ header h1 {
     width: 300px;
 }
 
+
 .movie img {
     width: 100%;
 }
+
 
 .movie-info {
     color: #eee;
@@ -341,9 +385,11 @@ header h1 {
     letter-spacing: 0.5px;
 }
 
+
 .movie-info h3 {
     margin: 0;
 }
+
 
 .movie-info span {
     background-color: #22254b;
@@ -352,17 +398,21 @@ header h1 {
     padding: 0.25rem 0.5rem;
 }
 
+
 .movie-info span.green {
     color: rgb(39,189,39);
 }
+
 
 .movie-info span.orange {
     color: orange;
 }
 
+
 .movie-info span.red {
     color: rgb(189,42,42);
 }
+
 
 .overview {
     position: absolute;
@@ -379,15 +429,18 @@ header h1 {
     visibility: hidden;
 }
 
+
 .movie:hover .overview {
     transform: translateY(0);
     opacity: 1;
     visibility: visible;
 }
 
+
 .overview h4 {
     margin-top: 0;
 }
+
 
 .genres {
     align-self: center;
@@ -395,10 +448,12 @@ header h1 {
     color: #ff8623;
 }
 
+
 #other1:hover {
     color: #f509d9;
     transition: 0.1s linear;
 }
+
 
 #back-to-top-btn {
     position: fixed;
@@ -412,15 +467,18 @@ header h1 {
     cursor: pointer;
 }
 
+
 #back-to-top-btn:hover {
     background-color: #ff8623;
     transition: 0.1s linear;
 }
 
+
 .about:hover {
     background-color: #ff8623;
     transition: 0.3s ease-in;
 }
+
 
 .modal {
     display: none;
@@ -434,6 +492,7 @@ header h1 {
     background-color: rgba(0, 0, 0, 0.4);
 }
 
+
 .modal-content {
     background-color: #7378c5;
     margin: 15% auto;
@@ -445,6 +504,7 @@ header h1 {
     border-radius: 8px;
 }
 
+
 .modal-header {
     display: flex;
     justify-content: space-between;
@@ -452,9 +512,11 @@ header h1 {
     padding: 0 10px;
 }
 
+
 .modal-content {
     text-align: center;
 }
+
 
 .close-button {
     cursor: pointer;
@@ -465,12 +527,14 @@ header h1 {
     font-weight: bold;
 }
 
+
 .close-button:hover,
 .close-button:focus {
     color: red;
     text-decoration: none;
     cursor: pointer;
 }
+
 
 .progress-circle {
     width: 150px;
@@ -484,6 +548,7 @@ header h1 {
     margin: 20px auto;
 }
 
+
 .progress-circle::after {
     content: '';
     width: 130px;
@@ -492,6 +557,7 @@ header h1 {
     border-radius: 50%;
     display: block;
 }
+
 
 #correct-answers {
     position: absolute;
@@ -504,10 +570,12 @@ header h1 {
     font-weight: bold;
 }
 
+
 #result-text {
     text-align: center;
     font-size: 20px;
 }
+
 
 #my-heading {
     color: #ff8623;
@@ -517,6 +585,7 @@ header h1 {
     background-color: transparent;
     margin-left: 40px;
 }
+
 
 .favorites-btn {
     background-color: #7378c5;
@@ -538,10 +607,12 @@ header h1 {
     box-sizing: border-box;
 }
 
+
 .favorites-btn:hover {
     background-color: #ff8623;
     transition: 0.3s ease-in;
 }
+
 
 #favorite-btn {
     background: transparent;
@@ -554,9 +625,11 @@ header h1 {
     cursor: pointer;
 }
 
+
 #favorite-btn:hover {
     background-color: #dcdcdc;
 }
+
 
 #button-search {
     color: #171616;
@@ -567,10 +640,12 @@ header h1 {
     cursor: pointer;
 }
 
+
 #button-search:hover {
     background-color: #ff8623;
     transition: 0.1s linear;
 }
+
 
 main {
     display: flex;
@@ -580,6 +655,7 @@ main {
     margin: 0 auto;
     padding: 20px;
 }
+
 
 #settings-btn {
     background-color: #7378c5;
@@ -592,23 +668,29 @@ main {
     font: inherit;
 }
 
+
 #settings-btn:hover {
     background-color: #ff8623;
     transition: 0.1s ease-in;
 }
 
+
 #trivia-label:hover {
     color: #f509d9;
 }
+
 
 #trivia-label {
     margin-top: 50px
 }
 
+
 .button-container {
     display: flex;
     justify-content: center;
 }
+
+
 
 
 #clear-search-btn {
@@ -625,9 +707,11 @@ main {
     margin-right: 20px;
 }
 
+
 #clear-search-btn:hover {
     background-color: #ff8623;
 }
+
 
 @media (max-width: 900px) {
     #profileBtn {
@@ -635,10 +719,12 @@ main {
     }
 }
 
+
 @media (max-width: 840px) {
     #my-heading {
         margin-left: 0;
     }
+
 
     .back-btn {
         background-color: #7378c5;
@@ -654,9 +740,10 @@ main {
         cursor: pointer;
         position: absolute;
         top: 0;
-        margin-left: -200px;
+        margin-left: -180px;
         border-radius: 8px;
     }
+
 
     .about {
         background-color: #7378c5;
@@ -672,9 +759,10 @@ main {
         cursor: pointer;
         position: absolute;
         top: 0;
-        margin-left: -20px;
+        margin-left: 0;
         border-radius: 8px;
     }
+
 
     .favorites-btn {
         background-color: #7378c5;
@@ -689,16 +777,18 @@ main {
         cursor: pointer;
         position: absolute;
         top: 0;
-        margin-left: 168px;
+        margin-left: 188px;
         border-radius: 8px;
         padding-left: 10px;
         padding-right: 10px;
         box-sizing: border-box;
     }
 
+
     #googleSignInBtn {
         display: none;
     }
+
 
     header {
         padding-bottom: 20px;
@@ -709,6 +799,7 @@ main {
         align-items: center;
     }
 
+
     main {
         margin-bottom: -40px;
         justify-content: space-between;
@@ -718,10 +809,12 @@ main {
         align-items: center;
     }
 
+
     #trivia-label {
         margin-top: 60px;
     }
 }
+
 
 #movie-match-btn2 {
     position: fixed;
