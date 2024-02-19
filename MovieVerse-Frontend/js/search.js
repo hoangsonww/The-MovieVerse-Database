@@ -236,7 +236,7 @@ async function showResults(category) {
         const response = await fetch(movieUrl);
         const data = await response.json();
         const sortedResults = data.results.sort((a, b) => b.popularity - a.popularity);
-        displayResults(sortedResults, category);
+        displayResults(sortedResults, category, searchQuery);
     }
     catch (error) {
         console.error('Error fetching search results:', error);
@@ -282,12 +282,14 @@ function updateCategoryButtonStyles(selectedCategory) {
     }
 }
 
-function displayResults(results, category) {
+function displayResults(results, category, searchTerm) {
     const container = document.getElementById('movie-match-container1');
     container.innerHTML = '';
 
+    const capitalizedCategory = category.charAt(0).toUpperCase() + category.slice(1);
+
     if (results.length === 0) {
-        container.innerHTML = `<p>No results found for ${category}. Please try again.</p>`;
+        container.innerHTML = `<p>No results found for "${searchTerm}" in the ${capitalizedCategory} category. Please try again with a different query.</p>`;
         return;
     }
     showMovies(results, container, category);
