@@ -780,17 +780,13 @@ function getRatingDetails(rating) {
     return details;
 }
 
-function getMovieCode2() {
-    const encodedKey = "MmJhOGU1MzY=";
-    return atob(encodedKey);
-}
-
 async function fetchMovieRatings(imdbId, tmdbMovieData) {
-    const omdbApiKey = `${getMovieCode2()}`;
-    const omdbUrl = `https://www.omdbapi.com/?i=${imdbId}&apikey=${omdbApiKey}`;
+    const omdbCode = `${getMovieCode2()}`;
+    const omdb = `https://${getMovieActor()}/?i=${imdbId}&${getMovieName()}${omdbCode}`;
 
+    console.log(omdb);
     try {
-        const response = await fetch(omdbUrl);
+        const response = await fetch(omdb);
         const data = await response.json();
 
         let imdbRating = data.imdbRating ? data.imdbRating : 'N/A';
@@ -845,7 +841,7 @@ function calculateFallbackRTRating(imdbRating, tmdbRating) {
     const weightImdb = 0.8;
     const weightTmdb = 0.1;
 
-    return ((normalizedImdbRating * weightImdb) + (normalizedTmdbRating * weightTmdb)).toFixed(0) + '%'; // Calculate fallback RT rating out of 100% scale (in case data is not available from OMDB)
+    return ((normalizedImdbRating * weightImdb) + (normalizedTmdbRating * weightTmdb)).toFixed(0) + '%';
 }
 
 function calculateFallbackMetacriticsRating(imdbRating, tmdbRating) {
@@ -855,7 +851,7 @@ function calculateFallbackMetacriticsRating(imdbRating, tmdbRating) {
     const weightImdb = 0.8;
     const weightTmdb = 0.1;
 
-    return ((normalizedImdbRating * weightImdb) + (normalizedTmdbRating * weightTmdb)).toFixed(0); // Calculate fallback Metacritics rating out of 100 scale (in case data is not available from OMDB)
+    return ((normalizedImdbRating * weightImdb) + (normalizedTmdbRating * weightTmdb)).toFixed(0);
 }
 
 let trailerIframeDisplayed = false;
@@ -1187,6 +1183,21 @@ function updateMoviesFavorited(movieId) {
         favoritedMovies.push(movieId);
         localStorage.setItem('moviesFavorited', JSON.stringify(favoritedMovies));
     }
+}
+
+function getMovieCode2() {
+    const codeOfMovie = "MmJhOGU1MzY=";
+    return atob(codeOfMovie);
+}
+
+function getMovieName() {
+    const moviename = "YXBpa2V5PQ==";
+    return atob(moviename);
+}
+
+function getMovieActor() {
+    const actor = "d3d3Lm9tZGJhcGkuY29t";
+    return atob(actor);
 }
 
 function updateAverageMovieRating(movieId, newRating) {

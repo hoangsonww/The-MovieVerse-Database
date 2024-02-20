@@ -1726,6 +1726,15 @@ canvas {
     }
 }
 
+#ratingImdb {
+    color: #ff710d;
+    font-size: 17px;
+}
+
+#ratingImdb:hover {
+    color: #f509d9;
+}
+
 .chart-title {
     text-align: center;
     color: #ff710d;
