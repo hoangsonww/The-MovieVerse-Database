@@ -13,6 +13,7 @@ The microservices architecture of MovieVerse is designed to segregate the applic
 - **Authentication Service**: Manages user authentication and authorization.
 - **User Service**: Handles user-related operations like profile management.
 - **Movie Service**: Manages movie data and interactions.
+- **Machine Learning Service**: Provides AI functionalities for movie data processing.
 - **Crawler Service**: Dynamically updates the database with new movie data from various online sources.
 - **Review Service**: Handles user reviews and ratings.
 - **Recommendation Service**: Provides movie recommendations to users based on their preferences and viewing history.
