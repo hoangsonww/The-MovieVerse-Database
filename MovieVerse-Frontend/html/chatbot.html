@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 
-
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
-
 
 <head>
     <meta charset="UTF-8">
@@ -42,13 +40,38 @@
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
 
-
         gtag('config', 'G-CQKJ67FXZ4');
     </script>
+    <style>
+        #header {
+            margin-top: 26px;
+            padding-left: 25px;
+        }
+
+        #form {
+            margin-top: -5px;
+            margin-right: 55px;
+        }
+
+        #local-time {
+            margin-top: 0;
+        }
+
+        @media (max-width: 800px){
+            #header {
+                margin-top: 10px;
+            }
+
+            #form {
+                margin-top: -15px;
+                margin-right: 0;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <header id="header" style="margin-top: 10px">
+    <header id="header">
         <div id="header-title">
             <a href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer" title="Click to go back to the home page">
                 <h1 id="my-heading" style="margin-bottom: -10px; margin-top: 10px">
@@ -114,10 +137,8 @@
             window.location.href = 'settings.html';
         });
 
-
         document.addEventListener('DOMContentLoaded', () => {
             applySettings();
-
 
             function applySettings() {
                 const savedBg = localStorage.getItem('backgroundImage');
