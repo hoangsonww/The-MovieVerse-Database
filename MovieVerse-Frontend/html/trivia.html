@@ -39,19 +39,34 @@
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
 
-
         gtag('config', 'G-CQKJ67FXZ4');
     </script>
-
 
     <style>
         label {
             cursor: pointer;
         }
 
-
         label:hover {
             color: #f509d9;
+        }
+
+        #my-heading {
+            margin-top: 25px;
+        }
+
+        #form {
+            margin-top: 16px;
+        }
+
+        @media (max-width: 600px) {
+            #my-heading {
+                margin-top: 10px;
+            }
+
+            #form {
+                margin-top: 0;
+            }
         }
     </style>
 </head>
@@ -59,16 +74,14 @@
 <body>
     <header style="margin-bottom: -50px; margin-top: 10px">
         <a href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer; margin-bottom: 5px" title="Click to go back to the home page">
-            <h1 id="my-heading" style="margin-bottom: -10px; margin-top: 10px">
+            <h1 id="my-heading" style="margin-bottom: -10px">
                 The Mo<span class="highlight">vieV</span>erse
             </h1>
         </a>
 
-
         <button class="back-btn" onclick="window.location.href='../../index.html'">Home</button>
         <button class="about" onclick="window.location.href='about.html'">About</button>
         <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="Go to your favorites list">Favorites</button>
-
 
         <button id="googleSignInBtn" class="nav-btn" onclick="handleSignInOut()" title="Sign In/Out">
             <span id="signInOutText">Sign In</span>
@@ -76,12 +89,10 @@
             <i class="fas fa-sign-out-alt" id="signOutIcon" style="display: none;"></i>
         </button>
 
-
         <button id="profileBtn" class="nav-btn" onclick="window.location.href='user-profile.html'" title="Go to your profile">
             <span id="profileText">Profile</span>
             <i class="fas fa-user" id="profileIcon"></i>
         </button>
-
 
         <form id="form">
             <input
@@ -89,7 +100,7 @@
                     id="search"
                     placeholder="Search For Anything..."
                     class="search"
-                    style="width: 210px"
+                    style="width: 215px"
             />
             <button type="button" id="button-search" onclick="handleSearch()">Search</button>
         </form>
@@ -136,10 +147,8 @@
             window.location.href = 'settings.html';
         });
 
-
         document.addEventListener('DOMContentLoaded', () => {
             applySettings();
-
 
             function applySettings() {
                 const savedBg = localStorage.getItem('backgroundImage');
@@ -166,7 +175,5 @@
     <footer>
         <p style="color: white">© 2024 The MovieVerse. All rights reserved.</p>
     </footer>
-
 </body>
-
 </html>

@@ -58,6 +58,7 @@ const urlsToCache = [
     '../../images/yellow.jpg',
     'analytics.js',
     '../html/analytics.html',
+    '../html/offline.html',
 ];
 
 self.addEventListener('install', event => {
@@ -77,9 +78,10 @@ self.addEventListener('fetch', event => {
                     if (response) {
                         return response;
                     }
-                    return fetch(event.request);
-                }
-            )
+                    return fetch(event.request).catch(() => {
+                        return caches.match('../html/offline.html');
+                    });
+                })
     );
 });
 

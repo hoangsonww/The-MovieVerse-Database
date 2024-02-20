@@ -1,12 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap');
 
-
 html {
     height: 100%;
     overflow-x: hidden;
     scroll-behavior: smooth;
 }
-
 
 body {
     color: #ff8623;
@@ -29,16 +27,13 @@ body {
     overflow-x: hidden;
 }
 
-
 #form {
     margin-top: -14px;
 }
 
-
 .highlight:hover {
     color: #f509d9;
 }
-
 
 .overview {
     position: absolute;
@@ -55,33 +50,27 @@ body {
     visibility: hidden;
 }
 
-
 .movie:hover .overview {
     transform: translateY(0);
     opacity: 1;
     visibility: visible;
 }
 
-
 .overview h4 {
     margin-top: 0;
 }
-
 
 .movie-info span.green {
     color: rgb(39,189,39);
 }
 
-
 .movie-info span.orange {
     color: orange;
 }
 
-
 .movie-info span.red {
     color: rgb(189,42,42);
 }
-
 
 #my-heading {
     color: #ff8623;
@@ -94,7 +83,6 @@ body {
     margin-left: 41px;
 }
 
-
 .movie {
     background-color: #373b69;
     border-radius: 3px;
@@ -106,11 +94,9 @@ body {
     width: 300px;
 }
 
-
 .movie img {
     width: 100%;
 }
-
 
 .movie-info {
     color: #eee;
@@ -121,16 +107,13 @@ body {
     letter-spacing: 0.5px;
 }
 
-
 .movie-info h3 {
     margin: 0;
 }
 
-
 .movie:hover .overview {
     transform: translateY(0);
 }
-
 
 .movie-info span {
     background-color: #22254b;
@@ -138,7 +121,6 @@ body {
     font-weight: bold;
     padding: 0.25rem 0.5rem;
 }
-
 
 header {
     display: flex;
@@ -150,17 +132,14 @@ header {
     width: 96vw;
 }
 
-
 .highlight {
     color: orange;
 }
-
 
 header h1 {
     color: #ff8623;
     text-align: center;
 }
-
 
 #movie-timeline-btn {
     position: fixed;
@@ -175,12 +154,10 @@ header h1 {
     z-index: 1000;
 }
 
-
 #movie-timeline-btn:hover {
     background-color: #ff8623;
     transition: 0.3s ease-in;
 }
-
 
 #movie-of-the-day-btn {
     position: fixed;
@@ -195,7 +172,6 @@ header h1 {
     z-index: 1000;
 }
 
-
 #trailerButton {
     background-color: #7378c5;
     font: inherit;
@@ -206,18 +182,15 @@ header h1 {
     z-index: 1000;
 }
 
-
 #trailerButton:hover {
     background-color: #ff8623;
     transition: 0.3s ease-in;
 }
 
-
 #movie-of-the-day-btn:hover {
     background-color: #ff8623;
     transition: 0.1s linear;
 }
-
 
 #my-heading {
     color: #ff8623;
@@ -226,7 +199,6 @@ header h1 {
     text-align: center;
     background-color: transparent;
 }
-
 
 #back-to-top-btn {
     position: fixed;
@@ -239,12 +211,10 @@ header h1 {
     border: none;
 }
 
-
 #back-to-top-btn:hover {
     background-color: #ff8623;
     transition: 0.1s linear;
 }
-
 
 #discussion-input {
     background-color: transparent;
@@ -256,30 +226,25 @@ header h1 {
     padding: 0.5rem 1rem;
 }
 
-
 #discussion-input:hover {
     background-color: #ff8623;
     transition: 0.1s linear;
 }
-
 
 #post-btn {
     background-color: #ff8623;
     font: inherit;
 }
 
-
 #post-btn:hover {
     background-color: #7f4caf;
     transition: 0.1s linear;
 }
 
-
 ol li:hover {
     color: #7f4caf;
     transition: 0.1s linear;
 }
-
 
 #chatbotContainer {
     width: 80%;
@@ -295,7 +260,6 @@ ol li:hover {
     transform: translate(-50%, -50%);
 }
 
-
 #chatbotHeader {
     background-color: #ff8623;
     color: white;
@@ -304,7 +268,6 @@ ol li:hover {
     border-radius: 8px;
     margin-top: 10px;
 }
-
 
 #chatbotBody {
     overflow-y: auto;
@@ -317,7 +280,6 @@ ol li:hover {
     margin-top: 10px;
     border: 1px solid #ff8623;
 }
-
 
 #sendButton {
     padding: 10px;
@@ -334,12 +296,10 @@ ol li:hover {
     margin-right: auto;
 }
 
-
 #sendButton:hover {
     background-color: #7f4caf;
     transition: 0.1s linear;
 }
-
 
 #chatbotInput {
     width: 100%;
@@ -354,16 +314,13 @@ ol li:hover {
     box-sizing: border-box;
 }
 
-
 .highlight1 {
     color: orange;
 }
 
-
 #chatbotInput:focus {
     outline: none;
 }
-
 
 #chatbotBody > div {
     margin-bottom: 10px;
@@ -371,18 +328,15 @@ ol li:hover {
     border-radius: 5px;
 }
 
-
 #chatbotBody > div[text-align="right"] {
     background-color: #ff8623;
     align-self: flex-end;
 }
 
-
 #chatbotBody > div[text-align="left"] {
     background-color: #7378c5;
     align-self: flex-start;
 }
-
 
 .favorites-btn {
     background-color: #7378c5;
@@ -405,12 +359,10 @@ ol li:hover {
     box-sizing: border-box;
 }
 
-
 .favorites-btn:hover {
     background-color: #ff8623;
     transition: 0.3s ease-in;
 }
-
 
 #profileBtn {
     background-color: #7378c5;
@@ -430,12 +382,10 @@ ol li:hover {
     border-radius: 8px;
 }
 
-
 #profileBtn:hover {
     background-color: #ff8623;
     transition: 0.3s ease-in;
 }
-
 
 .about {
     background-color: #7378c5;
@@ -456,7 +406,6 @@ ol li:hover {
     border-radius: 8px;
 }
 
-
 #googleSignInBtn {
     background-color: #7378c5;
     border: none;
@@ -474,18 +423,15 @@ ol li:hover {
     box-sizing: border-box;
 }
 
-
 #googleSignInBtn:hover {
     background-color: #ff8623;
     transition: 0.3s ease-in;
 }
 
-
 .about:hover {
     background-color: #ff8623;
     transition: 0.3s ease-in;
 }
-
 
 .back-btn {
     background-color: #7378c5;
@@ -506,12 +452,10 @@ ol li:hover {
     border-radius: 8px;
 }
 
-
 .back-btn:hover {
     background-color: #ff8623;
     transition: 0.3s ease-in;
 }
-
 
 #discussions-btn {
     position: fixed;
@@ -525,12 +469,10 @@ ol li:hover {
     cursor: pointer;
 }
 
-
 #discussions-btn:hover {
     background-color: #ff8623;
     transition: 0.1s linear;
 }
-
 
 #trivia-btn {
     position: fixed;
@@ -545,7 +487,6 @@ ol li:hover {
     z-index: 1000;
 }
 
-
 #settings-btn {
     background-color: #7378c5;
     bottom: 260px;
@@ -556,7 +497,6 @@ ol li:hover {
     cursor: pointer;
     font: inherit;
 }
-
 
 #alt-home-btn {
     position: fixed;
@@ -572,31 +512,26 @@ ol li:hover {
     display: none;
 }
 
-
 #alt-home-btn:hover {
     background-color: #ff8623;
     transition: 0.1s linear;
 }
-
 
 #settings-btn:hover {
     background-color: #ff8623;
     transition: 0.1s ease-in;
 }
 
-
 #trivia-btn:hover {
     background-color: #ff8623;
     transition: 0.1s linear;
 }
-
 
 #buttons-container {
     position: fixed;
     top: 20px;
     right: -30px;
 }
-
 
 @media (max-width: 906px) {
     #local-time,
@@ -606,30 +541,25 @@ ol li:hover {
     }
 }
 
-
 #local-time {
     margin-top: 20px;
-    transform: translateX(5%);
+    transform: translateX(11%);
     padding: 10px;
     border-radius: 10px;
     z-index: 10;
 }
 
-
 .clock:hover {
     color: #f509d9;
 }
-
 
 #time-label {
     color: #ff8623;
 }
 
-
 #time-label:hover {
     color: #f509d9;
 }
-
 
 .search {
     background-color: transparent;
@@ -642,7 +572,6 @@ ol li:hover {
     width: 210px;
 }
 
-
 main {
     width: 100%;
     display: flex;
@@ -653,29 +582,24 @@ main {
     padding: 20px;
 }
 
-
 #bot-header {
     text-align: center;
     width: 100%;
 }
 
-
 .search::placeholder {
     color: #7378c5;
 }
-
 
 #search:hover {
     outline: none;
     background-color: #22254b;
 }
 
-
 .search:focus {
     outline: none;
     background-color: #22254b;
 }
-
 
 #button-search {
     color: #171616;
@@ -685,7 +609,6 @@ main {
     border: none;
     cursor: pointer;
 }
-
 
 @media (max-width: 780px) {
     #my-heading {
@@ -699,7 +622,6 @@ main {
     }
 }
 
-
 @media (max-height: 700px) {
     #header {
         display: none;
@@ -709,12 +631,10 @@ main {
     }
 }
 
-
 #button-search:hover {
     background-color: #ff8623;
     transition: 0.1s linear;
 }
-
 
 #clear-search-btn {
     background-color: #7378c5;
@@ -727,11 +647,9 @@ main {
     font: inherit;
 }
 
-
 #clear-search-btn:hover {
     background-color: #ff8623;
 }
-
 
 @media (max-width: 906px) {
     .back-btn, .about, .favorites-btn {
@@ -741,21 +659,17 @@ main {
         transform: translateX(-50%);
     }
 
-
     .back-btn {
         margin-left: -90px;
     }
 
-
     .about {
-        margin-left: 0px;
+        margin-left: 0;
     }
-
 
     .favorites-btn {
         margin-left: 93px;
     }
-
 
     header {
         padding-bottom: 20px;
@@ -766,7 +680,6 @@ main {
         align-items: center;
     }
 
-
     main {
         margin-bottom: -40px;
         justify-content: space-between;
@@ -776,12 +689,10 @@ main {
         align-items: center;
     }
 
-
     #my-heading {
         margin-left: 0;
     }
 }
-
 
 @media (max-width: 705px) {
     #search-title,
@@ -790,14 +701,12 @@ main {
     }
 }
 
-
 @media (max-height: 930px) {
     #search-title,
     #alt-title {
         display: none;
     }
 }
-
 
 #movie-match-btn2 {
     position: fixed;
