@@ -364,6 +364,8 @@ async function fetchCompanyDetails(companyId) {
         else {
             companyWebsite.textContent = 'Website Not Available';
         }
+
+        updateBrowserURL(company.name);
     }
     catch (error) {
         console.error('Error fetching company details:', error);
@@ -746,4 +748,14 @@ function displayCompanyMovies(movies) {
 
         moviesList.appendChild(movieContainer);
     });
+}
+
+function updateBrowserURL(title) {
+    const nameSlug = createNameSlug(title);
+    const newURL = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + nameSlug;
+    window.history.replaceState({ path: newURL }, '', newURL);
+}
+
+function createNameSlug(title) {
+    return title.toLowerCase().replace(/ /g, '-').replace(/[^\w-]/g, '');
 }

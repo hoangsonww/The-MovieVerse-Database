@@ -60,18 +60,32 @@ function generateMovieNames(input) {
     return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
 }
 
-document.getElementById('how-to-use-btn').addEventListener('click', function() {
-    var howToUseSection = document.getElementById('how-to-use-section');
-    if (howToUseSection.style.display === 'none') {
-        howToUseSection.style.display = 'block';
-        window.location.href = '#how-to-use-section';
-        document.getElementById('how-to-use-btn').textContent = 'Hide Tutorial';
+document.addEventListener('DOMContentLoaded', function() {
+    adjustButtonMargin();
+    document.getElementById('how-to-use-btn').addEventListener('click', function() {
+        let howToUseSection = document.getElementById('how-to-use-section');
+        if (howToUseSection.style.display === 'none') {
+            howToUseSection.style.display = 'block';
+            window.location.href = '#how-to-use-section';
+            document.getElementById('how-to-use-btn').textContent = 'Hide Tutorial';
+            document.getElementById('how-to-use-btn').style.marginBottom = '0';
+        } else {
+            howToUseSection.style.display = 'none';
+            document.getElementById('how-to-use-btn').textContent = 'How to Use';
+            document.getElementById('how-to-use-btn').style.marginBottom = '180px';
+        }
+    });
+});
+
+function adjustButtonMargin() {
+    let howToUseSection = document.getElementById('how-to-use-section');
+    if (howToUseSection.style.display === 'none' || !howToUseSection.style.display) {
+        document.getElementById('how-to-use-btn').style.marginBottom = '200px';
     }
     else {
-        howToUseSection.style.display = 'none';
-        document.getElementById('how-to-use-btn').textContent = 'How to Use';
+        document.getElementById('how-to-use-btn').style.marginBottom = '0';
     }
-});
+}
 
 function rotateUserStats() {
     const stats = [
@@ -1294,6 +1308,7 @@ function pinWatchList(watchlistDiv, watchlistId) {
 
     localStorage.setItem('watchlists', JSON.stringify(watchlists));
     watchlistDiv.classList.toggle('pinned');
+
     loadWatchLists();
     window.location.reload();
 }

@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Favorite Movies & Watchlists</title>
+    <title>Favorites & Watchlists - The MovieVerse</title>
     <link rel="stylesheet" href="../css/style.css">
     <script src="../js/movie-details.js" defer></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,8 +13,8 @@
     <meta property="og:type" content="website" />
     <meta http-equiv="content-language" content="en" />
     <meta property="og:description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more." />
-    <meta property="og:url" content="https://movie-verse.com/MovieVerse-Frontend/html/about.html" />
-    <meta property="og:site_name" content="About The MovieVerse" />
+    <meta property="og:url" content="https://movie-verse.com/" />
+    <meta property="og:site_name" content="The MovieVerse" />
     <meta property="og:image" content="https://movie-verse.com/images/image.png"/>
     <meta property="og:favicon" content="./images/favicon.ico" />
     <meta name="keywords" content="movies, film guide, directors, actors, movie genres, cinema, film reviews">
@@ -163,6 +164,11 @@
             display: none;
             transition: height 0.5s ease-in-out;
             margin-bottom: 240px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        #how-to-use-section:hover {
+            background-color: #534caf;
         }
     </style>
 </head>
@@ -184,7 +190,7 @@
 
         <button class="back-btn" onclick="window.location.href='../../index.html'">Home</button>
         <button class="about" onclick="window.location.href='about.html'">About</button>
-        <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="Go to your favorites list">Favorites</button>
+        <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="View your favorites & watchlists">Favorites</button>
 
         <button id="googleSignInBtn" class="nav-btn" onclick="handleSignInOut()" title="Sign In/Out">
             <span id="signInOutText">Sign In</span>
@@ -263,12 +269,11 @@
 
     <div id="how-to-use-section" style="display: none; text-align: center; padding: 20px; margin-top: 20px;">
         <h4 style="color: white">How to Use MovieVerse Watchlists</h4>
-        <p>First, in order to create a watchlist, you must have at least one favorite movie or TV series. You can add movies and TV series to your favorites by clicking the heart icon on the movie or TV series details page. Your favorites are stored in our databases and can be accessed from any device!</p>
-        <p>You can search for any movies or TV shows using the search bar at the top of the page. Once you have added some favorites, you can create a watchlist by clicking the "Create a Watch List" button.</p>
-        <p>The list of movies and TV shows in the create watchlist form will be populated with your favorite movies and TV series. You can select the movies and TV series you want to include in your watchlist and give it a name and description.</p>
-        <p>After creating a watchlist, you can edit or delete it by clicking the "Edit a Watch List" or "Delete Watch Lists" buttons respectively.</p>
-        <p>Remember that when editing a watchlist, you must first select the watchlist you want to edit from the dropdown list. You can then change the name, description, and the movies and TV series included in the watchlist. Any updates to the watchlists will be saved to your account.</p>
-        <p>Synchronize your watchlists and favorites across devices by signing in with your MovieVerse account. If you do not sign in, your created watchlists and favorites will be stored locally on your device and will be synced with your account when you sign back in.</p>
+        <p>To start creating a watchlist, add movies and TV series to your favorites by clicking the heart icon on their pages. Your favorites serve as a pool for building watchlists.</p>
+        <p>Once you have favorites, you can create a watchlist. Select items from your favorites, then name and describe your watchlist. You can later edit or delete any watchlist through the corresponding "Edit" or "Delete" options.</p>
+        <p>Editing a watchlist allows you to modify its name, description, and contents. Select the watchlist to edit from the dropdown menu, make your changes, and save them to update your watchlist.</p>
+        <p>For seamless access across devices, sign in to your MovieVerse account. This ensures your favorites and watchlists are stored in our database and can be accessed anytime, anywhere. Without signing in, your data is stored locally and will sync upon your next sign-in.</p>
+        <p><em>Note: if you sign in for the first time without any previously signed-in account, any locally stored favorites and watchlists will be replaced by your account data. To avoid losing data, consider backing it up or noting it down before signing in.</em></p>
         <p style="font-weight: bold; margin-top: 30px">Enjoy using MovieVerse Watchlists!</p>
     </div>
 

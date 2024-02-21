@@ -1168,7 +1168,7 @@ p {
 }
 
 .app-btn {
-    background-color: #534caf;
+    background-color: #7378c5;
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 10px 15px;
@@ -1179,6 +1179,7 @@ p {
     display: block;
     width: auto;
     margin: 10px auto;
+    transition: 0.1s ease-in;
 }
 
 .clock {
@@ -1454,6 +1455,10 @@ p {
     margin-bottom: 20px;
 }
 
+#search-results-label:hover {
+    color: #f509d9;
+}
+
 .category-buttons button {
     background-color: #7378c5;
     font: inherit;
@@ -1463,7 +1468,7 @@ p {
     cursor: pointer;
     padding: 10px 15px;
     margin: 10px;
-    transition: 0.3s ease-in;
+    transition: 0.1s ease-in;
 }
 
 .category-buttons button:hover {
@@ -1720,6 +1725,15 @@ canvas {
     .chart-box {
         height: auto;
     }
+}
+
+#ratingImdb {
+    color: #ff710d;
+    font-size: 17px;
+}
+
+#ratingImdb:hover {
+    color: #f509d9;
 }
 
 .chart-title {

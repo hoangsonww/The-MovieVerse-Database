@@ -181,14 +181,6 @@ p {
     color: #f509d9;
 }
 
-footer {
-    text-align: center;
-    padding: 20px 0;
-    margin-top: 40px;
-    background-color: #7378c5;
-    color: white !important;
-}
-
 .button2 {
     background-color: #7378c5;
     font: inherit;
@@ -232,7 +224,7 @@ header {
     font-family: inherit;
     font-size: 1rem;
     padding: 0.5rem 1rem;
-    width: 250px;
+    width: 400px;
 }
 
 #main {
@@ -610,7 +602,6 @@ main {
     justify-content: center;
 }
 
-
 #clear-search-btn {
     display: block;
     margin: 20px auto;
@@ -654,7 +645,7 @@ main {
         cursor: pointer;
         position: absolute;
         top: 0;
-        margin-left: -200px;
+        margin-left: -180px;
         border-radius: 8px;
     }
 
@@ -672,7 +663,7 @@ main {
         cursor: pointer;
         position: absolute;
         top: 0;
-        margin-left: -20px;
+        margin-left: 0;
         border-radius: 8px;
     }
 
@@ -689,7 +680,7 @@ main {
         cursor: pointer;
         position: absolute;
         top: 0;
-        margin-left: 168px;
+        margin-left: 188px;
         border-radius: 8px;
         padding-left: 10px;
         padding-right: 10px;
@@ -733,4 +724,12 @@ main {
     border-radius: 8px;
     border: none;
     cursor: pointer;
+}
+
+footer {
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 40px;
+    background-color: #7378c5;
+    color: white !important;
 }

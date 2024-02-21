@@ -236,12 +236,14 @@ async function showResults(category) {
         const response = await fetch(movieUrl);
         const data = await response.json();
         const sortedResults = data.results.sort((a, b) => b.popularity - a.popularity);
-        displayResults(sortedResults, category);
+        displayResults(sortedResults, category, searchQuery);
     }
     catch (error) {
         console.error('Error fetching search results:', error);
         document.querySelector('.movie-match-container1').innerHTML = '<p>Error fetching results. Please try again later.</p>';
     }
+
+    updateBrowserURL(searchQuery);
 }
 
 document.querySelector('button[onclick="showResults(\'movie\')"]').addEventListener('click', function() {
@@ -282,12 +284,14 @@ function updateCategoryButtonStyles(selectedCategory) {
     }
 }
 
-function displayResults(results, category) {
+function displayResults(results, category, searchTerm) {
     const container = document.getElementById('movie-match-container1');
     container.innerHTML = '';
 
+    const capitalizedCategory = category.charAt(0).toUpperCase() + category.slice(1);
+
     if (results.length === 0) {
-        container.innerHTML = `<p>No results found for ${category}. Please try again.</p>`;
+        container.innerHTML = `<p>No results found for "${searchTerm}" in the ${capitalizedCategory} category. Please try again with a different query.</p>`;
         return;
     }
     showMovies(results, container, category);
@@ -427,4 +431,14 @@ function handleSearch() {
     const searchQuery = document.getElementById('search').value;
     localStorage.setItem('searchQuery', searchQuery);
     window.location.reload();
+}
+
+function updateBrowserURL(title) {
+    const nameSlug = createNameSlug(title);
+    const newURL = window.location.protocol + "//" + window.location.host + window.location.pathname + '?search_query=' + nameSlug;
+    window.history.replaceState({ path: newURL }, '', newURL);
+}
+
+function createNameSlug(title) {
+    return title.toLowerCase().replace(/ /g, '-').replace(/[^\w-]/g, '');
 }
