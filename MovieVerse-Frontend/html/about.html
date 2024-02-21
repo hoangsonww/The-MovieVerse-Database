@@ -69,7 +69,7 @@
 
         <button class="back-btn" onclick="window.location.href='../../index.html'">Home</button>
         <button class="about" onclick="window.location.href='about.html'">About</button>
-        <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="Go to your favorites list">Favorites</button>
+        <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="View your favorites & watchlists">Favorites</button>
         <button id="googleSignInBtn" class="nav-btn" onclick="handleSignInOut()" title="Sign In/Out">
             <span id="signInOutText">Sign In</span>
             <i class="fas fa-sign-in-alt" id="signInIcon"></i>
@@ -159,7 +159,7 @@
         <p style="color: white; text-align: center"><em>Thank you for being a part of The MovieVerse. For more insights and updates, connect with us on our <a style="text-decoration: underline" id="githubLink" href="https://github.com/hoangsonww/The-MovieVerse-Database">GitHub page</a>.</em></p>
 
         <h3 id="subheading">Useful Links:</h3>
-        <p style="color: white">Here are some links that you might find useful. You can explore the analytics page of our database (<strong style="text-decoration: underline">MovieVerse Analytics</strong>), read our <strong style="text-decoration: underline">terms of service</strong>, and review our <strong style="text-decoration: underline">privacy policy</strong>. Feel free to reach out to us if you have any questions or concerns.</p>
+        <p style="color: white">Here are some links that you might find useful. You can explore the analytics page of our database (<a href="analytics.html" style="color: white"><strong style="text-decoration: underline">MovieVerse Analytics</strong></a>), read our <a href="terms-of-service.html" style="color: white"><strong style="text-decoration: underline">terms of service</strong></a>, and review our <a href="privacy-policy.html" style="color: white"><strong style="text-decoration: underline">privacy policy</strong></a>. Feel free to reach out to us if you have any questions or concerns.</p>
 
         <button onclick="window.location.href='analytics.html'" style="border: none; margin-top: 40px" class="app-btn">MovieVerse Analytics</button>
         <button onclick="window.location.href='terms-of-service.html'" style="border: none; margin-top: 40px" class="app-btn">Terms of Service</button>
@@ -256,6 +256,7 @@
 
         document.addEventListener("DOMContentLoaded", function() {
             updateSignInButtonState();
+            setBodyClass();
             document.getElementById('googleSignInBtn').addEventListener('click', handleSignInOut);
         });
 
@@ -286,9 +287,6 @@
             }
         });
 
-        /**
-         * Rotates the user stats and movie quotes displayed in the main element.
-         */
         function rotateUserStats() {
             const stats = [
                 {
@@ -464,6 +462,19 @@
             localStorage.setItem('searchQuery', searchQuery);
             window.location.href = 'search.html';
         }
+
+        function setBodyClass() {
+            if (window.innerWidth < 768) {
+                document.body.classList.remove('movie-details-body');
+                document.body.classList.add('movie-details-body4');
+            }
+            else {
+                document.body.classList.remove('movie-details-body4');
+                document.body.classList.add('movie-details-body');
+            }
+        }
+
+        window.addEventListener('resize', setBodyClass);
     </script>
 </body>
 </html>

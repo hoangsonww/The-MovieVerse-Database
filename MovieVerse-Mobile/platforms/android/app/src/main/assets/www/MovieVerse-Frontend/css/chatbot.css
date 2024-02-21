@@ -543,7 +543,7 @@ ol li:hover {
 
 #local-time {
     margin-top: 20px;
-    transform: translateX(15%);
+    transform: translateX(11%);
     padding: 10px;
     border-radius: 10px;
     z-index: 10;
@@ -569,7 +569,7 @@ ol li:hover {
     font-family: inherit;
     font-size: 1rem;
     padding: 0.5rem 1rem;
-    width: 250px;
+    width: 210px;
 }
 
 main {
@@ -664,7 +664,7 @@ main {
     }
 
     .about {
-        margin-left: 0px;
+        margin-left: 0;
     }
 
     .favorites-btn {

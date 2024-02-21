@@ -242,6 +242,8 @@ async function showResults(category) {
         console.error('Error fetching search results:', error);
         document.querySelector('.movie-match-container1').innerHTML = '<p>Error fetching results. Please try again later.</p>';
     }
+
+    updateBrowserURL(searchQuery);
 }
 
 document.querySelector('button[onclick="showResults(\'movie\')"]').addEventListener('click', function() {
@@ -429,4 +431,14 @@ function handleSearch() {
     const searchQuery = document.getElementById('search').value;
     localStorage.setItem('searchQuery', searchQuery);
     window.location.reload();
+}
+
+function updateBrowserURL(title) {
+    const nameSlug = createNameSlug(title);
+    const newURL = window.location.protocol + "//" + window.location.host + window.location.pathname + '?search_query=' + nameSlug;
+    window.history.replaceState({ path: newURL }, '', newURL);
+}
+
+function createNameSlug(title) {
+    return title.toLowerCase().replace(/ /g, '-').replace(/[^\w-]/g, '');
 }

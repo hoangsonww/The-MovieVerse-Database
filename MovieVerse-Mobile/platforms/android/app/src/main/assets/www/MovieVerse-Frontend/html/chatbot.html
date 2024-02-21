@@ -12,8 +12,8 @@
     <meta property="og:type" content="website" />
     <meta http-equiv="content-language" content="en" />
     <meta property="og:description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more." />
-    <meta property="og:url" content="https://movie-verse.com/MovieVerse-Frontend/html/about.html" />
-    <meta property="og:site_name" content="About The MovieVerse" />
+    <meta property="og:url" content="https://movie-verse.com/" />
+    <meta property="og:site_name" content="The MovieVerse" />
     <meta property="og:image" content="https://movie-verse.com/images/image.png"/>
     <meta property="og:favicon" content="./images/favicon.ico" />
     <meta name="keywords" content="movies, film guide, directors, actors, movie genres, cinema, film reviews">
@@ -32,11 +32,8 @@
     <meta name="twitter:image" content="https://movie-verse.com/images/image.png"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <meta name="referrer" content="no-referrer-when-downgrade">
-
     <script src="../js/settings.js"></script>
-
     <link rel="manifest" href="../../manifest.json">
-
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -45,13 +42,39 @@
 
         gtag('config', 'G-CQKJ67FXZ4');
     </script>
+    <style>
+        #header {
+            margin-top: 26px;
+            padding-left: 25px;
+        }
+
+        #form {
+            margin-top: -5px;
+            margin-right: 55px;
+        }
+
+        #local-time {
+            margin-top: 0;
+        }
+
+        @media (max-width: 800px){
+            #header {
+                margin-top: 10px;
+            }
+
+            #form {
+                margin-top: -15px;
+                margin-right: 0;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <header id="header" style="margin-top: 15px">
+    <header id="header">
         <div id="header-title">
             <a href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer" title="Click to go back to the home page">
-                <h1 id="my-heading" style="margin-bottom: -10px">
+                <h1 id="my-heading" style="margin-bottom: -10px; margin-top: 10px">
                     The Mo<span class="highlight">vieV</span>erse
                 </h1>
             </a>
@@ -64,7 +87,7 @@
 
         <button class="back-btn" onclick="window.location.href='../../index.html'">Home</button>
         <button class="about" onclick="window.location.href='about.html'">About</button>
-        <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="Go to your favorites list">Favorites</button>
+        <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="View your favorites & watchlists">Favorites</button>
 
         <button id="googleSignInBtn" class="nav-btn" onclick="handleSignInOut()" title="Sign In/Out">
             <span id="signInOutText">Sign In</span>
@@ -92,14 +115,12 @@
     </div>
 
     <main id="main">
-
         <div id="chatbotContainer">
             <div id="chatbotHeader">The MovieVerse Assistant</div>
             <div id="chatbotBody"></div>
             <input id="chatbotInput" type="text" placeholder="Ask me about anything...">
             <button id="sendButton">Send</button>
         </div>
-
     </main>
 
     <button id="alt-home-btn" onclick="window.location.href='../../index.html'">Home</button>
@@ -123,6 +144,7 @@
                 const savedBg = localStorage.getItem('backgroundImage');
                 const savedTextColor = localStorage.getItem('textColor');
                 const savedFontSize = localStorage.getItem('fontSize');
+
 
                 if (savedBg) {
                     document.body.style.backgroundImage = `url('${savedBg}')`;

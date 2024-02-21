@@ -294,8 +294,6 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 document.addEventListener("DOMContentLoaded", function() {
-    updateSignInButton();
-    initClient();
     applySettings();
 });
 
@@ -499,16 +497,38 @@ const twoLetterLangCodes = [
 
 async function fetchTvDetails(tvSeriesId) {
     const baseUrl = `https://${getMovieVerseData()}/3/tv/${tvSeriesId}`;
-    const urlWithAppend = `${baseUrl}?${generateMovieNames()}${tvCode}&append_to_response=credits,keywords,similar,videos`;
+    const urlWithAppend = `${baseUrl}?${generateMovieNames()}${tvCode}&append_to_response=credits,keywords,similar,videos,external_ids`;
+
     try {
         const response = await fetch(urlWithAppend);
         const tvSeriesDetails = await response.json();
+        const imdbId = tvSeriesDetails.external_ids.imdb_id;
 
-        populateTvSeriesDetails(tvSeriesDetails);
+        const imdbRating = await fetchTVRatings(imdbId);
+
+        populateTvSeriesDetails(tvSeriesDetails, imdbRating);
         updateBrowserURL(tvSeriesDetails.name);
     }
     catch (error) {
         console.error('Error fetching TV series details:', error);
+    }
+}
+
+async function fetchTVRatings(imdbId) {
+    const omdbCode = `${getMovieCode2()}`;
+    const omdb = `https://${getMovieActor()}/?i=${imdbId}&${getMovieName()}${omdbCode}`;
+
+    try {
+        const response = await fetch(omdb);
+        const data = await response.json();
+
+        let imdbRating = data.imdbRating ? data.imdbRating : 'N/A';
+
+        return imdbRating;
+    }
+    catch (error) {
+        console.error('Error fetching TV series ratings:', error);
+        return 'N/A';
     }
 }
 
@@ -522,7 +542,7 @@ function getCountryName(code) {
     return regionNames.of(code);
 }
 
-function populateTvSeriesDetails(tvSeries) {
+function populateTvSeriesDetails(tvSeries, imdbRating) {
     const title = tvSeries.name || 'Title not available';
     document.getElementById('movie-title').textContent = title;
     document.title = tvSeries.name + " - TV Series";
@@ -548,6 +568,15 @@ function populateTvSeriesDetails(tvSeries) {
     const voteAverage = tvSeries.vote_average ? tvSeries.vote_average.toFixed(1) : 'N/A';
     const voteCount = tvSeries.vote_count ? tvSeries.vote_count.toLocaleString() : 'N/A';
     detailsHTML += `<p><strong>User Rating:</strong> <strong>${(voteAverage / 2).toFixed(1)}/5.0</strong> (based on <strong>${voteCount}</strong> votes)</p>`;
+
+    if (tvSeries.external_ids && tvSeries.external_ids.imdb_id) {
+        const imdbId = tvSeries.external_ids.imdb_id;
+        const imdbUrl = `https://www.imdb.com/title/${imdbId}/`;
+        detailsHTML += `<p title="Click to go to this TV series' IMDB page"><strong>IMDb Rating:</strong> <strong><a id="ratingImdb" href="${imdbUrl}" target="_blank">${imdbRating}</a></strong></p>`;
+    }
+    else {
+        detailsHTML += `<p title="Click to go to this TV series' IMDB page"><strong>IMDb Rating:</strong> N/A</p>`;
+    }
 
     const homepage = tvSeries.homepage ? `<a id="homepage" href="${tvSeries.homepage}" target="_blank">Visit</a>` : 'Not available';
     detailsHTML += `<p><strong>Homepage:</strong> ${homepage}</p>`;
@@ -715,6 +744,21 @@ function applySettings() {
         const size = savedFontSize === 'small' ? '12px' : savedFontSize === 'medium' ? '16px' : '20px';
         document.body.style.fontSize = size;
     }
+}
+
+function getMovieCode2() {
+    const encodedKey = "MmJhOGU1MzY=";
+    return atob(encodedKey);
+}
+
+function getMovieName() {
+    const moviename = "YXBpa2V5PQ==";
+    return atob(moviename);
+}
+
+function getMovieActor() {
+    const actor = "d3d3Lm9tZGJhcGkuY29t";
+    return atob(actor);
 }
 
 function applyTextColor(color) {

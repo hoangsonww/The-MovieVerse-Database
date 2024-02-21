@@ -1022,7 +1022,7 @@ function populateMovieDetails(movie, imdbRating, rtRating, metascore, awards, ra
 
     const popularityThreshold = 80;
     const isPopular = movie.popularity >= popularityThreshold;
-    const popularityText = isPopular ? `${popularityScore} (This movie is popular)` : `${popularityScore} (This movie is unpopular)`;
+    const popularityText = isPopular ? `${popularityScore} (This movie is <strong>popular</strong>)` : `${popularityScore} (This movie is <strong>unpopular</strong>)`;
 
     const adultContentIndicator = movie.adult
         ? `<span class="adult-indicator">Adult Content</span>`

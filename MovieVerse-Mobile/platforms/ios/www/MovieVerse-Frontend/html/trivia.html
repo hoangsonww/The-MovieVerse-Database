@@ -50,11 +50,28 @@
         label:hover {
             color: #f509d9;
         }
+
+        #my-heading {
+            margin-top: 25px;
+        }
+
+        #form {
+            margin-top: 16px;
+        }
+
+        @media (max-width: 600px) {
+            #my-heading {
+                margin-top: 10px;
+            }
+
+            #form {
+                margin-top: 0;
+            }
+        }
     </style>
 </head>
 
 <body>
-
     <header style="margin-bottom: -50px; margin-top: 10px">
         <a href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer; margin-bottom: 5px" title="Click to go back to the home page">
             <h1 id="my-heading" style="margin-bottom: -10px">
@@ -64,7 +81,7 @@
 
         <button class="back-btn" onclick="window.location.href='../../index.html'">Home</button>
         <button class="about" onclick="window.location.href='about.html'">About</button>
-        <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="Go to your favorites list">Favorites</button>
+        <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="View your favorites & watchlists">Favorites</button>
 
         <button id="googleSignInBtn" class="nav-btn" onclick="handleSignInOut()" title="Sign In/Out">
             <span id="signInOutText">Sign In</span>
@@ -83,7 +100,7 @@
                     id="search"
                     placeholder="Search For Anything..."
                     class="search"
-                    style="width: 200px"
+                    style="width: 215px"
             />
             <button type="button" id="button-search" onclick="handleSearch()">Search</button>
         </form>
@@ -138,6 +155,7 @@
                 const savedTextColor = localStorage.getItem('textColor');
                 const savedFontSize = localStorage.getItem('fontSize');
 
+
                 if (savedBg) {
                     document.body.style.backgroundImage = `url('${savedBg}')`;
                 }
@@ -157,7 +175,5 @@
     <footer>
         <p style="color: white">© 2024 The MovieVerse. All rights reserved.</p>
     </footer>
-
 </body>
-
 </html>
