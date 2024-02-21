@@ -1168,7 +1168,7 @@ p {
 }
 
 .app-btn {
-    background-color: #534caf;
+    background-color: #7378c5;
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 10px 15px;
@@ -1179,6 +1179,7 @@ p {
     display: block;
     width: auto;
     margin: 10px auto;
+    transition: 0.1s ease-in;
 }
 
 .clock {
