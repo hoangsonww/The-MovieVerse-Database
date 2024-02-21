@@ -314,12 +314,20 @@
                         }
 
                         if (targetDiv) {
-                            targetDiv.scrollIntoView({behavior: 'smooth'});
+                            targetDiv.scrollIntoView({ behavior: 'smooth' });
                         }
                     }
                     else {
                         window.location.href = href;
                     }
+                });
+            });
+
+            const sectionTitles = document.querySelectorAll('.genres h2');
+
+            sectionTitles.forEach(title => {
+                title.addEventListener('click', function() {
+                    this.parentElement.scrollIntoView({ behavior: 'smooth' });
                 });
             });
 
