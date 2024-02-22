@@ -24,6 +24,7 @@ The HTML directory includes all the markup files necessary for the structure of 
 - `actor-details.html`: A detailed view of actor profiles.
 - `company-details.html`: Provides information about movie production companies.
 - `create-account.html`: Allows users to create an account on MovieVerse.
+- `chatbot.html`: A chatbot feature for interacting with users.
 - `director-details.html`: Detailed information about movie directors.
 - `discussions.html`: A platform for users to discuss various movie-related topics.
 - `favorites.html`: Allows users to view and manage their favorite movies.
@@ -37,6 +38,10 @@ The HTML directory includes all the markup files necessary for the structure of 
 - `sign-in.html`: Allows users to sign in to their MovieVerse account.
 - `terms-of-service.html`: The terms governing the use of MovieVerse.
 - `trivia.html`: A trivia game to test users' movie knowledge.
+- `tv-details.html`: Detailed information about TV shows.
+- `offline.html`: A page to display when the app is offline.
+- `404.html`: A 404 error page for when a page is not found.
+- `index.ejs`: The entry point for the app.
 
 ### JS Directory
 
