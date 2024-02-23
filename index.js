@@ -695,6 +695,25 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+// function addAppTips() {
+//     const newReleasesList = document.getElementById('newReleasesList');
+//
+//     // App Tips Section
+//     const tipsSection = document.createElement('div');
+//     tipsSection.innerHTML = `
+//         <h5 style="font-size: 16px; margin-top: 20px;">Tips to Get More from MovieVerse:</h5>
+//         <ul style="list-style: inside; padding-left: 0;">
+//             <li>Explore Curated Lists for new discoveries.</li>
+//             <li>Create and manage your Movie Watchlists.</li>
+//             <li>Rate movies and write reviews to get personalized recommendations.</li>
+//             <li>Use the MovieBot Chat for quick help and info about movies.</li>
+//             <li>Check out the Cinematic Timeline to explore movies by era.</li>
+//         </ul>
+//         <p>For more details, visit our <a href="https://movie-verse.com" target="_blank" style="color: white;">website</a>.</p>
+//     `;
+//     newReleasesList.appendChild(tipsSection);
+// }
+
 async function fetchNewReleases() {
     const API_KEY = 'c5a20c861acf7bb8d9e987dcc7f1b558';
     const URL = `https://api.themoviedb.org/3/movie/now_playing?api_key=${API_KEY}&language=en-US&page=1`;
@@ -735,6 +754,8 @@ async function fetchNewReleases() {
         console.error('Error fetching new releases:', error);
         newReleasesList.innerHTML = '<li>Error fetching new releases.</li>';
     }
+
+    // addAppTips();
 }
 
 if (!localStorage.getItem('lastVisit')) {
