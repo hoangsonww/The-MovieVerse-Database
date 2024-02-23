@@ -91,6 +91,7 @@
 </head>
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
+
 <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
@@ -135,6 +136,15 @@
             <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!"/>
             <button type="button" id="button-search" onclick="handleSearch()">Search</button>
         </form>
+
+        <button id="notificationBtn" class="notification-btn" title="Notifications">
+            <i class="fas fa-bell" style="font-size: 15px"></i>
+        </button>
+
+        <div id="notificationModal" class="notification-modal" style="display: none;">
+            <ul id="newReleasesList"></ul>
+        </div>
+
     </header>
 
     <nav id="side-nav" class="side-nav">
