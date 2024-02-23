@@ -25,7 +25,7 @@ This directory contains a suite of automated tests for the MovieVerse applicatio
 
 - `utilityTests.js`: Contains tests for general utility functions that provide core functionality used across different parts of the application.
 
-## Running Tests Locally
+## Running Tests
 
 To run the tests, navigate to the root directory of the application and use the following command:
 
