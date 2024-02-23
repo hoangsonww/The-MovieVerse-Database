@@ -23,7 +23,7 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: 'Thank you for your first pull request! Welcome to our community!'
+              body: 'Thank you for your pull request! Welcome to our community!'
             })
       - name: Greet on Issue
         if: github.event_name == 'issues'
@@ -34,5 +34,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: 'Thank you for submitting your first issue. We will look into it as soon as possible.'
+              body: 'Thank you for submitting this issue. We will look into it as soon as possible.'
             })
