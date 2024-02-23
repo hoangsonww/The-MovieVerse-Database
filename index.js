@@ -719,7 +719,7 @@ function addCloseButton() {
     const closeButton = document.createElement('button');
     closeButton.textContent = 'Close';
     closeButton.id = 'closeModalButton';
-    closeButton.style = 'display: block; margin: 20px auto; margin-bottom: 0; font: inherit; font-size: 15px; padding: 5px 15px;';
+    closeButton.style = 'display: block; margin: 20px auto; margin-bottom: 0; font: inherit; font-size: 15.5px; padding: 5px 15px;';
 
     closeButton.addEventListener('click', () => {
         const notificationModal = document.getElementById('notificationModal');
