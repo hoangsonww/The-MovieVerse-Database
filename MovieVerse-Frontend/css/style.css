@@ -2651,6 +2651,11 @@ footer p:hover {
     cursor: pointer;
     padding: 10px;
     border-radius: 8px;
+    transition: 0.1s ease-in;
+}
+
+.notification-btn:hover {
+    background-color: #ff8623;
 }
 
 .notification-modal {
