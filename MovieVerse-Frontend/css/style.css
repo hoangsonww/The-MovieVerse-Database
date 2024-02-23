@@ -2654,6 +2654,26 @@ footer p:hover {
     transition: 0.1s ease-in;
 }
 
+#closeModalButton {
+    background-color: #7378c5;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+    transition: 0.1s ease-in;
+}
+
+#closeModalButton:hover {
+    background-color: #ff8623;
+}
+
+#closeModalButton {
+    margin: 10px auto;
+    display: block;
+}
+
 .notification-btn:hover {
     background-color: #ff8623;
 }
