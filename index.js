@@ -682,26 +682,18 @@ function clearMovieVerseLocalStorage() {
 document.addEventListener('DOMContentLoaded', () => {
     const notificationBtn = document.getElementById('notificationBtn');
     const notificationModal = document.getElementById('notificationModal');
-    const closeModal = document.getElementById('closeModal');
 
-    // Toggle notification modal
     notificationBtn.addEventListener('click', () => {
-        notificationModal.style.display = 'block';
+        notificationModal.style.display = notificationModal.style.display === 'none' ? 'block' : 'none';
+        fetchNewReleases();
     });
 
-    // Close modal with close button
-    closeModal.addEventListener('click', () => {
-        notificationModal.style.display = 'none';
-    });
-
-    // Close modal when clicking outside of it
     window.addEventListener('click', (event) => {
-        if (!notificationModal.contains(event.target) && event.target !== notificationBtn) {
+        if (event.target === notificationModal) {
             notificationModal.style.display = 'none';
         }
     });
 });
-
 
 // function addAppTips() {
 //     const newReleasesList = document.getElementById('newReleasesList');
