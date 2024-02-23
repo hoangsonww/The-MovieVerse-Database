@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Movie Details - The MovieVerse</title>
@@ -46,11 +47,20 @@
             min-width: 400px;
             margin-top: 0;
         }
+
+        @media (min-width: 900px) {
+            #search {
+                margin-top: 16px;
+            }
+
+            #form1 {
+                margin-right: 0;
+            }
+        }
     </style>
 </head>
 
 <body class="movie-details-body">
-
     <header style="margin-bottom: -60px; margin-top: -5px">
         <a href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer" title="Click to go back to the home page">
             <h1 id="my-heading" style="margin-bottom: -10px">
@@ -74,22 +84,17 @@
             <i class="fas fa-user" id="profileIcon"></i>
         </button>
         <form id="form1">
-            <input
-                    type="text"
-                    id="search"
-                    placeholder="Search For Anything..."
-                    class="search"
-            />
+            <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!"/>
             <button type="button" id="button-search" onclick="handleSearch()">Search</button>
         </form>
     </header>
 
-    <div class="genres" id="genresDiv" style="margin-left: 25px; margin-top: 25px; display: none">
+    <div class="genres" id="genresDiv" style="margin-left: 25px; margin-top: 25px; display: none; height: 0">
         <h2 id="search-title"></h2>
         <button id="clear-search-btn" style="display: none;">Clear Search Results</button>
     </div>
 
-    <main id="main" style="margin-left: 35px; margin-top: 20px">
+    <main id="main" style="margin-left: 35px; height: 0">
 
     </main>
 
@@ -213,5 +218,4 @@
     </footer>
 
 </body>
-
 </html>

@@ -2632,4 +2632,10 @@ footer {
     margin-top: 40px;
     background-color: #7378c5;
     color: white;
+    transition: 0.3s ease-in;
+}
+
+footer p:hover {
+    transition: 0.1s ease-in;
+    color: #ff8623;
 }

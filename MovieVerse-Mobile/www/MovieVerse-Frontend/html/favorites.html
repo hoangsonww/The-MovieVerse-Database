@@ -170,6 +170,16 @@
         #how-to-use-section:hover {
             background-color: #534caf;
         }
+
+        @media (min-width: 900px) {
+            #search {
+                margin-top: 16px;
+            }
+
+            #form1 {
+                margin-right: 0;
+            }
+        }
     </style>
 </head>
 
@@ -204,12 +214,7 @@
         </button>
 
         <form id="form" style="margin-top: 5px">
-            <input
-                    type="text"
-                    id="search"
-                    placeholder="Search For Anything..."
-                    class="search"
-            />
+            <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!"/>
             <button type="button" id="button-search" onclick="handleSearch()">Search</button>
         </form>
     </header>
@@ -287,4 +292,5 @@
     <script src="../js/movie-details.js"></script>
 
 </body>
+
 </html>

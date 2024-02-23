@@ -1,8 +1,7 @@
 let System = window.System = window.System || {};
 System.import('@system-env').then(env => {
-    env.production = true; // Set to true for production
+    env.production = true;
     if (!env.production) {
-        // Development URLs
         let System = window.System;
         System.importMap({
             "imports": {
@@ -14,7 +13,6 @@ System.import('@system-env').then(env => {
         });
     }
     else {
-        // Production URLs
         let System = window.System;
         System.importMap({
             "imports": {

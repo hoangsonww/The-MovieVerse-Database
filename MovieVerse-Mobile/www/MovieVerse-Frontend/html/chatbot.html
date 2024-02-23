@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 
 <head>
@@ -67,6 +66,22 @@
                 margin-right: 0;
             }
         }
+
+        @media (min-width: 900px) {
+            #local-time {
+                margin-top: -7px;
+            }
+
+            #header {
+                margin-top: 26px;
+                padding-left: 25px;
+            }
+
+            #form {
+                margin-top: 2px;
+                margin-right: 57px;
+            }
+        }
     </style>
 </head>
 
@@ -102,7 +117,7 @@
 
         <div id="search-container" style="margin-top: 10px">
             <form id="form">
-                <input type="text" id="search" placeholder="Search For Anything..." class="search" />
+                <input type="text" id="search" style="width: 216px" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!"/>
                 <button type="button" id="button-search" onclick="handleSearch()">Search</button>
             </form>
         </div>
@@ -111,15 +126,15 @@
     <div id="bot-header">
         <h2 id="search-title">The <span class="highlight1">MovieVerse</span> Assistant</h2>
         <button id="clear-search-btn" style="display: none;">Clear Search Results</button>
-        <h4 id="alt-title">Here, you can ask the chatbot about any movie-related topics or questions!</h4>
+        <h4 id="alt-title">Dive deep into the movie world with our expert assistant</h4>
     </div>
 
     <main id="main">
         <div id="chatbotContainer">
             <div id="chatbotHeader">The MovieVerse Assistant</div>
             <div id="chatbotBody"></div>
-            <input id="chatbotInput" type="text" placeholder="Ask me about anything...">
-            <button id="sendButton">Send</button>
+            <input id="chatbotInput" type="text" placeholder="Ask me about anything..." title="Type your message here"/>
+            <button id="sendButton" title="Send this message">Send</button>
         </div>
     </main>
 

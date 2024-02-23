@@ -39,6 +39,17 @@
 
         gtag('config', 'G-CQKJ67FXZ4');
     </script>
+    <style>
+        @media (min-width: 900px) {
+            #search {
+                margin-top: 16px;
+            }
+
+            #form1 {
+                margin-right: 0;
+            }
+        }
+    </style>
 </head>
 <body class="movie-details-body">
     <header id="homepage-header" style="margin-top: -5px">
@@ -67,12 +78,7 @@
             <i class="fas fa-user" id="profileIcon"></i>
         </button>
         <form id="form1">
-            <input
-                    type="text"
-                    id="search"
-                    placeholder="Search For Anything..."
-                    class="search"
-            />
+            <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!"/>
             <button type="button" id="button-search" onclick="handleSearch()">Search</button>
         </form>
         <button id="settings-btn" style="position: fixed; bottom: 185px">Settings</button>
