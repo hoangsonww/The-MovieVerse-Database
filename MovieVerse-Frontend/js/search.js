@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     showResults('movie');
     updateCategoryButtonStyles('movie');
     attachEventListeners();
+    attachArrowKeyNavigation();
 
     document.getElementById('form').addEventListener('submit', function(event) {
         event.preventDefault();
@@ -195,6 +196,34 @@ function attachEventListeners() {
     });
 }
 
+function attachArrowKeyNavigation() {
+    const categories = ['movie', 'tv', 'person'];
+    let currentIndex = 0;
+
+    document.addEventListener('keydown', (e) => {
+        switch (e.key) {
+            case 'ArrowRight':
+                currentIndex = (currentIndex + 1) % categories.length;
+                break;
+            case 'ArrowLeft':
+                currentIndex = (currentIndex - 1 + categories.length) % categories.length;
+                break;
+            case 'ArrowUp':
+                currentIndex = (currentIndex + 1) % categories.length;
+                break;
+            case 'ArrowDown':
+                currentIndex = (currentIndex - 1 + categories.length) % categories.length;
+                break;
+            default:
+                return;
+        }
+        const selectedCategory = categories[currentIndex];
+        showResults(selectedCategory);
+        updateCategoryButtonStyles(selectedCategory);
+        e.preventDefault();
+    });
+}
+
 const movieCode = {
     part1: 'YzVhMjBjODY=',
     part2: 'MWFjZjdiYjg=',
@@ -294,6 +323,7 @@ function displayResults(results, category, searchTerm) {
         container.innerHTML = `<p>No results found for "${searchTerm}" in the ${capitalizedCategory} category. Please try again with a different query.</p>`;
         return;
     }
+
     showMovies(results, container, category);
 }
 
