@@ -66,6 +66,22 @@
                 margin-right: 0;
             }
         }
+
+        @media (min-width: 900px) {
+            #local-time {
+                margin-top: -7px;
+            }
+
+            #header {
+                margin-top: 26px;
+                padding-left: 25px;
+            }
+
+            #form {
+                margin-top: 2px;
+                margin-right: 57px;
+            }
+        }
     </style>
 </head>
 
@@ -101,7 +117,7 @@
 
     <div id="search-container" style="margin-top: 10px">
         <form id="form">
-            <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!"/>
+            <input type="text" id="search" style="width: 216px" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!"/>
             <button type="button" id="button-search" onclick="handleSearch()">Search</button>
         </form>
     </div>

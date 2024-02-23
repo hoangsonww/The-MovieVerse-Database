@@ -46,6 +46,16 @@
             min-width: 400px;
             margin-top: 0;
         }
+
+        @media (min-width: 900px) {
+            #search {
+                margin-top: 16px;
+            }
+
+            #form1 {
+                margin-right: 0;
+            }
+        }
     </style>
 </head>
 
@@ -79,12 +89,12 @@
         </form>
     </header>
 
-    <div class="genres" id="genresDiv" style="margin-left: 25px; margin-top: 25px; display: none">
+    <div class="genres" id="genresDiv" style="margin-left: 25px; margin-top: 25px; display: none; height: 0">
         <h2 id="search-title"></h2>
         <button id="clear-search-btn" style="display: none;">Clear Search Results</button>
     </div>
 
-    <main id="main" style="margin-left: 35px; margin-top: 20px">
+    <main id="main" style="margin-left: 35px; height: 0">
 
     </main>
 

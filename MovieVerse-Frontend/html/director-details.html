@@ -41,10 +41,25 @@
 
         gtag('config', 'G-CQKJ67FXZ4');
     </script>
+    <style>
+        header {
+            margin-top: -5px;
+        }
+
+        @media (min-width: 900px) {
+            #search {
+                margin-top: 16px;
+            }
+
+            #form1 {
+                margin-right: 0;
+            }
+        }
+    </style>
 </head>
 
 <body class="movie-details-body">
-    <header style="margin-bottom: -50px; margin-top: -28px">
+    <header>
         <a href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer" title="Click to go back to the home page">
             <h1 id="my-heading" style="margin-bottom: -10px">
                 The Mo<span class="highlight">vieV</span>erse
@@ -72,12 +87,12 @@
         </form>
     </header>
 
-    <div class="genres" style="margin-left: 25px">
+    <div class="genres" style="margin-left: 25px; height: 0; margin-top: -10px">
         <h2 id="search-title"></h2>
         <button id="clear-search-btn" style="display: none;">Clear Search Results</button>
     </div>
 
-    <main id="main" style="margin-left: 25px; margin-bottom: -40px">
+    <main id="main" style="margin-left: 25px; margin-bottom: -40px; height: 0">
 
     </main>
 
