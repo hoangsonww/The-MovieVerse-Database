@@ -2643,13 +2643,13 @@ footer p:hover {
 .notification-btn {
     position: fixed;
     top: 5px;
-    right: 18.5px;
+    right: 20px;
     z-index: 100;
     background-color: #7378c5;
     color: white;
     border: none;
     cursor: pointer;
-    padding: 10px;
+    padding: 9px;
     border-radius: 8px;
     transition: 0.1s ease-in;
 }
@@ -2681,7 +2681,7 @@ footer p:hover {
 .notification-modal {
     position: fixed;
     top: 50px;
-    right: 18.5px;
+    right: 20px;
     background-color: #7378c5;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
@@ -2689,6 +2689,16 @@ footer p:hover {
     width: 300px;
     z-index: 100;
     color: white;
+}
+
+@media (max-width: 900px) {
+    .notification-modal {
+        right: 12.5px;
+    }
+
+    .notification-btn {
+        right: 12.5px;
+    }
 }
 
 .notification-link:hover {
