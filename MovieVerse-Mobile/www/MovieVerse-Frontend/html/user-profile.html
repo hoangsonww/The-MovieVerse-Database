@@ -260,16 +260,6 @@
             background-color: #22254b;
             color: #fff;
         }
-
-        @media (min-width: 900px) {
-            #search {
-                margin-top: 0 !important;
-            }
-
-            #form1 {
-                margin-right: 19px;
-            }
-        }
     </style>
     <script src="../js/user-profile.js" type="module"></script>
 </head>
@@ -299,7 +289,12 @@
             <i class="fas fa-sign-out-alt" id="signOutIcon" style="display: none;"></i>
         </button>
         <form id="form1" style="margin-top: 20px">
-            <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!"/>
+            <input
+                    type="text"
+                    id="search"
+                    placeholder="Search For Anything..."
+                    class="search"
+            />
             <button type="button" id="button-search" onclick="handleSearch()">Search</button>
         </form>
         <button id="settings-btn" style="position: fixed; bottom: 185px; z-index: 1000">Settings</button>

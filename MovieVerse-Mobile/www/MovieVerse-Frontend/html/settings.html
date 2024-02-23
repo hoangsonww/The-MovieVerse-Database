@@ -143,15 +143,6 @@
             transition: background-color 0.3s ease;
         }
 
-        @media (min-width: 900px) {
-            #search {
-                margin-top: 16px;
-            }
-
-            #form1 {
-                margin-right: 0;
-            }
-        }
     </style>
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
@@ -190,7 +181,12 @@
             <i class="fas fa-user" id="profileIcon"></i>
         </button>
         <form id="form" style="margin-top: 5px">
-            <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!"/>
+            <input
+                    type="text"
+                    id="search"
+                    placeholder="Search For Anything..."
+                    class="search"
+            />
             <button type="button" id="button-search" onclick="handleSearch()">Search</button>
         </form>
         <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 150px">Movie Match</button>

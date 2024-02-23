@@ -51,16 +51,6 @@
             border-radius: 10px;
             z-index: 10;
         }
-
-        @media (min-width: 900px) {
-            #search {
-                margin-top: 16px;
-            }
-
-            #form1 {
-                margin-right: 0;
-            }
-        }
     </style>
 </head>
 
@@ -90,7 +80,12 @@
             <i class="fas fa-user" id="profileIcon"></i>
         </button>
         <form id="form1">
-            <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!"/>
+            <input
+                    type="text"
+                    id="search"
+                    placeholder="Search For Anything..."
+                    class="search"
+            />
             <button type="button" id="button-search" onclick="handleSearch()">Search</button>
         </form>
         <button id="settings-btn" style="position: fixed; bottom: 185px">Settings</button>

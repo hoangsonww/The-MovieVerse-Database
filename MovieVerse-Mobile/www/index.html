@@ -40,54 +40,6 @@
     <script src="index.js" defer></script>
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <link rel="manifest" href="manifest.json">
-
-    <!-- Schema.org markup for movies -->
-    <script type="application/ld+json">
-        {
-            "@context": "http://schema.org",
-            "@type": "Movie",
-            "name": "Inception",
-            "image": "https://movie-verse.com/images/inception.jpg",
-            "director": {
-                "@type": "Person",
-                "name": "Christopher Nolan",
-                "url": "https://movie-verse.com/MovieVerse-Frontend/html/christopher-nolan.html"
-            },
-            "genre": ["Action", "Adventure", "Sci-Fi"],
-            "actor": [
-                {
-                    "@type": "Person",
-                    "name": "Leonardo DiCaprio",
-                    "url": "https://movie-verse.com/MovieVerse-Frontend/html/leonardo-dicaprio.html"
-                }
-            ],
-            "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "8.8",
-                "reviewCount": "1043299",
-                "bestRating": "10",
-                "worstRating": "1"
-            },
-            "review": {
-                "@type": "Review",
-                "author": {
-                    "@type": "Person",
-                    "name": "Jane Doe"
-                },
-                "datePublished": "2020-01-06",
-                "reviewRating": {
-                    "@type": "Rating",
-                    "ratingValue": "9",
-                    "bestRating": "10",
-                    "worstRating": "1"
-                },
-                "reviewBody": "Inception is a masterpiece of narrative complexity, with an innovative structure and a compelling exploration of themes such as dream manipulation and the nature of reality."
-            },
-            "description": "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
-            "datePublished": "2010-07-16",
-            "url": "https://movie-verse.com/MovieVerse-Frontend/html/inception.html"
-        }
-    </script>
 </head>
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
@@ -132,7 +84,12 @@
         </button>
 
         <form id="form">
-            <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!"/>
+            <input
+                    type="text"
+                    id="search"
+                    placeholder="Search For Anything..."
+                    class="search"
+            />
             <button type="button" id="button-search" onclick="handleSearch()">Search</button>
         </form>
     </header>
@@ -410,6 +367,53 @@
                     console.log('ServiceWorker registration failed: ', err);
                 });
             });
+        }
+    </script>
+
+    <script type="application/ld+json">
+        {
+            "@context": "http://schema.org",
+            "@type": "Movie",
+            "name": "Inception",
+            "image": "https://movie-verse.com/images/inception.jpg",
+            "director": {
+                "@type": "Person",
+                "name": "Christopher Nolan",
+                "url": "https://movie-verse.com/MovieVerse-Frontend/html/christopher-nolan.html"
+            },
+            "genre": ["Action", "Adventure", "Sci-Fi"],
+            "actor": [
+                {
+                    "@type": "Person",
+                    "name": "Leonardo DiCaprio",
+                    "url": "https://movie-verse.com/MovieVerse-Frontend/html/leonardo-dicaprio.html"
+                }
+            ],
+            "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "8.8",
+                "reviewCount": "1043299",
+                "bestRating": "10",
+                "worstRating": "1"
+            },
+            "review": {
+                "@type": "Review",
+                "author": {
+                    "@type": "Person",
+                    "name": "Jane Doe"
+                },
+                "datePublished": "2020-01-06",
+                "reviewRating": {
+                    "@type": "Rating",
+                    "ratingValue": "9",
+                    "bestRating": "10",
+                    "worstRating": "1"
+                },
+                "reviewBody": "Inception is a masterpiece of narrative complexity, with an innovative structure and a compelling exploration of themes such as dream manipulation and the nature of reality."
+            },
+            "description": "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
+            "datePublished": "2010-07-16",
+            "url": "https://movie-verse.com/MovieVerse-Frontend/html/inception.html"
         }
     </script>
 

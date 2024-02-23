@@ -68,34 +68,6 @@
                 margin-top: -75px;
             }
         }
-
-        header {
-            margin-top: 9px;
-        }
-
-        @media (max-width: 600px) {
-            #my-heading {
-                margin-top: 10px;
-            }
-
-            #form1 {
-                margin-top: 20px;
-            }
-        }
-
-        @media (min-width: 900px) {
-            #search {
-                margin-top: 16px;
-            }
-
-            #form1 {
-                margin-right: 0;
-            }
-
-            header {
-                margin-top: -5px;
-            }
-        }
     </style>
 </head>
 
@@ -123,7 +95,12 @@
             <i class="fas fa-user" id="profileIcon"></i>
         </button>
         <form id="form1">
-            <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!"/>
+            <input
+                    type="text"
+                    id="search"
+                    placeholder="Search For Anything..."
+                    class="search"
+            />
             <button type="button" id="button-search" onclick="handleSearch()">Search</button>
         </form>
     </header>
@@ -177,16 +154,15 @@
                 <div id="comment-modal" class="modal">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h3>Add a Comment for This TV Series</h3>
+                            <h3>Add a Comment for This Movie</h3>
                             <span class="close">&times;</span>
                         </div>
-                        <p style="font-size: 15px; margin-bottom: 20px">Your review is much appreciated!</p>
                         <form id="comment-form">
                             <input type="text" id="user-name" placeholder="Your nickname" required>
                             <textarea id="user-comment" placeholder="Your comment" required></textarea>
-                            <button id="post-comment-btn" type="submit" title="Post your comment for this TV series">Post Comment</button>
+                            <button id="post-comment-btn" type="submit" title="Post your comment for this movie">Post Comment</button>
                             <p style="font-size: 14px; margin-top: 30px">
-                                <em>All comments will be posted anonymously, using the nickname you provided and not your profile name, so you can freely express your opinions!</em>
+                                <em>All comments will be posted anonymously, using the nickname you provided and not your profile name, so you can freely express your ideas!</em>
                             </p>
                         </form>
                     </div>

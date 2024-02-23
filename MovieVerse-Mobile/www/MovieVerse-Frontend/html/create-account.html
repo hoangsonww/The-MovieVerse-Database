@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <title>Create Account - The MovieVerse</title>
@@ -93,12 +92,6 @@
             background-color: #22254b;
             color: white;
         }
-
-        @media (min-width: 900px) {
-            #search {
-                margin-top: 0;
-            }
-        }
     </style>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
     <script>
@@ -109,7 +102,6 @@
         gtag('config', 'G-CQKJ67FXZ4');
     </script>
 </head>
-
 <body class="movie-details-body">
     <header id="homepage-header" style="margin-top: -5px">
         <a id="indexLink" href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer">
@@ -131,7 +123,12 @@
             <i class="fas fa-user" id="profileIcon"></i>
         </button>
         <form id="form1" style="margin-top: 19px">
-            <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!"/>
+            <input
+                    type="text"
+                    id="search"
+                    placeholder="Search For Anything..."
+                    class="search"
+            />
             <button type="button" id="button-search" onclick="handleSearch()">Search</button>
         </form>
         <button id="settings-btn" style="position: fixed; bottom: 185px; z-index: 1000">Settings</button>
@@ -386,5 +383,6 @@
 
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js"></script>
+
 </body>
 </html>

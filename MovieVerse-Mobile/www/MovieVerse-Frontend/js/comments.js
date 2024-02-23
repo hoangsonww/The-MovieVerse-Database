@@ -81,7 +81,7 @@ async function fetchComments() {
 
     if (querySnapshot.empty) {
         const noCommentsMsg = document.createElement("p");
-        noCommentsMsg.textContent = "No comments for this movie/TV show yet.";
+        noCommentsMsg.textContent = "No comments for this movie yet.";
         commentsContainer.appendChild(noCommentsMsg);
     }
     else {

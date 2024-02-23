@@ -65,14 +65,14 @@
             }
 
             #form {
-                margin-top: 20px;
+                margin-top: 0;
             }
         }
     </style>
 </head>
 
 <body>
-    <header style="margin-bottom: -50px; margin-top: 9px">
+    <header style="margin-bottom: -50px; margin-top: 10px">
         <a href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer; margin-bottom: 5px" title="Click to go back to the home page">
             <h1 id="my-heading" style="margin-bottom: -10px">
                 The Mo<span class="highlight">vieV</span>erse
@@ -95,7 +95,13 @@
         </button>
 
         <form id="form">
-            <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!" style="width: 216px"/>
+            <input
+                    type="text"
+                    id="search"
+                    placeholder="Search For Anything..."
+                    class="search"
+                    style="width: 215px"
+            />
             <button type="button" id="button-search" onclick="handleSearch()">Search</button>
         </form>
     </header>
