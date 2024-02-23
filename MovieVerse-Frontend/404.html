@@ -31,6 +31,20 @@
             background-color: #ff8623;
             transition: background-color 0.3s;
         }
+
+        @media (min-width: 900px) {
+            #search {
+                margin-top: 6px;
+            }
+
+            #form1 {
+                margin-right: 0;
+            }
+
+            #my-heading {
+                margin-top: 14px;
+            }
+        }
     </style>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
     <script>
@@ -224,12 +238,7 @@
             <i class="fas fa-user" id="profileIcon"></i>
         </button>
         <form id="form1">
-            <input
-                    type="text"
-                    id="search"
-                    placeholder="Search For Anything..."
-                    class="search"
-            />
+            <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!"/>
             <button type="button" id="button-search" onclick="handleSearch()">Search</button>
         </form>
 
