@@ -153,4 +153,4 @@ Email: [Official MovieVerse Email](mailto:info@movie-verse.com)
 
 ---
 
-Please also note that the **MovieVerse** is an ever-evolving platform, and more updates are underway. I am continually enhancing the user experience and adding new features, like the Movie Timeline, to help you navigate the vast sea of cinema with ease and excitement. 
+Please also note that the **MovieVerse** is an ever-evolving platform, and more updates are underway. I am continually enhancing the user experience and adding new features, like the Movie Timeline, to help you navigate the vast sea of cinema with ease and excitement.
