@@ -683,13 +683,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const notificationBtn = document.getElementById('notificationBtn');
     const notificationModal = document.getElementById('notificationModal');
 
-    // Toggle notification modal
     notificationBtn.addEventListener('click', () => {
         notificationModal.style.display = notificationModal.style.display === 'none' ? 'block' : 'none';
         fetchNewReleases();
     });
 
-    // Close modal on clicking outside
     window.addEventListener('click', (event) => {
         if (event.target === notificationModal) {
             notificationModal.style.display = 'none';
@@ -731,15 +729,14 @@ async function fetchNewReleases() {
             }
         });
 
-        // Update last visit
         localStorage.setItem('lastVisit', new Date().toISOString());
-    } catch (error) {
+    }
+    catch (error) {
         console.error('Error fetching new releases:', error);
         newReleasesList.innerHTML = '<li>Error fetching new releases.</li>';
     }
 }
 
-// Initialize or update last visit on page load
 if (!localStorage.getItem('lastVisit')) {
     localStorage.setItem('lastVisit', new Date().toISOString());
 }
