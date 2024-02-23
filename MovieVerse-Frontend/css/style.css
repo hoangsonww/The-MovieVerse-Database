@@ -2643,7 +2643,7 @@ footer p:hover {
 .notification-btn {
     position: fixed;
     top: 5px;
-    right: 30px;
+    right: 18.5px;
     z-index: 100;
     background-color: #7378c5;
     color: white;
@@ -2681,7 +2681,7 @@ footer p:hover {
 .notification-modal {
     position: fixed;
     top: 50px;
-    right: 30px;
+    right: 18.5px;
     background-color: #7378c5;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
