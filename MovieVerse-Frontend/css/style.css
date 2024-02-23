@@ -949,7 +949,7 @@ h2 {
 }
 
 h2:hover {
-    color: #f509d9;
+    color: orange;
     transition: 0.1s linear;
 }
 
