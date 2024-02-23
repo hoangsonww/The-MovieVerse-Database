@@ -2639,3 +2639,52 @@ footer p:hover {
     transition: 0.1s ease-in;
     color: #ff8623;
 }
+
+.notification-btn {
+    position: fixed;
+    top: 5px;
+    right: 30px;
+    z-index: 100;
+    background-color: #7378c5;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.notification-modal {
+    position: fixed;
+    top: 50px;
+    right: 30px;
+    background-color: #7378c5;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    padding: 20px;
+    width: 300px;
+    z-index: 100;
+    color: white;
+}
+
+.notification-link:hover {
+    color: #f509d9 !important;
+}
+
+.notification-modal h4 {
+    margin: 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.notification-modal ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 10px;
+    max-height: 200px; /* Adjust based on your needs */
+    overflow-y: auto;
+}
+
+.notification-modal ul li {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
