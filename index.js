@@ -699,10 +699,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function fetchNewReleases() {
     const API_KEY = 'c5a20c861acf7bb8d9e987dcc7f1b558';
-    const now = new Date();
-    const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0];
-    const lastDayOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).toISOString().split('T')[0];
-    const URL = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=en-US&sort_by=release_date.desc&primary_release_date.gte=${firstDayOfMonth}&primary_release_date.lte=${lastDayOfMonth}`;
+    const URL = `https://api.themoviedb.org/3/movie/now_playing?api_key=${API_KEY}&language=en-US&page=1`;
     const newReleasesList = document.getElementById('newReleasesList');
 
     try {
@@ -713,7 +710,6 @@ async function fetchNewReleases() {
         const lastVisit = localStorage.getItem('lastVisit') || new Date(0);
         const lastVisitDate = new Date(lastVisit);
 
-        // Clear current list and set modal title
         newReleasesList.innerHTML = '<h4 style="font-size: 18px">Notifications</h4><h5 style="font-size: 16px; margin-bottom: 0; margin-top: 10px">New Releases Since Your Last Visit:</h5>';
 
         movies.forEach(movie => {
