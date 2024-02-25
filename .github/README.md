@@ -1,6 +1,6 @@
 # The MovieVerse App
 
-Welcome to The MovieVerse - your digital compass to the cinematic universe. Created by [Son Nguyen](https://github.com/hoangsonww) in 2023, this application is designed to serve as a bridge connecting movie enthusiasts with an extensive collection of films across various genres and time periods. Dive into an ocean of narratives, where stories come to life, right at your fingertips. This app is available at [https://movie-verse.com](https://movie-verse.com), and will soon also be available on the App Store and Google Play Store.
+Welcome to The MovieVerse - your digital compass to the cinematic universe. Created by [Son Nguyen](https://github.com/hoangsonww) in 2023, this application is designed to serve as a bridge connecting movie enthusiasts with an extensive collection of films across various genres and periods. Dive into an ocean of narratives, where stories come to life, right at your fingertips. This app is available at [https://movie-verse.com](https://movie-verse.com), and will soon also be available on the App Store and Google Play Store.
 
 ---
 
@@ -24,7 +24,7 @@ Welcome to The MovieVerse - your digital compass to the cinematic universe. Crea
 
 The MovieVerse is an endeavor by Son Nguyen Hoang, crafted with the vision of creating a seamless and enriching experience for movie lovers. It's more than just a database; it's a portal to explore, discover, and immerse yourself in the art of cinema.
 
-Through The MovieVerse, users can search for movies, view detailed information, rate and review films, and interact with a community of like-minded cinephiles. It's a platform that celebrates cinema in all its forms, from blockbuster hits to indie gems.
+Through The MovieVerse, users can search for movies, view detailed information, rate, and review films, and interact with a community of like-minded cinephiles. It's a platform that celebrates cinema in all its forms, from blockbuster hits to indie gems.
 
 There is also a mobile version of The MovieVerse, which is developed using Apache Cordova. The mobile application is under review and will be available on the App Store and Google Play Store soon!
 
@@ -81,7 +81,7 @@ The MovieVerse is a full-stack application with a robust backend and a user-frie
 | [TypeScript](https://www.typescriptlang.org/)                   | [Python](https://www.python.org/)                               |                                                 |                                                                   | [Google Analytics](https://analytics.google.com/analytics/web/) |
 | [FontAwesome Icons](https://react-icons.github.io/react-icons/) | [Ruby on Rails](https://rubyonrails.org/)                       |                                                 |                                                                   | [ESLint](https://eslint.org/)                                   |
 | [SASS](https://sass-lang.com/)                                  | [C (Emscripten, WebAssembly)](https://emscripten.org/)          |                                                 |                                                                   | [Git](https://git-scm.com/)                                     |
-| [Single Spa](https://single-spa.js.org/)                        | [JavaScript](https://www.javascript.com/)                       |                                                 |                                                                   |                                                                 |
+| [Single Spa](https://single-spa.js.org/)                        | [JavaScript](https://www.javascript.com/)                       |                                                 |                                                                   | [The Movie Database](https://www.themoviedb.org/)           |
 
 
 ## Contributing
@@ -92,40 +92,40 @@ If you have a suggestion that would make this better, please fork the repo and c
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-6. Install Emscripten and compile the C code to WebAssembly (refer to the README.md file in utils directory [here](../utils/README.md).)
-7. Take a look at the project configuration directory (project-config) and make sure that the paths are correct.
-8. Visit the backend directory and install the dependencies (if any):
+3. Install Emscripten and compile the C code to WebAssembly (refer to the README.md file in utils directory [here](../utils/README.md).)
+4. Take a look at the project configuration directory (project-config) and make sure that the paths are correct.
+5. Visit the backend directory and install the dependencies (if any):
     ```
     npm install
     ```
-9. Start the backend server:
+6. Start the backend server:
     ```
     npm start
     ```
-10. Visit the frontend directory (root) and install the dependencies (if any):
+7. Visit the frontend directory (root) and install the dependencies (if any):
     ```
     npm install
     ```
-11. Start the frontend server:
+8. Start the frontend server:
     ```
     npm start
     ```
-12. Visit the mobile app directory and install the dependencies (if any):
+9. Visit the mobile app directory and install the dependencies (if any):
     ```
     npm install
     ```
-13. Start the mobile app server:
+10. Start the mobile app server:
     ```
     npm start
     ```
+11. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+12. Push to the Branch (`git push origin feature/AmazingFeature`)
+13. Open a Pull Request (if you want to merge your changes to our official app)
 14. Enjoy coding and let me know if you have any questions!
 
 ## Privacy Policy
 
-The MovieVerse is committed to protecting your privacy. This Privacy Policy explains how your personal information is collected, used, and disclosed by The MovieVerse.  Feel free to visit our [Privacy Policy](https://movie-verse.com/src/html/privacy-policy) page to learn more.
+The MovieVerse is committed to protecting your privacy. Our Privacy Policy page explains how your personal information is collected, used, and disclosed by The MovieVerse.  Feel free to visit our [Privacy Policy](https://movie-verse.com/src/html/privacy-policy) page to learn more.
 
 ## Terms of Service
 
@@ -137,7 +137,7 @@ Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
 
 ## Code of Conduct
 
-The MovieVerse is committed to fostering a welcoming community. Please refer to our [Code of Conduct](CODE_OF_CONDUCT.md)  for more information.
+The MovieVerse is committed to fostering a welcoming community. Please refer to our [Code of Conduct](CODE_OF_CONDUCT.md) for more information.
 
 ## Security Policy
 
@@ -153,4 +153,4 @@ Email: [Official MovieVerse Email](mailto:info@movie-verse.com)
 
 ---
 
-Please also note that the **MovieVerse** is an ever-evolving platform, and more updates are underway. I am continually enhancing the user experience and adding new features, like the Movie Timeline, to help you navigate the vast sea of cinema with ease and excitement.
+Please also note that the **MovieVerse** is an ever-evolving platform, and more updates are underway. I am continually enhancing the user experience and adding new features, like the Movie Timeline, to help you navigate the vast sea of cinema with ease and excitement. Special thanks to [The Movie Database (TMDb)](https://www.themoviedb.org/) for providing additional movie data that greatly enriches The MovieVerse experience.
