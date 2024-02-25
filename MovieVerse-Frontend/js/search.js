@@ -273,6 +273,7 @@ async function showResults(category) {
     }
 
     updateBrowserURL(searchQuery);
+    document.title = `Search Results for ${searchQuery} - The MovieVerse`;
 }
 
 document.querySelector('button[onclick="showResults(\'movie\')"]').addEventListener('click', function() {
