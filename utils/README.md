@@ -79,6 +79,7 @@ Once you have installed Emscripten, you can compile C files to WebAssembly. Here
 - The `-O3` flag is for optimization.
 - The `-s WASM=1` flag specifies that the output should be a WebAssembly module.
 - The `-s EXPORTED_FUNCTIONS` flag is optional, used to specify which functions to expose to JavaScript.
+- Remember to add the newly-cloned `emsdk` folder to `.gitignore`!
 
 ## Troubleshooting
 
