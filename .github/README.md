@@ -32,7 +32,7 @@ There is also a mobile version of The MovieVerse, which is developed using Apach
 
 **Search & Discover:**
 
-- **Search Functionality**: Find movies by title, actor, director, or genre with ease.
+- **Search Functionality**: Find movies or TV shows by title, actor, director, or genre with ease.
 - **Movie Details Page**: View detailed information, including synopses, cast, crew, ratings, and reviews.
 - **Curated Lists**: Access collections of new releases, most popular, trending, genre-specific movies, and many more.
 
