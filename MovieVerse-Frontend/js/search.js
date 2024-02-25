@@ -321,7 +321,7 @@ function displayResults(results, category, searchTerm) {
     const capitalizedCategory = category.charAt(0).toUpperCase() + category.slice(1);
 
     if (results.length === 0) {
-        container.innerHTML = `<p>No results found for "${searchTerm}" in the ${capitalizedCategory} category. Please try again with a different query.</p>`;
+        container.innerHTML = `<p>No results found for "${searchTerm}" in the ${capitalizedCategory} category. Please try again with a different query or look for it in another category.</p>`;
         return;
     }
 
