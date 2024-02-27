@@ -157,7 +157,7 @@
     </header>
 
     <nav id="side-nav" class="side-nav">
-        <a href="index.html" id="heading-href">
+        <a id="heading-href" style="cursor: pointer">
             <h1 id="my-heading" style="margin-bottom: 5px; margin-left: 0">
                 The Mo<span class="highlight">vieV</span>erse Menu
             </h1>
@@ -189,6 +189,7 @@
             <li><a href="#family">Family</a></li>
             <li><a href="#crime">Crime</a></li>
             <li><a href="#classic">Classic</a></li>
+            <li><a href="MovieVerse-Frontend/html/support.html">MovieVerse Support</a></li>
         </ul>
     </nav>
 
@@ -385,6 +386,12 @@
                 });
             });
 
+            document.getElementById('heading-href').addEventListener('click', function(e) {
+                e.preventDefault();
+
+                document.getElementById('homepage-header').scrollIntoView({ behavior: 'smooth' });
+            });
+
             document.getElementById('back-to-top-btn').addEventListener('click', function(e) {
                 e.preventDefault();
 
@@ -429,6 +436,23 @@
                     console.log('ServiceWorker registration failed: ', err);
                 });
             });
+        }
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            checkApiStatus();
+        });
+
+        function checkApiStatus() {
+            fetch(`https://${getMovieVerseData()}/3/configuration?${generateMovieNames()}${getMovieCode()}`)
+                .then(response => {
+                    if (!response.ok) throw new Error('API response failed');
+                })
+                .catch(error => {
+                    console.error('There has been a problem with API fetch operation, which we will take a look at as soon as possible:', error);
+                    window.location.href = 'MovieVerse-Frontend/html/api_fails.html';
+                });
         }
     </script>
 
