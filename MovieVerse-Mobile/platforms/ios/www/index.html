@@ -1,3 +1,4 @@
+<!-- The MovieVerse App Source Code -->
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 
@@ -40,9 +41,67 @@
     <script src="index.js" defer></script>
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <link rel="manifest" href="manifest.json">
+
+    <!-- Schema.org markup for movies -->
+    <script type="application/ld+json">
+        {
+            "@context": "http://schema.org",
+            "@type": "Movie",
+            "name": "Inception",
+            "image": "https://movie-verse.com/images/inception.jpg",
+            "director": {
+                "@type": "Person",
+                "name": "Christopher Nolan",
+                "url": "https://movie-verse.com/MovieVerse-Frontend/html/christopher-nolan.html"
+            },
+            "genre": ["Action", "Adventure", "Sci-Fi"],
+            "actor": [
+                {
+                    "@type": "Person",
+                    "name": "Leonardo DiCaprio",
+                    "url": "https://movie-verse.com/MovieVerse-Frontend/html/leonardo-dicaprio.html"
+                }
+            ],
+            "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "8.8",
+                "reviewCount": "1043299",
+                "bestRating": "10",
+                "worstRating": "1"
+            },
+            "review": {
+                "@type": "Review",
+                "author": {
+                    "@type": "Person",
+                    "name": "Jane Doe"
+                },
+                "datePublished": "2020-01-06",
+                "reviewRating": {
+                    "@type": "Rating",
+                    "ratingValue": "9",
+                    "bestRating": "10",
+                    "worstRating": "1"
+                },
+                "reviewBody": "Inception is a masterpiece of narrative complexity, with an innovative structure and a compelling exploration of themes such as dream manipulation and the nature of reality."
+            },
+            "description": "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
+            "datePublished": "2010-07-16",
+            "url": "https://movie-verse.com/MovieVerse-Frontend/html/inception.html"
+        }
+    </script>
+
+    <!-- Analytics Tag -->
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "l7gqnssat8");
+    </script>
 </head>
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
+
 <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
@@ -84,14 +143,18 @@
         </button>
 
         <form id="form">
-            <input
-                    type="text"
-                    id="search"
-                    placeholder="Search For Anything..."
-                    class="search"
-            />
+            <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!"/>
             <button type="button" id="button-search" onclick="handleSearch()">Search</button>
         </form>
+
+        <button id="notificationBtn" class="notification-btn" title="Notifications">
+            <i class="fas fa-bell" style="font-size: 15px"></i>
+        </button>
+
+        <div id="notificationModal" class="notification-modal" style="display: none;">
+            <ul id="newReleasesList"></ul>
+        </div>
+
     </header>
 
     <nav id="side-nav" class="side-nav">
@@ -168,31 +231,31 @@
     <main id="director-spotlight"></main>
 
     <div class="genres">
-        <h2 id="other" style="margin-top: 35px; cursor: pointer">Trending <span class="highlight">ACTION</span> Movies: </h2>
+        <h2 id="other" style="margin-top: 35px; cursor: pointer">Trending ACTION Movies: </h2>
     </div>
 
     <main id="action"></main>
 
     <div class="genres">
-        <h2 id="other" style="margin-top: 35px; cursor: pointer">Trending <span class="highlight">VIETNAMESE</span> Movies: </h2>
+        <h2 id="other" style="margin-top: 35px; cursor: pointer">Trending VIETNAMESE Movies: </h2>
     </div>
 
     <main id="vietnamese"></main>
 
     <div class="genres">
-        <h2 id="other" style="margin-top: 35px; cursor: pointer">Trending <span class="highlight">KOREAN</span> Movies: </h2>
+        <h2 id="other" style="margin-top: 35px; cursor: pointer">Trending KOREAN Movies: </h2>
     </div>
 
     <main id="korean"></main>
 
     <div class="genres">
-        <h2 id="other" style="margin-top: 35px; cursor: pointer">Trending <span class="highlight">INDIAN</span> Movies: </h2>
+        <h2 id="other" style="margin-top: 35px; cursor: pointer">Trending INDIAN Movies: </h2>
     </div>
 
     <main id="indian"></main>
 
     <div class="genres">
-        <h2 id="other" style="margin-top: 35px; cursor: pointer">Trending <span class="highlight">TV SERIES</span>: </h2>
+        <h2 id="other" style="margin-top: 35px; cursor: pointer">Trending TV SERIES: </h2>
     </div>
 
     <main id="tv-series"></main>
@@ -204,79 +267,79 @@
     <main id="hidden-gems"></main>
 
     <div class="genres">
-        <h2 id="other" style="margin-top: 35px; cursor: pointer">Trending <span class="highlight">HORROR</span> Movies: </h2>
+        <h2 id="other" style="margin-top: 35px; cursor: pointer">Trending HORROR Movies: </h2>
     </div>
 
     <main id="horror"></main>
 
     <div class="genres">
-        <h2 id="other" style="margin-top: 35px; cursor: pointer">Trending <span class="highlight">DOCUMENTARY</span> Movies: </h2>
+        <h2 id="other" style="margin-top: 35px; cursor: pointer">Trending DOCUMENTARY Movies: </h2>
     </div>
 
     <main id="documentary"></main>
 
     <div class="genres">
-        <h2 id="other" style="margin-top: 35px; cursor: pointer">Trending <span class="highlight">ANIMATED</span> Movies: </h2>
+        <h2 id="other" style="margin-top: 35px; cursor: pointer">Trending ANIMATED Movies: </h2>
     </div>
 
     <main id="animation"></main>
 
     <div class="genres">
-        <h2 id="other" style="margin-top: 35px; cursor: pointer">Trending <span class="highlight">SCIENCE FICTION</span> Movies: </h2>
+        <h2 id="other" style="margin-top: 35px; cursor: pointer">Trending SCIENCE FICTION Movies: </h2>
     </div>
 
     <main id="sci-fi"></main>
 
     <div class="genres">
-        <h2 id="other" style="margin-top: 35px; cursor: pointer">Trending <span class="highlight">ROMANTIC</span> Movies: </h2>
+        <h2 id="other" style="margin-top: 35px; cursor: pointer">Trending ROMANTIC Movies: </h2>
     </div>
 
     <main id="romantic"></main>
 
     <div class="genres">
-        <h2 id="other" style="margin-top: 35px; cursor: pointer">Trending <span class="highlight">THRILLER</span> Movies: </h2>
+        <h2 id="other" style="margin-top: 35px; cursor: pointer">Trending THRILLER Movies: </h2>
     </div>
 
     <main id="thriller"></main>
 
     <div class="genres">
-        <h2 id="other" style="margin-top: 35px; cursor: pointer">Trending <span class="highlight">MYSTERY</span> Movies: </h2>
+        <h2 id="other" style="margin-top: 35px; cursor: pointer">Trending MYSTERY Movies: </h2>
     </div>
 
     <main id="mystery"></main>
 
     <div class="genres">
-        <h2 id="other" style="margin-top: 35px; cursor: pointer">Trending <span class="highlight">ADVENTURE</span> Movies: </h2>
+        <h2 id="other" style="margin-top: 35px; cursor: pointer">Trending ADVENTURE Movies: </h2>
     </div>
 
     <main id="adventure"></main>
 
     <div class="genres">
-        <h2 id="other" style="margin-top: 35px; cursor: pointer">Trending <span class="highlight">COMEDY</span> Movies: </h2>
+        <h2 id="other" style="margin-top: 35px; cursor: pointer">Trending COMEDY Movies: </h2>
     </div>
 
     <main id="comedy"></main>
 
     <div class="genres">
-        <h2 id="other" style="margin-top: 35px; cursor: pointer">Trending <span class="highlight">FANTASY</span> Movies: </h2>
+        <h2 id="other" style="margin-top: 35px; cursor: pointer">Trending FANTASY Movies: </h2>
     </div>
 
     <main id="fantasy"></main>
 
     <div class="genres"  >
-        <h2 id="other" style="margin-top: 35px; cursor: pointer">Trending <span class="highlight">FAMILY</span> Movies: </h2>
+        <h2 id="other" style="margin-top: 35px; cursor: pointer">Trending FAMILY Movies: </h2>
     </div>
 
     <main id="family"></main>
 
     <div class="genres">
-        <h2 id="other" style="margin-top: 35px; cursor: pointer">Trending <span class="highlight">CRIME</span> Movies: </h2>
+        <h2 id="other" style="margin-top: 35px; cursor: pointer">Trending CRIME Movies: </h2>
     </div>
 
     <main id="crime"></main>
 
     <div class="genres">
-        <h2 id="other" style="margin-top: 35px; cursor: pointer">Trending <span class="highlight">CLASSIC</span> Movies: </h2>
+        <h2 id="other" style="margin-top: 35px; cursor: pointer">Trending CLASSIC Movies: </h2>
     </div>
 
     <main id="classic" style="margin-bottom: 230px"></main>
@@ -367,53 +430,6 @@
                     console.log('ServiceWorker registration failed: ', err);
                 });
             });
-        }
-    </script>
-
-    <script type="application/ld+json">
-        {
-            "@context": "http://schema.org",
-            "@type": "Movie",
-            "name": "Inception",
-            "image": "https://movie-verse.com/images/inception.jpg",
-            "director": {
-                "@type": "Person",
-                "name": "Christopher Nolan",
-                "url": "https://movie-verse.com/MovieVerse-Frontend/html/christopher-nolan.html"
-            },
-            "genre": ["Action", "Adventure", "Sci-Fi"],
-            "actor": [
-                {
-                    "@type": "Person",
-                    "name": "Leonardo DiCaprio",
-                    "url": "https://movie-verse.com/MovieVerse-Frontend/html/leonardo-dicaprio.html"
-                }
-            ],
-            "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "8.8",
-                "reviewCount": "1043299",
-                "bestRating": "10",
-                "worstRating": "1"
-            },
-            "review": {
-                "@type": "Review",
-                "author": {
-                    "@type": "Person",
-                    "name": "Jane Doe"
-                },
-                "datePublished": "2020-01-06",
-                "reviewRating": {
-                    "@type": "Rating",
-                    "ratingValue": "9",
-                    "bestRating": "10",
-                    "worstRating": "1"
-                },
-                "reviewBody": "Inception is a masterpiece of narrative complexity, with an innovative structure and a compelling exploration of themes such as dream manipulation and the nature of reality."
-            },
-            "description": "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
-            "datePublished": "2010-07-16",
-            "url": "https://movie-verse.com/MovieVerse-Frontend/html/inception.html"
         }
     </script>
 

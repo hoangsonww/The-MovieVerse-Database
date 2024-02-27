@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" style="overflow-x: hidden">
+
 <head>
     <meta charset="UTF-8">
     <title>Movie Match - The MovieVerse</title>
     <link rel="stylesheet" href="../css/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Find your perfect movie match based on mood, genre, and era using The MovieVerse's tailored movie discovery feature. Start exploring now.">
+    <link rel="canonical" href="https://movie-verse.com/MovieVerse-Frontend/html/movie-match.html">
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
     <meta http-equiv="content-language" content="en" />
@@ -15,7 +18,6 @@
     <meta property="og:favicon" content="./images/favicon.ico" />
     <meta name="keywords" content="movies, film guide, directors, actors, movie genres, cinema, film reviews">
     <meta name="author" content="Son Nguyen Hoang">
-    <link rel="canonical" href="https://movie-verse.com/"/>
     <meta name="robots" content="index, follow">
     <meta name="rating" content="General">
     <meta name="revisit-after" content="3 days">
@@ -40,10 +42,31 @@
 
         gtag('config', 'G-CQKJ67FXZ4');
     </script>
+    <style>
+        @media (min-width: 900px) {
+            #search {
+                margin-top: 16px !important;
+            }
+
+            #form1 {
+                margin-right: 18px;
+            }
+        }
+
+        #search {
+            margin-top: -1px;
+        }
+    </style>
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "l7gqnssat8");
+    </script>
 </head>
 
 <body class="movie-details-body" style="overflow-x: hidden">
-
     <header style="margin-bottom: -60px; margin-top: -5px">
         <a id="indexLink" href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer; margin-bottom: -34px" title="Click to go back to the home page">
             <h1 id="my-heading">
@@ -67,12 +90,7 @@
             <i class="fas fa-user" id="profileIcon"></i>
         </button>
         <form id="form1">
-            <input
-                    type="text"
-                    id="search"
-                    placeholder="Search For Anything..."
-                    class="search"
-            />
+            <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!"/>
             <button type="button" id="button-search" onclick="handleSearch()">Search</button>
         </form>
     </header>
@@ -197,5 +215,4 @@
     </script>
 
 </body>
-
 </html>
