@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Support - The MovieVerse</title>
+    <title>Feedback - The MovieVerse</title>
     <meta name="description" content="You're currently offline. Check your internet connection or try again later to continue exploring The MovieVerse.">
     <link rel="canonical" href="https://movie-verse.com/MovieVerse-Frontend/html/offline.html">
     <meta property="og:locale" content="en_US" />
@@ -73,7 +73,6 @@
             border: none;
             cursor: pointer;
             transition: background-color 0.3s ease;
-            margin-top: 20px;
         }
 
         #supportBtn:hover {
@@ -320,147 +319,147 @@
     </script>
 </head>
 <body class="movie-details-body">
-    <header>
-        <a href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer">
-            <h1 id="my-heading" style="margin-bottom: -10px; margin-top: 19px">
-                The Mo<span class="highlight">vieV</span>erse
-            </h1>
-        </a>
+<header>
+    <a href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer">
+        <h1 id="my-heading" style="margin-bottom: -10px; margin-top: 19px">
+            The Mo<span class="highlight">vieV</span>erse
+        </h1>
+    </a>
 
-        <div id="local-time" style="cursor: pointer">
-            <p id="stats-label" class="clock" style="font-size: 16px"></p>
-            <h1 id="stats-display" class="clock"></h1>
-        </div>
-
-        <button class="back-btn" onclick="window.location.href='../../index.html'" title="Go back to homepage">Home</button>
-        <button class="about" onclick="window.location.href='about.html'" title="About this wonderful app!">About</button>
-        <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="View your favorites & watchlists">Favorites</button>
-        <button id="googleSignInBtn" class="nav-btn" onclick="handleSignInOut()" title="Sign In/Out">
-            <span id="signInOutText">Sign In</span>
-            <i class="fas fa-sign-in-alt" id="signInIcon"></i>
-            <i class="fas fa-sign-out-alt" id="signOutIcon" style="display: none;"></i>
-        </button>
-        <button id="profileBtn" class="nav-btn" onclick="window.location.href='user-profile.html'" title="Go to your profile">
-            <span id="profileText">Profile</span>
-            <i class="fas fa-user" id="profileIcon"></i>
-        </button>
-        <form id="form1">
-            <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!"/>
-            <button type="button" id="button-search" onclick="handleSearch()">Search</button>
-        </form>
-
-        <button id="settings-btn" style="position: fixed; bottom: 185px; right: 0">Settings</button>
-        <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 150px; right: 0">Movie Match</button>
-        <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 115px; right: 0">Movie Timeline</button>
-        <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 80px; right: 0">Recommendation</button>
-        <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="bottom: 45px; right: 0" title="Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
-        <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 10px; right: 0" title="Test your movie knowledge">MovieVerse Trivia</button>
-    </header>
-
-    <div class="form-container">
-        <h1>Contact Support</h1>
-        <p style="color: black">Have a question or need help? Contact us and we'll take a look at your request as soon as possible.</p>
-        <form action="https://formspree.io/f/xdoqzzao" method="POST">
-            <input type="text" id="name" name="name" placeholder="Your Name" required>
-            <input type="email" id="email" name="_replyto" placeholder="Your Email" required>
-            <textarea id="message" name="message" placeholder="Your Message" required></textarea>
-            <button type="submit">Send Message</button>
-            <p style="color: black">Have a feedback for us? Or any suggestions to improve our app? Click the button below to be redirected to the feedback page.</p>
-            <button id="supportBtn" onclick="window.location.href='feedback.html'" title="Submit a feedback">Submit Feedback</button>
-        </form>
+    <div id="local-time" style="cursor: pointer">
+        <p id="stats-label" class="clock" style="font-size: 16px"></p>
+        <h1 id="stats-display" class="clock"></h1>
     </div>
 
-    <script>
-        async function showMovieOfTheDay() {
-            const year = new Date().getFullYear();
-            const url = `https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+    <button class="back-btn" onclick="window.location.href='../../index.html'" title="Go back to homepage">Home</button>
+    <button class="about" onclick="window.location.href='about.html'" title="About this wonderful app!">About</button>
+    <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="View your favorites & watchlists">Favorites</button>
+    <button id="googleSignInBtn" class="nav-btn" onclick="handleSignInOut()" title="Sign In/Out">
+        <span id="signInOutText">Sign In</span>
+        <i class="fas fa-sign-in-alt" id="signInIcon"></i>
+        <i class="fas fa-sign-out-alt" id="signOutIcon" style="display: none;"></i>
+    </button>
+    <button id="profileBtn" class="nav-btn" onclick="window.location.href='user-profile.html'" title="Go to your profile">
+        <span id="profileText">Profile</span>
+        <i class="fas fa-user" id="profileIcon"></i>
+    </button>
+    <form id="form1">
+        <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!"/>
+        <button type="button" id="button-search" onclick="handleSearch()">Search</button>
+    </form>
 
-            try {
-                const response = await fetch(url);
-                const data = await response.json();
-                const movies = data.results;
+    <button id="settings-btn" style="position: fixed; bottom: 185px; right: 0">Settings</button>
+    <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 150px; right: 0">Movie Match</button>
+    <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 115px; right: 0">Movie Timeline</button>
+    <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 80px; right: 0">Recommendation</button>
+    <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="bottom: 45px; right: 0" title="Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
+    <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 10px; right: 0" title="Test your movie knowledge">MovieVerse Trivia</button>
+</header>
 
-                if (movies.length > 0) {
-                    const randomMovie = movies[Math.floor(Math.random() * movies.length)];
-                    localStorage.setItem('selectedMovieId', randomMovie.id);
-                    window.location.href = 'movie-details.html';
-                }
-                else {
-                    fallbackMovieSelection();
-                }
+<div class="form-container">
+    <h1>Feedback</h1>
+    <p style="color: black">We'd love to hear from you! Please share your feedback, suggestions, or any issues you've encountered while using MovieVerse. We'll do our best to address them.</p>
+    <form action="https://formspree.io/f/xqkrbdqd" method="POST">
+        <input type="text" id="name" name="name" placeholder="Your Name" required>
+        <input type="email" id="email" name="_replyto" placeholder="Your Email" required>
+        <textarea id="message" name="message" placeholder="Your Feedback" required></textarea>
+        <button type="submit">Send Feedback</button>
+        <p style="color: black">Need immediate assistance? Submit a support request using the link below and we'll get back to you as soon as possible.</p>
+        <button id="supportBtn" onclick="window.location.href='support.html'">Request Support</button>
+    </form>
+</div>
+
+<script>
+    async function showMovieOfTheDay() {
+        const year = new Date().getFullYear();
+        const url = `https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            const movies = data.results;
+
+            if (movies.length > 0) {
+                const randomMovie = movies[Math.floor(Math.random() * movies.length)];
+                localStorage.setItem('selectedMovieId', randomMovie.id);
+                window.location.href = 'movie-details.html';
             }
-            catch (error) {
-                console.error('Error fetching movie:', error);
+            else {
                 fallbackMovieSelection();
             }
         }
-
-        function fallbackMovieSelection() {
-            const fallbackMovies = [432413, 299534, 1726, 562, 118340, 455207, 493922, 447332, 22970, 530385, 27205, 264660, 120467, 603, 577922, 76341, 539, 419704, 515001, 118340, 424, 98];
-            const randomFallbackMovie = fallbackMovies[Math.floor(Math.random() * fallbackMovies.length)];
-            localStorage.setItem('selectedMovieId', randomFallbackMovie);
-            window.location.href = 'MovieVerse-Frontend/html/movie-details.html';
+        catch (error) {
+            console.error('Error fetching movie:', error);
+            fallbackMovieSelection();
         }
+    }
 
-        function updateClock() {
-            var now = new Date();
-            var hours = now.getHours();
-            var minutes = now.getMinutes();
-            hours = hours < 10 ? '0' + hours : hours;
-            minutes = minutes < 10 ? '0' + minutes : minutes;
-            var timeString = hours + ':' + minutes;
-            document.getElementById('clock').innerHTML = timeString;
-        }
+    function fallbackMovieSelection() {
+        const fallbackMovies = [432413, 299534, 1726, 562, 118340, 455207, 493922, 447332, 22970, 530385, 27205, 264660, 120467, 603, 577922, 76341, 539, 419704, 515001, 118340, 424, 98];
+        const randomFallbackMovie = fallbackMovies[Math.floor(Math.random() * fallbackMovies.length)];
+        localStorage.setItem('selectedMovieId', randomFallbackMovie);
+        window.location.href = 'MovieVerse-Frontend/html/movie-details.html';
+    }
 
-        setInterval(updateClock, 1000);
-        window.onload = updateClock;
+    function updateClock() {
+        var now = new Date();
+        var hours = now.getHours();
+        var minutes = now.getMinutes();
+        hours = hours < 10 ? '0' + hours : hours;
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        var timeString = hours + ':' + minutes;
+        document.getElementById('clock').innerHTML = timeString;
+    }
 
-        document.getElementById('settings-btn').addEventListener('click', () => {
-            window.location.href = 'MovieVerse-Frontend/html/settings.html';
-        });
+    setInterval(updateClock, 1000);
+    window.onload = updateClock;
 
-        document.addEventListener('DOMContentLoaded', () => {
-            applySettings();
+    document.getElementById('settings-btn').addEventListener('click', () => {
+        window.location.href = 'MovieVerse-Frontend/html/settings.html';
+    });
 
-            function applySettings() {
-                const defaultBg = '../../images/universe-1.png';
-                const savedBg = localStorage.getItem('backgroundImage') || defaultBg;
-                const savedTextColor = localStorage.getItem('textColor');
-                const savedFontSize = localStorage.getItem('fontSize');
-                document.body.style.backgroundImage = `url('${savedBg}')`;
+    document.addEventListener('DOMContentLoaded', () => {
+        applySettings();
 
-                if (savedTextColor) {
-                    document.querySelectorAll('h1, h2, h3, p, a, span, div, button, input, select, textarea, label, li').forEach(element => {
-                        element.style.color = savedTextColor;
-                    });
-                }
+        function applySettings() {
+            const defaultBg = '../../images/universe-1.png';
+            const savedBg = localStorage.getItem('backgroundImage') || defaultBg;
+            const savedTextColor = localStorage.getItem('textColor');
+            const savedFontSize = localStorage.getItem('fontSize');
+            document.body.style.backgroundImage = `url('${savedBg}')`;
 
-                if (savedFontSize) {
-                    const size = savedFontSize === 'small' ? '12px' : savedFontSize === 'medium' ? '16px' : '20px';
-                    document.body.style.fontSize = size;
-                }
+            if (savedTextColor) {
+                document.querySelectorAll('h1, h2, h3, p, a, span, div, button, input, select, textarea, label, li').forEach(element => {
+                    element.style.color = savedTextColor;
+                });
             }
-        });
 
-        const form = document.getElementById('form1');
-
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const searchQuery = document.getElementById('search').value;
-            localStorage.setItem('searchQuery', searchQuery);
-            window.location.href = 'search.html';
-        });
-
-        function handleSearch() {
-            const searchQuery = document.getElementById('search').value;
-            localStorage.setItem('searchQuery', searchQuery);
-            window.location.href = 'search.html';
+            if (savedFontSize) {
+                const size = savedFontSize === 'small' ? '12px' : savedFontSize === 'medium' ? '16px' : '20px';
+                document.body.style.fontSize = size;
+            }
         }
-    </script>
+    });
 
-    <footer style="margin-top: 400px">
-        <p>© 2024 The MovieVerse. All rights reserved.</p>
-    </footer>
+    const form = document.getElementById('form1');
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const searchQuery = document.getElementById('search').value;
+        localStorage.setItem('searchQuery', searchQuery);
+        window.location.href = 'search.html';
+    });
+
+    function handleSearch() {
+        const searchQuery = document.getElementById('search').value;
+        localStorage.setItem('searchQuery', searchQuery);
+        window.location.href = 'search.html';
+    }
+</script>
+
+<footer style="margin-top: 400px">
+    <p>© 2024 The MovieVerse. All rights reserved.</p>
+</footer>
 
 </body>
 
