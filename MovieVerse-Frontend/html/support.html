@@ -66,6 +66,19 @@
             flex-direction: column;
             align-items: center;
         }
+
+        #supportBtn {
+            background-color: #7378c5;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        #supportBtn:hover {
+            background-color: #ff8623;
+        }
     </style>
     <style>
         .center-text {
@@ -352,6 +365,8 @@
             <input type="email" id="email" name="_replyto" placeholder="Your Email" required>
             <textarea id="message" name="message" placeholder="Your Message" required></textarea>
             <button type="submit">Send Message</button>
+            <p style="color: black">Have a feedback for us? Or any suggestions to improve our app? Click the button below to be redirected to the feedback page.</p>
+            <button id="supportBtn" onclick="window.location.href='feedback.html'" title="Submit a feedback">Submit Feedback</button>
         </form>
     </div>
 
