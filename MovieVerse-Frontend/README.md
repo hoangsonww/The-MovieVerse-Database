@@ -70,6 +70,7 @@ The JavaScript directory contains scripts that add interactivity and functionali
 - `trivia.js`: Script for the trivia game.
 - `user-profile.js`: Script for managing user profiles.
 - `single-spa-config.js`: Configuration file for the single-spa framework used in the app.
+- `systemjs-importmap.js`: Import map for the systemJS module loader.
 
 ### React Directory
 
