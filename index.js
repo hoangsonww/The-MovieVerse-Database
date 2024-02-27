@@ -26,7 +26,6 @@ const search = document.getElementById("search");
 const searchButton = document.getElementById("button-search");
 const searchTitle = document.getElementById("search-title");
 const otherTitle = document.getElementById("other1");
-const clearButton = document.getElementById("button-clear");
 
 let searchPerformed = false;
 
@@ -37,7 +36,6 @@ async function getMovies(url, mainElement, isSearch = false) {
 
     if (isSearch) {
         searchPerformed = true;
-        clearButton.style.display = 'block';
     }
 
     for (let page = 1; page <= pagesToFetch; page++) {
@@ -108,10 +106,6 @@ function updateUniqueMoviesViewed(movieId) {
         localStorage.setItem('uniqueMoviesViewed', JSON.stringify(viewedMovies));
     }
 }
-
-clearButton.addEventListener('click', () => {
-    window.location.reload();
-});
 
 function rotateUserStats() {
     const stats = [
