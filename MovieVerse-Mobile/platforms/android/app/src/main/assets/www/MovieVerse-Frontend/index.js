@@ -278,7 +278,7 @@ document.addEventListener('DOMContentLoaded', rotateUserStats);
 
 async function showMovieOfTheDay() {
     const year = new Date().getFullYear();
-    const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+    const url = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
 
     try {
         const response = await fetch(url);
@@ -394,29 +394,29 @@ document.getElementById('side-nav').addEventListener('mouseleave', function() {
     }
 });
 
-const DATABASEURL = `https://${getMovieVerseData()}/3/discover/movie?sort_by=popularity.desc&${generateMovieNames()}${getMovieCode()}`;
+const DATABASEURL = `https://${getMovieVerseData()}/3/discover/movie?sort_by=popularity.desc&api_key=${getMovieCode()}`;
 const IMGPATH = `https://image.tmdb.org/t/p/w1280`;
-const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
-const ACTIONpath = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=28&sort_by=popularity.desc&vote_count.gte=8`;
-const HORRORpath = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=27&sort_by=popularity.desc&vote_count.gte=8`;
-const DOCUMENTARYRpath = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=99&sort_by=popularity.desc&vote_count.gte=8`;
-const ANIMATIONpath = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=16&sort_by=popularity.desc&vote_count.gte=8`;
-const SCIFIpath = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=878&sort_by=popularity.desc&vote_count.gte=8`;
-const ROMANTICpath = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10749&sort_by=popularity.desc&vote_count.gte=8`;
-const THRILLERpath = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=53&sort_by=popularity.desc&vote_count.gte=8`;
-const MYSTERYpath = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=9648&sort_by=popularity.desc&vote_count.gte=8`;
-const ADVENTUREpath = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=12&sort_by=popularity.desc&vote_count.gte=8`;
-const COMEDYpath = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=35&sort_by=popularity.desc&vote_count.gte=8`;
-const FANTASYpath = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=14&sort_by=popularity.desc&vote_count.gte=8`;
-const FAMILYpath = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10751&sort_by=popularity.desc&vote_count.gte=8`;
-const TVpath = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10770&sort_by=popularity.desc&vote_count.gte=8`;
-const CRIMEpath = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=80&sort_by=popularity.desc&vote_count.gte=8`;
-const VIETNAMESE_PATH = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_original_language=vi&sort_by=popularity.desc`;
-const KOREAN_PATH = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_original_language=ko&sort_by=vote_average.desc,popularity.desc&vote_count.gte=10&vote_average.gte=8`;
-const INDIAN_PATH = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_original_language=hi&sort_by=popularity.desc`;
-const HIDDEN_GEMS_PATH = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&vote_average.gte=7&popularity.lte=10`;
-const AWARD_WINNING_PATH = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=1000`;
-const CLASSIC_MOVIES_PATH = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=popularity.desc&release_date.lte=1980`;
+const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&api_key=${getMovieCode()}&query=`;
+const ACTIONpath = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_genres=28&sort_by=popularity.desc&vote_count.gte=8`;
+const HORRORpath = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_genres=27&sort_by=popularity.desc&vote_count.gte=8`;
+const DOCUMENTARYRpath = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_genres=99&sort_by=popularity.desc&vote_count.gte=8`;
+const ANIMATIONpath = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_genres=16&sort_by=popularity.desc&vote_count.gte=8`;
+const SCIFIpath = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_genres=878&sort_by=popularity.desc&vote_count.gte=8`;
+const ROMANTICpath = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_genres=10749&sort_by=popularity.desc&vote_count.gte=8`;
+const THRILLERpath = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_genres=53&sort_by=popularity.desc&vote_count.gte=8`;
+const MYSTERYpath = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_genres=9648&sort_by=popularity.desc&vote_count.gte=8`;
+const ADVENTUREpath = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_genres=12&sort_by=popularity.desc&vote_count.gte=8`;
+const COMEDYpath = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_genres=35&sort_by=popularity.desc&vote_count.gte=8`;
+const FANTASYpath = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_genres=14&sort_by=popularity.desc&vote_count.gte=8`;
+const FAMILYpath = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_genres=10751&sort_by=popularity.desc&vote_count.gte=8`;
+const TVpath = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_genres=10770&sort_by=popularity.desc&vote_count.gte=8`;
+const CRIMEpath = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_genres=80&sort_by=popularity.desc&vote_count.gte=8`;
+const VIETNAMESE_PATH = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_original_language=vi&sort_by=popularity.desc`;
+const KOREAN_PATH = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_original_language=ko&sort_by=vote_average.desc,popularity.desc&vote_count.gte=10&vote_average.gte=8`;
+const INDIAN_PATH = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&with_original_language=hi&sort_by=popularity.desc`;
+const HIDDEN_GEMS_PATH = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&vote_average.gte=7&popularity.lte=10`;
+const AWARD_WINNING_PATH = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=1000`;
+const CLASSIC_MOVIES_PATH = `https://${getMovieVerseData()}/3/discover/movie?api_key=${getMovieCode()}&sort_by=popularity.desc&release_date.lte=1980`;
 
 getMovies(DATABASEURL, most_popular_main);
 getMovies(ACTIONpath, action_main);
@@ -677,102 +677,4 @@ function clearMovieVerseLocalStorage() {
     localStorage.removeItem('searchQuery');
     localStorage.removeItem('watchlists');
     localStorage.removeItem('favoritesMovies');
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    const notificationBtn = document.getElementById('notificationBtn');
-    const notificationModal = document.getElementById('notificationModal');
-
-    notificationBtn.addEventListener('click', () => {
-        notificationModal.style.display = notificationModal.style.display === 'none' ? 'block' : 'none';
-        fetchNewReleases();
-    });
-
-    window.addEventListener('click', (event) => {
-        if (event.target === notificationModal) {
-            notificationModal.style.display = 'none';
-        }
-    });
-});
-
-// function addAppTips() {
-//     const newReleasesList = document.getElementById('newReleasesList');
-//
-//     // App Tips Section
-//     const tipsSection = document.createElement('div');
-//     tipsSection.innerHTML = `
-//         <h5 style="font-size: 16px; margin-top: 20px;">Tips to Get More from MovieVerse:</h5>
-//         <ul style="list-style: inside; padding-left: 0;">
-//             <li>Explore Curated Lists for new discoveries.</li>
-//             <li>Create and manage your Movie Watchlists.</li>
-//             <li>Rate movies and write reviews to get personalized recommendations.</li>
-//             <li>Use the MovieBot Chat for quick help and info about movies.</li>
-//             <li>Check out the Cinematic Timeline to explore movies by era.</li>
-//         </ul>
-//         <p>For more details, visit our <a href="https://movie-verse.com" target="_blank" style="color: white;">website</a>.</p>
-//     `;
-//     newReleasesList.appendChild(tipsSection);
-// }
-
-function addCloseButton() {
-    const newReleasesList = document.getElementById('newReleasesList');
-    const closeButton = document.createElement('button');
-    closeButton.textContent = 'Close';
-    closeButton.id = 'closeModalButton';
-    closeButton.style = 'display: block; margin: 20px auto; margin-bottom: 0; font: inherit; font-size: 15.5px; padding: 5px 15px;';
-
-    closeButton.addEventListener('click', () => {
-        const notificationModal = document.getElementById('notificationModal');
-        notificationModal.style.display = 'none';
-    });
-
-    newReleasesList.appendChild(closeButton);
-}
-
-async function fetchNewReleases() {
-    const URL = `https://${getMovieVerseData()}/3/movie/now_playing?${generateMovieNames()}${getMovieCode()}&language=en-US&page=1`;
-    const newReleasesList = document.getElementById('newReleasesList');
-
-    try {
-        const response = await fetch(URL);
-        const data = await response.json();
-        const movies = data.results;
-
-        const lastVisit = localStorage.getItem('lastVisit') || new Date(0);
-        const lastVisitDate = new Date(lastVisit);
-
-        newReleasesList.innerHTML = '<h4 style="font-size: 18px">Notifications</h4><h5 style="font-size: 16px; margin-bottom: 0; margin-top: 10px">New Releases Since Your Last Visit:</h5>';
-
-        movies.forEach(movie => {
-            const releaseDate = new Date(movie.release_date);
-            if (releaseDate > lastVisitDate) {
-                const li = document.createElement('li');
-                const a = document.createElement('a');
-                a.textContent = movie.title;
-                a.href = "javascript:void(0);";
-                a.style.color = 'white';
-                a.classList.add('notification-link');
-                a.addEventListener('click', () => {
-                    localStorage.setItem('selectedMovieId', movie.id);
-                    window.location.href = 'MovieVerse-Frontend/html/movie-details.html';
-                });
-
-                li.appendChild(a);
-                newReleasesList.appendChild(li);
-            }
-        });
-
-        localStorage.setItem('lastVisit', new Date().toISOString());
-    }
-    catch (error) {
-        console.error('Error fetching new releases:', error);
-        newReleasesList.innerHTML = '<li>Error fetching new releases.</li>';
-    }
-
-    addCloseButton();
-    // addAppTips();
-}
-
-if (!localStorage.getItem('lastVisit')) {
-    localStorage.setItem('lastVisit', new Date().toISOString());
 }

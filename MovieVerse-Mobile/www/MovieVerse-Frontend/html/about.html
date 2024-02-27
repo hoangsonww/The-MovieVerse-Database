@@ -6,7 +6,7 @@
     <title>About The MovieVerse</title>
     <meta property="og:title" content="About The MovieVerse - Your Ultimate Movie Guide" />
     <script src="../js/settings.js"></script>
-    <meta name="description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more.">
+    <meta name="description" content="Learn about The MovieVerse, your ultimate movie guide. Discover our mission, features, and how we create a haven for movie enthusiasts to explore cinema.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
@@ -18,7 +18,7 @@
     <meta property="og:favicon" content="./images/favicon.ico" />
     <meta name="keywords" content="movies, film guide, directors, actors, movie genres, cinema, film reviews">
     <meta name="author" content="Son Nguyen Hoang">
-    <link rel="canonical" href="https://movie-verse.com/"/>
+    <link rel="canonical" href="https://movie-verse.com/MovieVerse-Frontend/html/about.html"/>
     <meta name="robots" content="index, follow">
     <meta name="rating" content="General">
     <meta name="revisit-after" content="3 days">
@@ -36,6 +36,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <link rel="manifest" href="../../manifest.json">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "l7gqnssat8");
+    </script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
@@ -50,6 +57,16 @@
             padding: 10px;
             border-radius: 10px;
             z-index: 10;
+        }
+
+        @media (min-width: 900px) {
+            #search {
+                margin-top: 16px;
+            }
+
+            #form1 {
+                margin-right: 0;
+            }
         }
     </style>
 </head>
@@ -80,12 +97,7 @@
             <i class="fas fa-user" id="profileIcon"></i>
         </button>
         <form id="form1">
-            <input
-                    type="text"
-                    id="search"
-                    placeholder="Search For Anything..."
-                    class="search"
-            />
+            <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!"/>
             <button type="button" id="button-search" onclick="handleSearch()">Search</button>
         </form>
         <button id="settings-btn" style="position: fixed; bottom: 185px">Settings</button>
@@ -476,5 +488,6 @@
 
         window.addEventListener('resize', setBodyClass);
     </script>
+
 </body>
 </html>

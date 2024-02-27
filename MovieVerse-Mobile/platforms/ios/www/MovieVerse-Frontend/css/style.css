@@ -949,7 +949,7 @@ h2 {
 }
 
 h2:hover {
-    color: #f509d9;
+    color: orange;
     transition: 0.1s linear;
 }
 
@@ -2632,4 +2632,94 @@ footer {
     margin-top: 40px;
     background-color: #7378c5;
     color: white;
+    transition: 0.3s ease-in;
+}
+
+footer p:hover {
+    transition: 0.1s ease-in;
+    color: #ff8623;
+}
+
+.notification-btn {
+    position: fixed;
+    top: 5px;
+    right: 20px;
+    z-index: 100;
+    background-color: #7378c5;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 9px;
+    border-radius: 8px;
+    transition: 0.1s ease-in;
+}
+
+#closeModalButton {
+    background-color: #7378c5;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+    transition: 0.1s ease-in;
+}
+
+#closeModalButton:hover {
+    background-color: #ff8623;
+}
+
+#closeModalButton {
+    margin: 10px auto;
+    display: block;
+}
+
+.notification-btn:hover {
+    background-color: #ff8623;
+}
+
+.notification-modal {
+    position: fixed;
+    top: 50px;
+    right: 20px;
+    background-color: #7378c5;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    padding: 20px;
+    width: 300px;
+    z-index: 100;
+    color: white;
+}
+
+@media (max-width: 900px) {
+    .notification-modal {
+        right: 12.5px;
+    }
+
+    .notification-btn {
+        right: 12.5px;
+    }
+}
+
+.notification-link:hover {
+    color: #f509d9 !important;
+}
+
+.notification-modal h4 {
+    margin: 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.notification-modal ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 10px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.notification-modal ul li {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
 }

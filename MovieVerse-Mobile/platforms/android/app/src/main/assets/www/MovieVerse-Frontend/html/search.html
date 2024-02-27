@@ -16,7 +16,8 @@
     <meta property="og:favicon" content="./images/favicon.ico" />
     <meta name="keywords" content="movies, film guide, directors, actors, movie genres, cinema, film reviews">
     <meta name="author" content="Son Nguyen Hoang">
-    <link rel="canonical" href="https://movie-verse.com/"/>
+    <meta name="description" content="Discover a wide range of movies, TV series, and actors based on your search query. Explore detailed search results to find your next favorite movie or TV show on The MovieVerse.">
+    <link rel="canonical" href="https://movie-verse.com/MovieVerse-Frontend/html/search.html">
     <meta name="robots" content="index, follow">
     <meta name="rating" content="General">
     <meta name="revisit-after" content="3 days">
@@ -42,10 +43,16 @@
         gtag('config', 'G-CQKJ67FXZ4');
     </script>
     <script src="../js/search.js"></script>
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "l7gqnssat8");
+    </script>
 </head>
 
 <body class="movie-details-body4">
-
     <header style="margin-bottom: -50px; margin-top: -5px">
         <a href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer" title="Click to go back to the home page">
             <h1 id="my-heading" style="margin-bottom: -10px">
@@ -69,12 +76,7 @@
             <i class="fas fa-user" id="profileIcon"></i>
         </button>
         <form id="form">
-            <input
-                    type="text"
-                    id="search"
-                    placeholder="Search For Anything..."
-                    class="search"
-            />
+            <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!"/>
             <button type="button" id="button-search" onclick="handleSearch()">Search</button>
         </form>
     </header>

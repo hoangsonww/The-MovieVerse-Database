@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Movie Details - The MovieVerse</title>
     <link rel="stylesheet" href="../css/style.css">
     <script src="../js/movie-details.js" defer></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Explore in-depth movie details including cast, synopsis, ratings, and community comments and reviews on more than 1 million movies at The MovieVerse.">
+    <link rel="canonical" href="https://movie-verse.com/MovieVerse-Frontend/html/movie-details.html">
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
     <meta http-equiv="content-language" content="en" />
@@ -16,7 +19,6 @@
     <meta property="og:favicon" content="./images/favicon.ico" />
     <meta name="keywords" content="movies, film guide, directors, actors, movie genres, cinema, film reviews">
     <meta name="author" content="Son Nguyen Hoang">
-    <link rel="canonical" href="https://movie-verse.com/"/>
     <meta name="robots" content="index, follow">
     <meta name="rating" content="General">
     <meta name="revisit-after" content="3 days">
@@ -46,11 +48,27 @@
             min-width: 400px;
             margin-top: 0;
         }
+
+        @media (min-width: 900px) {
+            #search {
+                margin-top: 16px;
+            }
+
+            #form1 {
+                margin-right: 0;
+            }
+        }
     </style>
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "l7gqnssat8");
+    </script>
 </head>
 
 <body class="movie-details-body">
-
     <header style="margin-bottom: -60px; margin-top: -5px">
         <a href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer" title="Click to go back to the home page">
             <h1 id="my-heading" style="margin-bottom: -10px">
@@ -74,22 +92,17 @@
             <i class="fas fa-user" id="profileIcon"></i>
         </button>
         <form id="form1">
-            <input
-                    type="text"
-                    id="search"
-                    placeholder="Search For Anything..."
-                    class="search"
-            />
+            <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!"/>
             <button type="button" id="button-search" onclick="handleSearch()">Search</button>
         </form>
     </header>
 
-    <div class="genres" id="genresDiv" style="margin-left: 25px; margin-top: 25px; display: none">
+    <div class="genres" id="genresDiv" style="margin-left: 25px; margin-top: 25px; display: none; height: 0">
         <h2 id="search-title"></h2>
         <button id="clear-search-btn" style="display: none;">Clear Search Results</button>
     </div>
 
-    <main id="main" style="margin-left: 35px; margin-top: 20px">
+    <main id="main" style="margin-left: 35px; height: 0">
 
     </main>
 
@@ -213,5 +226,4 @@
     </footer>
 
 </body>
-
 </html>

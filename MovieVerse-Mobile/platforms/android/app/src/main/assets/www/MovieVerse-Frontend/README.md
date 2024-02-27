@@ -24,6 +24,7 @@ The HTML directory includes all the markup files necessary for the structure of 
 - `actor-details.html`: A detailed view of actor profiles.
 - `company-details.html`: Provides information about movie production companies.
 - `create-account.html`: Allows users to create an account on MovieVerse.
+- `chatbot.html`: A chatbot feature for interacting with users.
 - `director-details.html`: Detailed information about movie directors.
 - `discussions.html`: A platform for users to discuss various movie-related topics.
 - `favorites.html`: Allows users to view and manage their favorite movies.
@@ -37,6 +38,10 @@ The HTML directory includes all the markup files necessary for the structure of 
 - `sign-in.html`: Allows users to sign in to their MovieVerse account.
 - `terms-of-service.html`: The terms governing the use of MovieVerse.
 - `trivia.html`: A trivia game to test users' movie knowledge.
+- `tv-details.html`: Detailed information about TV shows.
+- `offline.html`: A page to display when the app is offline.
+- `404.html`: A 404 error page for when a page is not found.
+- `index.ejs`: The entry point for the app.
 
 ### JS Directory
 
@@ -78,6 +83,22 @@ Please note that it is currently under development, and the components may under
 - `GenreMovies.jsx`: Component for genre-based movie listing
 - `UserProfile.jsx`: Component for managing user profiles
 - `FeaturedMoviesCarousel.jsx`: Component for featured movies carousel
+
+### Tests Directory
+
+The tests directory contains a collection of test scripts for the MovieVerse application. These tests are designed to ensure that the app's functionality is working as expected and to identify any potential issues or bugs.
+
+- `apiTests.js`: Tests for the API functionality
+- `chatbotInteractionTests.js`: Tests for the chatbot interaction
+- `eventListenerTests.js`: Tests for event listeners
+- `favoritesPageTests.js`: Tests for the favorites page
+- `localStorageTests.js`: Tests for local storage functionality
+- `movieDetailsRenderTests.js`: Tests for rendering movie details
+- `movieDetailsUtilityTests.js`: Tests for movie details utility functions
+- `movieSearchTests.js`: Tests for movie search functionality
+- `renderTests.js`: Tests for rendering components
+- `uiTests.js`: Tests for the user interface
+- `utilityTests.js`: Tests for utility functions
 
 ## Getting Started
 
