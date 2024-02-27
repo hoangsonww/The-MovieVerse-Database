@@ -23,7 +23,7 @@ MovieVerse is a dynamic, user-friendly mobile application that offers an extensi
 - **Movie Details**: Tap on any movie to view detailed information, including ratings, overviews, and more.
 - **Responsive Design**: Enjoy a consistent and engaging user experience on both iPhones and iPads.
 
-### And many more!
+### And all other features from the web app!
 
 ## Development
 
