@@ -1,6 +1,6 @@
 # The MovieVerse App
 
-Welcome to The MovieVerse - your digital compass to the cinematic universe. Created by [Son Nguyen](https://github.com/hoangsonww) in 2023, this application is designed to serve as a bridge connecting movie enthusiasts with an extensive collection of films across various genres and periods. Dive into an ocean of narratives, where stories come to life, right at your fingertips. This app is available at [https://movie-verse.com](https://movie-verse.com), and will soon also be available on the App Store and Google Play Store.
+Welcome to The MovieVerse - your digital compass to the cinematic universe. Created by [Son Nguyen](https://github.com/hoangsonww) in 2023, this application is designed to serve as a bridge connecting movie enthusiasts with an extensive collection of films across various genres and periods. Dive into an ocean of narratives, where stories come to life, right at your fingertips. This app is available at [https://movie-verse.com](https://movie-verse.com).
 
 ---
 
@@ -24,7 +24,7 @@ Welcome to The MovieVerse - your digital compass to the cinematic universe. Crea
 
 The MovieVerse is an endeavor by Son Nguyen Hoang, crafted with the vision of creating a seamless and enriching experience for movie lovers. It's more than just a database; it's a portal to explore, discover, and immerse yourself in the art of cinema.
 
-Through The MovieVerse, users can search for movies, view detailed information, rate, and review films, and interact with a community of like-minded cinephiles. It's a platform that celebrates cinema in all its forms, from blockbuster hits to indie gems.
+Through The MovieVerse, users can search for movies, view detailed information, rate, and review films, and interact with a community of like-minded movie enthusiasts. It's a platform that celebrates cinema in all its forms, from blockbuster hits to indie gems.
 
 There is also a mobile version of The MovieVerse, which is developed using Apache Cordova. The mobile application is under review and will be available on the App Store and Google Play Store soon!
 
