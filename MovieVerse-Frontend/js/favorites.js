@@ -1,5 +1,5 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js';
-import { getFirestore, doc, setDoc, collection, updateDoc, getDocs, query, where, deleteDoc } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js';
+import { getFirestore, doc, setDoc, collection, updateDoc, getDocs, getDoc, query, where, orderBy, deleteDoc } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js';
 
 function translateFBC(value) {
     return atob(value);
@@ -1033,14 +1033,13 @@ async function loadWatchLists() {
         const q = query(collection(db, "watchlists"), where("userEmail", "==", currentUserEmail));
         const querySnapshot = await getDocs(q);
         const watchlists = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        let localWatchlists = watchlists;
-        localStorage.setItem('localWatchlists', JSON.stringify(localWatchlists));
 
         if (watchlists.length === 0) {
             displaySection.innerHTML = '<p style="text-align: center">No watch lists found. Click on "Create a Watch List" to start adding movies.</p>';
         }
         else {
-            for (const watchlist of localWatchlists) {
+            watchlists.sort((a, b) => (b.pinned === a.pinned) ? 0 : b.pinned ? 1 : -1);
+            for (const watchlist of watchlists) {
                 const watchlistDiv = await createWatchListDiv(watchlist);
                 if (watchlist.pinned) {
                     watchlistDiv.classList.add('pinned');
@@ -1051,9 +1050,8 @@ async function loadWatchLists() {
     }
     else {
         let localWatchlists = JSON.parse(localStorage.getItem('localWatchlists')) || [];
-
         if (localWatchlists.length === 0) {
-            displaySection.innerHTML = '<p style="text-align: center">No watch lists found. Click on "Create a Watch List" to start adding movies.</p>';
+            displaySection.innerHTML = '<p style="text-align: center">No watch lists found. Start by adding movies to your watchlist.</p>';
         }
         else {
             for (const watchlist of localWatchlists) {
@@ -1194,10 +1192,31 @@ function createTVSeriesCard(movie) {
     return movieEl;
 }
 
-function isListPinned(watchlistId) {
-    const watchlists = JSON.parse(localStorage.getItem('localWatchlists')) || [];
-    const watchlist = watchlists.find(watchlist => watchlist.id === watchlistId);
-    return watchlist ? watchlist.pinned : false;
+async function isListPinned(watchlistId) {
+    const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
+    if (currentUserEmail) {
+        try {
+            const watchlistRef = doc(db, 'watchlists', watchlistId);
+            const watchlistDoc = await getDoc(watchlistRef);
+            if (watchlistDoc.exists()) {
+                const watchlistData = watchlistDoc.data();
+                return watchlistData.pinned || false;
+            }
+            else {
+                console.error('Watchlist not found in Firebase:', watchlistId);
+                return false;
+            }
+        }
+        catch (error) {
+            console.error('Error fetching watchlist pin status from Firebase:', error);
+            return false;
+        }
+    }
+    else {
+        const watchlists = JSON.parse(localStorage.getItem('localWatchlists')) || [];
+        const watchlist = watchlists.find(watchlist => watchlist.id === watchlistId);
+        return watchlist ? watchlist.pinned : false;
+    }
 }
 
 function addWatchListControls(watchlistDiv, watchlistId) {
@@ -1211,9 +1230,12 @@ function addWatchListControls(watchlistDiv, watchlistId) {
 
     const pinBtn = document.createElement('button');
     pinBtn.innerHTML = '<i class="fas fa-thumbtack"></i>';
-    pinBtn.onclick = function() { pinWatchList(watchlistDiv, watchlistId); };
-    pinBtn.title = isListPinned(watchlistId) ? 'Unpin this watch list' : 'Pin this watch list';
-    pinBtn.style.color = isListPinned(watchlistId) ? '#7378c5' : '#ff8623';
+
+    isListPinned(watchlistId).then(isPinned => {
+        pinBtn.title = isPinned ? 'Unpin this watch list' : 'Pin this watch list';
+        pinBtn.style.color = isPinned ? '#7378c5' : '#ff8623';
+        pinBtn.onclick = function() { pinWatchList(watchlistDiv, watchlistId); };
+    });
 
     const moveUpBtn = document.createElement('button');
     moveUpBtn.innerHTML = '<i class="fas fa-arrow-up"></i>';
@@ -1281,36 +1303,69 @@ function updateWatchlistsOrderInLS() {
     localStorage.setItem('localWatchlists', JSON.stringify(watchlists));
 }
 
-function moveWatchList(watchlistDiv, moveUp) {
-    const sibling = moveUp ? watchlistDiv.previousElementSibling : watchlistDiv.nextElementSibling;
-    if (sibling) {
-        const parent = watchlistDiv.parentNode;
-        if (moveUp) {
-            parent.insertBefore(watchlistDiv, sibling);
+async function moveWatchList(watchlistDiv, moveUp) {
+    const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
+    const watchlistId = watchlistDiv.getAttribute('data-watchlist-id');
+
+    if (currentUserEmail) {
+        const q = query(collection(db, "watchlists"), where("userEmail", "==", currentUserEmail), orderBy("order"));
+        const querySnapshot = await getDocs(q);
+        let watchlists = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+        const index = watchlists.findIndex(watchlist => watchlist.id === watchlistId);
+        if (index !== -1 && ((moveUp && index > 0) || (!moveUp && index < watchlists.length - 1))) {
+            if (moveUp) {
+                [watchlists[index], watchlists[index - 1]] = [watchlists[index - 1], watchlists[index]];
+            } else {
+                [watchlists[index], watchlists[index + 1]] = [watchlists[index + 1], watchlists[index]];
+            }
+
+            for (const [i, watchlist] of watchlists.entries()) {
+                const watchlistRef = doc(db, 'watchlists', watchlist.id);
+                await updateDoc(watchlistRef, { order: i });
+            }
         }
-        else {
-            parent.insertBefore(sibling, watchlistDiv);
-        }
-        updateWatchlistsOrderInLS();
-        updateWatchListsDisplay();
     }
+    else {
+        const sibling = moveUp ? watchlistDiv.previousElementSibling : watchlistDiv.nextElementSibling;
+        if (sibling) {
+            const parent = watchlistDiv.parentNode;
+            if (moveUp) {
+                parent.insertBefore(watchlistDiv, sibling);
+            } else {
+                parent.insertBefore(sibling, watchlistDiv);
+            }
+            updateWatchlistsOrderInLS();
+            updateWatchListsDisplay();
+        }
+    }
+
+    loadWatchLists();
     window.location.reload();
 }
 
-function pinWatchList(watchlistDiv, watchlistId) {
+
+async function pinWatchList(watchlistDiv, watchlistId) {
     const isPinned = watchlistDiv.classList.contains('pinned');
-    let watchlists = JSON.parse(localStorage.getItem('localWatchlists')) || [];
+    const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
 
-    watchlists.forEach(watchlist => {
-        if (watchlist.id === watchlistId) {
-            watchlist.pinned = !isPinned;
-        }
-    });
+    if (currentUserEmail) {
+        const watchlistRef = doc(db, 'watchlists', watchlistId);
+        await updateDoc(watchlistRef, {
+            pinned: !isPinned
+        });
+    }
+    else {
+        let watchlists = JSON.parse(localStorage.getItem('localWatchlists')) || [];
+        watchlists.forEach(watchlist => {
+            if (watchlist.id === watchlistId) {
+                watchlist.pinned = !isPinned;
+            }
+        });
 
-    watchlists.sort((a, b) => (b.pinned === a.pinned) ? 0 : b.pinned ? -1 : 1);
-
-    localStorage.setItem('localWatchlists', JSON.stringify(watchlists));
-    watchlistDiv.classList.toggle('pinned');
+        watchlists.sort((a, b) => (b.pinned === a.pinned) ? 0 : b.pinned ? -1 : 1);
+        localStorage.setItem('localWatchlists', JSON.stringify(watchlists));
+    }
 
     loadWatchLists();
     window.location.reload();
