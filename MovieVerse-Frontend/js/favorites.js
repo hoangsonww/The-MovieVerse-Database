@@ -69,7 +69,8 @@ document.addEventListener('DOMContentLoaded', function() {
             window.location.href = '#how-to-use-section';
             document.getElementById('how-to-use-btn').textContent = 'Hide Tutorial';
             document.getElementById('how-to-use-btn').style.marginBottom = '0';
-        } else {
+        }
+        else {
             howToUseSection.style.display = 'none';
             document.getElementById('how-to-use-btn').textContent = 'How to Use';
             document.getElementById('how-to-use-btn').style.marginBottom = '180px';
@@ -782,7 +783,7 @@ async function deleteSelectedWatchlists() {
 document.getElementById('delete-watchlist-btn').addEventListener('click', populateDeleteModal);
 
 async function updateWatchListsDisplay() {
-    const watchlists = JSON.parse(localStorage.getItem('watchlists')) || [];
+    const watchlists = JSON.parse(localStorage.getItem('localWatchlists')) || [];
     const displaySection = document.getElementById('watchlists-display-section');
     displaySection.innerHTML = '';
 
@@ -1032,13 +1033,14 @@ async function loadWatchLists() {
         const q = query(collection(db, "watchlists"), where("userEmail", "==", currentUserEmail));
         const querySnapshot = await getDocs(q);
         const watchlists = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        let localWatchlists = watchlists;
+        localStorage.setItem('localWatchlists', JSON.stringify(localWatchlists));
 
         if (watchlists.length === 0) {
             displaySection.innerHTML = '<p style="text-align: center">No watch lists found. Click on "Create a Watch List" to start adding movies.</p>';
         }
         else {
-            watchlists.sort((a, b) => (b.pinned === a.pinned) ? 0 : b.pinned ? 1 : -1);
-            for (const watchlist of watchlists) {
+            for (const watchlist of localWatchlists) {
                 const watchlistDiv = await createWatchListDiv(watchlist);
                 if (watchlist.pinned) {
                     watchlistDiv.classList.add('pinned');
@@ -1049,8 +1051,9 @@ async function loadWatchLists() {
     }
     else {
         let localWatchlists = JSON.parse(localStorage.getItem('localWatchlists')) || [];
+
         if (localWatchlists.length === 0) {
-            displaySection.innerHTML = '<p style="text-align: center">No watch lists found. Start by adding movies to your watchlist.</p>';
+            displaySection.innerHTML = '<p style="text-align: center">No watch lists found. Click on "Create a Watch List" to start adding movies.</p>';
         }
         else {
             for (const watchlist of localWatchlists) {
@@ -1148,7 +1151,7 @@ async function loadWatchLists() {
         favoritesDiv.id = 'favorites-tvseries-watchlist';
         favoritesDiv.innerHTML = '<div style="text-align: center"><h3 style="text-align: center; font-size: 24px; color: #ff8623">Favorite TV Series</h3><p style="text-align: center">No favorite TV series added yet.</p></div>';
         displaySection.appendChild(favoritesDiv);
-        }
+    }
 }
 
 async function fetchTVSeriesDetails(tvSeriesId) {
@@ -1192,7 +1195,7 @@ function createTVSeriesCard(movie) {
 }
 
 function isListPinned(watchlistId) {
-    const watchlists = JSON.parse(localStorage.getItem('watchlists')) || [];
+    const watchlists = JSON.parse(localStorage.getItem('localWatchlists')) || [];
     const watchlist = watchlists.find(watchlist => watchlist.id === watchlistId);
     return watchlist ? watchlist.pinned : false;
 }
@@ -1271,11 +1274,11 @@ function createWatchListDiv(watchlist) {
 
 function updateWatchlistsOrderInLS() {
     const watchlistsDivs = document.querySelectorAll('#watchlists-display-section > .watchlist');
-    let watchlists = JSON.parse(localStorage.getItem('watchlists')) || [];
+    let watchlists = JSON.parse(localStorage.getItem('localWatchlists')) || [];
     const newOrder = Array.from(watchlistsDivs).map(div => div.getAttribute('data-watchlist-id'));
 
     watchlists.sort((a, b) => newOrder.indexOf(a.id) - newOrder.indexOf(b.id));
-    localStorage.setItem('watchlists', JSON.stringify(watchlists));
+    localStorage.setItem('localWatchlists', JSON.stringify(watchlists));
 }
 
 function moveWatchList(watchlistDiv, moveUp) {
@@ -1296,7 +1299,7 @@ function moveWatchList(watchlistDiv, moveUp) {
 
 function pinWatchList(watchlistDiv, watchlistId) {
     const isPinned = watchlistDiv.classList.contains('pinned');
-    let watchlists = JSON.parse(localStorage.getItem('watchlists')) || [];
+    let watchlists = JSON.parse(localStorage.getItem('localWatchlists')) || [];
 
     watchlists.forEach(watchlist => {
         if (watchlist.id === watchlistId) {
@@ -1306,7 +1309,7 @@ function pinWatchList(watchlistDiv, watchlistId) {
 
     watchlists.sort((a, b) => (b.pinned === a.pinned) ? 0 : b.pinned ? -1 : 1);
 
-    localStorage.setItem('watchlists', JSON.stringify(watchlists));
+    localStorage.setItem('localWatchlists', JSON.stringify(watchlists));
     watchlistDiv.classList.toggle('pinned');
 
     loadWatchLists();
