@@ -1,6 +1,14 @@
 const search = document.getElementById("search");
 const searchButton = document.getElementById("button-search");
 
+function showSpinner() {
+    document.getElementById('myModal').classList.add('modal-visible');
+}
+
+function hideSpinner() {
+    document.getElementById('myModal').classList.remove('modal-visible');
+}
+
 const movieCode = {
     part1: 'YzVhMjBjODY=',
     part2: 'MWFjZjdiYjg=',
@@ -638,12 +646,11 @@ const twoLetterLangCodes = [
 ];
 
 document.addEventListener("DOMContentLoaded", function() {
-    updateSignInButton();
-    initClient();
     applySettings();
 });
 
 async function fetchMovieDetails(movieId) {
+    showSpinner();
     const code = `${getMovieCode()}`;
     const url = `https://${getMovieVerseData()}/3/movie/${movieId}?${generateMovieNames()}${code}&append_to_response=credits,keywords,similar`;
     const url2 = `https://${getMovieVerseData()}/3/movie/${movieId}?${generateMovieNames()}${code}&append_to_response=videos`;
@@ -666,9 +673,11 @@ async function fetchMovieDetails(movieId) {
             positionTrailerButton();
         }
         updateBrowserURL(movie.title);
+        hideSpinner();
     }
     catch (error) {
         console.error('Error fetching movie details:', error);
+        hideSpinner();
     }
 }
 
@@ -784,7 +793,6 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
     const omdbCode = `${getMovieCode2()}`;
     const omdb = `https://${getMovieActor()}/?i=${imdbId}&${getMovieName()}${omdbCode}`;
 
-    console.log(omdb);
     try {
         const response = await fetch(omdb);
         const data = await response.json();
@@ -818,7 +826,6 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
         populateMovieDetails(tmdbMovieData, imdbRating, rtRating, metascore, awards, rated);
     }
     catch (error) {
-        console.error('Error fetching movie ratings:', error);
         const fallbackImdbRating = (tmdbMovieData.vote_average / 2).toFixed(1) * 2;
         populateMovieDetails(tmdbMovieData, fallbackImdbRating, 'N/A', 'No metascore information available', 'No awards information available');
     }
@@ -1236,7 +1243,6 @@ async function showMovieOfTheDay() {
         }
     }
     catch (error) {
-        console.error('Error fetching movie:', error);
         fallbackMovieSelection();
     }
 }
