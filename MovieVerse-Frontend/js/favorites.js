@@ -1316,7 +1316,8 @@ async function moveWatchList(watchlistDiv, moveUp) {
         if (index !== -1 && ((moveUp && index > 0) || (!moveUp && index < watchlists.length - 1))) {
             if (moveUp) {
                 [watchlists[index], watchlists[index - 1]] = [watchlists[index - 1], watchlists[index]];
-            } else {
+            }
+            else {
                 [watchlists[index], watchlists[index + 1]] = [watchlists[index + 1], watchlists[index]];
             }
 
@@ -1332,7 +1333,8 @@ async function moveWatchList(watchlistDiv, moveUp) {
             const parent = watchlistDiv.parentNode;
             if (moveUp) {
                 parent.insertBefore(watchlistDiv, sibling);
-            } else {
+            }
+            else {
                 parent.insertBefore(sibling, watchlistDiv);
             }
             updateWatchlistsOrderInLS();
@@ -1343,7 +1345,6 @@ async function moveWatchList(watchlistDiv, moveUp) {
     loadWatchLists();
     window.location.reload();
 }
-
 
 async function pinWatchList(watchlistDiv, watchlistId) {
     const isPinned = watchlistDiv.classList.contains('pinned');
@@ -1363,7 +1364,6 @@ async function pinWatchList(watchlistDiv, watchlistId) {
             }
         });
 
-        watchlists.sort((a, b) => (b.pinned === a.pinned) ? 0 : b.pinned ? -1 : 1);
         localStorage.setItem('localWatchlists', JSON.stringify(watchlists));
     }
 
