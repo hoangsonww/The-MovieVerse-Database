@@ -459,7 +459,8 @@ document.getElementById('create-watchlist-form').addEventListener('submit', asyn
             movies: selectedMovies,
             tvSeries: selectedTVSeries,
             pinned: false,
-            createdAt: new Date().toISOString()
+            createdAt: new Date().toISOString(),
+            order: Date.now()
         });
     }
     else {
@@ -481,6 +482,22 @@ document.getElementById('create-watchlist-form').addEventListener('submit', asyn
     loadWatchLists();
     window.location.reload();
 });
+
+async function addOrderFieldToWatchlists() {
+    const watchlistsRef = collection(db, "watchlists");
+    const querySnapshot = await getDocs(watchlistsRef);
+
+    querySnapshot.forEach(async (docSnapshot) => {
+        const watchlistRef = doc(db, "watchlists", docSnapshot.id);
+        await updateDoc(watchlistRef, {
+            order: Date.now() // Or any other logic to set the order
+        });
+    });
+}
+
+// Call this function once to update your watchlists
+addOrderFieldToWatchlists();
+
 
 async function getTVSeriesTitle(seriesId) {
     const apiKey = `${getMovieCode()}`;
@@ -1308,34 +1325,34 @@ async function moveWatchList(watchlistDiv, moveUp) {
     const watchlistId = watchlistDiv.getAttribute('data-watchlist-id');
 
     if (currentUserEmail) {
-        const q = query(collection(db, "watchlists"), where("userEmail", "==", currentUserEmail));
+        const q = query(collection(db, "watchlists"), where("userEmail", "==", currentUserEmail), orderBy("order"));
         const querySnapshot = await getDocs(q);
         let watchlists = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        const index = watchlists.findIndex(watchlist => watchlist.id === watchlistDiv.getAttribute('data-watchlist-id'));
 
-        if (watchlists.every(watchlist => watchlist.order === undefined)) {
-            watchlists = watchlists.map((watchlist, index) => ({ ...watchlist, order: index }));
-            const batch = writeBatch(db);
-            watchlists.forEach((watchlist) => {
-                const watchlistRef = doc(db, 'watchlists', watchlist.id);
-                batch.update(watchlistRef, { order: watchlist.order });
-            });
-            await batch.commit();
-        }
-        else {
-            watchlists.sort((a, b) => (a.order - b.order));
+        // Ensure valid index and movement is possible
+        if (index === -1 || (moveUp && index === 0) || (!moveUp && index === watchlists.length - 1)) return;
+
+        // Recalculate and update `order` for the affected watchlists
+        if (moveUp) {
+            // Move current item up by decrementing its order and incrementing the one above it
+            if(index > 0) { // Check to prevent moving the first item up
+                watchlists[index].order = watchlists[index - 1].order - 1;
+            }
+        } else {
+            // Move current item down by incrementing its order and decrementing the one below it
+            if(index < watchlists.length - 1) { // Check to prevent moving the last item down
+                watchlists[index].order = watchlists[index + 1].order + 1;
+            }
         }
 
-        const index = watchlists.findIndex(watchlist => watchlist.id === watchlistId);
-        if (index !== -1 && ((moveUp && index > 0) || (!moveUp && index < watchlists.length - 1))) {
-            let tempOrder = watchlists[index].order;
-            watchlists[index].order = watchlists[moveUp ? index - 1 : index + 1].order;
-            watchlists[moveUp ? index - 1 : index + 1].order = tempOrder;
-
-            const batch = writeBatch(db);
-            batch.update(doc(db, 'watchlists', watchlists[index].id), { order: watchlists[index].order });
-            batch.update(doc(db, 'watchlists', watchlists[moveUp ? index - 1 : index + 1].id), { order: watchlists[moveUp ? index - 1 : index + 1].order });
-            await batch.commit();
-        }
+        // Batch update Firestore
+        const batch = writeBatch(db);
+        watchlists.forEach((watchlist) => {
+            const watchlistRef = doc(db, "watchlists", watchlist.id);
+            batch.update(watchlistRef, { order: watchlist.order });
+        });
+        await batch.commit();
     }
     else {
         const sibling = moveUp ? watchlistDiv.previousElementSibling : watchlistDiv.nextElementSibling;
@@ -1343,7 +1360,8 @@ async function moveWatchList(watchlistDiv, moveUp) {
             const parent = watchlistDiv.parentNode;
             if (moveUp) {
                 parent.insertBefore(watchlistDiv, sibling);
-            } else {
+            }
+            else {
                 parent.insertBefore(sibling, watchlistDiv);
             }
             updateWatchlistsOrderInLS();
