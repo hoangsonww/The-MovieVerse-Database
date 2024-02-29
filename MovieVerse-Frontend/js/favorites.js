@@ -1,5 +1,5 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js';
-import { getFirestore, doc, setDoc, collection, updateDoc, getDocs, getDoc, query, where, orderBy, deleteDoc } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js';
+import { getFirestore, doc, setDoc, collection, updateDoc, getDocs, getDoc, query, where, orderBy, writeBatch, deleteDoc } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js';
 
 function translateFBC(value) {
     return atob(value);
@@ -1308,23 +1308,33 @@ async function moveWatchList(watchlistDiv, moveUp) {
     const watchlistId = watchlistDiv.getAttribute('data-watchlist-id');
 
     if (currentUserEmail) {
-        const q = query(collection(db, "watchlists"), where("userEmail", "==", currentUserEmail), orderBy("order"));
+        const q = query(collection(db, "watchlists"), where("userEmail", "==", currentUserEmail));
         const querySnapshot = await getDocs(q);
         let watchlists = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
+        if (watchlists.every(watchlist => watchlist.order === undefined)) {
+            watchlists = watchlists.map((watchlist, index) => ({ ...watchlist, order: index }));
+            const batch = writeBatch(db);
+            watchlists.forEach((watchlist) => {
+                const watchlistRef = doc(db, 'watchlists', watchlist.id);
+                batch.update(watchlistRef, { order: watchlist.order });
+            });
+            await batch.commit();
+        }
+        else {
+            watchlists.sort((a, b) => (a.order - b.order));
+        }
+
         const index = watchlists.findIndex(watchlist => watchlist.id === watchlistId);
         if (index !== -1 && ((moveUp && index > 0) || (!moveUp && index < watchlists.length - 1))) {
-            if (moveUp) {
-                [watchlists[index], watchlists[index - 1]] = [watchlists[index - 1], watchlists[index]];
-            }
-            else {
-                [watchlists[index], watchlists[index + 1]] = [watchlists[index + 1], watchlists[index]];
-            }
+            let tempOrder = watchlists[index].order;
+            watchlists[index].order = watchlists[moveUp ? index - 1 : index + 1].order;
+            watchlists[moveUp ? index - 1 : index + 1].order = tempOrder;
 
-            for (const [i, watchlist] of watchlists.entries()) {
-                const watchlistRef = doc(db, 'watchlists', watchlist.id);
-                await updateDoc(watchlistRef, { order: i });
-            }
+            const batch = writeBatch(db);
+            batch.update(doc(db, 'watchlists', watchlists[index].id), { order: watchlists[index].order });
+            batch.update(doc(db, 'watchlists', watchlists[moveUp ? index - 1 : index + 1].id), { order: watchlists[moveUp ? index - 1 : index + 1].order });
+            await batch.commit();
         }
     }
     else {
@@ -1333,12 +1343,10 @@ async function moveWatchList(watchlistDiv, moveUp) {
             const parent = watchlistDiv.parentNode;
             if (moveUp) {
                 parent.insertBefore(watchlistDiv, sibling);
-            }
-            else {
+            } else {
                 parent.insertBefore(sibling, watchlistDiv);
             }
             updateWatchlistsOrderInLS();
-            updateWatchListsDisplay();
         }
     }
 
