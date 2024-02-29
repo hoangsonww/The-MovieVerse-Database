@@ -920,6 +920,39 @@ header h1 {
     color: white !important;
 }
 
+.modal-overlay {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-visible {
+    display: flex;
+}
+
+.spinner {
+    border: 4px solid #000;
+    border-radius: 50%;
+    border-top: 5px solid #ff8623;
+    width: 140px;
+    height: 140px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
 #githubLink:hover {
     color: #ff8623 !important;
 }

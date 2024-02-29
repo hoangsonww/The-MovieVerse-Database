@@ -272,7 +272,6 @@ async function showMovieOfTheDay() {
         }
     }
     catch (error) {
-        console.error('Error fetching movie:', error);
         fallbackMovieSelection();
     }
 }
@@ -315,7 +314,6 @@ async function getMovieTitle(movieId) {
         return movie.title;
     }
     catch (error) {
-        console.error('Error fetching movie title:', error);
         return 'Unknown Movie';
     }
 }
@@ -324,7 +322,6 @@ async function populateCreateModalWithFavorites() {
     let currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser') || '';
 
     if (!currentUserEmail) {
-        console.log('User is not signed in. Fetching favorites from localStorage.');
         const favoritesMovies = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
         const favoritesTVSeries = JSON.parse(localStorage.getItem('favoritesTVSeries')) || [];
 
@@ -449,6 +446,9 @@ document.getElementById('create-watchlist-form').addEventListener('submit', asyn
     const selectedMovies = Array.from(document.querySelectorAll('#movies-container input:checked')).map(checkbox => checkbox.value);
     const selectedTVSeries = Array.from(document.querySelectorAll('#tvseries-container input:checked')).map(checkbox => checkbox.value);
     const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
+    const q = query(collection(db, "watchlists"), where("userEmail", "==", currentUserEmail));
+    const querySnapshot = await getDocs(q);
+    let maxOrder = querySnapshot.docs.reduce((max, docSnapshot) => Math.max(max, docSnapshot.data().order || 0), 0);
 
     if (currentUserEmail) {
         const newWatchlistRef = doc(collection(db, 'watchlists'));
@@ -460,7 +460,7 @@ document.getElementById('create-watchlist-form').addEventListener('submit', asyn
             tvSeries: selectedTVSeries,
             pinned: false,
             createdAt: new Date().toISOString(),
-            order: Date.now()
+            order: maxOrder + 1,
         });
     }
     else {
@@ -483,22 +483,6 @@ document.getElementById('create-watchlist-form').addEventListener('submit', asyn
     window.location.reload();
 });
 
-async function addOrderFieldToWatchlists() {
-    const watchlistsRef = collection(db, "watchlists");
-    const querySnapshot = await getDocs(watchlistsRef);
-
-    querySnapshot.forEach(async (docSnapshot) => {
-        const watchlistRef = doc(db, "watchlists", docSnapshot.id);
-        await updateDoc(watchlistRef, {
-            order: Date.now() // Or any other logic to set the order
-        });
-    });
-}
-
-// Call this function once to update your watchlists
-addOrderFieldToWatchlists();
-
-
 async function getTVSeriesTitle(seriesId) {
     const apiKey = `${getMovieCode()}`;
     const url = `https://${getMovieVerseData()}/3/tv/${seriesId}?${generateMovieNames()}${apiKey}`;
@@ -509,7 +493,6 @@ async function getTVSeriesTitle(seriesId) {
         return series.name;
     }
     catch (error) {
-        console.error('Error fetching TV series title:', error);
         return 'Unknown Series';
     }
 }
@@ -579,7 +562,6 @@ async function populateEditModal() {
         }
     }
     else {
-        console.log('User is not signed in. Fetching watchlists from localStorage.');
         watchlists = JSON.parse(localStorage.getItem('localWatchlists')) || [];
         favoritesMovies = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
         favoritesTVSeries = JSON.parse(localStorage.getItem('favoritesTVSeries')) || [];
@@ -854,7 +836,6 @@ async function fetchMovieDetails(movieId) {
         return createMovieCard(movie);
     }
     catch (error) {
-        console.error('Error fetching movie details:', error);
         const errorDiv = document.createElement('div');
         errorDiv.textContent = 'Error loading movie card. Please try refreshing the page.';
         return errorDiv;
@@ -1055,6 +1036,7 @@ async function loadWatchLists() {
             displaySection.innerHTML = '<p style="text-align: center">No watch lists found. Click on "Create a Watch List" to start adding movies.</p>';
         }
         else {
+            watchlists.sort((a, b) => a.order - b.order);
             watchlists.sort((a, b) => (b.pinned === a.pinned) ? 0 : b.pinned ? 1 : -1);
             for (const watchlist of watchlists) {
                 const watchlistDiv = await createWatchListDiv(watchlist);
@@ -1071,6 +1053,7 @@ async function loadWatchLists() {
             displaySection.innerHTML = '<p style="text-align: center">No watch lists found. Start by adding movies to your watchlist.</p>';
         }
         else {
+            localWatchlists.sort((a, b) => (b.pinned === a.pinned) ? 0 : b.pinned ? 1 : -1);
             for (const watchlist of localWatchlists) {
                 const watchlistDiv = await createWatchListDiv(watchlist);
                 if (watchlist.pinned) {
@@ -1209,6 +1192,14 @@ function createTVSeriesCard(movie) {
     return movieEl;
 }
 
+function showSpinner() {
+    document.getElementById('myModal').classList.add('modal-visible');
+}
+
+function hideSpinner() {
+    document.getElementById('myModal').classList.remove('modal-visible');
+}
+
 async function isListPinned(watchlistId) {
     const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
     if (currentUserEmail) {
@@ -1220,12 +1211,10 @@ async function isListPinned(watchlistId) {
                 return watchlistData.pinned || false;
             }
             else {
-                console.error('Watchlist not found in Firebase:', watchlistId);
                 return false;
             }
         }
         catch (error) {
-            console.error('Error fetching watchlist pin status from Firebase:', error);
             return false;
         }
     }
@@ -1238,7 +1227,6 @@ async function isListPinned(watchlistId) {
 
 function addWatchListControls(watchlistDiv, watchlistId) {
     if (!watchlistId) {
-        console.error('Missing watchlistId for', watchlistDiv);
         return;
     }
 
@@ -1321,38 +1309,45 @@ function updateWatchlistsOrderInLS() {
 }
 
 async function moveWatchList(watchlistDiv, moveUp) {
+    showSpinner();
+
     const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
     const watchlistId = watchlistDiv.getAttribute('data-watchlist-id');
 
     if (currentUserEmail) {
-        const q = query(collection(db, "watchlists"), where("userEmail", "==", currentUserEmail), orderBy("order"));
-        const querySnapshot = await getDocs(q);
-        let watchlists = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        const index = watchlists.findIndex(watchlist => watchlist.id === watchlistDiv.getAttribute('data-watchlist-id'));
+        try {
+            const watchlistsQuery = query(collection(db, "watchlists"), where("userEmail", "==", currentUserEmail), orderBy("order", "asc"));
+            const snapshot = await getDocs(watchlistsQuery);
+            let watchlists = snapshot.docs.map(doc => {
+                return { docId: doc.id, ...doc.data() };
+            });
 
-        // Ensure valid index and movement is possible
-        if (index === -1 || (moveUp && index === 0) || (!moveUp && index === watchlists.length - 1)) return;
+            const index = watchlists.findIndex(watchlist => watchlist.docId === watchlistId);
 
-        // Recalculate and update `order` for the affected watchlists
-        if (moveUp) {
-            // Move current item up by decrementing its order and incrementing the one above it
-            if(index > 0) { // Check to prevent moving the first item up
-                watchlists[index].order = watchlists[index - 1].order - 1;
+            if (index === -1 || watchlists.length < 2) {
+                hideSpinner();
+                return;
             }
-        } else {
-            // Move current item down by incrementing its order and decrementing the one below it
-            if(index < watchlists.length - 1) { // Check to prevent moving the last item down
-                watchlists[index].order = watchlists[index + 1].order + 1;
+
+            const swapIndex = moveUp ? index - 1 : index + 1;
+            if (swapIndex < 0 || swapIndex >= watchlists.length) {
+                hideSpinner();
+                return;
             }
+
+            let currentOrder = watchlists[index].order;
+            let swapOrder = watchlists[swapIndex].order;
+
+            const batch = writeBatch(db);
+            batch.update(doc(db, "watchlists", watchlists[index].docId), { order: swapOrder });
+            batch.update(doc(db, "watchlists", watchlists[swapIndex].docId), { order: currentOrder });
+
+            await batch.commit();
         }
-
-        // Batch update Firestore
-        const batch = writeBatch(db);
-        watchlists.forEach((watchlist) => {
-            const watchlistRef = doc(db, "watchlists", watchlist.id);
-            batch.update(watchlistRef, { order: watchlist.order });
-        });
-        await batch.commit();
+        catch (error) {
+            hideSpinner();
+        }
+        hideSpinner();
     }
     else {
         const sibling = moveUp ? watchlistDiv.previousElementSibling : watchlistDiv.nextElementSibling;
@@ -1366,6 +1361,7 @@ async function moveWatchList(watchlistDiv, moveUp) {
             }
             updateWatchlistsOrderInLS();
         }
+        hideSpinner();
     }
 
     loadWatchLists();
@@ -1373,6 +1369,7 @@ async function moveWatchList(watchlistDiv, moveUp) {
 }
 
 async function pinWatchList(watchlistDiv, watchlistId) {
+    showSpinner();
     const isPinned = watchlistDiv.classList.contains('pinned');
     const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
 
@@ -1381,6 +1378,7 @@ async function pinWatchList(watchlistDiv, watchlistId) {
         await updateDoc(watchlistRef, {
             pinned: !isPinned
         });
+        hideSpinner();
     }
     else {
         let watchlists = JSON.parse(localStorage.getItem('localWatchlists')) || [];
@@ -1391,6 +1389,7 @@ async function pinWatchList(watchlistDiv, watchlistId) {
         });
 
         localStorage.setItem('localWatchlists', JSON.stringify(watchlists));
+        hideSpinner();
     }
 
     loadWatchLists();
