@@ -442,17 +442,26 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            checkApiStatus();
+            checkApiStatusWithRetry(3);
         });
 
-        function checkApiStatus() {
-            fetch(`https://${getMovieVerseData()}/3/configuration?${generateMovieNames()}${getMovieCode()}`)
+        function checkApiStatusWithRetry(retries, delay = 1000) {
+            const url = `https://${getMovieVerseData()}/3/configuration?${generateMovieNames()}${getMovieCode()}`;
+
+            fetch(url)
                 .then(response => {
-                    if (!response.ok) throw new Error('API response failed');
+                    if (!response.ok) throw new Error(`API response failed with status: ${response.status}`);
+                    console.log("API is up and running!");
                 })
                 .catch(error => {
-                    console.error('There has been a problem with API fetch operation, which we will take a look at as soon as possible:', error);
-                    window.location.href = 'MovieVerse-Frontend/html/api_fails.html';
+                    if (retries > 0) {
+                        console.log(`Retrying API check... attempts left: ${retries - 1}`);
+                        setTimeout(() => checkApiStatusWithRetry(retries - 1, delay), delay);
+                    }
+                    else {
+                        console.error('API check failed after retries:', error);
+                        window.location.href = 'MovieVerse-Frontend/html/api_fails.html';
+                    }
                 });
         }
     </script>
