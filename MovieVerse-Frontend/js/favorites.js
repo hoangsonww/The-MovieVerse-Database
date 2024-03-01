@@ -502,7 +502,7 @@ async function getTVSeriesTitle(seriesId) {
     }
 }
 
-function appendCheckbox(container, id, title, name) {
+function appendCheckbox(container, id, title, name, isChecked = false) {
     const item = document.createElement('div');
     item.classList.add('favorite-item');
     item.style.display = 'flex';
@@ -513,6 +513,7 @@ function appendCheckbox(container, id, title, name) {
     checkbox.id = `${name}-${id}`;
     checkbox.value = id;
     checkbox.name = name;
+    checkbox.checked = isChecked;
 
     const label = document.createElement('label');
     label.htmlFor = `${name}-${id}`;
@@ -641,13 +642,17 @@ async function populateEditModal() {
         moviesContainer.innerHTML = '';
         tvSeriesContainer.innerHTML = '';
 
+        initialMoviesSelection = watchlist.movies.slice();
+        initialTVSeriesSelection = watchlist.tvSeries.slice();
+
         if (!favoritesMovies || favoritesMovies.length === 0) {
             moviesContainer.innerHTML = '<p style="margin-top: 20px">No Favorite Movies Added Yet.</p>';
         }
         else {
             for (const movieId of favoritesMovies) {
                 const movieTitle = await getMovieTitle(movieId);
-                appendCheckbox(moviesContainer, movieId, movieTitle, 'favoritedMovies');
+                const isChecked = watchlist.movies.includes(movieId);
+                appendCheckbox(moviesContainer, movieId, movieTitle, 'favoritedMovies', isChecked);
             }
         }
 
@@ -657,7 +662,8 @@ async function populateEditModal() {
         else {
             for (const seriesId of favoritesTVSeries) {
                 const seriesTitle = await getTVSeriesTitle(seriesId);
-                appendCheckbox(tvSeriesContainer, seriesId, seriesTitle, 'favoritedTVSeries');
+                const isChecked = watchlist.tvSeries.includes(seriesId);
+                appendCheckbox(tvSeriesContainer, seriesId, seriesTitle, 'favoritedTVSeries', isChecked);
             }
         }
     };
@@ -690,6 +696,7 @@ async function populateEditModal() {
 
 document.getElementById('edit-watchlist-form').addEventListener('submit', async function(e) {
     showSpinner();
+
     e.preventDefault();
 
     const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
@@ -697,8 +704,29 @@ document.getElementById('edit-watchlist-form').addEventListener('submit', async 
     const watchlistId = selectedOption.value;
     const newName = document.getElementById('edit-watchlist-name').value;
     const newDescription = document.getElementById('edit-watchlist-description').value;
-    const selectedMovies = Array.from(document.querySelectorAll('#edit-movies-container input[type="checkbox"]:checked')).map(checkbox => checkbox.value);
-    const selectedTVSeries = Array.from(document.querySelectorAll('#edit-tvseries-container input[type="checkbox"]:checked')).map(checkbox => checkbox.value);
+
+    let selectedMovies;
+    let selectedTVSeries;
+
+    const currentMoviesSelection = Array.from(document.querySelectorAll('#edit-movies-container input[type="checkbox"]:checked')).map(checkbox => checkbox.value);
+    const currentTVSeriesSelection = Array.from(document.querySelectorAll('#edit-tvseries-container input[type="checkbox"]:checked')).map(checkbox => checkbox.value);
+
+    const moviesSelectionChanged = !(initialMoviesSelection.length === currentMoviesSelection.length && initialMoviesSelection.every(value => currentMoviesSelection.includes(value)));
+    const tvSeriesSelectionChanged = !(initialTVSeriesSelection.length === currentTVSeriesSelection.length && initialTVSeriesSelection.every(value => currentTVSeriesSelection.includes(value)));
+
+    if (moviesSelectionChanged) {
+        selectedMovies = currentMoviesSelection;
+    }
+    else {
+        selectedMovies = initialMoviesSelection;
+    }
+
+    if (tvSeriesSelectionChanged) {
+        selectedTVSeries = currentTVSeriesSelection;
+    }
+    else {
+        selectedTVSeries = initialTVSeriesSelection;
+    }
 
     if (currentUserEmail) {
         const watchlistRef = doc(db, 'watchlists', watchlistId);
