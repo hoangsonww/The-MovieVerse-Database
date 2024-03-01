@@ -2,6 +2,14 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebas
 import { getFirestore, doc, getDoc, setDoc, deleteField } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
 
+function showSpinner() {
+    document.getElementById('myModal').classList.add('modal-visible');
+}
+
+function hideSpinner() {
+    document.getElementById('myModal').classList.remove('modal-visible');
+}
+
 function translateFBC(value) {
     return atob(value);
 }
@@ -49,6 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function handleProfileDisplay() {
+    showSpinner();
     const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
     const userEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
     const profileKey = `profileInfo-${userEmail}`;
@@ -62,6 +71,7 @@ function handleProfileDisplay() {
         profileContainer.style.display = 'block';
         signInPrompt.style.display = 'none';
         loadProfile();
+        hideSpinner();
     }
     else {
         document.getElementById('welcomeMessage').textContent = '';
@@ -69,10 +79,12 @@ function handleProfileDisplay() {
         signInPrompt.textContent = 'Please sign in to view your profile';
         signInPrompt.style.fontWeight = '800';
         signInPrompt.style.color = '#ff8623';
+        hideSpinner();
     }
 }
 
 async function loadProfile() {
+    showSpinner();
     const userEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
     if (!userEmail) return;
 
@@ -118,6 +130,8 @@ async function loadProfile() {
     catch (error) {
         console.error("Error loading profile: ", error);
     }
+
+    hideSpinner();
 }
 
 async function saveProfileChanges() {

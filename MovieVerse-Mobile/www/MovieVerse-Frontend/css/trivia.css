@@ -733,3 +733,8 @@ footer {
     background-color: #7378c5;
     color: white !important;
 }
+
+footer p:hover {
+    transition: 0.1s ease-in;
+    color: #ff8623;
+}

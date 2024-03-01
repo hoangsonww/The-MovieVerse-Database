@@ -16,6 +16,13 @@ function getMovieVerseData(input) {
     return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
 }
 
+function showSpinner() {
+    document.getElementById('myModal').classList.add('modal-visible');
+}
+
+function hideSpinner() {
+    document.getElementById('myModal').classList.remove('modal-visible');
+}
 
 const string = `${getMovieCode()}`;
 
@@ -23,7 +30,8 @@ async function fetchData(url) {
     try {
         const response = await fetch(url);
         return await response.json();
-    } catch (error) {
+    }
+    catch (error) {
         console.error('Error fetching data:', error);
         return null;
     }
@@ -39,6 +47,7 @@ function createChart(canvasId, chartType, data, options = {}) {
 }
 
 async function loadMoviesByYearChart() {
+    showSpinner();
     const years = [];
     const movieCounts = [];
     const currentYear = new Date().getFullYear();
@@ -59,9 +68,12 @@ async function loadMoviesByYearChart() {
             borderWidth: 1
         }]
     });
+
+    hideSpinner();
 }
 
 async function loadGenrePopularityChart() {
+    showSpinner();
     const genresResponse = await fetchData(`${BASE_URL}/genre/movie/list?${generateMovieNames()}=${string}`);
     const genres = genresResponse.genres;
 
@@ -84,9 +96,12 @@ async function loadGenrePopularityChart() {
             borderWidth: 1
         }]
     });
+
+    hideSpinner();
 }
 
 async function loadMoviesByCertificationChart() {
+    showSpinner();
     const certifications = ['G', 'PG', 'PG-13', 'R'];
     const movieCounts = [];
 
@@ -105,9 +120,12 @@ async function loadMoviesByCertificationChart() {
             borderWidth: 1
         }]
     });
+
+    hideSpinner();
 }
 
 async function loadAveragePopularityChart() {
+    showSpinner();
     const years = [];
     const averagePopularity = [];
     const currentYear = new Date().getFullYear();
@@ -129,12 +147,14 @@ async function loadAveragePopularityChart() {
             borderWidth: 1
         }]
     });
+    showSpinner();
 }
 
 Chart.defaults.color = "black";
 Chart.defaults.scale.grid.borderColor = "black";
 
 async function loadMoviesByLanguageChart() {
+    showSpinner();
     const languages = ['en', 'es', 'fr', 'de', 'it'];
     const movieCounts = [];
 
@@ -157,9 +177,12 @@ async function loadMoviesByLanguageChart() {
             maintainAspectRatio: false
         }
     });
+
+    hideSpinner();
 }
 
 async function loadVoteCountByGenreChart() {
+    showSpinner();
     const genreResponse = await fetchData(`${BASE_URL}/genre/movie/list?${generateMovieNames()}=${string}`);
     const genres = genreResponse.genres.slice(0, 5);
     const genreNames = [];
@@ -182,9 +205,12 @@ async function loadVoteCountByGenreChart() {
             borderWidth: 1
         }]
     });
+
+    hideSpinner();
 }
 
 async function loadMovieReleaseDatesByMonthChart() {
+    showSpinner();
     const months = Array.from({ length: 12 }, (_, i) => new Date(0, i).toLocaleString('en', { month: 'long' }));
     const movieCounts = Array(12).fill(0);
     const currentYear = new Date().getFullYear();
@@ -205,9 +231,12 @@ async function loadMovieReleaseDatesByMonthChart() {
             borderWidth: 1
         }]
     });
+
+    hideSpinner();
 }
 
 async function loadMoviesByDecadeChart() {
+    showSpinner();
     const decades = ['1980s', '1990s', '2000s', '2010s', '2020s'];
     const decadeStartYears = [1980, 1990, 2000, 2010, 2020];
     const movieCounts = [];
@@ -252,9 +281,12 @@ async function loadMoviesByDecadeChart() {
             }
         }
     });
+
+    hideSpinner();
 }
 
 async function loadMoviesByProductionCountriesChart() {
+    showSpinner();
     const countries = ['US', 'GB', 'CA', 'FR', 'DE'];
     const countryNames = ['USA', 'UK', 'Canada', 'France', 'Germany'];
     const movieCounts = [];
@@ -298,6 +330,8 @@ async function loadMoviesByProductionCountriesChart() {
             }
         }
     });
+
+    hideSpinner();
 }
 
 function loadAllCharts() {
