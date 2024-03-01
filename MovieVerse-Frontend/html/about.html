@@ -463,6 +463,7 @@
             if (triviaStats.totalAttempted === 0) {
                 return 'No trivia attempted';
             }
+
             let accuracy = (triviaStats.totalCorrect / triviaStats.totalAttempted) * 100;
             return `${accuracy.toFixed(1)}% accuracy`;
         }
@@ -514,4 +515,5 @@
     </script>
 
 </body>
+
 </html>
