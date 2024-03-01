@@ -658,7 +658,8 @@ async function populateEditModal() {
     };
 
     select.addEventListener('change', function () {
-        updateForm(watchlists[this.value]);
+        const selectedWatchlist = watchlists.find(watchlist => watchlist.id === this.value);
+        updateForm(selectedWatchlist);
     });
 
     selectLabel.addEventListener('click', function () {
