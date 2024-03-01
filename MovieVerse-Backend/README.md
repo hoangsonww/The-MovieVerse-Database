@@ -1,4 +1,4 @@
-# The `MovieVerse-Backend` Directory - README
+# The MovieVerse - `MovieVerse-Backend` Directory
 
 ---
 

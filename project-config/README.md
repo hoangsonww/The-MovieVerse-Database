@@ -1,4 +1,4 @@
-# The `project-config` Directory - README
+# The MovieVerse - `project-config` Directory
 
 Welcome to the `project-config` directory of the MovieVerse App! This directory contains critical configuration files that define how various aspects of the project are set up and operate. Below is a detailed overview of each file and its purpose within the project.
 

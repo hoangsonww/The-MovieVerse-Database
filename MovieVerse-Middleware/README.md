@@ -1,4 +1,4 @@
-# `MovieVerse-Middleware` Directory - README
+# The MovieVerse - `MovieVerse-Middleware` Directory
 
 ## Overview
 

@@ -184,6 +184,29 @@
     </footer>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            setAdaptiveBackgroundImage();
+        });
+
+        function setAdaptiveBackgroundImage() {
+            let backgroundImageUrl = '../../images/universe-1.png';
+
+            if ('connection' in navigator) {
+                switch (navigator.connection.effectiveType) {
+                    case '2g':
+                        backgroundImageUrl = '../../images/universe-1-very-low.png';
+                        break;
+                    case '3g':
+                        backgroundImageUrl = '../../images/universe-1-low.png';
+                        break;
+                }
+            }
+
+            document.body.style.backgroundImage = `url('${backgroundImageUrl}')`;
+        }
+    </script>
+
+    <script>
         function getMovieVerseData(input) {
             return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
         }

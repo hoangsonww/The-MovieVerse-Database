@@ -1,4 +1,4 @@
-# `.vscode` Directory README
+# The MovieVerse - `.vscode` Directory
 
 ## Introduction
 

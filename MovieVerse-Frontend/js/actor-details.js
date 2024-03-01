@@ -5,6 +5,14 @@ const main = document.getElementById("main");
 const IMGPATH = "https://image.tmdb.org/t/p/w1280";
 const searchTitle = document.getElementById("search-title");
 
+function showSpinner() {
+    document.getElementById('myModal').classList.add('modal-visible');
+}
+
+function hideSpinner() {
+    document.getElementById('myModal').classList.remove('modal-visible');
+}
+
 const movieCode = {
     part1: 'YzVhMjBjODY=',
     part2: 'MWFjZjdiYjg=',
@@ -97,6 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function fetchActorDetails(actorId) {
+    showSpinner();
     const actorUrl = `https://${getMovieVerseData()}/3/person/${actorId}?${generateMovieNames()}${getMovieCode()}`;
     const creditsUrl = `https://${getMovieVerseData()}/3/person/${actorId}/movie_credits?${generateMovieNames()}${getMovieCode()}`;
     try {
@@ -114,10 +123,12 @@ async function fetchActorDetails(actorId) {
             updateBrowserURL(actor.name);
             populateActorDetails(actor, credits);
         }
+        hideSpinner();
     }
     catch (error) {
         console.error('Error fetching actor details:', error);
         document.getElementById('actor-details-container').innerHTML = '<h2>Error fetching actor details</h2>';
+        hideSpinner();
     }
 }
 

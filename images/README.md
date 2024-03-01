@@ -1,4 +1,4 @@
-# MovieVerse Images Directory README
+# The MovieVerse - `images` Directory
 
 ## Overview
 

@@ -1,4 +1,4 @@
-# MovieVerse App - The `MovieVerse-Frontend` directory
+# The MovieVerse - `MovieVerse-Frontend` directory
 
 Welcome to the MovieVerse app, your ultimate guide to the world of movies! This application is designed to help users explore and learn about their favorite movies, directors, actors, and more. Dive into an immersive experience with our comprehensive directory structure.
 

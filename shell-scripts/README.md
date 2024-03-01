@@ -1,4 +1,4 @@
-# Shell Scripts Directory
+# The MovieVerse - `shell-scripts` Directory
 
 This directory contains a set of shell scripts used for setting up and managing the StickyNotes application environment and deployment.
 

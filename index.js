@@ -27,7 +27,16 @@ const searchButton = document.getElementById("button-search");
 const searchTitle = document.getElementById("search-title");
 const otherTitle = document.getElementById("other1");
 
+function showSpinner() {
+    document.getElementById('myModal').classList.add('modal-visible');
+}
+
+function hideSpinner() {
+    document.getElementById('myModal').classList.remove('modal-visible');
+}
+
 async function getMovies(url, mainElement) {
+    showSpinner();
     const numberOfMovies = calculateMoviesToDisplay();
     const pagesToFetch = numberOfMovies <= 20 ? 1 : 2;
     let allMovies = [];
@@ -54,6 +63,7 @@ async function getMovies(url, mainElement) {
     else {
         mainElement.innerHTML = `<p>No movie with the specified search term found. Please try again.</p>`;
     }
+    hideSpinner();
 }
 
 function showMovies(movies, mainElement) {
