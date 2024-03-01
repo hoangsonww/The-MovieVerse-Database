@@ -1,4 +1,4 @@
-# `.idea` Directory README
+# `.idea` Directory README - The MovieVerse
 
 ## Introduction
 
