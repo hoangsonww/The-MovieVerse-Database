@@ -3,8 +3,9 @@
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 
 <head>
+    <!-- Basic homepage tags -->
     <meta charset="UTF-8">
-    <title>The MovieVerse</title>
+    <title>The MovieVerse - Explore Movies, TV Series, and More</title>
     <script src="MovieVerse-Frontend/js/settings.js"></script>
 
     <!-- Meta tags for SEO -->
@@ -41,6 +42,8 @@
     <script src="index.js" defer></script>
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <link rel="manifest" href="manifest.json">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap" rel="stylesheet"></noscript>
 
     <!-- Schema.org markup for movies -->
     <script type="application/ld+json">
@@ -119,8 +122,8 @@
         </a>
 
         <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
-            <p id="stats-label" class="clock" style="font-size: 16px"></p>
-            <h1 id="stats-display" class="clock"></h1>
+            <p id="stats-label" class="clock" style="font-size: 16px;"></p>
+            <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
         </div>
 
         <button id="nav-toggle" class="nav-toggle" title="Toggle side navbar" onclick="toggleNav()">
@@ -159,9 +162,9 @@
 
     <nav id="side-nav" class="side-nav">
         <a id="heading-href" style="cursor: pointer">
-            <h1 id="my-heading" style="margin-bottom: 5px; margin-left: 0">
+            <div id="my-heading" style="margin-bottom: 15px; margin-left: 0; margin-top: 15px; font-size: 2.1em; font-weight: bold;">
                 The Mo<span class="highlight">vieV</span>erse Menu
-            </h1>
+            </div>
         </a>
         <div id="button-container">
             <button id="button-remove" title="Close the navbar" onclick="removeNavBar()">Close</button>
@@ -173,8 +176,8 @@
             <li><a href="#director-spotlight">Director's Spotlight</a></li>
             <li><a href="#action">Action</a></li>
             <li><a href="#vietnamese">Vietnamese</a></li>
-            <li><a href="#korean">Korean</a></li>
             <li><a href="#indian">Indian</a></li>
+            <li><a href="#korean">Korean</a></li>
             <li><a href="#tv-series">TV Series</a></li>
             <li><a href="#hidden-gems">Hidden Gems</a></li>
             <li><a href="#horror">Horror</a></li>
@@ -244,16 +247,16 @@
     <main id="vietnamese"></main>
 
     <div class="genres">
-        <h2 id="other" style="margin-top: 35px; cursor: pointer">Trending KOREAN Movies: </h2>
-    </div>
-
-    <main id="korean"></main>
-
-    <div class="genres">
         <h2 id="other" style="margin-top: 35px; cursor: pointer">Trending INDIAN Movies: </h2>
     </div>
 
     <main id="indian"></main>
+
+    <div class="genres">
+        <h2 id="other" style="margin-top: 35px; cursor: pointer">Trending KOREAN Movies: </h2>
+    </div>
+
+    <main id="korean"></main>
 
     <div class="genres">
         <h2 id="other" style="margin-top: 35px; cursor: pointer">Trending TV SERIES: </h2>
