@@ -1,4 +1,4 @@
-# `.idea` Directory README - The MovieVerse
+# The MovieVerse - `.idea` Directory
 
 ## Introduction
 
@@ -41,10 +41,6 @@ It is important to note that some files like `dataSources.local.xml` are intende
 ## Version Control
 
 Typically, the `.idea` directory is included in version control with the exception of user-specific files such as `workspace.xml` or `tasks.xml`, which store user-specific IDE states and are not present here. This inclusion ensures that all developers working on the project have a consistent set of configurations.
-
-## Conclusion
-
-The `.idea` directory and its files are an integral part of ensuring that the project's IDE settings are consistent across all team members' environments. Proper understanding and management of these files are crucial for the smooth functioning of the project's development workflow.
 
 ## Contact
 
