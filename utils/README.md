@@ -1,4 +1,4 @@
-# Setting up Emscripten and Compiling C Code to WebAssembly
+# Setting up Emscripten and Compiling C Code to WebAssembly - the `utils` directory
 
 ## Prerequisites
 
@@ -21,7 +21,7 @@ Emscripten is a toolchain for compiling C and C++ code to WebAssembly (WASM) whi
    ./emsdk activate latest
    source ./emsdk_env.sh
    ```
-   
+
    Note that you must have Python installed on your system to run the `emsdk` commands.
 
 
@@ -56,7 +56,7 @@ Once you have installed Emscripten, you can compile C files to WebAssembly. Here
    ```bash
    emcc -o utils/redrawImage.wasm utils/redrawImage.c -O3 -s WASM=1 -s EXPORTED_FUNCTIONS='["_resizeImage", "_main"]'
    ```
-   
+
 4. **Applying Filter to Image:**
 
    For applying filters to images, use:
@@ -64,9 +64,9 @@ Once you have installed Emscripten, you can compile C files to WebAssembly. Here
    ```bash
    emcc -o utils/imageFilter.wasm utils/imageFilter.c -O3 -s WASM=1 -s EXPORTED_FUNCTIONS='["_applyGrayscaleFilter", "_main"]'
    ```
-   
+
 5. **Enhance Images:**
-  
+
    For enhancing images, use:
 
    ```bash

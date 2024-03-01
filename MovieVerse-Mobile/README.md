@@ -1,4 +1,4 @@
-# MovieVerse Mobile App - README
+# The MovieVerse - `MovieVerse-Mobile` Directory
 
 ## Overview
 

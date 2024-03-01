@@ -1,4 +1,4 @@
-# README for `MovieVerse-Databases` Directory
+# The MovieVerse - `MovieVerse-Databases` Directory
 
 Welcome to the `MovieVerse-Database` directory of the MovieVerse App! This directory contains the SQL and JavaScript files essential for setting up and managing the databases used in the application, including Firebase, MySQL, and MongoDB. NOTE: These files are only placeholders and do not reflect what are actually used by us in production or development - you need to contact us for more details about using our databases if you would like to contribute and need database access!
 
@@ -12,6 +12,7 @@ Welcome to the `MovieVerse-Database` directory of the MovieVerse App! This direc
 4. [movieverse_nosql_setup.js](#movieverse_nosql_setup.js)
 5. [movieverse_schema.sql](#movieverse_schema.sql)
 6. [movieverse_user_management.sql](#movieverse_user_management.sql)
+7. [Other files](#other-files)
 
 ## Overview
 
@@ -36,6 +37,10 @@ A comprehensive SQL script that defines the entire database schema for the Movie
 ### movieverse_user_management.sql
 
 Contains SQL scripts related to user management features. This includes user roles, permissions, account settings, and other functionalities necessary for user account handling.
+
+### Other files
+
+There may be other database config files as we work to scale the app up. We'll add their documentation as soon as possible!
 
 ## Using these Files
 
