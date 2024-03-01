@@ -180,7 +180,7 @@
     </main>
 
     <footer>
-        <p>© 2024 The MovieVerse. All rights reserved.</p>
+        <p>© 2024 The MovieVerse. All rights reserved. Special thanks for The Movie Database (TMDb).</p>
     </footer>
 
     <script>
@@ -463,6 +463,7 @@
             if (triviaStats.totalAttempted === 0) {
                 return 'No trivia attempted';
             }
+
             let accuracy = (triviaStats.totalCorrect / triviaStats.totalAttempted) * 100;
             return `${accuracy.toFixed(1)}% accuracy`;
         }
@@ -514,4 +515,5 @@
     </script>
 
 </body>
+
 </html>
