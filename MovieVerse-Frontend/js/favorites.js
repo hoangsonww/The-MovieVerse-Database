@@ -1,6 +1,9 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js';
 import { getFirestore, doc, setDoc, collection, updateDoc, getDocs, getDoc, query, where, orderBy, writeBatch, deleteDoc } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js';
 
+let initialMoviesSelection = [];
+let initialTVSeriesSelection = [];
+
 function translateFBC(value) {
     return atob(value);
 }
@@ -640,7 +643,8 @@ async function populateEditModal() {
 
         if (!favoritesMovies || favoritesMovies.length === 0) {
             moviesContainer.innerHTML = '<p style="margin-top: 20px">No Favorite Movies Added Yet.</p>';
-        } else {
+        }
+        else {
             for (const movieId of favoritesMovies) {
                 const movieTitle = await getMovieTitle(movieId);
                 appendCheckbox(moviesContainer, movieId, movieTitle, 'favoritedMovies');
@@ -649,7 +653,8 @@ async function populateEditModal() {
 
         if (!favoritesTVSeries || favoritesTVSeries.length === 0) {
             tvSeriesContainer.innerHTML = '<p style="margin-top: 20px">No Favorite TV Series Added Yet.</p>';
-        } else {
+        }
+        else {
             for (const seriesId of favoritesTVSeries) {
                 const seriesTitle = await getTVSeriesTitle(seriesId);
                 appendCheckbox(tvSeriesContainer, seriesId, seriesTitle, 'favoritedTVSeries');
