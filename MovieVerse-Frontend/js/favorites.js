@@ -821,51 +821,6 @@ async function deleteSelectedWatchlists() {
 
 document.getElementById('delete-watchlist-btn').addEventListener('click', populateDeleteModal);
 
-// async function updateWatchListsDisplay() {
-//     const watchlists = JSON.parse(localStorage.getItem('localWatchlists')) || [];
-//     const displaySection = document.getElementById('watchlists-display-section');
-//     displaySection.innerHTML = '';
-//
-//     if (watchlists.length === 0) {
-//         displaySection.innerHTML = '<p>No watch lists found. Start adding movies and TV series to your watchlists.</p>';
-//         return;
-//     }
-//
-//     for (const watchlist of watchlists) {
-//         const watchlistDiv = document.createElement('div');
-//         watchlistDiv.className = 'watchlist';
-//
-//         const title = document.createElement('h3');
-//         title.innerText = watchlist.name;
-//
-//         const description = document.createElement('p');
-//         description.innerText = watchlist.description;
-//
-//         watchlistDiv.appendChild(title);
-//         watchlistDiv.appendChild(description);
-//
-//         if (watchlist.movies && watchlist.movies.length > 0) {
-//             const moviesContainer = document.createElement('div');
-//             for (const movieId of watchlist.movies) {
-//                 const movieCard = await fetchMovieDetails(movieId);
-//                 moviesContainer.appendChild(movieCard);
-//             }
-//             watchlistDiv.appendChild(moviesContainer);
-//         }
-//
-//         if (watchlist.tvSeries && watchlist.tvSeries.length > 0) {
-//             const seriesContainer = document.createElement('div');
-//             for (const seriesId of watchlist.tvSeries) {
-//                 const seriesCard = await fetchTVSeriesDetails(seriesId);
-//                 seriesContainer.appendChild(seriesCard);
-//             }
-//             watchlistDiv.appendChild(seriesContainer);
-//         }
-//
-//         displaySection.appendChild(watchlistDiv);
-//     }
-// }
-
 async function fetchMovieDetails(movieId) {
     const code = `${getMovieCode()}`;
     const url = `https://${getMovieVerseData()}/3/movie/${movieId}?${generateMovieNames()}${code}&append_to_response=credits,keywords,similar`;
