@@ -439,6 +439,7 @@ async function populateCreateModalWithFavorites() {
 }
 
 document.getElementById('create-watchlist-form').addEventListener('submit', async function(e) {
+    showSpinner();
     e.preventDefault();
 
     const name = document.getElementById('new-watchlist-name').value;
@@ -480,6 +481,7 @@ document.getElementById('create-watchlist-form').addEventListener('submit', asyn
 
     closeModal('create-watchlist-modal');
     loadWatchLists();
+    hideSpinner();
     window.location.reload();
 });
 
@@ -681,6 +683,7 @@ async function populateEditModal() {
 }
 
 document.getElementById('edit-watchlist-form').addEventListener('submit', async function(e) {
+    showSpinner();
     e.preventDefault();
 
     const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
@@ -717,6 +720,7 @@ document.getElementById('edit-watchlist-form').addEventListener('submit', async 
 
     closeModal('edit-watchlist-modal');
     loadWatchLists();
+    hideSpinner();
     window.location.reload();
 });
 
@@ -759,6 +763,7 @@ async function populateDeleteModal() {
 }
 
 async function deleteSelectedWatchlists() {
+    showSpinner();
     const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
     const selectedCheckboxes = document.querySelectorAll('#delete-watchlist-checkboxes-container input[type="checkbox"]:checked');
     const selectedIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.value);
@@ -776,6 +781,7 @@ async function deleteSelectedWatchlists() {
 
     closeModal('delete-watchlist-modal');
     loadWatchLists();
+    hideSpinner();
     window.location.reload();
 }
 
@@ -1024,6 +1030,8 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 async function loadWatchLists() {
+    showSpinner();
+
     const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
     const displaySection = document.getElementById('watchlists-display-section');
 
@@ -1150,6 +1158,8 @@ async function loadWatchLists() {
         favoritesDiv.innerHTML = '<div style="text-align: center"><h3 style="text-align: center; font-size: 24px; color: #ff8623">Favorite TV Series</h3><p style="text-align: center">No favorite TV series added yet.</p></div>';
         displaySection.appendChild(favoritesDiv);
     }
+
+    hideSpinner();
 }
 
 async function fetchTVSeriesDetails(tvSeriesId) {
