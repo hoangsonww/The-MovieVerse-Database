@@ -1030,6 +1030,8 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 async function loadWatchLists() {
+    showSpinner();
+
     const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
     const displaySection = document.getElementById('watchlists-display-section');
 
@@ -1156,6 +1158,8 @@ async function loadWatchLists() {
         favoritesDiv.innerHTML = '<div style="text-align: center"><h3 style="text-align: center; font-size: 24px; color: #ff8623">Favorite TV Series</h3><p style="text-align: center">No favorite TV series added yet.</p></div>';
         displaySection.appendChild(favoritesDiv);
     }
+
+    hideSpinner();
 }
 
 async function fetchTVSeriesDetails(tvSeriesId) {
@@ -1376,7 +1380,6 @@ async function moveWatchList(watchlistDiv, moveUp) {
 
 async function pinWatchList(watchlistDiv, watchlistId) {
     showSpinner();
-
     const isPinned = watchlistDiv.classList.contains('pinned');
     const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
 
