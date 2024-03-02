@@ -263,9 +263,9 @@
         </h1>
     </a>
 
-    <div id="local-time" style="cursor: pointer">
-        <p id="stats-label" class="clock" style="font-size: 16px"></p>
-        <h1 id="stats-display" class="clock"></h1>
+    <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
+        <p id="stats-label" class="clock" style="font-size: 16px;"></p>
+        <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
     </div>
 
     <button class="back-btn" onclick="window.location.href='../../index.html'" title="Go back to homepage">Home</button>
@@ -294,7 +294,7 @@
 </header>
 
 <div class="center-text" style="padding: 150px;">
-    <h1 style="font-size: 50px; color: #ff8623; margin-top: 20px">You're Offline</h1>
+    <div style="font-size: 50px; font-weight: bold; color: #ff8623; margin-top: 20px">You're Offline</div>
     <p>It seems you're offline. Please check your internet connection and try again. If you're still having trouble, please contact your service provider.</p>
     <button class="center-button" onclick="window.location.href='../../index.html'">Try Again</button>
 </div>
