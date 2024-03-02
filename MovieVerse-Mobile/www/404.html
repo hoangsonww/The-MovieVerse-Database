@@ -231,9 +231,9 @@
             </h1>
         </a>
 
-        <div id="local-time" style="cursor: pointer">
-            <p id="stats-label" class="clock" style="font-size: 16px"></p>
-            <h1 id="stats-display" class="clock"></h1>
+        <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
+            <p id="stats-label" class="clock" style="font-size: 16px;"></p>
+            <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
         </div>
 
         <button class="back-btn" onclick="window.location.href='index.html'" title="Go back to homepage">Home</button>
@@ -263,7 +263,7 @@
 
     <!-- Main 404 content -->
     <div class="center-text" style="padding: 150px;">
-        <h1 style="font-size: 50px; color: #ff8623;">404</h1>
+        <div style="font-weight: bold; font-size: 55px; color: #ff8623;">404</div>
         <p>Sorry, the page you are looking for cannot be found.</p>
         <button class="center-button" onclick="window.location.href='index.html'">Back to Home</button>
     </div>
