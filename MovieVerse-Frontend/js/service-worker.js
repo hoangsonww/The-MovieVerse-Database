@@ -1,7 +1,6 @@
 const CACHE_NAME = 'movieverse-cache-v1';
 
 const urlsToCache = [
-    '/',
     '../../index.html',
     '../css/style.css',
     '../css/trivia.css',
@@ -65,11 +64,25 @@ self.addEventListener('install', event => {
     event.waitUntil(
         caches.open(CACHE_NAME)
             .then(cache => {
-                console.log('Opened cache');
-                return cache.addAll(urlsToCache);
+                const cachePromises = urlsToCache.map(urlToCache => {
+                    return fetch(urlToCache).then(response => {
+                        if (response.ok) {
+                            return cache.put(urlToCache, response);
+                        }
+                        console.warn(`Could not cache: ${urlToCache} - ${response.statusText}`);
+                        return Promise.resolve(); // Resolve to avoid breaking the promise chain
+                    }).catch(error => {
+                        console.warn(`Failed to fetch and cache: ${urlToCache}`, error);
+                        return Promise.resolve(); // Resolve to avoid breaking the promise chain
+                    });
+                });
+                return Promise.all(cachePromises).then(() => {
+                    console.log('Finished caching available resources');
+                });
             })
     );
 });
+
 
 self.addEventListener('fetch', event => {
     event.respondWith(
