@@ -70,10 +70,10 @@ self.addEventListener('install', event => {
                             return cache.put(urlToCache, response);
                         }
                         console.warn(`Could not cache: ${urlToCache} - ${response.statusText}`);
-                        return Promise.resolve(); // Resolve to avoid breaking the promise chain
+                        return Promise.resolve();
                     }).catch(error => {
                         console.warn(`Failed to fetch and cache: ${urlToCache}`, error);
-                        return Promise.resolve(); // Resolve to avoid breaking the promise chain
+                        return Promise.resolve();
                     });
                 });
                 return Promise.all(cachePromises).then(() => {
@@ -82,7 +82,6 @@ self.addEventListener('install', event => {
             })
     );
 });
-
 
 self.addEventListener('fetch', event => {
     event.respondWith(
