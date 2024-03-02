@@ -1410,11 +1410,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (savedBg) {
             document.body.style.backgroundImage = `url('${savedBg}')`;
         }
+
         if (savedTextColor) {
             document.querySelectorAll('h1, h2, h3, p, a, span, div, button, input, select, textarea, label, li').forEach(element => {
                 element.style.color = savedTextColor;
             });
         }
+
         if (savedFontSize) {
             const size = savedFontSize === 'small' ? '12px' : savedFontSize === 'medium' ? '16px' : '20px';
             document.body.style.fontSize = size;
