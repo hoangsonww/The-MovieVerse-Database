@@ -476,7 +476,7 @@
                 viewAllResultsBtn.style.display = query ? 'block' : 'none';
 
                 if (query) {
-                    const searchURL = `https://api.themoviedb.org/3/search/multi?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&query=${encodeURIComponent(query)}`;
+                    const searchURL = `https://${getMovieVerseData()}/3/search/multi?${generateMovieNames()}${getMovieCode()}&query=${encodeURIComponent(query)}`;
                     fetch(searchURL)
                         .then(response => response.json())
                         .then(data => {

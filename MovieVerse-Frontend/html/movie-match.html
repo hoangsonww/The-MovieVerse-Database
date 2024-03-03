@@ -286,6 +286,18 @@
     </script>
 
     <script>
+        function getMovieVerseData(input) {
+            return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
+        }
+
+        function generateMovieNames(input) {
+            return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
+        }
+
+        function getMovieCode() {
+            return atob(movieCode.part1) + atob(movieCode.part2) + atob(movieCode.part3);
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('search').addEventListener('input', function(e) {
                 const viewAllResultsBtn = document.getElementById('view-all-results');
@@ -295,7 +307,7 @@
                 viewAllResultsBtn.style.display = query ? 'block' : 'none';
 
                 if (query) {
-                    const searchURL = `https://api.themoviedb.org/3/search/multi?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&query=${encodeURIComponent(query)}`;
+                    const searchURL = `https://${getMovieVerseData()}/3/search/multi?${generateMovieNames()}${getMovieCode()}&query=${encodeURIComponent(query)}`;
                     fetch(searchURL)
                         .then(response => response.json())
                         .then(data => {
