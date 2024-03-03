@@ -249,12 +249,14 @@
             <i class="fas fa-user" id="profileIcon"></i>
         </button>
         <form id="form1">
-        <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!" />
-        <button type="button" id="button-search" onclick="handleSearch()">Search</button>
-        <div id="search-results" class="search-results"></div>
-        <button type="button" id="view-all-results" style="display: none; margin: auto; margin-top: 10px">View more results</button>
+            <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!" />
+            <button type="button" id="button-search" onclick="handleSearch()">Search</button>
+            <div id="search-results" class="search-results"></div>
+            <div class="buttons-container">
+                <button type="button" id="view-all-results" style="display: none;">View more results</button>
+                <button type="button" id="clear-search" style="display: none">Clear</button>
+            </div>
         </form>
-
 
         <button id="settings-btn" style="position: fixed; bottom: 185px">Settings</button>
         <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 150px">Movie Match</button>
@@ -425,6 +427,36 @@
             searchBar.addEventListener('input', toggleVisibility);
 
             toggleVisibility();
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search');
+            const viewAllResultsBtn = document.getElementById('view-all-results');
+            const clearSearchBtn = document.getElementById('clear-search');
+            const searchResultsContainer = document.getElementById('search-results');
+            const myHeading = document.getElementById('my-heading');
+            const localTime = document.getElementById('local-time');
+
+            function toggleButtons() {
+                const query = searchInput.value.trim();
+                viewAllResultsBtn.style.display = query ? 'inline-block' : 'none';
+                clearSearchBtn.style.display = query ? 'inline-block' : 'none';
+            }
+
+            clearSearchBtn.addEventListener('click', function() {
+                searchInput.value = '';
+                searchResultsContainer.innerHTML = '';
+                toggleButtons();
+                searchInput.focus();
+                myHeading.style.display = '';
+                localTime.style.display = '';
+            });
+
+            toggleButtons();
+
+            searchInput.addEventListener('input', toggleButtons);
         });
     </script>
 

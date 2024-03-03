@@ -393,11 +393,11 @@ function showMovies(items, container, category) {
                     const personDetails = await response.json();
                     if (personDetails.known_for_department === 'Directing') {
                         localStorage.setItem('selectedDirectorId', id);
-                        window.location.href = 'director-details.html?id=' + id;
+                        window.location.href = 'director-details.html?' + id;
                     }
                     else {
                         localStorage.setItem('selectedActorId', id);
-                        window.location.href = 'actor-details.html?id=' + id;
+                        window.location.href = 'actor-details.html?' + id;
                     }
                 }
                 catch (error) {
