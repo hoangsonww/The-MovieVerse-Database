@@ -1,14 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="404 Page Not Found - The page you are looking for does not exist on The MovieVerse. Explore our site to find movies, directors, actors, and more.">
+    <link rel="canonical" href="https://movie-verse.com/404.html">
     <title>404 Not Found - The MovieVerse</title>
     <link rel="stylesheet" href="MovieVerse-Frontend/css/style.css"/>
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <meta name="theme-color" content="#7378c5">
     <link rel="manifest" href="manifest.json">
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "l7gqnssat8");
+    </script>
     <style>
         .center-text {
             text-align: center;
@@ -212,6 +222,7 @@
         document.addEventListener('DOMContentLoaded', rotateUserStats);
     </script>
 </head>
+
 <body class="movie-details-body">
     <header>
         <a href="index.html" style="text-decoration: none; color: inherit; cursor: pointer">
@@ -220,9 +231,9 @@
             </h1>
         </a>
 
-        <div id="local-time" style="cursor: pointer">
-            <p id="stats-label" class="clock" style="font-size: 16px"></p>
-            <h1 id="stats-display" class="clock"></h1>
+        <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
+            <p id="stats-label" class="clock" style="font-size: 16px;"></p>
+            <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
         </div>
 
         <button class="back-btn" onclick="window.location.href='index.html'" title="Go back to homepage">Home</button>
@@ -252,9 +263,9 @@
 
     <!-- Main 404 content -->
     <div class="center-text" style="padding: 150px;">
-        <h1 style="font-size: 50px; color: #ff8623;">404</h1>
+        <div style="font-weight: bold; font-size: 55px; color: #ff8623;">404</div>
         <p>Sorry, the page you are looking for cannot be found.</p>
-        <button class="center-button" onclick="window.location.href='index.html'">Back to Home</button>
+        <button class="center-button" onclick="window.location.href='../index.html'">Back to Home</button>
     </div>
 
     <script>
