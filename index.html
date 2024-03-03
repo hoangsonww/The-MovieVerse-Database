@@ -560,6 +560,18 @@
                 localTime.style.display = '';
             });
 
+            function clearSearchAndResetLayout() {
+                document.getElementById('search').value = '';
+                document.getElementById('search-results').innerHTML = '';
+                document.getElementById('button-search').style.position = 'initial';
+            }
+
+            document.getElementById('search').addEventListener('input', function() {
+                if (!this.value) {
+                    clearSearchAndResetLayout();
+                }
+            });
+
             toggleButtons();
 
             searchInput.addEventListener('input', toggleButtons);
@@ -675,4 +687,5 @@
     </script>
 
 </body>
+
 </html>
