@@ -1439,15 +1439,6 @@ p {
     background-color: #ff8623;
 }
 
-#search-results {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-    padding: 20px;
-    margin-left: 0;
-}
-
 #search-container {
     display: none;
     background-color: rgba(255, 255, 255, 0.1);
@@ -2657,6 +2648,115 @@ body {
 .rating .star:hover,
 .rating .star:hover ~ .star {
     color: gold;
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    20% { transform: translateX(-5px); }
+    40% { transform: translateX(5px); }
+    60% { transform: translateX(-5px); }
+    80% { transform: translateX(5px); }
+    100% { transform: translateX(0); }
+}
+
+.shake-animation {
+    animation: shake 0.5s ease-in-out 5;
+}
+
+.search-results {
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.search-result-card {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #7378c5;
+    margin: 0;
+    margin-bottom: 2px;
+    margin-top: 5px;
+    width: 300px;
+    color: #212121;
+}
+
+.search-result-card:hover {
+    background-color: #ff8623;
+    transition: 0.3s ease-in;
+}
+
+.search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+#clear-search {
+    background-color: #7378c5;
+    border: none;
+    border-radius: 8px;
+    font: inherit;
+    cursor: pointer;
+    color: #000000;
+    margin-right: 40px;
+    padding: 5px 10px;
+    margin-top: 10px;
+}
+
+#clear-search:hover {
+    background-color: #ff8623;
+    transition: background-color 0.3s ease;
+}
+
+#view-all-results {
+    background-color: #7378c5;
+    border: none;
+    border-radius: 8px;
+    padding: 5px 10px;
+    font: inherit;
+    cursor: pointer;
+    color: #000000;
+    margin-right: 40px;
+    margin-top: 10px;
+}
+
+#view-all-results:hover {
+    background-color: #ff8623;
+    transition: background-color 0.3s ease;
+}
+
+.result-image {
+    width: 64px;
+    height: 96px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.result-details {
+    margin-left: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.result-name {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.result-type {
+    font-size: 14px;
+    font-style: italic;
+    color: #212121;
 }
 
 footer {
