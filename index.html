@@ -1,4 +1,4 @@
-<!-- The MovieVerse App Source Code -->
+<!-- The MovieVerse App - Homepage Source Code -->
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 
@@ -151,7 +151,7 @@
         </form>
 
         <button id="notificationBtn" class="notification-btn" title="Notifications">
-            <i class="fas fa-bell" style="font-size: 15px"></i>
+            <i class="fas fa-bell" id="bellIcon" style="font-size: 15px"></i>
         </button>
 
         <div id="notificationModal" class="notification-modal" style="display: none;">
@@ -488,6 +488,17 @@
 
             document.body.style.backgroundImage = `url('${backgroundImageUrl}')`;
         }
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const bellIcon = document.getElementById('bellIcon');
+            bellIcon.classList.add('shake-animation');
+
+            setTimeout(() => {
+                bellIcon.classList.remove('shake-animation');
+            }, 500);
+        });
     </script>
 </body>
 
