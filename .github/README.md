@@ -81,7 +81,7 @@ The MovieVerse is a full-stack application with a robust backend and a user-frie
 | [TypeScript](https://www.typescriptlang.org/)                   | [Python](https://www.python.org/)                               |                                                 |                                                                   | [Google Analytics](https://analytics.google.com/analytics/web/) |
 | [FontAwesome Icons](https://react-icons.github.io/react-icons/) | [Ruby on Rails](https://rubyonrails.org/)                       |                                                 |                                                                   | [ESLint](https://eslint.org/)                                   |
 | [SASS](https://sass-lang.com/)                                  | [C (Emscripten, WebAssembly)](https://emscripten.org/)          |                                                 |                                                                   | [Git](https://git-scm.com/)                                     |
-| [Single Spa](https://single-spa.js.org/)                        | [JavaScript](https://www.javascript.com/)                       |                                                 |                                                                   | [The Movie Database](https://www.themoviedb.org/)           |
+| [Single Spa](https://single-spa.js.org/)                        | [JavaScript](https://www.javascript.com/)                       |                                                 |                                                                   | [The Movie Database](https://www.themoviedb.org/)               |
 
 
 ## Contributing
