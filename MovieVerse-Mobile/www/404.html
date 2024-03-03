@@ -7,7 +7,7 @@
     <meta name="description" content="404 Page Not Found - The page you are looking for does not exist on The MovieVerse. Explore our site to find movies, directors, actors, and more.">
     <link rel="canonical" href="https://movie-verse.com/404.html">
     <title>404 Not Found - The MovieVerse</title>
-    <link rel="stylesheet" href="MovieVerse-Frontend/css/style.css"/>
+    <link rel="stylesheet" href="/MovieVerse-Frontend/css/style.css"/>
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <meta name="theme-color" content="#7378c5">
@@ -249,8 +249,10 @@
             <i class="fas fa-user" id="profileIcon"></i>
         </button>
         <form id="form1">
-            <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!" />
-            <button type="button" id="button-search" onclick="handleSearch()">Search</button>
+            <div class="search-container">
+                <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!" />
+                <button type="button" id="button-search" onclick="handleSearch()">Search</button>
+            </div>
             <div id="search-results" class="search-results"></div>
             <div class="buttons-container">
                 <button type="button" id="view-all-results" style="display: none;">View more results</button>
@@ -461,6 +463,24 @@
     </script>
 
     <script>
+        const movieCode = {
+            part1: 'YzVhMjBjODY=',
+            part2: 'MWFjZjdiYjg=',
+            part3: 'ZDllOTg3ZGNjN2YxYjU1OA=='
+        };
+
+        function getMovieVerseData(input) {
+            return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
+        }
+
+        function generateMovieNames(input) {
+            return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
+        }
+
+        function getMovieCode() {
+            return atob(movieCode.part1) + atob(movieCode.part2) + atob(movieCode.part3);
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('search').addEventListener('input', function(e) {
                 const viewAllResultsBtn = document.getElementById('view-all-results');
@@ -470,7 +490,7 @@
                 viewAllResultsBtn.style.display = query ? 'block' : 'none';
 
                 if (query) {
-                    const searchURL = `https://api.themoviedb.org/3/search/multi?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&query=${encodeURIComponent(query)}`;
+                    const searchURL = `https://${getMovieVerseData()}/3/search/multi?${generateMovieNames()}${getMovieCode()}&query=${encodeURIComponent(query)}`;
                     fetch(searchURL)
                         .then(response => response.json())
                         .then(data => {

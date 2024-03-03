@@ -51,109 +51,7 @@
 
         gtag('config', 'G-CQKJ67FXZ4');
 
-        function rotateUserStats() {
-            const stats = [
-                {
-                    label: "Your Current Time",
-                    getValue: () => {
-                        const now = new Date();
-                        let hours = now.getHours();
-                        let minutes = now.getMinutes();
-                        hours = hours < 10 ? '0' + hours : hours;
-                        minutes = minutes < 10 ? '0' + minutes : minutes;
-                        return `${hours}:${minutes}`;
-                    }
-                },
-                { label: "Most Visited Movie", getValue: getMostVisitedMovie },
-                { label: "Your Most Visited Director", getValue: getMostVisitedDirector },
-                { label: "Your Most Visited Actor", getValue: getMostVisitedActor },
-                {
-                    label: "Your Unique Movies Discovered",
-                    getValue: () => {
-                        const viewedMovies = JSON.parse(localStorage.getItem('uniqueMoviesViewed')) || [];
-                        return viewedMovies.length;
-                    }
-                },
-                {
-                    label: "Your Favorited Movies",
-                    getValue: () => {
-                        const favoritedMovies = JSON.parse(localStorage.getItem('favorites')) || [];
-                        return favoritedMovies.length;
-                    }
-                },
-                {
-                    label: "Your Most Common Favorited Genre",
-                    getValue: getMostCommonGenre
-                },
-                { label: "Your Created Watchlists", getValue: () => localStorage.getItem('watchlistsCreated') || 0 },
-                { label: "Your Average Movie Rating", getValue: () => localStorage.getItem('averageMovieRating') || 'Not Rated' },
-                {
-                    label: "Your Unique Directors Discovered",
-                    getValue: () => {
-                        const viewedDirectors = JSON.parse(localStorage.getItem('uniqueDirectorsViewed')) || [];
-                        return viewedDirectors.length;
-                    }
-                },
-                {
-                    label: "Your Unique Actors Discovered",
-                    getValue: () => {
-                        const viewedActors = JSON.parse(localStorage.getItem('uniqueActorsViewed')) || [];
-                        return viewedActors.length;
-                    }
-                },
-                {
-                    label: "Your Unique Production Companies Discovered",
-                    getValue: () => {
-                        const viewedCompanies = JSON.parse(localStorage.getItem('uniqueCompaniesViewed')) || [];
-                        return viewedCompanies.length;
-                    }
-                },
-                { label: "Your Trivia Accuracy", getValue: getTriviaAccuracy }
-            ];
 
-            let currentStatIndex = 0;
-
-            function updateStatDisplay() {
-                const currentStat = stats[currentStatIndex];
-                document.getElementById('stats-label').textContent = currentStat.label + ':';
-                document.getElementById('stats-display').textContent = currentStat.getValue();
-                currentStatIndex = (currentStatIndex + 1) % stats.length;
-            }
-
-            updateStatDisplay();
-
-            const localTimeDiv = document.getElementById('local-time');
-            let statRotationInterval = setInterval(updateStatDisplay, 3000);
-
-            localTimeDiv.addEventListener('click', () => {
-                clearInterval(statRotationInterval);
-                updateStatDisplay();
-                statRotationInterval = setInterval(updateStatDisplay, 3000);
-            });
-        }
-
-        function updateMovieVisitCount(movieId, movieTitle) {
-            let movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
-            if (!movieVisits[movieId]) {
-                movieVisits[movieId] = { count: 0, title: movieTitle };
-            }
-            movieVisits[movieId].count += 1;
-            localStorage.setItem('movieVisits', JSON.stringify(movieVisits));
-        }
-
-        function getMostVisitedMovie() {
-            const movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
-            let mostVisitedMovie = '';
-            let maxVisits = 0;
-
-            for (const movieId in movieVisits) {
-                if (movieVisits[movieId].count > maxVisits) {
-                    mostVisitedMovie = movieVisits[movieId].title;
-                    maxVisits = movieVisits[movieId].count;
-                }
-            }
-            return mostVisitedMovie || 'Not Available';
-        }
 
         document.addEventListener("DOMContentLoaded", function() {
             updateSignInButtonState();
@@ -193,59 +91,6 @@
 
             updateSignInButtonState();
         }
-
-        function getMostVisitedActor() {
-            const actorVisits = JSON.parse(localStorage.getItem('actorVisits')) || {};
-            let mostVisitedActor = '';
-            let maxVisits = 0;
-
-            for (const actorId in actorVisits) {
-                if (actorVisits[actorId].count > maxVisits) {
-                    mostVisitedActor = actorVisits[actorId].name;
-                    maxVisits = actorVisits[actorId].count;
-                }
-            }
-            return mostVisitedActor || 'Not Available';
-        }
-
-        function getMostVisitedDirector() {
-            const directorVisits = JSON.parse(localStorage.getItem('directorVisits')) || {};
-            let mostVisitedDirector = '';
-            let maxVisits = 0;
-
-            for (const directorId in directorVisits) {
-                if (directorVisits[directorId].count > maxVisits) {
-                    mostVisitedDirector = directorVisits[directorId].name;
-                    maxVisits = directorVisits[directorId].count;
-                }
-            }
-            return mostVisitedDirector || 'Not Available';
-        }
-
-        function getTriviaAccuracy() {
-            let triviaStats = JSON.parse(localStorage.getItem('triviaStats')) || { totalCorrect: 0, totalAttempted: 0 };
-            if (triviaStats.totalAttempted === 0) {
-                return 'No trivia attempted';
-            }
-            let accuracy = (triviaStats.totalCorrect / triviaStats.totalAttempted) * 100;
-            return `${accuracy.toFixed(1)}% accuracy`;
-        }
-
-        function getMostCommonGenre() {
-            const favoriteGenres = JSON.parse(localStorage.getItem('favoriteGenres')) || {};
-            let mostCommonGenre = '';
-            let maxCount = 0;
-
-            for (const genre in favoriteGenres) {
-                if (favoriteGenres[genre] > maxCount) {
-                    mostCommonGenre = genre;
-                    maxCount = favoriteGenres[genre];
-                }
-            }
-            return mostCommonGenre || 'Not Available';
-        }
-
-        document.addEventListener('DOMContentLoaded', rotateUserStats);
     </script>
     <script type="text/javascript">
         (function(c,l,a,r,i,t,y){
@@ -281,13 +126,8 @@
             <i class="fas fa-user" id="profileIcon"></i>
         </button>
         <form id="form1">
-            <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!" />
+            <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!"/>
             <button type="button" id="button-search" onclick="handleSearch()">Search</button>
-            <div id="search-results" class="search-results"></div>
-            <div class="buttons-container">
-                <button type="button" id="view-all-results" style="display: none;">View more results</button>
-                <button type="button" id="clear-search" style="display: none">Clear</button>
-            </div>
         </form>
 
         <button id="settings-btn" style="position: fixed; bottom: 185px; right: 0">Settings</button>
@@ -335,19 +175,6 @@
             localStorage.setItem('selectedMovieId', randomFallbackMovie);
             window.location.href = 'MovieVerse-Frontend/html/movie-details.html';
         }
-
-        function updateClock() {
-            var now = new Date();
-            var hours = now.getHours();
-            var minutes = now.getMinutes();
-            hours = hours < 10 ? '0' + hours : hours;
-            minutes = minutes < 10 ? '0' + minutes : minutes;
-            var timeString = hours + ':' + minutes;
-            document.getElementById('clock').innerHTML = timeString;
-        }
-
-        setInterval(updateClock, 1000);
-        window.onload = updateClock;
 
         document.getElementById('settings-btn').addEventListener('click', () => {
             window.location.href = 'MovieVerse-Frontend/html/settings.html';
@@ -397,174 +224,6 @@
             <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
         </a>
     </footer>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const searchBar = document.getElementById('search');
-            const myHeading = document.getElementById('my-heading');
-            const localTime = document.getElementById('local-time');
-
-            function toggleVisibility() {
-                const query = searchBar.value.trim();
-                if (query) {
-                    if (window.innerWidth > 800) {
-                        myHeading.style.display = 'none';
-                        localTime.style.display = 'none';
-                    }
-                    else {
-                        myHeading.style.display = '';
-                        localTime.style.display = '';
-                    }
-                }
-                else {
-                    myHeading.style.display = '';
-                    localTime.style.display = '';
-                }
-            }
-
-            searchBar.addEventListener('input', toggleVisibility);
-
-            toggleVisibility();
-        });
-    </script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const searchInput = document.getElementById('search');
-            const viewAllResultsBtn = document.getElementById('view-all-results');
-            const clearSearchBtn = document.getElementById('clear-search');
-            const searchResultsContainer = document.getElementById('search-results');
-            const myHeading = document.getElementById('my-heading');
-            const localTime = document.getElementById('local-time');
-
-            function toggleButtons() {
-                const query = searchInput.value.trim();
-                viewAllResultsBtn.style.display = query ? 'inline-block' : 'none';
-                clearSearchBtn.style.display = query ? 'inline-block' : 'none';
-            }
-
-            clearSearchBtn.addEventListener('click', function() {
-                searchInput.value = '';
-                searchResultsContainer.innerHTML = '';
-                toggleButtons();
-                searchInput.focus();
-                myHeading.style.display = '';
-                localTime.style.display = '';
-            });
-
-            toggleButtons();
-
-            searchInput.addEventListener('input', toggleButtons);
-        });
-    </script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('search').addEventListener('input', function(e) {
-                const viewAllResultsBtn = document.getElementById('view-all-results');
-                const searchInput = document.getElementById('search');
-                const query = e.target.value.trim();
-
-                viewAllResultsBtn.style.display = query ? 'block' : 'none';
-
-                if (query) {
-                    const searchURL = `https://api.themoviedb.org/3/search/multi?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&query=${encodeURIComponent(query)}`;
-                    fetch(searchURL)
-                        .then(response => response.json())
-                        .then(data => {
-                            displaySearchResults(data.results.slice(0, 5));
-                        }).catch(err => console.error("Fetching error:", err));
-                }
-                else {
-                    document.getElementById('search-results').innerHTML = '';
-                }
-
-                searchInput.addEventListener('input', function() {
-                    if (searchInput.value.trim()) {
-                        viewAllResultsBtn.style.display = 'block';
-                    }
-                    else {
-                        viewAllResultsBtn.style.display = 'none';
-                    }
-                });
-
-                viewAllResultsBtn.addEventListener('click', function() {
-                    const searchQuery = searchInput.value.trim();
-                    if (searchQuery) {
-                        localStorage.setItem('searchQuery', searchQuery);
-                        window.location.href = 'search.html';
-                    }
-                    else {
-                        alert('Please enter a search query.');
-                    }
-                });
-            });
-
-            function displaySearchResults(results) {
-                const resultsContainer = document.getElementById('search-results');
-                resultsContainer.innerHTML = '';
-
-                results.forEach(item => {
-                    const card = document.createElement('div');
-                    card.className = 'search-result-card';
-                    card.style.cursor = 'pointer';
-
-                    const imagePath = item.poster_path || item.profile_path ? `https://image.tmdb.org/t/p/w500${item.poster_path || item.profile_path}` : 'path/to/your/default-image.jpg';
-                    const image = document.createElement('img');
-                    image.src = imagePath;
-                    image.className = 'result-image';
-                    card.appendChild(image);
-
-                    const details = document.createElement('div');
-                    details.className = 'result-details';
-
-                    const name = document.createElement('div');
-                    name.className = 'result-name';
-                    name.textContent = item.title || item.name;
-                    details.appendChild(name);
-
-                    const type = document.createElement('div');
-                    type.className = 'result-type';
-                    type.textContent = item.media_type === 'movie' ? 'Movie' : item.media_type === 'tv' ? 'TV Series' : 'Person';
-                    details.appendChild(type);
-
-                    card.appendChild(details);
-                    resultsContainer.appendChild(card);
-
-                    card.addEventListener('click', () => handleResultClick(item));
-                });
-            }
-
-            async function handleResultClick(item) {
-                if (item.media_type === 'movie') {
-                    localStorage.setItem('selectedMovieId', item.id);
-                    window.location.href = 'movie-details.html';
-                }
-                else if (item.media_type === 'tv') {
-                    localStorage.setItem('selectedTvSeriesId', item.id);
-                    window.location.href = 'tv-details.html';
-                }
-                else if (item.media_type === 'person') {
-                    try {
-                        const personDetailsUrl = `https://${getMovieVerseData()}/3/person/${item.id}?${generateMovieNames()}${getMovieCode()}`;
-                        const response = await fetch(personDetailsUrl);
-                        const personDetails = await response.json();
-                        if (personDetails.known_for_department === 'Directing') {
-                            localStorage.setItem('selectedDirectorId', item.id);
-                            window.location.href = 'director-details.html?' + item.id;
-                        }
-                        else {
-                            localStorage.setItem('selectedActorId', item.id);
-                            window.location.href = 'actor-details.html?' + item.id;
-                        }
-                    }
-                    catch (error) {
-                        console.error('Error fetching person details:', error);
-                    }
-                }
-            }
-        });
-    </script>
 
 </body>
 
