@@ -146,8 +146,10 @@
         </button>
 
         <form id="form">
-            <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!" />
-            <button type="button" id="button-search" onclick="handleSearch()">Search</button>
+            <div class="search-container">
+                <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!" />
+                <button type="button" id="button-search" onclick="handleSearch()">Search</button>
+            </div>
             <div id="search-results" class="search-results"></div>
             <div class="buttons-container">
                 <button type="button" id="view-all-results" style="display: none;">View more results</button>
@@ -573,7 +575,18 @@
                 const searchInput = document.getElementById('search');
                 const query = e.target.value.trim();
 
+                const clearSearchBtn = document.getElementById('clear-search');
+                const searchResultsContainer = document.getElementById('search-results');
+                const myHeading = document.getElementById('my-heading');
+                const localTime = document.getElementById('local-time');
+
                 viewAllResultsBtn.style.display = query ? 'block' : 'none';
+
+                function toggleButtons() {
+                    const query = searchInput.value.trim();
+                    viewAllResultsBtn.style.display = query ? 'inline-block' : 'none';
+                    clearSearchBtn.style.display = query ? 'inline-block' : 'none';
+                }
 
                 if (query) {
                     const searchURL = `https://${getMovieVerseData()}/3/search/multi?${generateMovieNames()}${getMovieCode()}&query=${encodeURIComponent(query)}`;
@@ -584,7 +597,12 @@
                         }).catch(err => console.error("Fetching error:", err));
                 }
                 else {
-                    document.getElementById('search-results').innerHTML = '';
+                    searchInput.value = '';
+                    searchResultsContainer.innerHTML = '';
+                    toggleButtons();
+                    searchInput.focus();
+                    myHeading.style.display = '';
+                    localTime.style.display = '';
                 }
 
                 searchInput.addEventListener('input', function() {
@@ -675,4 +693,5 @@
     </script>
 
 </body>
+
 </html>
