@@ -566,8 +566,8 @@
                 document.getElementById('button-search').style.position = 'initial';
             }
 
-            document.getElementById('search').addEventListener('input', function() {
-                if (!this.value) {
+            document.getElementById('search').addEventListener('input', function(e) {
+                if (!e.target.value.trim()) {
                     clearSearchAndResetLayout();
                 }
             });
