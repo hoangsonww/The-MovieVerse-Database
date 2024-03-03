@@ -146,8 +146,10 @@
         </button>
 
         <form id="form">
-            <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!" />
-            <button type="button" id="button-search" onclick="handleSearch()">Search</button>
+            <div class="search-container">
+                <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!" />
+                <button type="button" id="button-search" onclick="handleSearch()">Search</button>
+            </div>
             <div id="search-results" class="search-results"></div>
             <div class="buttons-container">
                 <button type="button" id="view-all-results" style="display: none;">View more results</button>
@@ -573,10 +575,21 @@
                 const searchInput = document.getElementById('search');
                 const query = e.target.value.trim();
 
+                const clearSearchBtn = document.getElementById('clear-search');
+                const searchResultsContainer = document.getElementById('search-results');
+                const myHeading = document.getElementById('my-heading');
+                const localTime = document.getElementById('local-time');
+
                 viewAllResultsBtn.style.display = query ? 'block' : 'none';
 
+                function toggleButtons() {
+                    const query = searchInput.value.trim();
+                    viewAllResultsBtn.style.display = query ? 'inline-block' : 'none';
+                    clearSearchBtn.style.display = query ? 'inline-block' : 'none';
+                }
+
                 if (query) {
-                    const searchURL = `https://api.themoviedb.org/3/search/multi?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&query=${encodeURIComponent(query)}`;
+                    const searchURL = `https://${getMovieVerseData()}/3/search/multi?${generateMovieNames()}${getMovieCode()}&query=${encodeURIComponent(query)}`;
                     fetch(searchURL)
                         .then(response => response.json())
                         .then(data => {
@@ -584,7 +597,12 @@
                         }).catch(err => console.error("Fetching error:", err));
                 }
                 else {
-                    document.getElementById('search-results').innerHTML = '';
+                    searchInput.value = '';
+                    searchResultsContainer.innerHTML = '';
+                    toggleButtons();
+                    searchInput.focus();
+                    myHeading.style.display = '';
+                    localTime.style.display = '';
                 }
 
                 searchInput.addEventListener('input', function() {
@@ -617,11 +635,22 @@
                     card.className = 'search-result-card';
                     card.style.cursor = 'pointer';
 
-                    const imagePath = item.poster_path || item.profile_path ? `https://image.tmdb.org/t/p/w500${item.poster_path || item.profile_path}` : 'path/to/your/default-image.jpg';
-                    const image = document.createElement('img');
-                    image.src = imagePath;
-                    image.className = 'result-image';
-                    card.appendChild(image);
+                    const imagePath = item.poster_path || item.profile_path ? `https://image.tmdb.org/t/p/w500${item.poster_path || item.profile_path}` : null;
+
+                    if (imagePath) {
+                        const image = document.createElement('img');
+                        image.src = imagePath;
+                        image.className = 'result-image';
+                        card.appendChild(image);
+                    }
+                    else {
+                        const placeholder = document.createElement('div');
+                        placeholder.className = 'result-image-placeholder';
+                        placeholder.textContent = 'Image Not Available';
+                        placeholder.style.textAlign = 'center';
+                        placeholder.style.padding = '10px';
+                        card.appendChild(placeholder);
+                    }
 
                     const details = document.createElement('div');
                     details.className = 'result-details';
