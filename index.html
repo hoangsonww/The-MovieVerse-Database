@@ -569,8 +569,17 @@
     </script>
 
     <script>
+        function showSpinner() {
+            document.getElementById('myModal').classList.add('modal-visible');
+        }
+
+        function hideSpinner() {
+            document.getElementById('myModal').classList.remove('modal-visible');
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('search').addEventListener('input', function(e) {
+                showSpinner();
                 const viewAllResultsBtn = document.getElementById('view-all-results');
                 const searchInput = document.getElementById('search');
                 const query = e.target.value.trim();
@@ -624,9 +633,12 @@
                         alert('Please enter a search query.');
                     }
                 });
+
+                hideSpinner();
             });
 
             function displaySearchResults(results) {
+                showSpinner();
                 const resultsContainer = document.getElementById('search-results');
                 resultsContainer.innerHTML = '';
 
@@ -670,6 +682,8 @@
 
                     card.addEventListener('click', () => handleResultClick(item));
                 });
+
+                hideSpinner();
             }
 
             async function handleResultClick(item) {
