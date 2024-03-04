@@ -42,6 +42,14 @@ Contains SQL scripts related to user management features. This includes user rol
 
 A configuration file for Firebase, containing settings and rules for the Firebase Realtime Database. It defines the access rules, security settings, and other configurations for the Firebase database.
 
+### firestore.indexes.json
+
+A configuration file for Firestore, containing indexes and settings for the Firestore database. It defines the indexes, sorting, and other configurations for the Firestore database.
+
+### storage.rules
+
+A configuration file for Firebase Storage, containing access rules and settings for the Firebase Storage service. It defines the access rules, security settings, and other configurations for the Firebase Storage.
+
 ## Using these Files
 
 These files are crucial for setting up the backend of the application. Ensure that you have the necessary database servers (MySQL, MongoDB, Firebase) running and accessible. Run these scripts to create and configure your databases according to the project's requirements.
