@@ -333,7 +333,7 @@ module.exports = cordova;
 // file: src/common/argscheck.js
 define("cordova/argscheck", function(require, exports, module) {
 
-var utils = require('cordova/utils');
+var utils = require('cordova/utilities');
 
 var moduleExports = module.exports;
 
@@ -492,7 +492,7 @@ function uint8ToBase64 (rawData) {
 // file: src/common/builder.js
 define("cordova/builder", function(require, exports, module) {
 
-var utils = require('cordova/utils');
+var utils = require('cordova/utilities');
 
 function each (objects, func, context) {
     for (var prop in objects) {
@@ -608,7 +608,7 @@ exports.assignOrWrapInDeprecateGetter = assignOrWrapInDeprecateGetter;
 // file: src/common/channel.js
 define("cordova/channel", function(require, exports, module) {
 
-var utils = require('cordova/utils');
+var utils = require('cordova/utilities');
 var nextGuid = 1;
 
 /**
@@ -874,7 +874,7 @@ define("cordova/exec", function(require, exports, module) {
  * commands.
  */
 var cordova = require('cordova');
-var utils = require('cordova/utils');
+var utils = require('cordova/utilities');
 var base64 = require('cordova/base64');
 
 function massageArgsJsToNative (args) {
@@ -1582,7 +1582,7 @@ logger.useLogger = function (value) {
  * Logs a message at the LOG level.
  *
  * Parameters passed after message are used applied to
- * the message with utils.format()
+ * the message with utilities.format()
  */
 logger.log = function (message) { logWithArgs('LOG', arguments); };
 
@@ -1590,7 +1590,7 @@ logger.log = function (message) { logWithArgs('LOG', arguments); };
  * Logs a message at the ERROR level.
  *
  * Parameters passed after message are used applied to
- * the message with utils.format()
+ * the message with utilities.format()
  */
 logger.error = function (message) { logWithArgs('ERROR', arguments); };
 
@@ -1598,7 +1598,7 @@ logger.error = function (message) { logWithArgs('ERROR', arguments); };
  * Logs a message at the WARN level.
  *
  * Parameters passed after message are used applied to
- * the message with utils.format()
+ * the message with utilities.format()
  */
 logger.warn = function (message) { logWithArgs('WARN', arguments); };
 
@@ -1606,7 +1606,7 @@ logger.warn = function (message) { logWithArgs('WARN', arguments); };
  * Logs a message at the INFO level.
  *
  * Parameters passed after message are used applied to
- * the message with utils.format()
+ * the message with utilities.format()
  */
 logger.info = function (message) { logWithArgs('INFO', arguments); };
 
@@ -1614,7 +1614,7 @@ logger.info = function (message) { logWithArgs('INFO', arguments); };
  * Logs a message at the DEBUG level.
  *
  * Parameters passed after message are used applied to
- * the message with utils.format()
+ * the message with utilities.format()
  */
 logger.debug = function (message) { logWithArgs('DEBUG', arguments); };
 
@@ -1633,7 +1633,7 @@ function formatStringForMessage (message) {
  * Logs a message at the specified level.
  *
  * Parameters passed after message are used applied to
- * the message with utils.format()
+ * the message with utilities.format()
  */
 logger.logLevel = function (level /* , ... */) {
     // format the message with the parameters
@@ -1931,8 +1931,8 @@ exports.makeAbsolute = function makeAbsolute (url) {
 
 });
 
-// file: src/common/utils.js
-define("cordova/utils", function(require, exports, module) {
+// file: src/common/utilities.js
+define("cordova/utilities", function(require, exports, module) {
 
 var utils = exports;
 
