@@ -1,15 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="404 Page Not Found - The page you are looking for does not exist on The MovieVerse. Explore our site to find movies, directors, actors, and more.">
+    <link rel="canonical" href="https://movie-verse.com/404.html">
     <title>404 Not Found - The MovieVerse</title>
-    <link rel="stylesheet" href="MovieVerse-Frontend/css/style.css"/>
+    <link rel="stylesheet" href="/MovieVerse-Frontend/css/style.css"/>
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <meta name="theme-color" content="#7378c5">
     <link rel="manifest" href="manifest.json">
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "l7gqnssat8");
+    </script>
     <style>
         .center-text {
             text-align: center;
@@ -31,6 +40,20 @@
         .center-button:hover {
             background-color: #ff8623;
             transition: background-color 0.3s;
+        }
+
+        @media (min-width: 900px) {
+            #search {
+                margin-top: 6px;
+            }
+
+            #form1 {
+                margin-right: 0;
+            }
+
+            #my-heading {
+                margin-top: 14px;
+            }
         }
     </style>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
@@ -208,9 +231,9 @@
             </h1>
         </a>
 
-        <div id="local-time" style="cursor: pointer">
-            <p id="stats-label" class="clock" style="font-size: 16px"></p>
-            <h1 id="stats-display" class="clock"></h1>
+        <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
+            <p id="stats-label" class="clock" style="font-size: 16px;"></p>
+            <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
         </div>
 
         <button class="back-btn" onclick="window.location.href='index.html'" title="Go back to homepage">Home</button>
@@ -226,13 +249,15 @@
             <i class="fas fa-user" id="profileIcon"></i>
         </button>
         <form id="form1">
-            <input
-                    type="text"
-                    id="search"
-                    placeholder="Search For Anything..."
-                    class="search"
-            />
-            <button type="button" id="button-search" onclick="handleSearch()">Search</button>
+            <div class="search-container">
+                <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!" />
+                <button type="button" id="button-search" onclick="handleSearch()">Search</button>
+            </div>
+            <div id="search-results" class="search-results"></div>
+            <div class="buttons-container">
+                <button type="button" id="view-all-results" style="display: none;">View more results</button>
+                <button type="button" id="clear-search" style="display: none">Clear</button>
+            </div>
         </form>
 
         <button id="settings-btn" style="position: fixed; bottom: 185px">Settings</button>
@@ -245,7 +270,7 @@
 
     <!-- Main 404 content -->
     <div class="center-text" style="padding: 150px;">
-        <h1 style="font-size: 50px; color: #ff8623;">404</h1>
+        <div style="font-weight: bold; font-size: 55px; color: #ff8623;">404</div>
         <p>Sorry, the page you are looking for cannot be found.</p>
         <button class="center-button" onclick="window.location.href='index.html'">Back to Home</button>
     </div>
@@ -375,6 +400,192 @@
             localStorage.setItem('searchQuery', searchQuery);
             window.location.href = 'MovieVerse-Frontend/html/search.html';
         }
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchBar = document.getElementById('search');
+            const myHeading = document.getElementById('my-heading');
+            const localTime = document.getElementById('local-time');
+
+            function toggleVisibility() {
+                const query = searchBar.value.trim();
+                if (query) {
+                    if (window.innerWidth > 800) {
+                        myHeading.style.display = 'none';
+                        localTime.style.display = 'none';
+                    }
+                    else {
+                        myHeading.style.display = '';
+                        localTime.style.display = '';
+                    }
+                }
+                else {
+                    myHeading.style.display = '';
+                    localTime.style.display = '';
+                }
+            }
+
+            searchBar.addEventListener('input', toggleVisibility);
+
+            toggleVisibility();
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search');
+            const viewAllResultsBtn = document.getElementById('view-all-results');
+            const clearSearchBtn = document.getElementById('clear-search');
+            const searchResultsContainer = document.getElementById('search-results');
+            const myHeading = document.getElementById('my-heading');
+            const localTime = document.getElementById('local-time');
+
+            function toggleButtons() {
+                const query = searchInput.value.trim();
+                viewAllResultsBtn.style.display = query ? 'inline-block' : 'none';
+                clearSearchBtn.style.display = query ? 'inline-block' : 'none';
+            }
+
+            clearSearchBtn.addEventListener('click', function() {
+                searchInput.value = '';
+                searchResultsContainer.innerHTML = '';
+                toggleButtons();
+                searchInput.focus();
+                myHeading.style.display = '';
+                localTime.style.display = '';
+            });
+
+            toggleButtons();
+
+            searchInput.addEventListener('input', toggleButtons);
+        });
+    </script>
+
+    <script>
+        const movieCode = {
+            part1: 'YzVhMjBjODY=',
+            part2: 'MWFjZjdiYjg=',
+            part3: 'ZDllOTg3ZGNjN2YxYjU1OA=='
+        };
+
+        function getMovieVerseData(input) {
+            return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
+        }
+
+        function generateMovieNames(input) {
+            return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
+        }
+
+        function getMovieCode() {
+            return atob(movieCode.part1) + atob(movieCode.part2) + atob(movieCode.part3);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('search').addEventListener('input', function(e) {
+                const viewAllResultsBtn = document.getElementById('view-all-results');
+                const searchInput = document.getElementById('search');
+                const query = e.target.value.trim();
+
+                viewAllResultsBtn.style.display = query ? 'block' : 'none';
+
+                if (query) {
+                    const searchURL = `https://${getMovieVerseData()}/3/search/multi?${generateMovieNames()}${getMovieCode()}&query=${encodeURIComponent(query)}`;
+                    fetch(searchURL)
+                        .then(response => response.json())
+                        .then(data => {
+                            displaySearchResults(data.results.slice(0, 5));
+                        }).catch(err => console.error("Fetching error:", err));
+                }
+                else {
+                    document.getElementById('search-results').innerHTML = '';
+                }
+
+                searchInput.addEventListener('input', function() {
+                    if (searchInput.value.trim()) {
+                        viewAllResultsBtn.style.display = 'block';
+                    }
+                    else {
+                        viewAllResultsBtn.style.display = 'none';
+                    }
+                });
+
+                viewAllResultsBtn.addEventListener('click', function() {
+                    const searchQuery = searchInput.value.trim();
+                    if (searchQuery) {
+                        localStorage.setItem('searchQuery', searchQuery);
+                        window.location.href = 'MovieVerse-Frontend/html/search.html';
+                    }
+                    else {
+                        alert('Please enter a search query.');
+                    }
+                });
+            });
+
+            function displaySearchResults(results) {
+                const resultsContainer = document.getElementById('search-results');
+                resultsContainer.innerHTML = '';
+
+                results.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'search-result-card';
+                    card.style.cursor = 'pointer';
+
+                    const imagePath = item.poster_path || item.profile_path ? `https://image.tmdb.org/t/p/w500${item.poster_path || item.profile_path}` : 'path/to/your/default-image.jpg';
+                    const image = document.createElement('img');
+                    image.src = imagePath;
+                    image.className = 'result-image';
+                    card.appendChild(image);
+
+                    const details = document.createElement('div');
+                    details.className = 'result-details';
+
+                    const name = document.createElement('div');
+                    name.className = 'result-name';
+                    name.textContent = item.title || item.name;
+                    details.appendChild(name);
+
+                    const type = document.createElement('div');
+                    type.className = 'result-type';
+                    type.textContent = item.media_type === 'movie' ? 'Movie' : item.media_type === 'tv' ? 'TV Series' : 'Person';
+                    details.appendChild(type);
+
+                    card.appendChild(details);
+                    resultsContainer.appendChild(card);
+
+                    card.addEventListener('click', () => handleResultClick(item));
+                });
+            }
+
+            async function handleResultClick(item) {
+                if (item.media_type === 'movie') {
+                    localStorage.setItem('selectedMovieId', item.id);
+                    window.location.href = 'MovieVerse-Frontend/html/movie-details.html';
+                }
+                else if (item.media_type === 'tv') {
+                    localStorage.setItem('selectedTvSeriesId', item.id);
+                    window.location.href = 'MovieVerse-Frontend/html/tv-details.html';
+                }
+                else if (item.media_type === 'person') {
+                    try {
+                        const personDetailsUrl = `https://${getMovieVerseData()}/3/person/${item.id}?${generateMovieNames()}${getMovieCode()}`;
+                        const response = await fetch(personDetailsUrl);
+                        const personDetails = await response.json();
+                        if (personDetails.known_for_department === 'Directing') {
+                            localStorage.setItem('selectedDirectorId', item.id);
+                            window.location.href = 'MovieVerse-Frontend/html/director-details.html?' + item.id;
+                        }
+                        else {
+                            localStorage.setItem('selectedActorId', item.id);
+                            window.location.href = 'MovieVerse-Frontend/html/actor-details.html?' + item.id;
+                        }
+                    }
+                    catch (error) {
+                        console.error('Error fetching person details:', error);
+                    }
+                }
+            }
+        });
     </script>
 
     <footer style="margin-top: 400px">

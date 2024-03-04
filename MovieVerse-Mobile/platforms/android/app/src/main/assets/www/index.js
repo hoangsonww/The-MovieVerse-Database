@@ -26,19 +26,20 @@ const search = document.getElementById("search");
 const searchButton = document.getElementById("button-search");
 const searchTitle = document.getElementById("search-title");
 const otherTitle = document.getElementById("other1");
-const clearButton = document.getElementById("button-clear");
 
-let searchPerformed = false;
+function showSpinner() {
+    document.getElementById('myModal').classList.add('modal-visible');
+}
 
-async function getMovies(url, mainElement, isSearch = false) {
+function hideSpinner() {
+    document.getElementById('myModal').classList.remove('modal-visible');
+}
+
+async function getMovies(url, mainElement) {
+    showSpinner();
     const numberOfMovies = calculateMoviesToDisplay();
     const pagesToFetch = numberOfMovies <= 20 ? 1 : 2;
     let allMovies = [];
-
-    if (isSearch) {
-        searchPerformed = true;
-        clearButton.style.display = 'block';
-    }
 
     for (let page = 1; page <= pagesToFetch; page++) {
         const response = await fetch(`${url}&page=${page}`);
@@ -62,7 +63,7 @@ async function getMovies(url, mainElement, isSearch = false) {
     else {
         mainElement.innerHTML = `<p>No movie with the specified search term found. Please try again.</p>`;
     }
-
+    hideSpinner();
 }
 
 function showMovies(movies, mainElement) {
@@ -108,10 +109,6 @@ function updateUniqueMoviesViewed(movieId) {
         localStorage.setItem('uniqueMoviesViewed', JSON.stringify(viewedMovies));
     }
 }
-
-clearButton.addEventListener('click', () => {
-    window.location.reload();
-});
 
 function rotateUserStats() {
     const stats = [
@@ -695,25 +692,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// function addAppTips() {
-//     const newReleasesList = document.getElementById('newReleasesList');
-//
-//     // App Tips Section
-//     const tipsSection = document.createElement('div');
-//     tipsSection.innerHTML = `
-//         <h5 style="font-size: 16px; margin-top: 20px;">Tips to Get More from MovieVerse:</h5>
-//         <ul style="list-style: inside; padding-left: 0;">
-//             <li>Explore Curated Lists for new discoveries.</li>
-//             <li>Create and manage your Movie Watchlists.</li>
-//             <li>Rate movies and write reviews to get personalized recommendations.</li>
-//             <li>Use the MovieBot Chat for quick help and info about movies.</li>
-//             <li>Check out the Cinematic Timeline to explore movies by era.</li>
-//         </ul>
-//         <p>For more details, visit our <a href="https://movie-verse.com" target="_blank" style="color: white;">website</a>.</p>
-//     `;
-//     newReleasesList.appendChild(tipsSection);
-// }
-
 function addCloseButton() {
     const newReleasesList = document.getElementById('newReleasesList');
     const closeButton = document.createElement('button');
@@ -743,9 +721,12 @@ async function fetchNewReleases() {
 
         newReleasesList.innerHTML = '<h4 style="font-size: 18px">Notifications</h4><h5 style="font-size: 16px; margin-bottom: 0; margin-top: 10px">New Releases Since Your Last Visit:</h5>';
 
+        let newReleaseFound = false;
+
         movies.forEach(movie => {
             const releaseDate = new Date(movie.release_date);
             if (releaseDate > lastVisitDate) {
+                newReleaseFound = true;
                 const li = document.createElement('li');
                 const a = document.createElement('a');
                 a.textContent = movie.title;
@@ -762,15 +743,25 @@ async function fetchNewReleases() {
             }
         });
 
+        if (!newReleaseFound) {
+            const noNewReleasesMsg = document.createElement('p');
+            noNewReleasesMsg.textContent = 'No new releases since your last visit.';
+            noNewReleasesMsg.style.textAlign = 'center';
+            noNewReleasesMsg.style.color = 'white';
+            noNewReleasesMsg.style.fontSize = '13.5px';
+            noNewReleasesMsg.style.marginTop = '20px';
+            newReleasesList.appendChild(noNewReleasesMsg);
+        }
+
         localStorage.setItem('lastVisit', new Date().toISOString());
     }
+        
     catch (error) {
         console.error('Error fetching new releases:', error);
         newReleasesList.innerHTML = '<li>Error fetching new releases.</li>';
     }
 
     addCloseButton();
-    // addAppTips();
 }
 
 if (!localStorage.getItem('lastVisit')) {

@@ -1,6 +1,14 @@
 const form = document.getElementById('form');
 const IMGPATH = "https://image.tmdb.org/t/p/w1280";
 
+function showSpinner() {
+    document.getElementById('myModal').classList.add('modal-visible');
+}
+
+function hideSpinner() {
+    document.getElementById('myModal').classList.remove('modal-visible');
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     showResults('movie');
     updateCategoryButtonStyles('movie');
@@ -243,6 +251,7 @@ function getMovieVerseData(input) {
 }
 
 async function showResults(category) {
+    showSpinner();
     localStorage.setItem('selectedCategory', category);
     const searchQuery = localStorage.getItem('searchQuery');
     const movieName = `${getMovieCode()}`;
@@ -266,14 +275,17 @@ async function showResults(category) {
         const data = await response.json();
         const sortedResults = data.results.sort((a, b) => b.popularity - a.popularity);
         displayResults(sortedResults, category, searchQuery);
+        hideSpinner();
     }
     catch (error) {
         console.error('Error fetching search results:', error);
         document.querySelector('.movie-match-container1').innerHTML = '<p>Error fetching results. Please try again later.</p>';
+        hideSpinner();
     }
 
     updateBrowserURL(searchQuery);
     document.title = `Search Results for "${searchQuery}" - The MovieVerse`;
+    hideSpinner();
 }
 
 document.querySelector('button[onclick="showResults(\'movie\')"]').addEventListener('click', function() {
@@ -381,11 +393,11 @@ function showMovies(items, container, category) {
                     const personDetails = await response.json();
                     if (personDetails.known_for_department === 'Directing') {
                         localStorage.setItem('selectedDirectorId', id);
-                        window.location.href = 'director-details.html?id=' + id;
+                        window.location.href = 'director-details.html?' + id;
                     }
                     else {
                         localStorage.setItem('selectedActorId', id);
-                        window.location.href = 'actor-details.html?id=' + id;
+                        window.location.href = 'actor-details.html?' + id;
                     }
                 }
                 catch (error) {

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 
 <head>
     <meta charset="UTF-8">
@@ -127,8 +127,8 @@
         </a>
 
         <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
-            <p id="stats-label" class="clock" style="font-size: 16px"></p>
-            <h1 id="stats-display" class="clock"></h1>
+            <p id="stats-label" class="clock" style="font-size: 16px;"></p>
+            <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
         </div>
 
         <button class="back-btn nav-btn" onclick="window.location.href='../../index.html'" title="Go back to homepage">Home</button>
@@ -138,7 +138,7 @@
             <span id="profileText">Profile</span>
             <i class="fas fa-user" id="profileIcon"></i>
         </button>
-        <form id="form1" style="margin-top: 19px">
+        <form id="form1">
             <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!"/>
             <button type="button" id="button-search" onclick="handleSearch()">Search</button>
         </form>
@@ -392,7 +392,14 @@
         }
     </script>
 
+    <footer style="margin-top: 650px">
+        <a href="../../index.html" style="cursor: pointer; text-decoration: none">
+            <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
+        </a>
+    </footer>
+
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js"></script>
+
 </body>
 </html>

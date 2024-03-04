@@ -1,3 +1,11 @@
+function showSpinner() {
+    document.getElementById('myModal').classList.add('modal-visible');
+}
+
+function hideSpinner() {
+    document.getElementById('myModal').classList.remove('modal-visible');
+}
+
 const movieCode = {
     part1: 'YzVhMjBjODY=',
     part2: 'MWFjZjdiYjg=',
@@ -91,6 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function fetchDirectorDetails(directorId) {
+    showSpinner();
     const directorUrl = `https://${getMovieVerseData()}/3/person/${directorId}?${generateMovieNames()}${getMovieCode()}`;
     const creditsUrl = `https://${getMovieVerseData()}/3/person/${directorId}/movie_credits?${generateMovieNames()}${getMovieCode()}`;
     try {
@@ -109,10 +118,12 @@ async function fetchDirectorDetails(directorId) {
             updateBrowserURL(director.name);
             populateDirectorDetails(director, credits);
         }
+        hideSpinner();
     }
     catch (error) {
         console.error('Error fetching director details:', error);
         document.getElementById('director-details-container').innerHTML = '<h2>Error fetching director details</h2>';
+        hideSpinner();
     }
 }
 

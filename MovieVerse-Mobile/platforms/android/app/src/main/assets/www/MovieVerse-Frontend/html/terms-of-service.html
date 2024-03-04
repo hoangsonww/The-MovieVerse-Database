@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 
 <head>
     <meta charset="UTF-8">
@@ -102,8 +102,8 @@
         </a>
 
         <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
-            <p id="stats-label" class="clock" style="font-size: 16px"></p>
-            <h1 id="stats-display" class="clock"></h1>
+            <p id="stats-label" class="clock" style="font-size: 16px;"></p>
+            <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
         </div>
 
         <button class="back-btn" onclick="window.location.href='../../index.html'">Home</button>
@@ -184,7 +184,7 @@
 
         <div style="text-align: center;  ">
             <h2 style="color: white">Governing Law</h2>
-            <p>These Terms shall be governed and construed in accordance with the laws of the country where The MovieVerse is based (the United States), without regard to its conflict of law provisions.</p>
+            <p>These Terms shall be governed and construed in accordance with the laws of the country where The MovieVerse is based (the United States of America), without regard to its conflict of law provisions.</p>
             <p>Our failure to enforce any right or provision of these Terms will not be considered a waiver of those rights. If any provision of these Terms is held to be invalid or unenforceable by a court, the remaining provisions of these Terms will remain in effect.</p>
         </div>
 
@@ -482,8 +482,11 @@
     </script>
 
     <footer>
-        <p>© 2024 The MovieVerse. All rights reserved.</p>
+        <a href="../../index.html" style="cursor: pointer; text-decoration: none">
+            <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
+        </a>
     </footer>
+
 </body>
 
 </html>
