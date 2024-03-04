@@ -38,7 +38,7 @@ Once you have installed Emscripten, you can compile C files to WebAssembly. Here
    Navigate to the project directory and run:
 
    ```bash
-   emcc -o applyFilterToVideo.wasm utils/applyFilterToVideo.c -O3 -s WASM=1
+   emcc -o applyFilterToVideo.wasm utilities/applyFilterToVideo.c -O3 -s WASM=1
    ```
 
 2. **Inverting Colors in Video:**
@@ -46,7 +46,7 @@ Once you have installed Emscripten, you can compile C files to WebAssembly. Here
    Run this command in the project directory:
 
    ```bash
-   emcc -o utils/colorInvertingVideo.wasm utils/colorInvertingVideo.c -O3 -s WASM=1 -s EXPORTED_FUNCTIONS='["_processVideoFrame", "_main"]'
+   emcc -o utilities/colorInvertingVideo.wasm utilities/colorInvertingVideo.c -O3 -s WASM=1 -s EXPORTED_FUNCTIONS='["_processVideoFrame", "_main"]'
    ```
 
 3. **Redrawing Image:**
@@ -54,7 +54,7 @@ Once you have installed Emscripten, you can compile C files to WebAssembly. Here
    For resizing and redrawing images, use:
 
    ```bash
-   emcc -o utils/redrawImage.wasm utils/redrawImage.c -O3 -s WASM=1 -s EXPORTED_FUNCTIONS='["_resizeImage", "_main"]'
+   emcc -o utilities/redrawImage.wasm utilities/redrawImage.c -O3 -s WASM=1 -s EXPORTED_FUNCTIONS='["_resizeImage", "_main"]'
    ```
 
 4. **Applying Filter to Image:**
@@ -62,7 +62,7 @@ Once you have installed Emscripten, you can compile C files to WebAssembly. Here
    For applying filters to images, use:
 
    ```bash
-   emcc -o utils/imageFilter.wasm utils/imageFilter.c -O3 -s WASM=1 -s EXPORTED_FUNCTIONS='["_applyGrayscaleFilter", "_main"]'
+   emcc -o utilities/imageFilter.wasm utilities/imageFilter.c -O3 -s WASM=1 -s EXPORTED_FUNCTIONS='["_applyGrayscaleFilter", "_main"]'
    ```
 
 5. **Enhance Images:**
@@ -70,7 +70,7 @@ Once you have installed Emscripten, you can compile C files to WebAssembly. Here
    For enhancing images, use:
 
    ```bash
-   emcc -o utils/imageEnhancer.wasm utils/imageEnhancer.c -O3 -s WASM=1 -s EXPORTED_FUNCTIONS='["_enhanceBrightness", "_main"]'
+   emcc -o utilities/imageEnhancer.wasm utilities/imageEnhancer.c -O3 -s WASM=1 -s EXPORTED_FUNCTIONS='["_enhanceBrightness", "_main"]'
    ```
 
 ## Notes:

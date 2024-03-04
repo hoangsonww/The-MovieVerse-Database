@@ -378,7 +378,7 @@ module.exports = {
 // file: MovieVerse-Frontend/common/argscheck.js
 define("cordova/argscheck", function(require, exports, module) {
 
-var utils = require('cordova/utils');
+var utils = require('cordova/utilities');
 
 var moduleExports = module.exports;
 
@@ -537,7 +537,7 @@ function uint8ToBase64 (rawData) {
 // file: MovieVerse-Frontend/common/builder.js
 define("cordova/builder", function(require, exports, module) {
 
-var utils = require('cordova/utils');
+var utils = require('cordova/utilities');
 
 function each (objects, func, context) {
     for (var prop in objects) {
@@ -653,7 +653,7 @@ exports.assignOrWrapInDeprecateGetter = assignOrWrapInDeprecateGetter;
 // file: MovieVerse-Frontend/common/channel.js
 define("cordova/channel", function(require, exports, module) {
 
-var utils = require('cordova/utils');
+var utils = require('cordova/utilities');
 var nextGuid = 1;
 
 /**
@@ -930,7 +930,7 @@ define("cordova/exec", function(require, exports, module) {
  */
 var cordova = require('cordova');
 var nativeApiProvider = require('cordova/android/nativeapiprovider');
-var utils = require('cordova/utils');
+var utils = require('cordova/utilities');
 var base64 = require('cordova/base64');
 var channel = require('cordova/channel');
 var jsToNativeModes = {
@@ -1752,8 +1752,8 @@ exports.makeAbsolute = function makeAbsolute (url) {
 
 });
 
-// file: MovieVerse-Frontend/common/utils.js
-define("cordova/utils", function(require, exports, module) {
+// file: MovieVerse-Frontend/common/utilities.js
+define("cordova/utilities", function(require, exports, module) {
 
 var utils = exports;
 
