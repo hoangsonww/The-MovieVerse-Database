@@ -38,9 +38,9 @@ A comprehensive SQL script that defines the entire database schema for the Movie
 
 Contains SQL scripts related to user management features. This includes user roles, permissions, account settings, and other functionalities necessary for user account handling.
 
-### Other files
+### firebase.json
 
-There may be other database config files as we work to scale the app up. We'll add their documentation as soon as possible!
+A configuration file for Firebase, containing settings and rules for the Firebase Realtime Database. It defines the access rules, security settings, and other configurations for the Firebase database.
 
 ## Using these Files
 
