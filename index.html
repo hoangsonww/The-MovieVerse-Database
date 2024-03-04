@@ -511,6 +511,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const searchBar = document.getElementById('search');
+            const searchButton = document.getElementById('button-search');
             const myHeading = document.getElementById('my-heading');
             const localTime = document.getElementById('local-time');
 
@@ -518,17 +519,16 @@
                 const query = searchBar.value.trim();
                 if (query) {
                     if (window.innerWidth > 800) {
-                        myHeading.style.display = 'none';
-                        localTime.style.display = 'none';
+                        myHeading.style.position = 'fixed';
+                        myHeading.style.top = '28px';
+                        localTime.style.position = 'fixed';
+                        localTime.style.left = '44.72%';
+                        localTime.style.top = '19px';
+                        localTime.style.zIndex = '0.0 !important';
+                        myHeading.style.zIndex = '0.05';
+                        searchBar.style.marginTop = '16px';
+                        searchButton.style.marginTop = '16px';
                     }
-                    else {
-                        myHeading.style.display = '';
-                        localTime.style.display = '';
-                    }
-                }
-                else {
-                    myHeading.style.display = '';
-                    localTime.style.display = '';
                 }
             }
 

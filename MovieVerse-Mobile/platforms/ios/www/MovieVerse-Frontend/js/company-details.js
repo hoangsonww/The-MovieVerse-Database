@@ -1,6 +1,14 @@
 const search = document.getElementById("search");
 const searchButton = document.getElementById("button-search");
 
+function showSpinner() {
+    document.getElementById('myModal').classList.add('modal-visible');
+}
+
+function hideSpinner() {
+    document.getElementById('myModal').classList.remove('modal-visible');
+}
+
 const movieCode = {
     part1: 'YzVhMjBjODY=',
     part2: 'MWFjZjdiYjg=',
@@ -332,6 +340,7 @@ function getMovieVerseData(input) {
 }
 
 async function fetchCompanyDetails(companyId) {
+    showSpinner();
     const url = `https://${getMovieVerseData()}/3/company/${companyId}?${generateMovieNames()}${getMovieCode()}`;
     try {
         const response = await fetch(url);
@@ -366,6 +375,7 @@ async function fetchCompanyDetails(companyId) {
         }
 
         updateBrowserURL(company.name);
+        hideSpinner();
     }
     catch (error) {
         console.error('Error fetching company details:', error);
@@ -374,6 +384,7 @@ async function fetchCompanyDetails(companyId) {
             <div style="display: flex; justify-content: center; align-items: center; height: 100vh; text-align: center; width: 100vw;">
                 <h2>Company details not found.</h2>
             </div>`;
+        hideSpinner();
     }
 }
 

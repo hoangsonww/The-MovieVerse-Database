@@ -1,4 +1,4 @@
-# MovieVerse App - The `MovieVerse-Frontend` directory
+# The MovieVerse - `MovieVerse-Frontend` directory
 
 Welcome to the MovieVerse app, your ultimate guide to the world of movies! This application is designed to help users explore and learn about their favorite movies, directors, actors, and more. Dive into an immersive experience with our comprehensive directory structure.
 
@@ -22,6 +22,7 @@ The HTML directory includes all the markup files necessary for the structure of 
 - `about.html`: Contains information about the MovieVerse app.
 - `analytics.html`: A page for viewing database analytics and user interactions.
 - `actor-details.html`: A detailed view of actor profiles.
+- `api-fails.html`: A page to display when the app's API fails.
 - `company-details.html`: Provides information about movie production companies.
 - `create-account.html`: Allows users to create an account on MovieVerse.
 - `chatbot.html`: A chatbot feature for interacting with users.
@@ -40,6 +41,8 @@ The HTML directory includes all the markup files necessary for the structure of 
 - `trivia.html`: A trivia game to test users' movie knowledge.
 - `tv-details.html`: Detailed information about TV shows.
 - `offline.html`: A page to display when the app is offline.
+- `support.html`: A page for users to seek support and assistance.
+- `feedback.html`: A page for users to provide feedback.
 - `404.html`: A 404 error page for when a page is not found.
 - `index.ejs`: The entry point for the app.
 
@@ -67,6 +70,7 @@ The JavaScript directory contains scripts that add interactivity and functionali
 - `trivia.js`: Script for the trivia game.
 - `user-profile.js`: Script for managing user profiles.
 - `single-spa-config.js`: Configuration file for the single-spa framework used in the app.
+- `systemjs-importmap.js`: Import map for the systemJS module loader.
 
 ### React Directory
 

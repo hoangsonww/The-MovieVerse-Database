@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 
 <head>
     <meta charset="UTF-8">
@@ -80,8 +80,8 @@
         </a>
 
         <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
-            <p id="stats-label" class="clock" style="font-size: 16px"></p>
-            <h1 id="stats-display" class="clock"></h1>
+            <p id="stats-label" class="clock" style="font-size: 16px;"></p>
+            <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
         </div>
 
         <button class="back-btn" onclick="window.location.href='../../index.html'">Home</button>
@@ -180,8 +180,33 @@
     </main>
 
     <footer>
-        <p>© 2024 The MovieVerse. All rights reserved.</p>
+        <a href="../../index.html" style="cursor: pointer; text-decoration: none">
+            <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved. Special thanks for The Movie Database (TMDb).</p>
+        </a>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            setAdaptiveBackgroundImage();
+        });
+
+        function setAdaptiveBackgroundImage() {
+            let backgroundImageUrl = '../../images/universe-1.png';
+
+            if ('connection' in navigator) {
+                switch (navigator.connection.effectiveType) {
+                    case '2g':
+                        backgroundImageUrl = '../../images/universe-1-very-low.png';
+                        break;
+                    case '3g':
+                        backgroundImageUrl = '../../images/universe-1-low.png';
+                        break;
+                }
+            }
+
+            document.body.style.backgroundImage = `url('${backgroundImageUrl}')`;
+        }
+    </script>
 
     <script>
         function getMovieVerseData(input) {
@@ -440,6 +465,7 @@
             if (triviaStats.totalAttempted === 0) {
                 return 'No trivia attempted';
             }
+
             let accuracy = (triviaStats.totalCorrect / triviaStats.totalAttempted) * 100;
             return `${accuracy.toFixed(1)}% accuracy`;
         }
@@ -491,4 +517,5 @@
     </script>
 
 </body>
+
 </html>

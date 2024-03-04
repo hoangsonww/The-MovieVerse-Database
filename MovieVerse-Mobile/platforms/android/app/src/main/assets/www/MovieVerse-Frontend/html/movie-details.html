@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 
 <head>
     <meta charset="UTF-8">
@@ -76,8 +76,8 @@
             </h1>
         </a>
         <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
-            <p id="stats-label" class="clock" style="font-size: 16px"></p>
-            <h1 id="stats-display" class="clock"></h1>
+            <p id="stats-label" class="clock" style="font-size: 16px;"></p>
+            <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
         </div>
         <button class="back-btn" onclick="window.location.href='../../index.html'">Home</button>
         <button class="about" onclick="window.location.href='about.html'">About</button>
@@ -105,6 +105,10 @@
     <main id="main" style="margin-left: 35px; height: 0">
 
     </main>
+
+    <div id="myModal" class="modal-overlay">
+        <div class="spinner"></div>
+    </div>
 
     <div class="details-container" id="movie-details-container">
         <!-- Left side for Title and Image -->
@@ -217,13 +221,37 @@
         });
     </script>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            setAdaptiveBackgroundImage();
+        });
+
+        function setAdaptiveBackgroundImage() {
+            let backgroundImageUrl = '../../images/universe-1.png';
+
+            if ('connection' in navigator) {
+                switch (navigator.connection.effectiveType) {
+                    case '2g':
+                        backgroundImageUrl = '../../images/universe-1-very-low.png';
+                        break;
+                    case '3g':
+                        backgroundImageUrl = '../../images/universe-1-low.png';
+                        break;
+                }
+            }
+
+            document.body.style.backgroundImage = `url('${backgroundImageUrl}')`;
+        }
+    </script>
+
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js"></script>
     <script src="../js/comments.js" type="module"></script>
 
     <footer>
-        <p>© 2024 The MovieVerse. All rights reserved.</p>
+        <a href="../../index.html" style="cursor: pointer; text-decoration: none">
+            <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
+        </a>
     </footer>
-
 </body>
 </html>

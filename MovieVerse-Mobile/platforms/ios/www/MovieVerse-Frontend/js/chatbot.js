@@ -304,7 +304,7 @@ function sendInitialInstructions() {
         <div style="text-align: left">
             <span style="color: #ff8623;">MovieVerse Assistant:</span>
             <span style="display: inline-block; text-align: left; color: #fff;">
-                Welcome to MovieVerse Assistant! Here's how you can use me:
+                Welcome to MovieVerse Assistant! Here's how to get started:
             </span>
         </div>
         <ul style="text-align: left; margin-bottom: 10px; color: #fff;">

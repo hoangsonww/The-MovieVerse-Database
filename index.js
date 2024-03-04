@@ -37,6 +37,7 @@ function hideSpinner() {
 
 async function getMovies(url, mainElement) {
     showSpinner();
+
     const numberOfMovies = calculateMoviesToDisplay();
     const pagesToFetch = numberOfMovies <= 20 ? 1 : 2;
     let allMovies = [];
@@ -71,6 +72,7 @@ function showMovies(movies, mainElement) {
     movies.forEach(movie => {
         const { id, poster_path, title, vote_average, overview } = movie;
         const movieEl = document.createElement('div');
+        movieEl.style.zIndex = '1000';
         movieEl.classList.add('movie');
         const movieImage = poster_path
             ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`

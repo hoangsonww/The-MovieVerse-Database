@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+
 <head>
     <meta charset="UTF-8">
     <title>Company Details - The MovieVerse</title>
@@ -8,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta property="og:title" content="The MovieVerse - Your Ultimate Movie Guide" />
     <meta name="description" content="Explore detailed insights about the movie production companies on The MovieVerse. Discover films produced by them, their history, and significant contributions to cinema.">
-    <link rel="canonical" href="https://movie-verse.com/MovieVerse-Frontend/html/company-details">
+    <link rel="canonical" href="https://movie-verse.com/MovieVerse-Frontend/html/company-details.html">
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
     <meta http-equiv="content-language" content="en" />
@@ -71,8 +72,8 @@
             </h1>
         </a>
         <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
-            <p id="stats-label" class="clock" style="font-size: 16px"></p>
-            <h1 id="stats-display" class="clock"></h1>
+            <p id="stats-label" class="clock" style="font-size: 16px;"></p>
+            <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
         </div>
         <button class="back-btn" onclick="window.location.href='../../index.html'">Home</button>
         <button class="about" onclick="window.location.href='about.html'">About</button>
@@ -95,6 +96,10 @@
     <div class="genres" style="margin-left: 25px; margin-top: 5px">
         <h2 id="search-title"></h2>
         <button id="clear-search-btn" style="display: none;">Clear Search Results</button>
+    </div>
+
+    <div id="myModal" class="modal-overlay">
+        <div class="spinner"></div>
     </div>
 
     <main id="main" style="margin-left: 25px; height: 0">
@@ -167,6 +172,12 @@
             }
         });
     </script>
+
+    <footer style="margin-top: 700px">
+        <a href="../../index.html" style="cursor: pointer; text-decoration: none">
+            <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
+        </a>
+    </footer>
 
 </body>
 

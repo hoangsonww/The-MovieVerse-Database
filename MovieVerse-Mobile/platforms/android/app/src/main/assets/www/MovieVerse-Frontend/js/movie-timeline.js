@@ -1,16 +1,27 @@
 document.getElementById('load-movies').addEventListener('click', updateMovies);
 
-document.getElementById('start-year').addEventListener('keypress', function(event) {
-    if (event.keyCode === 13) {
+function showSpinner() {
+    document.getElementById('myModal').classList.add('modal-visible');
+}
+
+function hideSpinner() {
+    document.getElementById('myModal').classList.remove('modal-visible');
+}
+
+document.getElementById('start-year').addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
         updateMovies();
     }
 });
 
-document.getElementById('end-year').addEventListener('keypress', function(event) {
-    if (event.keyCode === 13) {
+document.getElementById('end-year').addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
         updateMovies();
     }
 });
+
 
 const movieCode = {
     part1: 'YzVhMjBjODY=',
@@ -247,14 +258,17 @@ function handleSearch() {
 }
 
 function updateMovies() {
+    showSpinner();
     let startYear = document.getElementById('start-year').value;
     let endYear = document.getElementById('end-year').value;
     let currentYear = new Date().getFullYear();
     if (startYear && endYear && startYear <= endYear && endYear <= currentYear) {
         fetchMoviesByTimePeriod(startYear, endYear);
+        hideSpinner();
     }
     else {
         alert('Please ensure the start year is before the end year, and both are not later than the current year.');
+        hideSpinner();
     }
 }
 
