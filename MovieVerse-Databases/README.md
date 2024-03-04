@@ -46,9 +46,17 @@ A configuration file for Firebase, containing settings and rules for the Firebas
 
 A configuration file for Firestore, containing indexes and settings for the Firestore database. It defines the indexes, sorting, and other configurations for the Firestore database.
 
+### firestore.rules
+
+A configuration file for Firestore, containing access rules and settings for the Firestore database. It defines the access rules, security settings, and other configurations for the Firestore database.
+
 ### storage.rules
 
 A configuration file for Firebase Storage, containing access rules and settings for the Firebase Storage service. It defines the access rules, security settings, and other configurations for the Firebase Storage.
+
+### test_api_db.py
+
+A Python script for testing the API and database connections. It includes sample queries, data retrieval, and other operations to test the database connections and API endpoints.
 
 ## Using these Files
 
