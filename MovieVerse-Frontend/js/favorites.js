@@ -1,6 +1,9 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js';
 import { getFirestore, doc, setDoc, collection, updateDoc, getDocs, getDoc, query, where, orderBy, writeBatch, deleteDoc } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js';
 
+let initialMoviesSelection = [];
+let initialTVSeriesSelection = [];
+
 function translateFBC(value) {
     return atob(value);
 }
@@ -439,6 +442,7 @@ async function populateCreateModalWithFavorites() {
 }
 
 document.getElementById('create-watchlist-form').addEventListener('submit', async function(e) {
+    showSpinner();
     e.preventDefault();
 
     const name = document.getElementById('new-watchlist-name').value;
@@ -480,6 +484,7 @@ document.getElementById('create-watchlist-form').addEventListener('submit', asyn
 
     closeModal('create-watchlist-modal');
     loadWatchLists();
+    hideSpinner();
     window.location.reload();
 });
 
@@ -497,7 +502,7 @@ async function getTVSeriesTitle(seriesId) {
     }
 }
 
-function appendCheckbox(container, id, title, name) {
+function appendCheckbox(container, id, title, name, isChecked = false) {
     const item = document.createElement('div');
     item.classList.add('favorite-item');
     item.style.display = 'flex';
@@ -508,6 +513,7 @@ function appendCheckbox(container, id, title, name) {
     checkbox.id = `${name}-${id}`;
     checkbox.value = id;
     checkbox.name = name;
+    checkbox.checked = isChecked;
 
     const label = document.createElement('label');
     label.htmlFor = `${name}-${id}`;
@@ -636,27 +642,35 @@ async function populateEditModal() {
         moviesContainer.innerHTML = '';
         tvSeriesContainer.innerHTML = '';
 
+        initialMoviesSelection = watchlist.movies.slice();
+        initialTVSeriesSelection = watchlist.tvSeries.slice();
+
         if (!favoritesMovies || favoritesMovies.length === 0) {
             moviesContainer.innerHTML = '<p style="margin-top: 20px">No Favorite Movies Added Yet.</p>';
-        } else {
+        }
+        else {
             for (const movieId of favoritesMovies) {
                 const movieTitle = await getMovieTitle(movieId);
-                appendCheckbox(moviesContainer, movieId, movieTitle, 'favoritedMovies');
+                const isChecked = watchlist.movies.includes(movieId);
+                appendCheckbox(moviesContainer, movieId, movieTitle, 'favoritedMovies', isChecked);
             }
         }
 
         if (!favoritesTVSeries || favoritesTVSeries.length === 0) {
             tvSeriesContainer.innerHTML = '<p style="margin-top: 20px">No Favorite TV Series Added Yet.</p>';
-        } else {
+        }
+        else {
             for (const seriesId of favoritesTVSeries) {
                 const seriesTitle = await getTVSeriesTitle(seriesId);
-                appendCheckbox(tvSeriesContainer, seriesId, seriesTitle, 'favoritedTVSeries');
+                const isChecked = watchlist.tvSeries.includes(seriesId);
+                appendCheckbox(tvSeriesContainer, seriesId, seriesTitle, 'favoritedTVSeries', isChecked);
             }
         }
     };
 
     select.addEventListener('change', function () {
-        updateForm(watchlists[this.value]);
+        const selectedWatchlist = watchlists.find(watchlist => watchlist.id === this.value);
+        updateForm(selectedWatchlist);
     });
 
     selectLabel.addEventListener('click', function () {
@@ -681,6 +695,8 @@ async function populateEditModal() {
 }
 
 document.getElementById('edit-watchlist-form').addEventListener('submit', async function(e) {
+    showSpinner();
+
     e.preventDefault();
 
     const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
@@ -688,8 +704,29 @@ document.getElementById('edit-watchlist-form').addEventListener('submit', async 
     const watchlistId = selectedOption.value;
     const newName = document.getElementById('edit-watchlist-name').value;
     const newDescription = document.getElementById('edit-watchlist-description').value;
-    const selectedMovies = Array.from(document.querySelectorAll('#edit-movies-container input[type="checkbox"]:checked')).map(checkbox => checkbox.value);
-    const selectedTVSeries = Array.from(document.querySelectorAll('#edit-tvseries-container input[type="checkbox"]:checked')).map(checkbox => checkbox.value);
+
+    let selectedMovies;
+    let selectedTVSeries;
+
+    const currentMoviesSelection = Array.from(document.querySelectorAll('#edit-movies-container input[type="checkbox"]:checked')).map(checkbox => checkbox.value);
+    const currentTVSeriesSelection = Array.from(document.querySelectorAll('#edit-tvseries-container input[type="checkbox"]:checked')).map(checkbox => checkbox.value);
+
+    const moviesSelectionChanged = !(initialMoviesSelection.length === currentMoviesSelection.length && initialMoviesSelection.every(value => currentMoviesSelection.includes(value)));
+    const tvSeriesSelectionChanged = !(initialTVSeriesSelection.length === currentTVSeriesSelection.length && initialTVSeriesSelection.every(value => currentTVSeriesSelection.includes(value)));
+
+    if (moviesSelectionChanged) {
+        selectedMovies = currentMoviesSelection;
+    }
+    else {
+        selectedMovies = initialMoviesSelection;
+    }
+
+    if (tvSeriesSelectionChanged) {
+        selectedTVSeries = currentTVSeriesSelection;
+    }
+    else {
+        selectedTVSeries = initialTVSeriesSelection;
+    }
 
     if (currentUserEmail) {
         const watchlistRef = doc(db, 'watchlists', watchlistId);
@@ -717,6 +754,7 @@ document.getElementById('edit-watchlist-form').addEventListener('submit', async 
 
     closeModal('edit-watchlist-modal');
     loadWatchLists();
+    hideSpinner();
     window.location.reload();
 });
 
@@ -759,6 +797,7 @@ async function populateDeleteModal() {
 }
 
 async function deleteSelectedWatchlists() {
+    showSpinner();
     const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
     const selectedCheckboxes = document.querySelectorAll('#delete-watchlist-checkboxes-container input[type="checkbox"]:checked');
     const selectedIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.value);
@@ -776,55 +815,11 @@ async function deleteSelectedWatchlists() {
 
     closeModal('delete-watchlist-modal');
     loadWatchLists();
+    hideSpinner();
     window.location.reload();
 }
 
 document.getElementById('delete-watchlist-btn').addEventListener('click', populateDeleteModal);
-
-async function updateWatchListsDisplay() {
-    const watchlists = JSON.parse(localStorage.getItem('localWatchlists')) || [];
-    const displaySection = document.getElementById('watchlists-display-section');
-    displaySection.innerHTML = '';
-
-    if (watchlists.length === 0) {
-        displaySection.innerHTML = '<p>No watch lists found. Start adding movies and TV series to your watchlists.</p>';
-        return;
-    }
-
-    for (const watchlist of watchlists) {
-        const watchlistDiv = document.createElement('div');
-        watchlistDiv.className = 'watchlist';
-
-        const title = document.createElement('h3');
-        title.innerText = watchlist.name;
-
-        const description = document.createElement('p');
-        description.innerText = watchlist.description;
-
-        watchlistDiv.appendChild(title);
-        watchlistDiv.appendChild(description);
-
-        if (watchlist.movies && watchlist.movies.length > 0) {
-            const moviesContainer = document.createElement('div');
-            for (const movieId of watchlist.movies) {
-                const movieCard = await fetchMovieDetails(movieId);
-                moviesContainer.appendChild(movieCard);
-            }
-            watchlistDiv.appendChild(moviesContainer);
-        }
-
-        if (watchlist.tvSeries && watchlist.tvSeries.length > 0) {
-            const seriesContainer = document.createElement('div');
-            for (const seriesId of watchlist.tvSeries) {
-                const seriesCard = await fetchTVSeriesDetails(seriesId);
-                seriesContainer.appendChild(seriesCard);
-            }
-            watchlistDiv.appendChild(seriesContainer);
-        }
-
-        displaySection.appendChild(watchlistDiv);
-    }
-}
 
 async function fetchMovieDetails(movieId) {
     const code = `${getMovieCode()}`;
@@ -1024,6 +1019,8 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 async function loadWatchLists() {
+    showSpinner();
+
     const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
     const displaySection = document.getElementById('watchlists-display-section');
 
@@ -1150,6 +1147,8 @@ async function loadWatchLists() {
         favoritesDiv.innerHTML = '<div style="text-align: center"><h3 style="text-align: center; font-size: 24px; color: #ff8623">Favorite TV Series</h3><p style="text-align: center">No favorite TV series added yet.</p></div>';
         displaySection.appendChild(favoritesDiv);
     }
+
+    hideSpinner();
 }
 
 async function fetchTVSeriesDetails(tvSeriesId) {
@@ -1411,11 +1410,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (savedBg) {
             document.body.style.backgroundImage = `url('${savedBg}')`;
         }
+
         if (savedTextColor) {
             document.querySelectorAll('h1, h2, h3, p, a, span, div, button, input, select, textarea, label, li').forEach(element => {
                 element.style.color = savedTextColor;
             });
         }
+
         if (savedFontSize) {
             const size = savedFontSize === 'small' ? '12px' : savedFontSize === 'medium' ? '16px' : '20px';
             document.body.style.fontSize = size;

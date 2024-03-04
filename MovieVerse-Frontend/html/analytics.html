@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+
 <head>
     <meta charset="UTF-8">
     <title>Analytics - The MovieVerse</title>
@@ -68,8 +69,8 @@
         </a>
 
         <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
-            <p id="stats-label" class="clock" style="font-size: 16px"></p>
-            <h1 id="stats-display" class="clock"></h1>
+            <p id="stats-label" class="clock" style="font-size: 16px;"></p>
+            <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
         </div>
 
         <button class="back-btn nav-btn" onclick="window.location.href='../../index.html'" title="Go back to homepage">Home</button>
@@ -99,6 +100,9 @@
     <div>
         <h1 class="chart-title">The MovieVerse Analytics</h1>
         <p class="chart-description">Here are some interesting and interactive insights about our MovieVerse Database!</p>
+    </div>
+    <div id="myModal" class="modal-overlay">
+        <div class="spinner"></div>
     </div>
     <div class="chart-container" style="margin-bottom: 200px">
         <div class="chart-box">
@@ -142,7 +146,10 @@
     <script src="../js/analytics.js"></script>
 
     <footer>
-        <p>© 2024 The MovieVerse. All rights reserved.</p>
+        <a href="../../index.html" style="cursor: pointer; text-decoration: none">
+            <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
+        </a>
     </footer>
+
 </body>
 </html>
