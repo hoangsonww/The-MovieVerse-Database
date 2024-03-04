@@ -69,6 +69,8 @@ The MovieVerse is a full-stack application with a robust backend and a user-frie
 2. `MovieVerse-Frontend`: The frontend directory contains the client-side code, including the user interface, user experience, and client configuration.
 3. `MovieVerse-Mobile`: The mobile app directory contains the mobile application code, including the mobile user interface, user experience, and mobile client configuration.
 
+There are also additional directories and files for project configuration, testing, and other utilities. The project is built using a variety of technologies, including `.github`, `utilities`, `project-config`, `MovieVerse-APIs`, `MovieVerse-Databases`, `MovieVerse-Middleware`, `images`, and more. Each directory serves a specific purpose in the development, deployment, and maintenance of The MovieVerse application.
+
 ## Technology Stack
 
 | Frontend Technologies                                           | Backend Technologies                                            | Database Technologies                           | Mobile App Development                                            | Additional Technologies                                         |
