@@ -32,7 +32,7 @@ There is also a mobile version of The MovieVerse, which is developed using Apach
 
 **Search & Discover:**
 
-- **Search Functionality**: Find movies or TV shows by title, actor, director, or genre with ease.
+- **Search Functionality**: Find movies or TV shows by title, actor, director, or genre in our comprehensive database with ease.
 - **Movie Details Page**: View detailed information, including synopses, cast, crew, ratings, and reviews.
 - **Curated Lists**: Access collections of new releases, most popular, trending, genre-specific movies, and many more.
 
@@ -81,7 +81,7 @@ The MovieVerse is a full-stack application with a robust backend and a user-frie
 | [TypeScript](https://www.typescriptlang.org/)                   | [Python](https://www.python.org/)                               |                                                 |                                                                   | [Google Analytics](https://analytics.google.com/analytics/web/) |
 | [FontAwesome Icons](https://react-icons.github.io/react-icons/) | [Ruby on Rails](https://rubyonrails.org/)                       |                                                 |                                                                   | [ESLint](https://eslint.org/)                                   |
 | [SASS](https://sass-lang.com/)                                  | [C (Emscripten, WebAssembly)](https://emscripten.org/)          |                                                 |                                                                   | [Git](https://git-scm.com/)                                     |
-| [Single Spa](https://single-spa.js.org/)                        | [JavaScript](https://www.javascript.com/)                       |                                                 |                                                                   | [The Movie Database](https://www.themoviedb.org/)           |
+| [Single Spa](https://single-spa.js.org/)                        | [JavaScript](https://www.javascript.com/)                       |                                                 |                                                                   | [The Movie Database](https://www.themoviedb.org/)               |
 
 
 ## Contributing

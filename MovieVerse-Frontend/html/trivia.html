@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 
 <head>
     <meta charset="UTF-8">
@@ -103,13 +103,13 @@
         </button>
 
         <form id="form">
-            <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!" style="width: 216px"/>
+            <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!"/>
             <button type="button" id="button-search" onclick="handleSearch()">Search</button>
         </form>
     </header>
 
     <div>
-        <h1 id="trivia-label">Movie Trivia Quiz</h1>
+        <div style="font-weight: bold; font-size: 32px" id="trivia-label">Movie Trivia Quiz</div>
         <div class="button-container">
             <button id="clear-search-btn">Clear Search Results</button>
         </div>
@@ -175,7 +175,9 @@
     </script>
 
     <footer>
-        <p style="color: white">© 2024 The MovieVerse. All rights reserved.</p>
+        <a href="../../index.html" style="cursor: pointer; text-decoration: none">
+            <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
+        </a>
     </footer>
 </body>
 </html>

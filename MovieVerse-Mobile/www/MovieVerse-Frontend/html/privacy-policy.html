@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+
 
 <head>
     <meta charset="UTF-8">
@@ -98,8 +99,8 @@
         </a>
 
         <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
-            <p id="stats-label" class="clock" style="font-size: 16px"></p>
-            <h1 id="stats-display" class="clock"></h1>
+            <p id="stats-label" class="clock" style="font-size: 16px;"></p>
+            <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
         </div>
 
         <button class="back-btn" onclick="window.location.href='../../index.html'">Home</button>
@@ -128,7 +129,7 @@
 
     <main class="content-area" style="text-align: center">
         <div style="text-align: center; width: 100vw; margin-left: 10px">
-            <h1 id="privacy-header">Privacy Policy</h1>
+            <div style="font-weight: bold; font-size: 30px" id="privacy-header">Privacy Policy</div>
         </div>
 
         <div style="text-align: center;   ">
@@ -138,7 +139,7 @@
 
         <div style="text-align: center;   ">
             <h2 style="color: white">Consent</h2>
-            <p>By using our website, you hereby consent to our Privacy Policy and agree to its terms. For our Terms and Conditions, please visit the <a id="linkWeb" href="https://movie-verse.com/src/html/terms-of-service.html">Terms and Conditions</a> page.</p>
+            <p>By using our website, you hereby consent to our Privacy Policy and agree to its terms. For our Terms and Conditions, please visit the <a id="linkWeb" href="https://movie-verse.com/MovieVerse-Frontend/html/terms-of-service.html">Terms and Conditions</a> page.</p>
         </div>
 
         <div style="text-align: center;   ">
@@ -466,7 +467,9 @@
     </script>
 
     <footer>
-        <p>© 2024 The MovieVerse. All rights reserved.</p>
+        <a href="../../index.html" style="cursor: pointer; text-decoration: none">
+            <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
+        </a>
     </footer>
 
 </body>
