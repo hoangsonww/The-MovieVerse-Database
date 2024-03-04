@@ -42,6 +42,8 @@
     <script src="index.js" defer></script>
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <link rel="manifest" href="manifest.json">
+
+    <!-- Preload fonts -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap" rel="stylesheet"></noscript>
 
@@ -474,27 +476,6 @@
                     }
                 });
         }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            setAdaptiveBackgroundImage();
-        });
-
-        function setAdaptiveBackgroundImage() {
-            let backgroundImageUrl = 'images/universe-1.png';
-
-            if ('connection' in navigator) {
-                switch (navigator.connection.effectiveType) {
-                    case '2g':
-                        backgroundImageUrl = 'images/universe-1-very-low.png';
-                        break;
-                    case '3g':
-                        backgroundImageUrl = 'images/universe-1-low.png';
-                        break;
-                }
-            }
-
-            document.body.style.backgroundImage = `url('${backgroundImageUrl}')`;
-        }
     </script>
 
     <script>
@@ -655,6 +636,7 @@
 
             function displaySearchResults(results) {
                 showSpinner();
+
                 const resultsContainer = document.getElementById('search-results');
                 resultsContainer.innerHTML = '';
 
@@ -734,4 +716,5 @@
     </script>
 
 </body>
+
 </html>
