@@ -3,7 +3,7 @@ app:
   description: "Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more."
   language: en
   theme_color: "#7378c5"
-  author: Son Nguyen Hoang
+  author: Son Nguyen
 
 meta:
   viewport: "width=device-width, initial-scale=1.0"
@@ -52,3 +52,4 @@ paths:
   movie_timeline: "MovieVerse-Frontend/html/movie-timeline.html"
   chatbot: "MovieVerse-Frontend/html/chatbot.html"
   trivia: "./MovieVerse-Frontend/html/trivia.html"
+  
