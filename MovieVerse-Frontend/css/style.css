@@ -332,6 +332,7 @@ header h1 {
     top: 0;
     margin-left: 130px;
     border-radius: 8px;
+    z-index: 999;
 }
 
 .header2 {
@@ -356,6 +357,7 @@ header h1 {
     top: 0;
     margin-left: 41px;
     border-radius: 8px;
+    z-index: 999;
 }
 
 .movie-card {
@@ -1049,6 +1051,7 @@ p {
     padding-left: 10px;
     padding-right: 10px;
     box-sizing: border-box;
+    z-index: 999;
 }
 
 .favorites-btn:hover {
@@ -2841,7 +2844,7 @@ footer p:hover {
     border-radius: 5px;
     padding: 20px;
     width: 300px;
-    z-index: 100;
+    z-index: 1002;
     color: white;
 }
 
