@@ -37,6 +37,7 @@ function hideSpinner() {
 
 async function getMovies(url, mainElement) {
     showSpinner();
+
     const numberOfMovies = calculateMoviesToDisplay();
     const pagesToFetch = numberOfMovies <= 20 ? 1 : 2;
     let allMovies = [];
@@ -71,6 +72,7 @@ function showMovies(movies, mainElement) {
     movies.forEach(movie => {
         const { id, poster_path, title, vote_average, overview } = movie;
         const movieEl = document.createElement('div');
+        movieEl.style.zIndex = '1000';
         movieEl.classList.add('movie');
         const movieImage = poster_path
             ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
@@ -124,47 +126,40 @@ function rotateUserStats() {
             }
         },
         { label: "Most Visited Movie", getValue: getMostVisitedMovie },
-        { label: "Your Most Visited Director", getValue: getMostVisitedDirector },
-        { label: "Your Most Visited Actor", getValue: getMostVisitedActor },
+        { label: "Most Visited Director", getValue: getMostVisitedDirector },
+        { label: "Most Visited Actor", getValue: getMostVisitedActor },
         {
-            label: "Your Unique Movies Discovered",
+            label: "Movies Discovered",
             getValue: () => {
                 const viewedMovies = JSON.parse(localStorage.getItem('uniqueMoviesViewed')) || [];
                 return viewedMovies.length;
             }
         },
         {
-            label: "Your Favorited Movies",
+            label: "Favorite Movies",
             getValue: () => {
                 const favoritedMovies = JSON.parse(localStorage.getItem('favorites')) || [];
                 return favoritedMovies.length;
             }
         },
         {
-            label: "Your Most Common Favorited Genre",
+            label: "Favorite Genre",
             getValue: getMostCommonGenre
         },
-        { label: "Your Created Watchlists", getValue: () => localStorage.getItem('watchlistsCreated') || 0 },
-        { label: "Your Average Movie Rating", getValue: () => localStorage.getItem('averageMovieRating') || 'Not Rated' },
+        { label: "Watchlists Created", getValue: () => localStorage.getItem('watchlistsCreated') || 0 },
+        { label: "Average Movie Rating", getValue: () => localStorage.getItem('averageMovieRating') || 'Not Rated' },
         {
-            label: "Your Unique Directors Discovered",
+            label: "Directors Discovered",
             getValue: () => {
                 const viewedDirectors = JSON.parse(localStorage.getItem('uniqueDirectorsViewed')) || [];
                 return viewedDirectors.length;
             }
         },
         {
-            label: "Your Unique Actors Discovered",
+            label: "Actors Discovered",
             getValue: () => {
                 const viewedActors = JSON.parse(localStorage.getItem('uniqueActorsViewed')) || [];
                 return viewedActors.length;
-            }
-        },
-        {
-            label: "Your Unique Production Companies Discovered",
-            getValue: () => {
-                const viewedCompanies = JSON.parse(localStorage.getItem('uniqueCompaniesViewed')) || [];
-                return viewedCompanies.length;
             }
         },
         { label: "Your Trivia Accuracy", getValue: getTriviaAccuracy },
@@ -519,6 +514,7 @@ function showMoviesDirectorSpotlight(movies) {
         const { id, poster_path, title, vote_average, overview } = movie;
         const movieE1 = document.createElement('div');
         movieE1.classList.add('movie');
+        movieE1.style.zIndex = '1000';
 
         const movieImage = poster_path
             ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`

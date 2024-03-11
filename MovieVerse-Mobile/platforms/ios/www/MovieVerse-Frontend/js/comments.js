@@ -68,6 +68,7 @@ let totalPages = 1;
 async function fetchComments() {
     const commentsContainer = document.getElementById("comments-container");
     commentsContainer.innerHTML = '';
+    commentsContainer.style.maxWidth = "100%";
     const movieId = localStorage.getItem("selectedMovieId");
 
     const q = query(collection(db, "comments"), where("movieId", "==", movieId), orderBy("commentDate", "desc"));
@@ -98,7 +99,19 @@ async function fetchComments() {
                 const commentElement = document.createElement("div");
 
                 commentElement.title = `Posted at ${formattedTime} ${utcOffset}`;
-                commentElement.innerHTML = `<p><strong>${comment.userName}</strong> on ${formattedDate}: <em>${comment.userComment}</em></p>`;
+                const commentStyle = `
+                    max-width: 100%;
+                    word-wrap: break-word;
+                    overflow-wrap: break-word;
+                    margin-bottom: 1rem; // Add some space between comments
+                `;
+                commentElement.style.cssText = commentStyle;
+                commentElement.innerHTML = `
+                    <p>
+                        <strong>${comment.userName}</strong> on ${formattedDate}: 
+                        <em>${comment.userComment}</em>
+                    </p>
+                `;
                 commentsContainer.appendChild(commentElement);
                 displayedComments++;
             }

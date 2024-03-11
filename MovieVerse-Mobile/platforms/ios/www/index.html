@@ -42,6 +42,8 @@
     <script src="index.js" defer></script>
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <link rel="manifest" href="manifest.json">
+
+    <!-- Preload fonts -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap" rel="stylesheet"></noscript>
 
@@ -147,7 +149,7 @@
 
         <form id="form">
             <div class="search-container">
-                <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!" />
+                <input type="text" id="search" placeholder="Search For Films, Actors..." style="width: 250px; margin-right: 5px" class="search" title="Search for movies, actors, TV series, and more!" />
                 <button type="button" id="button-search" onclick="handleSearch()">Search</button>
             </div>
             <div id="search-results" class="search-results"></div>
@@ -164,10 +166,9 @@
         <div id="notificationModal" class="notification-modal" style="display: none;">
             <ul id="newReleasesList"></ul>
         </div>
-
     </header>
 
-    <nav id="side-nav" class="side-nav">
+    <nav id="side-nav" class="side-nav" style="z-index: 1002;">
         <a id="heading-href" style="cursor: pointer">
             <div id="my-heading" style="margin-bottom: 15px; margin-left: 0; margin-top: 15px; font-size: 2.1em; font-weight: bold;">
                 The Mo<span class="highlight">vieV</span>erse Menu
@@ -359,13 +360,13 @@
         <p>© 2024 The MovieVerse. All rights reserved.</p>
     </footer>
 
-    <button id="settings-btn" style="position: fixed; bottom: 220px">Settings</button>
-    <button id="movie-match-btn" onclick="window.location.href='MovieVerse-Frontend/html/movie-match.html'" title="Find movies that match your mood and preferences!" style="bottom: 185px">Movie Match</button>
-    <button id="movie-timeline-btn" onclick="window.location.href='MovieVerse-Frontend/html/movie-timeline.html'" style="bottom: 150px" title="Explore movies through different eras!">Movie Timeline</button>
-    <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" style="bottom: 115px" title="Get a recommended movie to watch for today!">Recommendation</button>
-    <button id="discussions-btn" onclick="window.location.href='MovieVerse-Frontend/html/chatbot.html'" style="bottom: 80px" title="Want to know more about movies? Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
-    <button id="trivia-btn" onclick="window.location.href='MovieVerse-Frontend/html/trivia.html'" style="bottom: 45px" title="Play a quick trivia to test your knowledge about movies!">MovieVerse Trivia</button>
-    <button id="back-to-top-btn" style="bottom: 10px">Back To Top</button>
+    <button id="settings-btn" style="position: fixed; bottom: 220px; z-index: 1001">Settings</button>
+    <button id="movie-match-btn" onclick="window.location.href='MovieVerse-Frontend/html/movie-match.html'" title="Find movies that match your mood and preferences!" style="bottom: 185px; z-index: 1001">Movie Match</button>
+    <button id="movie-timeline-btn" onclick="window.location.href='MovieVerse-Frontend/html/movie-timeline.html'" style="bottom: 150px; z-index: 1001" title="Explore movies through different eras!">Movie Timeline</button>
+    <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" style="bottom: 115px; z-index: 1001" title="Get a recommended movie to watch for today!">Recommendation</button>
+    <button id="discussions-btn" onclick="window.location.href='MovieVerse-Frontend/html/chatbot.html'" style="bottom: 80px; z-index: 1001" title="Want to know more about movies? Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
+    <button id="trivia-btn" onclick="window.location.href='MovieVerse-Frontend/html/trivia.html'" style="bottom: 45px; z-index: 1001" title="Play a quick trivia to test your knowledge about movies!">MovieVerse Trivia</button>
+    <button id="back-to-top-btn" style="bottom: 10px; z-index: 1001">Back To Top</button>
 
     <script>
         document.getElementById('settings-btn').addEventListener('click', () => {
@@ -474,27 +475,6 @@
                     }
                 });
         }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            setAdaptiveBackgroundImage();
-        });
-
-        function setAdaptiveBackgroundImage() {
-            let backgroundImageUrl = 'images/universe-1.png';
-
-            if ('connection' in navigator) {
-                switch (navigator.connection.effectiveType) {
-                    case '2g':
-                        backgroundImageUrl = 'images/universe-1-very-low.png';
-                        break;
-                    case '3g':
-                        backgroundImageUrl = 'images/universe-1-low.png';
-                        break;
-                }
-            }
-
-            document.body.style.backgroundImage = `url('${backgroundImageUrl}')`;
-        }
     </script>
 
     <script>
@@ -511,6 +491,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const searchBar = document.getElementById('search');
+            const searchButton = document.getElementById('button-search');
             const myHeading = document.getElementById('my-heading');
             const localTime = document.getElementById('local-time');
 
@@ -518,17 +499,25 @@
                 const query = searchBar.value.trim();
                 if (query) {
                     if (window.innerWidth > 800) {
-                        myHeading.style.display = 'none';
-                        localTime.style.display = 'none';
-                    }
-                    else {
-                        myHeading.style.display = '';
-                        localTime.style.display = '';
+                        myHeading.style.position = 'fixed';
+                        myHeading.style.top = '28px';
+                        localTime.style.position = 'fixed';
+                        localTime.style.left = '44.4%';
+                        localTime.style.top = '19px';
+                        localTime.style.zIndex = '0.0 !important';
+                        myHeading.style.zIndex = '0.05';
+                        searchBar.style.marginTop = '16px';
+                        searchButton.style.marginTop = '16px';
                     }
                 }
                 else {
-                    myHeading.style.display = '';
-                    localTime.style.display = '';
+                    myHeading.style.position = '';
+                    myHeading.style.top = '';
+                    localTime.style.position = '';
+                    localTime.style.left = '';
+                    localTime.style.top = '';
+                    searchBar.style.marginTop = '';
+                    searchButton.style.marginTop = '';
                 }
             }
 
@@ -558,8 +547,14 @@
                 searchResultsContainer.innerHTML = '';
                 toggleButtons();
                 searchInput.focus();
-                myHeading.style.display = '';
-                localTime.style.display = '';
+
+                myHeading.style.position = '';
+                myHeading.style.top = '';
+                localTime.style.position = '';
+                localTime.style.left = '';
+                localTime.style.top = '';
+                searchInput.style.marginTop = '';
+                searchButton.style.marginTop = '';
             });
 
             toggleButtons();
@@ -569,8 +564,17 @@
     </script>
 
     <script>
+        function showSpinner() {
+            document.getElementById('myModal').classList.add('modal-visible');
+        }
+
+        function hideSpinner() {
+            document.getElementById('myModal').classList.remove('modal-visible');
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('search').addEventListener('input', function(e) {
+                showSpinner();
                 const viewAllResultsBtn = document.getElementById('view-all-results');
                 const searchInput = document.getElementById('search');
                 const query = e.target.value.trim();
@@ -624,9 +628,13 @@
                         alert('Please enter a search query.');
                     }
                 });
+
+                hideSpinner();
             });
 
             function displaySearchResults(results) {
+                showSpinner();
+
                 const resultsContainer = document.getElementById('search-results');
                 resultsContainer.innerHTML = '';
 
@@ -670,6 +678,8 @@
 
                     card.addEventListener('click', () => handleResultClick(item));
                 });
+
+                hideSpinner();
             }
 
             async function handleResultClick(item) {
