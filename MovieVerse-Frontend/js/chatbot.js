@@ -218,7 +218,6 @@ function calculateMoviesToDisplay() {
 
 function initializeChatbot() {
     const chatbotInput = document.getElementById("chatbotInput");
-    const chatbotBody = document.getElementById("chatbotBody");
     sendInitialInstructions();
     chatbotInput.addEventListener("keydown", function(event) {
         if (event.key === "Enter") {
@@ -232,20 +231,16 @@ function initializeChatbot() {
         sendMessage(chatbotInput.value);
         chatbotInput.value = "";
     });
+}
 
-    function sendMessage(message) {
-        chatbotBody.innerHTML += `
-        <div style="text-align: right; margin-bottom: 10px; color: white;"><span style="color: #ff8623">You:</span> ${message}</div>
-    `;
-        let botReply = movieVerseResponse(message);
-        setTimeout(() => {
-            chatbotBody.innerHTML += `
-            <div style="text-align: left; margin-bottom: 10px; color: #fff;"><span style="color: #ff8623">MovieVerse Assistant:</span> ${botReply}</div>
-        `;
-            scrollToBottom();
-        }, 1000);
+async function sendMessage(message) {
+    chatbotBody.innerHTML += `<div style="text-align: right; margin-bottom: 10px; color: white;"><span style="color: #ff8623">You:</span> ${message}</div>`;
+    const botReply = await movieVerseResponse(message);
+    setTimeout(() => {
+        chatbotBody.innerHTML += `<div style="text-align: left; margin-bottom: 10px; color: #fff;"><span style="color: #ff8623">MovieVerse Assistant:</span> ${botReply}</div>`;
         scrollToBottom();
-    }
+    }, 1000);
+    scrollToBottom();
 }
 
 function showMovies(movies, mainElement) {
@@ -306,7 +301,8 @@ function sendInitialInstructions() {
             <li>To get information about a director, type "Details about director [director's name]".</li>
             <li>To learn about an actor, type "Details about actor [actor's name]".</li>
             <li>To find information on a production company, type "Details about company [company name]".</li>
-            <li>You can also ask about genres, top-rated movies, latest movies, and many more!</li>
+            <li>Or, if you just want quick information about a movie, type "Tell me about [movie name]" or "Do you know about [movie name]".</li>
+            <li>You can also ask about genres, top-rated movies, latest movies, get a recommended movie, and many more!</li>
         </ul>
         <div style="text-align: left; color: #fff;">How may I assist you today?</div>
     `;
@@ -489,9 +485,13 @@ async function fetchCompanyDetails(companyName) {
     }
 }
 
-function movieVerseResponse(message) {
+async function movieVerseResponse(message) {
     const lowerMessage = message.toLowerCase();
-    if (lowerMessage.startsWith("show me details about ") || lowerMessage.startsWith("i want to know more about ")) {
+    if (lowerMessage.startsWith("do you know about ") || lowerMessage.startsWith("tell me about ") || lowerMessage.startsWith("what is ")) {
+        const movieName = lowerMessage.replace(/^(do you know about|show me|tell me about|what is) /, '');
+        return await fetchMovieDetailsFromTMDB(movieName);
+    }
+    if (lowerMessage.startsWith("show me details about ") || lowerMessage.startsWith("i want to know more about ") || lowerMessage.startsWith("details about ") || lowerMessage.startsWith("search for ")) {
         const movieName = lowerMessage.replace("show me details about ", "").replace("i want to know more about ", "");
         fetchAndRedirectToMovieDetails(movieName);
         return `Searching for details about "${movieName}". Please wait...`;
@@ -673,7 +673,32 @@ function movieVerseResponse(message) {
     } else if (lowerMessage.includes("movieverse analytics") || lowerMessage.includes("movieverse stats") || lowerMessage.includes("movieverse insights")) {
         return "MovieVerse Analytics provides insights into user activity, popular movies, and more. You can access it by pressing the About button on the top right, then selecting MovieVerse Analytics at the bottom of the page.";
     } else {
-        return "Sorry, I didn't catch that. Can you rephrase or ask another question about movies?";
+        return "Sorry, I didn't catch that or find any movies with that name in our databases. Can you rephrase, check your spelling, or ask another question?";
+    }
+}
+
+const movieee = `https://${getMovieVerseData()}/3`;
+
+async function fetchMovieDetailsFromTMDB(movieName) {
+    const url = `${movieee}/search/movie?${generateMovieNames()}${getMovieCode()}&query=${encodeURIComponent(movieName)}`;
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        if (data.results.length > 0) {
+            const movie = data.results[0];
+            localStorage.setItem('selectedMovieId', movie.id);
+
+            const movieDetails = `Yes, I do! The title of the movie is ${movie.title}. Its overview is: ${movie.overview}. Its release date is ${movie.release_date}, and rating is ${movie.vote_average.toFixed(1)}. You can find more info about it if you wish <a href="../html/movie-details.html" class='movie-details-link' style='color: #ff8623; cursor: pointer; text-decoration: underline;' data-movie-id='${movie.id}'>here</a>.`;
+
+            return movieDetails;
+        }
+        else {
+            return "I couldn't find any movie with that name. Please try another movie name.";
+        }
+    }
+    catch (error) {
+        console.error('Error fetching movie details:', error);
+        return "Sorry, I encountered an error while trying to fetch movie details. Please try again later.";
     }
 }
 
