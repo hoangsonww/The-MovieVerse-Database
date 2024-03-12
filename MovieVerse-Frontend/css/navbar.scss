@@ -1,22 +1,18 @@
-// Define breakpoints for responsive design
 $breakpoint-mobile: 480px;
 $breakpoint-tablet: 768px;
 $breakpoint-desktop: 1024px;
 
-// Define colors and other variables for styling
 $navbar-background-color: #333;
 $navbar-text-color: #fff;
 $navbar-hover-color: #555;
 $mobile-menu-background-color: #222;
 
-// Mixin for responsive visibility
 @mixin responsive-visibility {
   @media (max-width: $breakpoint-mobile) {
     display: none;
   }
 }
 
-// Base navbar styles
 .navbar {
   background-color: $navbar-background-color;
   color: $navbar-text-color;
