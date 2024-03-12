@@ -24,6 +24,20 @@
                 <h2><%= user.name %></h2>
                 <p>Email: <%= user.email %></p>
                 <p>Location: <%= user.location %></p>
+                <p>Member since: <%= user.createdAt %></p>
+                <p>Favorite Movies:</p>
+                <ul>
+                    <% user.favoriteMovies.forEach(movie => { %>
+                        <li><%= movie.title %></li>
+                    <% }) %>
+                </ul>
+                <p>Favorite Genres:</p>
+                <ul>
+                    <% user.favoriteGenres.forEach(genre => { %>
+                        <li><%= genre %></li>
+                    <% }) %>
+                </ul>
+
             </div>
         <% } else { %>
             <p>User not found.</p>
