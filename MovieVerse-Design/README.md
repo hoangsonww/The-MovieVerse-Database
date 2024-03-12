@@ -33,6 +33,13 @@ The repository also includes a comprehensive design system to ensure consistency
 - **Components**: Reusable UI components such as buttons, input fields, cards, and modals.
 - **Icons**: A set of icons used throughout the app for navigation, actions, and features.
 
+## Images in this Directory
+
+- **MovieVerse-Design.png**: A screenshot of the Figma file, showcasing the Home Screen and Movie Detail Page.
+- **MovieVerse-Design.pdf**: A PDF version of the Figma file, allowing you to view the designs offline.
+- **MovieVerse-Design.svg**: A vector version of the Figma file, providing a scalable and high-quality version of the designs.
+- **MovieVerse-Design.jpg**: A high-resolution image of the Figma file, suitable for sharing and showcasing the designs.
+
 ## Contributing
 
 We welcome contributions from designers and developers! If you have suggestions for improvements or find any issues with the current designs, please follow these steps:
