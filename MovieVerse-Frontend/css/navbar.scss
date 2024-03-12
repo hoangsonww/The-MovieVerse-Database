@@ -1,0 +1,101 @@
+// Define breakpoints for responsive design
+$breakpoint-mobile: 480px;
+$breakpoint-tablet: 768px;
+$breakpoint-desktop: 1024px;
+
+// Define colors and other variables for styling
+$navbar-background-color: #333;
+$navbar-text-color: #fff;
+$navbar-hover-color: #555;
+$mobile-menu-background-color: #222;
+
+// Mixin for responsive visibility
+@mixin responsive-visibility {
+  @media (max-width: $breakpoint-mobile) {
+    display: none;
+  }
+}
+
+// Base navbar styles
+.navbar {
+  background-color: $navbar-background-color;
+  color: $navbar-text-color;
+  padding: 1em;
+
+  .logo {
+    float: left;
+    font-size: 1.5em;
+    margin-right: 15px;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    float: right;
+
+    li {
+      display: inline;
+      margin-left: 15px;
+
+      a {
+        text-decoration: none;
+        color: $navbar-text-color;
+
+        &:hover {
+          color: $navbar-hover-color;
+        }
+      }
+    }
+  }
+
+  @media (max-width: $breakpoint-tablet) {
+    ul {
+      float: none;
+      text-align: center;
+
+      li {
+        display: block;
+        margin-top: 0.5em;
+      }
+    }
+  }
+}
+
+.mobile-menu-btn {
+  @include responsive-visibility;
+
+  display: inline-block;
+  background-color: $mobile-menu-background-color;
+  color: $navbar-text-color;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.mobile-menu {
+  display: none;
+
+  &.active {
+    display: block;
+    padding: 10px;
+    background-color: $mobile-menu-background-color;
+
+    ul {
+      text-align: center;
+
+      li {
+        margin-top: 10px;
+
+        a {
+          display: block;
+          color: $navbar-text-color;
+
+          &:hover {
+            background-color: $navbar-hover-color;
+          }
+        }
+      }
+    }
+  }
+}
