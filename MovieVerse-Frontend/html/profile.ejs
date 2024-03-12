@@ -37,7 +37,12 @@
                         <li><%= genre %></li>
                     <% }) %>
                 </ul>
-
+                <p>Favorite Actors:</p>
+                <ul>
+                    <% user.favoriteActors.forEach(actor => { %>
+                        <li><%= actor.name %></li>
+                    <% }) %>
+                </ul>
             </div>
         <% } else { %>
             <p>User not found.</p>
