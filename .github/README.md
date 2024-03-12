@@ -59,6 +59,7 @@ There is also a mobile version of The MovieVerse, which is developed using Apach
 **Additional Information:**
 - **Continuous Improvements**: The platform is ever-evolving with regular updates and new features.
 - **Free & No Ads**: The MovieVerse is free to use and ad-free for an uninterrupted experience.
+- **Privacy & Security**: The MovieVerse is committed to protecting your privacy and ensuring a secure platform.
 
 **And So Much More!**
 
