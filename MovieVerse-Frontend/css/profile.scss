@@ -1,0 +1,87 @@
+// Theme colors and spacing variables
+$primary-color: #4A90E2;
+$secondary-color: #50E3C2;
+$text-color: #4A4A4A;
+$background-color: #F5F7FA;
+$padding-standard: 15px;
+$border-radius-standard: 5px;
+
+// Mixins for common patterns
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin card-style {
+  background-color: white;
+  border-radius: $border-radius-standard;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: $padding-standard;
+}
+
+// Base styles
+body {
+  font-family: 'Poppins', sans-serif;
+  color: $text-color;
+  background-color: $background-color;
+}
+
+a {
+  color: $primary-color;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+// Profile page specific styles
+.profile-container {
+  @include flex-center;
+  flex-direction: column;
+}
+
+.profile-header {
+  @include flex-center;
+  flex-direction: column;
+  margin-bottom: 20px;
+
+  .profile-image {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    margin-bottom: $padding-standard;
+  }
+
+  .profile-name {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .profile-bio {
+    text-align: center;
+    margin-top: $padding-standard;
+  }
+}
+
+.profile-content {
+  @include card-style;
+  margin: 20px auto;
+  width: 90%;
+  max-width: 600px;
+
+  .section {
+    &:not(:last-child) {
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      border-bottom: 2px solid $primary-color;
+      padding-bottom: $padding-standard / 2;
+    }
+
+    p, ul {
+      margin-top: $padding-standard / 2;
+    }
+  }
+}
