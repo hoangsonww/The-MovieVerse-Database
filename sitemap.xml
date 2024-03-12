@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>https://movie-verse.com/</loc>
@@ -110,5 +109,15 @@
         <loc>https://movie-verse.com/MovieVerse-Frontend/html/support.html</loc>
         <lastmod>2024-03-12</lastmod>
         <priority>0.60</priority>
+    </url>
+    <url>
+        <loc>https://movie-verse.com/MovieVerse-Frontend/html/api_fails.html</loc>
+        <lastmod>2024-03-12</lastmod>
+        <priority>0.20</priority>
+    </url>
+    <url>
+        <loc>https://movie-verse.com/MovieVerse-Frontend/html/offline.html</loc>
+        <lastmod>2024-03-12</lastmod>
+        <priority>0.20</priority>
     </url>
 </urlset>
