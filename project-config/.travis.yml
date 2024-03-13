@@ -12,6 +12,7 @@ services:
   - mysql
   - postgresql
   - docker
+  - firebase
 
 env:
   - NODE_ENV=test
