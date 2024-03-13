@@ -48,6 +48,10 @@ A configuration file for Firebase Storage, containing access rules and settings 
 
 A Python script for testing the API and database connections. It includes sample queries, data retrieval, and other operations to test the database connections and API endpoints.
 
+### Data Analysis Subdirectory
+
+This subdirectory contains files related to data analysis and reporting. It includes scripts for extracting, transforming, and loading data into analytics tools, as well as generating reports and visualizations. See the `Data-Analysis` directory for more details.
+
 ## Using these Files
 
 These files are crucial for setting up the backend of the application. Ensure that you have the necessary database servers (MySQL, MongoDB, Firebase) running and accessible. Run these scripts to create and configure your databases according to the project's requirements.
