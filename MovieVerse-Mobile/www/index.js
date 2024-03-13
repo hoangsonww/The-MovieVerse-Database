@@ -20,6 +20,8 @@ const director_main = document.getElementById('director-spotlight');
 const korean_main = document.getElementById('korean');
 const vietnamese_main = document.getElementById('vietnamese');
 const indian_main = document.getElementById("indian");
+const musical_main = document.getElementById('musical');
+const drama_main = document.getElementById('drama');
 
 const form = document.getElementById("form");
 const search = document.getElementById("search");
@@ -62,7 +64,7 @@ async function getMovies(url, mainElement) {
         showMovies(allMovies.slice(0, numberOfMovies), mainElement);
     }
     else {
-        mainElement.innerHTML = `<p>No movie with the specified search term found. Please try again.</p>`;
+        mainElement.innerHTML = `<p>We're having trouble fetching movies right now. Please try again later.</p>`;
     }
     hideSpinner();
 }
@@ -409,6 +411,8 @@ const INDIAN_PATH = `https://${getMovieVerseData()}/3/discover/movie?${generateM
 const HIDDEN_GEMS_PATH = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&vote_average.gte=7&popularity.lte=10`;
 const AWARD_WINNING_PATH = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=1000`;
 const CLASSIC_MOVIES_PATH = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=popularity.desc&release_date.lte=1980`;
+const MUSICAL_PATH = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10402&sort_by=popularity.desc&vote_count.gte=8`;
+const DRAMA_PATH = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=18&sort_by=popularity.desc&vote_count.gte=8`;
 
 getMovies(DATABASEURL, most_popular_main);
 getMovies(ACTIONpath, action_main);
@@ -430,6 +434,8 @@ getMovies(HIDDEN_GEMS_PATH, hidden_gems_main);
 getMovies(CLASSIC_MOVIES_PATH, classic_main);
 getMovies(VIETNAMESE_PATH, vietnamese_main);
 getMovies(KOREAN_PATH, korean_main);
+getMovies(MUSICAL_PATH, musical_main);
+getMovies(DRAMA_PATH, drama_main);
 getMovies(INDIAN_PATH, indian_main);
 
 const directors = [

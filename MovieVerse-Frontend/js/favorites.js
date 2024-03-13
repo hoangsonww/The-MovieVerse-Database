@@ -1227,20 +1227,30 @@ function addWatchListControls(watchlistDiv, watchlistId) {
 
     const pinBtn = document.createElement('button');
     pinBtn.innerHTML = '<i class="fas fa-thumbtack"></i>';
+    pinBtn.classList.add('pin-btn');
 
     isListPinned(watchlistId).then(isPinned => {
         pinBtn.title = isPinned ? 'Unpin this watch list' : 'Pin this watch list';
-        pinBtn.style.color = isPinned ? '#7378c5' : '#ff8623';
-        pinBtn.onclick = function() { pinWatchList(watchlistDiv, watchlistId); };
+        if (isPinned) {
+            pinBtn.classList.add('pinned');
+        }
+        else {
+            pinBtn.classList.remove('pinned');
+        }
+        pinBtn.onclick = function() {
+            pinWatchList(watchlistDiv, watchlistId);
+        };
     });
 
     const moveUpBtn = document.createElement('button');
     moveUpBtn.innerHTML = '<i class="fas fa-arrow-up"></i>';
     moveUpBtn.onclick = function() { moveWatchList(watchlistDiv, true); };
+    moveUpBtn.title = 'Move this watch list up';
 
     const moveDownBtn = document.createElement('button');
     moveDownBtn.innerHTML = '<i class="fas fa-arrow-down"></i>';
     moveDownBtn.onclick = function() { moveWatchList(watchlistDiv, false); };
+    moveDownBtn.title = 'Move this watch list down';
 
     controlContainer.appendChild(pinBtn);
     controlContainer.appendChild(moveUpBtn);
