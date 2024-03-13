@@ -64,7 +64,7 @@ async function getMovies(url, mainElement) {
         showMovies(allMovies.slice(0, numberOfMovies), mainElement);
     }
     else {
-        mainElement.innerHTML = `<p>No movie with the specified search term found. Please try again.</p>`;
+        mainElement.innerHTML = `<p>We're having trouble fetching movies right now. Please try again later.</p>`;
     }
     hideSpinner();
 }
