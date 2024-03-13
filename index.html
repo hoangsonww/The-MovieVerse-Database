@@ -368,7 +368,7 @@
 
     <main id="classic" style="margin-bottom: 230px"></main>
 
-    <footer>
+    <footer id="footer" style="cursor: pointer">
         <p>© 2024 The MovieVerse. All rights reserved.</p>
     </footer>
 
@@ -408,6 +408,12 @@
                         window.location.href = href;
                     }
                 });
+            });
+
+            document.getElementById("footer").addEventListener('click', function(e) {
+                e.preventDefault();
+
+                document.getElementById('homepage-header').scrollIntoView({ behavior: 'smooth' });
             });
 
             document.getElementById('heading-href').addEventListener('click', function(e) {
