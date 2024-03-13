@@ -1,3 +1,5 @@
+# GitIgnore File for The MovieVerse Project
+
 # Ignore node modules
 node_modules
 

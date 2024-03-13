@@ -38,4 +38,4 @@ ENV PYTHONUNBUFFERED=1 \
 EXPOSE 8080
 
 # Start Gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:8080", "--workers", "3", "--threads", "3", "myproject.wsgi:application"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8080", "--workers", "3", "--threads", "3", "TheMovieVerseApp.wsgi:application"]
