@@ -42,6 +42,16 @@
             transition: background-color 0.3s;
         }
 
+        @media (max-width: 900px) {
+            #my-heading {
+                margin-top: 19px;
+            }
+        }
+
+        #search {
+            margin-right: 5px;
+        }
+
         @media (min-width: 900px) {
             #search {
                 margin-top: 6px;
@@ -517,7 +527,8 @@
                     fetch(searchURL)
                         .then(response => response.json())
                         .then(data => {
-                            displaySearchResults(data.results.slice(0, 5));
+                            const sortedResults = data.results.sort((a, b) => b.popularity - a.popularity);
+                            displaySearchResults(sortedResults.slice(0, 5));
                         }).catch(err => console.error("Fetching error:", err));
                 }
                 else {
