@@ -10,7 +10,11 @@ Welcome to The MovieVerse - your digital compass to the cinematic universe. Crea
 - [Introduction](#introduction)
 - [Features & Usage](#features--usage)
 - [Contributing](#contributing)
+- [Privacy Policy](#privacy-policy)
+- [Terms of Service](#terms-of-service)
 - [License](#license)
+- [Code of Conduct](#code-of-conduct)
+- [Security Policy](#security-policy)
 - [Contact](#contact)
 
 ## User Interface
