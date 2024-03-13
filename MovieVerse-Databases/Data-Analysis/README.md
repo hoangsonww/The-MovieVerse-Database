@@ -12,6 +12,10 @@ This directory includes the following R scripts:
 
 3. **MovieDataVisualization.R**: Visualizes various aspects of movie data, including budget vs. revenue, rating distributions, and the number of movies released over time.
 
+4. **MovieBudgetAndSuccessAnalysis.do**: A Stata do-file that analyzes the relationship between movie budget and success, using a dataset of movies and their budget and revenue figures.
+
+5. **UserRatingAnalysisByGenre.do**: A Stata do-file that analyzes user ratings for movies by genre, using a dataset of user ratings and movie genres.
+
 ## Prerequisites
 
 Before running these scripts, you will need to have R and RStudio installed on your computer. Additionally, certain R packages are required, including `dplyr`, `ggplot2`, `readr`, `tidyr`, `textdata`, `tidytext`, `syuzhet`, and `recommenderlab`. These can be installed using the following R command:
