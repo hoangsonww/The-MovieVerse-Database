@@ -23,7 +23,6 @@ Welcome to The MovieVerse - your digital compass to the cinematic universe. Crea
     <img src="../images/screenshot.png" alt="The MovieVerse App Interface"/>
   </a>
 </p>
-
 ## Introduction
 
 The MovieVerse is an endeavor by Son Nguyen Hoang, crafted with the vision of creating a seamless and enriching experience for movie lovers. It's more than just a database; it's a portal to explore, discover, and immerse yourself in the art of cinema.
