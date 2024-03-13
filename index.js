@@ -66,6 +66,7 @@ async function getMovies(url, mainElement) {
     else {
         mainElement.innerHTML = `<p>We're having trouble fetching movies right now. Please try again later.</p>`;
     }
+
     hideSpinner();
 }
 
