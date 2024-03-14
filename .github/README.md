@@ -35,7 +35,6 @@ There is also a mobile version of The MovieVerse, which is developed using Apach
 ## Features & Usage
 
 **Search & Discover:**
-
 - **Search Functionality**: Find movies or TV shows by title, actor, director, or genre in our comprehensive database with ease.
 - **Movie Details Page**: View detailed information, including synopses, cast, crew, ratings, and reviews.
 - **Curated Lists**: Access collections of new releases, most popular, trending, genre-specific movies, and many more.
@@ -49,16 +48,13 @@ There is also a mobile version of The MovieVerse, which is developed using Apach
 - **MovieBot Chat**: Engage with our chatbot, MovieBot, for additional information about the application.
 - **User Sign On**: Create an account for a personalized experience with additional features like saving watchlists.
 - **Cinematic Timeline**: Explore cinema history by selecting specific time periods in the movie timeline.
+- **User Profile**: Customize your profile, manage your watchlists, and view your stats/information.
 
 **Enhanced User Experience:**
 - **Responsive Design**: Enjoy a seamless experience on various devices and screen sizes.
 - **Movie Recommendations**: Receive suggestions based on your movie preferences and reviews.
 - **Statistics and Insights**: Access dynamically updating statistics for a tailored experience on both desktop and mobile.
 - **Community Engagement**: Connect with other users, create your profile, share your thoughts, rate movies, and engage in discussions about your favorite movies.
-
-**Mobile App & Accessibility:**
-- **Mobile Application**: Experience The MovieVerse on the go with the mobile version (developed using Apache Cordova, coming soon to App Store and Google Play Store).
-- **Accessibility Features**: Designed to be accessible to all users, including those with disabilities.
 
 **Additional Information:**
 - **Continuous Improvements**: The platform is ever-evolving with regular updates and new features.
