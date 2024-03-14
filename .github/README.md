@@ -56,10 +56,6 @@ There is also a mobile version of The MovieVerse, which is developed using Apach
 - **Statistics and Insights**: Access dynamically updating statistics for a tailored experience on both desktop and mobile.
 - **Community Engagement**: Connect with other users, create your profile, share your thoughts, rate movies, and engage in discussions about your favorite movies.
 
-**Mobile App & Accessibility:**
-- **Mobile Application**: Experience The MovieVerse on the go with the mobile version (developed using Apache Cordova, coming soon to App Store and Google Play Store).
-- **Accessibility Features**: Designed to be accessible to all users, including those with disabilities.
-
 **Additional Information:**
 - **Continuous Improvements**: The platform is ever-evolving with regular updates and new features.
 - **Free & No Ads**: The MovieVerse is free to use and ad-free for an uninterrupted experience.
