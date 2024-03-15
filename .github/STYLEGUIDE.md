@@ -1,4 +1,4 @@
-# The MovieVerse - Style Guide
+# The MovieVerse App - Style Guide
 
 ## Introduction
 

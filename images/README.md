@@ -35,7 +35,7 @@ Users can select their background preference through the application's settings,
 
 ### Favicon
 
-`favicon.ico` is linked in the HTML to represent the site's favicon as follows:
+`favicon.ico` is linked in the HTML to represent the site's favicon across all pages of MovieVerse as follows:
 
 ```html
 <link rel="icon" type="image/x-icon" href="favicon.ico">
