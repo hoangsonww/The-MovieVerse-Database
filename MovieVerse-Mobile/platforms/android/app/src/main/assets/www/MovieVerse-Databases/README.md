@@ -52,6 +52,16 @@ A Python script for testing the API and database connections. It includes sample
 
 These files are crucial for setting up the backend of the application. Ensure that you have the necessary database servers (MySQL, MongoDB, Firebase) running and accessible. Run these scripts to create and configure your databases according to the project's requirements.
 
+## Databases Used
+
+The MovieVerse application uses a combination of relational and NoSQL databases and technologies to store and manage data. The primary databases used are:
+- MySQL: A relational database for storing structured data, such as user profiles, movie details, and reviews.
+- MongoDB: A NoSQL database for storing unstructured or semi-structured data, such as chatbot interactions, user preferences, and other dynamic content.
+- Firebase: A cloud-based platform for storing and managing data, including real-time databases, authentication, and file storage.
+- Firestore: A NoSQL database for storing and managing data, including real-time databases, authentication, and file storage.
+- Firebase Authentication: A cloud-based authentication service for managing user authentication, authorization, and user management.
+- Firebase Cloud Functions: A serverless computing service for running backend code in response to events triggered by Firebase features and HTTPS requests.
+
 ## Customization and Adaptation
 
 You may need to customize these scripts to fit the specific needs of your application. Be sure to regularly back up your databases before making any changes to these scripts.
