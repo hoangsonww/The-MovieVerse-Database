@@ -109,6 +109,7 @@ function showMovies(movies, mainElement) {
 
 function updateUniqueMoviesViewed(movieId) {
     let viewedMovies = JSON.parse(localStorage.getItem('uniqueMoviesViewed')) || [];
+
     if (!viewedMovies.includes(movieId)) {
         viewedMovies.push(movieId);
         localStorage.setItem('uniqueMoviesViewed', JSON.stringify(viewedMovies));
@@ -758,7 +759,7 @@ async function fetchNewReleases() {
 
         localStorage.setItem('lastVisit', new Date().toISOString());
     }
-        
+
     catch (error) {
         console.error('Error fetching new releases:', error);
         newReleasesList.innerHTML = '<li>Error fetching new releases.</li>';

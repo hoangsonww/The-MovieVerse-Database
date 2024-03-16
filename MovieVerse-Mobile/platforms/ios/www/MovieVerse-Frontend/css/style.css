@@ -941,6 +941,18 @@ header h1 {
     display: flex;
 }
 
+.pin-btn {
+    color: #ff8623;
+}
+
+.pin-btn:hover {
+    color: #c45c00;
+}
+
+.pin-btn.pinned {
+    color: #7378c5;
+}
+
 .spinner {
     border: 4px solid #000;
     border-radius: 50%;
@@ -1657,7 +1669,6 @@ textarea {
     font: inherit;
     color: #000000;
     border-radius: 8px;
-    margin-right: 40px;
 }
 
 #change-director-btn:hover {
