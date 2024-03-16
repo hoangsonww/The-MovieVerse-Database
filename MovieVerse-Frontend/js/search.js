@@ -350,6 +350,7 @@ function showMovies(items, container, category) {
 
         const movieEl = document.createElement('div');
         movieEl.classList.add('movie');
+        movieEl.style.zIndex = 10000;
 
         let movieContentHTML = `<div class="image-container" style="text-align: center;">`;
 
