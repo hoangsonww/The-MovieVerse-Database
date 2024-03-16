@@ -860,6 +860,7 @@ function createTrailerButton(trailerUrl) {
     const trailerButton = document.createElement('button');
     trailerButton.textContent = 'Watch Trailer';
     trailerButton.title = 'Click to watch the trailer of this movie';
+    trailerButton.id = 'trailerButton';
 
     trailerButton.addEventListener('click', function() {
         if (!trailerIframeDisplayed) {
@@ -921,6 +922,7 @@ function showTrailerIframe(trailerUrl) {
     iframeContainer.style.overflow = 'hidden';
     iframeContainer.style.height = '0';
     iframeContainer.style.transition = 'height 0.5s ease-in-out';
+    iframeContainer.style.borderRadius = '8px';
 
     const iframe = document.createElement('iframe');
     iframe.setAttribute('src', `https://www.youtube.com/embed/${getYouTubeVideoId(trailerUrl)}?autoplay=1`);
@@ -934,6 +936,7 @@ function showTrailerIframe(trailerUrl) {
 
     const trailerButton = document.querySelector('.trailer-button');
     trailerButton.parentNode.insertBefore(iframeContainer, trailerButton.nextSibling);
+    trailerButton.id = 'trailerButton';
 
     setTimeout(() => iframeContainer.style.height = '315px', 50);
 
