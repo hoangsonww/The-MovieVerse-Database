@@ -1696,6 +1696,14 @@ textarea {
     transition: max-height 0.5s ease;
 }
 
+#removeBtn {
+    color: white;
+}
+
+#removeBtn:hover {
+    color: #ff8623;
+}
+
 .director-link {
     cursor: pointer;
     color: white;

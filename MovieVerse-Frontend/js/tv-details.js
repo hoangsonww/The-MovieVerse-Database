@@ -627,7 +627,7 @@ function populateTvSeriesDetails(tvSeries, imdbRating) {
     detailsHTML += `<p><strong>Seasons:</strong> ${tvSeries.number_of_seasons || 0}, <strong>Episodes:</strong> ${tvSeries.number_of_episodes || 0}</p>`;
 
     if (tvSeries.seasons && tvSeries.seasons.length) {
-        const seasonsToShow = tvSeries.seasons.slice(0, 9);
+        const seasonsToShow = tvSeries.seasons.slice(0, 3);
 
         seasonsToShow.forEach(season => {
             detailsHTML += `<p><strong>${season.name || 'Season information not available'}:</strong> ${season.overview || 'Overview not available.'}</p>`;
