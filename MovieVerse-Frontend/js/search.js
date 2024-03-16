@@ -350,6 +350,7 @@ function showMovies(items, container, category) {
 
         const movieEl = document.createElement('div');
         movieEl.classList.add('movie');
+        movieEl.style.zIndex = 10000;
 
         let movieContentHTML = `<div class="image-container" style="text-align: center;">`;
 
@@ -360,7 +361,8 @@ function showMovies(items, container, category) {
             movieContentHTML += `<div style="text-align: center; padding: 20px;">Image Unavailable</div>`;
         }
 
-        movieContentHTML += `</div><div class="movie-info" style="cursor: pointer;"><h3>${title}</h3>`;
+        movieContentHTML += `</div><div class="movie-info" style="display: flex; justify-content: space-between; align-items: start; cursor: pointer;">`;
+        movieContentHTML += `<h3 style="text-align: left; flex-grow: 1; margin: 0; margin-right: 5px">${title}</h3>`;
 
         if (!isPerson && item.vote_average !== undefined) {
             const voteAverage = item.vote_average.toFixed(1);

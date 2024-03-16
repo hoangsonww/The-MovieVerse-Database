@@ -4,8 +4,13 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+flask = "*"
+requests = "*"
 
 [dev-packages]
+pytest = "*"  # For testing
+black = "*"   # For code formatting
+flake8 = "*"  # For linting
 
 [requires]
 python_version = "3.11"

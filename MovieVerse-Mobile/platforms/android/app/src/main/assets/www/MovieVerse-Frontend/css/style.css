@@ -785,6 +785,10 @@ header h1 {
     box-sizing: border-box;
     overflow-y: auto;
     margin-bottom: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
 }
 
 .actor-right {
@@ -939,6 +943,18 @@ header h1 {
 
 .modal-visible {
     display: flex;
+}
+
+.pin-btn {
+    color: #ff8623;
+}
+
+.pin-btn:hover {
+    color: #c45c00;
+}
+
+.pin-btn.pinned {
+    color: #7378c5;
 }
 
 .spinner {
@@ -1657,11 +1673,65 @@ textarea {
     font: inherit;
     color: #000000;
     border-radius: 8px;
-    margin-right: 40px;
+}
+
+#movie-image {
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+    cursor: pointer;
+}
+
+#movie-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+#actor-image {
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+    cursor: pointer;
+}
+
+#actor-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+#director-image {
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+    cursor: pointer;
+}
+
+#director-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+#company-logo {
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+    cursor: pointer;
+}
+
+#company-logo:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
 }
 
 #change-director-btn:hover {
     background-color: #ff8623;
+}
+
+#trailerContainer {
+    width: 560px;
+    height: 315px;
+    overflow: hidden;
+    transition: max-height 0.5s ease;
+}
+
+#removeBtn {
+    color: white;
+}
+
+#removeBtn:hover {
+    color: #ff8623;
 }
 
 .director-link {
