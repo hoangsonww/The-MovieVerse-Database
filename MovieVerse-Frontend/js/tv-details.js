@@ -501,6 +501,14 @@ async function fetchTvDetails(tvSeriesId) {
 
         populateTvSeriesDetails(tvSeriesDetails, imdbRating);
         updateBrowserURL(tvSeriesDetails.name);
+
+        const trailer = tvSeriesDetails.videos.results.find(video => video.type === 'Trailer' && video.site === 'YouTube');
+        if (trailer) {
+            document.getElementById('trailerButton').style.display = 'block';
+            document.getElementById('trailerButton').addEventListener('click', () => {
+                window.open(`https://www.youtube.com/watch?v=${trailer.key}`, '_blank');
+            });
+        }
     }
     catch (error) {
         console.error('Error fetching TV series details:', error);
