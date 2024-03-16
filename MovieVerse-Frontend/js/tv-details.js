@@ -4,6 +4,8 @@ const movieCode = {
     part3: 'ZDllOTg3ZGNjN2YxYjU1OA=='
 };
 
+let globalTrailerKey = '';
+
 function getMovieCode() {
     return atob(movieCode.part1) + atob(movieCode.part2) + atob(movieCode.part3);
 }
@@ -505,9 +507,7 @@ async function fetchTvDetails(tvSeriesId) {
         const trailer = tvSeriesDetails.videos.results.find(video => video.type === 'Trailer' && video.site === 'YouTube');
         if (trailer) {
             document.getElementById('trailerButton').style.display = 'block';
-            document.getElementById('trailerButton').addEventListener('click', () => {
-                window.open(`https://www.youtube.com/watch?v=${trailer.key}`, '_blank');
-            });
+            globalTrailerKey = trailer.key; // Store the trailer key in the global variable
         }
     }
     catch (error) {
@@ -697,6 +697,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const savedRatings = JSON.parse(localStorage.getItem('movieRatings')) || {};
     const movieRating = savedRatings[movieId] || 0;
     setStarRating(movieRating);
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('trailerButton').addEventListener('click', () => {
+        const trailerContainer = document.getElementById('trailerContainer');
+        const isOpen = trailerContainer.style.maxHeight !== '0px';
+
+        if (isOpen) {
+            trailerContainer.style.maxHeight = '0';
+        }
+        else {
+            const trailerIframe = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${globalTrailerKey}" frameborder="0" allowfullscreen></iframe>`;
+            trailerContainer.innerHTML = trailerIframe;
+            trailerContainer.style.maxWidth = '400px';
+            trailerContainer.style.maxHeight = '315px';
+            trailerContainer.style.borderRadius = '8px';
+        }
+    });
 });
 
 async function showMovieOfTheDay() {
