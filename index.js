@@ -82,14 +82,13 @@ function showMovies(movies, mainElement) {
             : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
 
         const voteAvg = vote_average > 0 ? vote_average.toFixed(1) : "Unrated";
-
         const ratingClass = vote_average > 0 ? getClassByRate(vote_average) : "unrated";
 
         movieEl.innerHTML = `
             ${movieImage}
-            <div class="movie-info" style="cursor: pointer;">
-                <h3 style="text-align: left; margin-right: 5px">${title}</h3>
-                <span class="${ratingClass}">${voteAvg}</span>
+            <div class="movie-info" style="display: flex; justify-content: space-between; align-items: start; cursor: pointer;">
+                <h3 style="text-align: left; margin-right: 5px; flex: 1;">${title}</h3>
+                <span class="${ratingClass}" style="white-space: nowrap;">${voteAvg}</span>
             </div>
             <div class="overview" style="cursor: pointer;">
                 <h4>Movie Intro: </h4>
@@ -517,36 +516,38 @@ async function getDirectorSpotlight(url) {
 }
 
 function showMoviesDirectorSpotlight(movies) {
-    director_main.innerHTML = ' ';
+    director_main.innerHTML = '';
     movies.forEach((movie) => {
-        const { id, poster_path, title, vote_average, overview } = movie;
-        const movieE1 = document.createElement('div');
-        movieE1.classList.add('movie');
-        movieE1.style.zIndex = '1000';
+        const { id, poster_path, title, vote_average } = movie;
+        const movieEl = document.createElement('div');
+        movieEl.classList.add('movie');
+        movieEl.style.zIndex = '1000';
 
         const movieImage = poster_path
             ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
             : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
 
-        voteAvg = vote_average.toFixed(1);
-        movieE1.innerHTML = `
+        const voteAvg = vote_average > 0 ? vote_average.toFixed(1) : "Unrated";
+        const ratingClass = vote_average > 0 ? getClassByRate(vote_average) : "unrated";
+
+        movieEl.innerHTML = `
             ${movieImage}
-            <div class="movie-info" style="cursor: pointer;">
-                <h3>${title}</h3>
-                <span class="${getClassByRate(vote_average)}">${voteAvg}</span>
+            <div class="movie-info" style="display: flex; justify-content: space-between; align-items: start; cursor: pointer;">
+                <h3 style="flex: 1; text-align: left; margin-right: 5px;">${title}</h3>
+                <span class="${ratingClass}" style="white-space: nowrap;">${voteAvg}</span>
             </div>
             <div class="overview" style="cursor: pointer;">
                 <h4>Movie Intro: </h4>
-                ${overview}
+                ${movie.overview}
             </div>`;
 
-        movieE1.addEventListener('click', () => {
+        movieEl.addEventListener('click', () => {
             localStorage.setItem('selectedMovieId', id);
             window.location.href = 'MovieVerse-Frontend/html/movie-details.html';
             updateMovieVisitCount(id, title);
         });
 
-        director_main.appendChild(movieE1);
+        director_main.appendChild(movieEl);
     });
 }
 
