@@ -860,6 +860,7 @@ function createTrailerButton(trailerUrl) {
     const trailerButton = document.createElement('button');
     trailerButton.textContent = 'Watch Trailer';
     trailerButton.title = 'Click to watch the trailer of this movie';
+    trailerButton.id = 'trailerButton';
 
     trailerButton.addEventListener('click', function() {
         if (!trailerIframeDisplayed) {
@@ -934,6 +935,7 @@ function showTrailerIframe(trailerUrl) {
 
     const trailerButton = document.querySelector('.trailer-button');
     trailerButton.parentNode.insertBefore(iframeContainer, trailerButton.nextSibling);
+    trailerButton.id = 'trailerButton';
 
     setTimeout(() => iframeContainer.style.height = '315px', 50);
 

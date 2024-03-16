@@ -1671,6 +1671,16 @@ textarea {
     border-radius: 8px;
 }
 
+#movie-image {
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+    cursor: pointer;
+}
+
+#movie-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
 #change-director-btn:hover {
     background-color: #ff8623;
 }
