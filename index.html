@@ -102,14 +102,14 @@
 
     <style>
         body {
+            background-image: url("images/universe-1.png");
             background-repeat: repeat-y;
             background-size: 100% auto;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 767px) { /* Adjust this value based on the breakpoint you want for mobile devices */
             body {
-                background-repeat: repeat-y;
-                background-size: 100% auto; /* 100% width, auto height to maintain aspect ratio */
+                background-size: auto; /* This will maintain the image's original height */
             }
         }
     </style>
