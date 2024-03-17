@@ -277,13 +277,13 @@ function showMovies(movies, mainElement) {
         const ratingClass = getClassByRate(movie.vote_average);
         movieEl.innerHTML = `
             ${movieImage}
-            <div class="movie-info">
-                <h3>${movie.title}</h3>
-                <span class="${ratingClass}">${voteAvg}</span>
+            <div class="movie-info" style="display: flex; justify-content: space-between; align-items: start; cursor: pointer;">
+                <h3 style="text-align: left; margin-right: 5px; flex: 1;">${title}</h3>
+                <span class="${ratingClass}" style="white-space: nowrap;">${voteAvg}</span>
             </div>
-            <div class="overview">
-                <h4>Movie Intro: </h4>
-                ${movie.overview}
+            <div class="overview" style="cursor: pointer;">
+                <h4>Overview: </h4>
+                ${overview}
             </div>`;
         movieEl.addEventListener('click', () => {
             localStorage.setItem('selectedMovieId', movie.id);
