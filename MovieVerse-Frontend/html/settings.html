@@ -72,13 +72,17 @@
             display: block;
         }
 
-        body, html {
+        html, body {
             height: 100%;
             margin: 0;
-            scroll-behavior: smooth;
+            overflow: hidden; /* Prevent scrolling on html directly */
+        }
+
+        body {
             background-image: url("images/universe-1.png");
             background-repeat: repeat-y;
             background-size: 100% auto;
+            overflow: auto; /* Enable scrolling on body */
         }
 
         @media (max-width: 767px) {
@@ -607,4 +611,5 @@
         </a>
     </footer>
 </body>
+
 </html>
