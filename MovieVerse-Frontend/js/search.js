@@ -355,14 +355,14 @@ function showMovies(items, container, category) {
         let movieContentHTML = `<div class="image-container" style="text-align: center;">`;
 
         if (imagePath) {
-            movieContentHTML += `<img src="${imagePath}" alt="${title}" style="cursor: pointer; max-width: 100%; height: auto;" onError="this.parentElement.innerHTML = '<div style=\'text-align: center; padding: 20px;\'>Image Unavailable</div>';">`;
+            movieContentHTML += `<img src="${imagePath}" alt="${title}" style="cursor: pointer; max-width: 100%;" onError="this.parentElement.innerHTML = '<div style=\'text-align: center; padding: 20px;\'>Image Unavailable</div>';">`;
         }
         else {
             movieContentHTML += `<div style="text-align: center; padding: 20px;">Image Unavailable</div>`;
         }
 
         movieContentHTML += `</div><div class="movie-info" style="display: flex; justify-content: space-between; align-items: start; cursor: pointer;">`;
-        movieContentHTML += `<h3 style="text-align: left; flex-grow: 1; margin: 0; margin-right: 5px">${title}</h3>`;
+        movieContentHTML += `<h3 style="text-align: left; flex-grow: 1; margin: 0; margin-right: 57px">${title}</h3>`;
 
         if (!isPerson && item.vote_average !== undefined) {
             const voteAverage = item.vote_average.toFixed(1);
