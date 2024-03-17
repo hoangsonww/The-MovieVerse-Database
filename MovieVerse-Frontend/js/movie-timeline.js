@@ -42,7 +42,7 @@ const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&${generateMov
 const searchTitle = document.getElementById("select-text");
 const searchButton = document.getElementById("button-search");
 const search = document.getElementById("search");
-const main = document.getElementById("search-results");
+const main = document.getElementById("results");
 
 function rotateUserStats() {
     const stats = [
@@ -305,7 +305,7 @@ async function fetchMoviesByTimePeriod(startYear, endYear) {
     const data = await response.json();
     const numberOfMovies = calculateMoviesToDisplay();
     const moviesToShow = data.results.slice(0, numberOfMovies);
-    showMovies(moviesToShow, document.getElementById('search-results'));
+    showMovies(moviesToShow, document.getElementById('results'));
 }
 
 document.getElementById('load-movies').addEventListener('click', () => {

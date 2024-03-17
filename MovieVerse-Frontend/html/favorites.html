@@ -181,6 +181,19 @@
                 margin-right: 0;
             }
         }
+
+        body {
+            background-image: url("images/universe-1.png");
+            background-repeat: repeat-y;
+            background-size: 100% auto;
+        }
+
+        @media (max-width: 767px) {
+            body {
+                background-size: auto;
+                background-position: top center;
+            }
+        }
     </style>
     <script type="text/javascript">
         (function(c,l,a,r,i,t,y){
@@ -191,7 +204,7 @@
     </script>
 </head>
 
-<body class="movie-details-body">
+<body>
     <header style="margin-bottom: -30px; padding-top: 19px">
         <div id="header-title">
             <a href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer" title="Click to go back to the home page">

@@ -1,4 +1,4 @@
-const form = document.getElementById('form');
+const form = document.getElementById('form1');
 const IMGPATH = "https://image.tmdb.org/t/p/w1280";
 
 function showSpinner() {
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     attachEventListeners();
     attachArrowKeyNavigation();
 
-    document.getElementById('form').addEventListener('submit', function(event) {
+    document.getElementById('form1').addEventListener('submit', function(event) {
         event.preventDefault();
         handleSearch();
     });
