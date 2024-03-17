@@ -77,12 +77,23 @@
             margin: 0;
             scroll-behavior: smooth;
             overflow-x: hidden;
+            background-image: url("images/universe-1.png");
+            background-repeat: repeat-y;
+            background-size: 100% auto;
+        }
+
+        @media (max-width: 767px) {
+            body {
+                background-size: auto;
+                background-position: top center;
+            }
         }
 
         header {
+            position: relative;
             width: 100%;
-            top: 0;
             z-index: 1000;
+            top: 5px;
         }
 
         main {
@@ -178,7 +189,7 @@
 <body>
     <header style="margin-top: -5px">
         <a href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer" title="Click to go back to the home page">
-            <h1 id="my-heading" style="margin-bottom: -10px">
+            <h1 id="my-heading" style="margin-bottom: -10px; margin-top: 19px">
                 The Mo<span class="highlight">vieV</span>erse
             </h1>
         </a>
