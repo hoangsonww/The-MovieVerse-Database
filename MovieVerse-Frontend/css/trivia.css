@@ -474,6 +474,7 @@ header h1 {
     justify-content: center;
     position: relative;
     margin: 20px auto;
+    transition: stroke-dashoffset 0.5s ease-out;
 }
 
 .progress-circle::after {

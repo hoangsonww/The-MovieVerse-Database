@@ -313,8 +313,10 @@ async function fetchMoviesByTimePeriod(startYear, endYear) {
 }
 
 document.getElementById('load-movies').addEventListener('click', () => {
+    showSpinner();
     updateMovies();
     alertShown = false;
+    hideSpinner();
 });
 
 function calculateMoviesToDisplay() {

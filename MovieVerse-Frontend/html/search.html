@@ -71,7 +71,7 @@
 </head>
 
 <body>
-    <header style="margin-bottom: -50px; margin-top: -5px">
+    <header style="margin-bottom: -50px; margin-top: -5px" id="homepage-header">
         <a href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer" title="Click to go back to the home page">
             <h1 id="my-heading" style="margin-bottom: -10px">
                 The Mo<span class="highlight">vieV</span>erse
@@ -117,11 +117,12 @@
         </div>
     </main>
 
-    <button id="settings-btn" style="position: fixed; bottom: 150px; z-index: 10001">Settings</button>
-    <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 115px; z-index: 10001">Movie Timeline</button>
-    <button id="movie-of-the-day-btn2" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="z-index: 10001">Recommendation</button>
-    <button id="discussions-btn" onclick="window.location.href='chatbot.html'" title="Want to know more about movies? Chat with our intelligent chatbot!" style="z-index: 10001; margin-bottom: -55px">MovieVerse Chatbot</button>
-    <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="z-index: 10001; margin-bottom: -50px" title="Play a quick trivia to test your knowledge about movies!">MovieVerse Trivia</button>
+    <button id="settings-btn" style="z-index: 10001; position: fixed; bottom: 185px">Settings</button>
+    <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="z-index: 10001; position: fixed; bottom: 150px">Movie Timeline</button>
+    <button id="movie-of-the-day-btn2" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="z-index: 10001; position: fixed; bottom: 115px">Recommendation</button>
+    <button id="discussions-btn" onclick="window.location.href='chatbot.html'" title="Want to know more about movies? Chat with our intelligent chatbot!" style="z-index: 10001; position: fixed; bottom: 80px">MovieVerse Chatbot</button>
+    <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="z-index: 10001; position: fixed; bottom: 45px" title="Play a quick trivia to test your knowledge about movies!">MovieVerse Trivia</button>
+    <button id="back-to-top-btn" title="Go to top" style="position: fixed; bottom: 10px; z-index: 10001;">Back to Top</button>
 
     <script>
         const movieCode1 = {
@@ -141,6 +142,12 @@
         function getMovieVerseData(input) {
             return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
         }
+
+        document.getElementById('back-to-top-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+
+            document.getElementById('homepage-header').scrollIntoView({ behavior: 'smooth' });
+        });
 
         async function showMovieOfTheDay() {
             const year = new Date().getFullYear();
