@@ -1,4 +1,4 @@
-document.getElementById('load-movies').addEventListener('click', updateMovies);
+let alertShown = false;
 
 function showSpinner() {
     document.getElementById('myModal').classList.add('modal-visible');
@@ -255,12 +255,16 @@ function updateMovies() {
     let startYear = document.getElementById('start-year').value;
     let endYear = document.getElementById('end-year').value;
     let currentYear = new Date().getFullYear();
-    if (startYear && endYear && startYear <= endYear && endYear <= currentYear) {
+    if (startYear && endYear && startYear <= endYear && endYear <= currentYear && startYear >= 1900 && startYear <= currentYear) {
         fetchMoviesByTimePeriod(startYear, endYear);
         hideSpinner();
+        alertShown = false;
     }
     else {
-        alert('Please ensure the start year is before the end year, and both are not later than the current year.');
+        if (!alertShown) {
+            alert('Please ensure the start year is before the end year, the start year is later than the year 1900, and both are not later than the current year.');
+            alertShown = true;
+        }
         hideSpinner();
     }
 }
@@ -277,12 +281,12 @@ function showMovies(movies, mainElement) {
         const ratingClass = getClassByRate(movie.vote_average);
         movieEl.innerHTML = `
             ${movieImage}
-            <div class="movie-info">
-                <h3>${movie.title}</h3>
-                <span class="${ratingClass}">${voteAvg}</span>
+            <div class="movie-info" style="display: flex; justify-content: space-between; align-items: start; cursor: pointer;">
+                <h3 style="text-align: left; margin-right: 5px; flex: 1;">${movie.title}</h3>
+                <span class="${ratingClass}" style="white-space: nowrap;">${voteAvg}</span>
             </div>
-            <div class="overview">
-                <h4>Movie Intro: </h4>
+            <div class="overview" style="cursor: pointer;">
+                <h4>Overview: </h4>
                 ${movie.overview}
             </div>`;
         movieEl.addEventListener('click', () => {
@@ -309,9 +313,10 @@ async function fetchMoviesByTimePeriod(startYear, endYear) {
 }
 
 document.getElementById('load-movies').addEventListener('click', () => {
-    const startYear = document.getElementById('start-year').value;
-    const endYear = document.getElementById('end-year').value;
-    fetchMoviesByTimePeriod(startYear, endYear);
+    showSpinner();
+    updateMovies();
+    alertShown = false;
+    hideSpinner();
 });
 
 function calculateMoviesToDisplay() {

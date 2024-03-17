@@ -382,11 +382,21 @@ function calculateAndDisplayResults() {
 
 function displayResults(score) {
     let accuracy = (score / 10) * 100;
-    let progress = accuracy;
+    let progress = 0;
 
     document.getElementById('progress-circle').style.setProperty('--progress', `${progress}%`);
     document.getElementById('correct-answers').textContent = score;
     document.getElementById('result-text').textContent = `Your score is ${score} out of 10 (${accuracy.toFixed(1)}% accuracy)`;
+
+    const interval = setInterval(() => {
+        if (progress < accuracy) {
+            progress++;
+            document.getElementById('progress-circle').style.setProperty('--progress', `${progress}%`);
+        }
+        else {
+            clearInterval(interval);
+        }
+    }, 20);
 
     showModal();
 }

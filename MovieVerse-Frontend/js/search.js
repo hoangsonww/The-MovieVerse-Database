@@ -355,7 +355,7 @@ function showMovies(items, container, category) {
         let movieContentHTML = `<div class="image-container" style="text-align: center;">`;
 
         if (imagePath) {
-            movieContentHTML += `<img src="${imagePath}" alt="${title}" style="cursor: pointer; max-width: 100%; height: auto;" onError="this.parentElement.innerHTML = '<div style=\'text-align: center; padding: 20px;\'>Image Unavailable</div>';">`;
+            movieContentHTML += `<img src="${imagePath}" alt="${title}" style="cursor: pointer; max-width: 100%;" onError="this.parentElement.innerHTML = '<div style=\'text-align: center; padding: 20px;\'>Image Unavailable</div>';">`;
         }
         else {
             movieContentHTML += `<div style="text-align: center; padding: 20px;">Image Unavailable</div>`;
