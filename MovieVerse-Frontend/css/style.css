@@ -2159,6 +2159,7 @@ canvas {
         display: flex;
         flex-direction: column;
         align-items: center;
+        margin-left: -2.5px !important;
     }
 
     #clear-search-btn {

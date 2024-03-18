@@ -1,4 +1,4 @@
-const form = document.getElementById('form');
+const form = document.getElementById('form1');
 const IMGPATH = "https://image.tmdb.org/t/p/w1280";
 
 function showSpinner() {
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     attachEventListeners();
     attachArrowKeyNavigation();
 
-    document.getElementById('form').addEventListener('submit', function(event) {
+    document.getElementById('form1').addEventListener('submit', function(event) {
         event.preventDefault();
         handleSearch();
     });
@@ -355,7 +355,7 @@ function showMovies(items, container, category) {
         let movieContentHTML = `<div class="image-container" style="text-align: center;">`;
 
         if (imagePath) {
-            movieContentHTML += `<img src="${imagePath}" alt="${title}" style="cursor: pointer; max-width: 100%; height: auto;" onError="this.parentElement.innerHTML = '<div style=\'text-align: center; padding: 20px;\'>Image Unavailable</div>';">`;
+            movieContentHTML += `<img src="${imagePath}" alt="${title}" style="cursor: pointer; max-width: 100%;" onError="this.parentElement.innerHTML = '<div style=\'text-align: center; padding: 20px;\'>Image Unavailable</div>';">`;
         }
         else {
             movieContentHTML += `<div style="text-align: center; padding: 20px;">Image Unavailable</div>`;

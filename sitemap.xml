@@ -111,6 +111,21 @@
         <priority>0.60</priority>
     </url>
     <url>
+        <loc>https://movie-verse.com/MovieVerse-Frontend/html/inception.html</loc>
+        <lastmod>2024-03-12</lastmod>
+        <priority>0.60</priority>
+    </url>
+    <url>
+        <loc>https://movie-verse.com/MovieVerse-Frontend/html/leonardo-dicaprio.html</loc>
+        <lastmod>2024-03-12</lastmod>
+        <priority>0.60</priority>
+    </url>
+    <url>
+        <loc>https://movie-verse.com/MovieVerse-Frontend/html/christopher-nolan.html</loc>
+        <lastmod>2024-03-12</lastmod>
+        <priority>0.60</priority>
+    </url>
+    <url>
         <loc>https://movie-verse.com/MovieVerse-Frontend/html/api_fails.html</loc>
         <lastmod>2024-03-12</lastmod>
         <priority>0.20</priority>

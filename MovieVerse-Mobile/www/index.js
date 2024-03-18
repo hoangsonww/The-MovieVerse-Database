@@ -91,7 +91,7 @@ function showMovies(movies, mainElement) {
                 <span class="${ratingClass}" style="white-space: nowrap;">${voteAvg}</span>
             </div>
             <div class="overview" style="cursor: pointer;">
-                <h4>Movie Intro: </h4>
+                <h4>Overview: </h4>
                 ${overview}
             </div>`;
 
@@ -537,7 +537,7 @@ function showMoviesDirectorSpotlight(movies) {
                 <span class="${ratingClass}" style="white-space: nowrap;">${voteAvg}</span>
             </div>
             <div class="overview" style="cursor: pointer;">
-                <h4>Movie Intro: </h4>
+                <h4>Overview: </h4>
                 ${movie.overview}
             </div>`;
 

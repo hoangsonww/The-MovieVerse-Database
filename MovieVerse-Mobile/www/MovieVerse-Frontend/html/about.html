@@ -71,7 +71,7 @@
     </style>
 </head>
 
-<body class="movie-details-body4">
+<body>
     <header style="margin-top: -5px">
         <a href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer" title="Click to go back to the home page">
             <h1 id="my-heading" style="margin-bottom: -10px">
@@ -495,18 +495,7 @@
             window.location.href = 'search.html';
         }
 
-        function setBodyClass() {
-            if (window.innerWidth < 768) {
-                document.body.classList.remove('movie-details-body');
-                document.body.classList.add('movie-details-body4');
-            }
-            else {
-                document.body.classList.remove('movie-details-body4');
-                document.body.classList.add('movie-details-body');
-            }
-        }
 
-        window.addEventListener('resize', setBodyClass);
     </script>
 
 </body>

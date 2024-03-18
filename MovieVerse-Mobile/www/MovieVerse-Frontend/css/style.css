@@ -1307,7 +1307,6 @@ p {
     color: white;
     cursor: pointer;
     font-size: 1.5rem;
-    position: absolute;
     top: 5px;
     left: 15px;
     border-radius: 8px;
@@ -1317,6 +1316,7 @@ p {
     line-height: 32px;
     text-align: center;
     display: flex;
+    position: fixed;
     justify-content: center;
     align-items: center;
     padding-left: 4.25px;
@@ -1900,10 +1900,6 @@ canvas {
         display: none;
     }
 
-    .movie-details-body4 {
-        background-image: url("../../images/black.jpeg");
-    }
-
     #indexLink {
         margin-bottom: -15px;
     }
@@ -2163,6 +2159,7 @@ canvas {
         display: flex;
         flex-direction: column;
         align-items: center;
+        margin-left: -5px !important;
     }
 
     #clear-search-btn {
