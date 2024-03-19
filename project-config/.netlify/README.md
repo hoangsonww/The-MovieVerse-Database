@@ -1,4 +1,4 @@
-# .netlify Directory
+# The MovieVerse - `.netlify` Directory
 
 This directory contains configuration files used by Netlify to deploy and manage your website. Below are the details of each file present in the `.netlify` directory.
 
