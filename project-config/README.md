@@ -57,6 +57,10 @@ Configuration file for Nginx, a web server used to handle HTTP requests, redirec
 
 Configuration file for Webpack, a static module bundler for modern JavaScript applications. This file specifies how modules within the application are treated, including rules, plugins, entry and exit points, and more.
 
+### .netlify Directory
+
+This directory contains configuration files used by Netlify to deploy and manage The MovieVerse website. Below are the details of each file present in the `.netlify` directory. This serves as a **sample** for deploying your own instance of MovieVerse on Netlify. Refer to the [`.netlify` README](./.netlify/README.md) for more details.
+
 ## Using these Files
 
 To effectively use these configuration files, it is essential to have a basic understanding of their respective tools (Babel, ESLint, Docker, Nginx, etc.). Ensure that any sensitive information is not directly included in these files, especially in public repositories.

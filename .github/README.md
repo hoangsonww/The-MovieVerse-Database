@@ -53,7 +53,7 @@ There is also a mobile version of The MovieVerse, which is developed using Apach
 **Enhanced User Experience:**
 - **Responsive Design**: Enjoy a seamless experience on various devices and screen sizes.
 - **Movie Recommendations**: Receive suggestions based on your movie preferences and reviews with AI-powered recommendations.
-- **Statistics and Insights**: Access dynamically updating statistics for a tailored experience on both desktop and mobile.
+- **Statistics and Insights**: Access dynamically updating, ML-powered statistics for a tailored experience on both desktop and mobile.
 - **Community Engagement**: Connect with other users, create your profile, share your thoughts, rate movies, and engage in discussions about your favorite movies.
 
 **Additional Information:**
@@ -83,7 +83,7 @@ There are also additional directories and files for project configuration, testi
 | [JavaScript (Vanilla JS)](http://vanilla-js.com/)               | [Flask](https://flask.palletsprojects.com/en/1.1.x/)            |                                                 | [Java (for Android)](https://www.java.com/en/)                    | [WebAssembly](https://webassembly.org/)                         |
 | [TypeScript](https://www.typescriptlang.org/)                   | [Python](https://www.python.org/)                               |                                                 |                                                                   | [Google Analytics](https://analytics.google.com/analytics/web/) |
 | [FontAwesome Icons](https://react-icons.github.io/react-icons/) | [Ruby on Rails](https://rubyonrails.org/)                       |                                                 |                                                                   | [ESLint](https://eslint.org/)                                   |
-| [SASS](https://sass-lang.com/)                                  | [C (Emscripten, WebAssembly)](https://emscripten.org/)          |                                                 |                                                                   | [Git](https://git-scm.com/)                                     |
+| [SASS](https://sass-lang.com/)                                  | [C (Emscripten, WebAssembly)](https://emscripten.org/)          |                                                 |                                                                   | [TensorFlow](https://www.tensorflow.org/)                       |
 | [Single Spa](https://single-spa.js.org/)                        | [JavaScript](https://www.javascript.com/)                       |                                                 |                                                                   | [The Movie Database](https://www.themoviedb.org/)               |
 
 
