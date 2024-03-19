@@ -224,7 +224,6 @@ async function generateRecommendations() {
     recommended_main.innerHTML = ''; // Clear previous recommendations
 
     if (!mostVisitedMovieGenre || !mostCommonGenre) {
-        console.log('No recommendations available');
         recommended_main.innerHTML = `<div style="display: flex; justify-content: center; align-items: center; height: 100%;">
             <p style="text-align: center; font-size: 20px;">
                 Start exploring and rating movies or add them to your favorites to get personalized recommendations.
