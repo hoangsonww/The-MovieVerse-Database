@@ -221,20 +221,27 @@ async function generateRecommendations() {
     const mostCommonGenre = getMostCommonGenre();
     const mostVisitedMovieGenre = await getMostVisitedMovieGenre();
 
-    if (!mostVisitedMovieGenre && !mostCommonGenre) {
+    recommended_main.innerHTML = ''; // Clear previous recommendations
 
+    if (!mostVisitedMovieGenre || !mostCommonGenre) {
+        console.log('No recommendations available');
+        recommended_main.innerHTML = `<div style="display: flex; justify-content: center; align-items: center; height: 100%;">
+            <p style="text-align: center; font-size: 20px;">
+                Start exploring and rating movies or add them to your favorites to get personalized recommendations.
+            </p>
+        </div>`;
+        return; // Exit the function early as there's nothing to display
     }
 
-    const totalMoviesToDisplay = calculateMoviesToDisplay() ;
+    const totalMoviesToDisplay = calculateMoviesToDisplay();
 
     const commonGenreUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=${mostCommonGenre}&sort_by=popularity.desc&vote_count.gte=10`;
     const visitedGenreUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=${mostVisitedMovieGenre}&sort_by=popularity.desc&vote_count.gte=10`;
 
-    recommended_main.innerHTML = '';
-
     await fetchAndDisplayMovies(commonGenreUrl, totalMoviesToDisplay, recommended_main);
     await fetchAndDisplayMovies(visitedGenreUrl, totalMoviesToDisplay, recommended_main);
 }
+
 
 async function fetchAndDisplayMovies(url, count, mainElement) {
     const response = await fetch(`${url}&page=1`);
