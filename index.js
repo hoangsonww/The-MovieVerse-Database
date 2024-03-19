@@ -241,7 +241,6 @@ async function generateRecommendations() {
     await fetchAndDisplayMovies(visitedGenreUrl, totalMoviesToDisplay, recommended_main);
 }
 
-
 async function fetchAndDisplayMovies(url, count, mainElement) {
     const response = await fetch(`${url}&page=1`);
     const data = await response.json();
@@ -285,6 +284,7 @@ function getMostVisitedActor() {
             maxVisits = actorVisits[actorId].count;
         }
     }
+
     return mostVisitedActor || 'Not Available';
 }
 
