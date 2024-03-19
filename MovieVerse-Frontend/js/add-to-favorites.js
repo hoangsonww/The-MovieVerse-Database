@@ -90,7 +90,7 @@ function updateFavoriteButton(movieId, favorites) {
 const tmdbApiKey = 'c5a20c861acf7bb8d9e987dcc7f1b558';
 
 async function getMovieGenre(movieId) {
-    const tmdbUrl = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${tmdbApiKey}`;
+    const tmdbUrl = `https://${getMovieVerseData()}/3/movie/${movieId}?api_key=${tmdbApiKey}`;
     const response = await fetch(tmdbUrl);
     const movieData = await response.json();
     return movieData.genres.length > 0 ? movieData.genres[0].name : 'Unknown';
