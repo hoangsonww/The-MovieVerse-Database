@@ -192,8 +192,8 @@
 
         <ul style="overflow-y: auto">
             <li><a href="MovieVerse-Frontend/html/analytics.html">MovieVerse Analytics</a></li>
-            <li id="recommendationHREF"><a href="#recommended">Recommendations</a></li>
             <li><a href="#most-popular">Popular Worldwide</a></li>
+            <li><a href="#recommended">Recommendations</a></li>
             <li><a href="#award-winning">Award-Winning</a></li>
             <li><a href="#director-spotlight">Director's Spotlight</a></li>
             <li><a href="#action">Action</a></li>
@@ -239,17 +239,19 @@
         <div class="spinner"></div>
     </div>
 
-    <div class="genres" id="recommendedDIV">
-        <h2 id="other" style="margin-top: 45px; cursor: pointer">Recommended For You: Personalized Movie Suggestions</h2>
-    </div>
-
-    <main id="recommended"></main>
-
     <div class="genres">
         <h2 id="other" style="margin-top: 45px; cursor: pointer">Global Hits: Popular Movies Worldwide</h2>
     </div>
 
     <main id="most-popular"></main>
+
+    <div class="genres" id="recommendedDIV">
+        <h2 id="other" style="margin-top: 45px; cursor: pointer" title="Here are some personalized movie suggestions we've generated based on your preferences! Check them out, and let us know what you think!">
+            Recommended For You: Personalized Movie Suggestions
+        </h2>
+    </div>
+
+    <main id="recommended"></main>
 
     <div class="genres">
         <h2 style="margin-top: 50px; cursor: pointer">Critics' Choice: Trending Award-Winning Movies</h2>
@@ -765,5 +767,4 @@
     </script>
 
 </body>
-
 </html>

@@ -1400,6 +1400,7 @@ async function pinWatchList(watchlistDiv, watchlistId) {
     }
 
     loadWatchLists();
+
     window.location.reload();
 }
 
