@@ -1,7 +1,3 @@
-Here's a sample `README.md` for your `.netlify` directory, explaining the purpose and content of the `_redirects` and `netlify.toml` files:
-
----
-
 # .netlify Directory
 
 This directory contains configuration files used by Netlify to deploy and manage your website. Below are the details of each file present in the `.netlify` directory.
