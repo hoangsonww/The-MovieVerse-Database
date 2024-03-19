@@ -221,7 +221,7 @@ async function generateRecommendations() {
     const mostCommonGenre = getMostCommonGenre();
     const mostVisitedMovieGenre = await getMostVisitedMovieGenre();
 
-    recommended_main.innerHTML = ''; // Clear previous recommendations
+    recommended_main.innerHTML = '';
 
     if (!mostVisitedMovieGenre || !mostCommonGenre) {
         recommended_main.innerHTML = `<div style="display: flex; justify-content: center; align-items: center; height: 100%;">
@@ -229,7 +229,7 @@ async function generateRecommendations() {
                 Start exploring and rating movies or add them to your favorites to get personalized recommendations.
             </p>
         </div>`;
-        return; // Exit the function early as there's nothing to display
+        return;
     }
 
     const totalMoviesToDisplay = calculateMoviesToDisplay();
