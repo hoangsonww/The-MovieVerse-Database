@@ -190,14 +190,19 @@ function getTriviaAccuracy() {
 }
 
 function getMostCommonGenre() {
-    const favoriteGenres = JSON.parse(localStorage.getItem('favoriteGenres')) || {};
+    const favoriteGenresArray = JSON.parse(localStorage.getItem('favoriteGenres')) || [];
+    const genreCounts = favoriteGenresArray.reduce((acc, genre) => {
+        acc[genre] = (acc[genre] || 0) + 1;
+        return acc;
+    }, {});
+
     let mostCommonGenre = '';
     let maxCount = 0;
 
-    for (const genre in favoriteGenres) {
-        if (favoriteGenres[genre] > maxCount) {
+    for (const genre in genreCounts) {
+        if (genreCounts[genre] > maxCount) {
             mostCommonGenre = genre;
-            maxCount = favoriteGenres[genre];
+            maxCount = genreCounts[genre];
         }
     }
 
