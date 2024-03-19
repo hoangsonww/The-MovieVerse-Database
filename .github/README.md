@@ -52,7 +52,7 @@ There is also a mobile version of The MovieVerse, which is developed using Apach
 
 **Enhanced User Experience:**
 - **Responsive Design**: Enjoy a seamless experience on various devices and screen sizes.
-- **Movie Recommendations**: Receive suggestions based on your movie preferences and reviews.
+- **Movie Recommendations**: Receive suggestions based on your movie preferences and reviews with AI-powered recommendations.
 - **Statistics and Insights**: Access dynamically updating statistics for a tailored experience on both desktop and mobile.
 - **Community Engagement**: Connect with other users, create your profile, share your thoughts, rate movies, and engage in discussions about your favorite movies.
 
