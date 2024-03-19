@@ -59,7 +59,7 @@ Configuration file for Webpack, a static module bundler for modern JavaScript ap
 
 ### .netlify Directory
 
-This directory contains configuration files used by Netlify to deploy and manage The MovieVerse website. Below are the details of each file present in the `.netlify` directory. This serves as a **sample** for deploying your own instance of MovieVerse on Netlify.
+This directory contains configuration files used by Netlify to deploy and manage The MovieVerse website. Below are the details of each file present in the `.netlify` directory. This serves as a **sample** for deploying your own instance of MovieVerse on Netlify. Refer to the [`.netlify` README](./.netlify/README.md) for more details.
 
 ## Using these Files
 
