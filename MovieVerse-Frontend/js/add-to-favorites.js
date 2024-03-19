@@ -10,6 +10,12 @@ function getFBConfig1() {
     return translateFBC(fbConfig1);
 }
 
+const movieCode = {
+    part1: 'YzVhMjBjODY=',
+    part2: 'MWFjZjdiYjg=',
+    part3: 'ZDllOTg3ZGNjN2YxYjU1OA=='
+};
+
 function getFBConfig2() {
     const fbConfig2 = "bW92aWV2ZXJzZS1hcHAuZmlyZWJhc2VhcHAuY29t";
     return translateFBC(fbConfig2);
@@ -87,10 +93,12 @@ function updateFavoriteButton(movieId, favorites) {
     }
 }
 
-const tmdbApiKey = 'c5a20c861acf7bb8d9e987dcc7f1b558';
+function getMovieCode() {
+    return atob(movieCode.part1) + atob(movieCode.part2) + atob(movieCode.part3);
+}
 
 async function getMovieGenre(movieId) {
-    const tmdbUrl = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${tmdbApiKey}`;
+    const tmdbUrl = `https://${getMovieVerseData()}/3/movie/${movieId}?${generateMovieNames()}${getMovieCode()}`;
     const response = await fetch(tmdbUrl);
     const movieData = await response.json();
     return movieData.genres.length > 0 ? movieData.genres[0].name : 'Unknown';
