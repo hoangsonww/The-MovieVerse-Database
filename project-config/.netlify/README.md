@@ -1,6 +1,6 @@
 # The MovieVerse - `.netlify` Directory
 
-This directory contains configuration files used by Netlify to deploy and manage your website. Below are the details of each file present in the `.netlify` directory.
+This directory contains configuration files used by Netlify to deploy and manage The MovieVerse website. Below are the details of each file present in the `.netlify` directory. This serves as a sample for deploying your own instance of MovieVerse on Netlify.
 
 ## Files
 
@@ -44,8 +44,6 @@ Example:
 
 ## Summary
 
-The `.netlify` directory plays a crucial role in customizing how your site is built and served on Netlify. The `_redirects` file provides powerful redirect capabilities, while the `netlify.toml` file offers comprehensive configuration options for building and deploying your site. Ensure that these files are correctly configured to take full advantage of Netlify's features for your project.
+The `.netlify` directory plays a crucial role in customizing how this (The MovieVerse) site is built and served on Netlify. The `_redirects` file provides powerful redirect capabilities, while the `netlify.toml` file offers comprehensive configuration options for building and deploying your site. Ensure that these files are correctly configured to take full advantage of Netlify's features for your project.
 
 --- 
-
-This README provides an overview of the purpose and content of each file in the `.netlify` directory, which should help anyone understand and manage the Netlify configuration for the project.
