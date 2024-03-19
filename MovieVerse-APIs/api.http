@@ -28,7 +28,7 @@ Content-Type: application/json
   "password": "new_password"
 }
 
-### Add Movie Review
+### Add Movie Review (Sample Data)
 POST {{host}}/api/reviews/
 Authorization: Bearer {{authToken}}
 Content-Type: application/json
