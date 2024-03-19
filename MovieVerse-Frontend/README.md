@@ -119,7 +119,7 @@ Contributions to MovieVerse are always welcome. Whether it's bug reports, featur
 
 ## License
 
-This project is licensed under MIT license.
+This project is licensed under MIT license. Refer to the `LICENSE` file in each subdirectory for more information.
 
 ---
 
