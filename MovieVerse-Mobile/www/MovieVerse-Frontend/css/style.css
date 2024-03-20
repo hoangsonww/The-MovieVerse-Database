@@ -1883,6 +1883,7 @@ canvas {
 }
 
 @media (max-width: 840px) {
+    
     #my-heading {
         margin-left: 0;
     }
@@ -2159,7 +2160,6 @@ canvas {
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin-left: -5px !important;
     }
 
     #clear-search-btn {
@@ -2169,6 +2169,7 @@ canvas {
     .watchlist-buttons-container {
         margin-left: -3px;
     }
+    
 }
 
 .year-input-container {

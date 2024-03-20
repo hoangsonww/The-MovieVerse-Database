@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <meta name="theme-color" content="#7378c5">
     <link rel="manifest" href="/manifest.json">
+
     <script type="text/javascript">
         (function(c,l,a,r,i,t,y){
             c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -19,6 +20,7 @@
             y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
         })(window, document, "clarity", "script", "l7gqnssat8");
     </script>
+
     <style>
         .center-text {
             text-align: center;
@@ -66,6 +68,7 @@
             }
         }
     </style>
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -74,6 +77,7 @@
 
         gtag('config', 'G-CQKJ67FXZ4');
     </script>
+
     <script>
         function rotateUserStats() {
             const stats = [
@@ -210,16 +214,22 @@
         }
 
         function getMostCommonGenre() {
-            const favoriteGenres = JSON.parse(localStorage.getItem('favoriteGenres')) || {};
+            const favoriteGenresArray = JSON.parse(localStorage.getItem('favoriteGenres')) || [];
+            const genreCounts = favoriteGenresArray.reduce((acc, genre) => {
+                acc[genre] = (acc[genre] || 0) + 1;
+                return acc;
+            }, {});
+
             let mostCommonGenre = '';
             let maxCount = 0;
 
-            for (const genre in favoriteGenres) {
-                if (favoriteGenres[genre] > maxCount) {
+            for (const genre in genreCounts) {
+                if (genreCounts[genre] > maxCount) {
                     mostCommonGenre = genre;
-                    maxCount = favoriteGenres[genre];
+                    maxCount = genreCounts[genre];
                 }
             }
+
             return mostCommonGenre || 'Not Available';
         }
 
@@ -267,7 +277,7 @@
         <button id="settings-btn" style="position: fixed; bottom: 185px">Settings</button>
         <button id="movie-match-btn3" onclick="window.location.href='https://movie-verse.com/MovieVerse-Frontend/html/movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 150px">Movie Match</button>
         <button id="movie-timeline-btn" onclick="window.location.href='https://movie-verse.com/MovieVerse-Frontend/html/movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 115px">Movie Timeline</button>
-        <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 80px">Recommendation</button>
+        <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 80px">Surprise Me!</button>
         <button id="discussions-btn" onclick="window.location.href='https://movie-verse.com/MovieVerse-Frontend/html/chatbot.html'" style="bottom: 45px" title="Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
         <button id="trivia-btn" onclick="window.location.href='https://movie-verse.com/MovieVerse-Frontend/html/trivia.html'" style="bottom: 10px" title="Test your movie knowledge">MovieVerse Trivia</button>
     </header>
@@ -276,7 +286,6 @@
         <div class="spinner"></div>
     </div>
 
-    <!-- Main 404 content -->
     <div class="center-text" style="padding: 150px;">
         <div style="font-weight: bold; font-size: 55px; color: #ff8623;">404</div>
         <p>Sorry, the page you are looking for cannot be found.</p>

@@ -193,6 +193,7 @@
         <ul style="overflow-y: auto">
             <li><a href="MovieVerse-Frontend/html/analytics.html">MovieVerse Analytics</a></li>
             <li><a href="#most-popular">Popular Worldwide</a></li>
+            <li><a href="#recommended">Recommendations</a></li>
             <li><a href="#award-winning">Award-Winning</a></li>
             <li><a href="#director-spotlight">Director's Spotlight</a></li>
             <li><a href="#action">Action</a></li>
@@ -243,6 +244,14 @@
     </div>
 
     <main id="most-popular"></main>
+
+    <div class="genres" id="recommendedDIV">
+        <h2 id="other" style="margin-top: 45px; cursor: pointer" title="Here are some personalized movie suggestions we've generated based on your preferences! Check them out, and let us know what you think!">
+            Recommended For You: Personalized Movie Suggestions
+        </h2>
+    </div>
+
+    <main id="recommended"></main>
 
     <div class="genres">
         <h2 style="margin-top: 50px; cursor: pointer">Critics' Choice: Trending Award-Winning Movies</h2>
@@ -390,7 +399,7 @@
     <button id="settings-btn" style="position: fixed; bottom: 220px; z-index: 1001">Settings</button>
     <button id="movie-match-btn" onclick="window.location.href='MovieVerse-Frontend/html/movie-match.html'" title="Find movies that match your mood and preferences!" style="bottom: 185px; z-index: 1001">Movie Match</button>
     <button id="movie-timeline-btn" onclick="window.location.href='MovieVerse-Frontend/html/movie-timeline.html'" style="bottom: 150px; z-index: 1001" title="Explore movies through different eras!">Movie Timeline</button>
-    <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" style="bottom: 115px; z-index: 1001" title="Get a recommended movie to watch for today!">Recommendation</button>
+    <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" style="bottom: 115px; z-index: 1001" title="Get a recommended movie to watch for today!">Surprise Me!</button>
     <button id="discussions-btn" onclick="window.location.href='MovieVerse-Frontend/html/chatbot.html'" style="bottom: 80px; z-index: 1001" title="Want to know more about movies? Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
     <button id="trivia-btn" onclick="window.location.href='MovieVerse-Frontend/html/trivia.html'" style="bottom: 45px; z-index: 1001" title="Play a quick trivia to test your knowledge about movies!">MovieVerse Trivia</button>
     <button id="back-to-top-btn" style="bottom: 10px; z-index: 1001">Back To Top</button>
@@ -758,5 +767,4 @@
     </script>
 
 </body>
-
 </html>

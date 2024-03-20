@@ -1,4 +1,4 @@
-const form = document.getElementById('form');
+const form = document.getElementById('form1');
 const IMGPATH = "https://image.tmdb.org/t/p/w1280";
 
 function showSpinner() {
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     attachEventListeners();
     attachArrowKeyNavigation();
 
-    document.getElementById('form').addEventListener('submit', function(event) {
+    document.getElementById('form1').addEventListener('submit', function(event) {
         event.preventDefault();
         handleSearch();
     });
@@ -160,14 +160,19 @@ function getTriviaAccuracy() {
 }
 
 function getMostCommonGenre() {
-    const favoriteGenres = JSON.parse(localStorage.getItem('favoriteGenres')) || {};
+    const favoriteGenresArray = JSON.parse(localStorage.getItem('favoriteGenres')) || [];
+    const genreCounts = favoriteGenresArray.reduce((acc, genre) => {
+        acc[genre] = (acc[genre] || 0) + 1;
+        return acc;
+    }, {});
+
     let mostCommonGenre = '';
     let maxCount = 0;
 
-    for (const genre in favoriteGenres) {
-        if (favoriteGenres[genre] > maxCount) {
+    for (const genre in genreCounts) {
+        if (genreCounts[genre] > maxCount) {
             mostCommonGenre = genre;
-            maxCount = favoriteGenres[genre];
+            maxCount = genreCounts[genre];
         }
     }
 
@@ -355,7 +360,7 @@ function showMovies(items, container, category) {
         let movieContentHTML = `<div class="image-container" style="text-align: center;">`;
 
         if (imagePath) {
-            movieContentHTML += `<img src="${imagePath}" alt="${title}" style="cursor: pointer; max-width: 100%; height: auto;" onError="this.parentElement.innerHTML = '<div style=\'text-align: center; padding: 20px;\'>Image Unavailable</div>';">`;
+            movieContentHTML += `<img src="${imagePath}" alt="${title}" style="cursor: pointer; max-width: 100%;" onError="this.parentElement.innerHTML = '<div style=\'text-align: center; padding: 20px;\'>Image Unavailable</div>';">`;
         }
         else {
             movieContentHTML += `<div style="text-align: center; padding: 20px;">Image Unavailable</div>`;

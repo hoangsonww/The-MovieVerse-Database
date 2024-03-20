@@ -10,6 +10,12 @@ function getFBConfig1() {
     return translateFBC(fbConfig1);
 }
 
+const movieCode = {
+    part1: 'YzVhMjBjODY=',
+    part2: 'MWFjZjdiYjg=',
+    part3: 'ZDllOTg3ZGNjN2YxYjU1OA=='
+};
+
 function getFBConfig2() {
     const fbConfig2 = "bW92aWV2ZXJzZS1hcHAuZmlyZWJhc2VhcHAuY29t";
     return translateFBC(fbConfig2);
@@ -87,6 +93,17 @@ function updateFavoriteButton(movieId, favorites) {
     }
 }
 
+function getMovieCode() {
+    return atob(movieCode.part1) + atob(movieCode.part2) + atob(movieCode.part3);
+}
+
+async function getMovieGenre(movieId) {
+    const tmdbUrl = `https://${getMovieVerseData()}/3/movie/${movieId}?${generateMovieNames()}${getMovieCode()}`;
+    const response = await fetch(tmdbUrl);
+    const movieData = await response.json();
+    return movieData.genres.length > 0 ? movieData.genres[0].name : 'Unknown';
+}
+
 export async function toggleFavorite() {
     let userEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
     const movieId = localStorage.getItem('selectedMovieId');
@@ -96,16 +113,27 @@ export async function toggleFavorite() {
         return;
     }
 
+    const movieGenre = await getMovieGenre(movieId);
+
     if (!userEmail) {
         console.log('User is not signed in. Using localStorage for favorites.');
         let favoritesMovies = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
+        let favoriteGenres = JSON.parse(localStorage.getItem('favoriteGenres')) || [];
+
         if (favoritesMovies.includes(movieId)) {
             favoritesMovies = favoritesMovies.filter(id => id !== movieId);
+            favoriteGenres = favoriteGenres.filter(genre => genre !== movieGenre || favoritesMovies.some(id => localStorage.getItem(id).genre === movieGenre));
         }
         else {
             favoritesMovies.push(movieId);
+            if (!favoriteGenres.includes(movieGenre)) {
+                favoriteGenres.push(movieGenre);
+            }
         }
+
         localStorage.setItem('favoritesMovies', JSON.stringify(favoritesMovies));
+        localStorage.setItem('favoriteGenres', JSON.stringify(favoriteGenres));
+
         console.log('Favorites movies updated successfully in localStorage');
         window.location.reload();
         return;
@@ -115,6 +143,7 @@ export async function toggleFavorite() {
     const querySnapshot = await getDocs(usersRef);
 
     let userDocRef;
+
     if (querySnapshot.empty && userEmail === "") {
         const newUserRef = doc(collection(db, "MovieVerseUsers"));
         userDocRef = newUserRef;
@@ -132,15 +161,21 @@ export async function toggleFavorite() {
     if (userDocRef) {
         const userData = querySnapshot.empty ? { favoritesMovies: [] } : querySnapshot.docs[0].data();
         let favoritesMovies = userData.favoritesMovies || [];
+        let favoriteGenres = JSON.parse(localStorage.getItem('favoriteGenres')) || [];
 
         if (favoritesMovies.includes(movieId)) {
             favoritesMovies = favoritesMovies.filter(id => id !== movieId);
+            favoriteGenres = favoriteGenres.filter(genre => genre !== movieGenre || favoritesMovies.some(id => localStorage.getItem(id).genre === movieGenre));
         }
         else {
             favoritesMovies.push(movieId);
+            if (!favoriteGenres.includes(movieGenre)) {
+                favoriteGenres.push(movieGenre);
+            }
         }
 
         await updateDoc(userDocRef, { favoritesMovies });
+        localStorage.setItem('favoriteGenres', JSON.stringify(favoriteGenres));
         console.log('Favorites movies updated successfully in Firestore');
     }
 

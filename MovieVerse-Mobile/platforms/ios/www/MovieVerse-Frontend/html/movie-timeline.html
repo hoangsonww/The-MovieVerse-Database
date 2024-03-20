@@ -61,6 +61,19 @@
         #local-time {
             transform: translateX(20%);
         }
+
+        body {
+            background-image: url("../../images/universe-1.png");
+            background-repeat: repeat-y;
+            background-size: 100% auto;
+        }
+
+        @media (max-width: 767px) {
+            body {
+                background-size: auto;
+                background-position: top center;
+            }
+        }
     </style>
     <script type="text/javascript">
         (function(c,l,a,r,i,t,y){
@@ -71,8 +84,8 @@
     </script>
 </head>
 
-<body class="movie-details-body">
-    <header style="margin-bottom: -20px; margin-top: -5px">
+<body>
+    <header style="margin-bottom: -20px; margin-top: -5px" id="homepage-header">
         <a id="indexLink" href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer; margin-bottom: -34px" title="Click to go back to the home page">
             <h1 id="my-heading">
                 The Mo<span class="highlight">vieV</span>erse
@@ -110,7 +123,7 @@
             <button id="clear-search-btn" style="display: none; color: white">Clear Search Results</button>
         </div>
         <div class="center-container1">
-            <main id="search-results">
+            <main id="results">
                 <!-- Movies will be dynamically loaded here -->
             </main>
         </div>
@@ -120,15 +133,17 @@
         <div class="spinner"></div>
     </div>
 
-    <button id="settings-btn" style="position: fixed; bottom: 150px">Settings</button>
+    <button id="settings-btn" style="position: fixed; bottom: 185px">Settings</button>
 
-    <button id="movie-match-btn2" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!">Movie Match</button>
+    <button id="movie-match-btn2" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="position: fixed; bottom: 150px">Movie Match</button>
 
-    <button id="movie-of-the-day-btn2" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!">Recommendation</button>
+    <button id="movie-of-the-day-btn2" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="position: fixed; bottom: 115px">Surprise Me!</button>
 
-    <button id="discussions-btn" onclick="window.location.href='chatbot.html'" title="Want to know more about movies? Chat with our intelligent chatbot!" style="margin-bottom: -55px">MovieVerse Chatbot</button>
+    <button id="discussions-btn" onclick="window.location.href='chatbot.html'" title="Want to know more about movies? Chat with our intelligent chatbot!" style="position: fixed; bottom: 80px">MovieVerse Chatbot</button>
 
-    <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="margin-bottom: -50px" title="Play a quick trivia to test your knowledge about movies!">MovieVerse Trivia</button>
+    <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="position: fixed; bottom: 45px" title="Play a quick trivia to test your knowledge about movies!">MovieVerse Trivia</button>
+
+    <button id="back-to-top-btn" title="Go to top" style="position: fixed; bottom: 10px">Back to Top</button>
 
     <script src="../js/movie-timeline.js"></script>
 
@@ -158,6 +173,12 @@
                     document.body.style.fontSize = size;
                 }
             }
+        });
+
+        document.getElementById('back-to-top-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+
+            document.getElementById('homepage-header').scrollIntoView({ behavior: 'smooth' });
         });
     </script>
 

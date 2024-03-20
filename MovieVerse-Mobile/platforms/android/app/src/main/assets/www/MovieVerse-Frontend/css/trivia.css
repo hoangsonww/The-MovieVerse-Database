@@ -1,5 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap');
 
+footer {
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 40px;
+    background-color: #7378c5;
+}
+
+#footerP {
+    color: white !important;
+}
+
+#footerP:hover {
+    transition: 0.1s ease-in;
+    color: #ff8623 !important;
+}
+
 body {
     color: #ff903a;
     font-family: "Poppins", sans-serif;
@@ -474,6 +490,7 @@ header h1 {
     justify-content: center;
     position: relative;
     margin: 20px auto;
+    transition: stroke-dashoffset 0.5s ease-out;
 }
 
 .progress-circle::after {
@@ -724,17 +741,4 @@ main {
     border-radius: 8px;
     border: none;
     cursor: pointer;
-}
-
-footer {
-    text-align: center;
-    padding: 20px 0;
-    margin-top: 40px;
-    background-color: #7378c5;
-    color: white !important;
-}
-
-footer p:hover {
-    transition: 0.1s ease-in;
-    color: #ff8623;
 }

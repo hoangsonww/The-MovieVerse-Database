@@ -22,6 +22,7 @@ const vietnamese_main = document.getElementById('vietnamese');
 const indian_main = document.getElementById("indian");
 const musical_main = document.getElementById('musical');
 const drama_main = document.getElementById('drama');
+const recommended_main = document.getElementById('recommended');
 
 const form = document.getElementById("form");
 const search = document.getElementById("search");
@@ -212,6 +213,66 @@ function getMostVisitedMovie() {
     return mostVisitedMovie || 'Not Available';
 }
 
+document.addEventListener('DOMContentLoaded', async () => {
+    await generateRecommendations();
+});
+
+async function generateRecommendations() {
+    const mostCommonGenre = getMostCommonGenre();
+    const mostVisitedMovieGenre = await getMostVisitedMovieGenre();
+
+    recommended_main.innerHTML = '';
+
+    if (!mostVisitedMovieGenre || !mostCommonGenre) {
+        recommended_main.innerHTML = `<div style="display: flex; justify-content: center; align-items: center; height: 100%;">
+            <p style="text-align: center; font-size: 20px;">
+                Start exploring and rating movies or add them to your favorites to get personalized recommendations.
+            </p>
+        </div>`;
+        return;
+    }
+
+    const totalMoviesToDisplay = calculateMoviesToDisplay();
+
+    const commonGenreUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=${mostCommonGenre}&sort_by=popularity.desc&vote_count.gte=10`;
+    const visitedGenreUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=${mostVisitedMovieGenre}&sort_by=popularity.desc&vote_count.gte=10`;
+
+    await fetchAndDisplayMovies(commonGenreUrl, totalMoviesToDisplay, recommended_main);
+    await fetchAndDisplayMovies(visitedGenreUrl, totalMoviesToDisplay, recommended_main);
+}
+
+async function fetchAndDisplayMovies(url, count, mainElement) {
+    const response = await fetch(`${url}&page=1`);
+    const data = await response.json();
+    const movies = data.results.slice(0, count);
+    movies.sort(() => Math.random() - 0.5);
+
+    showMovies(movies, mainElement);
+}
+
+async function getMostVisitedMovieGenre() {
+    const movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
+    let mostVisitedGenre = null;
+    let maxVisits = 0;
+
+    for (const movieId in movieVisits) {
+        const visits = movieVisits[movieId];
+        if (visits.count > maxVisits) {
+            maxVisits = visits.count;
+            mostVisitedGenre = await fetchGenreForMovie(movieId);
+        }
+    }
+
+    return mostVisitedGenre;
+}
+
+async function fetchGenreForMovie(movieId) {
+    const movieDetailsUrl = `https://${getMovieVerseData()}/3/movie/${movieId}?${generateMovieNames()}${getMovieCode()}`;
+    const response = await fetch(movieDetailsUrl);
+    const movieDetails = await response.json();
+    return movieDetails.genres[0] ? movieDetails.genres[0].id : null;
+}
+
 function getMostVisitedActor() {
     const actorVisits = JSON.parse(localStorage.getItem('actorVisits')) || {};
     let mostVisitedActor = '';
@@ -223,6 +284,7 @@ function getMostVisitedActor() {
             maxVisits = actorVisits[actorId].count;
         }
     }
+
     return mostVisitedActor || 'Not Available';
 }
 
@@ -250,16 +312,22 @@ function getTriviaAccuracy() {
 }
 
 function getMostCommonGenre() {
-    const favoriteGenres = JSON.parse(localStorage.getItem('favoriteGenres')) || {};
+    const favoriteGenresArray = JSON.parse(localStorage.getItem('favoriteGenres')) || [];
+    const genreCounts = favoriteGenresArray.reduce((acc, genre) => {
+        acc[genre] = (acc[genre] || 0) + 1;
+        return acc;
+    }, {});
+
     let mostCommonGenre = '';
     let maxCount = 0;
 
-    for (const genre in favoriteGenres) {
-        if (favoriteGenres[genre] > maxCount) {
+    for (const genre in genreCounts) {
+        if (genreCounts[genre] > maxCount) {
             mostCommonGenre = genre;
-            maxCount = favoriteGenres[genre];
+            maxCount = genreCounts[genre];
         }
     }
+
     return mostCommonGenre || 'Not Available';
 }
 

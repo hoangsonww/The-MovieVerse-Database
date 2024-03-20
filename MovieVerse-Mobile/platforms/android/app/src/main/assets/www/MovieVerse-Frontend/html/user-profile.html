@@ -318,7 +318,7 @@
         <button id="settings-btn" style="position: fixed; bottom: 185px; z-index: 1000">Settings</button>
         <button id="movie-match-btn3" style="z-index: 1000; bottom: 150px" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!">Movie Match</button>
         <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 115px; z-index: 1000">Movie Timeline</button>
-        <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 80px; z-index: 1000">Recommendation</button>
+        <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 80px; z-index: 1000">Surprise Me!</button>
         <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="bottom: 45px; z-index: 1000" title="Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
         <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 10px; z-index: 1000" title="Test your movie knowledge">MovieVerse Trivia</button>
     </header>
@@ -596,14 +596,19 @@
         }
 
         function getMostCommonGenre() {
-            const favoriteGenres = JSON.parse(localStorage.getItem('favoriteGenres')) || {};
+            const favoriteGenresArray = JSON.parse(localStorage.getItem('favoriteGenres')) || [];
+            const genreCounts = favoriteGenresArray.reduce((acc, genre) => {
+                acc[genre] = (acc[genre] || 0) + 1;
+                return acc;
+            }, {});
+
             let mostCommonGenre = '';
             let maxCount = 0;
 
-            for (const genre in favoriteGenres) {
-                if (favoriteGenres[genre] > maxCount) {
+            for (const genre in genreCounts) {
+                if (genreCounts[genre] > maxCount) {
                     mostCommonGenre = genre;
-                    maxCount = favoriteGenres[genre];
+                    maxCount = genreCounts[genre];
                 }
             }
 

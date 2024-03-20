@@ -76,6 +76,19 @@
                 margin-top: 0;
             }
         }
+
+        body {
+            background-image: url("../../images/universe-1.png");
+            background-repeat: repeat-y;
+            background-size: 100% auto;
+        }
+
+        @media (max-width: 767px) {
+            body {
+                background-size: auto;
+                background-position: top center;
+            }
+        }
     </style>
 </head>
 
@@ -139,7 +152,7 @@
     <button id="settings-btn" style="position: fixed; bottom: 185px">Settings</button>
     <button id="movie-match-btn2" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 150px">Movie Match</button>
     <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 115px">Movie Timeline</button>
-    <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 80px">Recommendation</button>
+    <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 80px">Surprise Me!</button>
     <button id="discussions-btn" onclick="window.location.href='chatbot.html'" title="Want to know more about movies? Chat with our intelligent chatbot!" style="bottom: 45px">MovieVerse Chatbot</button>
     <button id="back-to-top-btn" style="bottom: 10px" onclick="window.location.href='../../index.html'">Back To Main Page</button>
     <script src="../js/quiz.js"></script>
@@ -176,7 +189,7 @@
 
     <footer>
         <a href="../../index.html" style="cursor: pointer; text-decoration: none">
-            <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
+            <p id="footerP" style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
         </a>
     </footer>
 </body>
