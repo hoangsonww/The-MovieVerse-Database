@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     else {
         document.getElementById('actor-details-container').innerHTML = `
-            <div style="display: flex; justify-content: center; align-items: center; text-align: center; width: 100vw;">
+            <div style="display: flex; justify-content: center; align-items: center; text-align: center; width: 100vw; height: 800px">
                 <h2>Actor details not found.</h2>
             </div>`;
     }
@@ -148,6 +148,7 @@ function populateActorDetails(actor, credits) {
         const noImageText = document.createElement('h2');
         noImageText.textContent = 'Image Not Available';
         noImageText.style.textAlign = 'center';
+        noImageText.style.height = '800px';
         document.querySelector('.actor-left').appendChild(noImageText);
     }
 

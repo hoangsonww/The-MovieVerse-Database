@@ -820,11 +820,11 @@
             }
 
             searchInput.addEventListener('keydown', function(e) {
-                if (e.key === 'ArrowDown' || (e.key === 'Tab' && !e.shiftKey)) {
+                if (e.key === 'ArrowDown' || (e.key === 'Tab' && !e.shiftKey) || e.key === 'ArrowRight') {
                     e.preventDefault();
                     moveSelection('down');
                 }
-                else if (e.key === 'ArrowUp' || (e.key === 'Tab' && e.shiftKey)) {
+                else if (e.key === 'ArrowUp' || (e.key === 'Tab' && e.shiftKey) || e.key === 'ArrowLeft') {
                     e.preventDefault();
                     moveSelection('up');
                 }
