@@ -820,21 +820,18 @@
             }
 
             searchInput.addEventListener('keydown', function(e) {
-                if (e.key === 'ArrowDown' || (e.key === 'Tab' && !e.shiftKey) || e.key === 'ArrowRight') {
+                if (e.key === 'ArrowDown' || (e.key === 'Tab' && !e.shiftKey)) {
                     e.preventDefault();
                     moveSelection('down');
                 }
-                else if (e.key === 'ArrowUp' || (e.key === 'Tab' && e.shiftKey) || e.key === 'ArrowLeft') {
+                else if (e.key === 'ArrowUp' || (e.key === 'Tab' && e.shiftKey)) {
                     e.preventDefault();
                     moveSelection('up');
                 }
                 else if (e.key === 'Enter') {
                     e.preventDefault();
-                    if (selectedIndex < searchResultsContainer.getElementsByClassName('search-result-card').length) {
-                        const results = searchResultsContainer.getElementsByClassName('search-result-card');
-                        if (results[selectedIndex]) {
-                            results[selectedIndex].click();
-                        }
+                    if (selectedIndex >= 0 && selectedIndex < searchResultsContainer.getElementsByClassName('search-result-card').length) {
+                        searchResultsContainer.getElementsByClassName('search-result-card')[selectedIndex].click();
                     }
                     else if (selectedIndex === searchResultsContainer.getElementsByClassName('search-result-card').length) {
                         viewAllResultsBtn.click();
@@ -842,13 +839,15 @@
                     else if (selectedIndex === searchResultsContainer.getElementsByClassName('search-result-card').length + 1) {
                         clearSearchBtn.click();
                     }
+                    else {
+                        const query = searchInput.value.trim();
+                        localStorage.setItem('searchQuery', query);
+                        window.location.href = 'MovieVerse-Frontend/html/search.html';
+                    }
                 }
             });
 
-            searchInput.addEventListener('blur', function() {
-                clearSelection();
-                selectedIndex = -1;
-            });
+            searchInput.addEventListener('blur', clearSelection);
         });
     </script>
 

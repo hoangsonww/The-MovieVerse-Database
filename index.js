@@ -1,3 +1,4 @@
+
 const most_popular_main = document.getElementById("most-popular");
 const action_main = document.getElementById("action");
 const horror_main = document.getElementById("horror");
