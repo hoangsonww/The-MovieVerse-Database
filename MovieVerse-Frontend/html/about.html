@@ -552,6 +552,20 @@
                 sideNav.style.left = '-250px';
             }
         }
+
+        document.addEventListener('mousemove', function(event) {
+            const sideNav = document.getElementById('side-nav');
+            if (event.clientX < 10 && !sideNav.classList.contains('manual-toggle')) {
+                sideNav.style.left = '0';
+            }
+        });
+
+        document.getElementById('side-nav').addEventListener('mouseleave', function() {
+            const sideNav = document.getElementById('side-nav');
+            if (!sideNav.classList.contains('manual-toggle')) {
+                sideNav.style.left = '-250px';
+            }
+        });
     </script>
 
 </body>
