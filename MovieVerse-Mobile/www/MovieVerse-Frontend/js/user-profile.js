@@ -70,6 +70,7 @@ function handleProfileDisplay() {
         welcomeMessage.textContent = `Welcome, ${profile.username || 'User'}!`;
         profileContainer.style.display = 'block';
         signInPrompt.style.display = 'none';
+        window.document.title = `${profile.username || 'User'}'s Profile - The MovieVerse`;
         loadProfile();
         hideSpinner();
     }
@@ -125,7 +126,7 @@ async function loadProfile() {
         document.getElementById('favoriteActorDisplay').innerHTML = `<strong>Favorite Actor:</strong> ${profile.favoriteActor}`;
         document.getElementById('favoriteDirectorDisplay').innerHTML = `<strong>Favorite Director:</strong> ${profile.favoriteDirector}`;
         document.getElementById('personalQuoteDisplay').innerHTML = `<strong>Personal Quote:</strong> ${profile.personalQuote}`;
-
+        window.document.title = `${profile.username || 'User'}'s Profile - The MovieVerse`;
     }
     catch (error) {
         console.error("Error loading profile: ", error);

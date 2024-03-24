@@ -645,6 +645,78 @@
                 }
             }
         });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search');
+            const viewAllResultsBtn = document.getElementById('view-all-results');
+            const clearSearchBtn = document.getElementById('clear-search');
+            const searchResultsContainer = document.getElementById('search-results');
+            let selectedIndex = -1;
+
+            function clearSelection() {
+                const results = searchResultsContainer.getElementsByClassName('search-result-card');
+                if (selectedIndex >= 0 && selectedIndex < results.length) {
+                    results[selectedIndex].style.backgroundColor = '';
+                } else if (selectedIndex === results.length) {
+                    viewAllResultsBtn.style.backgroundColor = '';
+                } else if (selectedIndex === results.length + 1) {
+                    clearSearchBtn.style.backgroundColor = '';
+                }
+            }
+
+            function moveSelection(direction) {
+                const results = searchResultsContainer.getElementsByClassName('search-result-card');
+                const totalElements = results.length + 2;
+                clearSelection();
+
+                if (direction === 'down') {
+                    selectedIndex = (selectedIndex + 1) % totalElements;
+                } else if (direction === 'up') {
+                    selectedIndex = (selectedIndex - 1 + totalElements) % totalElements;
+                }
+
+                if (selectedIndex < results.length) {
+                    results[selectedIndex].style.backgroundColor = '#ff8623';
+                    results[selectedIndex].scrollIntoView({ block: "nearest" });
+                } else if (selectedIndex === results.length) {
+                    viewAllResultsBtn.style.backgroundColor = '#ff8623';
+                    viewAllResultsBtn.scrollIntoView({ block: "nearest" });
+                } else if (selectedIndex === results.length + 1) {
+                    clearSearchBtn.style.backgroundColor = '#ff8623';
+                    clearSearchBtn.scrollIntoView({ block: "nearest" });
+                }
+            }
+
+            searchInput.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowDown' || (e.key === 'Tab' && !e.shiftKey)) {
+                    e.preventDefault();
+                    moveSelection('down');
+                }
+                else if (e.key === 'ArrowUp' || (e.key === 'Tab' && e.shiftKey)) {
+                    e.preventDefault();
+                    moveSelection('up');
+                }
+                else if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (selectedIndex >= 0 && selectedIndex < searchResultsContainer.getElementsByClassName('search-result-card').length) {
+                        searchResultsContainer.getElementsByClassName('search-result-card')[selectedIndex].click();
+                    }
+                    else if (selectedIndex === searchResultsContainer.getElementsByClassName('search-result-card').length) {
+                        viewAllResultsBtn.click();
+                    }
+                    else if (selectedIndex === searchResultsContainer.getElementsByClassName('search-result-card').length + 1) {
+                        clearSearchBtn.click();
+                    }
+                    else {
+                        const query = searchInput.value.trim();
+                        localStorage.setItem('searchQuery', query);
+                        window.location.href = 'MovieVerse-Frontend/html/search.html';
+                    }
+                }
+            });
+
+            searchInput.addEventListener('blur', clearSelection);
+        });
     </script>
 
     <footer style="margin-top: 400px">

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>About The MovieVerse</title>
+    <title>About The MovieVerse - Your Ultimate Movie Guide</title>
     <meta property="og:title" content="About The MovieVerse - Your Ultimate Movie Guide" />
     <script src="../js/settings.js"></script>
     <meta name="description" content="Learn about The MovieVerse, your ultimate movie guide. Discover our mission, features, and how we create a haven for movie enthusiasts to explore cinema.">
@@ -89,6 +89,11 @@
         <button class="back-btn" onclick="window.location.href='../../index.html'">Home</button>
         <button class="about" onclick="window.location.href='about.html'">About</button>
         <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="View your favorites & watchlists">Favorites</button>
+
+        <button id="nav-toggle" class="nav-toggle" title="Toggle side navbar" onclick="toggleNav()">
+            <i class="fas fa-bars"></i>
+        </button>
+
         <button id="googleSignInBtn" class="nav-btn" onclick="handleSignInOut()" title="Sign In/Out">
             <span id="signInOutText">Sign In</span>
             <i class="fas fa-sign-in-alt" id="signInIcon"></i>
@@ -110,12 +115,33 @@
         <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 10px" title="Test your movie knowledge">MovieVerse Trivia</button>
     </header>
 
+    <nav id="side-nav" class="side-nav" style="z-index: 1002;">
+        <a id="heading-href" style="cursor: pointer" href="../../index.html" title="Click to go back to the home page">
+            <div id="my-heading" style="margin-bottom: 15px; margin-left: 0; margin-top: 15px; font-size: 2.1em; font-weight: bold;">
+                The Mo<span class="highlight">vieV</span>erse Menu
+            </div>
+        </a>
+
+        <div id="button-container">
+            <button id="button-remove" title="Close the navbar" onclick="removeNavBar()">Close</button>
+        </div>
+
+        <ul style="overflow-y: auto">
+            <li><a href="#aboutHeader">About The MovieVerse</a></li>
+            <li><a href="#subheading1">Core Features</a></li>
+            <li><a href="#subheading2">Explore Our Other Apps</a></li>
+            <li><a href="#subheading">Our Vision</a></li>
+            <li><a href="#subheading3">Join The Journey</a></li>
+            <li><a href="#subheading4">Useful Links</a></li>
+        </ul>
+    </nav>
+
     <main id="main2">
         <h2 id="aboutHeader" style="align-self: center">About The MovieVerse</h2>
 
         <p style="color: white">Welcome to The MovieVerse, your ultimate destination for exploring the magic of movies. Created by <a id="profileLink" href="http://github.com/hoangsonww">Son Nguyen</a> in 2023 with a vision to celebrate cinematic art, The MovieVerse offers a unique but comprehensive platform for movie lovers to discover, engage, and immerse themselves in the world of film!</p>
 
-        <h3 id="subheading">Core Features:</h3>
+        <h3 id="subheading1">Core Features:</h3>
 
         <ul style="align-content: center; color: white">
             <li><strong>Curated Movie Collections:</strong> Explore an array of movies categorized by genre, director, language, and era, including specialized sections like Director's Spotlight and award-winning films.</li>
@@ -133,7 +159,7 @@
             <li><strong>IMDb, Metacritics, and Rotten Tomatoes Ratings:</strong> Aside from ratings from our users, you can also view IMDb, Metacritics, and RT ratings for each movie directly within our app.</li>
         </ul>
 
-        <h3 id="subheading">Explore Our Other Apps:</h3>
+        <h3 id="subheading2">Explore Our Other Apps:</h3>
 
         <ul style="align-content: center; color: white">
             <li>
@@ -165,14 +191,14 @@
         <h3 id="subheading">Our Vision:</h3>
         <p style="color: white">Our aim is to create a haven for cinephiles, where the discovery of movies is an adventure. The MovieVerse is more than just a movie database; it's a vibrant community and a hub for sharing cinematic experiences and insights.</p>
 
-        <h3 id="subheading">Join The Journey:</h3>
+        <h3 id="subheading3">Join The Journey:</h3>
         <p style="color: white">We're constantly innovating to bring you new and exciting features. Stay tuned for upcoming enhancements, including virtual reality experiences, AI-driven recommendations, and social integration for shared movie experiences.</p>
         <br/>
         <p style="color: white">Become a part of The MovieVerse community today. Your engagement and feedback are invaluable to us. Together, let's celebrate the wonder of movies!</p>
         <br/>
         <p style="color: white; text-align: center"><em>Thank you for being a part of The MovieVerse. For more insights and updates, connect with us on our <a style="text-decoration: underline" id="githubLink" href="https://github.com/hoangsonww/The-MovieVerse-Database">GitHub page</a>.</em></p>
 
-        <h3 id="subheading">Useful Links:</h3>
+        <h3 id="subheading4">Useful Links:</h3>
         <p style="color: white">Here are some links that you might find useful: You can explore the analytics page of our database (<a href="analytics.html" style="color: white"><strong style="text-decoration: underline">MovieVerse Analytics</strong></a>), read our <a href="terms-of-service.html" style="color: white"><strong style="text-decoration: underline">terms of service</strong></a>, and review our <a href="privacy-policy.html" style="color: white"><strong style="text-decoration: underline">privacy policy</strong></a>. Feel free to reach out to us if you have any questions or concerns (at <a href="support.html" style="color: white"><strong style="text-decoration: underline">contact support</strong></a>).</p>
 
         <button onclick="window.location.href='analytics.html'" style="border: none; margin-top: 40px" class="app-btn">MovieVerse Analytics</button>
@@ -502,7 +528,30 @@
             window.location.href = 'search.html';
         }
 
+        function toggleNav() {
+            const sideNav = document.getElementById('side-nav');
+            sideNav.classList.toggle('manual-toggle');
+            adjustNavBar();
+        }
 
+        function removeNavBar() {
+            const sideNav = document.getElementById('side-nav');
+            if (sideNav.classList.contains('manual-toggle')) {
+                sideNav.classList.remove('manual-toggle');
+            }
+
+            adjustNavBar();
+        }
+
+        function adjustNavBar() {
+            const sideNav = document.getElementById('side-nav');
+            if (sideNav.classList.contains('manual-toggle')) {
+                sideNav.style.left = '0px';
+            }
+            else {
+                sideNav.style.left = '-250px';
+            }
+        }
     </script>
 
 </body>

@@ -23,7 +23,7 @@ function generateMovieNames(input) {
     return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
 }
 
-const form = document.getElementById("form");
+const form = document.getElementById("form1");
 const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
 const main = document.getElementById("main");
 const IMGPATH = "https://image.tmdb.org/t/p/w1280";
@@ -327,7 +327,7 @@ document.addEventListener('DOMContentLoaded', () => {
     else {
         const companyDetailsContainer = document.getElementById('company-details-container');
         companyDetailsContainer.innerHTML = `
-            <div style="display: flex; justify-content: center; align-items: center; text-align: center; width: 100vw;">
+            <div style="display: flex; justify-content: center; align-items: center; text-align: center; width: 100vw; height: 800px">
                 <h2>Company details not found.</h2>
             </div>`;
     }

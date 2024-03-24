@@ -9,9 +9,9 @@
     <script src="MovieVerse-Frontend/js/settings.js"></script>
 
     <!-- Meta tags for SEO -->
-    <meta property="og:title" content="The MovieVerse - Your Ultimate Movie Guide" />
     <meta name="description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta property="og:title" content="The MovieVerse - Your Ultimate Movie Guide" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
     <meta http-equiv="content-language" content="en" />
@@ -30,7 +30,9 @@
     <meta http-equiv="content-language" content="en">
     <meta name="language" content="en">
     <meta name="theme-color" content="#7378c5">
-    <meta name="twitter:card" content="https://movie-verse.com/images/image.png"/>
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@MovieVerse" />
+    <meta name="twitter:creator" content="@hoangsonw" />
     <meta name="twitter:title" content="The MovieVerse - Your Ultimate Movie Guide">
     <meta name="twitter:description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more.">
     <meta name="twitter:image" content="https://movie-verse.com/images/image.png"/>
@@ -105,6 +107,12 @@
             background-image: url("images/universe-1.png");
             background-repeat: repeat-y;
             background-size: 100% auto;
+        }
+
+        @media (min-width: 800px) {
+            #form {
+                margin-top: 30px !important;
+            }
         }
 
         @media (max-width: 767px) {
@@ -397,9 +405,9 @@
     </footer>
 
     <button id="settings-btn" style="position: fixed; bottom: 220px; z-index: 1001">Settings</button>
-    <button id="movie-match-btn" onclick="window.location.href='MovieVerse-Frontend/html/movie-match.html'" title="Find movies that match your mood and preferences!" style="bottom: 185px; z-index: 1001">Movie Match</button>
-    <button id="movie-timeline-btn" onclick="window.location.href='MovieVerse-Frontend/html/movie-timeline.html'" style="bottom: 150px; z-index: 1001" title="Explore movies through different eras!">Movie Timeline</button>
-    <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" style="bottom: 115px; z-index: 1001" title="Get a recommended movie to watch for today!">Surprise Me!</button>
+    <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" style="bottom: 185px; z-index: 1001" title="Get a recommended movie to watch for today!">Surprise Me!</button>
+    <button id="movie-match-btn" onclick="window.location.href='MovieVerse-Frontend/html/movie-match.html'" title="Find movies that match your mood and preferences!" style="bottom: 150px; z-index: 1001">Movie Match</button>
+    <button id="movie-timeline-btn" onclick="window.location.href='MovieVerse-Frontend/html/movie-timeline.html'" style="bottom: 115px; z-index: 1001" title="Explore movies through different eras!">Movie Timeline</button>
     <button id="discussions-btn" onclick="window.location.href='MovieVerse-Frontend/html/chatbot.html'" style="bottom: 80px; z-index: 1001" title="Want to know more about movies? Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
     <button id="trivia-btn" onclick="window.location.href='MovieVerse-Frontend/html/trivia.html'" style="bottom: 45px; z-index: 1001" title="Play a quick trivia to test your knowledge about movies!">MovieVerse Trivia</button>
     <button id="back-to-top-btn" style="bottom: 10px; z-index: 1001">Back To Top</button>
@@ -763,6 +771,83 @@
                     }
                 }
             }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search');
+            const viewAllResultsBtn = document.getElementById('view-all-results');
+            const clearSearchBtn = document.getElementById('clear-search');
+            const searchResultsContainer = document.getElementById('search-results');
+            let selectedIndex = -1;
+
+            function clearSelection() {
+                const results = searchResultsContainer.getElementsByClassName('search-result-card');
+                if (selectedIndex >= 0 && selectedIndex < results.length) {
+                    results[selectedIndex].style.backgroundColor = '';
+                }
+                else if (selectedIndex === results.length) {
+                    viewAllResultsBtn.style.backgroundColor = '';
+                }
+                else if (selectedIndex === results.length + 1) {
+                    clearSearchBtn.style.backgroundColor = '';
+                }
+            }
+
+            function moveSelection(direction) {
+                const results = searchResultsContainer.getElementsByClassName('search-result-card');
+                const totalElements = results.length + 2;
+                clearSelection();
+
+                if (direction === 'down') {
+                    selectedIndex = (selectedIndex + 1) % totalElements;
+                }
+                else if (direction === 'up') {
+                    selectedIndex = (selectedIndex - 1 + totalElements) % totalElements;
+                }
+
+                if (selectedIndex < results.length) {
+                    results[selectedIndex].style.backgroundColor = '#ff8623';
+                    results[selectedIndex].scrollIntoView({ block: "nearest" });
+                }
+                else if (selectedIndex === results.length) {
+                    viewAllResultsBtn.style.backgroundColor = '#ff8623';
+                    viewAllResultsBtn.scrollIntoView({ block: "nearest" });
+                }
+                else if (selectedIndex === results.length + 1) {
+                    clearSearchBtn.style.backgroundColor = '#ff8623';
+                    clearSearchBtn.scrollIntoView({ block: "nearest" });
+                }
+            }
+
+            searchInput.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowDown' || (e.key === 'Tab' && !e.shiftKey)) {
+                    e.preventDefault();
+                    moveSelection('down');
+                }
+                else if (e.key === 'ArrowUp' || (e.key === 'Tab' && e.shiftKey)) {
+                    e.preventDefault();
+                    moveSelection('up');
+                }
+                else if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (selectedIndex >= 0 && selectedIndex < searchResultsContainer.getElementsByClassName('search-result-card').length) {
+                        searchResultsContainer.getElementsByClassName('search-result-card')[selectedIndex].click();
+                    }
+                    else if (selectedIndex === searchResultsContainer.getElementsByClassName('search-result-card').length) {
+                        viewAllResultsBtn.click();
+                    }
+                    else if (selectedIndex === searchResultsContainer.getElementsByClassName('search-result-card').length + 1) {
+                        clearSearchBtn.click();
+                    }
+                    else {
+                        const query = searchInput.value.trim();
+                        localStorage.setItem('searchQuery', query);
+                        window.location.href = 'MovieVerse-Frontend/html/search.html';
+                    }
+                }
+            });
+
+            searchInput.addEventListener('blur', clearSelection);
         });
     </script>
 

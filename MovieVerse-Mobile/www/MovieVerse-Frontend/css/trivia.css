@@ -633,6 +633,25 @@ main {
     margin-right: 20px;
 }
 
+#quiz-container {
+    background-color: rgba(128, 128, 128, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 410px;
+    margin: auto;
+}
+
+#quiz-form {
+    margin-bottom: 250px;
+}
+
+.button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
 #clear-search-btn:hover {
     background-color: #ff8623;
 }

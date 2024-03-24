@@ -214,12 +214,6 @@ function attachArrowKeyNavigation() {
             case 'ArrowLeft':
                 currentIndex = (currentIndex - 1 + categories.length) % categories.length;
                 break;
-            case 'ArrowUp':
-                currentIndex = (currentIndex + 1) % categories.length;
-                break;
-            case 'ArrowDown':
-                currentIndex = (currentIndex - 1 + categories.length) % categories.length;
-                break;
             default:
                 return;
         }
@@ -332,6 +326,7 @@ function displayResults(results, category, searchTerm) {
 
     if (results.length === 0) {
         container.innerHTML = `<p>No results found for "${searchTerm}" in the ${capitalizedCategory} category. Please try again with a different query or look for it in another category.</p>`;
+        container.style.height = '800px';
         return;
     }
 

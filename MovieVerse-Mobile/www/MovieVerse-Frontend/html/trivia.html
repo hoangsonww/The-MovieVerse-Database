@@ -3,12 +3,13 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>MovieVerse Trivia</title>
+    <title>MovieVerse Trivia - Test Your Movie Knowledge</title>
     <link rel="stylesheet" href="../css/trivia.css">
     <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Test your movie knowledge with The MovieVerse Trivia. Challenge yourself with a variety of questions about movies, actors, and directors.">
     <link rel="canonical" href="https://movie-verse.com/MovieVerse-Frontend/html/trivia.html">
+    <meta property="og:title" content="MovieVerse Trivia - Test Your Movie Knowledge">
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
     <meta http-equiv="content-language" content="en" />
@@ -89,6 +90,16 @@
                 background-position: top center;
             }
         }
+
+        @media (min-width: 768px) {
+            #my-heading {
+                margin-top: 19px;
+            }
+
+            #form {
+                margin-top: 10px;
+            }
+        }
     </style>
 </head>
 
@@ -145,8 +156,8 @@
 
     <form id="quiz-form" style="margin-bottom: 250px">
         <div id="quiz-container"></div>
-        <button type="button" id="regenerate-questions" style="color: black">Get New Questions</button>
-        <button type="submit" id="submit" style="color: black">Submit Answers</button>
+        <button type="button" id="regenerate-questions" class="button" style="color: black">Get New Questions</button>
+        <button type="submit" id="submit" class="button" style="color: black">Submit Answers</button>
     </form>
 
     <button id="settings-btn" style="position: fixed; bottom: 185px">Settings</button>

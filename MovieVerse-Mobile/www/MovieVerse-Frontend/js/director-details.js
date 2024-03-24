@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     else {
         document.getElementById('director-details-container').innerHTML = `
-            <div style="display: flex; justify-content: center; align-items: center; text-align: center; margin-top: 40px; width: 100vw;">
+            <div style="display: flex; justify-content: center; align-items: center; text-align: center; margin-top: 40px; width: 100vw; height: 800px">
                 <h2>Director details not found.</h2>
             </div>`;
     }
@@ -143,6 +143,7 @@ function populateDirectorDetails(director, credits) {
         const noImageText = document.createElement('h2');
         noImageText.textContent = 'Image Not Available';
         noImageText.style.textAlign = 'center';
+        noImageText.style.height = '800px';
         document.querySelector('.director-left').appendChild(noImageText);
     }
 

@@ -489,7 +489,6 @@ header h1 {
     transition: opacity 0.3s ease-in, visibility 0.3s ease-in, transform 0.3s ease-in;
     overflow-y: auto;
     visibility: hidden;
-    align-content: center;
     text-align: center;
 }
 
@@ -1609,8 +1608,34 @@ p {
     background-color: #ff8623;
 }
 
-#subheading {
-    color: white;
+.modal-content {
+    position: relative;
+    background-color: #373b69;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 50%;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+}
+
+.modal-content h2 {
+    color: #ff8623;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.modal-content .close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.modal-content label {
+    color: #fff;
+    margin-bottom: 10px;
+    display: block;
 }
 
 #subheading:hover {
