@@ -634,7 +634,7 @@ main {
 }
 
 #quiz-container {
-    background-color: rgba(128, 128, 128, 0.5);
+    background-color: rgba(255, 255, 255, 0.2);
     padding: 20px;
     border-radius: 10px;
     max-width: 500px;

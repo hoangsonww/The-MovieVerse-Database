@@ -2973,3 +2973,10 @@ footer p:hover {
     padding: 10px 0;
     border-bottom: 1px solid #eee;
 }
+
+#comments-section {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px 0;
+}
