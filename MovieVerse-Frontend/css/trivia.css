@@ -637,12 +637,23 @@ main {
     background-color: rgba(128, 128, 128, 0.5);
     padding: 20px;
     border-radius: 10px;
-    max-width: 390px;
-    margin: auto;
+    max-width: 500px;
+    margin: 10px auto;
+    box-sizing: border-box;
 }
 
 #quiz-form {
-    margin-bottom: 250px;
+    max-width: 500px;
+    margin: 10px auto;
+    box-sizing: border-box;
+    padding: 0 10px;
+}
+
+@media (max-width: 520px) {
+    #quiz-container, #quiz-form {
+        width: calc(100% - 20px);
+        margin: 10px auto;
+    }
 }
 
 .button {
