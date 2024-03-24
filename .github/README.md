@@ -1,8 +1,10 @@
 # The MovieVerse App
 
-Welcome to The MovieVerse - your digital compass to the cinematic universe. Created by [Son Nguyen](https://github.com/hoangsonww) in 2023 and currently attracting more than **50,000 monthly users**, this application is designed to serve as a bridge connecting movie enthusiasts with an extensive collection of films across various genres and periods. Dive into an ocean of narratives, where stories come to life, right at your fingertips. This app is available at [https://movie-verse.com](https://movie-verse.com).
+Welcome to The MovieVerse - your digital compass to the cinematic universe. Created by [Son Nguyen](https://github.com/hoangsonww) in 2023 and currently attracting more than **50,000 monthly users**, this application is designed to serve as a bridge connecting movie enthusiasts with an extensive collection of films across various genres and periods. Dive into an ocean of narratives, where stories come to life, right at your fingertips. 
 
 Star this repository to show your support and stay updated on the latest features and enhancements. Feel free to contribute to the project, and let's build a vibrant community of movie lovers together 🎬🍿!
+
+**This app is currently available at [movie-verse.com](https://movie-verse.com)!**
 
 ---
 
