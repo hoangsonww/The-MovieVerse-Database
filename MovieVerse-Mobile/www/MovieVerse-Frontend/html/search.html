@@ -125,12 +125,12 @@
         </div>
     </main>
 
-    <button id="settings-btn" style="z-index: 10001; position: fixed; bottom: 185px">Settings</button>
-    <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="z-index: 10001; position: fixed; bottom: 150px">Movie Timeline</button>
-    <button id="movie-of-the-day-btn2" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="z-index: 10001; position: fixed; bottom: 115px">Surprise Me!</button>
-    <button id="discussions-btn" onclick="window.location.href='chatbot.html'" title="Want to know more about movies? Chat with our intelligent chatbot!" style="z-index: 10001; position: fixed; bottom: 80px">MovieVerse Chatbot</button>
-    <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="z-index: 10001; position: fixed; bottom: 45px" title="Play a quick trivia to test your knowledge about movies!">MovieVerse Trivia</button>
-    <button id="back-to-top-btn" title="Go to top" style="position: fixed; bottom: 10px; z-index: 10001;">Back to Top</button>
+    <button id="settings-btn" style="position: fixed; bottom: 265px; right: 10px">Settings</button>
+    <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 230px; right: 10px">Movie Match</button>
+    <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 195px; right: 10px">Movie Timeline</button>
+    <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 160px; right: 10px">Surprise Me!</button>
+    <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="bottom: 125px; right: 10px" title="Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
+    <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 90px; right: 10px" title="Test your movie knowledge">MovieVerse Trivia</button>
 
     <script>
         const movieCode1 = {
@@ -307,7 +307,8 @@
                             displaySearchResults(sortedResults.slice(0, 5));
                         })
                         .catch(err => console.error("Fetching error:", err));
-                } else {
+                }
+                else {
                     searchInput.value = '';
                     searchResultsContainer.innerHTML = '';
                     toggleButtons();
@@ -317,7 +318,8 @@
                 searchInput.addEventListener('input', function() {
                     if (searchInput.value.trim()) {
                         viewAllResultsBtn.style.display = 'block';
-                    } else {
+                    }
+                    else {
                         viewAllResultsBtn.style.display = 'none';
                     }
                 });
@@ -327,7 +329,8 @@
                     if (searchQuery) {
                         localStorage.setItem('searchQuery', searchQuery);
                         window.location.href = 'search.html';
-                    } else {
+                    }
+                    else {
                         alert('Please enter a search query.');
                     }
                 });
@@ -352,7 +355,8 @@
                         image.src = imagePath;
                         image.className = 'result-image';
                         card.appendChild(image);
-                    } else {
+                    }
+                    else {
                         const placeholder = document.createElement('div');
                         placeholder.className = 'result-image-placeholder';
                         placeholder.textContent = 'Image Not Available';
@@ -384,13 +388,22 @@
             }
 
             async function handleResultClick(item) {
+                console.log('Clicked item:', item.media_type, item.id);
+
+                if (!item.media_type) {
+                    console.error('Media type is undefined');
+                    return;
+                }
+
                 if (item.media_type === 'movie') {
                     localStorage.setItem('selectedMovieId', item.id);
                     window.location.href = 'movie-details.html';
-                } else if (item.media_type === 'tv') {
+                }
+                else if (item.media_type === 'tv') {
                     localStorage.setItem('selectedTvSeriesId', item.id);
                     window.location.href = 'tv-details.html';
-                } else if (item.media_type === 'person') {
+                }
+                else if (item.media_type === 'person') {
                     try {
                         const personDetailsUrl = `https://${getMovieVerseData()}/3/person/${item.id}?${generateMovieNames()}${getMovieCode()}`;
                         const response = await fetch(personDetailsUrl);
@@ -399,13 +412,18 @@
                         if (personDetails.known_for_department === 'Directing') {
                             localStorage.setItem('selectedDirectorId', item.id);
                             window.location.href = 'director-details.html?' + item.id;
-                        } else {
+                        }
+                        else {
                             localStorage.setItem('selectedActorId', item.id);
                             window.location.href = 'actor-details.html?' + item.id;
                         }
-                    } catch (error) {
+                    }
+                    catch (error) {
                         console.error('Error fetching person details:', error);
                     }
+                }
+                else {
+                    console.error('Unknown media type:', item.media_type);
                 }
             }
         });
@@ -490,6 +508,94 @@
             <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
         </a>
     </footer>
+
+    <div id="mobile-bottom-bar" class="mobile-bottom-bar">
+        <a href="settings.html" class="bottom-bar-item">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+        </a>
+        <a href="#" class="bottom-bar-item" onclick="showMovieOfTheDay()">
+            <i class="fas fa-surprise"></i>
+            <span>Surprise Me</span>
+        </a>
+        <a href="movie-match.html" class="bottom-bar-item">
+            <i class="fas fa-film"></i>
+            <span>Movie Match</span>
+        </a>
+        <a href="movie-timeline.html" class="bottom-bar-item">
+            <i class="fas fa-clock"></i>
+            <span>Movie Timeline</span>
+        </a>
+        <a href="chatbot.html" class="bottom-bar-item">
+            <i class="fas fa-robot"></i>
+            <span>Chatbot</span>
+        </a>
+        <a href="trivia.html" class="bottom-bar-item">
+            <i class="fas fa-question-circle"></i>
+            <span>Movie Trivia</span>
+        </a>
+    </div>
+
+    <button id="menu-btn" style="position: fixed; bottom: 10px; right: 10px; z-index: 1001" title="Toggle Menu">
+        <i class="fas fa-bars"></i><br>
+        <span>Menu</span>
+    </button>
+
+    <script>
+        let lastScrollY = window.scrollY;
+
+        window.addEventListener('scroll', () => {
+            const currentScrollY = window.scrollY;
+
+            if (currentScrollY > lastScrollY) {
+                document.querySelector('.mobile-bottom-bar').classList.add('hide-bar');
+            }
+            else {
+                document.querySelector('.mobile-bottom-bar').classList.remove('hide-bar');
+            }
+
+            lastScrollY = currentScrollY;
+        });
+
+        let isAnimating = false;
+
+        document.getElementById('menu-btn').addEventListener('click', () => {
+            if (isAnimating) return;
+
+            isAnimating = true;
+
+            const buttonIds = [
+                'settings-btn',
+                'movie-of-the-day-btn',
+                'movie-match-btn',
+                'movie-timeline-btn',
+                'discussions-btn',
+                'trivia-btn',
+                'back-to-top-btn'
+            ];
+
+            buttonIds.forEach((id, index) => {
+                const button = document.getElementById(id);
+                if (button.style.display === 'none' || !button.style.display) {
+                    button.style.display = 'block';
+                    setTimeout(() => {
+                        button.style.opacity = '1';
+                        button.style.transform = 'translateY(0)';
+                    }, 50 * index);
+                } else {
+                    button.style.opacity = '0';
+                    button.style.transform = 'translateY(20px)';
+                }
+
+                setTimeout(() => {
+                    button.style.display = button.style.opacity === '1' ? 'block' : 'none';
+                    if (index === buttonIds.length - 1) {
+                        isAnimating = false;
+                    }
+                }, 500 + 50 * index);
+            });
+        });
+    </script>
 
 </body>
 
