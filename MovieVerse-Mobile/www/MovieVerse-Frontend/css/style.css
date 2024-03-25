@@ -1573,7 +1573,7 @@ p {
     bottom: 0;
     left: 0;
     right: 0;
-    height: 50px;
+    height: auto;
     background-color: #7378c5;
     box-shadow: 0 -2px 5px rgba(0,0,0,0.2);
     justify-content: space-around;
@@ -1595,6 +1595,7 @@ p {
     color: white;
     text-decoration: none;
     padding: 6px 0;
+    width: 15%;
 }
 
 .mobile-bottom-bar a:hover {
