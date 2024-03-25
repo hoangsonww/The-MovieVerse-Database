@@ -1501,12 +1501,19 @@ p {
 }
 
 .nav-button:hover {
-    background-color: #565a9d;
+    background-color: #ff8623;
+    transition: 0.1s linear;
 }
 
 .nav-button:disabled {
-    background-color: #ccc;
+    background-color: #b5b5b5;
     cursor: not-allowed;
+}
+
+.pagination {
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 10px;
 }
 
 @media (max-width: 767px) {
@@ -1534,7 +1541,8 @@ p {
 }
 
 .page-button:hover {
-    background-color: #565a9d;
+    background-color: #ff8623;
+    transition: 0.1s linear;
 }
 
 .page-button.active {
@@ -1542,7 +1550,7 @@ p {
 }
 
 .page-button:disabled {
-    background-color: #ccc;
+    background-color: #b5b5b5;
     cursor: default;
 }
 
