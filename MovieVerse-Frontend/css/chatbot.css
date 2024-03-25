@@ -115,6 +115,23 @@ body {
     transform: translateY(0);
 }
 
+#movie-match-btn3 {
+    position: fixed;
+    bottom: 220px;
+    right: 20px;
+    background-color: #7378c5;
+    color: black;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font: inherit;
+}
+
+#movie-match-btn3:hover {
+    background-color: #ff8623;
+    transition: 0.3s ease-in;
+}
+
 .movie-info span {
     background-color: #22254b;
     border-radius: 3px;

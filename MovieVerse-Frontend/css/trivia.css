@@ -420,6 +420,23 @@ header h1 {
     cursor: pointer;
 }
 
+#movie-match-btn3 {
+    position: fixed;
+    bottom: 220px;
+    right: 20px;
+    background-color: #7378c5;
+    color: black;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font: inherit;
+}
+
+#movie-match-btn3:hover {
+    background-color: #ff8623;
+    transition: 0.3s ease-in;
+}
+
 #back-to-top-btn:hover {
     background-color: #ff8623;
     transition: 0.1s linear;
