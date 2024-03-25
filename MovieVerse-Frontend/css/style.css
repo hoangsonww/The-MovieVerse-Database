@@ -1643,7 +1643,7 @@ p {
 
     .pagination {
         position: relative;
-        width: 100%;
+        width: calc(100% - 20px);
         margin-top: 20px;
     }
 }
