@@ -1595,6 +1595,7 @@ p {
     color: white;
     text-decoration: none;
     padding: 6px 0;
+    width: 15%;
 }
 
 .mobile-bottom-bar a:hover {
