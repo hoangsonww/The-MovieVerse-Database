@@ -61,6 +61,19 @@
         #local-time {
             transform: translateX(20%);
         }
+
+        body {
+            background-image: url("../../images/universe-1.png");
+            background-repeat: repeat-y;
+            background-size: 100% auto;
+        }
+
+        @media (max-width: 767px) {
+            body {
+                background-size: auto;
+                background-position: top center;
+            }
+        }
     </style>
     <script type="text/javascript">
         (function(c,l,a,r,i,t,y){
@@ -71,7 +84,7 @@
     </script>
 </head>
 
-<body class="movie-details-body" style="overflow-x: hidden">
+<body style="overflow-x: hidden">
     <header style="margin-bottom: -60px; margin-top: -5px">
         <a id="indexLink" href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer; margin-bottom: -34px" title="Click to go back to the home page">
             <h1 id="my-heading">
@@ -310,6 +323,26 @@
                     }
                 }, 500 + 50 * index);
             });
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth < 767) {
+                const buttonIds = [
+                    'settings-btn',
+                    'movie-of-the-day-btn',
+                    'movie-match-btn3',
+                    'movie-timeline-btn',
+                    'discussions-btn',
+                    'trivia-btn',
+                ];
+
+                buttonIds.forEach(id => {
+                    const button = document.getElementById(id);
+                    button.style.display = 'none';
+                    button.style.opacity = '0';
+                    button.style.transform = 'translateY(20px)';
+                });
+            }
         });
     </script>
 

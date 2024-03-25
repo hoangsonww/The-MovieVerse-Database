@@ -105,6 +105,19 @@
         #local-time {
             transform: translateX(12%);
         }
+
+        body {
+            background-image: url("../../images/universe-1.png");
+            background-repeat: repeat-y;
+            background-size: 100% auto;
+        }
+
+        @media (max-width: 767px) {
+            body {
+                background-size: auto;
+                background-position: top center;
+            }
+        }
     </style>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
     <script>
@@ -123,7 +136,7 @@
     </script>
 </head>
 
-<body class="movie-details-body">
+<body>
     <header id="homepage-header" style="margin-top: -5px">
         <a id="indexLink" href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer">
             <h1 id="my-heading" style="margin-bottom: -10px">
@@ -248,6 +261,26 @@
                     }
                 }, 500 + 50 * index);
             });
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth < 767) {
+                const buttonIds = [
+                    'settings-btn',
+                    'movie-of-the-day-btn',
+                    'movie-match-btn3',
+                    'movie-timeline-btn',
+                    'discussions-btn',
+                    'trivia-btn',
+                ];
+
+                buttonIds.forEach(id => {
+                    const button = document.getElementById(id);
+                    button.style.display = 'none';
+                    button.style.opacity = '0';
+                    button.style.transform = 'translateY(20px)';
+                });
+            }
         });
     </script>
     <script src="../js/create-account.js" type="module"></script>
