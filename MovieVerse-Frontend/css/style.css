@@ -1531,6 +1531,7 @@ p {
 #settings-btn,
 #movie-of-the-day-btn,
 #movie-match-btn,
+#movie-match-btn3,
 #movie-timeline-btn,
 #discussions-btn,
 #trivia-btn,
@@ -1547,6 +1548,7 @@ p {
     #movie-match-btn,
     #movie-timeline-btn,
     #discussions-btn,
+    #movie-match-btn3,
     #trivia-btn,
     #back-to-top-btn {
         position: fixed;
@@ -1566,7 +1568,7 @@ p {
     left: 0;
     right: 0;
     height: 50px;
-    background-color: #373b69;
+    background-color: #7378c5;
     box-shadow: 0 -2px 5px rgba(0,0,0,0.2);
     justify-content: space-around;
     align-items: center;
