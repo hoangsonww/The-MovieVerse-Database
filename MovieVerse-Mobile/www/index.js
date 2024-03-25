@@ -1,4 +1,3 @@
-
 const most_popular_main = document.getElementById("most-popular");
 const action_main = document.getElementById("action");
 const horror_main = document.getElementById("horror");
@@ -39,18 +38,385 @@ function hideSpinner() {
     document.getElementById('myModal').classList.remove('modal-visible');
 }
 
-async function getMovies(url, mainElement) {
+document.addEventListener('DOMContentLoaded', function() {
+    const pagination = document.getElementById('most-popular-pagination');
+    const genresContainer = document.querySelector('.genres');
+    const mainContainer = document.getElementById('most-popular');
+
+    function movePagination() {
+        if (window.innerWidth <= 767) {
+            mainContainer.parentNode.insertBefore(pagination, mainContainer.nextSibling);
+        }
+        else {
+            genresContainer.appendChild(pagination);
+        }
+    }
+
+    movePagination();
+    window.addEventListener('resize', movePagination);
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    let currentPageMostPopular = 1;
+    const totalPages = 60;
+    const mostPopularMain = document.getElementById('most-popular');
+    const paginationContainer = document.getElementById('most-popular-pagination');
+
+    const fetchAndUpdateMostPopular = () => {
+        const mostPopularUrl = `https://${getMovieVerseData()}/3/movie/popular?${generateMovieNames()}${getMovieCode()}`;
+        getMovies(mostPopularUrl, mostPopularMain, currentPageMostPopular);
+        updatePaginationDisplay();
+    };
+
+    const updatePaginationDisplay = () => {
+        paginationContainer.innerHTML = '';
+
+        const prevButton = createNavigationButton('<', currentPageMostPopular > 1, () => {
+            currentPageMostPopular--;
+            fetchAndUpdateMostPopular();
+        });
+        paginationContainer.appendChild(prevButton);
+
+        let startPage = Math.max(currentPageMostPopular - 2, 1);
+        let endPage = Math.min(startPage + 4, totalPages);
+
+        if (endPage === totalPages) startPage = Math.max(endPage - 4, 1);
+
+        if (startPage > 1) {
+            paginationContainer.appendChild(createPageButton(1));
+            if (startPage > 2) paginationContainer.appendChild(createPageButton('...'));
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            paginationContainer.appendChild(createPageButton(i));
+        }
+
+        if (endPage < totalPages) {
+            if (endPage < totalPages - 1) paginationContainer.appendChild(createPageButton('...'));
+            paginationContainer.appendChild(createPageButton(totalPages));
+        }
+
+        const nextButton = createNavigationButton('>', currentPageMostPopular < totalPages, () => {
+            currentPageMostPopular++;
+            fetchAndUpdateMostPopular();
+        });
+        paginationContainer.appendChild(nextButton);
+    };
+
+    const createNavigationButton = (text, enabled, clickHandler) => {
+        const button = document.createElement('button');
+        button.innerHTML = text;
+        button.disabled = !enabled;
+        button.className = 'nav-button';
+        if (enabled) {
+            button.onclick = clickHandler;
+        }
+        return button;
+    };
+
+    const createPageButton = (pageNum) => {
+        const button = document.createElement('button');
+        button.textContent = pageNum;
+        button.className = 'page-button';
+        if (pageNum === '...') {
+            button.disabled = true;
+        } else {
+            button.onclick = function() {
+                currentPageMostPopular = pageNum;
+                fetchAndUpdateMostPopular();
+            };
+            if (pageNum === currentPageMostPopular) {
+                button.classList.add('active');
+            }
+        }
+        return button;
+    };
+
+    fetchAndUpdateMostPopular();
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    let currentPageAwardWinning = 1;
+    const totalPagesAwardWinning = 60;
+    const awardWinningMain = document.getElementById('award-winning');
+    const paginationContainerAwardWinning = document.getElementById('award-winning-pagination');
+    const genresContainer = document.getElementById('award-winning-div');
+
+    function movePagination() {
+        if (window.innerWidth <= 767) {
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
+        }
+        else {
+            genresContainer.appendChild(paginationContainerAwardWinning);
+        }
+    }
+
+    const fetchAndUpdateAwardWinning = () => {
+        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=1000`;
+        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
+        updatePaginationDisplayAwardWinning();
+    };
+
+    const updatePaginationDisplayAwardWinning = () => {
+        paginationContainerAwardWinning.innerHTML = '';
+
+        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
+            currentPageAwardWinning--;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(prevButton);
+
+        let startPage = Math.max(currentPageAwardWinning - 2, 1);
+        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
+
+        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
+
+        if (startPage > 1) {
+            paginationContainerAwardWinning.appendChild(createPageButton(1));
+            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            paginationContainerAwardWinning.appendChild(createPageButton(i));
+        }
+
+        if (endPage < totalPagesAwardWinning) {
+            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
+        }
+
+        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
+            currentPageAwardWinning++;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(nextButton);
+    };
+
+    function createNavigationButton(text, enabled, clickHandler) {
+        const button = document.createElement('button');
+        button.innerHTML = text;
+        button.disabled = !enabled;
+        button.className = 'nav-button';
+        if (enabled) {
+            button.addEventListener('click', clickHandler);
+        }
+        return button;
+    }
+
+    function createPageButton(pageNum) {
+        const button = document.createElement('button');
+        button.textContent = pageNum;
+        button.className = 'page-button';
+        if (pageNum === '...') {
+            button.disabled = true;
+        }
+        else {
+            button.addEventListener('click', () => {
+                currentPageAwardWinning = pageNum;
+                fetchAndUpdateAwardWinning();
+            });
+            if (pageNum === currentPageAwardWinning) {
+                button.classList.add('active');
+            }
+        }
+        return button;
+    }
+
+    movePagination();
+    fetchAndUpdateAwardWinning();
+    window.addEventListener('resize', movePagination);
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    let currentPageAwardWinning = 1;
+    const totalPagesAwardWinning = 60;
+    const awardWinningMain = document.getElementById('action');
+    const paginationContainerAwardWinning = document.getElementById('action-pagination');
+    const genresContainer = document.getElementById('action-div');
+
+    function movePagination() {
+        if (window.innerWidth <= 767) {
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
+        } else {
+            genresContainer.appendChild(paginationContainerAwardWinning);
+        }
+    }
+
+    const fetchAndUpdateAwardWinning = () => {
+        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=28&sort_by=popularity.desc&vote_count.gte=8`;
+        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
+        updatePaginationDisplayAwardWinning();
+    };
+
+    const updatePaginationDisplayAwardWinning = () => {
+        paginationContainerAwardWinning.innerHTML = '';
+
+        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
+            currentPageAwardWinning--;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(prevButton);
+
+        let startPage = Math.max(currentPageAwardWinning - 2, 1);
+        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
+        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
+
+        if (startPage > 1) {
+            paginationContainerAwardWinning.appendChild(createPageButton(1));
+            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            paginationContainerAwardWinning.appendChild(createPageButton(i));
+        }
+
+        if (endPage < totalPagesAwardWinning) {
+            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
+        }
+
+        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
+            currentPageAwardWinning++;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(nextButton);
+    };
+
+    function createNavigationButton(text, enabled, clickHandler) {
+        const button = document.createElement('button');
+        button.innerHTML = text;
+        button.disabled = !enabled;
+        button.className = 'nav-button';
+        if (enabled) {
+            button.addEventListener('click', clickHandler);
+        }
+        return button;
+    }
+
+    function createPageButton(pageNum) {
+        const button = document.createElement('button');
+        button.textContent = pageNum;
+        button.className = 'page-button';
+        if (pageNum === '...') {
+            button.disabled = true;
+        }
+        else {
+            button.addEventListener('click', () => {
+                currentPageAwardWinning = pageNum;
+                fetchAndUpdateAwardWinning();
+            });
+            if (pageNum === currentPageAwardWinning) {
+                button.classList.add('active');
+            }
+        }
+        return button;
+    }
+
+    movePagination();
+    fetchAndUpdateAwardWinning();
+    window.addEventListener('resize', movePagination);
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    let currentPageAwardWinning = 1;
+    const totalPagesAwardWinning = 60;
+    const awardWinningMain = document.getElementById('vietnamese');
+    const paginationContainerAwardWinning = document.getElementById('vietnamese-pagination');
+    const genresContainer = document.getElementById('vietnamese-div');
+
+    function movePagination() {
+        if (window.innerWidth <= 767) {
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
+        } else {
+            genresContainer.appendChild(paginationContainerAwardWinning);
+        }
+    }
+
+    const fetchAndUpdateAwardWinning = () => {
+        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_original_language=vi&sort_by=popularity.desc`;
+        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
+        updatePaginationDisplayAwardWinning();
+    };
+
+    const updatePaginationDisplayAwardWinning = () => {
+        paginationContainerAwardWinning.innerHTML = '';
+
+        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
+            currentPageAwardWinning--;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(prevButton);
+
+        let startPage = Math.max(currentPageAwardWinning - 2, 1);
+        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
+        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
+
+        if (startPage > 1) {
+            paginationContainerAwardWinning.appendChild(createPageButton(1));
+            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            paginationContainerAwardWinning.appendChild(createPageButton(i));
+        }
+
+        if (endPage < totalPagesAwardWinning) {
+            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
+        }
+
+        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
+            currentPageAwardWinning++;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(nextButton);
+    };
+
+    function createNavigationButton(text, enabled, clickHandler) {
+        const button = document.createElement('button');
+        button.innerHTML = text;
+        button.disabled = !enabled;
+        button.className = 'nav-button';
+        if (enabled) {
+            button.addEventListener('click', clickHandler);
+        }
+        return button;
+    }
+
+    function createPageButton(pageNum) {
+        const button = document.createElement('button');
+        button.textContent = pageNum;
+        button.className = 'page-button';
+        if (pageNum === '...') {
+            button.disabled = true;
+        } else {
+            button.addEventListener('click', () => {
+                currentPageAwardWinning = pageNum;
+                fetchAndUpdateAwardWinning();
+            });
+            if (pageNum === currentPageAwardWinning) {
+                button.classList.add('active');
+            }
+        }
+        return button;
+    }
+
+    movePagination();
+    fetchAndUpdateAwardWinning();
+    window.addEventListener('resize', movePagination);
+});
+
+async function getMovies(url, mainElement, page = 1) {
     showSpinner();
 
+    url += `&page=${page}`;
+
     const numberOfMovies = calculateMoviesToDisplay();
-    const pagesToFetch = numberOfMovies <= 20 ? 1 : 2;
     let allMovies = [];
 
-    for (let page = 1; page <= pagesToFetch; page++) {
-        const response = await fetch(`${url}&page=${page}`);
-        const data = await response.json();
-        allMovies = allMovies.concat(data.results);
-    }
+    const response = await fetch(url);
+    const data = await response.json();
+    allMovies = allMovies.concat(data.results);
 
     const popularityThreshold = 0.5;
 
@@ -215,32 +581,104 @@ function getMostVisitedMovie() {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-    await generateRecommendations();
-});
+    let currentPageRecommended = 1;
+    const totalPagesRecommended = 60; // Adjust this based on actual total pages for recommendations
+    const recommendedMain = document.getElementById('recommended');
+    const paginationContainerRecommended = document.getElementById('recommended-pagination');
+    const genresContainer = document.getElementById('recommendedDIV');
 
-async function generateRecommendations() {
-    const mostCommonGenre = getMostCommonGenre();
-    const mostVisitedMovieGenre = await getMostVisitedMovieGenre();
-
-    recommended_main.innerHTML = '';
-
-    if (!mostVisitedMovieGenre || !mostCommonGenre) {
-        recommended_main.innerHTML = `<div style="display: flex; justify-content: center; align-items: center; height: 100%;">
-            <p style="text-align: center; font-size: 20px;">
-                Start exploring and rating movies or add them to your favorites to get personalized recommendations.
-            </p>
-        </div>`;
-        return;
+    function movePagination() {
+        if (window.innerWidth <= 767) {
+            recommendedMain.parentNode.insertBefore(paginationContainerRecommended, recommendedMain.nextSibling);
+        } else {
+            genresContainer.appendChild(paginationContainerRecommended);
+        }
     }
 
-    const totalMoviesToDisplay = calculateMoviesToDisplay();
+    async function generateRecommendations(pageNum = currentPageRecommended) {
+        showSpinner();
 
-    const commonGenreUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=${mostCommonGenre}&sort_by=popularity.desc&vote_count.gte=10`;
-    const visitedGenreUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=${mostVisitedMovieGenre}&sort_by=popularity.desc&vote_count.gte=10`;
+        currentPageRecommended = pageNum;
+        const mostCommonGenre = getMostCommonGenre();
+        const mostVisitedMovieGenre = await getMostVisitedMovieGenre();
 
-    await fetchAndDisplayMovies(commonGenreUrl, totalMoviesToDisplay, recommended_main);
-    await fetchAndDisplayMovies(visitedGenreUrl, totalMoviesToDisplay, recommended_main);
-}
+        recommendedMain.innerHTML = '';
+
+        if (!mostVisitedMovieGenre || !mostCommonGenre) {
+            recommendedMain.innerHTML = `<div style="display: flex; justify-content: center; align-items: center; height: 100%;">
+                <p style="text-align: center; font-size: 20px;">
+                    Start exploring and rating movies or add them to your favorites to get personalized recommendations.
+                </p>
+            </div>`;
+            return;
+        }
+
+        const totalMoviesToDisplay = calculateMoviesToDisplay();
+        const commonGenreUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=${mostCommonGenre}&sort_by=popularity.desc&vote_count.gte=10&page=${currentPageRecommended}`;
+        const visitedGenreUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=${mostVisitedMovieGenre}&sort_by=popularity.desc&vote_count.gte=10&page=${currentPageRecommended}`;
+
+        await fetchAndDisplayMovies(commonGenreUrl, totalMoviesToDisplay, recommendedMain);
+        await fetchAndDisplayMovies(visitedGenreUrl, totalMoviesToDisplay, recommendedMain);
+        updatePaginationDisplayRecommended();
+
+        hideSpinner();
+    }
+
+    function updatePaginationDisplayRecommended() {
+        paginationContainerRecommended.innerHTML = '';
+
+        const prevButton = createNavigationButton('<', currentPageRecommended > 1, () => generateRecommendations(currentPageRecommended - 1));
+        paginationContainerRecommended.appendChild(prevButton);
+
+        let startPage = Math.max(currentPageRecommended - 2, 1);
+        let endPage = Math.min(startPage + 4, totalPagesRecommended);
+        if (endPage === totalPagesRecommended) startPage = Math.max(endPage - 4, 1);
+
+        if (startPage > 1) {
+            paginationContainerRecommended.appendChild(createPageButton(1, generateRecommendations));
+            if (startPage > 2) paginationContainerRecommended.appendChild(createPageButton('...'));
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            paginationContainerRecommended.appendChild(createPageButton(i, generateRecommendations, i === currentPageRecommended));
+        }
+
+        if (endPage < totalPagesRecommended) {
+            if (endPage < totalPagesRecommended - 1) paginationContainerRecommended.appendChild(createPageButton('...'));
+            paginationContainerRecommended.appendChild(createPageButton(totalPagesRecommended, generateRecommendations));
+        }
+
+        const nextButton = createNavigationButton('>', currentPageRecommended < totalPagesRecommended, () => generateRecommendations(currentPageRecommended + 1));
+        paginationContainerRecommended.appendChild(nextButton);
+    }
+
+    function createNavigationButton(text, enabled, clickHandler) {
+        const button = document.createElement('button');
+        button.innerHTML = text;
+        button.disabled = !enabled;
+        button.className = 'nav-button';
+        if (enabled) {
+            button.addEventListener('click', clickHandler);
+        }
+        return button;
+    }
+
+    function createPageButton(pageNum, fetchFunction, isActive) {
+        const button = document.createElement('button');
+        button.textContent = pageNum;
+        button.className = 'page-button' + (isActive ? ' active' : '');
+        if (pageNum !== '...') {
+            button.addEventListener('click', () => fetchFunction(pageNum));
+        } else {
+            button.disabled = true;
+        }
+        return button;
+    }
+
+    movePagination();
+    await generateRecommendations();
+    window.addEventListener('resize', movePagination);
+});
 
 async function fetchAndDisplayMovies(url, count, mainElement) {
     const response = await fetch(`${url}&page=1`);
@@ -250,6 +688,7 @@ async function fetchAndDisplayMovies(url, count, mainElement) {
 
     showMovies(movies, mainElement);
 }
+
 
 async function getMostVisitedMovieGenre() {
     const movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
@@ -373,7 +812,7 @@ function fallbackMovieSelection() {
 
 function calculateMoviesToDisplay() {
     const screenWidth = window.innerWidth;
-    if (screenWidth <= 689.9) return 10; // 1 movie per row
+    if (screenWidth <= 689.9) return 7; // 1 movie per row
     if (screenWidth <= 1021.24) return 20; // 2 movies per row
     if (screenWidth <= 1353.74) return 21; // 3 movies per row
     if (screenWidth <= 1684.9) return 20; // 4 movies per row
@@ -458,6 +897,451 @@ document.getElementById('side-nav').addEventListener('mouseleave', function() {
     }
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+    let currentPageAwardWinning = 1;
+    const totalPagesAwardWinning = 60;
+    const awardWinningMain = document.getElementById('indian');
+    const paginationContainerAwardWinning = document.getElementById('indian-pagination');
+    const genresContainer = document.getElementById('indian-div');
+
+    function movePagination() {
+        if (window.innerWidth <= 767) {
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
+        } else {
+            genresContainer.appendChild(paginationContainerAwardWinning);
+        }
+    }
+
+    const fetchAndUpdateAwardWinning = () => {
+        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_original_language=hi&sort_by=popularity.desc`;
+        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
+        updatePaginationDisplayAwardWinning();
+    };
+
+    const updatePaginationDisplayAwardWinning = () => {
+        paginationContainerAwardWinning.innerHTML = '';
+
+        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
+            currentPageAwardWinning--;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(prevButton);
+
+        let startPage = Math.max(currentPageAwardWinning - 2, 1);
+        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
+        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
+
+        if (startPage > 1) {
+            paginationContainerAwardWinning.appendChild(createPageButton(1));
+            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            paginationContainerAwardWinning.appendChild(createPageButton(i));
+        }
+
+        if (endPage < totalPagesAwardWinning) {
+            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
+        }
+
+        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
+            currentPageAwardWinning++;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(nextButton);
+    };
+
+    function createNavigationButton(text, enabled, clickHandler) {
+        const button = document.createElement('button');
+        button.innerHTML = text;
+        button.disabled = !enabled;
+        button.className = 'nav-button';
+        if (enabled) {
+            button.addEventListener('click', clickHandler);
+        }
+        return button;
+    }
+
+    function createPageButton(pageNum) {
+        const button = document.createElement('button');
+        button.textContent = pageNum;
+        button.className = 'page-button';
+        if (pageNum === '...') {
+            button.disabled = true;
+        } else {
+            button.addEventListener('click', () => {
+                currentPageAwardWinning = pageNum;
+                fetchAndUpdateAwardWinning();
+            });
+            if (pageNum === currentPageAwardWinning) {
+                button.classList.add('active');
+            }
+        }
+        return button;
+    }
+
+    movePagination();
+    fetchAndUpdateAwardWinning();
+    window.addEventListener('resize', movePagination);
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    let currentPageAwardWinning = 1;
+    const totalPagesAwardWinning = 60;
+    const awardWinningMain = document.getElementById('korean');
+    const paginationContainerAwardWinning = document.getElementById('korean-pagination');
+    const genresContainer = document.getElementById('korean-div');
+
+    function movePagination() {
+        if (window.innerWidth <= 767) {
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
+        } else {
+            genresContainer.appendChild(paginationContainerAwardWinning);
+        }
+    }
+
+    const fetchAndUpdateAwardWinning = () => {
+        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_original_language=ko&sort_by=vote_average.desc,popularity.desc&vote_count.gte=10&vote_average.gte=8`;
+        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
+        updatePaginationDisplayAwardWinning();
+    };
+
+    const updatePaginationDisplayAwardWinning = () => {
+        paginationContainerAwardWinning.innerHTML = '';
+
+        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
+            currentPageAwardWinning--;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(prevButton);
+
+        let startPage = Math.max(currentPageAwardWinning - 2, 1);
+        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
+        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
+
+        if (startPage > 1) {
+            paginationContainerAwardWinning.appendChild(createPageButton(1));
+            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            paginationContainerAwardWinning.appendChild(createPageButton(i));
+        }
+
+        if (endPage < totalPagesAwardWinning) {
+            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
+        }
+
+        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
+            currentPageAwardWinning++;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(nextButton);
+    };
+
+    function createNavigationButton(text, enabled, clickHandler) {
+        const button = document.createElement('button');
+        button.innerHTML = text;
+        button.disabled = !enabled;
+        button.className = 'nav-button';
+        if (enabled) {
+            button.addEventListener('click', clickHandler);
+        }
+        return button;
+    }
+
+    function createPageButton(pageNum) {
+        const button = document.createElement('button');
+        button.textContent = pageNum;
+        button.className = 'page-button';
+        if (pageNum === '...') {
+            button.disabled = true;
+        } else {
+            button.addEventListener('click', () => {
+                currentPageAwardWinning = pageNum;
+                fetchAndUpdateAwardWinning();
+            });
+            if (pageNum === currentPageAwardWinning) {
+                button.classList.add('active');
+            }
+        }
+        return button;
+    }
+
+    movePagination();
+    fetchAndUpdateAwardWinning();
+    window.addEventListener('resize', movePagination);
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    let currentPageAwardWinning = 1;
+    const totalPagesAwardWinning = 60;
+    const awardWinningMain = document.getElementById('tv-series');
+    const paginationContainerAwardWinning = document.getElementById('tv-series-pagination');
+    const genresContainer = document.getElementById('tv-series-div');
+
+    function movePagination() {
+        if (window.innerWidth <= 767) {
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
+        } else {
+            genresContainer.appendChild(paginationContainerAwardWinning);
+        }
+    }
+
+    const fetchAndUpdateAwardWinning = () => {
+        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10770&sort_by=popularity.desc&vote_count.gte=8`;
+        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
+        updatePaginationDisplayAwardWinning();
+    };
+
+    const updatePaginationDisplayAwardWinning = () => {
+        paginationContainerAwardWinning.innerHTML = '';
+
+        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
+            currentPageAwardWinning--;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(prevButton);
+
+        let startPage = Math.max(currentPageAwardWinning - 2, 1);
+        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
+        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
+
+        if (startPage > 1) {
+            paginationContainerAwardWinning.appendChild(createPageButton(1));
+            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            paginationContainerAwardWinning.appendChild(createPageButton(i));
+        }
+
+        if (endPage < totalPagesAwardWinning) {
+            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
+        }
+
+        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
+            currentPageAwardWinning++;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(nextButton);
+    };
+
+    function createNavigationButton(text, enabled, clickHandler) {
+        const button = document.createElement('button');
+        button.innerHTML = text;
+        button.disabled = !enabled;
+        button.className = 'nav-button';
+        if (enabled) {
+            button.addEventListener('click', clickHandler);
+        }
+        return button;
+    }
+
+    function createPageButton(pageNum) {
+        const button = document.createElement('button');
+        button.textContent = pageNum;
+        button.className = 'page-button';
+        if (pageNum === '...') {
+            button.disabled = true;
+        } else {
+            button.addEventListener('click', () => {
+                currentPageAwardWinning = pageNum;
+                fetchAndUpdateAwardWinning();
+            });
+            if (pageNum === currentPageAwardWinning) {
+                button.classList.add('active');
+            }
+        }
+        return button;
+    }
+
+    movePagination();
+    fetchAndUpdateAwardWinning();
+    window.addEventListener('resize', movePagination);
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    let currentPageAwardWinning = 1;
+    const totalPagesAwardWinning = 60;
+    const awardWinningMain = document.getElementById('hidden-gems');
+    const paginationContainerAwardWinning = document.getElementById('hidden-gems-pagination');
+    const genresContainer = document.getElementById('hidden-gems-div');
+
+    function movePagination() {
+        if (window.innerWidth <= 767) {
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
+        } else {
+            genresContainer.appendChild(paginationContainerAwardWinning);
+        }
+    }
+
+    const fetchAndUpdateAwardWinning = () => {
+        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&vote_average.gte=7&popularity.lte=10`;
+        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
+        updatePaginationDisplayAwardWinning();
+    };
+
+    const updatePaginationDisplayAwardWinning = () => {
+        paginationContainerAwardWinning.innerHTML = '';
+
+        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
+            currentPageAwardWinning--;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(prevButton);
+
+        let startPage = Math.max(currentPageAwardWinning - 2, 1);
+        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
+        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
+
+        if (startPage > 1) {
+            paginationContainerAwardWinning.appendChild(createPageButton(1));
+            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            paginationContainerAwardWinning.appendChild(createPageButton(i));
+        }
+
+        if (endPage < totalPagesAwardWinning) {
+            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
+        }
+
+        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
+            currentPageAwardWinning++;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(nextButton);
+    };
+
+    function createNavigationButton(text, enabled, clickHandler) {
+        const button = document.createElement('button');
+        button.innerHTML = text;
+        button.disabled = !enabled;
+        button.className = 'nav-button';
+        if (enabled) {
+            button.addEventListener('click', clickHandler);
+        }
+        return button;
+    }
+
+    function createPageButton(pageNum) {
+        const button = document.createElement('button');
+        button.textContent = pageNum;
+        button.className = 'page-button';
+        if (pageNum === '...') {
+            button.disabled = true;
+        } else {
+            button.addEventListener('click', () => {
+                currentPageAwardWinning = pageNum;
+                fetchAndUpdateAwardWinning();
+            });
+            if (pageNum === currentPageAwardWinning) {
+                button.classList.add('active');
+            }
+        }
+        return button;
+    }
+
+    movePagination();
+    fetchAndUpdateAwardWinning();
+    window.addEventListener('resize', movePagination);
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    let currentPageAwardWinning = 1;
+    const totalPagesAwardWinning = 60;
+    const awardWinningMain = document.getElementById('horror');
+    const paginationContainerAwardWinning = document.getElementById('horror-pagination');
+    const genresContainer = document.getElementById('horror-div');
+
+    function movePagination() {
+        if (window.innerWidth <= 767) {
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
+        } else {
+            genresContainer.appendChild(paginationContainerAwardWinning);
+        }
+    }
+
+    const fetchAndUpdateAwardWinning = () => {
+        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=27&sort_by=popularity.desc&vote_count.gte=8`;
+        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
+        updatePaginationDisplayAwardWinning();
+    };
+
+    const updatePaginationDisplayAwardWinning = () => {
+        paginationContainerAwardWinning.innerHTML = '';
+
+        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
+            currentPageAwardWinning--;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(prevButton);
+
+        let startPage = Math.max(currentPageAwardWinning - 2, 1);
+        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
+        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
+
+        if (startPage > 1) {
+            paginationContainerAwardWinning.appendChild(createPageButton(1));
+            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            paginationContainerAwardWinning.appendChild(createPageButton(i));
+        }
+
+        if (endPage < totalPagesAwardWinning) {
+            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
+        }
+
+        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
+            currentPageAwardWinning++;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(nextButton);
+    };
+
+    function createNavigationButton(text, enabled, clickHandler) {
+        const button = document.createElement('button');
+        button.innerHTML = text;
+        button.disabled = !enabled;
+        button.className = 'nav-button';
+        if (enabled) {
+            button.addEventListener('click', clickHandler);
+        }
+        return button;
+    }
+
+    function createPageButton(pageNum) {
+        const button = document.createElement('button');
+        button.textContent = pageNum;
+        button.className = 'page-button';
+        if (pageNum === '...') {
+            button.disabled = true;
+        } else {
+            button.addEventListener('click', () => {
+                currentPageAwardWinning = pageNum;
+                fetchAndUpdateAwardWinning();
+            });
+            if (pageNum === currentPageAwardWinning) {
+                button.classList.add('active');
+            }
+        }
+        return button;
+    }
+
+    movePagination();
+    fetchAndUpdateAwardWinning();
+    window.addEventListener('resize', movePagination);
+});
+
 const DATABASEURL = `https://${getMovieVerseData()}/3/discover/movie?sort_by=popularity.desc&${generateMovieNames()}${getMovieCode()}`;
 const IMGPATH = `https://image.tmdb.org/t/p/w1280`;
 const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
@@ -483,6 +1367,1252 @@ const AWARD_WINNING_PATH = `https://${getMovieVerseData()}/3/discover/movie?${ge
 const CLASSIC_MOVIES_PATH = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=popularity.desc&release_date.lte=1980`;
 const MUSICAL_PATH = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10402&sort_by=popularity.desc&vote_count.gte=8`;
 const DRAMA_PATH = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=18&sort_by=popularity.desc&vote_count.gte=8`;
+
+document.addEventListener('DOMContentLoaded', function() {
+    let currentPageAwardWinning = 1;
+    const totalPagesAwardWinning = 60;
+    const awardWinningMain = document.getElementById('classic');
+    const paginationContainerAwardWinning = document.getElementById('classic-pagination');
+    const genresContainer = document.getElementById('classic-div');
+
+    function movePagination() {
+        if (window.innerWidth <= 767) {
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
+        } else {
+            genresContainer.appendChild(paginationContainerAwardWinning);
+        }
+    }
+
+    const fetchAndUpdateAwardWinning = () => {
+        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=popularity.desc&release_date.lte=1980`;
+        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
+        updatePaginationDisplayAwardWinning();
+    };
+
+    const updatePaginationDisplayAwardWinning = () => {
+        paginationContainerAwardWinning.innerHTML = '';
+
+        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
+            currentPageAwardWinning--;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(prevButton);
+
+        let startPage = Math.max(currentPageAwardWinning - 2, 1);
+        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
+        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
+
+        if (startPage > 1) {
+            paginationContainerAwardWinning.appendChild(createPageButton(1));
+            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            paginationContainerAwardWinning.appendChild(createPageButton(i));
+        }
+
+        if (endPage < totalPagesAwardWinning) {
+            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
+        }
+
+        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
+            currentPageAwardWinning++;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(nextButton);
+    };
+
+    function createNavigationButton(text, enabled, clickHandler) {
+        const button = document.createElement('button');
+        button.innerHTML = text;
+        button.disabled = !enabled;
+        button.className = 'nav-button';
+        if (enabled) {
+            button.addEventListener('click', clickHandler);
+        }
+        return button;
+    }
+
+    function createPageButton(pageNum) {
+        const button = document.createElement('button');
+        button.textContent = pageNum;
+        button.className = 'page-button';
+        if (pageNum === '...') {
+            button.disabled = true;
+        } else {
+            button.addEventListener('click', () => {
+                currentPageAwardWinning = pageNum;
+                fetchAndUpdateAwardWinning();
+            });
+            if (pageNum === currentPageAwardWinning) {
+                button.classList.add('active');
+            }
+        }
+        return button;
+    }
+
+    movePagination();
+    fetchAndUpdateAwardWinning();
+    window.addEventListener('resize', movePagination);
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    let currentPageAwardWinning = 1;
+    const totalPagesAwardWinning = 60;
+    const awardWinningMain = document.getElementById('drama');
+    const paginationContainerAwardWinning = document.getElementById('drama-pagination');
+    const genresContainer = document.getElementById('drama-div');
+
+    function movePagination() {
+        if (window.innerWidth <= 767) {
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
+        } else {
+            genresContainer.appendChild(paginationContainerAwardWinning);
+        }
+    }
+
+    const fetchAndUpdateAwardWinning = () => {
+        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=18&sort_by=popularity.desc&vote_count.gte=8`;
+        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
+        updatePaginationDisplayAwardWinning();
+    };
+
+    const updatePaginationDisplayAwardWinning = () => {
+        paginationContainerAwardWinning.innerHTML = '';
+
+        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
+            currentPageAwardWinning--;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(prevButton);
+
+        let startPage = Math.max(currentPageAwardWinning - 2, 1);
+        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
+        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
+
+        if (startPage > 1) {
+            paginationContainerAwardWinning.appendChild(createPageButton(1));
+            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            paginationContainerAwardWinning.appendChild(createPageButton(i));
+        }
+
+        if (endPage < totalPagesAwardWinning) {
+            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
+        }
+
+        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
+            currentPageAwardWinning++;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(nextButton);
+    };
+
+    function createNavigationButton(text, enabled, clickHandler) {
+        const button = document.createElement('button');
+        button.innerHTML = text;
+        button.disabled = !enabled;
+        button.className = 'nav-button';
+        if (enabled) {
+            button.addEventListener('click', clickHandler);
+        }
+        return button;
+    }
+
+    function createPageButton(pageNum) {
+        const button = document.createElement('button');
+        button.textContent = pageNum;
+        button.className = 'page-button';
+        if (pageNum === '...') {
+            button.disabled = true;
+        } else {
+            button.addEventListener('click', () => {
+                currentPageAwardWinning = pageNum;
+                fetchAndUpdateAwardWinning();
+            });
+            if (pageNum === currentPageAwardWinning) {
+                button.classList.add('active');
+            }
+        }
+        return button;
+    }
+
+    movePagination();
+    fetchAndUpdateAwardWinning();
+    window.addEventListener('resize', movePagination);
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    let currentPageAwardWinning = 1;
+    const totalPagesAwardWinning = 60;
+    const awardWinningMain = document.getElementById('musical');
+    const paginationContainerAwardWinning = document.getElementById('musical-pagination');
+    const genresContainer = document.getElementById('musical-div');
+
+    function movePagination() {
+        if (window.innerWidth <= 767) {
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
+        } else {
+            genresContainer.appendChild(paginationContainerAwardWinning);
+        }
+    }
+
+    const fetchAndUpdateAwardWinning = () => {
+        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10402&sort_by=popularity.desc&vote_count.gte=8`;
+        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
+        updatePaginationDisplayAwardWinning();
+    };
+
+    const updatePaginationDisplayAwardWinning = () => {
+        paginationContainerAwardWinning.innerHTML = '';
+
+        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
+            currentPageAwardWinning--;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(prevButton);
+
+        let startPage = Math.max(currentPageAwardWinning - 2, 1);
+        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
+        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
+
+        if (startPage > 1) {
+            paginationContainerAwardWinning.appendChild(createPageButton(1));
+            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            paginationContainerAwardWinning.appendChild(createPageButton(i));
+        }
+
+        if (endPage < totalPagesAwardWinning) {
+            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
+        }
+
+        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
+            currentPageAwardWinning++;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(nextButton);
+    };
+
+    function createNavigationButton(text, enabled, clickHandler) {
+        const button = document.createElement('button');
+        button.innerHTML = text;
+        button.disabled = !enabled;
+        button.className = 'nav-button';
+        if (enabled) {
+            button.addEventListener('click', clickHandler);
+        }
+        return button;
+    }
+
+    function createPageButton(pageNum) {
+        const button = document.createElement('button');
+        button.textContent = pageNum;
+        button.className = 'page-button';
+        if (pageNum === '...') {
+            button.disabled = true;
+        } else {
+            button.addEventListener('click', () => {
+                currentPageAwardWinning = pageNum;
+                fetchAndUpdateAwardWinning();
+            });
+            if (pageNum === currentPageAwardWinning) {
+                button.classList.add('active');
+            }
+        }
+        return button;
+    }
+
+    movePagination();
+    fetchAndUpdateAwardWinning();
+    window.addEventListener('resize', movePagination);
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    let currentPageAwardWinning = 1;
+    const totalPagesAwardWinning = 60;
+    const awardWinningMain = document.getElementById('crime');
+    const paginationContainerAwardWinning = document.getElementById('crime-pagination');
+    const genresContainer = document.getElementById('crime-div');
+
+    function movePagination() {
+        if (window.innerWidth <= 767) {
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
+        } else {
+            genresContainer.appendChild(paginationContainerAwardWinning);
+        }
+    }
+
+    const fetchAndUpdateAwardWinning = () => {
+        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=80&sort_by=popularity.desc&vote_count.gte=8`;
+        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
+        updatePaginationDisplayAwardWinning();
+    };
+
+    const updatePaginationDisplayAwardWinning = () => {
+        paginationContainerAwardWinning.innerHTML = '';
+
+        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
+            currentPageAwardWinning--;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(prevButton);
+
+        let startPage = Math.max(currentPageAwardWinning - 2, 1);
+        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
+        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
+
+        if (startPage > 1) {
+            paginationContainerAwardWinning.appendChild(createPageButton(1));
+            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            paginationContainerAwardWinning.appendChild(createPageButton(i));
+        }
+
+        if (endPage < totalPagesAwardWinning) {
+            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
+        }
+
+        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
+            currentPageAwardWinning++;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(nextButton);
+    };
+
+    function createNavigationButton(text, enabled, clickHandler) {
+        const button = document.createElement('button');
+        button.innerHTML = text;
+        button.disabled = !enabled;
+        button.className = 'nav-button';
+        if (enabled) {
+            button.addEventListener('click', clickHandler);
+        }
+        return button;
+    }
+
+    function createPageButton(pageNum) {
+        const button = document.createElement('button');
+        button.textContent = pageNum;
+        button.className = 'page-button';
+        if (pageNum === '...') {
+            button.disabled = true;
+        } else {
+            button.addEventListener('click', () => {
+                currentPageAwardWinning = pageNum;
+                fetchAndUpdateAwardWinning();
+            });
+            if (pageNum === currentPageAwardWinning) {
+                button.classList.add('active');
+            }
+        }
+        return button;
+    }
+
+    movePagination();
+    fetchAndUpdateAwardWinning();
+    window.addEventListener('resize', movePagination);
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    let currentPageAwardWinning = 1;
+    const totalPagesAwardWinning = 60;
+    const awardWinningMain = document.getElementById('family');
+    const paginationContainerAwardWinning = document.getElementById('family-pagination');
+    const genresContainer = document.getElementById('family-div');
+
+    function movePagination() {
+        if (window.innerWidth <= 767) {
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
+        } else {
+            genresContainer.appendChild(paginationContainerAwardWinning);
+        }
+    }
+
+    const fetchAndUpdateAwardWinning = () => {
+        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10751&sort_by=popularity.desc&vote_count.gte=8`;
+        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
+        updatePaginationDisplayAwardWinning();
+    };
+
+    const updatePaginationDisplayAwardWinning = () => {
+        paginationContainerAwardWinning.innerHTML = '';
+
+        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
+            currentPageAwardWinning--;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(prevButton);
+
+        let startPage = Math.max(currentPageAwardWinning - 2, 1);
+        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
+        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
+
+        if (startPage > 1) {
+            paginationContainerAwardWinning.appendChild(createPageButton(1));
+            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            paginationContainerAwardWinning.appendChild(createPageButton(i));
+        }
+
+        if (endPage < totalPagesAwardWinning) {
+            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
+        }
+
+        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
+            currentPageAwardWinning++;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(nextButton);
+    };
+
+    function createNavigationButton(text, enabled, clickHandler) {
+        const button = document.createElement('button');
+        button.innerHTML = text;
+        button.disabled = !enabled;
+        button.className = 'nav-button';
+        if (enabled) {
+            button.addEventListener('click', clickHandler);
+        }
+        return button;
+    }
+
+    function createPageButton(pageNum) {
+        const button = document.createElement('button');
+        button.textContent = pageNum;
+        button.className = 'page-button';
+        if (pageNum === '...') {
+            button.disabled = true;
+        } else {
+            button.addEventListener('click', () => {
+                currentPageAwardWinning = pageNum;
+                fetchAndUpdateAwardWinning();
+            });
+            if (pageNum === currentPageAwardWinning) {
+                button.classList.add('active');
+            }
+        }
+        return button;
+    }
+
+    movePagination();
+    fetchAndUpdateAwardWinning();
+    window.addEventListener('resize', movePagination);
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    let currentPageAwardWinning = 1;
+    const totalPagesAwardWinning = 60;
+    const awardWinningMain = document.getElementById('fantasy');
+    const paginationContainerAwardWinning = document.getElementById('fantasy-pagination');
+    const genresContainer = document.getElementById('fantasy-div');
+
+    function movePagination() {
+        if (window.innerWidth <= 767) {
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
+        } else {
+            genresContainer.appendChild(paginationContainerAwardWinning);
+        }
+    }
+
+    const fetchAndUpdateAwardWinning = () => {
+        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=14&sort_by=popularity.desc&vote_count.gte=8`;
+        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
+        updatePaginationDisplayAwardWinning();
+    };
+
+    const updatePaginationDisplayAwardWinning = () => {
+        paginationContainerAwardWinning.innerHTML = '';
+
+        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
+            currentPageAwardWinning--;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(prevButton);
+
+        let startPage = Math.max(currentPageAwardWinning - 2, 1);
+        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
+        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
+
+        if (startPage > 1) {
+            paginationContainerAwardWinning.appendChild(createPageButton(1));
+            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            paginationContainerAwardWinning.appendChild(createPageButton(i));
+        }
+
+        if (endPage < totalPagesAwardWinning) {
+            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
+        }
+
+        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
+            currentPageAwardWinning++;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(nextButton);
+    };
+
+    function createNavigationButton(text, enabled, clickHandler) {
+        const button = document.createElement('button');
+        button.innerHTML = text;
+        button.disabled = !enabled;
+        button.className = 'nav-button';
+        if (enabled) {
+            button.addEventListener('click', clickHandler);
+        }
+        return button;
+    }
+
+    function createPageButton(pageNum) {
+        const button = document.createElement('button');
+        button.textContent = pageNum;
+        button.className = 'page-button';
+        if (pageNum === '...') {
+            button.disabled = true;
+        } else {
+            button.addEventListener('click', () => {
+                currentPageAwardWinning = pageNum;
+                fetchAndUpdateAwardWinning();
+            });
+            if (pageNum === currentPageAwardWinning) {
+                button.classList.add('active');
+            }
+        }
+        return button;
+    }
+
+    movePagination();
+    fetchAndUpdateAwardWinning();
+    window.addEventListener('resize', movePagination);
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    let currentPageAwardWinning = 1;
+    const totalPagesAwardWinning = 60;
+    const awardWinningMain = document.getElementById('comedy');
+    const paginationContainerAwardWinning = document.getElementById('comedy-pagination');
+    const genresContainer = document.getElementById('comedy-div');
+
+    function movePagination() {
+        if (window.innerWidth <= 767) {
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
+        } else {
+            genresContainer.appendChild(paginationContainerAwardWinning);
+        }
+    }
+
+    const fetchAndUpdateAwardWinning = () => {
+        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=35&sort_by=popularity.desc&vote_count.gte=8`;
+        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
+        updatePaginationDisplayAwardWinning();
+    };
+
+    const updatePaginationDisplayAwardWinning = () => {
+        paginationContainerAwardWinning.innerHTML = '';
+
+        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
+            currentPageAwardWinning--;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(prevButton);
+
+        let startPage = Math.max(currentPageAwardWinning - 2, 1);
+        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
+        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
+
+        if (startPage > 1) {
+            paginationContainerAwardWinning.appendChild(createPageButton(1));
+            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            paginationContainerAwardWinning.appendChild(createPageButton(i));
+        }
+
+        if (endPage < totalPagesAwardWinning) {
+            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
+        }
+
+        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
+            currentPageAwardWinning++;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(nextButton);
+    };
+
+    function createNavigationButton(text, enabled, clickHandler) {
+        const button = document.createElement('button');
+        button.innerHTML = text;
+        button.disabled = !enabled;
+        button.className = 'nav-button';
+        if (enabled) {
+            button.addEventListener('click', clickHandler);
+        }
+        return button;
+    }
+
+    function createPageButton(pageNum) {
+        const button = document.createElement('button');
+        button.textContent = pageNum;
+        button.className = 'page-button';
+        if (pageNum === '...') {
+            button.disabled = true;
+        } else {
+            button.addEventListener('click', () => {
+                currentPageAwardWinning = pageNum;
+                fetchAndUpdateAwardWinning();
+            });
+            if (pageNum === currentPageAwardWinning) {
+                button.classList.add('active');
+            }
+        }
+        return button;
+    }
+
+    movePagination();
+    fetchAndUpdateAwardWinning();
+    window.addEventListener('resize', movePagination);
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    let currentPageAwardWinning = 1;
+    const totalPagesAwardWinning = 60;
+    const awardWinningMain = document.getElementById('adventure');
+    const paginationContainerAwardWinning = document.getElementById('adventure-pagination');
+    const genresContainer = document.getElementById('adventure-div');
+
+    function movePagination() {
+        if (window.innerWidth <= 767) {
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
+        } else {
+            genresContainer.appendChild(paginationContainerAwardWinning);
+        }
+    }
+
+    const fetchAndUpdateAwardWinning = () => {
+        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=12&sort_by=popularity.desc&vote_count.gte=8`;
+        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
+        updatePaginationDisplayAwardWinning();
+    };
+
+    const updatePaginationDisplayAwardWinning = () => {
+        paginationContainerAwardWinning.innerHTML = '';
+
+        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
+            currentPageAwardWinning--;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(prevButton);
+
+        let startPage = Math.max(currentPageAwardWinning - 2, 1);
+        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
+        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
+
+        if (startPage > 1) {
+            paginationContainerAwardWinning.appendChild(createPageButton(1));
+            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            paginationContainerAwardWinning.appendChild(createPageButton(i));
+        }
+
+        if (endPage < totalPagesAwardWinning) {
+            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
+        }
+
+        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
+            currentPageAwardWinning++;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(nextButton);
+    };
+
+    function createNavigationButton(text, enabled, clickHandler) {
+        const button = document.createElement('button');
+        button.innerHTML = text;
+        button.disabled = !enabled;
+        button.className = 'nav-button';
+        if (enabled) {
+            button.addEventListener('click', clickHandler);
+        }
+        return button;
+    }
+
+    function createPageButton(pageNum) {
+        const button = document.createElement('button');
+        button.textContent = pageNum;
+        button.className = 'page-button';
+        if (pageNum === '...') {
+            button.disabled = true;
+        } else {
+            button.addEventListener('click', () => {
+                currentPageAwardWinning = pageNum;
+                fetchAndUpdateAwardWinning();
+            });
+            if (pageNum === currentPageAwardWinning) {
+                button.classList.add('active');
+            }
+        }
+        return button;
+    }
+
+    movePagination();
+    fetchAndUpdateAwardWinning();
+    window.addEventListener('resize', movePagination);
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    let currentPageAwardWinning = 1;
+    const totalPagesAwardWinning = 60;
+    const awardWinningMain = document.getElementById('mystery');
+    const paginationContainerAwardWinning = document.getElementById('mystery-pagination');
+    const genresContainer = document.getElementById('mystery-div');
+
+    function movePagination() {
+        if (window.innerWidth <= 767) {
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
+        } else {
+            genresContainer.appendChild(paginationContainerAwardWinning);
+        }
+    }
+
+    const fetchAndUpdateAwardWinning = () => {
+        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=9648&sort_by=popularity.desc&vote_count.gte=8`;
+        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
+        updatePaginationDisplayAwardWinning();
+    };
+
+    const updatePaginationDisplayAwardWinning = () => {
+        paginationContainerAwardWinning.innerHTML = '';
+
+        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
+            currentPageAwardWinning--;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(prevButton);
+
+        let startPage = Math.max(currentPageAwardWinning - 2, 1);
+        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
+        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
+
+        if (startPage > 1) {
+            paginationContainerAwardWinning.appendChild(createPageButton(1));
+            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            paginationContainerAwardWinning.appendChild(createPageButton(i));
+        }
+
+        if (endPage < totalPagesAwardWinning) {
+            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
+        }
+
+        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
+            currentPageAwardWinning++;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(nextButton);
+    };
+
+    function createNavigationButton(text, enabled, clickHandler) {
+        const button = document.createElement('button');
+        button.innerHTML = text;
+        button.disabled = !enabled;
+        button.className = 'nav-button';
+        if (enabled) {
+            button.addEventListener('click', clickHandler);
+        }
+        return button;
+    }
+
+    function createPageButton(pageNum) {
+        const button = document.createElement('button');
+        button.textContent = pageNum;
+        button.className = 'page-button';
+        if (pageNum === '...') {
+            button.disabled = true;
+        } else {
+            button.addEventListener('click', () => {
+                currentPageAwardWinning = pageNum;
+                fetchAndUpdateAwardWinning();
+            });
+            if (pageNum === currentPageAwardWinning) {
+                button.classList.add('active');
+            }
+        }
+        return button;
+    }
+
+    movePagination();
+    fetchAndUpdateAwardWinning();
+    window.addEventListener('resize', movePagination);
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    let currentPageAwardWinning = 1;
+    const totalPagesAwardWinning = 60;
+    const awardWinningMain = document.getElementById('thriller');
+    const paginationContainerAwardWinning = document.getElementById('thriller-pagination');
+    const genresContainer = document.getElementById('thriller-div');
+
+    function movePagination() {
+        if (window.innerWidth <= 767) {
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
+        } else {
+            genresContainer.appendChild(paginationContainerAwardWinning);
+        }
+    }
+
+    const fetchAndUpdateAwardWinning = () => {
+        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=53&sort_by=popularity.desc&vote_count.gte=8`;
+        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
+        updatePaginationDisplayAwardWinning();
+    };
+
+    const updatePaginationDisplayAwardWinning = () => {
+        paginationContainerAwardWinning.innerHTML = '';
+
+        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
+            currentPageAwardWinning--;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(prevButton);
+
+        let startPage = Math.max(currentPageAwardWinning - 2, 1);
+        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
+        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
+
+        if (startPage > 1) {
+            paginationContainerAwardWinning.appendChild(createPageButton(1));
+            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            paginationContainerAwardWinning.appendChild(createPageButton(i));
+        }
+
+        if (endPage < totalPagesAwardWinning) {
+            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
+        }
+
+        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
+            currentPageAwardWinning++;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(nextButton);
+    };
+
+    function createNavigationButton(text, enabled, clickHandler) {
+        const button = document.createElement('button');
+        button.innerHTML = text;
+        button.disabled = !enabled;
+        button.className = 'nav-button';
+        if (enabled) {
+            button.addEventListener('click', clickHandler);
+        }
+        return button;
+    }
+
+    function createPageButton(pageNum) {
+        const button = document.createElement('button');
+        button.textContent = pageNum;
+        button.className = 'page-button';
+        if (pageNum === '...') {
+            button.disabled = true;
+        } else {
+            button.addEventListener('click', () => {
+                currentPageAwardWinning = pageNum;
+                fetchAndUpdateAwardWinning();
+            });
+            if (pageNum === currentPageAwardWinning) {
+                button.classList.add('active');
+            }
+        }
+        return button;
+    }
+
+    movePagination();
+    fetchAndUpdateAwardWinning();
+    window.addEventListener('resize', movePagination);
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    let currentPageAwardWinning = 1;
+    const totalPagesAwardWinning = 60;
+    const awardWinningMain = document.getElementById('romantic');
+    const paginationContainerAwardWinning = document.getElementById('romantic-pagination');
+    const genresContainer = document.getElementById('romantic-div');
+
+    function movePagination() {
+        if (window.innerWidth <= 767) {
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
+        } else {
+            genresContainer.appendChild(paginationContainerAwardWinning);
+        }
+    }
+
+    const fetchAndUpdateAwardWinning = () => {
+        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10749&sort_by=popularity.desc&vote_count.gte=8`;
+        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
+        updatePaginationDisplayAwardWinning();
+    };
+
+    const updatePaginationDisplayAwardWinning = () => {
+        paginationContainerAwardWinning.innerHTML = '';
+
+        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
+            currentPageAwardWinning--;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(prevButton);
+
+        let startPage = Math.max(currentPageAwardWinning - 2, 1);
+        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
+        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
+
+        if (startPage > 1) {
+            paginationContainerAwardWinning.appendChild(createPageButton(1));
+            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            paginationContainerAwardWinning.appendChild(createPageButton(i));
+        }
+
+        if (endPage < totalPagesAwardWinning) {
+            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
+        }
+
+        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
+            currentPageAwardWinning++;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(nextButton);
+    };
+
+    function createNavigationButton(text, enabled, clickHandler) {
+        const button = document.createElement('button');
+        button.innerHTML = text;
+        button.disabled = !enabled;
+        button.className = 'nav-button';
+        if (enabled) {
+            button.addEventListener('click', clickHandler);
+        }
+        return button;
+    }
+
+    function createPageButton(pageNum) {
+        const button = document.createElement('button');
+        button.textContent = pageNum;
+        button.className = 'page-button';
+        if (pageNum === '...') {
+            button.disabled = true;
+        } else {
+            button.addEventListener('click', () => {
+                currentPageAwardWinning = pageNum;
+                fetchAndUpdateAwardWinning();
+            });
+            if (pageNum === currentPageAwardWinning) {
+                button.classList.add('active');
+            }
+        }
+        return button;
+    }
+
+    movePagination();
+    fetchAndUpdateAwardWinning();
+    window.addEventListener('resize', movePagination);
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    let currentPageAwardWinning = 1;
+    const totalPagesAwardWinning = 60;
+    const awardWinningMain = document.getElementById('sci-fi');
+    const paginationContainerAwardWinning = document.getElementById('sci-fi-pagination');
+    const genresContainer = document.getElementById('sci-fi-div');
+
+    function movePagination() {
+        if (window.innerWidth <= 767) {
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
+        } else {
+            genresContainer.appendChild(paginationContainerAwardWinning);
+        }
+    }
+
+    const fetchAndUpdateAwardWinning = () => {
+        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=878&sort_by=popularity.desc&vote_count.gte=8`;
+        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
+        updatePaginationDisplayAwardWinning();
+    };
+
+    const updatePaginationDisplayAwardWinning = () => {
+        paginationContainerAwardWinning.innerHTML = '';
+
+        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
+            currentPageAwardWinning--;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(prevButton);
+
+        let startPage = Math.max(currentPageAwardWinning - 2, 1);
+        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
+        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
+
+        if (startPage > 1) {
+            paginationContainerAwardWinning.appendChild(createPageButton(1));
+            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            paginationContainerAwardWinning.appendChild(createPageButton(i));
+        }
+
+        if (endPage < totalPagesAwardWinning) {
+            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
+        }
+
+        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
+            currentPageAwardWinning++;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(nextButton);
+    };
+
+    function createNavigationButton(text, enabled, clickHandler) {
+        const button = document.createElement('button');
+        button.innerHTML = text;
+        button.disabled = !enabled;
+        button.className = 'nav-button';
+        if (enabled) {
+            button.addEventListener('click', clickHandler);
+        }
+        return button;
+    }
+
+    function createPageButton(pageNum) {
+        const button = document.createElement('button');
+        button.textContent = pageNum;
+        button.className = 'page-button';
+        if (pageNum === '...') {
+            button.disabled = true;
+        } else {
+            button.addEventListener('click', () => {
+                currentPageAwardWinning = pageNum;
+                fetchAndUpdateAwardWinning();
+            });
+            if (pageNum === currentPageAwardWinning) {
+                button.classList.add('active');
+            }
+        }
+        return button;
+    }
+
+    movePagination();
+    fetchAndUpdateAwardWinning();
+    window.addEventListener('resize', movePagination);
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    let currentPageAwardWinning = 1;
+    const totalPagesAwardWinning = 60;
+    const awardWinningMain = document.getElementById('animation');
+    const paginationContainerAwardWinning = document.getElementById('animation-pagination');
+    const genresContainer = document.getElementById('animation-div');
+
+    function movePagination() {
+        if (window.innerWidth <= 767) {
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
+        } else {
+            genresContainer.appendChild(paginationContainerAwardWinning);
+        }
+    }
+
+    const fetchAndUpdateAwardWinning = () => {
+        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=16&sort_by=popularity.desc&vote_count.gte=8`;
+        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
+        updatePaginationDisplayAwardWinning();
+    };
+
+    const updatePaginationDisplayAwardWinning = () => {
+        paginationContainerAwardWinning.innerHTML = '';
+
+        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
+            currentPageAwardWinning--;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(prevButton);
+
+        let startPage = Math.max(currentPageAwardWinning - 2, 1);
+        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
+        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
+
+        if (startPage > 1) {
+            paginationContainerAwardWinning.appendChild(createPageButton(1));
+            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            paginationContainerAwardWinning.appendChild(createPageButton(i));
+        }
+
+        if (endPage < totalPagesAwardWinning) {
+            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
+        }
+
+        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
+            currentPageAwardWinning++;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(nextButton);
+    };
+
+    function createNavigationButton(text, enabled, clickHandler) {
+        const button = document.createElement('button');
+        button.innerHTML = text;
+        button.disabled = !enabled;
+        button.className = 'nav-button';
+        if (enabled) {
+            button.addEventListener('click', clickHandler);
+        }
+        return button;
+    }
+
+    function createPageButton(pageNum) {
+        const button = document.createElement('button');
+        button.textContent = pageNum;
+        button.className = 'page-button';
+        if (pageNum === '...') {
+            button.disabled = true;
+        } else {
+            button.addEventListener('click', () => {
+                currentPageAwardWinning = pageNum;
+                fetchAndUpdateAwardWinning();
+            });
+            if (pageNum === currentPageAwardWinning) {
+                button.classList.add('active');
+            }
+        }
+        return button;
+    }
+
+    movePagination();
+    fetchAndUpdateAwardWinning();
+    window.addEventListener('resize', movePagination);
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    let currentPageAwardWinning = 1;
+    const totalPagesAwardWinning = 60;
+    const awardWinningMain = document.getElementById('documentary');
+    const paginationContainerAwardWinning = document.getElementById('documentary-pagination');
+    const genresContainer = document.getElementById('documentary-div');
+
+    function movePagination() {
+        if (window.innerWidth <= 767) {
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
+        } else {
+            genresContainer.appendChild(paginationContainerAwardWinning);
+        }
+    }
+
+    const fetchAndUpdateAwardWinning = () => {
+        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=99&sort_by=popularity.desc&vote_count.gte=8`;
+        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
+        updatePaginationDisplayAwardWinning();
+    };
+
+    const updatePaginationDisplayAwardWinning = () => {
+        paginationContainerAwardWinning.innerHTML = '';
+
+        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
+            currentPageAwardWinning--;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(prevButton);
+
+        let startPage = Math.max(currentPageAwardWinning - 2, 1);
+        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
+        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
+
+        if (startPage > 1) {
+            paginationContainerAwardWinning.appendChild(createPageButton(1));
+            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            paginationContainerAwardWinning.appendChild(createPageButton(i));
+        }
+
+        if (endPage < totalPagesAwardWinning) {
+            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
+        }
+
+        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
+            currentPageAwardWinning++;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(nextButton);
+    };
+
+    function createNavigationButton(text, enabled, clickHandler) {
+        const button = document.createElement('button');
+        button.innerHTML = text;
+        button.disabled = !enabled;
+        button.className = 'nav-button';
+        if (enabled) {
+            button.addEventListener('click', clickHandler);
+        }
+        return button;
+    }
+
+    function createPageButton(pageNum) {
+        const button = document.createElement('button');
+        button.textContent = pageNum;
+        button.className = 'page-button';
+        if (pageNum === '...') {
+            button.disabled = true;
+        } else {
+            button.addEventListener('click', () => {
+                currentPageAwardWinning = pageNum;
+                fetchAndUpdateAwardWinning();
+            });
+            if (pageNum === currentPageAwardWinning) {
+                button.classList.add('active');
+            }
+        }
+        return button;
+    }
+
+    movePagination();
+    fetchAndUpdateAwardWinning();
+    window.addEventListener('resize', movePagination);
+});
 
 getMovies(DATABASEURL, most_popular_main);
 getMovies(ACTIONpath, action_main);

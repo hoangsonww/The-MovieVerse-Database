@@ -307,7 +307,8 @@
                             displaySearchResults(sortedResults.slice(0, 5));
                         })
                         .catch(err => console.error("Fetching error:", err));
-                } else {
+                }
+                else {
                     searchInput.value = '';
                     searchResultsContainer.innerHTML = '';
                     toggleButtons();
@@ -317,7 +318,8 @@
                 searchInput.addEventListener('input', function() {
                     if (searchInput.value.trim()) {
                         viewAllResultsBtn.style.display = 'block';
-                    } else {
+                    }
+                    else {
                         viewAllResultsBtn.style.display = 'none';
                     }
                 });
@@ -327,7 +329,8 @@
                     if (searchQuery) {
                         localStorage.setItem('searchQuery', searchQuery);
                         window.location.href = 'search.html';
-                    } else {
+                    }
+                    else {
                         alert('Please enter a search query.');
                     }
                 });
@@ -352,7 +355,8 @@
                         image.src = imagePath;
                         image.className = 'result-image';
                         card.appendChild(image);
-                    } else {
+                    }
+                    else {
                         const placeholder = document.createElement('div');
                         placeholder.className = 'result-image-placeholder';
                         placeholder.textContent = 'Image Not Available';
@@ -384,13 +388,22 @@
             }
 
             async function handleResultClick(item) {
+                console.log('Clicked item:', item.media_type, item.id);
+
+                if (!item.media_type) {
+                    console.error('Media type is undefined');
+                    return;
+                }
+
                 if (item.media_type === 'movie') {
                     localStorage.setItem('selectedMovieId', item.id);
                     window.location.href = 'movie-details.html';
-                } else if (item.media_type === 'tv') {
+                }
+                else if (item.media_type === 'tv') {
                     localStorage.setItem('selectedTvSeriesId', item.id);
                     window.location.href = 'tv-details.html';
-                } else if (item.media_type === 'person') {
+                }
+                else if (item.media_type === 'person') {
                     try {
                         const personDetailsUrl = `https://${getMovieVerseData()}/3/person/${item.id}?${generateMovieNames()}${getMovieCode()}`;
                         const response = await fetch(personDetailsUrl);
@@ -399,13 +412,18 @@
                         if (personDetails.known_for_department === 'Directing') {
                             localStorage.setItem('selectedDirectorId', item.id);
                             window.location.href = 'director-details.html?' + item.id;
-                        } else {
+                        }
+                        else {
                             localStorage.setItem('selectedActorId', item.id);
                             window.location.href = 'actor-details.html?' + item.id;
                         }
-                    } catch (error) {
+                    }
+                    catch (error) {
                         console.error('Error fetching person details:', error);
                     }
+                }
+                else {
+                    console.error('Unknown media type:', item.media_type);
                 }
             }
         });

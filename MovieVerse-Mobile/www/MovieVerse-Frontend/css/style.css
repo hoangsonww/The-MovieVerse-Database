@@ -1491,6 +1491,69 @@ p {
     color: white;
 }
 
+.nav-button {
+    background-color: #7378c5;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.nav-button:hover {
+    background-color: #ff8623;
+    transition: 0.1s linear;
+}
+
+.nav-button:disabled {
+    background-color: #b5b5b5;
+    cursor: not-allowed;
+}
+
+.pagination {
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+}
+
+@media (max-width: 767px) {
+    .genres + main + .pagination {
+        text-align: center;
+    }
+
+    .pagination {
+        position: relative;
+        width: 100%;
+        margin-top: 20px;
+    }
+}
+
+.page-button {
+    background-color: #7378c5;
+    color: white;
+    border: none;
+    margin: 2px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font: inherit;
+    font-size: 12.9px;
+}
+
+.page-button:hover {
+    background-color: #ff8623;
+    transition: 0.1s linear;
+}
+
+.page-button.active {
+    background-color: #4a4e8c;
+}
+
+.page-button:disabled {
+    background-color: #b5b5b5;
+    cursor: default;
+}
+
 #search-results-label {
     color: #ff8623;
     text-align: center;
@@ -2972,4 +3035,11 @@ footer p:hover {
 .notification-modal ul li {
     padding: 10px 0;
     border-bottom: 1px solid #eee;
+}
+
+#comments-section {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px 0;
 }
