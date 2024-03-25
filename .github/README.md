@@ -24,13 +24,13 @@ Star this repository to show your support and stay updated on the latest feature
 ## User Interface
 <p align="center" style="cursor: pointer">
   <a href="https://movie-verse.com">
-    <img src="../images/screenshot.png" alt="The MovieVerse App Interface"/>
+    <img src="../images/MovieVerse-UI.png" alt="The MovieVerse App Interface"/>
   </a>
 </p>
 
 ## Introduction
 
-The MovieVerse is an open-source application created by Son Nguyen Hoang, crafted with the vision of creating a seamless and enriching experience for movie lovers. It's more than just a database; it's a portal to explore, discover, and immerse yourself in the art of cinema.
+The MovieVerse is an open-source application created with the vision of creating a seamless and enriching experience for movie lovers. It's more than just a database; it's a portal to explore, discover, and immerse yourself in the art of cinema.
 
 Through The MovieVerse, users can search for movies, view detailed information, rate, and review films, and interact with a community of like-minded movie enthusiasts. It's a platform that celebrates cinema in all its forms, from blockbuster hits to indie gems.
 
@@ -160,4 +160,8 @@ Email: [Official MovieVerse Email](mailto:info@movie-verse.com)
 
 ---
 
-Please also note that the **MovieVerse** is an ever-evolving platform, and more updates are underway. I am continually enhancing the user experience and adding new features to help you navigate the vast sea of cinema with ease and excitement! Also, special thanks to [The Movie Database (TMDb)](https://www.themoviedb.org/) for providing additional movie data that greatly enriches The MovieVerse experience!
+Please also note that the **MovieVerse** is an ever-evolving platform, and more updates are underway. I am continually enhancing the user experience and adding new features to help you navigate the vast sea of cinema with ease and excitement! 
+
+Additionally, I'd like to express special thanks to [The Movie Database (TMDb)](https://www.themoviedb.org/) for providing additional movie data that greatly enriches The MovieVerse experience!
+
+Also, if our service is down sometimes, please be patient as we are working hard to maintain the platform and ensure a seamless experience for all users. Thank you for your understanding and support! 🎬🍿

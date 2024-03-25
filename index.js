@@ -120,7 +120,8 @@ document.addEventListener('DOMContentLoaded', function() {
         button.className = 'page-button';
         if (pageNum === '...') {
             button.disabled = true;
-        } else {
+        }
+        else {
             button.onclick = function() {
                 currentPageMostPopular = pageNum;
                 fetchAndUpdateMostPopular();
@@ -237,7 +238,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function movePagination() {
         if (window.innerWidth <= 767) {
             awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
-        } else {
+        }
+        else {
             genresContainer.appendChild(paginationContainerAwardWinning);
         }
     }
@@ -327,7 +329,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function movePagination() {
         if (window.innerWidth <= 767) {
             awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
-        } else {
+        }
+        else {
             genresContainer.appendChild(paginationContainerAwardWinning);
         }
     }
@@ -389,7 +392,8 @@ document.addEventListener('DOMContentLoaded', function() {
         button.className = 'page-button';
         if (pageNum === '...') {
             button.disabled = true;
-        } else {
+        }
+        else {
             button.addEventListener('click', () => {
                 currentPageAwardWinning = pageNum;
                 fetchAndUpdateAwardWinning();
@@ -590,7 +594,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     function movePagination() {
         if (window.innerWidth <= 767) {
             recommendedMain.parentNode.insertBefore(paginationContainerRecommended, recommendedMain.nextSibling);
-        } else {
+        }
+        else {
             genresContainer.appendChild(paginationContainerRecommended);
         }
     }
@@ -669,7 +674,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         button.className = 'page-button' + (isActive ? ' active' : '');
         if (pageNum !== '...') {
             button.addEventListener('click', () => fetchFunction(pageNum));
-        } else {
+        }
+        else {
             button.disabled = true;
         }
         return button;
@@ -812,7 +818,7 @@ function fallbackMovieSelection() {
 
 function calculateMoviesToDisplay() {
     const screenWidth = window.innerWidth;
-    if (screenWidth <= 689.9) return 7; // 1 movie per row
+    if (screenWidth <= 689.9) return 5; // 1 movie per row
     if (screenWidth <= 1021.24) return 20; // 2 movies per row
     if (screenWidth <= 1353.74) return 21; // 3 movies per row
     if (screenWidth <= 1684.9) return 20; // 4 movies per row
@@ -907,7 +913,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function movePagination() {
         if (window.innerWidth <= 767) {
             awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
-        } else {
+        }
+        else {
             genresContainer.appendChild(paginationContainerAwardWinning);
         }
     }
@@ -929,6 +936,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let startPage = Math.max(currentPageAwardWinning - 2, 1);
         let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
+
         if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
 
         if (startPage > 1) {
@@ -969,7 +977,8 @@ document.addEventListener('DOMContentLoaded', function() {
         button.className = 'page-button';
         if (pageNum === '...') {
             button.disabled = true;
-        } else {
+        }
+        else {
             button.addEventListener('click', () => {
                 currentPageAwardWinning = pageNum;
                 fetchAndUpdateAwardWinning();
@@ -996,7 +1005,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function movePagination() {
         if (window.innerWidth <= 767) {
             awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
-        } else {
+        }
+        else {
             genresContainer.appendChild(paginationContainerAwardWinning);
         }
     }
@@ -1018,6 +1028,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let startPage = Math.max(currentPageAwardWinning - 2, 1);
         let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
+
         if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
 
         if (startPage > 1) {
@@ -1058,7 +1069,8 @@ document.addEventListener('DOMContentLoaded', function() {
         button.className = 'page-button';
         if (pageNum === '...') {
             button.disabled = true;
-        } else {
+        }
+        else {
             button.addEventListener('click', () => {
                 currentPageAwardWinning = pageNum;
                 fetchAndUpdateAwardWinning();
@@ -1085,7 +1097,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function movePagination() {
         if (window.innerWidth <= 767) {
             awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
-        } else {
+        }
+        else {
             genresContainer.appendChild(paginationContainerAwardWinning);
         }
     }
@@ -1107,6 +1120,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let startPage = Math.max(currentPageAwardWinning - 2, 1);
         let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
+
         if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
 
         if (startPage > 1) {
@@ -1147,7 +1161,8 @@ document.addEventListener('DOMContentLoaded', function() {
         button.className = 'page-button';
         if (pageNum === '...') {
             button.disabled = true;
-        } else {
+        }
+        else {
             button.addEventListener('click', () => {
                 currentPageAwardWinning = pageNum;
                 fetchAndUpdateAwardWinning();
@@ -1174,7 +1189,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function movePagination() {
         if (window.innerWidth <= 767) {
             awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
-        } else {
+        }
+        else {
             genresContainer.appendChild(paginationContainerAwardWinning);
         }
     }
@@ -1236,7 +1252,8 @@ document.addEventListener('DOMContentLoaded', function() {
         button.className = 'page-button';
         if (pageNum === '...') {
             button.disabled = true;
-        } else {
+        }
+        else {
             button.addEventListener('click', () => {
                 currentPageAwardWinning = pageNum;
                 fetchAndUpdateAwardWinning();
@@ -1263,7 +1280,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function movePagination() {
         if (window.innerWidth <= 767) {
             awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
-        } else {
+        }
+        else {
             genresContainer.appendChild(paginationContainerAwardWinning);
         }
     }
@@ -1285,6 +1303,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let startPage = Math.max(currentPageAwardWinning - 2, 1);
         let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
+
         if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
 
         if (startPage > 1) {
@@ -1325,7 +1344,8 @@ document.addEventListener('DOMContentLoaded', function() {
         button.className = 'page-button';
         if (pageNum === '...') {
             button.disabled = true;
-        } else {
+        }
+        else {
             button.addEventListener('click', () => {
                 currentPageAwardWinning = pageNum;
                 fetchAndUpdateAwardWinning();
@@ -1378,7 +1398,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function movePagination() {
         if (window.innerWidth <= 767) {
             awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
-        } else {
+        }
+        else {
             genresContainer.appendChild(paginationContainerAwardWinning);
         }
     }
@@ -1400,6 +1421,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let startPage = Math.max(currentPageAwardWinning - 2, 1);
         let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
+
         if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
 
         if (startPage > 1) {
@@ -1440,7 +1462,8 @@ document.addEventListener('DOMContentLoaded', function() {
         button.className = 'page-button';
         if (pageNum === '...') {
             button.disabled = true;
-        } else {
+        }
+        else {
             button.addEventListener('click', () => {
                 currentPageAwardWinning = pageNum;
                 fetchAndUpdateAwardWinning();
@@ -1467,7 +1490,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function movePagination() {
         if (window.innerWidth <= 767) {
             awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
-        } else {
+        }
+        else {
             genresContainer.appendChild(paginationContainerAwardWinning);
         }
     }
@@ -1489,6 +1513,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let startPage = Math.max(currentPageAwardWinning - 2, 1);
         let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
+
         if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
 
         if (startPage > 1) {
@@ -1529,7 +1554,8 @@ document.addEventListener('DOMContentLoaded', function() {
         button.className = 'page-button';
         if (pageNum === '...') {
             button.disabled = true;
-        } else {
+        }
+        else {
             button.addEventListener('click', () => {
                 currentPageAwardWinning = pageNum;
                 fetchAndUpdateAwardWinning();
@@ -1556,7 +1582,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function movePagination() {
         if (window.innerWidth <= 767) {
             awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
-        } else {
+        }
+        else {
             genresContainer.appendChild(paginationContainerAwardWinning);
         }
     }
@@ -1578,6 +1605,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let startPage = Math.max(currentPageAwardWinning - 2, 1);
         let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
+
         if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
 
         if (startPage > 1) {
@@ -1618,7 +1646,8 @@ document.addEventListener('DOMContentLoaded', function() {
         button.className = 'page-button';
         if (pageNum === '...') {
             button.disabled = true;
-        } else {
+        }
+        else {
             button.addEventListener('click', () => {
                 currentPageAwardWinning = pageNum;
                 fetchAndUpdateAwardWinning();
@@ -1645,7 +1674,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function movePagination() {
         if (window.innerWidth <= 767) {
             awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
-        } else {
+        }
+        else {
             genresContainer.appendChild(paginationContainerAwardWinning);
         }
     }
@@ -1667,6 +1697,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let startPage = Math.max(currentPageAwardWinning - 2, 1);
         let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
+
         if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
 
         if (startPage > 1) {
@@ -1707,7 +1738,8 @@ document.addEventListener('DOMContentLoaded', function() {
         button.className = 'page-button';
         if (pageNum === '...') {
             button.disabled = true;
-        } else {
+        }
+        else {
             button.addEventListener('click', () => {
                 currentPageAwardWinning = pageNum;
                 fetchAndUpdateAwardWinning();
@@ -1734,7 +1766,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function movePagination() {
         if (window.innerWidth <= 767) {
             awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
-        } else {
+        }
+        else {
             genresContainer.appendChild(paginationContainerAwardWinning);
         }
     }
@@ -1796,7 +1829,8 @@ document.addEventListener('DOMContentLoaded', function() {
         button.className = 'page-button';
         if (pageNum === '...') {
             button.disabled = true;
-        } else {
+        }
+        else {
             button.addEventListener('click', () => {
                 currentPageAwardWinning = pageNum;
                 fetchAndUpdateAwardWinning();
@@ -1823,7 +1857,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function movePagination() {
         if (window.innerWidth <= 767) {
             awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
-        } else {
+        }
+        else {
             genresContainer.appendChild(paginationContainerAwardWinning);
         }
     }
@@ -1885,7 +1920,8 @@ document.addEventListener('DOMContentLoaded', function() {
         button.className = 'page-button';
         if (pageNum === '...') {
             button.disabled = true;
-        } else {
+        }
+        else {
             button.addEventListener('click', () => {
                 currentPageAwardWinning = pageNum;
                 fetchAndUpdateAwardWinning();
@@ -1912,7 +1948,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function movePagination() {
         if (window.innerWidth <= 767) {
             awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
-        } else {
+        }
+        else {
             genresContainer.appendChild(paginationContainerAwardWinning);
         }
     }
@@ -1974,7 +2011,8 @@ document.addEventListener('DOMContentLoaded', function() {
         button.className = 'page-button';
         if (pageNum === '...') {
             button.disabled = true;
-        } else {
+        }
+        else {
             button.addEventListener('click', () => {
                 currentPageAwardWinning = pageNum;
                 fetchAndUpdateAwardWinning();
@@ -2001,7 +2039,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function movePagination() {
         if (window.innerWidth <= 767) {
             awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
-        } else {
+        }
+        else {
             genresContainer.appendChild(paginationContainerAwardWinning);
         }
     }
@@ -2023,6 +2062,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let startPage = Math.max(currentPageAwardWinning - 2, 1);
         let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
+
         if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
 
         if (startPage > 1) {
@@ -2063,7 +2103,8 @@ document.addEventListener('DOMContentLoaded', function() {
         button.className = 'page-button';
         if (pageNum === '...') {
             button.disabled = true;
-        } else {
+        }
+        else {
             button.addEventListener('click', () => {
                 currentPageAwardWinning = pageNum;
                 fetchAndUpdateAwardWinning();
@@ -2090,7 +2131,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function movePagination() {
         if (window.innerWidth <= 767) {
             awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
-        } else {
+        }
+        else {
             genresContainer.appendChild(paginationContainerAwardWinning);
         }
     }
@@ -2112,6 +2154,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let startPage = Math.max(currentPageAwardWinning - 2, 1);
         let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
+
         if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
 
         if (startPage > 1) {
@@ -2152,7 +2195,8 @@ document.addEventListener('DOMContentLoaded', function() {
         button.className = 'page-button';
         if (pageNum === '...') {
             button.disabled = true;
-        } else {
+        }
+        else {
             button.addEventListener('click', () => {
                 currentPageAwardWinning = pageNum;
                 fetchAndUpdateAwardWinning();
@@ -2179,7 +2223,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function movePagination() {
         if (window.innerWidth <= 767) {
             awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
-        } else {
+        }
+        else {
             genresContainer.appendChild(paginationContainerAwardWinning);
         }
     }
@@ -2201,6 +2246,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let startPage = Math.max(currentPageAwardWinning - 2, 1);
         let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
+
         if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
 
         if (startPage > 1) {
@@ -2241,7 +2287,8 @@ document.addEventListener('DOMContentLoaded', function() {
         button.className = 'page-button';
         if (pageNum === '...') {
             button.disabled = true;
-        } else {
+        }
+        else {
             button.addEventListener('click', () => {
                 currentPageAwardWinning = pageNum;
                 fetchAndUpdateAwardWinning();
@@ -2268,7 +2315,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function movePagination() {
         if (window.innerWidth <= 767) {
             awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
-        } else {
+        }
+        else {
             genresContainer.appendChild(paginationContainerAwardWinning);
         }
     }
@@ -2290,6 +2338,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let startPage = Math.max(currentPageAwardWinning - 2, 1);
         let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
+
         if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
 
         if (startPage > 1) {
@@ -2330,7 +2379,8 @@ document.addEventListener('DOMContentLoaded', function() {
         button.className = 'page-button';
         if (pageNum === '...') {
             button.disabled = true;
-        } else {
+        }
+        else {
             button.addEventListener('click', () => {
                 currentPageAwardWinning = pageNum;
                 fetchAndUpdateAwardWinning();
@@ -2357,7 +2407,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function movePagination() {
         if (window.innerWidth <= 767) {
             awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
-        } else {
+        }
+        else {
             genresContainer.appendChild(paginationContainerAwardWinning);
         }
     }
@@ -2379,6 +2430,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let startPage = Math.max(currentPageAwardWinning - 2, 1);
         let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
+
         if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
 
         if (startPage > 1) {
@@ -2419,7 +2471,8 @@ document.addEventListener('DOMContentLoaded', function() {
         button.className = 'page-button';
         if (pageNum === '...') {
             button.disabled = true;
-        } else {
+        }
+        else {
             button.addEventListener('click', () => {
                 currentPageAwardWinning = pageNum;
                 fetchAndUpdateAwardWinning();
@@ -2446,7 +2499,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function movePagination() {
         if (window.innerWidth <= 767) {
             awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
-        } else {
+        }
+        else {
             genresContainer.appendChild(paginationContainerAwardWinning);
         }
     }
@@ -2468,6 +2522,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let startPage = Math.max(currentPageAwardWinning - 2, 1);
         let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
+
         if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
 
         if (startPage > 1) {
@@ -2508,7 +2563,8 @@ document.addEventListener('DOMContentLoaded', function() {
         button.className = 'page-button';
         if (pageNum === '...') {
             button.disabled = true;
-        } else {
+        }
+        else {
             button.addEventListener('click', () => {
                 currentPageAwardWinning = pageNum;
                 fetchAndUpdateAwardWinning();
@@ -2535,7 +2591,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function movePagination() {
         if (window.innerWidth <= 767) {
             awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
-        } else {
+        }
+        else {
             genresContainer.appendChild(paginationContainerAwardWinning);
         }
     }
@@ -2597,7 +2654,8 @@ document.addEventListener('DOMContentLoaded', function() {
         button.className = 'page-button';
         if (pageNum === '...') {
             button.disabled = true;
-        } else {
+        }
+        else {
             button.addEventListener('click', () => {
                 currentPageAwardWinning = pageNum;
                 fetchAndUpdateAwardWinning();
