@@ -284,6 +284,10 @@
     </header>
 
     <div id="mobile-bottom-bar" class="mobile-bottom-bar">
+        <a href="https://movie-verse.com/" class="bottom-bar-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
         <a href="https://movie-verse.com/MovieVerse-Frontend/html/settings.html" class="bottom-bar-item">
             <i class="fas fa-cog"></i>
             <span>Settings</span>
@@ -298,7 +302,7 @@
         </a>
         <a href="https://movie-verse.com/MovieVerse-Frontend/html/movie-timeline.html" class="bottom-bar-item">
             <i class="fas fa-clock"></i>
-            <span>Movie Timeline</span>
+            <span>Timeline</span>
         </a>
         <a href="https://movie-verse.com/MovieVerse-Frontend/html/chatbot.html" class="bottom-bar-item">
             <i class="fas fa-robot"></i>
@@ -306,11 +310,7 @@
         </a>
         <a href="https://movie-verse.com/MovieVerse-Frontend/html/trivia.html" class="bottom-bar-item">
             <i class="fas fa-question-circle"></i>
-            <span>Movie Trivia</span>
-        </a>
-        <a href="https://movie-verse.com/" class="bottom-bar-item">
-            <i class="fas fa-home"></i>
-            <span>Back to Home</span>
+            <span>Trivia</span>
         </a>
     </div>
 
@@ -372,6 +372,27 @@
                     }
                 }, 500 + 50 * index);
             });
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth < 767) {
+                const buttonIds = [
+                    'settings-btn',
+                    'movie-of-the-day-btn',
+                    'movie-match-btn',
+                    'movie-timeline-btn',
+                    'discussions-btn',
+                    'trivia-btn',
+                    'back-to-top-btn'
+                ];
+
+                buttonIds.forEach(id => {
+                    const button = document.getElementById(id);
+                    button.style.display = 'none';
+                    button.style.opacity = '0';
+                    button.style.transform = 'translateY(20px)';
+                });
+            }
         });
     </script>
 

@@ -147,6 +147,7 @@ html {
     border-radius: 8px;
     border: none;
     cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 #movie-timeline-btn:hover {
@@ -164,6 +165,7 @@ html {
     border-radius: 8px;
     border: none;
     cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 #movie-of-the-day-btn:hover {
@@ -181,6 +183,7 @@ html {
     border-radius: 8px;
     border: none;
     cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 #discussions-btn:hover {
@@ -420,6 +423,24 @@ header h1 {
     cursor: pointer;
 }
 
+#movie-match-btn3 {
+    position: fixed;
+    bottom: 220px;
+    right: 20px;
+    background-color: #7378c5;
+    color: black;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    font: inherit;
+}
+
+#movie-match-btn3:hover {
+    background-color: #ff8623;
+    transition: 0.3s ease-in;
+}
+
 #back-to-top-btn:hover {
     background-color: #ff8623;
     transition: 0.1s linear;
@@ -599,6 +620,7 @@ main {
     border: none;
     cursor: pointer;
     font: inherit;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 #settings-btn:hover {
@@ -710,6 +732,7 @@ main {
     border-radius: 8px;
     border: none;
     cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 .mobile-bottom-bar span {
@@ -769,6 +792,7 @@ main {
     max-width: 500px;
     margin: 10px auto;
     box-sizing: border-box;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 #quiz-form {
@@ -900,4 +924,5 @@ main {
     border-radius: 8px;
     border: none;
     cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }

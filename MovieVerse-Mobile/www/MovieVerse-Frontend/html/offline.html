@@ -284,11 +284,10 @@
             const buttonIds = [
                 'settings-btn',
                 'movie-of-the-day-btn',
-                'movie-match-btn',
+                'movie-match-btn3',
                 'movie-timeline-btn',
                 'discussions-btn',
                 'trivia-btn',
-                'back-to-top-btn'
             ];
 
             buttonIds.forEach((id, index) => {
@@ -311,6 +310,26 @@
                     }
                 }, 500 + 50 * index);
             });
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth < 767) {
+                const buttonIds = [
+                    'settings-btn',
+                    'movie-of-the-day-btn',
+                    'movie-match-btn3',
+                    'movie-timeline-btn',
+                    'discussions-btn',
+                    'trivia-btn',
+                ];
+
+                buttonIds.forEach(id => {
+                    const button = document.getElementById(id);
+                    button.style.display = 'none';
+                    button.style.opacity = '0';
+                    button.style.transform = 'translateY(20px)';
+                });
+            }
         });
     </script>
 

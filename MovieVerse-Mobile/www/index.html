@@ -93,7 +93,7 @@
         }
     </script>
 
-    <!-- Analytics Tag -->
+    <!-- Analytics Tag 1 -->
     <script type="text/javascript">
         (function(c,l,a,r,i,t,y){
             c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -124,8 +124,9 @@
     </style>
 </head>
 
+<!-- Analytics Tag 2 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
-
+<!-- Analytics Tag 3 -->
 <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
@@ -147,7 +148,7 @@
             <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
         </div>
 
-        <button id="nav-toggle" class="nav-toggle" title="Toggle side navbar" onclick="toggleNav()">
+        <button id="nav-toggle" style="z-index: 200000" class="nav-toggle" title="Toggle side navbar" onclick="toggleNav()">
             <i class="fas fa-bars"></i>
         </button>
 
@@ -178,7 +179,7 @@
             </div>
         </form>
 
-        <button id="notificationBtn" class="notification-btn" title="Notifications">
+        <button id="notificationBtn" style="z-index: 200000" class="notification-btn" title="Notifications">
             <i class="fas fa-bell" id="bellIcon" style="font-size: 15px"></i>
         </button>
 
@@ -451,7 +452,7 @@
         </a>
         <a href="MovieVerse-Frontend/html/movie-timeline.html" class="bottom-bar-item">
             <i class="fas fa-clock"></i>
-            <span>Movie Timeline</span>
+            <span>Timeline</span>
         </a>
         <a href="MovieVerse-Frontend/html/chatbot.html" class="bottom-bar-item">
             <i class="fas fa-robot"></i>
@@ -459,11 +460,11 @@
         </a>
         <a href="MovieVerse-Frontend/html/trivia.html" class="bottom-bar-item">
             <i class="fas fa-question-circle"></i>
-            <span>Movie Trivia</span>
+            <span>Trivia</span>
         </a>
         <a href="#" class="bottom-bar-item" onclick="scrollToTop()">
             <i class="fas fa-arrow-up"></i>
-            <span>Back to Top</span>
+            <span>Top</span>
         </a>
     </div>
 
@@ -526,6 +527,27 @@
                     }
                 }, 500 + 50 * index);
             });
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth < 767) {
+                const buttonIds = [
+                    'settings-btn',
+                    'movie-of-the-day-btn',
+                    'movie-match-btn',
+                    'movie-timeline-btn',
+                    'discussions-btn',
+                    'trivia-btn',
+                    'back-to-top-btn'
+                ];
+
+                buttonIds.forEach(id => {
+                    const button = document.getElementById(id);
+                    button.style.display = 'none';
+                    button.style.opacity = '0';
+                    button.style.transform = 'translateY(20px)';
+                });
+            }
         });
     </script>
 
@@ -947,6 +969,7 @@
                 }
                 else if (e.key === 'Enter') {
                     e.preventDefault();
+
                     if (selectedIndex >= 0 && selectedIndex < searchResultsContainer.getElementsByClassName('search-result-card').length) {
                         searchResultsContainer.getElementsByClassName('search-result-card')[selectedIndex].click();
                     }
@@ -969,4 +992,5 @@
     </script>
 
 </body>
+
 </html>
