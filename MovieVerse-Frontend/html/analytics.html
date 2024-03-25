@@ -205,11 +205,17 @@
             lastScrollY = currentScrollY;
         });
 
+        let isAnimating = false;
+
         document.getElementById('menu-btn').addEventListener('click', () => {
+            if (isAnimating) return;
+
+            isAnimating = true;
+
             const buttonIds = [
                 'settings-btn',
                 'movie-of-the-day-btn',
-                'movie-match-btn3',
+                'movie-match-btn',
                 'movie-timeline-btn',
                 'discussions-btn',
                 'trivia-btn',
@@ -224,14 +230,17 @@
                         button.style.opacity = '1';
                         button.style.transform = 'translateY(0)';
                     }, 50 * index);
-                }
-                else {
+                } else {
                     button.style.opacity = '0';
                     button.style.transform = 'translateY(20px)';
-                    setTimeout(() => {
-                        button.style.display = 'none';
-                    }, 250 + 50 * index);
                 }
+
+                setTimeout(() => {
+                    button.style.display = button.style.opacity === '1' ? 'block' : 'none';
+                    if (index === buttonIds.length - 1) {
+                        isAnimating = false;
+                    }
+                }, 500 + 50 * index);
             });
         });
     </script>

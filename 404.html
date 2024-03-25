@@ -274,13 +274,106 @@
             </div>
         </form>
 
-        <button id="settings-btn" style="position: fixed; bottom: 185px">Settings</button>
-        <button id="movie-match-btn3" onclick="window.location.href='https://movie-verse.com/MovieVerse-Frontend/html/movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 150px">Movie Match</button>
-        <button id="movie-timeline-btn" onclick="window.location.href='https://movie-verse.com/MovieVerse-Frontend/html/movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 115px">Movie Timeline</button>
-        <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 80px">Surprise Me!</button>
-        <button id="discussions-btn" onclick="window.location.href='https://movie-verse.com/MovieVerse-Frontend/html/chatbot.html'" style="bottom: 45px" title="Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
-        <button id="trivia-btn" onclick="window.location.href='https://movie-verse.com/MovieVerse-Frontend/html/trivia.html'" style="bottom: 10px" title="Test your movie knowledge">MovieVerse Trivia</button>
+        <button id="settings-btn" style="position: fixed; bottom: 290px; right: 10px; z-index: 1001">Settings</button>
+        <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" style="bottom: 255px; right: 10px; z-index: 1001" title="Get a recommended movie to watch for today!">Surprise Me!</button>
+        <button id="movie-match-btn" onclick="window.location.href='MovieVerse-Frontend/html/movie-match.html'" title="Find movies that match your mood and preferences!" style="bottom: 220px; right: 10px; z-index: 1001">Movie Match</button>
+        <button id="movie-timeline-btn" onclick="window.location.href='MovieVerse-Frontend/html/movie-timeline.html'" style="bottom: 185px; right: 10px; z-index: 1001" title="Explore movies through different eras!">Movie Timeline</button>
+        <button id="discussions-btn" onclick="window.location.href='MovieVerse-Frontend/html/chatbot.html'" style="bottom: 150px; right: 10px; z-index: 1001" title="Want to know more about movies? Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
+        <button id="trivia-btn" onclick="window.location.href='MovieVerse-Frontend/html/trivia.html'" style="bottom: 115px; right: 10px; z-index: 1001" title="Play a quick trivia to test your knowledge about movies!">MovieVerse Trivia</button>
+        <button id="back-to-top-btn" onclick="window.location.href='https://movie-verse.com/'" style="bottom: 80px; right: 10px; z-index: 1001">Back To Home</button>
     </header>
+
+    <div id="mobile-bottom-bar" class="mobile-bottom-bar">
+        <a href="https://movie-verse.com/MovieVerse-Frontend/html/settings.html" class="bottom-bar-item">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+        </a>
+        <a href="#" class="bottom-bar-item" onclick="showMovieOfTheDay()">
+            <i class="fas fa-surprise"></i>
+            <span>Surprise Me</span>
+        </a>
+        <a href="https://movie-verse.com/MovieVerse-Frontend/html/movie-match.html" class="bottom-bar-item">
+            <i class="fas fa-film"></i>
+            <span>Movie Match</span>
+        </a>
+        <a href="https://movie-verse.com/MovieVerse-Frontend/html/movie-timeline.html" class="bottom-bar-item">
+            <i class="fas fa-clock"></i>
+            <span>Movie Timeline</span>
+        </a>
+        <a href="https://movie-verse.com/MovieVerse-Frontend/html/chatbot.html" class="bottom-bar-item">
+            <i class="fas fa-robot"></i>
+            <span>Chatbot</span>
+        </a>
+        <a href="https://movie-verse.com/MovieVerse-Frontend/html/trivia.html" class="bottom-bar-item">
+            <i class="fas fa-question-circle"></i>
+            <span>Movie Trivia</span>
+        </a>
+        <a href="https://movie-verse.com/" class="bottom-bar-item">
+            <i class="fas fa-home"></i>
+            <span>Back to Home</span>
+        </a>
+    </div>
+
+    <button id="menu-btn" style="position: fixed; bottom: 10px; right: 10px; z-index: 1001" title="Toggle Menu">
+        <i class="fas fa-bars"></i><br>
+        <span>Menu</span>
+    </button>
+
+    <script>
+        let lastScrollY = window.scrollY;
+
+        window.addEventListener('scroll', () => {
+            const currentScrollY = window.scrollY;
+
+            if (currentScrollY > lastScrollY) {
+                document.querySelector('.mobile-bottom-bar').classList.add('hide-bar');
+            }
+            else {
+                document.querySelector('.mobile-bottom-bar').classList.remove('hide-bar');
+            }
+
+            lastScrollY = currentScrollY;
+        });
+
+        let isAnimating = false;
+
+        document.getElementById('menu-btn').addEventListener('click', () => {
+            if (isAnimating) return;
+
+            isAnimating = true;
+
+            const buttonIds = [
+                'settings-btn',
+                'movie-of-the-day-btn',
+                'movie-match-btn',
+                'movie-timeline-btn',
+                'discussions-btn',
+                'trivia-btn',
+                'back-to-top-btn'
+            ];
+
+            buttonIds.forEach((id, index) => {
+                const button = document.getElementById(id);
+                if (button.style.display === 'none' || !button.style.display) {
+                    button.style.display = 'block';
+                    setTimeout(() => {
+                        button.style.opacity = '1';
+                        button.style.transform = 'translateY(0)';
+                    }, 50 * index);
+                } else {
+                    button.style.opacity = '0';
+                    button.style.transform = 'translateY(20px)';
+                }
+
+                setTimeout(() => {
+                    button.style.display = button.style.opacity === '1' ? 'block' : 'none';
+                    if (index === buttonIds.length - 1) {
+                        isAnimating = false;
+                    }
+                }, 500 + 50 * index);
+            });
+        });
+    </script>
 
     <div id="myModal" class="modal-overlay">
         <div class="spinner"></div>
