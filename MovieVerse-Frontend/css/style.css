@@ -1491,6 +1491,61 @@ p {
     color: white;
 }
 
+.nav-button {
+    background-color: #7378c5;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.nav-button:hover {
+    background-color: #565a9d;
+}
+
+.nav-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+@media (max-width: 767px) {
+    .genres + main + .pagination {
+        text-align: center;
+    }
+
+    .pagination {
+        position: relative;
+        width: 100%;
+        margin-top: 20px;
+    }
+}
+
+.page-button {
+    background-color: #7378c5;
+    color: white;
+    border: none;
+    margin: 2px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font: inherit;
+    font-size: 12.9px;
+}
+
+.page-button:hover {
+    background-color: #565a9d;
+}
+
+.page-button.active {
+    background-color: #4a4e8c;
+}
+
+.page-button:disabled {
+    background-color: #ccc;
+    cursor: default;
+}
+
 #search-results-label {
     color: #ff8623;
     text-align: center;
