@@ -125,7 +125,6 @@ If you have a suggestion that would make this better, please fork the repo and c
     ```
     npm start
     ```
-11. Start developing and make your changes. If you wish to test the app, please refer to the 
 11. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
 12. Push to the Branch (`git push origin feature/AmazingFeature`)
 13. Open a Pull Request (if you want to merge your changes to our official app)
