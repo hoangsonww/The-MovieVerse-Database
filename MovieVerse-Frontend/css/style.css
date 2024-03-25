@@ -596,10 +596,6 @@ header h1 {
     transition: 0.1s linear;
 }
 
-#back-top {
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
 #back-to-top-btn {
     position: fixed;
     bottom: 20px;
@@ -3142,6 +3138,7 @@ footer p:hover {
     .notification-modal {
         right: 12.5px;
     }
+
 
     .notification-btn {
         right: 12.5px;
