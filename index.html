@@ -475,27 +475,18 @@
 
     <script>
         let lastScrollY = window.scrollY;
-        let isScrolling;
 
         window.addEventListener('scroll', () => {
-            window.clearTimeout(isScrolling);
-
             const currentScrollY = window.scrollY;
 
             if (currentScrollY > lastScrollY) {
                 document.querySelector('.mobile-bottom-bar').classList.add('hide-bar');
             }
-            else if (currentScrollY < lastScrollY && Math.abs(lastScrollY - currentScrollY) > 10) {
+            else {
                 document.querySelector('.mobile-bottom-bar').classList.remove('hide-bar');
             }
 
             lastScrollY = currentScrollY;
-
-            isScrolling = setTimeout(() => {
-                if (window.scrollY < lastScrollY) {
-                    document.querySelector('.mobile-bottom-bar').classList.add('hide-bar');
-                }
-            }, 66);
         });
 
         let isAnimating = false;
