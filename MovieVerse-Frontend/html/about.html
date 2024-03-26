@@ -258,7 +258,7 @@
         window.addEventListener('scroll', () => {
             const currentScrollY = window.scrollY;
 
-            if (currentScrollY > lastScrollY) {
+            if (currentScrollY > lastScrollY && currentScrollY > 0) {
                 document.querySelector('.mobile-bottom-bar').classList.add('hide-bar');
             }
             else {

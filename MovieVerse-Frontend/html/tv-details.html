@@ -340,7 +340,7 @@
         window.addEventListener('scroll', () => {
             const currentScrollY = window.scrollY;
 
-            if (currentScrollY > lastScrollY) {
+            if (currentScrollY > lastScrollY && currentScrollY > 0) {
                 document.querySelector('.mobile-bottom-bar').classList.add('hide-bar');
             }
             else {
@@ -350,7 +350,7 @@
             lastScrollY = currentScrollY;
         });
 
-        dlet isAnimating = false;
+        let isAnimating = false;
 
         document.getElementById('menu-btn').addEventListener('click', () => {
             if (isAnimating) return;
