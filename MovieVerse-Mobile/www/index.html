@@ -448,7 +448,7 @@
         </a>
         <a href="MovieVerse-Frontend/html/movie-match.html" class="bottom-bar-item">
             <i class="fas fa-film"></i>
-            <span>Movie Match</span>
+            <span>Match</span>
         </a>
         <a href="MovieVerse-Frontend/html/movie-timeline.html" class="bottom-bar-item">
             <i class="fas fa-clock"></i>
@@ -474,6 +474,42 @@
     </button>
 
     <script>
+        window.onload = function() {
+            const bottomBarAnchors = document.querySelectorAll('.mobile-bottom-bar a');
+            let maxHeight = 0;
+
+            bottomBarAnchors.forEach(anchor => {
+                const anchorHeight = anchor.offsetHeight;
+                if (anchorHeight > maxHeight) {
+                    maxHeight = anchorHeight;
+                }
+            });
+
+            bottomBarAnchors.forEach(anchor => {
+                anchor.style.height = `${maxHeight}px`;
+            });
+        };
+
+        window.onresize = function() {
+            const bottomBarAnchors = document.querySelectorAll('.mobile-bottom-bar a');
+            let maxHeight = 0;
+
+            bottomBarAnchors.forEach(anchor => {
+                anchor.style.height = 'auto';
+            });
+
+            bottomBarAnchors.forEach(anchor => {
+                const anchorHeight = anchor.offsetHeight;
+                if (anchorHeight > maxHeight) {
+                    maxHeight = anchorHeight;
+                }
+            });
+
+            bottomBarAnchors.forEach(anchor => {
+                anchor.style.height = `${maxHeight}px`;
+            });
+        };
+
         let lastScrollY = window.scrollY;
 
         window.addEventListener('scroll', () => {

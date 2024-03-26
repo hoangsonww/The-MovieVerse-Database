@@ -298,7 +298,7 @@
         </a>
         <a href="https://movie-verse.com/MovieVerse-Frontend/html/movie-match.html" class="bottom-bar-item">
             <i class="fas fa-film"></i>
-            <span>Movie Match</span>
+            <span>Match</span>
         </a>
         <a href="https://movie-verse.com/MovieVerse-Frontend/html/movie-timeline.html" class="bottom-bar-item">
             <i class="fas fa-clock"></i>
@@ -320,6 +320,27 @@
     </button>
 
     <script>
+        window.addEventListener('load', function() {
+            adjustAnchorHeights();
+        });
+
+        window.addEventListener('resize', adjustAnchorHeights);
+
+        function adjustAnchorHeights() {
+            const bottomBarAnchors = document.querySelectorAll('.mobile-bottom-bar a');
+            let maxHeight = 0;
+
+            bottomBarAnchors.forEach(anchor => {
+                anchor.style.height = 'auto';
+                const anchorHeight = anchor.getBoundingClientRect().height;
+                maxHeight = Math.max(maxHeight, anchorHeight);
+            });
+
+            bottomBarAnchors.forEach(anchor => {
+                anchor.style.height = `${maxHeight}px`;
+            });
+        }
+
         let lastScrollY = window.scrollY;
 
         window.addEventListener('scroll', () => {
@@ -360,7 +381,8 @@
                         button.style.opacity = '1';
                         button.style.transform = 'translateY(0)';
                     }, 50 * index);
-                } else {
+                }
+                else {
                     button.style.opacity = '0';
                     button.style.transform = 'translateY(20px)';
                 }

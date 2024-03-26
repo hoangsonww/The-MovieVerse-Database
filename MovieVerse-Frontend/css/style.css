@@ -1578,7 +1578,13 @@ p {
     box-shadow: 0 -2px 5px rgba(0,0,0,0.2);
     justify-content: space-around;
     align-items: center;
-    z-index: 1001;
+    z-index: 1000002;
+}
+
+@media (max-width: 767px) {
+    .mobile-bottom-bar {
+        display: flex;
+    }
 }
 
 .mobile-bottom-bar {
@@ -1590,13 +1596,16 @@ p {
 }
 
 .mobile-bottom-bar a {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     flex-grow: 1;
     text-align: center;
     color: white;
     text-decoration: none;
     padding: 6px 0;
     width: 15%;
-    height: 100%;
 }
 
 .mobile-bottom-bar a:hover {
