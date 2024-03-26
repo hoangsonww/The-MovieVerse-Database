@@ -1596,6 +1596,7 @@ p {
     text-decoration: none;
     padding: 6px 0;
     width: 15%;
+    height: 100%;
 }
 
 .mobile-bottom-bar a:hover {
