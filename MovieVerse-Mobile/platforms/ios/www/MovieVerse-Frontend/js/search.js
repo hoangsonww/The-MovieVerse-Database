@@ -214,12 +214,6 @@ function attachArrowKeyNavigation() {
             case 'ArrowLeft':
                 currentIndex = (currentIndex - 1 + categories.length) % categories.length;
                 break;
-            case 'ArrowUp':
-                currentIndex = (currentIndex + 1) % categories.length;
-                break;
-            case 'ArrowDown':
-                currentIndex = (currentIndex - 1 + categories.length) % categories.length;
-                break;
             default:
                 return;
         }
@@ -332,6 +326,7 @@ function displayResults(results, category, searchTerm) {
 
     if (results.length === 0) {
         container.innerHTML = `<p>No results found for "${searchTerm}" in the ${capitalizedCategory} category. Please try again with a different query or look for it in another category.</p>`;
+        container.style.height = '800px';
         return;
     }
 
@@ -344,11 +339,14 @@ function showMovies(items, container, category) {
     container.innerHTML = '';
 
     items.forEach((item) => {
-        const isPerson = !item.title && !item.vote_average;
-        const title = item.title || item.name || "N/A";
+        const hasVoteAverage = typeof item.vote_average === 'number';
+        const isPerson = !hasVoteAverage;
+        const isMovie = item.title && hasVoteAverage;
+        const isTvSeries = item.name && hasVoteAverage && category === 'tv';
 
+        const title = item.title || item.name || "N/A";
         const overview = item.overview || 'No overview available.';
-        let biography = item.biography || 'Click to view the details of this person.';
+        const biography = item.biography || 'Click to view the details of this person.';
 
         const { id, profile_path, poster_path } = item;
         const imagePath = profile_path || poster_path ? IMGPATH + (profile_path || poster_path) : null;
@@ -369,7 +367,7 @@ function showMovies(items, container, category) {
         movieContentHTML += `</div><div class="movie-info" style="display: flex; justify-content: space-between; align-items: start; cursor: pointer;">`;
         movieContentHTML += `<h3 style="text-align: left; flex-grow: 1; margin: 0; margin-right: 5px">${title}</h3>`;
 
-        if (!isPerson && item.vote_average !== undefined) {
+        if ((isMovie || isTvSeries) && hasVoteAverage) {
             const voteAverage = item.vote_average.toFixed(1);
             movieContentHTML += `<span class="${getClassByRate(item.vote_average)}">${voteAverage}</span>`;
         }
@@ -404,18 +402,18 @@ function showMovies(items, container, category) {
                     console.error('Error fetching person details:', error);
                 }
             }
-            else {
-                if (category === 'tv') {
-                    localStorage.setItem('selectedTvSeriesId', id);
-                    window.location.href = 'tv-details.html';
-                }
-                else {
-                    localStorage.setItem('selectedMovieId', id);
-                    window.location.href = 'movie-details.html';
-                }
+            else if (isMovie) {
+                localStorage.setItem('selectedMovieId', id);
+                window.location.href = 'movie-details.html?' + id;
+                updateMovieVisitCount(id, title);
+            }
+            else if (isTvSeries) {
+                localStorage.setItem('selectedTvSeriesId', id);
+                window.location.href = 'tv-details.html?' + id;
                 updateMovieVisitCount(id, title);
             }
         });
+
         container.appendChild(movieEl);
     });
 }

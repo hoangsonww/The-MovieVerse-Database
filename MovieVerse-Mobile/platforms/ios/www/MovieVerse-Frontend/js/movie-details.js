@@ -392,7 +392,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     else {
         document.getElementById('movie-details-container').innerHTML = `
-            <div style="display: flex; justify-content: center; align-items: center; text-align: center; margin-top: 40px; width: 100vw;">
+            <div style="display: flex; justify-content: center; align-items: center; text-align: center; margin-top: 40px; width: 100vw; height: 800px">
                 <h2>Movie details not found.</h2>
             </div>`;
     }
@@ -1001,6 +1001,7 @@ function populateMovieDetails(movie, imdbRating, rtRating, metascore, awards, ra
         const noImageText = document.createElement('h2');
         noImageText.textContent = 'Movie Image Not Available';
         noImageText.style.textAlign = 'center';
+        noImageText.style.height = '800px';
         document.querySelector('.movie-left').appendChild(noImageText);
     }
 

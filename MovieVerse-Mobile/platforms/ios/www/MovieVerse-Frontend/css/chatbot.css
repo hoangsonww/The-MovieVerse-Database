@@ -115,6 +115,23 @@ body {
     transform: translateY(0);
 }
 
+#movie-match-btn3 {
+    position: fixed;
+    bottom: 220px;
+    right: 20px;
+    background-color: #7378c5;
+    color: black;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font: inherit;
+}
+
+#movie-match-btn3:hover {
+    background-color: #ff8623;
+    transition: 0.3s ease-in;
+}
+
 .movie-info span {
     background-color: #22254b;
     border-radius: 3px;
@@ -431,6 +448,136 @@ ol li:hover {
 .about:hover {
     background-color: #ff8623;
     transition: 0.3s ease-in;
+}
+
+#menu-btn {
+    background-color: #7378c5;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    font: inherit;
+    font-size: 14px;
+}
+
+#menu-btn i {
+    font-size: 18px;
+    margin-bottom: 4px;
+}
+
+#menu-btn:hover {
+    background-color: #ff8623;
+    transition: 0.1s linear;
+}
+
+#settings-btn,
+#movie-of-the-day-btn,
+#movie-match-btn,
+#movie-match-btn3,
+#movie-timeline-btn,
+#discussions-btn,
+#trivia-btn,
+#back-to-top-btn {
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    transform: translateY(20px);
+    opacity: 0;
+    display: none;
+}
+
+@media (min-width: 768px) {
+    #settings-btn,
+    #movie-of-the-day-btn,
+    #movie-match-btn,
+    #movie-timeline-btn,
+    #discussions-btn,
+    #movie-match-btn3,
+    #trivia-btn,
+    #back-to-top-btn {
+        position: fixed;
+        right: 20px;
+        z-index: 1000;
+    }
+
+    #menu-btn {
+        display: block;
+    }
+}
+
+.mobile-bottom-bar {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: auto;
+    background-color: #7378c5;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.2);
+    justify-content: space-around;
+    align-items: center;
+    z-index: 1000002;
+}
+
+@media (max-width: 767px) {
+    .mobile-bottom-bar {
+        display: flex;
+    }
+}
+
+.mobile-bottom-bar {
+    transition: transform 0.09s ease-in-out;
+}
+
+.hide-bar {
+    transform: translateY(100%);
+}
+
+.mobile-bottom-bar a {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    text-align: center;
+    color: white;
+    text-decoration: none;
+    padding: 6px 0;
+    width: 15%;
+}
+
+.mobile-bottom-bar a:hover {
+    background-color: #ff8623;
+    transition: 0.1s linear;
+}
+
+.mobile-bottom-bar i {
+    font-size: 18px;
+    margin-bottom: 4px;
+}
+
+.mobile-bottom-bar span {
+    display: block;
+    font-size: 10px;
+    color: #ecf0f1;
+}
+
+@media (max-width: 767px) {
+    .mobile-bottom-bar {
+        display: flex;
+    }
+
+    #settings-btn,
+    #movie-of-the-day-btn,
+    #movie-match-btn,
+    #movie-timeline-btn,
+    #discussions-btn,
+    #trivia-btn,
+    #menu-btn,
+    #back-to-top-btn {
+        display: none;
+    }
 }
 
 .back-btn {
