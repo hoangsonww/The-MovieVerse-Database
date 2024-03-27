@@ -22,6 +22,7 @@ Star this repository to show your support and stay updated on the latest feature
 - [Contact](#contact)
 
 ## User Interface
+
 <p align="center" style="cursor: pointer">
   <a href="https://movie-verse.com">
     <img src="../images/MovieVerse-UI.png" alt="The MovieVerse App Interface"/>
