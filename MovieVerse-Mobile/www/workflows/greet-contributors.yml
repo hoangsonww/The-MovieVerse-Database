@@ -1,0 +1,38 @@
+name: Greet Contributors
+
+on:
+  pull_request:
+    types: [opened]
+  issues:
+    types: [opened]
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  greet:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Greet on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'Thank you for your pull request! Welcome to our community!'
+            })
+      - name: Greet on Issue
+        if: github.event_name == 'issues'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'Thank you for submitting this issue. We will look into it as soon as possible.'
+            })

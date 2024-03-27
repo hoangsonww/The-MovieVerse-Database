@@ -1,4 +1,4 @@
-# Contributing to MovieVerse
+# The MovieVerse - Contributing Guidelines
 
 Thank you for your interest in contributing to MovieVerse! This project aims to provide a comprehensive guide to movies, and we welcome contributions of all kinds: from bug reports to feature suggestions, code contributions, and documentation improvements.
 
@@ -11,9 +11,10 @@ Thank you for your interest in contributing to MovieVerse! This project aims to 
 ## Using GitHub for Development
 - We host our code and track issues and feature requests on GitHub.
 - We follow the [GitHub Flow](https://guides.github.com/introduction/flow/index.html). All changes are made through Pull Requests (PRs).
+- We use [GitHub Issues](https://guides.github.com/features/issues/) to track bugs, feature requests, and other tasks.
 
 ## Making Contributions
-1. Fork the repository and create your branch from `master`.
+1. Fork the repository and create your branch from `main`.
 2. Write clear, commented, and readable code.
 3. Ensure any new code is well-tested.
 4. Make sure your changes pass existing tests.
@@ -42,6 +43,6 @@ If you have any questions or need guidance, don't hesitate to open an issue labe
 
 We're excited to welcome you to the MovieVerse community and look forward to your contributions!
 
-Author: Son Nguyen Hoang, 2023 (hoangson091104@gmail.com)
+**Author:** Son Nguyen, 2023, [info@movie-verse.com](mailto:info@movie-verse.com).
 
 ---

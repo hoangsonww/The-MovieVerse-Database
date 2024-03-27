@@ -1,4 +1,4 @@
-# The MovieVerse App - Code of Conduct
+# The MovieVerse - Code of Conduct
 
 ## Introduction
 

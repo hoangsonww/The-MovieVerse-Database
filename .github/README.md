@@ -86,7 +86,7 @@ There are also additional directories and files for project configuration, testi
 | [TypeScript](https://www.typescriptlang.org/)                   | [Python](https://www.python.org/)                               |                                                 |                                                                   | [Google Analytics](https://analytics.google.com/analytics/web/) |
 | [FontAwesome Icons](https://react-icons.github.io/react-icons/) | [C (Emscripten, WebAssembly)](https://emscripten.org/)          |                                                 |                                                                   | [ESLint](https://eslint.org/)                                   |
 | [SASS](https://sass-lang.com/)                                  | [JavaScript](https://www.javascript.com/)                       |                                                 |                                                                   | [TensorFlow](https://www.tensorflow.org/)                       |
-| [Single Spa](https://single-spa.js.org/)                        |                                                                 |                                                 |                                                                   | [The Movie Database](https://www.themoviedb.org/)               |
+| [Single Spa](https://single-spa.js.org/)                        |                                                                 |                                                 |                                                                   |                                                                 |
 
 
 ## Contributing
@@ -160,6 +160,6 @@ Email: [Official MovieVerse Email](mailto:info@movie-verse.com)
 
 Please also note that the **MovieVerse** is an ever-evolving platform, and more updates are underway. I am continually enhancing the user experience and adding new features to help you navigate the vast sea of cinema with ease and excitement! 
 
-Additionally, I'd like to express special thanks to [The Movie Database (TMDb)](https://www.themoviedb.org/) for providing additional movie data that greatly enriches The MovieVerse experience!
+Additionally, I'd like to express special gratitude to [The Movie Database (TMDb)](https://www.themoviedb.org/) for providing additional movie data that greatly enriches The MovieVerse experience!
 
 Also, if our service is down sometimes, please be patient as we are working hard to maintain the platform and ensure a seamless experience for all users. Thank you for your understanding and support! 🎬🍿
