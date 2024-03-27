@@ -368,12 +368,12 @@ ol li:hover {
     cursor: pointer;
     position: absolute;
     top: 0;
-    left: 288px;
-    transform: translateX(-50%);
+    margin-left: 219px;
     border-radius: 8px;
     padding-left: 10px;
     padding-right: 10px;
     box-sizing: border-box;
+    z-index: 999;
 }
 
 .favorites-btn:hover {
@@ -799,7 +799,7 @@ main {
 }
 
 @media (max-width: 906px) {
-    .back-btn, .about, .favorites-btn {
+    .back-btn, .about {
         position: absolute;
         top: 0;
         left: 50%;
@@ -815,7 +815,23 @@ main {
     }
 
     .favorites-btn {
-        margin-left: 93px;
+        background-color: #7378c5;
+        border: none;
+        color: white;
+        height: 40px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font: inherit;
+        font-size: 16px;
+        cursor: pointer;
+        position: absolute;
+        top: 0;
+        margin-left: 187px;
+        border-radius: 8px;
+        padding-left: 10px;
+        padding-right: 10px;
+        box-sizing: border-box;
     }
 
     header {
