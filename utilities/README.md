@@ -87,4 +87,10 @@ Once you have installed Emscripten, you can compile C files to WebAssembly. Here
 - For issues related to Emscripten, consult the [Emscripten documentation](https://emscripten.org/docs/getting_started/index.html).
 - If you have any other questions or concerns, feel free to [contact me](mailto:info@movie-verse.com).
 
+## Other TypesScript and JavaScript Utilities
+
+- This directory also contains TypeScript and JavaScript utilities for various tasks. You can explore and use them as needed.
+- The utilities are organized into separate files for clarity and ease of use.
+- Feel free to modify or extend these utilities to suit your requirements.
+
 ---
