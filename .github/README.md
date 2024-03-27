@@ -1,6 +1,6 @@
 # The MovieVerse App
 
-Welcome to The MovieVerse - your digital compass to the cinematic universe. Created by [Son Nguyen](https://github.com/hoangsonww) in 2023 and currently attracting more than **50,000 monthly users**, this application is designed to serve as a bridge connecting movie enthusiasts with an extensive collection of films across various genres and periods. Dive into an ocean of narratives, where stories come to life, right at your fingertips. 
+Welcome to The MovieVerse - your digital compass to the cinematic universe. Created by [Son Nguyen](https://github.com/hoangsonww) in 2023 and currently attracting more than **100,000 monthly users**, this application is designed to serve as a bridge connecting movie enthusiasts with an extensive collection of films across various genres and periods. Dive into an ocean of narratives, where stories come to life, right at your fingertips. 
 
 Star this repository to show your support and stay updated on the latest features and enhancements. Feel free to contribute to the project, and let's build a vibrant community of movie lovers together 🎬🍿!
 
@@ -30,11 +30,9 @@ Star this repository to show your support and stay updated on the latest feature
 
 ## Introduction
 
-The MovieVerse is an open-source application created with the vision of creating a seamless and enriching experience for movie lovers. It's more than just a database; it's a portal to explore, discover, and immerse yourself in the art of cinema.
+The MovieVerse is an open-source, full-stack, and mobile-friendly application created with the vision of creating a seamless and enriching experience for movie lovers. It's more than just a database; it's a portal to explore, discover, and immerse yourself in the art of cinema.
 
 Through The MovieVerse, users can search for movies, view detailed information, rate, and review films, and interact with a community of like-minded movie enthusiasts. It's a platform that celebrates cinema in all its forms, from blockbuster hits to indie gems.
-
-There is also a mobile version of The MovieVerse, which is developed using Apache Cordova. The mobile application is under review and will be available on the App Store and Google Play Store soon!
 
 ## Features & Usage
 
@@ -72,9 +70,9 @@ There is also a mobile version of The MovieVerse, which is developed using Apach
 The MovieVerse is a full-stack application with a robust backend and a user-friendly frontend. The project is divided into the following **3 main** directories:
 1. `MovieVerse-Backend`: The backend directory contains the server-side code, including the API, database, and server configuration.
 2. `MovieVerse-Frontend`: The frontend directory contains the client-side code, including the user interface, user experience, and client configuration.
-3. `MovieVerse-Mobile`: The mobile app directory contains the mobile application code, including the mobile user interface, user experience, and mobile client configuration.
+3. `MovieVerse-Mobile`: The mobile app directory contains the mobile application code, built using Apache Cordova, including the mobile user interface, user experience, and mobile client configuration.
 
-There are also additional directories and files for project configuration, testing, and other utilities. The project is built using a variety of technologies, including `.github`, `utilities`, `project-config`, `MovieVerse-APIs`, `MovieVerse-Databases`, `MovieVerse-Middleware`, `images`, and more. Each directory serves a specific purpose in the development, deployment, and maintenance of The MovieVerse application.
+There are also additional directories and files for project configuration, testing, and other utilities. The project is built using a variety of technologies, including `.github`, `utilities`, `project-config`, `MovieVerse-APIs`, `MovieVerse-Databases`, `MovieVerse-Middleware`, `MovieVerse-Design`, `images`, and more. Each directory serves a specific purpose in the development, deployment, and maintenance of The MovieVerse application.
 
 ## Technology Stack
 
