@@ -368,7 +368,7 @@ ol li:hover {
     cursor: pointer;
     position: absolute;
     top: 0;
-    left: 288px;
+    left: 288.5px;
     transform: translateX(-50%);
     border-radius: 8px;
     padding-left: 10px;
