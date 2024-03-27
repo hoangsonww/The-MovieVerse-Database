@@ -28,6 +28,18 @@ This directory contains a set of shell scripts used for setting up and managing 
 
 - `update_python.py`: This script is used to update the Python version used by the MovieVerse application. It automates the process of updating Python, including downloading the latest version and updating the application configuration.
 
+- `.flake8`: This file contains the configuration settings for the Flake8 linter. It defines the rules and settings used by Flake8 to lint the MovieVerse application code.
+
+- `Backup.bat`: This script is used to create a backup of the MovieVerse application data. It automates the process of backing up the application data, ensuring that it is safe and recoverable.
+
+- `Deploy.bat`: This script is used to deploy the MovieVerse application on a Windows platform. It automates the deployment process, ensuring all components are correctly configured and started.
+
+- `OpenSite.bat`: This script is used to open the MovieVerse application in a web browser. It automates the process of launching the application, making it easier to access.
+
+- `StartServer.bat`: This script is used to start the MovieVerse application server on a Windows platform. It automates the process of starting the server, ensuring that the application is running and accessible.
+
+- `UpdateProject.bat`: This script is used to update the MovieVerse application project on a Windows platform. It automates the process of updating the project, including downloading the latest version and restarting the application.
+
 ## Usage
 
 To run any of these scripts, you need to have the necessary permissions. You can assign execution permissions using the following command:
