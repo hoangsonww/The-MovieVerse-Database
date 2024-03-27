@@ -4,14 +4,6 @@ Welcome to the `MovieVerse-APIs` directory of the MovieVerse App! This directory
 
 ---
 
-## Table of Contents
-
-1. [Overview](#overview)
-2. [api.http](#api.http)
-3. [http-client.env.json](#http-client.env.json)
-4. [http-client.private.env.json](#http-client.private.env.json)
-5. [movieverse-openapi.yaml](#movieverse-openapi.yaml)
-
 ## Overview
 
 The `MovieVerse-APIs` directory plays a crucial role in interfacing with the web services and APIs that power the MovieVerse application. This directory contains files that help test, define, and document the API endpoints.
