@@ -8,6 +8,12 @@ To view and interact with the designs, please visit the Figma file:
 
 [Figma Designs for MovieVerse](https://www.figma.com/file/Yjxi2D2ShJwzCkbB2O6Sul/MovieVerse-Design?type=design&node-id=0%3A1&mode=design&t=bB21LWHPfANRRTBG-1)
 
+<p align="center" style="cursor: pointer">
+  <a href="https://movie-verse.com">
+    <img src="../images/MovieVerse-UI.png" alt="The MovieVerse App Interface"/>
+  </a>
+</p>
+
 This link provides access to the current version of our app's design. It includes everything from the splash screen to the detailed user interface of movie listings, profiles, and more.
 
 ## Navigating the Figma File
