@@ -4,7 +4,7 @@
 
 MovieVerse is a dynamic, user-friendly mobile application that offers an extensive library of movies across various genres. Designed for movie enthusiasts, it provides a seamless browsing experience on iOS devices, including iPhones and iPads. Explore popular, award-winning, and hidden gems, or dive into categories like action, horror, romance, and more. MovieVerse is your ultimate mobile destination for movie discovery and entertainment.
 
-**Note:** The app is under active development and will be available for download on the App Store and Google Play Store soon.
+**Note:** The app is under active development and will be available for download on the App Store and Google Play Store soon. Stay tuned for updates!
 
 ## Features
 
