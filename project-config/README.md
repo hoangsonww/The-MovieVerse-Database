@@ -4,19 +4,6 @@ Welcome to the `project-config` directory of the MovieVerse App! This directory 
 
 ---
 
-## Table of Contents
-
-1. [Overview](#overview)
-2. [.babelrc](#.babelrc)
-3. [.env.example](#.env.example)
-4. [.eslintrc.json](#.eslintrc.json)
-5. [.npmrc](#.npmrc)
-6. [.travis.yml](#.travis.yml)
-7. [babel.config.json](#babel.config.json)
-8. [docker-compose.yml](#docker-compose.yml)
-9. [nginx.conf](#nginx.conf)
-10. [webpack.config.js](#webpack.config.js)
-
 ## Overview
 
 The configuration files in this directory are crucial for setting up the development environment, ensuring code quality, and configuring deployment options. Each file serves a specific purpose and is explained in detail below.
