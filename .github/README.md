@@ -44,14 +44,14 @@ Through The MovieVerse, users can search for movies, view detailed information, 
 
 **Interactive Features:**
 - **Interactive Database**: Rate movies, write reviews, and read opinions from other users.
-- **Movie Watchlists**: Create and manage watchlists for different genres, time periods, or preferences. The watchlists are saved to your account for easy access on any device.
+- **Movie Watch Lists**: Create and manage watch lists for different genres, time periods, or preferences. The watchlists are saved to your account for easy access on any device.
 - **Movie Matching**: Discover movies that align with your preferences and ratings.
 
 **Navigating The MovieVerse:**
 - **MovieBot Chat**: Engage with our chatbot, MovieBot, for additional information about the application.
 - **User Sign On**: Create an account for a personalized experience with additional features like saving watchlists.
 - **Cinematic Timeline**: Explore cinema history by selecting specific time periods in the movie timeline.
-- **User Profile**: Customize your profile, manage your watchlists, and view your stats/information.
+- **User Profile**: Customize your profile, manage your watch lists, and view your stats/information.
 
 **Enhanced User Experience:**
 - **Responsive Design**: Enjoy a seamless experience on various devices and screen sizes. The MovieVerse is optimized for all platforms, including desktop, tablet, and mobile.
