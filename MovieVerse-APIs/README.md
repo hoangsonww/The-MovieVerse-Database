@@ -28,6 +28,10 @@ An OpenAPI (formerly Swagger) specification file that provides a standard, langu
 
 This file contains a test suite for the MovieVerse APIs. It uses the `requests` library to send HTTP requests to the API endpoints and validate the responses. The test suite can be run to ensure that the API is functioning as expected.
 
+### sample_initial_api_response.json
+
+A sample JSON file containing the initial response from the API. This file can be used to understand the structure of the API response and develop the application accordingly.
+
 ## Using these Files
 
 To utilize these files effectively, familiarity with API testing and OpenAPI specifications is recommended. Ensure that sensitive information in `.env` files is properly secured and not exposed in public repositories.
