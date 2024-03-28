@@ -11,7 +11,7 @@
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
     <meta http-equiv="content-language" content="en" />
-    <meta property="og:description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more." />
+    <meta property="og:description" content="Learn about The MovieVerse, your ultimate movie guide. Discover our mission, features, and how we create a haven for movie enthusiasts to explore cinema." />
     <meta property="og:url" content="https://movie-verse.com/MovieVerse-Frontend/html/about.html" />
     <meta property="og:site_name" content="About The MovieVerse" />
     <meta property="og:image" content="https://movie-verse.com/images/image.png"/>
@@ -26,9 +26,11 @@
     <meta http-equiv="content-language" content="en">
     <meta name="language" content="en">
     <meta name="theme-color" content="#7378c5">
-    <meta name="twitter:card" content="https://movie-verse.com/images/image.png"/>
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@MovieVerse" />
+    <meta name="twitter:creator" content="@hoangsonw" />
     <meta name="twitter:title" content="The MovieVerse - Your Ultimate Movie Guide">
-    <meta name="twitter:description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more.">
+    <meta name="twitter:description" content="Learn about The MovieVerse, your ultimate movie guide. Discover our mission, features, and how we create a haven for movie enthusiasts to explore cinema.">
     <meta name="twitter:image" content="https://movie-verse.com/images/image.png"/>
     <meta name="referrer" content="no-referrer-when-downgrade">
     <link rel="stylesheet" href="../css/style.css"/>
@@ -150,11 +152,11 @@
     </nav>
 
     <main id="main2">
-        <h2 id="aboutHeader" style="align-self: center">About The MovieVerse</h2>
+        <h2 id="aboutHeader" style="align-self: center; cursor: pointer">About The MovieVerse</h2>
 
         <p style="color: white">Welcome to The MovieVerse, your ultimate destination for exploring the magic of movies. Created by <a id="profileLink" href="http://github.com/hoangsonww">Son Nguyen</a> in 2023 with a vision to celebrate cinematic art, The MovieVerse offers a unique but comprehensive platform for movie lovers to discover, engage, and immerse themselves in the world of film!</p>
 
-        <h3 id="subheading1">Core Features:</h3>
+        <h3 id="subheading1" style="cursor: pointer">Core Features:</h3>
 
         <ul style="align-content: center; color: white">
             <li><strong>Curated Movie Collections:</strong> Explore an array of movies categorized by genre, director, language, and era, including specialized sections like Director's Spotlight and award-winning films.</li>
@@ -172,7 +174,7 @@
             <li><strong>IMDb, Metacritics, and Rotten Tomatoes Ratings:</strong> Aside from ratings from our users, you can also view IMDb, Metacritics, and RT ratings for each movie directly within our app.</li>
         </ul>
 
-        <h3 id="subheading2">Explore Our Other Apps:</h3>
+        <h3 id="subheading2" style="cursor: pointer">Explore Our Other Apps:</h3>
 
         <ul style="align-content: center; color: white">
             <li>
@@ -201,23 +203,24 @@
             </li>
         </ul>
 
-        <h3 id="subheading">Our Vision:</h3>
+        <h3 id="subheading" style="cursor: pointer">Our Vision:</h3>
         <p style="color: white">Our aim is to create a haven for cinephiles, where the discovery of movies is an adventure. The MovieVerse is more than just a movie database; it's a vibrant community and a hub for sharing cinematic experiences and insights.</p>
 
-        <h3 id="subheading3">Join The Journey:</h3>
+        <h3 id="subheading3" style="cursor: pointer">Join The Journey:</h3>
         <p style="color: white">We're constantly innovating to bring you new and exciting features. Stay tuned for upcoming enhancements, including virtual reality experiences, AI-driven recommendations, and social integration for shared movie experiences.</p>
         <br/>
         <p style="color: white">Become a part of The MovieVerse community today. Your engagement and feedback are invaluable to us. Together, let's celebrate the wonder of movies!</p>
         <br/>
         <p style="color: white; text-align: center"><em>Thank you for being a part of The MovieVerse. For more insights and updates, connect with us on our <a style="text-decoration: underline" id="githubLink" href="https://github.com/hoangsonww/The-MovieVerse-Database">GitHub page</a>.</em></p>
 
-        <h3 id="subheading4">Useful Links:</h3>
+        <h3 id="subheading4" style="cursor: pointer">Useful Links:</h3>
         <p style="color: white">Here are some links that you might find useful: You can explore the analytics page of our database (<a href="analytics.html" style="color: white"><strong style="text-decoration: underline">MovieVerse Analytics</strong></a>), read our <a href="terms-of-service.html" style="color: white"><strong style="text-decoration: underline">terms of service</strong></a>, and review our <a href="privacy-policy.html" style="color: white"><strong style="text-decoration: underline">privacy policy</strong></a>. Feel free to reach out to us if you have any questions or concerns (at <a href="support.html" style="color: white"><strong style="text-decoration: underline">contact support</strong></a>).</p>
 
         <button onclick="window.location.href='analytics.html'" style="border: none; margin-top: 40px" class="app-btn">MovieVerse Analytics</button>
         <button onclick="window.location.href='terms-of-service.html'" style="border: none; margin-top: 40px" class="app-btn">Terms of Service</button>
         <button onclick="window.location.href='privacy-policy.html';" style="border: none; margin-top: 40px" class="app-btn">Privacy Policy</button>
         <button onclick="window.location.href='support.html'" style="border: none; margin-top: 40px" class="app-btn">Contact Support</button>
+
     </main>
 
     <div id="mobile-bottom-bar" class="mobile-bottom-bar">
@@ -493,7 +496,67 @@
             }
         });
 
-        function rotateUserStats() {
+        document.getElementById("subheading1").addEventListener('click', function(e) {
+            e.preventDefault();
+
+            document.getElementById('subheading1').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        document.getElementById("subheading2").addEventListener('click', function(e) {
+            e.preventDefault();
+
+            document.getElementById('subheading2').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        document.getElementById("subheading").addEventListener('click', function(e) {
+            e.preventDefault();
+
+            document.getElementById('subheading').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        document.getElementById("subheading3").addEventListener('click', function(e) {
+            e.preventDefault();
+
+            document.getElementById('subheading3').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        document.getElementById("subheading4").addEventListener('click', function(e) {
+            e.preventDefault();
+
+            document.getElementById('subheading4').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        document.getElementById("aboutHeader").addEventListener('click', function(e) {
+            e.preventDefault();
+
+            document.getElementById('aboutHeader').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        async function ensureGenreMapIsAvailable() {
+            if (!localStorage.getItem('genreMap')) {
+                await fetchGenreMap();
+            }
+        }
+
+        async function fetchGenreMap() {
+            const url = `https://${getMovieVerseData()}/3/genre/movie/list?${generateMovieNames()}${getMovieCode()}`;
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                const genreMap = data.genres.reduce((map, genre) => {
+                    map[genre.id] = genre.name;
+                    return map;
+                }, {});
+                localStorage.setItem('genreMap', JSON.stringify(genreMap));
+            }
+            catch (error) {
+                console.error('Error fetching genre map:', error);
+            }
+        }
+
+        async function rotateUserStats() {
+            await ensureGenreMapIsAvailable();
+
             const stats = [
                 {
                     label: "Your Current Time",
@@ -525,7 +588,11 @@
                 },
                 {
                     label: "Favorite Genre",
-                    getValue: getMostCommonGenre
+                    getValue: () => {
+                        const mostCommonGenreCode = getMostCommonGenre();
+                        const genreMap = JSON.parse(localStorage.getItem('genreMap')) || {};
+                        return genreMap[mostCommonGenreCode] || 'Not Available';
+                    }
                 },
                 { label: "Watchlists Created", getValue: () => localStorage.getItem('watchlistsCreated') || 0 },
                 { label: "Average Movie Rating", getValue: () => localStorage.getItem('averageMovieRating') || 'Not Rated' },

@@ -27,7 +27,6 @@
     <meta name="rating" content="General">
     <meta name="revisit-after" content="3 days">
     <meta name="distribution" content="global">
-    <meta http-equiv="content-language" content="en">
     <meta name="language" content="en">
     <meta name="theme-color" content="#7378c5">
     <meta name="twitter:card" content="summary_large_image" />
@@ -44,6 +43,10 @@
     <script src="index.js" defer></script>
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <link rel="manifest" href="manifest.json">
+
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6608388491200814"
+            crossorigin="anonymous"></script>
 
     <!-- Schema.org markup for movies -->
     <script type="application/ld+json">
@@ -78,7 +81,7 @@
                     "@type": "Person",
                     "name": "Michael Patrick"
                 },
-                "datePublished": "2024-01-06",
+                "datePublished": "2024-03-06",
                 "reviewRating": {
                     "@type": "Rating",
                     "ratingValue": "9",
@@ -93,7 +96,7 @@
         }
     </script>
 
-    <!-- Analytics Tag 1 -->
+    <!-- Microsoft Analytics Tag -->
     <script type="text/javascript">
         (function(c,l,a,r,i,t,y){
             c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -124,9 +127,8 @@
     </style>
 </head>
 
-<!-- Analytics Tag 2 -->
+<!-- Google Analytics Tag -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
-<!-- Analytics Tag 3 -->
 <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
@@ -425,10 +427,6 @@
 
     <main id="classic"></main>
 
-    <footer id="footer" style="cursor: pointer; margin-top: 230px">
-        <p>© 2024 The MovieVerse. All rights reserved.</p>
-    </footer>
-
     <button id="settings-btn" style="position: fixed; bottom: 290px; right: 10px; z-index: 1001">Settings</button>
     <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" style="bottom: 255px; right: 10px; z-index: 1001" title="Get a recommended movie to watch for today!">Surprise Me!</button>
     <button id="movie-match-btn" onclick="window.location.href='MovieVerse-Frontend/html/movie-match.html'" title="Find movies that match your mood and preferences!" style="bottom: 220px; right: 10px; z-index: 1001">Movie Match</button>
@@ -472,6 +470,10 @@
         <i class="fas fa-ellipsis-h"></i><br>
         <span>Menu</span>
     </button>
+
+    <footer id="footer" style="cursor: pointer; margin-top: 230px">
+        <p>© 2024 The MovieVerse. All rights reserved.</p>
+    </footer>
 
     <script>
         window.onload = function() {
@@ -808,6 +810,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('search').addEventListener('input', function(e) {
                 showSpinner();
+
                 const viewAllResultsBtn = document.getElementById('view-all-results');
                 const searchInput = document.getElementById('search');
                 const query = e.target.value.trim();
@@ -953,6 +956,7 @@
             const viewAllResultsBtn = document.getElementById('view-all-results');
             const clearSearchBtn = document.getElementById('clear-search');
             const searchResultsContainer = document.getElementById('search-results');
+
             let selectedIndex = -1;
 
             function clearSelection() {

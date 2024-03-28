@@ -41,7 +41,31 @@ function getClassByRate(vote){
     }
 }
 
-function rotateUserStats() {
+async function ensureGenreMapIsAvailable() {
+    if (!localStorage.getItem('genreMap')) {
+        await fetchGenreMap();
+    }
+}
+
+async function fetchGenreMap() {
+    const url = `https://${getMovieVerseData()}/3/genre/movie/list?${generateMovieNames()}${getMovieCode()}`;
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        const genreMap = data.genres.reduce((map, genre) => {
+            map[genre.id] = genre.name;
+            return map;
+        }, {});
+        localStorage.setItem('genreMap', JSON.stringify(genreMap));
+    }
+    catch (error) {
+        console.error('Error fetching genre map:', error);
+    }
+}
+
+async function rotateUserStats() {
+    await ensureGenreMapIsAvailable();
+
     const stats = [
         {
             label: "Your Current Time",
@@ -73,7 +97,11 @@ function rotateUserStats() {
         },
         {
             label: "Favorite Genre",
-            getValue: getMostCommonGenre
+            getValue: () => {
+                const mostCommonGenreCode = getMostCommonGenre();
+                const genreMap = JSON.parse(localStorage.getItem('genreMap')) || {};
+                return genreMap[mostCommonGenreCode] || 'Not Available';
+            }
         },
         { label: "Watchlists Created", getValue: () => localStorage.getItem('watchlistsCreated') || 0 },
         { label: "Average Movie Rating", getValue: () => localStorage.getItem('averageMovieRating') || 'Not Rated' },

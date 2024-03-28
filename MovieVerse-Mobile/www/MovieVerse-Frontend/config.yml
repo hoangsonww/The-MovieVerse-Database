@@ -1,0 +1,54 @@
+app:
+  name: The MovieVerse
+  description: "Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more."
+  language: en
+  theme_color: "#7378c5"
+  author: Son Nguyen
+
+meta:
+  viewport: "width=device-width, initial-scale=1.0"
+  robots: "index, follow"
+  rating: "General"
+  revisit_after: "3 days"
+  distribution: "global"
+  keywords: "movies, film guide, directors, actors, movie genres, cinema, film reviews"
+
+og:
+  title: "The MovieVerse - Your Ultimate Movie Guide"
+  type: website
+  url: "https://movie-verse.com/"
+  image: "https://movie-verse.com/images/image.png"
+  description: "Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more."
+  locale: en_US
+  site_name: The MovieVerse
+
+twitter:
+  card: "https://movie-verse.com/images/image.png"
+  title: "The MovieVerse - Your Ultimate Movie Guide"
+  description: "Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more."
+  image: "https://movie-verse.com/images/image.png"
+
+analytics:
+  google_tag_manager_id: G-CQKJ67FXZ4
+
+resources:
+  css:
+    - "MovieVerse-Frontend/css/style.css"
+    - "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+  js:
+    - "MovieVerse-Frontend/js/settings.js"
+    - "index.js"
+    - "https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"
+  favicon: "images/favicon.ico"
+  manifest: "manifest.json"
+  service_worker: "MovieVerse-Frontend/js/service-worker.js"
+
+paths:
+  about: "./MovieVerse-Frontend/html/about.html"
+  favorites: "./MovieVerse-Frontend/html/favorites.html"
+  user_profile: "./MovieVerse-Frontend/html/user-profile.html"
+  settings: "MovieVerse-Frontend/html/settings.html"
+  movie_match: "MovieVerse-Frontend/html/movie-match.html"
+  movie_timeline: "MovieVerse-Frontend/html/movie-timeline.html"
+  chatbot: "MovieVerse-Frontend/html/chatbot.html"
+  trivia: "./MovieVerse-Frontend/html/trivia.html"
