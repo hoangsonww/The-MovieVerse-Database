@@ -156,7 +156,7 @@
 
         <p style="color: white">Welcome to The MovieVerse, your ultimate destination for exploring the magic of movies. Created by <a id="profileLink" href="http://github.com/hoangsonww">Son Nguyen</a> in 2023 with a vision to celebrate cinematic art, The MovieVerse offers a unique but comprehensive platform for movie lovers to discover, engage, and immerse themselves in the world of film!</p>
 
-        <h3 id="subheading1">Core Features:</h3>
+        <h3 id="subheading1" style="cursor: pointer">Core Features:</h3>
 
         <ul style="align-content: center; color: white">
             <li><strong>Curated Movie Collections:</strong> Explore an array of movies categorized by genre, director, language, and era, including specialized sections like Director's Spotlight and award-winning films.</li>
@@ -493,6 +493,42 @@
                     document.body.style.fontSize = size;
                 }
             }
+        });
+
+        document.getElementById("subheading1").addEventListener('click', function(e) {
+            e.preventDefault();
+
+            document.getElementById('subheading1').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        document.getElementById("subheading2").addEventListener('click', function(e) {
+            e.preventDefault();
+
+            document.getElementById('subheading2').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        document.getElementById("subheading").addEventListener('click', function(e) {
+            e.preventDefault();
+
+            document.getElementById('subheading').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        document.getElementById("subheading3").addEventListener('click', function(e) {
+            e.preventDefault();
+
+            document.getElementById('subheading3').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        document.getElementById("subheading4").addEventListener('click', function(e) {
+            e.preventDefault();
+
+            document.getElementById('subheading4').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        document.getElementById("aboutHeader").addEventListener('click', function(e) {
+            e.preventDefault();
+
+            document.getElementById('aboutHeader').scrollIntoView({ behavior: 'smooth' });
         });
 
         function rotateUserStats() {
