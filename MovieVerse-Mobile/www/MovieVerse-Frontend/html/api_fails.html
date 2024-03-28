@@ -11,13 +11,19 @@
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
     <meta http-equiv="content-language" content="en" />
-    <meta property="og:description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more." />
+    <meta property="og:description" content="You're currently offline. Check your internet connection or try again later to continue exploring The MovieVerse." />
     <meta property="og:url" content="https://movie-verse.com/MovieVerse-Frontend/html/api_fails.html" />
     <meta property="og:site_name" content="The MovieVerse" />
     <meta property="og:image" content="https://movie-verse.com/images/image.png"/>
     <meta property="og:favicon" content="./images/favicon.ico" />
     <meta name="keywords" content="movies, film guide, directors, actors, movie genres, cinema, film reviews">
     <meta name="author" content="Son Nguyen Hoang">
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@MovieVerse" />
+    <meta name="twitter:creator" content="@hoangsonw" />
+    <meta name="twitter:title" content="The MovieVerse - Your Ultimate Movie Guide">
+    <meta name="twitter:description" content="You're currently offline. Check your internet connection or try again later to continue exploring The MovieVerse.">
+    <meta name="twitter:image" content="https://movie-verse.com/images/image.png"/>
     <link rel="stylesheet" href="../css/style.css"/>
     <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
@@ -70,7 +76,31 @@
 
         gtag('config', 'G-CQKJ67FXZ4');
 
-        function rotateUserStats() {
+        async function ensureGenreMapIsAvailable() {
+            if (!localStorage.getItem('genreMap')) {
+                await fetchGenreMap();
+            }
+        }
+
+        async function fetchGenreMap() {
+            const url = `https://${getMovieVerseData()}/3/genre/movie/list?${generateMovieNames()}${getMovieCode()}`;
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                const genreMap = data.genres.reduce((map, genre) => {
+                    map[genre.id] = genre.name;
+                    return map;
+                }, {});
+                localStorage.setItem('genreMap', JSON.stringify(genreMap));
+            }
+            catch (error) {
+                console.error('Error fetching genre map:', error);
+            }
+        }
+
+        async function rotateUserStats() {
+            await ensureGenreMapIsAvailable();
+
             const stats = [
                 {
                     label: "Your Current Time",
@@ -102,7 +132,11 @@
                 },
                 {
                     label: "Favorite Genre",
-                    getValue: getMostCommonGenre
+                    getValue: () => {
+                        const mostCommonGenreCode = getMostCommonGenre();
+                        const genreMap = JSON.parse(localStorage.getItem('genreMap')) || {};
+                        return genreMap[mostCommonGenreCode] || 'Not Available';
+                    }
                 },
                 { label: "Watchlists Created", getValue: () => localStorage.getItem('watchlistsCreated') || 0 },
                 { label: "Average Movie Rating", getValue: () => localStorage.getItem('averageMovieRating') || 'Not Rated' },

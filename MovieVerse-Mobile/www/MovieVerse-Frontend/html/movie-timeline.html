@@ -13,7 +13,7 @@
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
     <meta http-equiv="content-language" content="en" />
-    <meta property="og:description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more." />
+    <meta property="og:description" content="Journey through cinema history with The MovieVerse's movie timeline feature. Discover films from any era and explore the evolution of storytelling." />
     <meta property="og:url" content="https://movie-verse.com/" />
     <meta property="og:site_name" content="The MovieVerse" />
     <meta property="og:image" content="https://movie-verse.com/images/image.png"/>
@@ -27,9 +27,11 @@
     <meta http-equiv="content-language" content="en">
     <meta name="language" content="en">
     <meta name="theme-color" content="#7378c5">
-    <meta name="twitter:card" content="https://movie-verse.com/images/image.png"/>
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@MovieVerse" />
+    <meta name="twitter:creator" content="@hoangsonw" />
     <meta name="twitter:title" content="The MovieVerse - Your Ultimate Movie Guide">
-    <meta name="twitter:description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more.">
+    <meta name="twitter:description" content="Journey through cinema history with The MovieVerse's movie timeline feature. Discover films from any era and explore the evolution of storytelling.">
     <meta name="twitter:image" content="https://movie-verse.com/images/image.png"/>
     <meta name="referrer" content="no-referrer-when-downgrade">
     <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
@@ -134,13 +136,13 @@
         <div class="spinner"></div>
     </div>
 
-    <button id="settings-btn" style="position: fixed; bottom: 290px; right: 10px">Settings</button>
-    <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 255px; right: 10px">Movie Match</button>
-    <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 220px; right: 10px">Movie Timeline</button>
-    <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 185px; right: 10px">Surprise Me!</button>
-    <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="bottom: 150px; right: 10px" title="Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
-    <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 115px; right: 10px" title="Test your movie knowledge">MovieVerse Trivia</button>
-    <button id="back-to-top-btn" style="bottom: 80px; right: 10px; z-index: 1001">Back To Top</button>
+    <button id="settings-btn" style="position: fixed; bottom: 290px; right: 10px; z-index: 10012">Settings</button>
+    <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 255px; right: 10px; z-index: 10012">Movie Match</button>
+    <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 220px; right: 10px; z-index: 10012">Movie Timeline</button>
+    <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 185px; right: 10px; z-index: 10012">Surprise Me!</button>
+    <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="bottom: 150px; right: 10px; z-index: 10012" title="Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
+    <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 115px; z-index: 10012; right: 10px" title="Test your movie knowledge">MovieVerse Trivia</button>
+    <button id="back-to-top-btn" style="bottom: 80px; right: 10px; z-index: 10012">Back To Top</button>
 
     <script src="../js/movie-timeline.js"></script>
 
@@ -231,17 +233,20 @@
                 'movie-timeline-btn',
                 'discussions-btn',
                 'trivia-btn',
+                'back-to-top-btn'
             ];
 
             buttonIds.forEach((id, index) => {
                 const button = document.getElementById(id);
+
                 if (button.style.display === 'none' || !button.style.display) {
                     button.style.display = 'block';
                     setTimeout(() => {
                         button.style.opacity = '1';
                         button.style.transform = 'translateY(0)';
                     }, 50 * index);
-                } else {
+                }
+                else {
                     button.style.opacity = '0';
                     button.style.transform = 'translateY(20px)';
                 }
@@ -264,6 +269,7 @@
                     'movie-timeline-btn',
                     'discussions-btn',
                     'trivia-btn',
+                    'back-to-top-btn'
                 ];
 
                 buttonIds.forEach(id => {
