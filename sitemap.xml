@@ -86,11 +86,6 @@
         <priority>0.60</priority>
     </url>
     <url>
-        <loc>https://movie-verse.com/404.html</loc>
-        <lastmod>2024-03-23</lastmod>
-        <priority>0.40</priority>
-    </url>
-    <url>
         <loc>https://movie-verse.com/MovieVerse-Frontend/html/search.html</loc>
         <lastmod>2024-03-23</lastmod>
         <priority>0.80</priority>
