@@ -425,10 +425,6 @@
 
     <main id="classic"></main>
 
-    <footer id="footer" style="cursor: pointer; margin-top: 230px">
-        <p>© 2024 The MovieVerse. All rights reserved.</p>
-    </footer>
-
     <button id="settings-btn" style="position: fixed; bottom: 290px; right: 10px; z-index: 1001">Settings</button>
     <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" style="bottom: 255px; right: 10px; z-index: 1001" title="Get a recommended movie to watch for today!">Surprise Me!</button>
     <button id="movie-match-btn" onclick="window.location.href='MovieVerse-Frontend/html/movie-match.html'" title="Find movies that match your mood and preferences!" style="bottom: 220px; right: 10px; z-index: 1001">Movie Match</button>
@@ -472,6 +468,10 @@
         <i class="fas fa-ellipsis-h"></i><br>
         <span>Menu</span>
     </button>
+
+    <footer id="footer" style="cursor: pointer; margin-top: 230px">
+        <p>© 2024 The MovieVerse. All rights reserved.</p>
+    </footer>
 
     <script>
         window.onload = function() {
@@ -808,6 +808,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('search').addEventListener('input', function(e) {
                 showSpinner();
+
                 const viewAllResultsBtn = document.getElementById('view-all-results');
                 const searchInput = document.getElementById('search');
                 const query = e.target.value.trim();
@@ -953,6 +954,7 @@
             const viewAllResultsBtn = document.getElementById('view-all-results');
             const clearSearchBtn = document.getElementById('clear-search');
             const searchResultsContainer = document.getElementById('search-results');
+
             let selectedIndex = -1;
 
             function clearSelection() {
