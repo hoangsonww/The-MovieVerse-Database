@@ -33,6 +33,7 @@ The microservices architecture of MovieVerse is designed to segregate the applic
 - PostgreSQL
 - Flask
 - Django
+- Flake8 for Python linting
 - Celery for asynchronous task queue
 - Redis or RabbitMQ as a broker for Celery
 - BeautifulSoup4 and Requests for web scraping in the Crawler Service
