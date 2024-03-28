@@ -244,11 +244,21 @@ function generateRandomQuestions() {
     selectedQuestions.forEach((question, index) => {
         const questionElement = document.createElement('div');
         questionElement.innerHTML = `
-            <h2>Question ${index + 1}:</h2>
-            <p>${question.question}</p>
-            ${question.options.map((option, i) => `<label><input type="radio" name="q${index}" value="${option}"> ${option}</label><br>`).join('')}
-            <br>`;
+        <h2 id="${index}">Question ${index + 1}:</h2>
+        <p>${question.question}</p>
+        ${question.options.map((option, i) => `<label><input type="radio" name="q${index}" value="${option}"> ${option}</label><br>`).join('')}
+        <br>`;
         quizContainer.appendChild(questionElement);
+
+        const headerElement = questionElement.querySelector(`h2`);
+
+        headerElement.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            headerElement.scrollIntoView({ behavior: 'smooth' });
+        });
+
+        headerElement.style.cursor = 'pointer';
     });
 }
 
@@ -370,12 +380,16 @@ document.getElementById('quiz-form').addEventListener('submit', function(event) 
 
 function calculateAndDisplayResults() {
     let score = 0;
+    const totalQuestions = 10;
+
     questionBank.forEach((question, index) => {
         const selectedAnswer = document.querySelector(`input[name="q${index}"]:checked`);
         if (selectedAnswer && selectedAnswer.value === question.answer) {
             score++;
         }
     });
+
+    updateTriviaStats(score, totalQuestions);
 
     displayResults(score);
 }
