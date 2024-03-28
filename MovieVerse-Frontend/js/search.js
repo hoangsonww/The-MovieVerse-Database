@@ -244,6 +244,7 @@ function getMovieVerseData(input) {
 
 async function showResults(category) {
     showSpinner();
+
     localStorage.setItem('selectedCategory', category);
     const searchQuery = localStorage.getItem('searchQuery');
     const movieName = `${getMovieCode()}`;
@@ -277,6 +278,7 @@ async function showResults(category) {
 
     updateBrowserURL(searchQuery);
     document.title = `Search Results for "${searchQuery}" - The MovieVerse`;
+
     hideSpinner();
 }
 
