@@ -113,7 +113,7 @@
         <div class="spinner"></div>
     </div>
 
-    <main id="movie-match-main" style="margin-top: 10px">
+    <main id="movie-match-main" style="margin-top: 10px; margin-bottom: 0">
         <h2 id="search-results-label">Search Results</h2>
 
         <div class="category-buttons">
@@ -126,6 +126,19 @@
             <main id="results"></main>
         </div>
     </main>
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6608388491200814"
+            crossorigin="anonymous"></script>
+    <!-- Homepage 1 -->
+    <ins class="adsbygoogle"
+         style="display:block; text-align: center;"
+         data-ad-client="ca-pub-6608388491200814"
+         data-ad-slot="4832732030"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
 
     <button id="settings-btn" style="position: fixed; bottom: 265px; right: 10px; z-index: 10012">Settings</button>
     <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 230px; right: 10px; z-index: 10012">Movie Match</button>
@@ -457,17 +470,20 @@
 
                 if (direction === 'down') {
                     selectedIndex = (selectedIndex + 1) % totalElements;
-                } else if (direction === 'up') {
+                }
+                else if (direction === 'up') {
                     selectedIndex = (selectedIndex - 1 + totalElements) % totalElements;
                 }
 
                 if (selectedIndex < results.length) {
                     results[selectedIndex].style.backgroundColor = '#ff8623';
                     results[selectedIndex].scrollIntoView({ block: "nearest" });
-                } else if (selectedIndex === results.length) {
+                }
+                else if (selectedIndex === results.length) {
                     viewAllResultsBtn.style.backgroundColor = '#ff8623';
                     viewAllResultsBtn.scrollIntoView({ block: "nearest" });
-                } else if (selectedIndex === results.length + 1) {
+                }
+                else if (selectedIndex === results.length + 1) {
                     clearSearchBtn.style.backgroundColor = '#ff8623';
                     clearSearchBtn.scrollIntoView({ block: "nearest" });
                 }
