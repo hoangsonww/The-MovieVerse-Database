@@ -353,11 +353,8 @@ document.addEventListener('DOMContentLoaded', () => {
         fetchCompanyMovies(companyId);
     }
     else {
-        const companyDetailsContainer = document.getElementById('company-details-container');
-        companyDetailsContainer.innerHTML = `
-            <div style="display: flex; justify-content: center; align-items: center; text-align: center; width: 100vw; height: 800px">
-                <h2>Company details not found.</h2>
-            </div>`;
+        fetchCompanyDetails(521);
+        fetchCompanyMovies(521);
     }
 });
 
@@ -408,7 +405,7 @@ async function fetchCompanyDetails(companyId) {
         const companyDetailsContainer = document.getElementById('company-details-container');
         companyDetailsContainer.innerHTML = `
             <div style="display: flex; justify-content: center; align-items: center; height: 100vh; text-align: center; width: 100vw;">
-                <h2>Company details not found.</h2>
+                <h2>Company details not found - try again with a different company.</h2>
             </div>`;
         hideSpinner();
     }

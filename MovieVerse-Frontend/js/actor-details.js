@@ -95,10 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fetchActorDetails(actorId);
     }
     else {
-        document.getElementById('actor-details-container').innerHTML = `
-            <div style="display: flex; justify-content: center; align-items: center; text-align: center; width: 100vw; height: 800px">
-                <h2>Actor details not found.</h2>
-            </div>`;
+        fetchActorDetails(6193);
     }
 
     document.getElementById('clear-search-btn').style.display = 'none';
@@ -117,7 +114,10 @@ async function fetchActorDetails(actorId) {
         const actor = await actorResponse.json();
         const credits = await creditsResponse.json();
         if (actor.success === false) {
-            document.getElementById('actor-details-container').innerHTML = '<h2>No Information is Available for this Actor</h2>';
+            document.getElementById('actor-details-container').innerHTML = `
+            <div style="display: flex; justify-content: center; align-items: center; text-align: center; width: 100vw; height: 800px">
+                <h2>Actor details not found - try again with a different actor.</h2>
+            </div>`;
         }
         else {
             updateBrowserURL(actor.name);
@@ -127,7 +127,10 @@ async function fetchActorDetails(actorId) {
     }
     catch (error) {
         console.error('Error fetching actor details:', error);
-        document.getElementById('actor-details-container').innerHTML = '<h2>Error fetching actor details</h2>';
+        document.getElementById('actor-details-container').innerHTML = `
+            <div style="display: flex; justify-content: center; align-items: center; text-align: center; width: 100vw; height: 800px">
+                <h2>Actor details not found - try again with a different actor.</h2>
+            </div>`;
         hideSpinner();
     }
 }
