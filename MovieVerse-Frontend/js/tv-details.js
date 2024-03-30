@@ -716,6 +716,14 @@ function selectCompanyId(companyId) {
     window.location.href = 'company-details.html';
 }
 
+function showSpinner() {
+    document.getElementById('myModal').classList.add('modal-visible');
+}
+
+function hideSpinner() {
+    document.getElementById('myModal').classList.remove('modal-visible');
+}
+
 function handleCreatorClick(creatorId) {
     localStorage.setItem('selectedDirectorId', creatorId);
     window.location.href = 'director-details.html';
@@ -733,7 +741,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('clear-search-btn').style.display = 'none';
 
     const savedRatings = JSON.parse(localStorage.getItem('movieRatings')) || {};
-    const movieRating = savedRatings[movieId] || 0;
+    const movieRating = savedRatings[tvSeriesId] || 0;
     setStarRating(movieRating);
 });
 
