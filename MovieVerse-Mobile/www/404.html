@@ -328,10 +328,10 @@
 
         <button id="settings-btn" style="position: fixed; bottom: 290px; right: 10px; z-index: 1001">Settings</button>
         <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" style="bottom: 255px; right: 10px; z-index: 1001" title="Get a recommended movie to watch for today!">Surprise Me!</button>
-        <button id="movie-match-btn" onclick="window.location.href='MovieVerse-Frontend/html/movie-match.html'" title="Find movies that match your mood and preferences!" style="bottom: 220px; right: 10px; z-index: 1001">Movie Match</button>
-        <button id="movie-timeline-btn" onclick="window.location.href='MovieVerse-Frontend/html/movie-timeline.html'" style="bottom: 185px; right: 10px; z-index: 1001" title="Explore movies through different eras!">Movie Timeline</button>
-        <button id="discussions-btn" onclick="window.location.href='MovieVerse-Frontend/html/chatbot.html'" style="bottom: 150px; right: 10px; z-index: 1001" title="Want to know more about movies? Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
-        <button id="trivia-btn" onclick="window.location.href='MovieVerse-Frontend/html/trivia.html'" style="bottom: 115px; right: 10px; z-index: 1001" title="Play a quick trivia to test your knowledge about movies!">MovieVerse Trivia</button>
+        <button id="movie-match-btn" onclick="window.location.href='https://movie-verse.com/MovieVerse-Frontend/html/movie-match.html'" title="Find movies that match your mood and preferences!" style="bottom: 220px; right: 10px; z-index: 1001">Movie Match</button>
+        <button id="movie-timeline-btn" onclick="window.location.href='https://movie-verse.com/MovieVerse-Frontend/html/movie-timeline.html'" style="bottom: 185px; right: 10px; z-index: 1001" title="Explore movies through different eras!">Movie Timeline</button>
+        <button id="discussions-btn" onclick="window.location.href='https://movie-verse.com/MovieVerse-Frontend/html/chatbot.html'" style="bottom: 150px; right: 10px; z-index: 1001" title="Want to know more about movies? Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
+        <button id="trivia-btn" onclick="window.location.href='https://movie-verse.com/MovieVerse-Frontend/html/trivia.html'" style="bottom: 115px; right: 10px; z-index: 1001" title="Play a quick trivia to test your knowledge about movies!">MovieVerse Trivia</button>
         <button id="back-to-top-btn" onclick="window.location.href='https://movie-verse.com/'" style="bottom: 80px; right: 10px; z-index: 1001">Back To Home</button>
     </header>
 
@@ -572,7 +572,7 @@
             applySettings();
 
             function applySettings() {
-                const defaultBg = '../../images/universe-1.png';
+                const defaultBg = 'https://movie-verse.com/images/universe-1.png';
                 const savedBg = localStorage.getItem('backgroundImage') || defaultBg;
                 const savedTextColor = localStorage.getItem('textColor');
                 const savedFontSize = localStorage.getItem('fontSize');
@@ -898,7 +898,7 @@
                     else {
                         const query = searchInput.value.trim();
                         localStorage.setItem('searchQuery', query);
-                        window.location.href = 'MovieVerse-Frontend/html/search.html';
+                        window.location.href = 'https://movie-verse.com/MovieVerse-Frontend/html/search.html';
                     }
                 }
             });

@@ -931,6 +931,15 @@ header h1 {
     color: white !important;
 }
 
+#githubLink1 {
+    color: black !important;
+}
+
+#githubLink1:hover {
+    color: #ff8623 !important;
+    transition: 0.1s ease-in;
+}
+
 .modal-overlay {
     display: none;
     position: fixed;
@@ -978,6 +987,7 @@ header h1 {
 
 #githubLink:hover {
     color: #ff8623 !important;
+    transition: 0.1s ease-in;
 }
 
 #imdbRating, #rtRating {

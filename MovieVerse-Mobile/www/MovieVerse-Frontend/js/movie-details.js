@@ -419,10 +419,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fetchMovieDetails(movieId);
     }
     else {
-        document.getElementById('movie-details-container').innerHTML = `
-            <div style="display: flex; justify-content: center; align-items: center; text-align: center; margin-top: 40px; width: 100vw; height: 800px">
-                <h2>Movie details not found.</h2>
-            </div>`;
+        fetchMovieDetails(1011985)
     }
 
     document.getElementById('clear-search-btn').style.display = 'none';
@@ -702,6 +699,10 @@ async function fetchMovieDetails(movieId) {
         hideSpinner();
     }
     catch (error) {
+        document.getElementById('movie-details-container').innerHTML = `
+            <div style="display: flex; justify-content: center; align-items: center; text-align: center; margin-top: 40px; width: 100vw; height: 800px">
+                <h2>Movie details not found - Try again with a different movie</h2>
+            </div>`;
         console.error('Error fetching movie details:', error);
         hideSpinner();
     }

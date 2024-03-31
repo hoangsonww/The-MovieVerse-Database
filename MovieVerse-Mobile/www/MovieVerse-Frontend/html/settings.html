@@ -14,7 +14,7 @@
     <meta property="og:type" content="website" />
     <meta http-equiv="content-language" content="en" />
     <meta property="og:description" content="Customize your MovieVerse experience. Adjust settings such as app background, text color, and font size to match your preferences." />
-    <meta property="og:url" content="https://movie-verse.com/" />
+    <meta property="og:url" content="https://movie-verse.com/MovieVerse-Frontend/html/settings.html" />
     <meta property="og:site_name" content="The MovieVerse" />
     <meta property="og:image" content="https://movie-verse.com/images/image.png"/>
     <meta property="og:favicon" content="./images/favicon.ico" />
@@ -219,7 +219,7 @@
         <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 90px; right: 10px" title="Test your movie knowledge">MovieVerse Trivia</button>
     </header>
 
-    <main id="settings-container" class="settings-container" style="margin-bottom: 200px">
+    <main id="settings-container" class="settings-container" style="margin-bottom: 50px">
         <!-- Background Setting -->
         <div class="settings-section">
             <h2>Change App Background</h2>
@@ -291,6 +291,21 @@
 
         <button style="font: inherit" id="reset-button">Reset to Defaults</button>
     </main>
+
+    <div id="ad-container" style="display: block; text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px);" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
+        <p style="margin: 0;">Advertisement</p>
+        <ins class="adsbygoogle"
+             style="display: block; width: 100%;"
+             data-ad-client="ca-pub-6608388491200814"
+             data-ad-slot="4832732030"
+             data-ad-format="auto"></ins>
+        <p style="margin: 0; font-size: 12px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>
+    </div>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6608388491200814"
+            crossorigin="anonymous"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
 
     <script src="../js/settings.js"></script>
 
@@ -694,7 +709,8 @@
                         button.style.opacity = '1';
                         button.style.transform = 'translateY(0)';
                     }, 50 * index);
-                } else {
+                }
+                else {
                     button.style.opacity = '0';
                     button.style.transform = 'translateY(20px)';
                 }
