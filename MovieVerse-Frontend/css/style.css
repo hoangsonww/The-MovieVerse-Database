@@ -937,6 +937,7 @@ header h1 {
 
 #githubLink1:hover {
     color: #ff8623 !important;
+    transition: 0.1s ease-in;
 }
 
 .modal-overlay {
@@ -986,6 +987,7 @@ header h1 {
 
 #githubLink:hover {
     color: #ff8623 !important;
+    transition: 0.1s ease-in;
 }
 
 #imdbRating, #rtRating {
