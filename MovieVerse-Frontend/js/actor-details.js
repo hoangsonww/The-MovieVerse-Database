@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fetchActorDetails(actorId);
     }
     else {
-        fetchActorDetails(6193);
+        fetchActorDetails(2037);
     }
 
     document.getElementById('clear-search-btn').style.display = 'none';
