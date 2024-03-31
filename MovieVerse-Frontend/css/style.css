@@ -931,6 +931,14 @@ header h1 {
     color: white !important;
 }
 
+#githubLink1 {
+    color: black !important;
+}
+
+#githubLink1:hover {
+    color: #ff8623 !important;
+}
+
 .modal-overlay {
     display: none;
     position: fixed;
