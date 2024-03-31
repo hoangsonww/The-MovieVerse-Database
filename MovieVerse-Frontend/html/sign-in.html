@@ -178,7 +178,7 @@
         <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 90px; right: 10px" title="Test your movie knowledge">MovieVerse Trivia</button>
     </header>
 
-    <div class="sign-in-form-container" style="margin-bottom: 300px">
+    <div class="sign-in-form-container" style="margin-bottom: 390px">
         <form id="signInForm">
             <h2>Sign In</h2>
             <p>Sign in to save your stats, watchlists, get personalized movie recommendation, and more!</p>
@@ -190,6 +190,21 @@
             <button type="button" id="resetPasswordBtn" onclick="window.location.href='reset-password.html'">Reset Password</button>
         </form>
     </div>
+
+    <div id="ad-container" style="display: block; text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px);" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
+        <p style="margin: 0;">Advertisement</p>
+        <ins class="adsbygoogle"
+             style="display: block; width: 100%;"
+             data-ad-client="ca-pub-6608388491200814"
+             data-ad-slot="4832732030"
+             data-ad-format="auto"></ins>
+        <p style="margin: 0; font-size: 12px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>
+    </div>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6608388491200814"
+            crossorigin="anonymous"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
 
     <script src="../js/sign-in.js" type="module"></script>
     <script>
