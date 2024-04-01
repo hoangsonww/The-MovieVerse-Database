@@ -5,7 +5,7 @@
     <author email="info@movie-verse.com" href="https://sonnguyenhoang.com/">
         David Nguyen
     </author>
-    <content src="index.html" />
+    <content src="launch-screen.html" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <icon density="xxxhdpi" src="www/icons/AndroidIcon.png" />

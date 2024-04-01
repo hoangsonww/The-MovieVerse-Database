@@ -1,8 +1,8 @@
-# MovieVerse Project - Code of Conduct
+# The MovieVerse - Code of Conduct
 
 ## Introduction
 
-Welcome to the MovieVerse Project! This Code of Conduct outlines our expectations for participants within the community, as well as steps to report unacceptable behavior. We are committed to providing a welcoming and inspiring community for all and expect our Code of Conduct to be honored. Anyone who violates this code of conduct may be banned from the community.
+Welcome to the MovieVerse Open-Source Project! This Code of Conduct outlines our expectations for participants within the community, as well as steps to report unacceptable behavior. We are committed to providing a welcoming and inspiring community for all and expect our Code of Conduct to be honored. Anyone who violates this code of conduct may be banned from the community.
 
 ## Our Standards
 

@@ -1,21 +1,8 @@
-# The `project-config` Directory - README
+# The MovieVerse - `project-config` Directory
 
 Welcome to the `project-config` directory of the MovieVerse App! This directory contains critical configuration files that define how various aspects of the project are set up and operate. Below is a detailed overview of each file and its purpose within the project.
 
 ---
-
-## Table of Contents
-
-1. [Overview](#overview)
-2. [.babelrc](#.babelrc)
-3. [.env.example](#.env.example)
-4. [.eslintrc.json](#.eslintrc.json)
-5. [.npmrc](#.npmrc)
-6. [.travis.yml](#.travis.yml)
-7. [babel.config.json](#babel.config.json)
-8. [docker-compose.yml](#docker-compose.yml)
-9. [nginx.conf](#nginx.conf)
-10. [webpack.config.js](#webpack.config.js)
 
 ## Overview
 
@@ -56,6 +43,10 @@ Configuration file for Nginx, a web server used to handle HTTP requests, redirec
 ### webpack.config.js
 
 Configuration file for Webpack, a static module bundler for modern JavaScript applications. This file specifies how modules within the application are treated, including rules, plugins, entry and exit points, and more.
+
+### .netlify Directory
+
+This directory contains configuration files used by Netlify to deploy and manage The MovieVerse website. Below are the details of each file present in the `.netlify` directory. This serves as a **sample** for deploying your own instance of MovieVerse on Netlify. Refer to the [`.netlify` README](./.netlify/README.md) for more details.
 
 ## Using these Files
 

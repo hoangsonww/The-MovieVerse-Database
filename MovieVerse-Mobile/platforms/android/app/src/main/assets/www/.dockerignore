@@ -1,4 +1,5 @@
-# General
+# Docker Ignore file for the MovieVerse project
+# General files
 .git
 .gitignore
 .dockerignore

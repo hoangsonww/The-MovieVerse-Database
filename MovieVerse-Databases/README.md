@@ -1,17 +1,10 @@
-# README for `MovieVerse-Databases` Directory
+# The MovieVerse - `MovieVerse-Databases` Directory
 
-Welcome to the `MovieVerse-Database` directory of the MovieVerse App! This directory contains the SQL and JavaScript files essential for setting up and managing the databases used in the application, including Firebase, MySQL, and MongoDB. NOTE: These files are only placeholders and do not reflect what are actually used by us in production or development - you need to contact us for more details about using our databases if you would like to contribute and need database access!
+Welcome to the `MovieVerse-Database` directory of the MovieVerse App! This directory contains the SQL and JavaScript files essential for setting up and managing the databases used in the application, including Firebase, MySQL, and MongoDB. 
+
+**Note:** For security reasons, some files have only placeholders and do not reflect what are actually used by us in production or development - you need to contact us for more details about using our databases if you would like to contribute and need database access!
 
 ---
-
-## Table of Contents
-
-1. [Overview](#overview)
-2. [movie-user.sql](#movie-user.sql)
-3. [movieverse_chatbot.sql](#movieverse_chatbot.sql)
-4. [movieverse_nosql_setup.js](#movieverse_nosql_setup.js)
-5. [movieverse_schema.sql](#movieverse_schema.sql)
-6. [movieverse_user_management.sql](#movieverse_user_management.sql)
 
 ## Overview
 
@@ -37,9 +30,43 @@ A comprehensive SQL script that defines the entire database schema for the Movie
 
 Contains SQL scripts related to user management features. This includes user roles, permissions, account settings, and other functionalities necessary for user account handling.
 
+### firebase.json
+
+A configuration file for Firebase, containing settings and rules for the Firebase Realtime Database. It defines the access rules, security settings, and other configurations for the Firebase database.
+
+### firestore.indexes.json
+
+A configuration file for Firestore, containing indexes and settings for the Firestore database. It defines the indexes, sorting, and other configurations for the Firestore database.
+
+### firestore.rules
+
+A configuration file for Firestore, containing access rules and settings for the Firestore database. It defines the access rules, security settings, and other configurations for the Firestore database.
+
+### storage.rules
+
+A configuration file for Firebase Storage, containing access rules and settings for the Firebase Storage service. It defines the access rules, security settings, and other configurations for the Firebase Storage.
+
+### test_api_db.py
+
+A Python script for testing the API and database connections. It includes sample queries, data retrieval, and other operations to test the database connections and API endpoints.
+
+### Data Analysis Subdirectory
+
+This subdirectory contains files related to data analysis and reporting. It includes scripts for extracting, transforming, and loading data into analytics tools, as well as generating reports and visualizations. See the `Data-Analysis` directory for more details.
+
 ## Using these Files
 
 These files are crucial for setting up the backend of the application. Ensure that you have the necessary database servers (MySQL, MongoDB, Firebase) running and accessible. Run these scripts to create and configure your databases according to the project's requirements.
+
+## Databases Used
+
+The MovieVerse application uses a combination of relational and NoSQL databases and technologies to store and manage data. The primary databases used are:
+- MySQL: A relational database for storing structured data, such as user profiles, movie details, and reviews.
+- MongoDB: A NoSQL database for storing unstructured or semi-structured data, such as chatbot interactions, user preferences, and other dynamic content.
+- Firebase: A cloud-based platform for storing and managing data, including real-time databases, authentication, and file storage.
+- Firestore: A NoSQL database for storing and managing data, including real-time databases, authentication, and file storage.
+- Firebase Authentication: A cloud-based authentication service for managing user authentication, authorization, and user management.
+- Firebase Cloud Functions: A serverless computing service for running backend code in response to events triggered by Firebase features and HTTPS requests.
 
 ## Customization and Adaptation
 

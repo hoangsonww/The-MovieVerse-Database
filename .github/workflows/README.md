@@ -1,4 +1,4 @@
-# Workflows Directory README
+# The MovieVerse - GitHub Actions Workflows
 
 Welcome to the `workflows` directory of our GitHub repository. This directory is a crucial component of our project, as it contains YAML files that define the GitHub Actions workflows we use for automation across various aspects of our project management and deployment processes. Below, you'll find detailed information about each workflow file present in this directory.
 
@@ -55,6 +55,6 @@ Contributions to improve these workflows are always welcome. Whether it's adding
 
 ## Support
 
-For any questions or support related to these workflows, please open an issue in this repository. Our team is committed to providing assistance and ensuring these workflows meet the needs of our project and contributors.
+For any questions or support related to these workflows, please open an issue in this repository (The MovieVerse). Our team is committed to providing assistance and ensuring these workflows meet the needs of our project and contributors.
 
 ---

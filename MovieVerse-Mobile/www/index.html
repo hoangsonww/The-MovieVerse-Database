@@ -1,14 +1,17 @@
+<!-- The MovieVerse App - Entry Point -->
 <!DOCTYPE html>
-
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 
 <head>
+    <!-- Basic homepage tags -->
     <meta charset="UTF-8">
-    <title>The MovieVerse</title>
-    <script src="src/js/settings.js"></script>
-    <meta property="og:title" content="The MovieVerse - Your Ultimate Movie Guide" />
+    <title>The MovieVerse - Explore Movies, TV Series, and More</title>
+    <script src="MovieVerse-Frontend/js/settings.js"></script>
+
+    <!-- Meta tags for SEO -->
     <meta name="description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta property="og:title" content="The MovieVerse - Your Ultimate Movie Guide" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
     <meta http-equiv="content-language" content="en" />
@@ -24,32 +27,118 @@
     <meta name="rating" content="General">
     <meta name="revisit-after" content="3 days">
     <meta name="distribution" content="global">
-    <meta http-equiv="content-language" content="en">
     <meta name="language" content="en">
     <meta name="theme-color" content="#7378c5">
-    <meta name="twitter:card" content="https://movie-verse.com/images/image.png"/>
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@MovieVerse" />
+    <meta name="twitter:creator" content="@hoangsonw" />
     <meta name="twitter:title" content="The MovieVerse - Your Ultimate Movie Guide">
     <meta name="twitter:description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more.">
     <meta name="twitter:image" content="https://movie-verse.com/images/image.png"/>
     <meta name="referrer" content="no-referrer-when-downgrade">
-    <link rel="stylesheet" href="src/css/style.css"/>
+
+    <!-- Stylesheets and scripts -->
+    <link rel="stylesheet" href="MovieVerse-Frontend/css/style.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <script src="index.js" defer></script>
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <link rel="manifest" href="manifest.json">
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
 
-        gtag('js', new Date());
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6608388491200814"
+            crossorigin="anonymous"></script>
 
-        gtag('config', 'G-CQKJ67FXZ4');
+    <!-- Schema.org markup for movies -->
+    <script type="application/ld+json">
+        {
+            "@context": "http://schema.org",
+            "@type": "Movie",
+            "name": "Inception",
+            "image": "https://movie-verse.com/images/inception.jpg",
+            "director": {
+                "@type": "Person",
+                "name": "Christopher Nolan",
+                "url": "https://movie-verse.com/MovieVerse-Frontend/html/christopher-nolan.html"
+            },
+            "genre": ["Action", "Adventure", "Sci-Fi"],
+            "actor": [
+                {
+                    "@type": "Person",
+                    "name": "Leonardo DiCaprio",
+                    "url": "https://movie-verse.com/MovieVerse-Frontend/html/leonardo-dicaprio.html"
+                }
+            ],
+            "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "8.8",
+                "reviewCount": "1043299",
+                "bestRating": "10",
+                "worstRating": "1"
+            },
+            "review": {
+                "@type": "Review",
+                "author": {
+                    "@type": "Person",
+                    "name": "Michael Patrick"
+                },
+                "datePublished": "2024-03-06",
+                "reviewRating": {
+                    "@type": "Rating",
+                    "ratingValue": "9",
+                    "bestRating": "10",
+                    "worstRating": "1"
+                },
+                "reviewBody": "Inception is a masterpiece of narrative complexity, with an innovative structure and a compelling exploration of themes such as dream manipulation and the nature of reality."
+            },
+            "description": "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
+            "datePublished": "2010-07-16",
+            "url": "https://movie-verse.com/MovieVerse-Frontend/html/inception.html"
+        }
     </script>
+
+    <!-- Microsoft Analytics Tag -->
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "l7gqnssat8");
+    </script>
+
+    <style>
+        body {
+            background-image: url("images/universe-1.png");
+            background-repeat: repeat-y;
+            background-size: 100% auto;
+        }
+
+        @media (min-width: 800px) {
+            #form {
+                margin-top: 30px !important;
+            }
+        }
+
+        @media (max-width: 767px) {
+            body {
+                background-size: auto;
+                background-position: top center;
+            }
+        }
+    </style>
 </head>
 
-<body class="movie-details-body3">
-    <header id="homepage-header" style="margin-bottom: -10px">
+<!-- Google Analytics Tag -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-CQKJ67FXZ4');
+</script>
+
+<body>
+    <header id="homepage-header" style="margin-bottom: -10px; margin-top: -5px">
         <a id="indexLink" href="index.html" style="text-decoration: none; color: inherit; cursor: pointer">
             <h1 id="my-heading" style="margin-bottom: -10px">
                 The Mo<span class="highlight">vieV</span>erse
@@ -57,19 +146,19 @@
         </a>
 
         <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
-            <p id="stats-label" class="clock" style="font-size: 16px"></p>
-            <h1 id="stats-display" class="clock"></h1>
+            <p id="stats-label" class="clock" style="font-size: 16px;"></p>
+            <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
         </div>
 
-        <button id="nav-toggle" class="nav-toggle" title="Toggle side navbar (Or you can just hover on the left edge to toggle it!)" onclick="toggleNav()">
+        <button id="nav-toggle" style="z-index: 200000" class="nav-toggle" title="Toggle side navbar" onclick="toggleNav()">
             <i class="fas fa-bars"></i>
         </button>
 
-        <button class="back-btn nav-btn" onclick="window.location.href='index.html'" title="Go back to homepage">Home</button>
-        <button class="about nav-btn" onclick="window.location.href='./src/html/about.html'" title="About this wonderful app!">About</button>
-        <button class="favorites-btn nav-btn" onclick="window.location.href='./src/html/favorites.html'" title="Go to your favorites list">Favorites</button>
+        <button class="back-btn nav-btn" id="home-btn" title="Go back to homepage">Home</button>
+        <button class="about nav-btn" onclick="window.location.href='MovieVerse-Frontend/html/about.html'" title="About this wonderful app!">About</button>
+        <button class="favorites-btn nav-btn" onclick="window.location.href='MovieVerse-Frontend/html/favorites.html'" title="View your favorites & watchlists">Favorites</button>
 
-        <button id="profileBtn" class="nav-btn" onclick="window.location.href='./src/html/user-profile.html'" title="Go to your profile">
+        <button id="profileBtn" class="nav-btn" onclick="window.location.href='MovieVerse-Frontend/html/user-profile.html'" title="Go to your profile">
             <span id="profileText">Profile</span>
             <i class="fas fa-user" id="profileIcon"></i>
         </button>
@@ -81,33 +170,50 @@
         </button>
 
         <form id="form">
-            <input
-                    type="text"
-                    id="search"
-                    placeholder="Search For Anything..."
-                    class="search"
-            />
-            <button type="button" id="button-search" onclick="handleSearch()">Search</button>
+            <div class="search-container">
+                <input type="text" id="search" placeholder="Search For Films, Actors..." style="width: 250px; margin-right: 5px" class="search" title="Search for movies, actors, TV series, and more!" />
+                <button type="button" id="button-search" onclick="handleSearch()">Search</button>
+            </div>
+            <div id="search-results" class="search-results"></div>
+            <div class="buttons-container">
+                <button type="button" id="view-all-results" style="display: none;">View more results</button>
+                <button type="button" id="clear-search" style="display: none">Clear</button>
+            </div>
         </form>
+
+        <button id="notificationBtn" style="z-index: 200000" class="notification-btn" title="Notifications">
+            <i class="fas fa-bell" id="bellIcon" style="font-size: 15px"></i>
+        </button>
+
+        <div id="notificationModal" class="notification-modal" style="display: none;">
+            <ul id="newReleasesList"></ul>
+        </div>
     </header>
 
-    <nav id="side-nav" class="side-nav">
-        <h1 id="my-heading" style="margin-bottom: 5px; margin-left: 0">
-            The Mo<span class="highlight">vieV</span>erse Menu
-        </h1>
+    <nav id="side-nav" class="side-nav" style="z-index: 1002;">
+        <a id="heading-href" style="cursor: pointer">
+            <div id="my-heading" style="margin-bottom: 15px; margin-left: 0; margin-top: 15px; font-size: 2.1em; font-weight: bold;">
+                The Mo<span class="highlight">vieV</span>erse Menu
+            </div>
+        </a>
+
         <div id="button-container">
             <button id="button-remove" title="Close the navbar" onclick="removeNavBar()">Close</button>
         </div>
+
         <ul style="overflow-y: auto">
-            <li><a href="src/html/analytics.html">MovieVerse Analytics</a></li>
-            <li><a href="#most-popular">Most Popular</a></li>
+            <li><a href="MovieVerse-Frontend/html/analytics.html">MovieVerse Analytics</a></li>
+            <li><a href="#most-popular">Popular Worldwide</a></li>
+            <li><a href="#recommended">Recommendations</a></li>
             <li><a href="#award-winning">Award-Winning</a></li>
-            <li><a href="#hidden-gems">Hidden Gems</a></li>
             <li><a href="#director-spotlight">Director's Spotlight</a></li>
             <li><a href="#action">Action</a></li>
-            <li><a href="#horror">Horror</a></li>
-            <li><a href="#tv-series">TV Series</a></li>
+            <li><a href="#vietnamese">Vietnamese</a></li>
+            <li><a href="#indian">Indian</a></li>
             <li><a href="#korean">Korean</a></li>
+            <li><a href="#tv-series">TV Series</a></li>
+            <li><a href="#hidden-gems">Hidden Gems</a></li>
+            <li><a href="#horror">Horror</a></li>
             <li><a href="#documentary">Documentary</a></li>
             <li><a href="#animation">Animation</a></li>
             <li><a href="#sci-fi">Science Fiction</a></li>
@@ -119,7 +225,11 @@
             <li><a href="#fantasy">Fantasy</a></li>
             <li><a href="#family">Family</a></li>
             <li><a href="#crime">Crime</a></li>
+            <li><a href="#musical">Musical</a></li>
+            <li><a href="#drama">Drama</a></li>
             <li><a href="#classic">Classic</a></li>
+            <li><a href="MovieVerse-Frontend/html/support.html">MovieVerse Support</a></li>
+            <li><a href="MovieVerse-Frontend/html/feedback.html">MovieVerse Feedback</a></li>
         </ul>
     </nav>
 
@@ -130,149 +240,358 @@
             <i class="fas fa-sign-out-alt" id="mobileSignOutIcon" style="display: none;"></i>
         </button>
 
-        <button id="mobileProfileBtn" class="nav-btn" onclick="window.location.href='./src/html/user-profile.html'" title="Go to your profile">
+        <button id="mobileProfileBtn" class="nav-btn" onclick="window.location.href='MovieVerse-Frontend/html/user-profile.html'" title="Go to your profile">
             <span id="mobileProfileText">Profile</span>
             <i class="fas fa-user" id="mobileProfileIcon"></i>
         </button>
     </div>
 
+    <div id="myModal" class="modal-overlay">
+        <div class="spinner"></div>
+    </div>
+
     <div class="genres">
-        <h2 id="search-title" style="margin-top: 35px">Most Popular: </h2>
-        <button type="button" id="button-clear" style="display: none;">Clear Search</button>
+        <h2 id="other" style="margin-top: 45px; cursor: pointer">Global Hits: Popular Movies Worldwide</h2>
+        <div id="most-popular-pagination" class="pagination"></div>
     </div>
 
     <main id="most-popular"></main>
 
-    <div class="genres">
-        <h1 id="other1"></h1>
+    <div class="genres" id="recommendedDIV">
+        <h2 id="other" style="margin-top: 45px; cursor: pointer" title="Here are some personalized movie suggestions we've generated based on your preferences! Check them out, and let us know what you think!">
+            Recommended For You: Personalized Movie Suggestions
+        </h2>
+        <div id="recommended-pagination" class="pagination"></div>
     </div>
 
-    <div class="genres"  >
-        <h2 style="margin-top: 35px">Award-Winning Movies:</h2>
+    <main id="recommended"></main>
+
+    <div class="genres" id="award-winning-div">
+        <h2 style="margin-top: 50px; cursor: pointer">Critics' Choice: Trending Award-Winning Movies</h2>
+        <div id="award-winning-pagination" class="pagination"></div>
     </div>
 
     <main id="award-winning"></main>
 
     <div class="genres" style="display: flex; justify-content: space-between; align-items: center;">
-        <h2 id="director-spotlight-title" style="margin-top: 35px">Director's Spotlight: <span id="spotlight-director-name">Alfred Hitchcock</span></h2>
-        <button id="change-director-btn" onclick="changeDirector()" style="padding: 5px 10px; cursor: pointer;">Change Director</button>
+        <h2 id="director-spotlight-title" style="cursor: pointer; margin-top: 50px">Director's Spotlight: <span id="spotlight-director-name">Alfred Hitchcock</span></h2>
+        <button id="change-director-btn" onclick="changeDirector()" style="padding: 5px 10px; margin-right: 10px; margin-top: 25px; cursor: pointer;">Change Director</button>
     </div>
 
     <main id="director-spotlight"></main>
 
-    <div class="genres"  >
-        <h2 style="margin-top: 35px">Hidden Gems:</h2>
-    </div>
-
-    <main id="hidden-gems"></main>
-
-    <div class="genres"  >
-        <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">ACTION</span> Movies: </h2>
+    <div class="genres" id="action-div">
+        <h2 id="other" style="margin-top: 50px; cursor: pointer">Adrenaline Rush: Trending Action Movies</h2>
+        <div id="action-pagination" class="pagination"></div>
     </div>
 
     <main id="action"></main>
 
-    <div class="genres"  >
-        <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">HORROR</span> Movies: </h2>
+    <div class="genres" id="vietnamese-div">
+        <h2 id="other" style="margin-top: 50px; cursor: pointer">Cinematic Excellence: Trending Vietnamese Movies</h2>
+        <div id="vietnamese-pagination" class="pagination"></div>
     </div>
 
-    <main id="horror"></main>
+    <main id="vietnamese"></main>
 
-    <div class="genres"  >
-        <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">TV SERIES</span>: </h2>
+    <div class="genres" id="indian-div">
+        <h2 id="other" style="margin-top: 50px; cursor: pointer">Bollywood Blockbusters: Trending Indian Movies</h2>
+        <div id="indian-pagination" class="pagination"></div>
     </div>
 
-    <main id="tv-series"></main>
+    <main id="indian"></main>
 
-    <div class="genres">
-        <h2 id="other" style="margin-top: 35px">Best <span class="highlight">KOREAN</span> Movies: </h2>
+    <div class="genres" id="korean-div">
+        <h2 id="other" style="margin-top: 50px; cursor: pointer">K-Drama & Beyond: Trending Korean Movies</h2>
+        <div id="korean-pagination" class="pagination"></div>
     </div>
 
     <main id="korean"></main>
 
-    <div class="genres"  >
-        <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">DOCUMENTARY</span> Movies: </h2>
+    <div class="genres" id="tv-series-div">
+        <h2 id="other" style="margin-top: 50px; cursor: pointer">Binge-Worthy Series: Trending TV Series</h2>
+        <div id="tv-series-pagination" class="pagination"></div>
+    </div>
+
+    <main id="tv-series"></main>
+
+    <div class="genres" id="hidden-gems-div">
+        <h2 id="other" style="margin-top: 50px; cursor: pointer">Hidden Treasures: Discover Gems in Cinema</h2>
+        <div id="hidden-gems-pagination" class="pagination"></div>
+    </div>
+
+    <main id="hidden-gems"></main>
+
+    <div class="genres" id="horror-div">
+        <h2 id="other" style="margin-top: 50px; cursor: pointer">Scream Queens & Slashers: Trending Horror Movies</h2>
+        <div id="horror-pagination" class="pagination"></div>
+    </div>
+
+    <main id="horror"></main>
+
+    <div class="genres" id="documentary-div">
+        <h2 id="other" style="margin-top: 50px; cursor: pointer">Real Stories: Trending Documentary Movies</h2>
+        <div id="documentary-pagination" class="pagination"></div>
     </div>
 
     <main id="documentary"></main>
 
-    <div class="genres"  >
-        <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">ANIMATED</span> Movies: </h2>
+    <div class="genres" id="animation-div">
+        <h2 id="other" style="margin-top: 50px; cursor: pointer">Animated Adventures: Trending Animated Movies</h2>
+        <div id="animation-pagination" class="pagination"></div>
     </div>
 
     <main id="animation"></main>
 
-    <div class="genres"  >
-        <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">SCIENCE FICTION</span> Movies: </h2>
+    <div class="genres" id="sci-fi-div">
+        <h2 id="other" style="margin-top: 50px; cursor: pointer">Future Visions: Trending Science Fiction Movies</h2>
+        <div id="sci-fi-pagination" class="pagination"></div>
     </div>
 
     <main id="sci-fi"></main>
 
-    <div class="genres"  >
-        <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">ROMANTIC</span> Movies: </h2>
+    <div class="genres" id="romantic-div">
+        <h2 id="other" style="margin-top: 50px; cursor: pointer">Love Is in the Air: Trending Romantic Movies</h2>
+        <div id="romantic-pagination" class="pagination"></div>
     </div>
 
     <main id="romantic"></main>
 
-    <div class="genres"  >
-        <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">THRILLER</span> Movies: </h2>
+    <div class="genres" id="thriller-div">
+        <h2 id="other" style="margin-top: 50px; cursor: pointer">Edge of Your Seat: Trending Thriller Movies</h2>
+        <div id="thriller-pagination" class="pagination"></div>
     </div>
 
     <main id="thriller"></main>
 
-    <div class="genres"  >
-        <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">MYSTERY</span> Movies: </h2>
+    <div class="genres" id="mystery-div">
+        <h2 id="other" style="margin-top: 50px; cursor: pointer">Whodunit? Mystery & Intrigue in Trending Mystery Movies</h2>
+        <div id="mystery-pagination" class="pagination"></div>
     </div>
 
     <main id="mystery"></main>
 
-    <div class="genres"  >
-        <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">ADVENTURE</span> Movies: </h2>
+    <div class="genres" id="adventure-div">
+        <h2 id="other" style="margin-top: 50px; cursor: pointer">Epic Journeys: Trending Adventure Movies</h2>
+        <div id="adventure-pagination" class="pagination"></div>
     </div>
 
     <main id="adventure"></main>
 
-    <div class="genres"  >
-        <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">COMEDY</span> Movies: </h2>
+    <div class="genres" id="comedy-div">
+        <h2 id="other" style="margin-top: 50px; cursor: pointer">Laughs Galore: Trending Comedy Movies</h2>
+        <div id="comedy-pagination" class="pagination"></div>
     </div>
 
     <main id="comedy"></main>
 
-    <div class="genres"  >
-        <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">FANTASY</span> Movies: </h2>
+    <div class="genres" id="fantasy-div">
+        <h2 id="other" style="margin-top: 50px; cursor: pointer">Other Worlds: Trending Fantasy Movies</h2>
+        <div id="fantasy-pagination" class="pagination"></div>
     </div>
 
     <main id="fantasy"></main>
 
-    <div class="genres"  >
-        <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">FAMILY</span> Movies: </h2>
+    <div class="genres" id="family-div">
+        <h2 id="other" style="margin-top: 50px; cursor: pointer">Family Fun Time: Trending Family Movies</h2>
+        <div id="family-pagination" class="pagination"></div>
     </div>
 
     <main id="family"></main>
 
-    <div class="genres"  >
-        <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">CRIME</span> Movies: </h2>
+    <div class="genres" id="crime-div">
+        <h2 id="other" style="margin-top: 50px; cursor: pointer">Underworld Tales: Trending Crime Movies</h2>
+        <div id="crime-pagination" class="pagination"></div>
     </div>
 
     <main id="crime"></main>
 
-    <div class="genres"  >
-        <h2 id="other" style="margin-top: 35px">Trending <span class="highlight">CLASSIC</span> Movies: </h2>
+    <div class="genres" id="musical-div">
+        <h2 id="other" style="margin-top: 50px; cursor: pointer">Enchanting Melodies: Trending Musical Movies</h2>
+        <div id="musical-pagination" class="pagination"></div>
     </div>
 
-    <main id="classic" style="margin-bottom: 230px"></main>
+    <main id="musical"></main>
 
-    <button id="movie-match-btn" onclick="window.location.href='src/html/movie-match.html'" title="Find movies that match your mood and preferences!" style="bottom: 185px">Movie Match</button>
-    <button id="movie-timeline-btn" onclick="window.location.href='src/html/movie-timeline.html'" style="bottom: 150px" title="Explore movies through different eras!">Movie Timeline</button>
-    <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" style="bottom: 115px" title="Get a recommended movie to watch for today!">Recommendation</button>
-    <button id="discussions-btn" onclick="window.location.href='src/html/chatbot.html'" style="bottom: 80px" title="Want to know more about movies? Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
-    <button id="trivia-btn" onclick="window.location.href='./src/html/trivia.html'" style="bottom: 45px" title="Play a quick trivia to test your knowledge about movies!">MovieVerse Trivia</button>
-    <button id="back-to-top-btn" style="bottom: 10px" onclick="window.location.href='#homepage-header'">Back To Top</button>
-    <button id="settings-btn" style="position: fixed; bottom: 220px">Settings</button>
+    <div class="genres" id="drama-div">
+        <h2 id="other" style="margin-top: 50px; cursor: pointer">Emotional Journeys: Trending Drama Movies</h2>
+        <div id="drama-pagination" class="pagination"></div>
+    </div>
+
+    <main id="drama"></main>
+
+    <div class="genres" id="classic-div">
+        <h2 id="other" style="margin-top: 50px; cursor: pointer">Timeless Classics: Trending Classic Movies</h2>
+        <div id="classic-pagination" class="pagination"></div>
+    </div>
+
+    <main id="classic"></main>
+
+    <button id="settings-btn" style="position: fixed; bottom: 290px; right: 10px; z-index: 1001">Settings</button>
+    <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" style="bottom: 255px; right: 10px; z-index: 1001" title="Get a recommended movie to watch for today!">Surprise Me!</button>
+    <button id="movie-match-btn" onclick="window.location.href='MovieVerse-Frontend/html/movie-match.html'" title="Find movies that match your mood and preferences!" style="bottom: 220px; right: 10px; z-index: 1001">Movie Match</button>
+    <button id="movie-timeline-btn" onclick="window.location.href='MovieVerse-Frontend/html/movie-timeline.html'" style="bottom: 185px; right: 10px; z-index: 1001" title="Explore movies through different eras!">Movie Timeline</button>
+    <button id="discussions-btn" onclick="window.location.href='MovieVerse-Frontend/html/chatbot.html'" style="bottom: 150px; right: 10px; z-index: 1001" title="Want to know more about movies? Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
+    <button id="trivia-btn" onclick="window.location.href='MovieVerse-Frontend/html/trivia.html'" style="bottom: 115px; right: 10px; z-index: 1001" title="Play a quick trivia to test your knowledge about movies!">MovieVerse Trivia</button>
+    <button id="back-to-top-btn" style="bottom: 80px; right: 10px; z-index: 1001">Back To Top</button>
+
+    <div id="mobile-bottom-bar" class="mobile-bottom-bar">
+        <a href="MovieVerse-Frontend/html/settings.html" class="bottom-bar-item">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+        </a>
+        <a href="#" class="bottom-bar-item" onclick="showMovieOfTheDay()">
+            <i class="fas fa-surprise"></i>
+            <span>Surprise Me</span>
+        </a>
+        <a href="MovieVerse-Frontend/html/movie-match.html" class="bottom-bar-item">
+            <i class="fas fa-film"></i>
+            <span>Match</span>
+        </a>
+        <a href="MovieVerse-Frontend/html/movie-timeline.html" class="bottom-bar-item">
+            <i class="fas fa-clock"></i>
+            <span>Timeline</span>
+        </a>
+        <a href="MovieVerse-Frontend/html/chatbot.html" class="bottom-bar-item">
+            <i class="fas fa-robot"></i>
+            <span>Chatbot</span>
+        </a>
+        <a href="MovieVerse-Frontend/html/trivia.html" class="bottom-bar-item">
+            <i class="fas fa-question-circle"></i>
+            <span>Trivia</span>
+        </a>
+        <a href="#" class="bottom-bar-item" onclick="scrollToTop()">
+            <i class="fas fa-arrow-up"></i>
+            <span>Top</span>
+        </a>
+    </div>
+
+    <button id="menu-btn" style="position: fixed; bottom: 10px; right: 10px; z-index: 1001" title="Toggle Menu Buttons">
+        <i class="fas fa-ellipsis-h"></i><br>
+        <span>Menu</span>
+    </button>
+
+    <footer id="footer" style="cursor: pointer; margin-top: 230px">
+        <p>© 2024 The MovieVerse. All rights reserved.</p>
+    </footer>
+
+    <script>
+        window.onload = function() {
+            const bottomBarAnchors = document.querySelectorAll('.mobile-bottom-bar a');
+            let maxHeight = 0;
+
+            bottomBarAnchors.forEach(anchor => {
+                const anchorHeight = anchor.offsetHeight;
+                if (anchorHeight > maxHeight) {
+                    maxHeight = anchorHeight;
+                }
+            });
+
+            bottomBarAnchors.forEach(anchor => {
+                anchor.style.height = `${maxHeight}px`;
+            });
+        };
+
+        window.onresize = function() {
+            const bottomBarAnchors = document.querySelectorAll('.mobile-bottom-bar a');
+            let maxHeight = 0;
+
+            bottomBarAnchors.forEach(anchor => {
+                anchor.style.height = 'auto';
+            });
+
+            bottomBarAnchors.forEach(anchor => {
+                const anchorHeight = anchor.offsetHeight;
+                if (anchorHeight > maxHeight) {
+                    maxHeight = anchorHeight;
+                }
+            });
+
+            bottomBarAnchors.forEach(anchor => {
+                anchor.style.height = `${maxHeight}px`;
+            });
+        };
+
+        let lastScrollY = window.scrollY;
+
+        window.addEventListener('scroll', () => {
+            const currentScrollY = window.scrollY;
+
+            if (currentScrollY > lastScrollY && currentScrollY > 0) {
+                document.querySelector('.mobile-bottom-bar').classList.add('hide-bar');
+            }
+            else {
+                document.querySelector('.mobile-bottom-bar').classList.remove('hide-bar');
+            }
+
+            lastScrollY = currentScrollY;
+        });
+
+        let isAnimating = false;
+
+        document.getElementById('menu-btn').addEventListener('click', () => {
+            if (isAnimating) return;
+
+            isAnimating = true;
+
+            const buttonIds = [
+                'settings-btn',
+                'movie-of-the-day-btn',
+                'movie-match-btn',
+                'movie-timeline-btn',
+                'discussions-btn',
+                'trivia-btn',
+                'back-to-top-btn'
+            ];
+
+            buttonIds.forEach((id, index) => {
+                const button = document.getElementById(id);
+                if (button.style.display === 'none' || !button.style.display) {
+                    button.style.display = 'block';
+                    setTimeout(() => {
+                        button.style.opacity = '1';
+                        button.style.transform = 'translateY(0)';
+                    }, 50 * index);
+                }
+                else {
+                    button.style.opacity = '0';
+                    button.style.transform = 'translateY(20px)';
+                }
+
+                setTimeout(() => {
+                    button.style.display = button.style.opacity === '1' ? 'block' : 'none';
+                    if (index === buttonIds.length - 1) {
+                        isAnimating = false;
+                    }
+                }, 500 + 50 * index);
+            });
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth < 767) {
+                const buttonIds = [
+                    'settings-btn',
+                    'movie-of-the-day-btn',
+                    'movie-match-btn',
+                    'movie-timeline-btn',
+                    'discussions-btn',
+                    'trivia-btn',
+                    'back-to-top-btn'
+                ];
+
+                buttonIds.forEach(id => {
+                    const button = document.getElementById(id);
+                    button.style.display = 'none';
+                    button.style.opacity = '0';
+                    button.style.transform = 'translateY(20px)';
+                });
+            }
+        });
+    </script>
 
     <script>
         document.getElementById('settings-btn').addEventListener('click', () => {
-            window.location.href = 'src/html/settings.html';
+            window.location.href = 'MovieVerse-Frontend/html/settings.html';
         });
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -291,12 +610,44 @@
                         }
 
                         if (targetDiv) {
-                            targetDiv.scrollIntoView({behavior: 'smooth'});
+                            targetDiv.scrollIntoView({ behavior: 'smooth' });
                         }
                     }
                     else {
                         window.location.href = href;
                     }
+                });
+            });
+
+            document.getElementById("footer").addEventListener('click', function(e) {
+                e.preventDefault();
+
+                document.getElementById('homepage-header').scrollIntoView({ behavior: 'smooth' });
+            });
+
+            document.getElementById('heading-href').addEventListener('click', function(e) {
+                e.preventDefault();
+
+                document.getElementById('homepage-header').scrollIntoView({ behavior: 'smooth' });
+            });
+
+            document.getElementById('back-to-top-btn').addEventListener('click', function(e) {
+                e.preventDefault();
+
+                document.getElementById('homepage-header').scrollIntoView({ behavior: 'smooth' });
+            });
+
+            document.getElementById('home-btn').addEventListener('click', function(e) {
+                e.preventDefault();
+
+                document.getElementById('homepage-header').scrollIntoView({ behavior: 'smooth' });
+            });
+
+            const sectionTitles = document.querySelectorAll('.genres h2');
+
+            sectionTitles.forEach(title => {
+                title.addEventListener('click', function() {
+                    this.parentElement.scrollIntoView({ behavior: 'smooth' });
                 });
             });
 
@@ -308,11 +659,13 @@
                 if (savedBg) {
                     document.body.style.backgroundImage = `url('${savedBg}')`;
                 }
+
                 if (savedTextColor) {
                     document.querySelectorAll('h1, h2, h3, p, span, div, button, input, select, textarea').forEach(element => {
                         element.style.color = savedTextColor;
                     });
                 }
+
                 if (savedFontSize) {
                     const size = savedFontSize === 'small' ? '12px' : savedFontSize === 'medium' ? '16px' : '20px';
                     document.body.style.fontSize = size;
@@ -324,7 +677,7 @@
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
-                navigator.serviceWorker.register('src/js/service-worker.js').then(function(registration) {
+                navigator.serviceWorker.register('MovieVerse-Frontend/js/service-worker.js').then(function(registration) {
                     console.log('ServiceWorker registration successful with scope: ', registration.scope);
                 }, function(err) {
                     console.log('ServiceWorker registration failed: ', err);
@@ -333,51 +686,351 @@
         }
     </script>
 
-    <script type="application/ld+json">
-        {
-            "@context": "http://schema.org",
-            "@type": "Movie",
-            "name": "Inception",
-            "image": "https://movie-verse.com/images/inception.jpg",
-            "director": {
-                "@type": "Person",
-                "name": "Christopher Nolan",
-                "url": "https://movie-verse.com/src/html/christopher-nolan.html"
-            },
-            "genre": ["Action", "Adventure", "Sci-Fi"],
-            "actor": [
-                {
-                    "@type": "Person",
-                    "name": "Leonardo DiCaprio",
-                    "url": "https://movie-verse.com/src/html/leonardo-dicaprio.html"
-                }
-            ],
-            "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "8.8",
-                "reviewCount": "1043299",
-                "bestRating": "10",
-                "worstRating": "1"
-            },
-            "review": {
-                "@type": "Review",
-                "author": {
-                    "@type": "Person",
-                    "name": "Jane Doe"
-                },
-                "datePublished": "2020-01-06",
-                "reviewRating": {
-                    "@type": "Rating",
-                    "ratingValue": "9",
-                    "bestRating": "10",
-                    "worstRating": "1"
-                },
-                "reviewBody": "Inception is a masterpiece of narrative complexity, with an innovative structure and a compelling exploration of themes such as dream manipulation and the nature of reality."
-            },
-            "description": "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
-            "datePublished": "2010-07-16",
-            "url": "https://movie-verse.com/src/html/inception.html"
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            checkApiStatusWithRetry(3);
+        });
+
+        function checkApiStatusWithRetry(retries, delay = 1000) {
+            const url = `https://${getMovieVerseData()}/3/configuration?${generateMovieNames()}${getMovieCode()}`;
+
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) throw new Error(`API response failed with status: ${response.status}`);
+                    console.log("API is up and running!");
+                })
+                .catch(error => {
+                    if (retries > 0) {
+                        console.log(`Retrying API check... attempts left: ${retries - 1}`);
+                        setTimeout(() => checkApiStatusWithRetry(retries - 1, delay), delay);
+                    }
+                    else {
+                        console.error('API check failed after retries:', error);
+                        window.location.href = 'MovieVerse-Frontend/html/api_fails.html';
+                    }
+                });
         }
     </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const bellIcon = document.getElementById('bellIcon');
+            bellIcon.classList.add('shake-animation');
+
+            setTimeout(() => {
+                bellIcon.classList.remove('shake-animation');
+            }, 500);
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchBar = document.getElementById('search');
+            const searchButton = document.getElementById('button-search');
+            const myHeading = document.getElementById('my-heading');
+            const localTime = document.getElementById('local-time');
+
+            function toggleVisibility() {
+                const query = searchBar.value.trim();
+                if (query) {
+                    if (window.innerWidth > 800) {
+                        myHeading.style.position = 'fixed';
+                        myHeading.style.top = '28px';
+                        localTime.style.position = 'fixed';
+                        localTime.style.left = '44.4%';
+                        localTime.style.top = '19px';
+                        localTime.style.zIndex = '0.0 !important';
+                        myHeading.style.zIndex = '0.05';
+                        searchBar.style.marginTop = '16px';
+                        searchButton.style.marginTop = '16px';
+                    }
+                }
+                else {
+                    myHeading.style.position = '';
+                    myHeading.style.top = '';
+                    localTime.style.position = '';
+                    localTime.style.left = '';
+                    localTime.style.top = '';
+                    searchBar.style.marginTop = '';
+                    searchButton.style.marginTop = '';
+                }
+            }
+
+            searchBar.addEventListener('input', toggleVisibility);
+
+            toggleVisibility();
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search');
+            const viewAllResultsBtn = document.getElementById('view-all-results');
+            const clearSearchBtn = document.getElementById('clear-search');
+            const searchResultsContainer = document.getElementById('search-results');
+            const myHeading = document.getElementById('my-heading');
+            const localTime = document.getElementById('local-time');
+
+            function toggleButtons() {
+                const query = searchInput.value.trim();
+                viewAllResultsBtn.style.display = query ? 'inline-block' : 'none';
+                clearSearchBtn.style.display = query ? 'inline-block' : 'none';
+            }
+
+            clearSearchBtn.addEventListener('click', function() {
+                searchInput.value = '';
+                searchResultsContainer.innerHTML = '';
+                toggleButtons();
+                searchInput.focus();
+
+                myHeading.style.position = '';
+                myHeading.style.top = '';
+                localTime.style.position = '';
+                localTime.style.left = '';
+                localTime.style.top = '';
+                searchInput.style.marginTop = '';
+                searchButton.style.marginTop = '';
+            });
+
+            toggleButtons();
+
+            searchInput.addEventListener('input', toggleButtons);
+        });
+    </script>
+
+    <script>
+        function showSpinner() {
+            document.getElementById('myModal').classList.add('modal-visible');
+        }
+
+        function hideSpinner() {
+            document.getElementById('myModal').classList.remove('modal-visible');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('search').addEventListener('input', function(e) {
+                showSpinner();
+
+                const viewAllResultsBtn = document.getElementById('view-all-results');
+                const searchInput = document.getElementById('search');
+                const query = e.target.value.trim();
+
+                const clearSearchBtn = document.getElementById('clear-search');
+                const searchResultsContainer = document.getElementById('search-results');
+                const myHeading = document.getElementById('my-heading');
+                const localTime = document.getElementById('local-time');
+
+                viewAllResultsBtn.style.display = query ? 'block' : 'none';
+
+                function toggleButtons() {
+                    const query = searchInput.value.trim();
+                    viewAllResultsBtn.style.display = query ? 'inline-block' : 'none';
+                    clearSearchBtn.style.display = query ? 'inline-block' : 'none';
+                }
+
+                if (query) {
+                    const searchURL = `https://${getMovieVerseData()}/3/search/multi?${generateMovieNames()}${getMovieCode()}&query=${encodeURIComponent(query)}`;
+                    fetch(searchURL)
+                        .then(response => response.json())
+                        .then(data => {
+                            const sortedResults = data.results.sort((a, b) => b.popularity - a.popularity);
+                            displaySearchResults(sortedResults.slice(0, 5));
+                        }).catch(err => console.error("Fetching error:", err));
+                }
+                else {
+                    searchInput.value = '';
+                    searchResultsContainer.innerHTML = '';
+                    toggleButtons();
+                    searchInput.focus();
+                    myHeading.style.display = '';
+                    localTime.style.display = '';
+                }
+
+                searchInput.addEventListener('input', function() {
+                    if (searchInput.value.trim()) {
+                        viewAllResultsBtn.style.display = 'block';
+                    }
+                    else {
+                        viewAllResultsBtn.style.display = 'none';
+                    }
+                });
+
+                viewAllResultsBtn.addEventListener('click', function() {
+                    const searchQuery = searchInput.value.trim();
+
+                    if (searchQuery) {
+                        localStorage.setItem('searchQuery', searchQuery);
+                        window.location.href = 'MovieVerse-Frontend/html/search.html';
+                    }
+                    else {
+                        alert('Please enter a search query.');
+                    }
+                });
+
+                hideSpinner();
+            });
+
+            function displaySearchResults(results) {
+                showSpinner();
+
+                const resultsContainer = document.getElementById('search-results');
+                resultsContainer.innerHTML = '';
+
+                results.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'search-result-card';
+                    card.style.cursor = 'pointer';
+
+                    const imagePath = item.poster_path || item.profile_path ? `https://image.tmdb.org/t/p/w500${item.poster_path || item.profile_path}` : null;
+
+                    if (imagePath) {
+                        const image = document.createElement('img');
+                        image.src = imagePath;
+                        image.className = 'result-image';
+                        card.appendChild(image);
+                    }
+                    else {
+                        const placeholder = document.createElement('div');
+                        placeholder.className = 'result-image-placeholder';
+                        placeholder.textContent = 'Image Not Available';
+                        placeholder.style.textAlign = 'center';
+                        placeholder.style.padding = '10px';
+                        card.appendChild(placeholder);
+                    }
+
+                    const details = document.createElement('div');
+                    details.className = 'result-details';
+
+                    const name = document.createElement('div');
+                    name.className = 'result-name';
+                    name.textContent = item.title || item.name;
+                    details.appendChild(name);
+
+                    const type = document.createElement('div');
+                    type.className = 'result-type';
+                    type.textContent = item.media_type === 'movie' ? 'Movie' : item.media_type === 'tv' ? 'TV Series' : 'Person';
+                    details.appendChild(type);
+
+                    card.appendChild(details);
+                    resultsContainer.appendChild(card);
+
+                    card.addEventListener('click', () => handleResultClick(item));
+                });
+
+                hideSpinner();
+            }
+
+            async function handleResultClick(item) {
+                if (item.media_type === 'movie') {
+                    localStorage.setItem('selectedMovieId', item.id);
+                    window.location.href = 'MovieVerse-Frontend/html/movie-details.html';
+                }
+                else if (item.media_type === 'tv') {
+                    localStorage.setItem('selectedTvSeriesId', item.id);
+                    window.location.href = 'MovieVerse-Frontend/html/tv-details.html';
+                }
+                else if (item.media_type === 'person') {
+                    try {
+                        const personDetailsUrl = `https://${getMovieVerseData()}/3/person/${item.id}?${generateMovieNames()}${getMovieCode()}`;
+                        const response = await fetch(personDetailsUrl);
+                        const personDetails = await response.json();
+
+                        if (personDetails.known_for_department === 'Directing') {
+                            localStorage.setItem('selectedDirectorId', item.id);
+                            window.location.href = 'MovieVerse-Frontend/html/director-details.html?' + item.id;
+                        }
+                        else {
+                            localStorage.setItem('selectedActorId', item.id);
+                            window.location.href = 'MovieVerse-Frontend/html/actor-details.html?' + item.id;
+                        }
+                    }
+                    catch (error) {
+                        console.error('Error fetching person details:', error);
+                    }
+                }
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search');
+            const viewAllResultsBtn = document.getElementById('view-all-results');
+            const clearSearchBtn = document.getElementById('clear-search');
+            const searchResultsContainer = document.getElementById('search-results');
+
+            let selectedIndex = -1;
+
+            function clearSelection() {
+                const results = searchResultsContainer.getElementsByClassName('search-result-card');
+                if (selectedIndex >= 0 && selectedIndex < results.length) {
+                    results[selectedIndex].style.backgroundColor = '';
+                }
+                else if (selectedIndex === results.length) {
+                    viewAllResultsBtn.style.backgroundColor = '';
+                }
+                else if (selectedIndex === results.length + 1) {
+                    clearSearchBtn.style.backgroundColor = '';
+                }
+            }
+
+            function moveSelection(direction) {
+                const results = searchResultsContainer.getElementsByClassName('search-result-card');
+                const totalElements = results.length + 2;
+                clearSelection();
+
+                if (direction === 'down') {
+                    selectedIndex = (selectedIndex + 1) % totalElements;
+                }
+                else if (direction === 'up') {
+                    selectedIndex = (selectedIndex - 1 + totalElements) % totalElements;
+                }
+
+                if (selectedIndex < results.length) {
+                    results[selectedIndex].style.backgroundColor = '#ff8623';
+                    results[selectedIndex].scrollIntoView({ block: "nearest" });
+                }
+                else if (selectedIndex === results.length) {
+                    viewAllResultsBtn.style.backgroundColor = '#ff8623';
+                    viewAllResultsBtn.scrollIntoView({ block: "nearest" });
+                }
+                else if (selectedIndex === results.length + 1) {
+                    clearSearchBtn.style.backgroundColor = '#ff8623';
+                    clearSearchBtn.scrollIntoView({ block: "nearest" });
+                }
+            }
+
+            searchInput.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowDown' || (e.key === 'Tab' && !e.shiftKey)) {
+                    e.preventDefault();
+                    moveSelection('down');
+                }
+                else if (e.key === 'ArrowUp' || (e.key === 'Tab' && e.shiftKey)) {
+                    e.preventDefault();
+                    moveSelection('up');
+                }
+                else if (e.key === 'Enter') {
+                    e.preventDefault();
+
+                    if (selectedIndex >= 0 && selectedIndex < searchResultsContainer.getElementsByClassName('search-result-card').length) {
+                        searchResultsContainer.getElementsByClassName('search-result-card')[selectedIndex].click();
+                    }
+                    else if (selectedIndex === searchResultsContainer.getElementsByClassName('search-result-card').length) {
+                        viewAllResultsBtn.click();
+                    }
+                    else if (selectedIndex === searchResultsContainer.getElementsByClassName('search-result-card').length + 1) {
+                        clearSearchBtn.click();
+                    }
+                    else {
+                        const query = searchInput.value.trim();
+                        localStorage.setItem('searchQuery', query);
+                        window.location.href = 'MovieVerse-Frontend/html/search.html';
+                    }
+                }
+            });
+
+            searchInput.addEventListener('blur', clearSelection);
+        });
+    </script>
+
 </body>
+
 </html>

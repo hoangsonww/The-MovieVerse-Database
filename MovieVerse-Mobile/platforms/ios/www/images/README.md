@@ -1,4 +1,4 @@
-# Images Directory README
+# MovieVerse Images Directory README
 
 ## Overview
 
@@ -6,11 +6,12 @@ This directory serves as a repository for the images used throughout our applica
 
 ## Directory Contents
 
-- `black.jpeg`, `blue.jpg`, `brown.jpg`, `gold.jpg`, `green.jpg`, `grey.png`, `orange.jpg`, `pink.png`, `purple.jpg`, `red.jpg`, `rose.png`, `silver.png`, `yellow.jpg`, `universe.jpg`, and `universe-{1-10}.png`: These images are provided as optional backgrounds for the application. Users can choose from these to customize the app's appearance to their preference.
+- `black.jpeg`, `blue.jpg`, `brown.jpg`, `gold.jpg`, `green.jpg`, `grey.png`, `orange.jpg`, `pink.png`, `purple.jpg`, `red.jpg`, `rose.png`, `silver.png`, `yellow.jpg`, `universe.jpg`, and `universe-{1-19}.png`: These images are provided as optional backgrounds for the application. Users can choose from these to customize the app's appearance to their preference.
 - `logo.png`: This image is the official logo of the application.
 - `image.png`, `image-192x192.png`, `image-384x384.png`, `image-512x512.png`: These placeholder images are used within the app where user profile pictures or other personal images may be uploaded. The `image-384x384.png` and `image-512x512.png` are also used within the `manifest.json` file for app icons of varying sizes.
 - `favicon.ico`: This icon is used as the website's favicon, visible in browser tabs and bookmarks.
 - `screenshot.png`: This image is used within the app to demonstrate features or provide visual guides, such as for UI design.
+- `user-default.png`: This image is used as a placeholder for the user's profile until they add their own profile image.
 
 ## Usage Guidelines
 

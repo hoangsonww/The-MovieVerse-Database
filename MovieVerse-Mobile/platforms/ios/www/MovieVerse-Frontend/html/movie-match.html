@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html" style="overflow-x: hidden">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Movie Match - The MovieVerse</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Find your perfect movie match based on mood, genre, and era using The MovieVerse's tailored movie discovery feature. Start exploring now.">
+    <link rel="canonical" href="https://movie-verse.com/MovieVerse-Frontend/html/movie-match.html">
+    <meta property="og:title" content="Movie Match - The MovieVerse">
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="website" />
+    <meta http-equiv="content-language" content="en" />
+    <meta property="og:description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more." />
+    <meta property="og:url" content="https://movie-verse.com/" />
+    <meta property="og:site_name" content="The MovieVerse" />
+    <meta property="og:image" content="https://movie-verse.com/images/image.png"/>
+    <meta property="og:favicon" content="./images/favicon.ico" />
+    <meta name="keywords" content="movies, film guide, directors, actors, movie genres, cinema, film reviews">
+    <meta name="author" content="Son Nguyen Hoang">
+    <meta name="robots" content="index, follow">
+    <meta name="rating" content="General">
+    <meta name="revisit-after" content="3 days">
+    <meta name="distribution" content="global">
+    <meta http-equiv="content-language" content="en">
+    <meta name="language" content="en">
+    <meta name="theme-color" content="#7378c5">
+    <meta name="twitter:card" content="https://movie-verse.com/images/image.png"/>
+    <meta name="twitter:title" content="The MovieVerse - Your Ultimate Movie Guide">
+    <meta name="twitter:description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more.">
+    <meta name="twitter:image" content="https://movie-verse.com/images/image.png"/>
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <script src="../js/settings.js"></script>
+    <link rel="manifest" href="../../manifest.json">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-CQKJ67FXZ4');
+    </script>
+    <style>
+        @media (min-width: 900px) {
+            #search {
+                margin-top: 16px !important;
+            }
+
+            #form1 {
+                margin-right: 18px;
+            }
+        }
+
+        #search {
+            margin-top: -1px;
+        }
+
+        #local-time {
+            transform: translateX(20%);
+        }
+
+        body {
+            background-image: url("../../images/universe-1.png");
+            background-repeat: repeat-y;
+            background-size: 100% auto;
+        }
+
+        @media (max-width: 767px) {
+            body {
+                background-size: auto;
+                background-position: top center;
+            }
+        }
+    </style>
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "l7gqnssat8");
+    </script>
+</head>
+
+<body style="overflow-x: hidden">
+    <header style="margin-bottom: -60px; margin-top: -5px">
+        <a id="indexLink" href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer; margin-bottom: -34px" title="Click to go back to the home page">
+            <h1 id="my-heading">
+                The Mo<span class="highlight">vieV</span>erse
+            </h1>
+        </a>
+        <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
+            <p id="stats-label" class="clock" style="font-size: 16px;"></p>
+            <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
+        </div>
+        <button class="back-btn" onclick="window.location.href='../../index.html'">Home</button>
+        <button class="about" onclick="window.location.href='about.html'">About</button>
+        <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="View your favorites & watchlists">Favorites</button>
+        <button id="googleSignInBtn" class="nav-btn" onclick="handleSignInOut()" title="Sign In/Out">
+            <span id="signInOutText">Sign In</span>
+            <i class="fas fa-sign-in-alt" id="signInIcon"></i>
+            <i class="fas fa-sign-out-alt" id="signOutIcon" style="display: none;"></i>
+        </button>
+        <button id="profileBtn" class="nav-btn" onclick="window.location.href='user-profile.html'" title="Go to your profile">
+            <span id="profileText">Profile</span>
+            <i class="fas fa-user" id="profileIcon"></i>
+        </button>
+        <form id="form1">
+            <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!"/>
+            <button type="button" id="button-search" onclick="handleSearch()">Search</button>
+        </form>
+    </header>
+
+    <main id="movie-match-main">
+        <div class="movie-match-container">
+            <h2 id="search-title">Find Your Movie Match</h2>
+            <form id="movie-match-form">
+                <label for="mood">Select Your Mood:</label>
+                <select id="mood">
+                    <option value="happy">Happy</option>
+                    <option value="sad">Sad</option>
+                    <option value="angry">Scary</option>
+                    <option value="adventurous">Adventurous</option>
+                    <option value="romantic">Romantic</option>
+                    <option value="thoughtful">Thoughtful</option>
+                </select>
+
+                <label for="genre">Preferred Genre:</label>
+                <select id="genre">
+                    <option value="action">Action</option>
+                    <option value="comedy">Comedy</option>
+                    <option value="drama">Drama</option>
+                    <option value="sci-fi">Sci-Fi</option>
+                    <option value="romance">Romance</option>
+                </select>
+
+                <label for="period">Time Period:</label>
+                <select id="period">
+                    <option value="2020s">2020s</option>
+                    <option value="2010s">2010s</option>
+                    <option value="2000s">2000s</option>
+                    <option value="90s">90s</option>
+                    <option value="80s">80s</option>
+                </select>
+
+                <input type="submit" value="Get Matched Movie">
+            </form>
+        </div>
+    </main>
+
+    <script src="../js/movie-match.js"></script>
+
+    <button id="settings-btn" style="position: fixed; bottom: 265px; right: 10px">Settings</button>
+    <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 230px; right: 10px">Movie Match</button>
+    <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 195px; right: 10px">Movie Timeline</button>
+    <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 160px; right: 10px">Surprise Me!</button>
+    <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="bottom: 125px; right: 10px" title="Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
+    <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 90px; right: 10px" title="Test your movie knowledge">MovieVerse Trivia</button>
+
+    <script>
+        const movieCode = {
+            part1: 'YzVhMjBjODY=',
+            part2: 'MWFjZjdiYjg=',
+            part3: 'ZDllOTg3ZGNjN2YxYjU1OA=='
+        };
+
+        function getMovieCode() {
+            return atob(movieCode.part1) + atob(movieCode.part2) + atob(movieCode.part3);
+        }
+
+        function generateMovieNames(input) {
+            return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
+        }
+
+        async function showMovieOfTheDay() {
+            const year = new Date().getFullYear();
+            const url = `https://api.themoviedb.org/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                const movies = data.results;
+
+                if (movies.length > 0) {
+                    const randomMovie = movies[Math.floor(Math.random() * movies.length)];
+                    localStorage.setItem('selectedMovieId', randomMovie.id);
+                    window.location.href = 'movie-details.html';
+                }
+                else {
+                    fallbackMovieSelection();
+                }
+            }
+            catch (error) {
+                console.error('Error fetching movie:', error);
+                fallbackMovieSelection();
+            }
+        }
+
+        function fallbackMovieSelection() {
+            const fallbackMovies = [432413, 299534, 1726, 562, 118340, 455207, 493922, 447332, 22970, 530385, 27205, 264660, 120467, 603, 577922, 76341, 539, 419704, 515001, 118340, 424, 98];
+            const randomFallbackMovie = fallbackMovies[Math.floor(Math.random() * fallbackMovies.length)];
+            localStorage.setItem('selectedMovieId', randomFallbackMovie);
+            window.location.href = 'movie-details.html';
+        }
+
+        document.getElementById('settings-btn').addEventListener('click', () => {
+            window.location.href = 'settings.html';
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            applySettings();
+
+            function applySettings() {
+                const savedBg = localStorage.getItem('backgroundImage');
+                const savedTextColor = localStorage.getItem('textColor');
+                const savedFontSize = localStorage.getItem('fontSize');
+
+                if (savedBg) {
+                    document.body.style.backgroundImage = `url('${savedBg}')`;
+                }
+                if (savedTextColor) {
+                    document.querySelectorAll('h1, h2, h3, p, a, span, div, button, input, select, textarea, label, li').forEach(element => {
+                        element.style.color = savedTextColor;
+                    });
+                }
+                if (savedFontSize) {
+                    const size = savedFontSize === 'small' ? '12px' : savedFontSize === 'medium' ? '16px' : '20px';
+                    document.body.style.fontSize = size;
+                }
+            }
+        });
+    </script>
+
+    <footer style="margin-top: 900px">
+        <a href="../../index.html" style="cursor: pointer; text-decoration: none">
+            <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
+        </a>
+    </footer>
+
+    <div id="mobile-bottom-bar" class="mobile-bottom-bar">
+        <a href="settings.html" class="bottom-bar-item">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+        </a>
+        <a href="#" class="bottom-bar-item" onclick="showMovieOfTheDay()">
+            <i class="fas fa-surprise"></i>
+            <span>Surprise Me</span>
+        </a>
+        <a href="movie-match.html" class="bottom-bar-item">
+            <i class="fas fa-film"></i>
+            <span>Movie Match</span>
+        </a>
+        <a href="movie-timeline.html" class="bottom-bar-item">
+            <i class="fas fa-clock"></i>
+            <span>Timeline</span>
+        </a>
+        <a href="chatbot.html" class="bottom-bar-item">
+            <i class="fas fa-robot"></i>
+            <span>Chatbot</span>
+        </a>
+        <a href="trivia.html" class="bottom-bar-item">
+            <i class="fas fa-question-circle"></i>
+            <span>Movie Trivia</span>
+        </a>
+    </div>
+
+    <button id="menu-btn" style="position: fixed; bottom: 10px; right: 10px; z-index: 1001" title="Toggle Menu Buttons">
+        <i class="fas fa-ellipsis-h"></i><br>
+        <span>Menu</span>
+    </button>
+
+    <script>
+        window.addEventListener('load', function() {
+            adjustAnchorHeights();
+        });
+
+        window.addEventListener('resize', adjustAnchorHeights);
+
+        function adjustAnchorHeights() {
+            const bottomBarAnchors = document.querySelectorAll('.mobile-bottom-bar a');
+            let maxHeight = 0;
+
+            bottomBarAnchors.forEach(anchor => {
+                anchor.style.height = 'auto';
+                const anchorHeight = anchor.getBoundingClientRect().height;
+                maxHeight = Math.max(maxHeight, anchorHeight);
+            });
+
+            bottomBarAnchors.forEach(anchor => {
+                anchor.style.height = `${maxHeight}px`;
+            });
+        }
+
+        let lastScrollY = window.scrollY;
+
+        window.addEventListener('scroll', () => {
+            const currentScrollY = window.scrollY;
+
+            if (currentScrollY > lastScrollY && currentScrollY > 0) {
+                document.querySelector('.mobile-bottom-bar').classList.add('hide-bar');
+            }
+            else {
+                document.querySelector('.mobile-bottom-bar').classList.remove('hide-bar');
+            }
+
+            lastScrollY = currentScrollY;
+        });
+
+        let isAnimating = false;
+
+        document.getElementById('menu-btn').addEventListener('click', () => {
+            if (isAnimating) return;
+
+            isAnimating = true;
+
+            const buttonIds = [
+                'settings-btn',
+                'movie-of-the-day-btn',
+                'movie-match-btn3',
+                'movie-timeline-btn',
+                'discussions-btn',
+                'trivia-btn',
+            ];
+
+            buttonIds.forEach((id, index) => {
+                const button = document.getElementById(id);
+                if (button.style.display === 'none' || !button.style.display) {
+                    button.style.display = 'block';
+                    setTimeout(() => {
+                        button.style.opacity = '1';
+                        button.style.transform = 'translateY(0)';
+                    }, 50 * index);
+                } else {
+                    button.style.opacity = '0';
+                    button.style.transform = 'translateY(20px)';
+                }
+
+                setTimeout(() => {
+                    button.style.display = button.style.opacity === '1' ? 'block' : 'none';
+                    if (index === buttonIds.length - 1) {
+                        isAnimating = false;
+                    }
+                }, 500 + 50 * index);
+            });
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth < 767) {
+                const buttonIds = [
+                    'settings-btn',
+                    'movie-of-the-day-btn',
+                    'movie-match-btn3',
+                    'movie-timeline-btn',
+                    'discussions-btn',
+                    'trivia-btn',
+                ];
+
+                buttonIds.forEach(id => {
+                    const button = document.getElementById(id);
+                    button.style.display = 'none';
+                    button.style.opacity = '0';
+                    button.style.transform = 'translateY(20px)';
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>

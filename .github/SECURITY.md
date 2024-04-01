@@ -1,7 +1,9 @@
-# Security Policies of The MovieVerse App
+# The MovieVerse - Security Policies
 
 ## Introduction
 The MovieVerse is a dynamic web application designed to provide users with an engaging platform to explore and learn about various movies, directors, actors, and more. Ensuring the security of our users and the application is of paramount importance. This document outlines the security measures, policies, and best practices implemented in The MovieVerse.
+
+Current MovieVerse Version: `1.1.2`
 
 ## Security Measures
 
@@ -56,7 +58,7 @@ The MovieVerse has an incident response plan to quickly address and mitigate any
 - Post-incident analysis and implementation of preventive measures.
 
 ## Reporting Security Issues
-We encourage responsible disclosure of any security vulnerabilities. Please report any security concerns or vulnerabilities to us at hoangson091104@gmail.com. We are committed to working with security researchers and the community to resolve issues efficiently and responsibly.
+We encourage responsible disclosure of any security vulnerabilities. Please report any security concerns or vulnerabilities to us at [info@movie-verse.com](mailto:info@movie-verse.com). We are committed to working with security researchers and the community to resolve issues efficiently and responsibly.
 
 ## Continuous Improvement
 Security is an ongoing process. The MovieVerse App is committed to continuously improving the security posture of the application by staying up-to-date with the latest security trends, threats, and mitigation techniques.

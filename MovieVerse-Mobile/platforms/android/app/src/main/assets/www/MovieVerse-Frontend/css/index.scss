@@ -1,0 +1,87 @@
+$font-family-poppins: "Poppins", sans-serif;
+$background-color-primary: #7378c5;
+$hover-color: #ff8623;
+$link-color: white;
+$link-hover-color: #f509d9;
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: url("../../images/universe-1.png") no-repeat center center fixed;
+  background-size: cover;
+  font-family: $font-family-poppins;
+  margin: 0;
+  align-content: center;
+  overflow-x: hidden;
+  min-height: 100vh;
+  overflow-y: auto;
+}
+
+%button-style {
+  background-color: $background-color-primary;
+  color: black;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  &:hover {
+    background-color: $hover-color;
+    transition: 0.3s ease-in;
+  }
+}
+
+#movie-match-btn {
+  @extend %button-style;
+  position: fixed;
+  bottom: 220px;
+  right: 20px;
+}
+
+#submit-comment {
+  @extend %button-style;
+  padding: 10px 15px;
+}
+
+%link-style {
+  color: $link-color;
+  text-decoration: underline;
+  &:hover {
+    color: $link-hover-color;
+  }
+}
+
+#cast-info, #similar-tv, #director-link {
+  @extend %link-style;
+}
+
+@mixin modal-style {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  margin-top: 5px;
+}
+
+.modal-header {
+  @include modal-style;
+}
+
+.comments-controls {
+  display: flex;
+  align-items: center;
+  button:disabled {
+    cursor: not-allowed;
+  }
+  &.justify-start {
+    justify-content: start;
+  }
+  &.justify-center {
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+  }
+}

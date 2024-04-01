@@ -1,16 +1,8 @@
-# README for `MovieVerse-APIs` Directory
+# The MovieVerse - `MovieVerse-APIs` Directory
 
 Welcome to the `MovieVerse-APIs` directory of the MovieVerse App! This directory is an essential part of the application, containing various files that define and interact with the web APIs. Below is a detailed overview of each file and its role in the project.
 
 ---
-
-## Table of Contents
-
-1. [Overview](#overview)
-2. [api.http](#api.http)
-3. [http-client.env.json](#http-client.env.json)
-4. [http-client.private.env.json](#http-client.private.env.json)
-5. [movieverse-openapi.yaml](#movieverse-openapi.yaml)
 
 ## Overview
 
@@ -19,6 +11,10 @@ The `MovieVerse-APIs` directory plays a crucial role in interfacing with the web
 ### api.http
 
 This file contains HTTP requests for testing the web APIs. It is used to send requests to endpoints, allowing developers to test and debug APIs directly within an IDE like Visual Studio Code.
+
+### Dockerfile
+
+A Dockerfile that defines the environment for running the MovieVerse API tests. It specifies the base image, dependencies, and commands needed to execute the tests in a containerized environment.
 
 ### http-client.env.json
 
@@ -35,6 +31,18 @@ An OpenAPI (formerly Swagger) specification file that provides a standard, langu
 ### api_test_suite.py
 
 This file contains a test suite for the MovieVerse APIs. It uses the `requests` library to send HTTP requests to the API endpoints and validate the responses. The test suite can be run to ensure that the API is functioning as expected.
+
+### sample_initial_api_response.json
+
+A sample JSON file containing the initial response from the API. This file can be used to understand the structure of the API response and develop the application accordingly.
+
+### package.json
+
+A `package.json` file that defines the dependencies and scripts needed to run the API tests. It specifies the required packages and commands for executing the tests.
+
+### .flake8
+
+A configuration file for the `flake8` linter, which checks the code for style and quality issues. It defines the rules and settings for the linter to ensure consistent code quality across the project.
 
 ## Using these Files
 

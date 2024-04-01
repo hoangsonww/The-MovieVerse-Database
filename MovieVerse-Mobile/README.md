@@ -1,8 +1,10 @@
-# MovieVerse Mobile App - README
+# The MovieVerse - `MovieVerse-Mobile` Directory
 
 ## Overview
 
 MovieVerse is a dynamic, user-friendly mobile application that offers an extensive library of movies across various genres. Designed for movie enthusiasts, it provides a seamless browsing experience on iOS devices, including iPhones and iPads. Explore popular, award-winning, and hidden gems, or dive into categories like action, horror, romance, and more. MovieVerse is your ultimate mobile destination for movie discovery and entertainment.
+
+**Note:** The app is under active development and will be available for download on the App Store and Google Play Store soon. Stay tuned for updates!
 
 ## Features
 
@@ -21,12 +23,7 @@ MovieVerse is a dynamic, user-friendly mobile application that offers an extensi
 - **Movie Details**: Tap on any movie to view detailed information, including ratings, overviews, and more.
 - **Responsive Design**: Enjoy a consistent and engaging user experience on both iPhones and iPads.
 
-### And many more!
-
-## Installation
-
-1. **Download the App**: Visit the App Store and search for "MovieVerse" to download and install the app on your iOS device.
-2. **Open MovieVerse**: Tap on the MovieVerse icon on your home screen to launch the app.
+### And all other features from the web app!
 
 ## Development
 
@@ -66,8 +63,15 @@ cordova build android
 cordova emulate ios
 cordova emulate android
 ```
-7. **Open the Project**: Open the project in Xcode or Android Studio to view the source code and test the app within the simulator.
+7. **Open the Project**: Open the project in Xcode and/or Android Studio to view the source code and test the app within the simulator.
 8. **Enjoy coding!**
+
+**Important**: If you make any changes to the source code of the mobile app, you will need to update the iOS build process by removing iOS and adding it again using the following commands:
+```
+cordova platform rm ios
+cordova platform add ios
+```
+The Android app, however, will build and run automatically as expected without any additional steps.
 
 ## Usage
 

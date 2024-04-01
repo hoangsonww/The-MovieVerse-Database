@@ -1,24 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 
 <head>
     <meta charset="UTF-8">
-    <title>About The MovieVerse</title>
+    <title>About The MovieVerse - Your Ultimate Movie Guide</title>
     <meta property="og:title" content="About The MovieVerse - Your Ultimate Movie Guide" />
     <script src="../js/settings.js"></script>
-    <meta name="description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more.">
+    <meta name="description" content="Learn about The MovieVerse, your ultimate movie guide. Discover our mission, features, and how we create a haven for movie enthusiasts to explore cinema.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
     <meta http-equiv="content-language" content="en" />
-    <meta property="og:description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more." />
+    <meta property="og:description" content="Learn about The MovieVerse, your ultimate movie guide. Discover our mission, features, and how we create a haven for movie enthusiasts to explore cinema." />
     <meta property="og:url" content="https://movie-verse.com/MovieVerse-Frontend/html/about.html" />
     <meta property="og:site_name" content="About The MovieVerse" />
     <meta property="og:image" content="https://movie-verse.com/images/image.png"/>
     <meta property="og:favicon" content="./images/favicon.ico" />
     <meta name="keywords" content="movies, film guide, directors, actors, movie genres, cinema, film reviews">
     <meta name="author" content="Son Nguyen Hoang">
-    <link rel="canonical" href="https://movie-verse.com/"/>
+    <link rel="canonical" href="https://movie-verse.com/MovieVerse-Frontend/html/about.html"/>
     <meta name="robots" content="index, follow">
     <meta name="rating" content="General">
     <meta name="revisit-after" content="3 days">
@@ -26,16 +26,27 @@
     <meta http-equiv="content-language" content="en">
     <meta name="language" content="en">
     <meta name="theme-color" content="#7378c5">
-    <meta name="twitter:card" content="https://movie-verse.com/images/image.png"/>
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@MovieVerse" />
+    <meta name="twitter:creator" content="@hoangsonw" />
     <meta name="twitter:title" content="The MovieVerse - Your Ultimate Movie Guide">
-    <meta name="twitter:description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more.">
+    <meta name="twitter:description" content="Learn about The MovieVerse, your ultimate movie guide. Discover our mission, features, and how we create a haven for movie enthusiasts to explore cinema.">
     <meta name="twitter:image" content="https://movie-verse.com/images/image.png"/>
     <meta name="referrer" content="no-referrer-when-downgrade">
     <link rel="stylesheet" href="../css/style.css"/>
     <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <link rel="manifest" href="../../manifest.json">
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "l7gqnssat8");
+    </script>
+
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
@@ -43,6 +54,7 @@
 
         gtag('config', 'G-CQKJ67FXZ4');
     </script>
+
     <style>
         #local-time {
             transform: translateX(15%);
@@ -50,10 +62,33 @@
             border-radius: 10px;
             z-index: 10;
         }
+
+        @media (min-width: 900px) {
+            #search {
+                margin-top: 16px;
+            }
+
+            #form1 {
+                margin-right: 0;
+            }
+        }
+
+        body {
+            background-image: url("../../images/universe-1.png");
+            background-repeat: repeat-y;
+            background-size: 100% auto;
+        }
+
+        @media (max-width: 767px) {
+            body {
+                background-size: auto;
+                background-position: top center;
+            }
+        }
     </style>
 </head>
 
-<body class="movie-details-body4">
+<body>
     <header style="margin-top: -5px">
         <a href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer" title="Click to go back to the home page">
             <h1 id="my-heading" style="margin-bottom: -10px">
@@ -62,13 +97,18 @@
         </a>
 
         <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
-            <p id="stats-label" class="clock" style="font-size: 16px"></p>
-            <h1 id="stats-display" class="clock"></h1>
+            <p id="stats-label" class="clock" style="font-size: 16px;"></p>
+            <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
         </div>
 
         <button class="back-btn" onclick="window.location.href='../../index.html'">Home</button>
         <button class="about" onclick="window.location.href='about.html'">About</button>
-        <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="Go to your favorites list">Favorites</button>
+        <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="View your favorites & watchlists">Favorites</button>
+
+        <button id="nav-toggle" class="nav-toggle" title="Toggle side navbar" onclick="toggleNav()">
+            <i class="fas fa-bars"></i>
+        </button>
+
         <button id="googleSignInBtn" class="nav-btn" onclick="handleSignInOut()" title="Sign In/Out">
             <span id="signInOutText">Sign In</span>
             <i class="fas fa-sign-in-alt" id="signInIcon"></i>
@@ -79,28 +119,44 @@
             <i class="fas fa-user" id="profileIcon"></i>
         </button>
         <form id="form1">
-            <input
-                    type="text"
-                    id="search"
-                    placeholder="Search For Anything..."
-                    class="search"
-            />
+            <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!"/>
             <button type="button" id="button-search" onclick="handleSearch()">Search</button>
         </form>
-        <button id="settings-btn" style="position: fixed; bottom: 185px">Settings</button>
-        <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 150px">Movie Match</button>
-        <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 115px">Movie Timeline</button>
-        <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 80px">Recommendation</button>
-        <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="bottom: 45px" title="Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
-        <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 10px" title="Test your movie knowledge">MovieVerse Trivia</button>
+        <button id="settings-btn" style="position: fixed; bottom: 265px; right: 10px">Settings</button>
+        <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 230px; right: 10px">Movie Match</button>
+        <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 195px; right: 10px">Movie Timeline</button>
+        <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 160px; right: 10px">Surprise Me!</button>
+        <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="bottom: 125px; right: 10px" title="Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
+        <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 90px; right: 10px" title="Test your movie knowledge">MovieVerse Trivia</button>
     </header>
 
-    <main id="main2">
-        <h2 id="aboutHeader" style="align-self: center">About The MovieVerse</h2>
+    <nav id="side-nav" class="side-nav" style="z-index: 1002;">
+        <a id="heading-href" style="cursor: pointer" href="../../index.html" title="Click to go back to the home page">
+            <div id="my-heading" style="margin-bottom: 15px; margin-left: 0; margin-top: 15px; font-size: 2.1em; font-weight: bold;">
+                The Mo<span class="highlight">vieV</span>erse Menu
+            </div>
+        </a>
+
+        <div id="button-container">
+            <button id="button-remove" title="Close the navbar" onclick="removeNavBar()">Close</button>
+        </div>
+
+        <ul style="overflow-y: auto">
+            <li><a href="#aboutHeader">About The MovieVerse</a></li>
+            <li><a href="#subheading1">Core Features</a></li>
+            <li><a href="#subheading2">Explore Our Other Apps</a></li>
+            <li><a href="#subheading">Our Vision</a></li>
+            <li><a href="#subheading3">Join The Journey</a></li>
+            <li><a href="#subheading4">Useful Links</a></li>
+        </ul>
+    </nav>
+
+    <main id="main2" style="margin-bottom: 0">
+        <h2 id="aboutHeader" style="align-self: center; cursor: pointer">About The MovieVerse</h2>
 
         <p style="color: white">Welcome to The MovieVerse, your ultimate destination for exploring the magic of movies. Created by <a id="profileLink" href="http://github.com/hoangsonww">Son Nguyen</a> in 2023 with a vision to celebrate cinematic art, The MovieVerse offers a unique but comprehensive platform for movie lovers to discover, engage, and immerse themselves in the world of film!</p>
 
-        <h3 id="subheading">Core Features:</h3>
+        <h3 id="subheading1" style="cursor: pointer">Core Features:</h3>
 
         <ul style="align-content: center; color: white">
             <li><strong>Curated Movie Collections:</strong> Explore an array of movies categorized by genre, director, language, and era, including specialized sections like Director's Spotlight and award-winning films.</li>
@@ -118,7 +174,7 @@
             <li><strong>IMDb, Metacritics, and Rotten Tomatoes Ratings:</strong> Aside from ratings from our users, you can also view IMDb, Metacritics, and RT ratings for each movie directly within our app.</li>
         </ul>
 
-        <h3 id="subheading">Explore Our Other Apps:</h3>
+        <h3 id="subheading2" style="cursor: pointer">Explore Our Other Apps:</h3>
 
         <ul style="align-content: center; color: white">
             <li>
@@ -147,27 +203,195 @@
             </li>
         </ul>
 
-        <h3 id="subheading">Our Vision:</h3>
+        <h3 id="subheading" style="cursor: pointer">Our Vision:</h3>
         <p style="color: white">Our aim is to create a haven for cinephiles, where the discovery of movies is an adventure. The MovieVerse is more than just a movie database; it's a vibrant community and a hub for sharing cinematic experiences and insights.</p>
 
-        <h3 id="subheading">Join The Journey:</h3>
+        <h3 id="subheading3" style="cursor: pointer">Join The Journey:</h3>
         <p style="color: white">We're constantly innovating to bring you new and exciting features. Stay tuned for upcoming enhancements, including virtual reality experiences, AI-driven recommendations, and social integration for shared movie experiences.</p>
         <br/>
         <p style="color: white">Become a part of The MovieVerse community today. Your engagement and feedback are invaluable to us. Together, let's celebrate the wonder of movies!</p>
         <br/>
         <p style="color: white; text-align: center"><em>Thank you for being a part of The MovieVerse. For more insights and updates, connect with us on our <a style="text-decoration: underline" id="githubLink" href="https://github.com/hoangsonww/The-MovieVerse-Database">GitHub page</a>.</em></p>
 
-        <h3 id="subheading">Useful Links:</h3>
-        <p style="color: white">Here are some links that you might find useful. You can explore the analytics page of our database (<strong style="text-decoration: underline">MovieVerse Analytics</strong>), read our <strong style="text-decoration: underline">terms of service</strong>, and review our <strong style="text-decoration: underline">privacy policy</strong>. Feel free to reach out to us if you have any questions or concerns.</p>
+        <h3 id="subheading4" style="cursor: pointer">Useful Links:</h3>
+        <p style="color: white">Here are some links that you might find useful: You can explore the analytics page of our database (<a href="analytics.html" style="color: white"><strong style="text-decoration: underline">MovieVerse Analytics</strong></a>), read our <a href="terms-of-service.html" style="color: white"><strong style="text-decoration: underline">terms of service</strong></a>, and review our <a href="privacy-policy.html" style="color: white"><strong style="text-decoration: underline">privacy policy</strong></a>. Feel free to reach out to us if you have any questions or concerns (at <a href="support.html" style="color: white"><strong style="text-decoration: underline">contact support</strong></a>).</p>
 
         <button onclick="window.location.href='analytics.html'" style="border: none; margin-top: 40px" class="app-btn">MovieVerse Analytics</button>
         <button onclick="window.location.href='terms-of-service.html'" style="border: none; margin-top: 40px" class="app-btn">Terms of Service</button>
         <button onclick="window.location.href='privacy-policy.html';" style="border: none; margin-top: 40px" class="app-btn">Privacy Policy</button>
+        <button onclick="window.location.href='support.html'" style="border: none; margin-top: 40px" class="app-btn">Contact Support</button>
     </main>
 
+    <div id="mobile-bottom-bar" class="mobile-bottom-bar">
+        <a href="settings.html" class="bottom-bar-item">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+        </a>
+        <a href="#" class="bottom-bar-item" onclick="showMovieOfTheDay()">
+            <i class="fas fa-surprise"></i>
+            <span>Surprise Me</span>
+        </a>
+        <a href="movie-match.html" class="bottom-bar-item">
+            <i class="fas fa-film"></i>
+            <span>Movie Match</span>
+        </a>
+        <a href="movie-timeline.html" class="bottom-bar-item">
+            <i class="fas fa-clock"></i>
+            <span>Timeline</span>
+        </a>
+        <a href="chatbot.html" class="bottom-bar-item">
+            <i class="fas fa-robot"></i>
+            <span>Chatbot</span>
+        </a>
+        <a href="trivia.html" class="bottom-bar-item">
+            <i class="fas fa-question-circle"></i>
+            <span>Movie Trivia</span>
+        </a>
+    </div>
+
+    <button id="menu-btn" style="position: fixed; bottom: 10px; right: 10px; z-index: 1001" title="Toggle Menu Buttons">
+        <i class="fas fa-ellipsis-h"></i><br>
+        <span>Menu</span>
+    </button>
+
+    <script>
+        window.addEventListener('load', function() {
+            adjustAnchorHeights();
+        });
+
+        window.addEventListener('resize', adjustAnchorHeights);
+
+        function adjustAnchorHeights() {
+            const bottomBarAnchors = document.querySelectorAll('.mobile-bottom-bar a');
+            let maxHeight = 0;
+
+            bottomBarAnchors.forEach(anchor => {
+                anchor.style.height = 'auto';
+                const anchorHeight = anchor.getBoundingClientRect().height;
+                maxHeight = Math.max(maxHeight, anchorHeight);
+            });
+
+            bottomBarAnchors.forEach(anchor => {
+                anchor.style.height = `${maxHeight}px`;
+            });
+        }
+
+        let lastScrollY = window.scrollY;
+
+        window.addEventListener('scroll', () => {
+            const currentScrollY = window.scrollY;
+
+            if (currentScrollY > lastScrollY && currentScrollY > 0) {
+                document.querySelector('.mobile-bottom-bar').classList.add('hide-bar');
+            }
+            else {
+                document.querySelector('.mobile-bottom-bar').classList.remove('hide-bar');
+            }
+
+            lastScrollY = currentScrollY;
+        });
+
+        let isAnimating = false;
+
+        document.getElementById('menu-btn').addEventListener('click', () => {
+            if (isAnimating) return;
+
+            isAnimating = true;
+
+            const buttonIds = [
+                'settings-btn',
+                'movie-of-the-day-btn',
+                'movie-match-btn3',
+                'movie-timeline-btn',
+                'discussions-btn',
+                'trivia-btn',
+            ];
+
+            buttonIds.forEach((id, index) => {
+                const button = document.getElementById(id);
+                if (button.style.display === 'none' || !button.style.display) {
+                    button.style.display = 'block';
+                    setTimeout(() => {
+                        button.style.opacity = '1';
+                        button.style.transform = 'translateY(0)';
+                    }, 50 * index);
+                }
+                else {
+                    button.style.opacity = '0';
+                    button.style.transform = 'translateY(20px)';
+                }
+
+                setTimeout(() => {
+                    button.style.display = button.style.opacity === '1' ? 'block' : 'none';
+                    if (index === buttonIds.length - 1) {
+                        isAnimating = false;
+                    }
+                }, 500 + 50 * index);
+            });
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth < 767) {
+                const buttonIds = [
+                    'settings-btn',
+                    'movie-of-the-day-btn',
+                    'movie-match-btn',
+                    'movie-timeline-btn',
+                    'discussions-btn',
+                    'trivia-btn',
+                ];
+
+                buttonIds.forEach(id => {
+                    const button = document.getElementById(id);
+                    button.style.display = 'none';
+                    button.style.opacity = '0';
+                    button.style.transform = 'translateY(20px)';
+                });
+            }
+        });
+    </script>
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6608388491200814"
+            crossorigin="anonymous"></script>
+    <!-- Homepage 1 -->
+    <ins class="adsbygoogle"
+         style="display:block; text-align: center;"
+         data-ad-client="ca-pub-6608388491200814"
+         data-ad-slot="4832732030"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+
     <footer>
-        <p>© 2024 The MovieVerse. All rights reserved.</p>
+        <a href="../../index.html" style="cursor: pointer; text-decoration: none">
+            <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved. Special thanks for The Movie Database (TMDb).</p>
+        </a>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            setAdaptiveBackgroundImage();
+        });
+
+        function setAdaptiveBackgroundImage() {
+            let backgroundImageUrl = '../../images/universe-1.png';
+
+            if ('connection' in navigator) {
+                switch (navigator.connection.effectiveType) {
+                    case '2g':
+                        backgroundImageUrl = '../../images/universe-1-very-low.png';
+                        break;
+                    case '3g':
+                        backgroundImageUrl = '../../images/universe-1-low.png';
+                        break;
+                }
+            }
+
+            document.body.style.backgroundImage = `url('${backgroundImageUrl}')`;
+        }
+    </script>
 
     <script>
         function getMovieVerseData(input) {
@@ -285,10 +509,67 @@
             }
         });
 
-        /**
-         * Rotates the user stats and movie quotes displayed in the main element.
-         */
-        function rotateUserStats() {
+        document.getElementById("subheading1").addEventListener('click', function(e) {
+            e.preventDefault();
+
+            document.getElementById('subheading1').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        document.getElementById("subheading2").addEventListener('click', function(e) {
+            e.preventDefault();
+
+            document.getElementById('subheading2').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        document.getElementById("subheading").addEventListener('click', function(e) {
+            e.preventDefault();
+
+            document.getElementById('subheading').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        document.getElementById("subheading3").addEventListener('click', function(e) {
+            e.preventDefault();
+
+            document.getElementById('subheading3').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        document.getElementById("subheading4").addEventListener('click', function(e) {
+            e.preventDefault();
+
+            document.getElementById('subheading4').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        document.getElementById("aboutHeader").addEventListener('click', function(e) {
+            e.preventDefault();
+
+            document.getElementById('aboutHeader').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        async function ensureGenreMapIsAvailable() {
+            if (!localStorage.getItem('genreMap')) {
+                await fetchGenreMap();
+            }
+        }
+
+        async function fetchGenreMap() {
+            const url = `https://${getMovieVerseData()}/3/genre/movie/list?${generateMovieNames()}${getMovieCode()}`;
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                const genreMap = data.genres.reduce((map, genre) => {
+                    map[genre.id] = genre.name;
+                    return map;
+                }, {});
+                localStorage.setItem('genreMap', JSON.stringify(genreMap));
+            }
+            catch (error) {
+                console.error('Error fetching genre map:', error);
+            }
+        }
+
+        async function rotateUserStats() {
+            await ensureGenreMapIsAvailable();
+
             const stats = [
                 {
                     label: "Your Current Time",
@@ -302,47 +583,44 @@
                     }
                 },
                 { label: "Most Visited Movie", getValue: getMostVisitedMovie },
-                { label: "Your Most Visited Director", getValue: getMostVisitedDirector },
-                { label: "Your Most Visited Actor", getValue: getMostVisitedActor },
+                { label: "Most Visited Director", getValue: getMostVisitedDirector },
+                { label: "Most Visited Actor", getValue: getMostVisitedActor },
                 {
-                    label: "Your Unique Movies Discovered",
+                    label: "Movies Discovered",
                     getValue: () => {
                         const viewedMovies = JSON.parse(localStorage.getItem('uniqueMoviesViewed')) || [];
                         return viewedMovies.length;
                     }
                 },
                 {
-                    label: "Your Favorited Movies",
+                    label: "Favorite Movies",
                     getValue: () => {
                         const favoritedMovies = JSON.parse(localStorage.getItem('favorites')) || [];
                         return favoritedMovies.length;
                     }
                 },
                 {
-                    label: "Your Most Common Favorited Genre",
-                    getValue: getMostCommonGenre
+                    label: "Favorite Genre",
+                    getValue: () => {
+                        const mostCommonGenreCode = getMostCommonGenre();
+                        const genreMap = JSON.parse(localStorage.getItem('genreMap')) || {};
+                        return genreMap[mostCommonGenreCode] || 'Not Available';
+                    }
                 },
-                { label: "Your Created Watchlists", getValue: () => localStorage.getItem('watchlistsCreated') || 0 },
-                { label: "Your Average Movie Rating", getValue: () => localStorage.getItem('averageMovieRating') || 'Not Rated' },
+                { label: "Watchlists Created", getValue: () => localStorage.getItem('watchlistsCreated') || 0 },
+                { label: "Average Movie Rating", getValue: () => localStorage.getItem('averageMovieRating') || 'Not Rated' },
                 {
-                    label: "Your Unique Directors Discovered",
+                    label: "Directors Discovered",
                     getValue: () => {
                         const viewedDirectors = JSON.parse(localStorage.getItem('uniqueDirectorsViewed')) || [];
                         return viewedDirectors.length;
                     }
                 },
                 {
-                    label: "Your Unique Actors Discovered",
+                    label: "Actors Discovered",
                     getValue: () => {
                         const viewedActors = JSON.parse(localStorage.getItem('uniqueActorsViewed')) || [];
                         return viewedActors.length;
-                    }
-                },
-                {
-                    label: "Your Unique Production Companies Discovered",
-                    getValue: () => {
-                        const viewedCompanies = JSON.parse(localStorage.getItem('uniqueCompaniesViewed')) || [];
-                        return viewedCompanies.length;
                     }
                 },
                 { label: "Your Trivia Accuracy", getValue: getTriviaAccuracy },
@@ -428,19 +706,25 @@
             if (triviaStats.totalAttempted === 0) {
                 return 'No trivia attempted';
             }
+
             let accuracy = (triviaStats.totalCorrect / triviaStats.totalAttempted) * 100;
             return `${accuracy.toFixed(1)}% accuracy`;
         }
 
         function getMostCommonGenre() {
-            const favoriteGenres = JSON.parse(localStorage.getItem('favoriteGenres')) || {};
+            const favoriteGenresArray = JSON.parse(localStorage.getItem('favoriteGenres')) || [];
+            const genreCounts = favoriteGenresArray.reduce((acc, genre) => {
+                acc[genre] = (acc[genre] || 0) + 1;
+                return acc;
+            }, {});
+
             let mostCommonGenre = '';
             let maxCount = 0;
 
-            for (const genre in favoriteGenres) {
-                if (favoriteGenres[genre] > maxCount) {
+            for (const genre in genreCounts) {
+                if (genreCounts[genre] > maxCount) {
                     mostCommonGenre = genre;
-                    maxCount = favoriteGenres[genre];
+                    maxCount = genreCounts[genre];
                 }
             }
 
@@ -463,6 +747,47 @@
             localStorage.setItem('searchQuery', searchQuery);
             window.location.href = 'search.html';
         }
+
+        function toggleNav() {
+            const sideNav = document.getElementById('side-nav');
+            sideNav.classList.toggle('manual-toggle');
+            adjustNavBar();
+        }
+
+        function removeNavBar() {
+            const sideNav = document.getElementById('side-nav');
+            if (sideNav.classList.contains('manual-toggle')) {
+                sideNav.classList.remove('manual-toggle');
+            }
+
+            adjustNavBar();
+        }
+
+        function adjustNavBar() {
+            const sideNav = document.getElementById('side-nav');
+            if (sideNav.classList.contains('manual-toggle')) {
+                sideNav.style.left = '0px';
+            }
+            else {
+                sideNav.style.left = '-250px';
+            }
+        }
+
+        document.addEventListener('mousemove', function(event) {
+            const sideNav = document.getElementById('side-nav');
+            if (event.clientX < 10 && !sideNav.classList.contains('manual-toggle')) {
+                sideNav.style.left = '0';
+            }
+        });
+
+        document.getElementById('side-nav').addEventListener('mouseleave', function() {
+            const sideNav = document.getElementById('side-nav');
+            if (!sideNav.classList.contains('manual-toggle')) {
+                sideNav.style.left = '-250px';
+            }
+        });
     </script>
+
 </body>
+
 </html>

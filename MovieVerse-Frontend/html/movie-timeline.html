@@ -1,22 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+
 <head>
     <meta charset="UTF-8">
-    <title>MovieVerse Timeline</title>
+    <title>Movie Timeline - The MovieVerse</title>
     <link rel="stylesheet" href="../css/style.css">
     <script src="../js/actor-details.js" defer></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Journey through cinema history with The MovieVerse's movie timeline feature. Discover films from any era and explore the evolution of storytelling.">
+    <link rel="canonical" href="https://movie-verse.com/MovieVerse-Frontend/html/movie-timeline.html">
+    <meta property="og:title" content="Movie Timeline - The MovieVerse">
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
     <meta http-equiv="content-language" content="en" />
-    <meta property="og:description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more." />
-    <meta property="og:url" content="https://movie-verse.com/MovieVerse-Frontend/html/about.html" />
-    <meta property="og:site_name" content="About The MovieVerse" />
+    <meta property="og:description" content="Journey through cinema history with The MovieVerse's movie timeline feature. Discover films from any era and explore the evolution of storytelling." />
+    <meta property="og:url" content="https://movie-verse.com/" />
+    <meta property="og:site_name" content="The MovieVerse" />
     <meta property="og:image" content="https://movie-verse.com/images/image.png"/>
     <meta property="og:favicon" content="./images/favicon.ico" />
     <meta name="keywords" content="movies, film guide, directors, actors, movie genres, cinema, film reviews">
     <meta name="author" content="Son Nguyen Hoang">
-    <link rel="canonical" href="https://movie-verse.com/"/>
     <meta name="robots" content="index, follow">
     <meta name="rating" content="General">
     <meta name="revisit-after" content="3 days">
@@ -24,9 +27,11 @@
     <meta http-equiv="content-language" content="en">
     <meta name="language" content="en">
     <meta name="theme-color" content="#7378c5">
-    <meta name="twitter:card" content="https://movie-verse.com/images/image.png"/>
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@MovieVerse" />
+    <meta name="twitter:creator" content="@hoangsonw" />
     <meta name="twitter:title" content="The MovieVerse - Your Ultimate Movie Guide">
-    <meta name="twitter:description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more.">
+    <meta name="twitter:description" content="Journey through cinema history with The MovieVerse's movie timeline feature. Discover films from any era and explore the evolution of storytelling.">
     <meta name="twitter:image" content="https://movie-verse.com/images/image.png"/>
     <meta name="referrer" content="no-referrer-when-downgrade">
     <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
@@ -41,21 +46,61 @@
 
         gtag('config', 'G-CQKJ67FXZ4');
     </script>
+    <style>
+        @media (min-width: 900px) {
+            #search {
+                margin-top: 16px !important;
+            }
+
+            #form1 {
+                margin-right: 19px;
+            }
+        }
+
+        #search {
+            margin-top: -1px;
+        }
+
+        #local-time {
+            transform: translateX(20%);
+        }
+
+        body {
+            background-image: url("../../images/universe-1.png");
+            background-repeat: repeat-y;
+            background-size: 100% auto;
+        }
+
+        @media (max-width: 767px) {
+            body {
+                background-size: auto;
+                background-position: top center;
+            }
+        }
+    </style>
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "l7gqnssat8");
+    </script>
 </head>
-<body class="movie-details-body">
-    <header style="margin-bottom: -20px; margin-top: -5px">
+
+<body>
+    <header style="margin-bottom: -20px; margin-top: -5px" id="homepage-header">
         <a id="indexLink" href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer; margin-bottom: -34px" title="Click to go back to the home page">
             <h1 id="my-heading">
                 The Mo<span class="highlight">vieV</span>erse
             </h1>
         </a>
         <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
-            <p id="stats-label" class="clock" style="font-size: 16px"></p>
-            <h1 id="stats-display" class="clock"></h1>
+            <p id="stats-label" class="clock" style="font-size: 16px;"></p>
+            <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
         </div>
         <button class="back-btn" onclick="window.location.href='../../index.html'">Home</button>
         <button class="about" onclick="window.location.href='about.html'">About</button>
-        <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="Go to your favorites list">Favorites</button>
+        <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="View your favorites & watchlists">Favorites</button>
         <button id="googleSignInBtn" class="nav-btn" onclick="handleSignInOut()" title="Sign In/Out">
             <span id="signInOutText">Sign In</span>
             <i class="fas fa-sign-in-alt" id="signInIcon"></i>
@@ -66,18 +111,14 @@
             <i class="fas fa-user" id="profileIcon"></i>
         </button>
         <form id="form1">
-            <input
-                    type="text"
-                    id="search"
-                    placeholder="Search For Anything..."
-                    class="search"
-            />
+            <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!"/>
             <button type="button" id="button-search" onclick="handleSearch()">Search</button>
         </form>
     </header>
+
     <div class="timeline-container">
         <div class="center-container">
-            <h1 id="select-text">Select a Period</h1>
+            <div style="font-weight: bold; font-size: 30px" id="select-text">Select a Period</div>
             <div class="year-input-container">
                 <input type="number" id="start-year" class="year-input" title="Enter any year from 1900 until now" placeholder="Start Year" min="1900" max="${new Date().getFullYear()}" style="font: inherit">
                 <input type="number" id="end-year" class="year-input" placeholder="End Year" title="Enter any year from 1900 until now" min="1900" max="${new Date().getFullYear()}" style="font: inherit">
@@ -86,23 +127,174 @@
             <button id="clear-search-btn" style="display: none; color: white">Clear Search Results</button>
         </div>
         <div class="center-container1">
-            <main id="search-results">
+            <main id="results">
                 <!-- Movies will be dynamically loaded here -->
             </main>
         </div>
     </div>
 
-    <button id="settings-btn" style="position: fixed; bottom: 150px">Settings</button>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6608388491200814"
+            crossorigin="anonymous"></script>
+    <!-- Homepage 1 -->
+    <ins class="adsbygoogle"
+         style="display:block; text-align: center;"
+         data-ad-client="ca-pub-6608388491200814"
+         data-ad-slot="4832732030"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
 
-    <button id="movie-match-btn2" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!">Movie Match</button>
+    <div id="myModal" class="modal-overlay">
+        <div class="spinner"></div>
+    </div>
 
-    <button id="movie-of-the-day-btn2" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!">Recommendation</button>
-
-    <button id="discussions-btn" onclick="window.location.href='chatbot.html'" title="Want to know more about movies? Chat with our intelligent chatbot!" style="margin-bottom: -55px">MovieVerse Chatbot</button>
-
-    <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="margin-bottom: -50px" title="Play a quick trivia to test your knowledge about movies!">MovieVerse Trivia</button>
+    <button id="settings-btn" style="position: fixed; bottom: 290px; right: 10px; z-index: 10012">Settings</button>
+    <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 255px; right: 10px; z-index: 10012">Movie Match</button>
+    <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 220px; right: 10px; z-index: 10012">Movie Timeline</button>
+    <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 185px; right: 10px; z-index: 10012">Surprise Me!</button>
+    <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="bottom: 150px; right: 10px; z-index: 10012" title="Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
+    <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 115px; z-index: 10012; right: 10px" title="Test your movie knowledge">MovieVerse Trivia</button>
+    <button id="back-to-top-btn" style="bottom: 80px; right: 10px; z-index: 10012">Back To Top</button>
 
     <script src="../js/movie-timeline.js"></script>
+
+    <div id="mobile-bottom-bar" class="mobile-bottom-bar">
+        <a href="settings.html" class="bottom-bar-item">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+        </a>
+        <a href="#" class="bottom-bar-item" onclick="showMovieOfTheDay()">
+            <i class="fas fa-surprise"></i>
+            <span>Surprise Me</span>
+        </a>
+        <a href="movie-match.html" class="bottom-bar-item">
+            <i class="fas fa-film"></i>
+            <span>Movie Match</span>
+        </a>
+        <a href="movie-timeline.html" class="bottom-bar-item">
+            <i class="fas fa-clock"></i>
+            <span>Timeline</span>
+        </a>
+        <a href="chatbot.html" class="bottom-bar-item">
+            <i class="fas fa-robot"></i>
+            <span>Chatbot</span>
+        </a>
+        <a href="trivia.html" class="bottom-bar-item">
+            <i class="fas fa-question-circle"></i>
+            <span>Trivia</span>
+        </a>
+        <a href="#" class="bottom-bar-item" id="back-top">
+            <i class="fas fa-arrow-up"></i>
+            <span>Top</span>
+        </a>
+    </div>
+
+    <button id="menu-btn" style="position: fixed; bottom: 10px; right: 10px; z-index: 1001" title="Toggle Menu Buttons">
+        <i class="fas fa-ellipsis-h"></i><br>
+        <span>Menu</span>
+    </button>
+
+    <script>
+        window.addEventListener('load', function() {
+            adjustAnchorHeights();
+        });
+
+        window.addEventListener('resize', adjustAnchorHeights);
+
+        function adjustAnchorHeights() {
+            const bottomBarAnchors = document.querySelectorAll('.mobile-bottom-bar a');
+            let maxHeight = 0;
+
+            bottomBarAnchors.forEach(anchor => {
+                anchor.style.height = 'auto';
+                const anchorHeight = anchor.getBoundingClientRect().height;
+                maxHeight = Math.max(maxHeight, anchorHeight);
+            });
+
+            bottomBarAnchors.forEach(anchor => {
+                anchor.style.height = `${maxHeight}px`;
+            });
+        }
+
+        let lastScrollY = window.scrollY;
+
+        window.addEventListener('scroll', () => {
+            const currentScrollY = window.scrollY;
+
+            if (currentScrollY > lastScrollY && currentScrollY > 0) {
+                document.querySelector('.mobile-bottom-bar').classList.add('hide-bar');
+            }
+            else {
+                document.querySelector('.mobile-bottom-bar').classList.remove('hide-bar');
+            }
+
+            lastScrollY = currentScrollY;
+        });
+
+        let isAnimating = false;
+
+        document.getElementById('menu-btn').addEventListener('click', () => {
+            if (isAnimating) return;
+
+            isAnimating = true;
+
+            const buttonIds = [
+                'settings-btn',
+                'movie-of-the-day-btn',
+                'movie-match-btn3',
+                'movie-timeline-btn',
+                'discussions-btn',
+                'trivia-btn',
+                'back-to-top-btn'
+            ];
+
+            buttonIds.forEach((id, index) => {
+                const button = document.getElementById(id);
+
+                if (button.style.display === 'none' || !button.style.display) {
+                    button.style.display = 'block';
+                    setTimeout(() => {
+                        button.style.opacity = '1';
+                        button.style.transform = 'translateY(0)';
+                    }, 50 * index);
+                }
+                else {
+                    button.style.opacity = '0';
+                    button.style.transform = 'translateY(20px)';
+                }
+
+                setTimeout(() => {
+                    button.style.display = button.style.opacity === '1' ? 'block' : 'none';
+                    if (index === buttonIds.length - 1) {
+                        isAnimating = false;
+                    }
+                }, 500 + 50 * index);
+            });
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth < 767) {
+                const buttonIds = [
+                    'settings-btn',
+                    'movie-of-the-day-btn',
+                    'movie-match-btn3',
+                    'movie-timeline-btn',
+                    'discussions-btn',
+                    'trivia-btn',
+                    'back-to-top-btn'
+                ];
+
+                buttonIds.forEach(id => {
+                    const button = document.getElementById(id);
+                    button.style.display = 'none';
+                    button.style.opacity = '0';
+                    button.style.transform = 'translateY(20px)';
+                });
+            }
+        });
+    </script>
 
     <script>
         document.getElementById('settings-btn').addEventListener('click', () => {
@@ -131,7 +323,26 @@
                 }
             }
         });
+
+        document.getElementById('back-to-top-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+
+            document.getElementById('homepage-header').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        document.getElementById('back-top').addEventListener('click', function(e) {
+            e.preventDefault();
+
+            document.getElementById('homepage-header').scrollIntoView({ behavior: 'smooth' });
+        });
     </script>
 
+    <footer style="margin-top: 390px">
+        <a href="../../index.html" style="cursor: pointer; text-decoration: none">
+            <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
+        </a>
+    </footer>
+
 </body>
+
 </html>

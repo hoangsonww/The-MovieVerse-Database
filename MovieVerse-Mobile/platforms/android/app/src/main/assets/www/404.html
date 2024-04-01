@@ -1,18 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="404 Page Not Found - The page you are looking for does not exist on The MovieVerse. Explore our site to find movies, directors, actors, and more.">
+    <link rel="canonical" href="https://movie-verse.com/404.html">
     <title>404 Not Found - The MovieVerse</title>
-    <link rel="stylesheet" href="src/css/style.css"/>
-    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="stylesheet" href="/MovieVerse-Frontend/css/style.css"/>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <meta name="theme-color" content="#7378c5">
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="/manifest.json">
+
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "l7gqnssat8");
+    </script>
+
     <style>
         .center-text {
             text-align: center;
         }
+
         .center-button {
             display: block;
             margin: 20px auto;
@@ -21,15 +34,41 @@
             border: none;
             background-color: #7378c5;
             font: inherit;
-            color: #000000;
+            color: #ffffff;
             margin-top: 40px;
             border-radius: 8px;
         }
+
         .center-button:hover {
             background-color: #ff8623;
             transition: background-color 0.3s;
         }
+
+        @media (max-width: 900px) {
+            #my-heading {
+                margin-top: 19px;
+            }
+        }
+
+        #search {
+            margin-right: 5px;
+        }
+
+        @media (min-width: 900px) {
+            #search {
+                margin-top: 6px;
+            }
+
+            #form1 {
+                margin-right: 0;
+            }
+
+            #my-heading {
+                margin-top: 14px;
+            }
+        }
     </style>
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -37,7 +76,9 @@
         gtag('js', new Date());
 
         gtag('config', 'G-CQKJ67FXZ4');
+    </script>
 
+    <script>
         function rotateUserStats() {
             const stats = [
                 {
@@ -52,50 +93,43 @@
                     }
                 },
                 { label: "Most Visited Movie", getValue: getMostVisitedMovie },
-                { label: "Your Most Visited Director", getValue: getMostVisitedDirector },
-                { label: "Your Most Visited Actor", getValue: getMostVisitedActor },
+                { label: "Most Visited Director", getValue: getMostVisitedDirector },
+                { label: "Most Visited Actor", getValue: getMostVisitedActor },
                 {
-                    label: "Your Unique Movies Discovered",
+                    label: "Movies Discovered",
                     getValue: () => {
                         const viewedMovies = JSON.parse(localStorage.getItem('uniqueMoviesViewed')) || [];
                         return viewedMovies.length;
                     }
                 },
                 {
-                    label: "Your Favorited Movies",
+                    label: "Favorite Movies",
                     getValue: () => {
                         const favoritedMovies = JSON.parse(localStorage.getItem('favorites')) || [];
                         return favoritedMovies.length;
                     }
                 },
                 {
-                    label: "Your Most Common Favorited Genre",
+                    label: "Favorite Genre",
                     getValue: getMostCommonGenre
                 },
-                { label: "Your Created Watchlists", getValue: () => localStorage.getItem('watchlistsCreated') || 0 },
-                { label: "Your Average Movie Rating", getValue: () => localStorage.getItem('averageMovieRating') || 'Not Rated' },
+                { label: "Watchlists Created", getValue: () => localStorage.getItem('watchlistsCreated') || 0 },
+                { label: "Average Movie Rating", getValue: () => localStorage.getItem('averageMovieRating') || 'Not Rated' },
                 {
-                    label: "Your Unique Directors Discovered",
+                    label: "Directors Discovered",
                     getValue: () => {
                         const viewedDirectors = JSON.parse(localStorage.getItem('uniqueDirectorsViewed')) || [];
                         return viewedDirectors.length;
                     }
                 },
                 {
-                    label: "Your Unique Actors Discovered",
+                    label: "Actors Discovered",
                     getValue: () => {
                         const viewedActors = JSON.parse(localStorage.getItem('uniqueActorsViewed')) || [];
                         return viewedActors.length;
                     }
                 },
-                {
-                    label: "Your Unique Production Companies Discovered",
-                    getValue: () => {
-                        const viewedCompanies = JSON.parse(localStorage.getItem('uniqueCompaniesViewed')) || [];
-                        return viewedCompanies.length;
-                    }
-                },
-                { label: "Your Trivia Accuracy", getValue: getTriviaAccuracy }
+                { label: "Your Trivia Accuracy", getValue: getTriviaAccuracy },
             ];
 
             let currentStatIndex = 0;
@@ -180,63 +214,82 @@
         }
 
         function getMostCommonGenre() {
-            const favoriteGenres = JSON.parse(localStorage.getItem('favoriteGenres')) || {};
+            const favoriteGenresArray = JSON.parse(localStorage.getItem('favoriteGenres')) || [];
+            const genreCounts = favoriteGenresArray.reduce((acc, genre) => {
+                acc[genre] = (acc[genre] || 0) + 1;
+                return acc;
+            }, {});
+
             let mostCommonGenre = '';
             let maxCount = 0;
 
-            for (const genre in favoriteGenres) {
-                if (favoriteGenres[genre] > maxCount) {
+            for (const genre in genreCounts) {
+                if (genreCounts[genre] > maxCount) {
                     mostCommonGenre = genre;
-                    maxCount = favoriteGenres[genre];
+                    maxCount = genreCounts[genre];
                 }
             }
+
             return mostCommonGenre || 'Not Available';
         }
 
         document.addEventListener('DOMContentLoaded', rotateUserStats);
     </script>
 </head>
+
 <body class="movie-details-body">
-    <!-- Header with buttons -->
     <header>
-        <a href="index.html" style="text-decoration: none; color: inherit; cursor: pointer">
+        <a href="https://movie-verse.com/" style="text-decoration: none; color: inherit; cursor: pointer">
             <h1 id="my-heading" style="margin-bottom: -10px">
                 The Mo<span class="highlight">vieV</span>erse
             </h1>
         </a>
 
-        <div id="local-time" style="cursor: pointer">
-            <p id="stats-label" class="clock" style="font-size: 16px"></p>
-            <h1 id="stats-display" class="clock"></h1>
+        <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
+            <p id="stats-label" class="clock" style="font-size: 16px;"></p>
+            <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
         </div>
 
-        <button id="settings-btn" style="position: fixed; bottom: 220px">Settings</button>
-        <button class="back-btn" onclick="window.location.href='index.html'" title="Go back to homepage">Home</button>
-        <button class="about" onclick="window.location.href='./src/html/about.html'" title="About this wonderful app!">About</button>
-        <button class="favorites-btn" onclick="window.location.href='./src/html/favorites.html'" title="Go to your favorites list">Favorites</button>
-
+        <button class="back-btn" onclick="window.location.href='https://movie-verse.com/index.html'" title="Go back to homepage">Home</button>
+        <button class="about" onclick="window.location.href='https://movie-verse.com/MovieVerse-Frontend/html/about.html'" title="About this wonderful app!">About</button>
+        <button class="favorites-btn" onclick="window.location.href='https://movie-verse.com/MovieVerse-Frontend/html/favorites.html'" title="View your favorites & watchlists">Favorites</button>
+        <button id="googleSignInBtn" class="nav-btn" onclick="handleSignInOut()" title="Sign In/Out">
+            <span id="signInOutText">Sign In</span>
+            <i class="fas fa-sign-in-alt" id="signInIcon"></i>
+            <i class="fas fa-sign-out-alt" id="signOutIcon" style="display: none;"></i>
+        </button>
+        <button id="profileBtn" class="nav-btn" onclick="window.location.href='https://movie-verse.com/MovieVerse-Frontend/html/user-profile.html'" title="Go to your profile">
+            <span id="profileText">Profile</span>
+            <i class="fas fa-user" id="profileIcon"></i>
+        </button>
         <form id="form1">
-            <input
-                    type="text"
-                    id="search"
-                    placeholder="Search For Anything..."
-                    class="search"
-            />
-            <button type="button" id="button-search" onclick="handleSearch()">Search</button>
+            <div class="search-container">
+                <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!" />
+                <button type="button" id="button-search" onclick="handleSearch()">Search</button>
+            </div>
+            <div id="search-results" class="search-results"></div>
+            <div class="buttons-container">
+                <button type="button" id="view-all-results" style="display: none;">View more results</button>
+                <button type="button" id="clear-search" style="display: none">Clear</button>
+            </div>
         </form>
 
-        <button id="movie-match-btn3" onclick="window.location.href='./src/html/movie-match.html'" title="Find a movie that matches your mood, genre, and time period!">Movie Match</button>
-        <button id="movie-timeline-btn" onclick="window.location.href='./src/html/movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 140px">Movie Timeline</button>
-        <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 100px">Movie of the Day</button>
-        <button id="discussions-btn" onclick="window.location.href='src/html/chatbot.html'" style="margin-bottom: -39px" title="Engage in movie discussions">MovieVerse Chatbot</button>
-        <button id="trivia-btn" onclick="window.location.href='./src/html/trivia.html'" style="margin-bottom: -40px" title="Test your movie knowledge">MovieVerse Trivia</button>
+        <button id="settings-btn" style="position: fixed; bottom: 185px">Settings</button>
+        <button id="movie-match-btn3" onclick="window.location.href='https://movie-verse.com/MovieVerse-Frontend/html/movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 150px">Movie Match</button>
+        <button id="movie-timeline-btn" onclick="window.location.href='https://movie-verse.com/MovieVerse-Frontend/html/movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 115px">Movie Timeline</button>
+        <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 80px">Surprise Me!</button>
+        <button id="discussions-btn" onclick="window.location.href='https://movie-verse.com/MovieVerse-Frontend/html/chatbot.html'" style="bottom: 45px" title="Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
+        <button id="trivia-btn" onclick="window.location.href='https://movie-verse.com/MovieVerse-Frontend/html/trivia.html'" style="bottom: 10px" title="Test your movie knowledge">MovieVerse Trivia</button>
     </header>
 
-    <!-- Main 404 content -->
+    <div id="myModal" class="modal-overlay">
+        <div class="spinner"></div>
+    </div>
+
     <div class="center-text" style="padding: 150px;">
-        <h1 style="font-size: 50px; color: #ff8623;">404</h1>
+        <div style="font-weight: bold; font-size: 55px; color: #ff8623;">404</div>
         <p>Sorry, the page you are looking for cannot be found.</p>
-        <button class="center-button" onclick="window.location.href='index.html'">Back to Home</button>
+        <button class="center-button" onclick="window.location.href='https://movie-verse.com/'">Back to Home</button>
     </div>
 
     <script>
@@ -252,7 +305,7 @@
                 if (movies.length > 0) {
                     const randomMovie = movies[Math.floor(Math.random() * movies.length)];
                     localStorage.setItem('selectedMovieId', randomMovie.id);
-                    window.location.href = 'src/html/movie-details.html';
+                    window.location.href = 'https://movie-verse.com/MovieVerse-Frontend/html/movie-details.html';
                 }
                 else {
                     fallbackMovieSelection();
@@ -268,7 +321,46 @@
             const fallbackMovies = [432413, 299534, 1726, 562, 118340, 455207, 493922, 447332, 22970, 530385, 27205, 264660, 120467, 603, 577922, 76341, 539, 419704, 515001, 118340, 424, 98];
             const randomFallbackMovie = fallbackMovies[Math.floor(Math.random() * fallbackMovies.length)];
             localStorage.setItem('selectedMovieId', randomFallbackMovie);
-            window.location.href = 'src/html/movie-details.html';
+            window.location.href = 'https://movie-verse.com/MovieVerse-Frontend/html/movie-details.html';
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            updateSignInButtonState();
+            document.getElementById('googleSignInBtn').addEventListener('click', handleSignInOut);
+        });
+
+        function updateSignInButtonState() {
+            const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
+
+            const signInText = document.getElementById('signInOutText');
+            const signInIcon = document.getElementById('signInIcon');
+            const signOutIcon = document.getElementById('signOutIcon');
+
+            if (isSignedIn) {
+                signInText.textContent = 'Sign Out';
+                signInIcon.style.display = 'none';
+                signOutIcon.style.display = 'inline-block';
+            }
+            else {
+                signInText.textContent = 'Sign In';
+                signInIcon.style.display = 'inline-block';
+                signOutIcon.style.display = 'none';
+            }
+        }
+
+        function handleSignInOut() {
+            const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
+
+            if (isSignedIn) {
+                localStorage.setItem('isSignedIn', JSON.stringify(false));
+                alert('You have been signed out.');
+            }
+            else {
+                window.location.href = 'https://movie-verse.com/MovieVerse-Frontend/html/sign-in.html';
+                return;
+            }
+
+            updateSignInButtonState();
         }
 
         function updateClock() {
@@ -285,7 +377,7 @@
         window.onload = updateClock;
 
         document.getElementById('settings-btn').addEventListener('click', () => {
-            window.location.href = 'src/html/settings.html';
+            window.location.href = 'https://movie-verse.com/MovieVerse-Frontend/html/settings.html';
         });
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -317,14 +409,248 @@
             e.preventDefault();
             const searchQuery = document.getElementById('search').value;
             localStorage.setItem('searchQuery', searchQuery);
-            window.location.href = 'src/html/search.html';
+            window.location.href = 'https://movie-verse.com/MovieVerse-Frontend/html/search.html';
         });
 
         function handleSearch() {
             const searchQuery = document.getElementById('search').value;
             localStorage.setItem('searchQuery', searchQuery);
-            window.location.href = 'src/html/search.html';
+            window.location.href = 'https://movie-verse.com/MovieVerse-Frontend/html/search.html';
         }
     </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchBar = document.getElementById('search');
+            const searchButton = document.getElementById('button-search');
+            const myHeading = document.getElementById('my-heading');
+            const localTime = document.getElementById('local-time');
+
+            function toggleVisibility() {
+                const query = searchBar.value.trim();
+                if (query) {
+                    if (window.innerWidth > 800) {
+                        myHeading.style.position = 'fixed';
+                        myHeading.style.top = '28px';
+                        localTime.style.position = 'fixed';
+                        localTime.style.left = '44.4%';
+                        localTime.style.top = '19px';
+                        localTime.style.zIndex = '0.0 !important';
+                        myHeading.style.zIndex = '0.05';
+                        searchBar.style.marginTop = '16px';
+                        searchButton.style.marginTop = '16px';
+                    }
+                }
+                else {
+                    myHeading.style.position = '';
+                    myHeading.style.top = '';
+                    localTime.style.position = '';
+                    localTime.style.left = '';
+                    localTime.style.top = '';
+                    searchBar.style.marginTop = '';
+                    searchButton.style.marginTop = '';
+                }
+            }
+
+            searchBar.addEventListener('input', toggleVisibility);
+
+            toggleVisibility();
+
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search');
+            const viewAllResultsBtn = document.getElementById('view-all-results');
+            const clearSearchBtn = document.getElementById('clear-search');
+            const searchResultsContainer = document.getElementById('search-results');
+            const myHeading = document.getElementById('my-heading');
+            const localTime = document.getElementById('local-time');
+
+            function toggleButtons() {
+                const query = searchInput.value.trim();
+                viewAllResultsBtn.style.display = query ? 'inline-block' : 'none';
+                clearSearchBtn.style.display = query ? 'inline-block' : 'none';
+            }
+
+            clearSearchBtn.addEventListener('click', function() {
+                searchInput.value = '';
+                searchResultsContainer.innerHTML = '';
+                toggleButtons();
+                searchInput.focus();
+
+                myHeading.style.position = '';
+                myHeading.style.top = '';
+                localTime.style.position = '';
+                localTime.style.left = '';
+                localTime.style.top = '';
+                searchInput.style.marginTop = '';
+                searchButton.style.marginTop = '';
+            });
+
+            toggleButtons();
+
+            searchInput.addEventListener('input', toggleButtons);
+        });
+    </script>
+
+    <script>
+        function showSpinner() {
+            document.getElementById('myModal').classList.add('modal-visible');
+        }
+
+        function hideSpinner() {
+            document.getElementById('myModal').classList.remove('modal-visible');
+        }
+
+        const movieCode = {
+            part1: 'YzVhMjBjODY=',
+            part2: 'MWFjZjdiYjg=',
+            part3: 'ZDllOTg3ZGNjN2YxYjU1OA=='
+        };
+
+        function getMovieVerseData(input) {
+            return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
+        }
+
+        function generateMovieNames(input) {
+            return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
+        }
+
+        function getMovieCode() {
+            return atob(movieCode.part1) + atob(movieCode.part2) + atob(movieCode.part3);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('search').addEventListener('input', function(e) {
+                showSpinner();
+                const viewAllResultsBtn = document.getElementById('view-all-results');
+                const searchInput = document.getElementById('search');
+                const query = e.target.value.trim();
+
+                viewAllResultsBtn.style.display = query ? 'block' : 'none';
+
+                if (query) {
+                    const searchURL = `https://${getMovieVerseData()}/3/search/multi?${generateMovieNames()}${getMovieCode()}&query=${encodeURIComponent(query)}`;
+                    fetch(searchURL)
+                        .then(response => response.json())
+                        .then(data => {
+                            const sortedResults = data.results.sort((a, b) => b.popularity - a.popularity);
+                            displaySearchResults(sortedResults.slice(0, 5));
+                        }).catch(err => console.error("Fetching error:", err));
+                }
+                else {
+                    document.getElementById('search-results').innerHTML = '';
+                }
+
+                searchInput.addEventListener('input', function() {
+                    if (searchInput.value.trim()) {
+                        viewAllResultsBtn.style.display = 'block';
+                    }
+                    else {
+                        viewAllResultsBtn.style.display = 'none';
+                    }
+                });
+
+                viewAllResultsBtn.addEventListener('click', function() {
+                    const searchQuery = searchInput.value.trim();
+                    if (searchQuery) {
+                        localStorage.setItem('searchQuery', searchQuery);
+                        window.location.href = 'https://movie-verse.com/MovieVerse-Frontend/html/search.html';
+                    }
+                    else {
+                        alert('Please enter a search query.');
+                    }
+                });
+
+                hideSpinner();
+            });
+
+            function displaySearchResults(results) {
+                showSpinner();
+                const resultsContainer = document.getElementById('search-results');
+                resultsContainer.innerHTML = '';
+
+                results.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'search-result-card';
+                    card.style.cursor = 'pointer';
+
+                    const imagePath = item.poster_path || item.profile_path ? `https://image.tmdb.org/t/p/w500${item.poster_path || item.profile_path}` : null;
+
+                    if (imagePath) {
+                        const image = document.createElement('img');
+                        image.src = imagePath;
+                        image.className = 'result-image';
+                        card.appendChild(image);
+                    }
+                    else {
+                        const placeholder = document.createElement('div');
+                        placeholder.className = 'result-image-placeholder';
+                        placeholder.textContent = 'Image Not Available';
+                        placeholder.style.textAlign = 'center';
+                        placeholder.style.padding = '10px';
+                        card.appendChild(placeholder);
+                    }
+
+                    const details = document.createElement('div');
+                    details.className = 'result-details';
+
+                    const name = document.createElement('div');
+                    name.className = 'result-name';
+                    name.textContent = item.title || item.name;
+                    details.appendChild(name);
+
+                    const type = document.createElement('div');
+                    type.className = 'result-type';
+                    type.textContent = item.media_type === 'movie' ? 'Movie' : item.media_type === 'tv' ? 'TV Series' : 'Person';
+                    details.appendChild(type);
+
+                    card.appendChild(details);
+                    resultsContainer.appendChild(card);
+
+                    card.addEventListener('click', () => handleResultClick(item));
+                });
+
+                hideSpinner();
+            }
+
+            async function handleResultClick(item) {
+                if (item.media_type === 'movie') {
+                    localStorage.setItem('selectedMovieId', item.id);
+                    window.location.href = 'https://movie-verse.com/MovieVerse-Frontend/html/movie-details.html';
+                }
+                else if (item.media_type === 'tv') {
+                    localStorage.setItem('selectedTvSeriesId', item.id);
+                    window.location.href = 'https://movie-verse.com/MovieVerse-Frontend/html/tv-details.html';
+                }
+                else if (item.media_type === 'person') {
+                    try {
+                        const personDetailsUrl = `https://${getMovieVerseData()}/3/person/${item.id}?${generateMovieNames()}${getMovieCode()}`;
+                        const response = await fetch(personDetailsUrl);
+                        const personDetails = await response.json();
+                        if (personDetails.known_for_department === 'Directing') {
+                            localStorage.setItem('selectedDirectorId', item.id);
+                            window.location.href = 'https://movie-verse.com/MovieVerse-Frontend/html/director-details.html?' + item.id;
+                        }
+                        else {
+                            localStorage.setItem('selectedActorId', item.id);
+                            window.location.href = 'https://movie-verse.com/MovieVerse-Frontend/html/actor-details.html?' + item.id;
+                        }
+                    }
+                    catch (error) {
+                        console.error('Error fetching person details:', error);
+                    }
+                }
+            }
+        });
+    </script>
+
+    <footer style="margin-top: 400px">
+        <p>© 2024 The MovieVerse. All rights reserved.</p>
+    </footer>
+
 </body>
+
 </html>

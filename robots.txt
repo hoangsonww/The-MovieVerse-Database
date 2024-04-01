@@ -1,5 +1,4 @@
 User-agent: *
-Disallow: /project-config/
+Disallow:
 
 Sitemap: https://movie-verse.com/sitemap.xml
-Host: https://movie-verse.com/
