@@ -1942,6 +1942,7 @@ textarea {
 }
 
 #company-logo {
+    z-index: 100000000;
     transition: transform 0.5s ease, box-shadow 0.5s ease;
     cursor: pointer;
 }
