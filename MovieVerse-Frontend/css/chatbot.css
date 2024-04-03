@@ -202,6 +202,7 @@ footer {
     color: white;
     transition: 0.3s ease-in;
     width: 100%;
+    z-index: 12222222222222222222222222222;
 }
 
 #footer:hover {
@@ -396,6 +397,7 @@ ol li:hover {
     border-radius: 8px;
     padding: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 122222222222222222222222222222222;
 }
 
 #chatbotHeader {
@@ -860,6 +862,10 @@ main {
     color: #7378c5;
 }
 
+#search {
+    width: 214px;
+}
+
 #search:hover {
     outline: none;
     background-color: #22254b;
@@ -883,9 +889,11 @@ main {
     #my-heading {
         margin-top: 20px;
     }
-    .search {
-        margin-top: 10px;
+
+    #form {
+        margin-top: -5px !important;
     }
+
     #chatbotContainer {
         top: 56.1%
     }
@@ -933,9 +941,9 @@ main {
         font: inherit;
         font-size: 16px;
         cursor: pointer;
-        position: absolute;
+        position: fixed;
         top: 0;
-        left: 32.2%;
+        left: calc(50vw - 98px);
         border-radius: 8px;
         z-index: 12222222222;
     }
@@ -952,9 +960,9 @@ main {
         font: inherit;
         font-size: 16px;
         cursor: pointer;
-        position: absolute;
+        position: fixed;
         top: 0;
-        left: 48.3%;
+        left: calc(50vw - 8px);
         border-radius: 8px;
         z-index: 12222222222;
     }
@@ -970,15 +978,14 @@ main {
         font: inherit;
         font-size: 16px;
         cursor: pointer;
-        position: absolute;
+        position: fixed;
         top: 0;
-        left: 57%;
-        border-radius: 8px;
+        left: calc(50vw + 39px);
         padding-left: 10px;
         padding-right: 10px;
+        border-radius: 8px;
         box-sizing: border-box;
         z-index: 12222222222;
-
     }
 
     header {
