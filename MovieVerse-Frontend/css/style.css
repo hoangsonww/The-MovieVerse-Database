@@ -1588,7 +1588,7 @@ p {
     box-shadow: 0 -2px 5px rgba(0,0,0,0.2);
     justify-content: space-around;
     align-items: center;
-    z-index: 1000002;
+    z-index: 100000222;
 }
 
 @media (max-width: 767px) {
