@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Chatbot - The MovieVerse</title>
-    <link rel="stylesheet" href="../css/chatbot.css"/>
+    <link rel="stylesheet" href="../css/style.css"/>
     <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Chat with the MovieVerse bot for instant movie insights. Discover films, actors, and directors in an engaging conversation.">
@@ -56,14 +56,6 @@
             margin-right: 55px;
         }
 
-        #local-time {
-            margin-top: 0;
-        }
-
-        #local-time {
-            transform: translateX(11%);
-        }
-
         @media (max-width: 800px){
             #header {
                 margin-top: 10px;
@@ -76,10 +68,6 @@
         }
 
         @media (min-width: 900px) {
-            #local-time {
-                margin-top: -7px;
-            }
-
             #header {
                 margin-top: 26px;
                 padding-left: 25px;
@@ -87,11 +75,27 @@
 
             #form {
                 margin-top: 2px;
-                margin-right: 57px;
             }
 
             #my-heading {
                 margin-top: 17px !important;
+            }
+        }
+
+        body {
+            background-image: url("../../images/universe-1.png");
+            background-repeat: repeat-y;
+            background-size: 100% auto;
+        }
+
+        @media (max-width: 767px) {
+            body {
+                background-size: auto;
+                background-position: top center;
+            }
+
+            #my-heading {
+                margin-top: 9px !important;
             }
         }
     </style>
@@ -105,19 +109,12 @@
 </head>
 
 <body>
-    <header id="header">
-        <div id="header-title">
-            <a href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer" title="Click to go back to the home page">
-                <h1 id="my-heading" style="margin-bottom: -10px; margin-top: 9px;">
-                    The Mo<span class="highlight">vieV</span>erse
-                </h1>
-            </a>
-        </div>
-
-        <div id="local-time" style="cursor: pointer; margin-left: 5px" title="Click to view more of your stats!">
-            <p id="stats-label" class="clock" style="font-size: 16px;"></p>
-            <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
-        </div>
+    <header style="margin-top: 10px !important;">
+        <a href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer" title="Click to go back to the home page">
+            <h1 id="my-heading" style="margin-bottom: -10px">
+                The Mo<span class="highlight">vieV</span>erse
+            </h1>
+        </a>
 
         <button class="back-btn" onclick="window.location.href='../../index.html'">Home</button>
         <button class="about" onclick="window.location.href='about.html'">About</button>
@@ -134,28 +131,26 @@
             <i class="fas fa-user" id="profileIcon"></i>
         </button>
 
-        <div id="search-container" style="margin-top: 10px">
-            <form id="form">
-                <div class="search-container">
-                    <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!" />
-                    <button type="button" id="button-search" onclick="handleSearch()">Search</button>
-                </div>
-                <div id="search-results" class="search-results"></div>
-                <div class="buttons-container">
-                    <button type="button" id="view-all-results" style="display: none;">View more results</button>
-                    <button type="button" id="clear-search" style="display: none">Clear</button>
-                </div>
-            </form>
-        </div>
+        <form id="form1">
+            <div class="search-container">
+                <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!" />
+                <button type="button" id="button-search" onclick="handleSearch()">Search</button>
+            </div>
+            <div id="search-results" class="search-results"></div>
+            <div class="buttons-container">
+                <button type="button" id="view-all-results" style="display: none;">View more results</button>
+                <button type="button" id="clear-search" style="display: none">Clear</button>
+            </div>
+        </form>
     </header>
 
     <div id="bot-header">
         <h2 id="search-title">The <span class="highlight1">MovieVerse</span> Assistant</h2>
         <button id="clear-search-btn" style="display: none;">Clear Search Results</button>
-        <h4 id="alt-title" style="font-weight: normal; font-size: 15px">Dive deep into the movie world with our expert assistant!</h4>
+        <h4 id="alt-title" style="font-weight: normal; font-size: 15px; color: #ff8623">Dive deep into the movie world with our expert assistant!</h4>
     </div>
 
-    <main id="main" style="padding: 0; margin-bottom: 200px">
+    <main id="main" style="padding: 0; margin: 0 auto; justify-content: center; align-items: stretch; flex-wrap: wrap; margin-bottom: 400px">
         <div id="chatbotContainer">
             <div id="chatbotHeader">The MovieVerse Assistant</div>
             <div id="chatbotBody"></div>
@@ -220,7 +215,6 @@
             const searchBar = document.getElementById('search');
             const searchButton = document.getElementById('button-search');
             const myHeading = document.getElementById('my-heading');
-            const localTime = document.getElementById('local-time');
             const botHeader = document.getElementById('bot-header');
 
             function toggleVisibility() {
@@ -229,7 +223,6 @@
                     if (window.innerWidth > 800) {
                         myHeading.style.display = 'none';
                         botHeader.style.display = 'none';
-                        localTime.style.display = 'none';
                         searchBar.style.marginTop = '16px';
                         searchButton.style.marginTop = '16px';
                     }
@@ -237,7 +230,6 @@
                 else {
                     myHeading.style.display = '';
                     botHeader.style.display = '';
-                    localTime.style.display = '';
                     searchBar.style.marginTop = '';
                     searchButton.style.marginTop = '';
                 }
@@ -261,7 +253,6 @@
             const clearSearchBtn = document.getElementById('clear-search');
             const searchResultsContainer = document.getElementById('search-results');
             const myHeading = document.getElementById('my-heading');
-            const localTime = document.getElementById('local-time');
             const botHeader = document.getElementById('bot-header');
 
             function toggleButtons() {
@@ -274,7 +265,6 @@
                 searchInput.value = '';
                 myHeading.style.display = '';
                 botHeader.style.display = '';
-                localTime.style.display = '';
                 searchResultsContainer.innerHTML = '';
                 toggleButtons();
                 searchInput.focus();
@@ -286,17 +276,8 @@
     </script>
 
     <script>
-        function showSpinner() {
-            document.getElementById('myModal').classList.add('modal-visible');
-        }
-
-        function hideSpinner() {
-            document.getElementById('myModal').classList.remove('modal-visible');
-        }
-
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('search').addEventListener('input', function(e) {
-                showSpinner();
                 const viewAllResultsBtn = document.getElementById('view-all-results');
                 const searchInput = document.getElementById('search');
                 const query = e.target.value.trim();
@@ -347,11 +328,9 @@
                     }
                 });
 
-                hideSpinner();
             });
 
             function displaySearchResults(results) {
-                showSpinner();
                 const resultsContainer = document.getElementById('search-results');
                 resultsContainer.innerHTML = '';
 
