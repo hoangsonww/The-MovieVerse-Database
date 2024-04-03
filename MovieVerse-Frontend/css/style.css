@@ -2452,6 +2452,9 @@ canvas {
 
 #form1 {
     margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .movie-card img {
@@ -3021,6 +3024,7 @@ body {
     position: relative;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .buttons-container {

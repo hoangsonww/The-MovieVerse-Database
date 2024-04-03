@@ -118,9 +118,13 @@
             background-size: 100% auto;
         }
 
+        #search {
+            margin-right: 0 !important;
+        }
+
         @media (min-width: 800px) {
             #form {
-                margin-top: 30px !important;
+                margin-top: 10px !important;
             }
         }
 
@@ -1179,6 +1183,7 @@
 
             function clearSelection() {
                 const results = searchResultsContainer.getElementsByClassName('search-result-card');
+
                 if (selectedIndex >= 0 && selectedIndex < results.length) {
                     results[selectedIndex].style.backgroundColor = '';
                 }

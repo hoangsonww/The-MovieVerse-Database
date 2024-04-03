@@ -380,6 +380,7 @@
 
                     const details = document.createElement('div');
                     details.className = 'result-details';
+                    details.style.textAlign = 'left';
 
                     const name = document.createElement('div');
                     name.className = 'result-name';
@@ -396,8 +397,6 @@
 
                     card.addEventListener('click', () => handleResultClick(item));
                 });
-
-                hideSpinner();
             }
 
             async function handleResultClick(item) {
