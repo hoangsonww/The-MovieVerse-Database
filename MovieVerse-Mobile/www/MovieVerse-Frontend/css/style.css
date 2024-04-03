@@ -1942,6 +1942,7 @@ textarea {
 }
 
 #company-logo {
+    z-index: 100000000;
     transition: transform 0.5s ease, box-shadow 0.5s ease;
     cursor: pointer;
 }
@@ -2119,7 +2120,7 @@ canvas {
     transition: 0.1s ease-in;
 }
 
-@media (max-width: 840px) {
+@media (max-width: 800px) {
     #my-heading {
         margin-left: 0;
     }
@@ -2451,6 +2452,9 @@ canvas {
 
 #form1 {
     margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .movie-card img {
@@ -2895,7 +2899,7 @@ body {
     color: purple;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 800px) {
     .company-details-container {
         display: flex;
         flex-direction: column;
@@ -3020,6 +3024,7 @@ body {
     position: relative;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .buttons-container {
@@ -3099,9 +3104,8 @@ footer {
     transition: 0.3s ease-in;
 }
 
-footer p:hover {
-    transition: 0.1s ease-in;
-    color: #ff8623;
+#footer:hover {
+    cursor: pointer;
 }
 
 .notification-btn {

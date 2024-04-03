@@ -251,7 +251,8 @@
                         searchBar.style.marginTop = '16px';
                         searchButton.style.marginTop = '16px';
                     }
-                } else {
+                }
+                else {
                     myHeading.style.position = '';
                     myHeading.style.top = '';
                     myHeading.style.zIndex = '';
@@ -263,6 +264,12 @@
 
             searchBar.addEventListener('input', toggleVisibility);
             toggleVisibility();
+
+            const clearSearchBtn = document.getElementById('clear-search');
+            clearSearchBtn.addEventListener('click', function() {
+                searchBar.value = '';
+                toggleVisibility();
+            });
         });
     </script>
 
@@ -282,6 +289,7 @@
             clearSearchBtn.addEventListener('click', function() {
                 searchInput.value = '';
                 searchResultsContainer.innerHTML = '';
+                document.getElementById('local-time').style.display = '';
                 toggleButtons();
                 searchInput.focus();
             });
@@ -306,6 +314,7 @@
                 const viewAllResultsBtn = document.getElementById('view-all-results');
                 const searchInput = document.getElementById('search');
                 const query = e.target.value.trim();
+                const searchResultsContainer = document.getElementById('search-results');
 
                 viewAllResultsBtn.style.display = query ? 'block' : 'none';
 

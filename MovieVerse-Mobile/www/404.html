@@ -17,7 +17,7 @@
     <meta property="og:type" content="website" />
     <meta http-equiv="content-language" content="en" />
     <meta property="og:description" content="404 Page Not Found - The page you are looking for does not exist on The MovieVerse. Explore our site to find movies, directors, actors, and more." />
-    <meta property="og:url" content="https://movie-verse.com/" />
+    <meta property="og:url" content="https://movie-verse.com/404.html" />
     <meta property="og:site_name" content="The MovieVerse" />
     <meta property="og:image" content="https://movie-verse.com/images/image.png"/>
     <meta property="og:favicon" content="./images/favicon.ico" />
@@ -153,7 +153,7 @@
                 {
                     label: "Favorite Movies",
                     getValue: () => {
-                        const favoritedMovies = JSON.parse(localStorage.getItem('favorites')) || [];
+                        const favoritedMovies = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
                         return favoritedMovies.length;
                     }
                 },
