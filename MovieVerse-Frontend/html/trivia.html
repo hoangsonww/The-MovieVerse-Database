@@ -106,7 +106,7 @@
 </head>
 
 <body>
-    <header style="margin-bottom: -50px; margin-top: 9px">
+    <header id="homepage-header" style="margin-bottom: -50px; margin-top: 9px">
         <a href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer; margin-bottom: 5px" title="Click to go back to the home page">
             <h1 id="my-heading" style="margin-bottom: -10px">
                 The Mo<span class="highlight">vieV</span>erse
@@ -239,6 +239,10 @@
             <i class="fas fa-question-circle"></i>
             <span>Movie Trivia</span>
         </a>
+        <a href="#" class="bottom-bar-item" id="back-top">
+            <i class="fas fa-arrow-up"></i>
+            <span>Top</span>
+        </a>
     </div>
 
     <button id="menu-btn" style="position: fixed; bottom: 10px; right: 10px; z-index: 1001" title="Toggle Menu Buttons">
@@ -340,6 +344,12 @@
                     button.style.transform = 'translateY(20px)';
                 });
             }
+        });
+
+        document.getElementById('back-top').addEventListener('click', function(e) {
+            e.preventDefault();
+
+            document.getElementById('homepage-header').scrollIntoView({ behavior: 'smooth' });
         });
     </script>
 
