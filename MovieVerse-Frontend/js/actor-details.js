@@ -266,7 +266,7 @@ async function rotateUserStats() {
         {
             label: "Favorite Movies",
             getValue: () => {
-                const favoritedMovies = JSON.parse(localStorage.getItem('favorites')) || [];
+                const favoritedMovies = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
                 return favoritedMovies.length;
             }
         },
