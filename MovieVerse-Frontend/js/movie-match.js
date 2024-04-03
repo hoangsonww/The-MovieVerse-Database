@@ -19,6 +19,30 @@ async function ensureGenreMapIsAvailable() {
     }
 }
 
+async function showMovieOfTheDay() {
+    const year = new Date().getFullYear();
+    const url = `https://api.themoviedb.org/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        const movies = data.results;
+
+        if (movies.length > 0) {
+            const randomMovie = movies[Math.floor(Math.random() * movies.length)];
+            localStorage.setItem('selectedMovieId', randomMovie.id);
+            window.location.href = 'movie-details.html';
+        }
+        else {
+            fallbackMovieSelection();
+        }
+    }
+    catch (error) {
+        console.error('Error fetching movie:', error);
+        fallbackMovieSelection();
+    }
+}
+
 async function fetchGenreMap() {
     const url = `https://${getMovieVerseData()}/3/genre/movie/list?${generateMovieNames()}${getMovieCode()}`;
     try {

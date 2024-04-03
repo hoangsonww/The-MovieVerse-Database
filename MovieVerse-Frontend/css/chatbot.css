@@ -60,6 +60,117 @@ body {
     margin-top: 0;
 }
 
+.search-results {
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+    margin: 0 auto;
+    align-items: center;
+}
+
+#form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+}
+
+.search-result-card {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #7378c5;
+    margin: 0;
+    margin-bottom: 2px;
+    margin-top: 5px;
+    width: 300px;
+    color: #212121;
+}
+
+.search-result-card:hover {
+    background-color: #ff8623;
+    transition: 0.3s ease-in;
+}
+
+.search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.buttons-container button {
+    padding-left: 20px;
+}
+
+#clear-search {
+    background-color: #7378c5;
+    border: none;
+    border-radius: 8px;
+    font: inherit;
+    cursor: pointer;
+    color: #000000;
+    padding: 5px 10px;
+    margin-top: 10px;
+    margin-left: 20px;
+}
+
+#clear-search:hover {
+    background-color: #ff8623;
+    transition: background-color 0.3s ease;
+}
+
+#view-all-results {
+    background-color: #7378c5;
+    border: none;
+    border-radius: 8px;
+    padding: 5px 10px;
+    font: inherit;
+    cursor: pointer;
+    color: #000000;
+    margin-top: 10px;
+}
+
+#view-all-results:hover {
+    background-color: #ff8623;
+    transition: background-color 0.3s ease;
+}
+
+.result-image {
+    width: 64px;
+    height: 96px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.result-details {
+    margin-left: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.result-name {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.result-type {
+    font-size: 14px;
+    font-style: italic;
+    color: #212121;
+}
+
 .movie-info span.green {
     color: rgb(39,189,39);
 }
@@ -80,7 +191,21 @@ body {
     background-color: transparent;
     margin-top: 15px;
     left: 50%;
-    margin-left: 41px;
+    margin-left: 50px;
+}
+
+footer {
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 40px;
+    background-color: #7378c5;
+    color: white;
+    transition: 0.3s ease-in;
+    width: 100%;
+}
+
+#footer:hover {
+    cursor: pointer;
 }
 
 .movie {
@@ -271,10 +396,6 @@ ol li:hover {
     border-radius: 8px;
     padding: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
 }
 
 #chatbotHeader {
@@ -368,12 +489,12 @@ ol li:hover {
     cursor: pointer;
     position: absolute;
     top: 0;
-    margin-left: 219px;
+    left: 242px; /* Adjust this value as needed to position the button from the right edge */
     border-radius: 8px;
     padding-left: 10px;
     padding-right: 10px;
     box-sizing: border-box;
-    z-index: 999;
+    z-index: 12222222222;
 }
 
 .favorites-btn:hover {
@@ -421,6 +542,7 @@ ol li:hover {
     left: 196px;
     transform: translateX(-50%);
     border-radius: 8px;
+    z-index: 12222222222;
 }
 
 #googleSignInBtn {
@@ -597,6 +719,7 @@ ol li:hover {
     left: 107px;
     transform: translateX(-50%);
     border-radius: 8px;
+    z-index: 12222222222;
 }
 
 .back-btn:hover {
@@ -690,7 +813,7 @@ ol li:hover {
 
 #local-time {
     margin-top: 20px;
-    transform: translateX(11%);
+    transform: translateX(10%);
     padding: 10px;
     border-radius: 10px;
     z-index: 10;
@@ -726,7 +849,6 @@ main {
     align-items: stretch;
     flex-wrap: wrap;
     margin: 0 auto;
-    padding: 20px;
 }
 
 #bot-header {
@@ -799,19 +921,42 @@ main {
 }
 
 @media (max-width: 906px) {
-    .back-btn, .about {
+    .back-btn {
+        background-color: #7378c5;
+        border: none;
+        color: white;
+        width: 85px;
+        height: 40px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font: inherit;
+        font-size: 16px;
+        cursor: pointer;
         position: absolute;
         top: 0;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-
-    .back-btn {
-        margin-left: -90px;
+        left: 32.2%;
+        border-radius: 8px;
+        z-index: 12222222222;
     }
 
     .about {
-        margin-left: 0;
+        background-color: #7378c5;
+        border: none;
+        color: white;
+        width: 85px;
+        height: 40px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font: inherit;
+        font-size: 16px;
+        cursor: pointer;
+        position: absolute;
+        top: 0;
+        left: 48.3%;
+        border-radius: 8px;
+        z-index: 12222222222;
     }
 
     .favorites-btn {
@@ -827,11 +972,13 @@ main {
         cursor: pointer;
         position: absolute;
         top: 0;
-        margin-left: 187px;
+        left: 57%;
         border-radius: 8px;
         padding-left: 10px;
         padding-right: 10px;
         box-sizing: border-box;
+        z-index: 12222222222;
+
     }
 
     header {
