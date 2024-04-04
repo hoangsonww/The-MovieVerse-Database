@@ -32,6 +32,7 @@ body {
     border: none;
     cursor: pointer;
     font: inherit;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 #movie-match-btn:hover {
@@ -489,7 +490,6 @@ header h1 {
     transition: opacity 0.3s ease-in, visibility 0.3s ease-in, transform 0.3s ease-in;
     overflow-y: auto;
     visibility: hidden;
-    align-content: center;
     text-align: center;
 }
 
@@ -606,6 +606,7 @@ header h1 {
     border-radius: 8px;
     border: none;
     cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 #back-to-top-btn:hover {
@@ -637,6 +638,7 @@ header h1 {
     border-radius: 8px;
     border: none;
     cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 #trivia-btn:hover {
@@ -659,6 +661,7 @@ header h1 {
     border-radius: 8px;
     border: none;
     cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 #discussions-btn:hover {
@@ -676,6 +679,7 @@ header h1 {
     border-radius: 8px;
     border: none;
     cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 #movie-of-the-day-btn:hover {
@@ -693,6 +697,7 @@ header h1 {
     border-radius: 8px;
     border: none;
     cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 #movie-of-the-day-btn2:hover {
@@ -926,6 +931,15 @@ header h1 {
     color: white !important;
 }
 
+#githubLink1 {
+    color: black !important;
+}
+
+#githubLink1:hover {
+    color: #ff8623 !important;
+    transition: 0.1s ease-in;
+}
+
 .modal-overlay {
     display: none;
     position: fixed;
@@ -973,6 +987,7 @@ header h1 {
 
 #githubLink:hover {
     color: #ff8623 !important;
+    transition: 0.1s ease-in;
 }
 
 #imdbRating, #rtRating {
@@ -1492,6 +1507,201 @@ p {
     color: white;
 }
 
+.nav-button {
+    background-color: #7378c5;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.nav-button:hover {
+    background-color: #ff8623;
+    transition: 0.1s linear;
+}
+
+#menu-btn {
+    background-color: #7378c5;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    font: inherit;
+    font-size: 14px;
+}
+
+#menu-btn i {
+    font-size: 18px;
+    margin-bottom: 4px;
+}
+
+#menu-btn:hover {
+    background-color: #ff8623;
+    transition: 0.1s linear;
+}
+
+#settings-btn,
+#movie-of-the-day-btn,
+#movie-match-btn,
+#movie-match-btn3,
+#movie-timeline-btn,
+#discussions-btn,
+#trivia-btn,
+#back-to-top-btn {
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    transform: translateY(20px);
+    opacity: 0;
+    display: none;
+}
+
+@media (min-width: 768px) {
+    #settings-btn,
+    #movie-of-the-day-btn,
+    #movie-match-btn,
+    #movie-timeline-btn,
+    #discussions-btn,
+    #movie-match-btn3,
+    #trivia-btn,
+    #back-to-top-btn {
+        position: fixed;
+        right: 10px;
+        z-index: 1000;
+    }
+
+    #menu-btn {
+        display: block;
+    }
+}
+
+.mobile-bottom-bar {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: auto;
+    background-color: #7378c5;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.2);
+    justify-content: space-around;
+    align-items: center;
+    z-index: 1000002;
+}
+
+@media (max-width: 767px) {
+    .mobile-bottom-bar {
+        display: flex;
+    }
+}
+
+.mobile-bottom-bar {
+    transition: transform 0.09s ease-in-out;
+}
+
+.hide-bar {
+    transform: translateY(100%);
+}
+
+.mobile-bottom-bar a {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    text-align: center;
+    color: white;
+    text-decoration: none;
+    padding: 6px 0;
+    width: 15%;
+}
+
+.mobile-bottom-bar a:hover {
+    background-color: #ff8623;
+    transition: 0.1s linear;
+}
+
+.mobile-bottom-bar i {
+    font-size: 18px;
+    margin-bottom: 4px;
+}
+
+.mobile-bottom-bar span {
+    display: block;
+    font-size: 10px;
+    color: #ecf0f1;
+}
+
+@media (max-width: 767px) {
+    .mobile-bottom-bar {
+        display: flex;
+    }
+
+    #settings-btn,
+    #movie-of-the-day-btn,
+    #movie-match-btn,
+    #movie-timeline-btn,
+    #discussions-btn,
+    #trivia-btn,
+    #menu-btn,
+    #back-to-top-btn {
+        display: none;
+    }
+}
+
+.nav-button:disabled {
+    background-color: #b5b5b5;
+    cursor: not-allowed;
+}
+
+.pagination {
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    margin: 10px;
+}
+
+@media (max-width: 767px) {
+    .genres + main + .pagination {
+        text-align: center;
+    }
+
+    .pagination {
+        position: relative;
+        width: calc(100% - 20px);
+        margin-top: 20px;
+    }
+}
+
+.page-button {
+    background-color: #7378c5;
+    color: white;
+    border: none;
+    margin: 2px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font: inherit;
+    font-size: 12.9px;
+}
+
+.page-button:hover {
+    background-color: #ff8623;
+    transition: 0.1s linear;
+}
+
+.page-button.active {
+    background-color: #4a4e8c;
+}
+
+.page-button:disabled {
+    background-color: #b5b5b5;
+    cursor: default;
+}
+
 #search-results-label {
     color: #ff8623;
     text-align: center;
@@ -1609,8 +1819,34 @@ p {
     background-color: #ff8623;
 }
 
-#subheading {
-    color: white;
+.modal-content {
+    position: relative;
+    background-color: #373b69;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 50%;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+}
+
+.modal-content h2 {
+    color: #ff8623;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.modal-content .close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.modal-content label {
+    color: #fff;
+    margin-bottom: 10px;
+    display: block;
 }
 
 #subheading:hover {
@@ -1665,6 +1901,149 @@ textarea {
     align-items: center;
 }
 
+#discussion-input {
+    background-color: transparent;
+    border: 2px solid #ff8623;
+    border-radius: 50px;
+    color: #fff;
+    font-family: inherit;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+}
+
+#discussion-input:hover {
+    background-color: #ff8623;
+    transition: 0.1s linear;
+}
+
+#post-btn {
+    background-color: #ff8623;
+    font: inherit;
+}
+
+#post-btn:hover {
+    background-color: #7f4caf;
+    transition: 0.1s linear;
+}
+
+ol li:hover {
+    color: #7f4caf;
+    transition: 0.1s linear;
+}
+
+#chatbotContainer {
+    width: 80%;
+    max-width: 600px;
+    background-color: rgba(0, 0, 0, 0.7);
+    margin: 20px auto;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#chatbotHeader {
+    background-color: #ff8623;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+#chatbotBody {
+    overflow-y: auto;
+    max-height: 300px;
+    padding: 10px;
+    border-radius: 8px;
+    color: white;
+    word-wrap: break-word;
+    box-sizing: border-box;
+    margin-top: 10px;
+    border: 1px solid #ff8623;
+}
+
+#sendButton {
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 1rem;
+    color: white;
+    background-color: #ff8623;
+    border: none;
+    cursor: pointer;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#sendButton:hover {
+    background-color: #7f4caf;
+    transition: 0.1s linear;
+}
+
+#chatbotInput {
+    width: 100%;
+    padding: 10px 20px;
+    border: 1px solid #ff8623;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 1rem;
+    background-color: transparent;
+    color: white;
+    margin-top: 10px;
+    box-sizing: border-box;
+}
+
+.highlight1 {
+    color: orange;
+}
+
+#chatbotInput:focus {
+    outline: none;
+}
+
+#bot-header {
+    text-align: center;
+    width: 100%;
+}
+
+#chatbotBody > div {
+    margin-bottom: 10px;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+@media (max-width: 705px) {
+    #search-title,
+    #alt-title {
+        display: none;
+    }
+}
+
+@media (max-height: 930px) {
+    #search-title,
+    #alt-title {
+        display: none;
+    }
+}
+
+#chatbotBody > div[text-align="right"] {
+    background-color: #ff8623;
+    align-self: flex-end;
+}
+
+#chatbotBody > div[text-align="left"] {
+    background-color: #7378c5;
+    align-self: flex-start;
+}
+
+@media (max-width: 767px) {
+    #chatbotContainer {
+        top: 56.1%
+    }
+}
+
 #change-director-btn {
     padding: 5px 10px;
     cursor: pointer;
@@ -1706,6 +2085,7 @@ textarea {
 }
 
 #company-logo {
+    z-index: 100000000;
     transition: transform 0.5s ease, box-shadow 0.5s ease;
     cursor: pointer;
 }
@@ -1857,6 +2237,7 @@ canvas {
     border: none;
     cursor: pointer;
     font: inherit;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 #settings-btn:hover {
@@ -1882,8 +2263,7 @@ canvas {
     transition: 0.1s ease-in;
 }
 
-@media (max-width: 840px) {
-    
+@media (max-width: 800px) {
     #my-heading {
         margin-left: 0;
     }
@@ -2215,6 +2595,9 @@ canvas {
 
 #form1 {
     margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .movie-card img {
@@ -2264,6 +2647,7 @@ canvas {
     color: black;
     border-radius: 8px;
     border: none;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     cursor: pointer;
 }
 
@@ -2547,6 +2931,7 @@ body {
     border-radius: 8px;
     border: none;
     cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 #movie-match-btn2:hover {
@@ -2564,6 +2949,7 @@ body {
     border-radius: 8px;
     border: none;
     cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 #movie-match-btn3:hover {
@@ -2656,7 +3042,7 @@ body {
     color: purple;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 800px) {
     .company-details-container {
         display: flex;
         flex-direction: column;
@@ -2781,6 +3167,7 @@ body {
     position: relative;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .buttons-container {
@@ -2860,9 +3247,8 @@ footer {
     transition: 0.3s ease-in;
 }
 
-footer p:hover {
-    transition: 0.1s ease-in;
-    color: #ff8623;
+#footer:hover {
+    cursor: pointer;
 }
 
 .notification-btn {
@@ -2921,6 +3307,7 @@ footer p:hover {
         right: 12.5px;
     }
 
+
     .notification-btn {
         right: 12.5px;
     }
@@ -2947,4 +3334,12 @@ footer p:hover {
 .notification-modal ul li {
     padding: 10px 0;
     border-bottom: 1px solid #eee;
+}
+
+#comments-section {
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px 0;
 }

@@ -37,7 +37,31 @@ function handleSearch() {
     window.location.href = 'search.html';
 }
 
-function rotateUserStats() {
+async function ensureGenreMapIsAvailable() {
+    if (!localStorage.getItem('genreMap')) {
+        await fetchGenreMap();
+    }
+}
+
+async function fetchGenreMap() {
+    const url = `https://${getMovieVerseData()}/3/genre/movie/list?${generateMovieNames()}${getMovieCode()}`;
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        const genreMap = data.genres.reduce((map, genre) => {
+            map[genre.id] = genre.name;
+            return map;
+        }, {});
+        localStorage.setItem('genreMap', JSON.stringify(genreMap));
+    }
+    catch (error) {
+        console.error('Error fetching genre map:', error);
+    }
+}
+
+async function rotateUserStats() {
+    await ensureGenreMapIsAvailable();
+
     const stats = [
         {
             label: "Your Current Time",
@@ -63,13 +87,17 @@ function rotateUserStats() {
         {
             label: "Favorite Movies",
             getValue: () => {
-                const favoritedMovies = JSON.parse(localStorage.getItem('favorites')) || [];
+                const favoritedMovies = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
                 return favoritedMovies.length;
             }
         },
         {
             label: "Favorite Genre",
-            getValue: getMostCommonGenre
+            getValue: () => {
+                const mostCommonGenreCode = getMostCommonGenre();
+                const genreMap = JSON.parse(localStorage.getItem('genreMap')) || {};
+                return genreMap[mostCommonGenreCode] || 'Not Available';
+            }
         },
         { label: "Watchlists Created", getValue: () => localStorage.getItem('watchlistsCreated') || 0 },
         { label: "Average Movie Rating", getValue: () => localStorage.getItem('averageMovieRating') || 'Not Rated' },
@@ -496,6 +524,7 @@ const twoLetterLangCodes = [
 ];
 
 async function fetchTvDetails(tvSeriesId) {
+    showSpinner();
     const baseUrl = `https://${getMovieVerseData()}/3/tv/${tvSeriesId}`;
     const urlWithAppend = `${baseUrl}?${generateMovieNames()}${tvCode}&append_to_response=credits,keywords,similar,videos,external_ids`;
 
@@ -512,11 +541,18 @@ async function fetchTvDetails(tvSeriesId) {
         const trailer = tvSeriesDetails.videos.results.find(video => video.type === 'Trailer' && video.site === 'YouTube');
         if (trailer) {
             document.getElementById('trailerButton').style.display = 'block';
-            globalTrailerKey = trailer.key; // Store the trailer key in the global variable
+            globalTrailerKey = trailer.key;
         }
+
+        hideSpinner();
     }
     catch (error) {
+        document.getElementById('movie-details-container').innerHTML = `
+            <div style="display: flex; justify-content: center; align-items: center; text-align: center; margin-top: 40px; width: 100vw; height: 800px">
+                <h2>TV series details not found - Try again with another TV series</h2>
+            </div>`;
         console.error('Error fetching TV series details:', error);
+        hideSpinner();
     }
 }
 
@@ -680,6 +716,14 @@ function selectCompanyId(companyId) {
     window.location.href = 'company-details.html';
 }
 
+function showSpinner() {
+    document.getElementById('myModal').classList.add('modal-visible');
+}
+
+function hideSpinner() {
+    document.getElementById('myModal').classList.remove('modal-visible');
+}
+
 function handleCreatorClick(creatorId) {
     localStorage.setItem('selectedDirectorId', creatorId);
     window.location.href = 'director-details.html';
@@ -691,16 +735,13 @@ document.addEventListener('DOMContentLoaded', () => {
         fetchTvDetails(tvSeriesId);
     }
     else {
-        document.getElementById('movie-details-container').innerHTML = `
-            <div style="display: flex; justify-content: center; align-items: center; text-align: center; margin-top: 40px; width: 100vw;">
-                <h2>TV series details not found.</h2>
-            </div>`;
+        fetchTvDetails(100088);
     }
 
     document.getElementById('clear-search-btn').style.display = 'none';
 
     const savedRatings = JSON.parse(localStorage.getItem('movieRatings')) || {};
-    const movieRating = savedRatings[movieId] || 0;
+    const movieRating = savedRatings[tvSeriesId] || 0;
     setStarRating(movieRating);
 });
 

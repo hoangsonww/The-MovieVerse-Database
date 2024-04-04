@@ -58,6 +58,117 @@ html {
     transition: 0.3s ease-in;
 }
 
+.search-results {
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+    margin: 0 auto;
+    align-items: center;
+}
+
+#form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+}
+
+.search-result-card {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #7378c5;
+    margin: 0;
+    margin-bottom: 2px;
+    margin-top: 5px;
+    width: 300px;
+    color: #212121;
+}
+
+.search-result-card:hover {
+    background-color: #ff8623;
+    transition: 0.3s ease-in;
+}
+
+.search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.buttons-container button {
+    padding-left: 20px;
+}
+
+#clear-search {
+    background-color: #7378c5;
+    border: none;
+    border-radius: 8px;
+    font: inherit;
+    cursor: pointer;
+    color: #000000;
+    padding: 5px 10px;
+    margin-top: 10px;
+    margin-left: 20px;
+}
+
+#clear-search:hover {
+    background-color: #ff8623;
+    transition: background-color 0.3s ease;
+}
+
+#view-all-results {
+    background-color: #7378c5;
+    border: none;
+    border-radius: 8px;
+    padding: 5px 10px;
+    font: inherit;
+    cursor: pointer;
+    color: #000000;
+    margin-top: 10px;
+}
+
+#view-all-results:hover {
+    background-color: #ff8623;
+    transition: background-color 0.3s ease;
+}
+
+.result-image {
+    width: 64px;
+    height: 96px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.result-details {
+    margin-left: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.result-name {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.result-type {
+    font-size: 14px;
+    font-style: italic;
+    color: #212121;
+}
+
 #googleSignInBtn {
     background-color: #7378c5;
     border: none;
@@ -147,6 +258,7 @@ html {
     border-radius: 8px;
     border: none;
     cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 #movie-timeline-btn:hover {
@@ -164,6 +276,7 @@ html {
     border-radius: 8px;
     border: none;
     cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 #movie-of-the-day-btn:hover {
@@ -181,6 +294,7 @@ html {
     border-radius: 8px;
     border: none;
     cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 #discussions-btn:hover {
@@ -420,6 +534,24 @@ header h1 {
     cursor: pointer;
 }
 
+#movie-match-btn3 {
+    position: fixed;
+    bottom: 220px;
+    right: 20px;
+    background-color: #7378c5;
+    color: black;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    font: inherit;
+}
+
+#movie-match-btn3:hover {
+    background-color: #ff8623;
+    transition: 0.3s ease-in;
+}
+
 #back-to-top-btn:hover {
     background-color: #ff8623;
     transition: 0.1s linear;
@@ -599,11 +731,153 @@ main {
     border: none;
     cursor: pointer;
     font: inherit;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 #settings-btn:hover {
     background-color: #ff8623;
     transition: 0.1s ease-in;
+}
+
+#menu-btn {
+    background-color: #7378c5;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    font: inherit;
+    font-size: 14px;
+}
+
+#menu-btn i {
+    font-size: 18px;
+    margin-bottom: 4px;
+}
+
+#menu-btn:hover {
+    background-color: #ff8623;
+    transition: 0.1s linear;
+}
+
+#settings-btn,
+#movie-of-the-day-btn,
+#movie-match-btn,
+#movie-match-btn3,
+#movie-timeline-btn,
+#discussions-btn,
+#trivia-btn,
+#back-to-top-btn {
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    transform: translateY(20px);
+    opacity: 0;
+    display: none;
+}
+
+@media (min-width: 768px) {
+    #settings-btn,
+    #movie-of-the-day-btn,
+    #movie-match-btn,
+    #movie-timeline-btn,
+    #discussions-btn,
+    #movie-match-btn3,
+    #trivia-btn,
+    #back-to-top-btn {
+        position: fixed;
+        right: 20px;
+        z-index: 1000;
+    }
+
+    #menu-btn {
+        display: block;
+    }
+}
+
+.mobile-bottom-bar {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: auto;
+    background-color: #7378c5;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.2);
+    justify-content: space-around;
+    align-items: center;
+    z-index: 1000002;
+}
+
+@media (max-width: 767px) {
+    .mobile-bottom-bar {
+        display: flex;
+    }
+}
+
+.mobile-bottom-bar {
+    transition: transform 0.09s ease-in-out;
+}
+
+.hide-bar {
+    transform: translateY(100%);
+}
+
+.mobile-bottom-bar a {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    text-align: center;
+    color: white;
+    text-decoration: none;
+    padding: 6px 0;
+    width: 15%;
+}
+
+.mobile-bottom-bar a:hover {
+    background-color: #ff8623;
+    transition: 0.1s linear;
+}
+
+.mobile-bottom-bar i {
+    font-size: 18px;
+    margin-bottom: 4px;
+}
+
+.mobile-bottom-bar span {
+    display: block;
+    font-size: 10px;
+    color: #ecf0f1;
+}
+
+#trivia-btn {
+    position: fixed;
+    background-color: #7378c5;
+    font: inherit;
+    color: black;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+@media (max-width: 767px) {
+    .mobile-bottom-bar {
+        display: flex;
+    }
+
+    #settings-btn,
+    #movie-of-the-day-btn,
+    #movie-match-btn,
+    #movie-timeline-btn,
+    #discussions-btn,
+    #trivia-btn,
+    #menu-btn,
+    #back-to-top-btn {
+        display: none;
+    }
 }
 
 #trivia-label:hover {
@@ -631,6 +905,37 @@ main {
     margin-left: 10px;
     font: inherit;
     margin-right: 20px;
+}
+
+#quiz-container {
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 500px;
+    margin: 10px auto;
+    box-sizing: border-box;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+#quiz-form {
+    max-width: 500px;
+    margin: 10px auto;
+    box-sizing: border-box;
+    padding: 0 10px;
+}
+
+@media (max-width: 520px) {
+    #quiz-container, #quiz-form {
+        width: calc(100% - 20px);
+        margin: 10px auto;
+    }
+}
+
+.button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
 }
 
 #clear-search-btn:hover {
@@ -741,4 +1046,5 @@ main {
     border-radius: 8px;
     border: none;
     cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }

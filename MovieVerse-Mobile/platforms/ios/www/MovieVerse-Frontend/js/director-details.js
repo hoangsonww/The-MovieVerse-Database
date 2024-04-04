@@ -91,10 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fetchDirectorDetails(directorId);
     }
     else {
-        document.getElementById('director-details-container').innerHTML = `
-            <div style="display: flex; justify-content: center; align-items: center; text-align: center; margin-top: 40px; width: 100vw; height: 800px">
-                <h2>Director details not found.</h2>
-            </div>`;
+        fetchDirectorDetails(488);
     }
 });
 
@@ -112,7 +109,10 @@ async function fetchDirectorDetails(directorId) {
         const credits = await creditsResponse.json();
 
         if (director.success === false) {
-            document.getElementById('director-details-container').innerHTML = '<h2>No Information is Available for this Director</h2>';
+            document.getElementById('director-details-container').innerHTML = `
+            <div style="display: flex; justify-content: center; align-items: center; text-align: center; margin-top: 40px; width: 100vw; height: 800px">
+                <h2>Director details not found - try again with a different director.</h2>
+            </div>`;
         }
         else {
             updateBrowserURL(director.name);
@@ -121,8 +121,11 @@ async function fetchDirectorDetails(directorId) {
         hideSpinner();
     }
     catch (error) {
+        document.getElementById('director-details-container').innerHTML = `
+            <div style="display: flex; justify-content: center; align-items: center; text-align: center; margin-top: 40px; width: 100vw; height: 800px">
+                <h2>Director details not found - try again with a different director.</h2>
+            </div>`;
         console.error('Error fetching director details:', error);
-        document.getElementById('director-details-container').innerHTML = '<h2>Error fetching director details</h2>';
         hideSpinner();
     }
 }
@@ -200,7 +203,31 @@ function calculateAge(dob, deathday = null) {
     return Math.abs(ageDate.getUTCFullYear() - 1970);
 }
 
-function rotateUserStats() {
+async function ensureGenreMapIsAvailable() {
+    if (!localStorage.getItem('genreMap')) {
+        await fetchGenreMap();
+    }
+}
+
+async function fetchGenreMap() {
+    const url = `https://${getMovieVerseData()}/3/genre/movie/list?${generateMovieNames()}${getMovieCode()}`;
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        const genreMap = data.genres.reduce((map, genre) => {
+            map[genre.id] = genre.name;
+            return map;
+        }, {});
+        localStorage.setItem('genreMap', JSON.stringify(genreMap));
+    }
+    catch (error) {
+        console.error('Error fetching genre map:', error);
+    }
+}
+
+async function rotateUserStats() {
+    await ensureGenreMapIsAvailable();
+
     const stats = [
         {
             label: "Your Current Time",
@@ -226,13 +253,17 @@ function rotateUserStats() {
         {
             label: "Favorite Movies",
             getValue: () => {
-                const favoritedMovies = JSON.parse(localStorage.getItem('favorites')) || [];
+                const favoritedMovies = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
                 return favoritedMovies.length;
             }
         },
         {
             label: "Favorite Genre",
-            getValue: getMostCommonGenre
+            getValue: () => {
+                const mostCommonGenreCode = getMostCommonGenre();
+                const genreMap = JSON.parse(localStorage.getItem('genreMap')) || {};
+                return genreMap[mostCommonGenreCode] || 'Not Available';
+            }
         },
         { label: "Watchlists Created", getValue: () => localStorage.getItem('watchlistsCreated') || 0 },
         { label: "Average Movie Rating", getValue: () => localStorage.getItem('averageMovieRating') || 'Not Rated' },

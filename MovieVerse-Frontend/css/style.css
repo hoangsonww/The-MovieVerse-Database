@@ -5,7 +5,7 @@
 }
 
 body {
-    background-image: url("../../images/universe-1.png");
+    background-image: url("https://movie-verse.com/images/universe-1.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -1034,14 +1034,14 @@ p {
 }
 
 .movie-details-body {
-    background-image: url("../../images/universe-1.png");
+    background-image: url("https://movie-verse.com/images/universe-1.png");
     background-size: cover;
     background-position: center;
     background-repeat: repeat;
 }
 
 .movie-details-body2 {
-    background-image: url("../../images/universe-1.png");
+    background-image: url("https://movie-verse.com/images/universe-1.png");
     background-position: center;
     height: 100vh;
     background-size: auto;
@@ -1049,7 +1049,7 @@ p {
 }
 
 .movie-details-body3 {
-    background-image: url("../../images/universe-1.png");
+    background-image: url("https://movie-verse.com/images/universe-1.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -1057,7 +1057,7 @@ p {
 }
 
 .movie-details-body4 {
-    background-image: url("../../images/universe-1.png");
+    background-image: url("https://movie-verse.com/images/universe-1.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -2269,7 +2269,7 @@ canvas {
     }
 
     #movie-details-body3 {
-        background-image: url("../../images/universe.jpg");
+        background-image: url("https://movie-verse.com/images/universe.jpg");
         background-position: center;
         height: 100vh;
         background-size: auto;

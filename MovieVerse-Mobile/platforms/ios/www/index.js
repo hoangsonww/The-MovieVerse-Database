@@ -445,7 +445,7 @@ async function getMovies(url, mainElement, page = 1) {
 function showMovies(movies, mainElement) {
     mainElement.innerHTML = '';
     movies.forEach(movie => {
-        const { id, poster_path, title, vote_average, overview } = movie;
+        const { id, poster_path, title, vote_average, vote_count, overview, genre_ids } = movie;
         const movieEl = document.createElement('div');
         movieEl.style.zIndex = '1000';
         movieEl.classList.add('movie');
@@ -453,8 +453,8 @@ function showMovies(movies, mainElement) {
             ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
             : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
 
-        const voteAvg = vote_average > 0 ? vote_average.toFixed(1) : "Unrated";
-        const ratingClass = vote_average > 0 ? getClassByRate(vote_average) : "unrated";
+        const voteAvg = vote_count === 0 ? "Unrated" : vote_average.toFixed(1);
+        const ratingClass = vote_count === 0 ? "unrated" : getClassByRate(vote_average);
 
         movieEl.innerHTML = `
             ${movieImage}
@@ -470,12 +470,21 @@ function showMovies(movies, mainElement) {
         movieEl.addEventListener('click', () => {
             localStorage.setItem('selectedMovieId', id);
             updateUniqueMoviesViewed(id);
+            updateFavoriteGenre(genre_ids);
             window.location.href = 'MovieVerse-Frontend/html/movie-details.html';
             updateMovieVisitCount(id, title);
         });
 
         mainElement.appendChild(movieEl);
     });
+}
+
+function updateFavoriteGenre(genre_ids) {
+    if (genre_ids && genre_ids.length > 0) {
+        const favoriteGenres = JSON.parse(localStorage.getItem('favoriteGenres')) || [];
+        favoriteGenres.push(genre_ids[0]);
+        localStorage.setItem('favoriteGenres', JSON.stringify(favoriteGenres));
+    }
 }
 
 function updateUniqueMoviesViewed(movieId) {
@@ -487,7 +496,31 @@ function updateUniqueMoviesViewed(movieId) {
     }
 }
 
-function rotateUserStats() {
+async function ensureGenreMapIsAvailable() {
+    if (!localStorage.getItem('genreMap')) {
+        await fetchGenreMap();
+    }
+}
+
+async function fetchGenreMap() {
+    const url = `https://${getMovieVerseData()}/3/genre/movie/list?${generateMovieNames()}${getMovieCode()}`;
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        const genreMap = data.genres.reduce((map, genre) => {
+            map[genre.id] = genre.name;
+            return map;
+        }, {});
+        localStorage.setItem('genreMap', JSON.stringify(genreMap));
+    }
+    catch (error) {
+        console.error('Error fetching genre map:', error);
+    }
+}
+
+async function rotateUserStats() {
+    await ensureGenreMapIsAvailable();
+
     const stats = [
         {
             label: "Your Current Time",
@@ -513,13 +546,17 @@ function rotateUserStats() {
         {
             label: "Favorite Movies",
             getValue: () => {
-                const favoritedMovies = JSON.parse(localStorage.getItem('favorites')) || [];
+                const favoritedMovies = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
                 return favoritedMovies.length;
             }
         },
         {
             label: "Favorite Genre",
-            getValue: getMostCommonGenre
+            getValue: () => {
+                const mostCommonGenreCode = getMostCommonGenre();
+                const genreMap = JSON.parse(localStorage.getItem('genreMap')) || {};
+                return genreMap[mostCommonGenreCode] || 'Not Available';
+            }
         },
         { label: "Watchlists Created", getValue: () => localStorage.getItem('watchlistsCreated') || 0 },
         { label: "Average Movie Rating", getValue: () => localStorage.getItem('averageMovieRating') || 'Not Rated' },
@@ -818,7 +855,7 @@ function fallbackMovieSelection() {
 
 function calculateMoviesToDisplay() {
     const screenWidth = window.innerWidth;
-    if (screenWidth <= 689.9) return 5; // 1 movie per row
+    if (screenWidth <= 689.9) return 6; // 1 movie per row
     if (screenWidth <= 1021.24) return 20; // 2 movies per row
     if (screenWidth <= 1353.74) return 21; // 3 movies per row
     if (screenWidth <= 1684.9) return 20; // 4 movies per row

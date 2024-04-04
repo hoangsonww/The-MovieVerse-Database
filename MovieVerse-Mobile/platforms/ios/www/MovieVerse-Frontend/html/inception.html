@@ -9,14 +9,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Explore details, reviews, and insights on Inception, a groundbreaking sci-fi film directed by Christopher Nolan, on The MovieVerse.">
     <link rel="canonical" href="https://movie-verse.com/MovieVerse-Frontend/html/inception.html">
+    <meta property="og:title" content="Inception - Movie Details | The MovieVerse">
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
     <meta http-equiv="content-language" content="en" />
-    <meta property="og:description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more." />
-    <meta property="og:url" content="https://movie-verse.com/" />
+    <meta property="og:description" content="Explore details, reviews, and insights on Inception, a groundbreaking sci-fi film directed by Christopher Nolan, on The MovieVerse." />
+    <meta property="og:url" content="https://movie-verse.com/MovieVerse-Frontend/html/inception.html" />
     <meta property="og:site_name" content="The MovieVerse" />
-    <meta property="og:image" content="https://movie-verse.com/images/image.png"/>
-    <meta property="og:favicon" content="./images/favicon.ico" />
+    <meta property="og:image" content="https://movie-verse.com/images/inception.jpg"/>
+    <meta property="og:image:alt" content="Inception Movie Poster">
     <meta name="keywords" content="movies, film guide, directors, actors, movie genres, cinema, film reviews">
     <meta name="author" content="Son Nguyen Hoang">
     <meta name="robots" content="index, follow">
@@ -26,9 +27,11 @@
     <meta http-equiv="content-language" content="en">
     <meta name="language" content="en">
     <meta name="theme-color" content="#7378c5">
-    <meta name="twitter:card" content="https://movie-verse.com/images/image.png"/>
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@MovieVerse" />
+    <meta name="twitter:creator" content="@hoangsonw" />
     <meta name="twitter:title" content="The MovieVerse - Your Ultimate Movie Guide">
-    <meta name="twitter:description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more.">
+    <meta name="twitter:description" content="Explore details, reviews, and insights on Inception, a groundbreaking sci-fi film directed by Christopher Nolan, on The MovieVerse.">
     <meta name="twitter:image" content="https://movie-verse.com/images/image.png"/>
     <meta name="referrer" content="no-referrer-when-downgrade">
     <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
@@ -101,8 +104,15 @@
         </button>
 
         <form id="form1">
-            <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!"/>
-            <button type="button" id="button-search" onclick="handleSearch()">Search</button>
+            <div class="search-container">
+                <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!" />
+                <button type="button" id="button-search" onclick="handleSearch()">Search</button>
+            </div>
+            <div id="search-results" class="search-results"></div>
+            <div class="buttons-container">
+                <button type="button" id="view-all-results" style="display: none;">View more results</button>
+                <button type="button" id="clear-search" style="display: none">Clear</button>
+            </div>
         </form>
     </header>
 

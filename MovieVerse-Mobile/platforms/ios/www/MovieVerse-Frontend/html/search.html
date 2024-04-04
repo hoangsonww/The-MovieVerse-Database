@@ -10,14 +10,14 @@
     <meta property="og:type" content="website" />
     <meta http-equiv="content-language" content="en" />
     <meta property="og:title" content="Search Results - The MovieVerse">
-    <meta property="og:description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more." />
-    <meta property="og:url" content="https://movie-verse.com/" />
+    <meta property="og:description" content="Find movies, TV series, and actors with The MovieVerse. Explore detailed results to discover your next favorite film or show." />
+    <meta property="og:url" content="https://movie-verse.com/MovieVerse-Frontend/html/search.html" />
     <meta property="og:site_name" content="The MovieVerse" />
     <meta property="og:image" content="https://movie-verse.com/images/image.png"/>
     <meta property="og:favicon" content="./images/favicon.ico" />
     <meta name="keywords" content="movies, film guide, directors, actors, movie genres, cinema, film reviews">
     <meta name="author" content="Son Nguyen Hoang">
-    <meta name="description" content="Discover a wide range of movies, TV series, and actors based on your search query. Explore detailed search results to find your next favorite movie or TV show on The MovieVerse.">
+    <meta name="description" content="Find movies, TV series, and actors with The MovieVerse. Explore detailed results to discover your next favorite film or show.">
     <link rel="canonical" href="https://movie-verse.com/MovieVerse-Frontend/html/search.html">
     <meta name="robots" content="index, follow">
     <meta name="rating" content="General">
@@ -26,9 +26,11 @@
     <meta http-equiv="content-language" content="en">
     <meta name="language" content="en">
     <meta name="theme-color" content="#7378c5">
-    <meta name="twitter:card" content="https://movie-verse.com/images/image.png"/>
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@MovieVerse" />
+    <meta name="twitter:creator" content="@hoangsonw" />
     <meta name="twitter:title" content="The MovieVerse - Your Ultimate Movie Guide">
-    <meta name="twitter:description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more.">
+    <meta name="twitter:description" content="Find movies, TV series, and actors with The MovieVerse. Explore detailed results to discover your next favorite film or show.">
     <meta name="twitter:image" content="https://movie-verse.com/images/image.png"/>
     <meta name="referrer" content="no-referrer-when-downgrade">
     <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
@@ -111,7 +113,7 @@
         <div class="spinner"></div>
     </div>
 
-    <main id="movie-match-main" style="margin-top: 10px">
+    <main id="movie-match-main" style="margin-top: 10px; margin-bottom: 150px">
         <h2 id="search-results-label">Search Results</h2>
 
         <div class="category-buttons">
@@ -125,12 +127,27 @@
         </div>
     </main>
 
-    <button id="settings-btn" style="position: fixed; bottom: 265px; right: 10px">Settings</button>
-    <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 230px; right: 10px">Movie Match</button>
-    <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 195px; right: 10px">Movie Timeline</button>
-    <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 160px; right: 10px">Surprise Me!</button>
-    <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="bottom: 125px; right: 10px" title="Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
-    <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 90px; right: 10px" title="Test your movie knowledge">MovieVerse Trivia</button>
+    <div id="ad-container" style="display: block; text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px);" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
+        <p style="margin: 0;">Advertisement</p>
+        <ins class="adsbygoogle"
+             style="display: block; width: 100%;"
+             data-ad-client="ca-pub-6608388491200814"
+             data-ad-slot="4832732030"
+             data-ad-format="auto"></ins>
+        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>
+    </div>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6608388491200814"
+            crossorigin="anonymous"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+
+    <button id="settings-btn" style="position: fixed; bottom: 265px; right: 10px; z-index: 10012">Settings</button>
+    <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 230px; right: 10px; z-index: 10012">Movie Match</button>
+    <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 195px; right: 10px; z-index: 10012">Movie Timeline</button>
+    <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 160px; right: 10px; z-index: 10012">Surprise Me!</button>
+    <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="bottom: 125px; right: 10px; z-index: 10012" title="Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
+    <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 90px; right: 10px; z-index: 10012" title="Test your movie knowledge">MovieVerse Trivia</button>
 
     <script>
         const movieCode1 = {
@@ -234,7 +251,8 @@
                         searchBar.style.marginTop = '16px';
                         searchButton.style.marginTop = '16px';
                     }
-                } else {
+                }
+                else {
                     myHeading.style.position = '';
                     myHeading.style.top = '';
                     myHeading.style.zIndex = '';
@@ -246,6 +264,12 @@
 
             searchBar.addEventListener('input', toggleVisibility);
             toggleVisibility();
+
+            const clearSearchBtn = document.getElementById('clear-search');
+            clearSearchBtn.addEventListener('click', function() {
+                searchBar.value = '';
+                toggleVisibility();
+            });
         });
     </script>
 
@@ -265,6 +289,7 @@
             clearSearchBtn.addEventListener('click', function() {
                 searchInput.value = '';
                 searchResultsContainer.innerHTML = '';
+                document.getElementById('local-time').style.display = '';
                 toggleButtons();
                 searchInput.focus();
             });
@@ -289,6 +314,7 @@
                 const viewAllResultsBtn = document.getElementById('view-all-results');
                 const searchInput = document.getElementById('search');
                 const query = e.target.value.trim();
+                const searchResultsContainer = document.getElementById('search-results');
 
                 viewAllResultsBtn.style.display = query ? 'block' : 'none';
 
@@ -455,17 +481,20 @@
 
                 if (direction === 'down') {
                     selectedIndex = (selectedIndex + 1) % totalElements;
-                } else if (direction === 'up') {
+                }
+                else if (direction === 'up') {
                     selectedIndex = (selectedIndex - 1 + totalElements) % totalElements;
                 }
 
                 if (selectedIndex < results.length) {
                     results[selectedIndex].style.backgroundColor = '#ff8623';
                     results[selectedIndex].scrollIntoView({ block: "nearest" });
-                } else if (selectedIndex === results.length) {
+                }
+                else if (selectedIndex === results.length) {
                     viewAllResultsBtn.style.backgroundColor = '#ff8623';
                     viewAllResultsBtn.scrollIntoView({ block: "nearest" });
-                } else if (selectedIndex === results.length + 1) {
+                }
+                else if (selectedIndex === results.length + 1) {
                     clearSearchBtn.style.backgroundColor = '#ff8623';
                     clearSearchBtn.scrollIntoView({ block: "nearest" });
                 }
@@ -536,7 +565,7 @@
         </a>
     </div>
 
-    <button id="menu-btn" style="position: fixed; bottom: 10px; right: 10px; z-index: 1001" title="Toggle Menu Buttons">
+    <button id="menu-btn" style="position: fixed; bottom: 10px; right: 10px; z-index: 10012" title="Toggle Menu Buttons">
         <i class="fas fa-ellipsis-h"></i><br>
         <span>Menu</span>
     </button>

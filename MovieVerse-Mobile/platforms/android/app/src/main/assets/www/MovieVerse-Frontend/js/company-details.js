@@ -23,7 +23,7 @@ function generateMovieNames(input) {
     return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
 }
 
-const form = document.getElementById("form");
+const form = document.getElementById("form1");
 const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
 const main = document.getElementById("main");
 const IMGPATH = "https://image.tmdb.org/t/p/w1280";
@@ -41,7 +41,31 @@ function getClassByRate(vote){
     }
 }
 
-function rotateUserStats() {
+async function ensureGenreMapIsAvailable() {
+    if (!localStorage.getItem('genreMap')) {
+        await fetchGenreMap();
+    }
+}
+
+async function fetchGenreMap() {
+    const url = `https://${getMovieVerseData()}/3/genre/movie/list?${generateMovieNames()}${getMovieCode()}`;
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        const genreMap = data.genres.reduce((map, genre) => {
+            map[genre.id] = genre.name;
+            return map;
+        }, {});
+        localStorage.setItem('genreMap', JSON.stringify(genreMap));
+    }
+    catch (error) {
+        console.error('Error fetching genre map:', error);
+    }
+}
+
+async function rotateUserStats() {
+    await ensureGenreMapIsAvailable();
+
     const stats = [
         {
             label: "Your Current Time",
@@ -67,13 +91,17 @@ function rotateUserStats() {
         {
             label: "Favorite Movies",
             getValue: () => {
-                const favoritedMovies = JSON.parse(localStorage.getItem('favorites')) || [];
+                const favoritedMovies = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
                 return favoritedMovies.length;
             }
         },
         {
             label: "Favorite Genre",
-            getValue: getMostCommonGenre
+            getValue: () => {
+                const mostCommonGenreCode = getMostCommonGenre();
+                const genreMap = JSON.parse(localStorage.getItem('genreMap')) || {};
+                return genreMap[mostCommonGenreCode] || 'Not Available';
+            }
         },
         { label: "Watchlists Created", getValue: () => localStorage.getItem('watchlistsCreated') || 0 },
         { label: "Average Movie Rating", getValue: () => localStorage.getItem('averageMovieRating') || 'Not Rated' },
@@ -325,11 +353,8 @@ document.addEventListener('DOMContentLoaded', () => {
         fetchCompanyMovies(companyId);
     }
     else {
-        const companyDetailsContainer = document.getElementById('company-details-container');
-        companyDetailsContainer.innerHTML = `
-            <div style="display: flex; justify-content: center; align-items: center; text-align: center; width: 100vw;">
-                <h2>Company details not found.</h2>
-            </div>`;
+        fetchCompanyDetails(521);
+        fetchCompanyMovies(521);
     }
 });
 
@@ -380,7 +405,7 @@ async function fetchCompanyDetails(companyId) {
         const companyDetailsContainer = document.getElementById('company-details-container');
         companyDetailsContainer.innerHTML = `
             <div style="display: flex; justify-content: center; align-items: center; height: 100vh; text-align: center; width: 100vw;">
-                <h2>Company details not found.</h2>
+                <h2>Company details not found - try again with a different company.</h2>
             </div>`;
         hideSpinner();
     }
