@@ -2765,6 +2765,17 @@ canvas {
     color: #f509d9;
 }
 
+#search-title1 {
+    color: #ff8623;
+    text-align: center;
+    font-size: 1.74rem;
+    margin-bottom: 20px;
+}
+
+#search-title1:hover {
+    color: #f509d9;
+}
+
 #movie-match-main {
     display: flex;
     flex-direction: column;
