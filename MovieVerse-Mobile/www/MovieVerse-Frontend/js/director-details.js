@@ -91,10 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fetchDirectorDetails(directorId);
     }
     else {
-        document.getElementById('director-details-container').innerHTML = `
-            <div style="display: flex; justify-content: center; align-items: center; text-align: center; margin-top: 40px; width: 100vw; height: 800px">
-                <h2>Director details not found.</h2>
-            </div>`;
+        fetchDirectorDetails(488);
     }
 });
 
@@ -112,7 +109,10 @@ async function fetchDirectorDetails(directorId) {
         const credits = await creditsResponse.json();
 
         if (director.success === false) {
-            document.getElementById('director-details-container').innerHTML = '<h2>No Information is Available for this Director</h2>';
+            document.getElementById('director-details-container').innerHTML = `
+            <div style="display: flex; justify-content: center; align-items: center; text-align: center; margin-top: 40px; width: 100vw; height: 800px">
+                <h2>Director details not found - try again with a different director.</h2>
+            </div>`;
         }
         else {
             updateBrowserURL(director.name);
@@ -121,8 +121,11 @@ async function fetchDirectorDetails(directorId) {
         hideSpinner();
     }
     catch (error) {
+        document.getElementById('director-details-container').innerHTML = `
+            <div style="display: flex; justify-content: center; align-items: center; text-align: center; margin-top: 40px; width: 100vw; height: 800px">
+                <h2>Director details not found - try again with a different director.</h2>
+            </div>`;
         console.error('Error fetching director details:', error);
-        document.getElementById('director-details-container').innerHTML = '<h2>Error fetching director details</h2>';
         hideSpinner();
     }
 }
@@ -250,7 +253,7 @@ async function rotateUserStats() {
         {
             label: "Favorite Movies",
             getValue: () => {
-                const favoritedMovies = JSON.parse(localStorage.getItem('favorites')) || [];
+                const favoritedMovies = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
                 return favoritedMovies.length;
             }
         },

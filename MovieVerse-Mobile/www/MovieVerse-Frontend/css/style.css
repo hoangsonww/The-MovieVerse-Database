@@ -931,6 +931,15 @@ header h1 {
     color: white !important;
 }
 
+#githubLink1 {
+    color: black !important;
+}
+
+#githubLink1:hover {
+    color: #ff8623 !important;
+    transition: 0.1s ease-in;
+}
+
 .modal-overlay {
     display: none;
     position: fixed;
@@ -978,6 +987,7 @@ header h1 {
 
 #githubLink:hover {
     color: #ff8623 !important;
+    transition: 0.1s ease-in;
 }
 
 #imdbRating, #rtRating {
@@ -1891,6 +1901,149 @@ textarea {
     align-items: center;
 }
 
+#discussion-input {
+    background-color: transparent;
+    border: 2px solid #ff8623;
+    border-radius: 50px;
+    color: #fff;
+    font-family: inherit;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+}
+
+#discussion-input:hover {
+    background-color: #ff8623;
+    transition: 0.1s linear;
+}
+
+#post-btn {
+    background-color: #ff8623;
+    font: inherit;
+}
+
+#post-btn:hover {
+    background-color: #7f4caf;
+    transition: 0.1s linear;
+}
+
+ol li:hover {
+    color: #7f4caf;
+    transition: 0.1s linear;
+}
+
+#chatbotContainer {
+    width: 80%;
+    max-width: 600px;
+    background-color: rgba(0, 0, 0, 0.7);
+    margin: 20px auto;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#chatbotHeader {
+    background-color: #ff8623;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+#chatbotBody {
+    overflow-y: auto;
+    max-height: 300px;
+    padding: 10px;
+    border-radius: 8px;
+    color: white;
+    word-wrap: break-word;
+    box-sizing: border-box;
+    margin-top: 10px;
+    border: 1px solid #ff8623;
+}
+
+#sendButton {
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 1rem;
+    color: white;
+    background-color: #ff8623;
+    border: none;
+    cursor: pointer;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#sendButton:hover {
+    background-color: #7f4caf;
+    transition: 0.1s linear;
+}
+
+#chatbotInput {
+    width: 100%;
+    padding: 10px 20px;
+    border: 1px solid #ff8623;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 1rem;
+    background-color: transparent;
+    color: white;
+    margin-top: 10px;
+    box-sizing: border-box;
+}
+
+.highlight1 {
+    color: orange;
+}
+
+#chatbotInput:focus {
+    outline: none;
+}
+
+#bot-header {
+    text-align: center;
+    width: 100%;
+}
+
+#chatbotBody > div {
+    margin-bottom: 10px;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+@media (max-width: 705px) {
+    #search-title,
+    #alt-title {
+        display: none;
+    }
+}
+
+@media (max-height: 930px) {
+    #search-title,
+    #alt-title {
+        display: none;
+    }
+}
+
+#chatbotBody > div[text-align="right"] {
+    background-color: #ff8623;
+    align-self: flex-end;
+}
+
+#chatbotBody > div[text-align="left"] {
+    background-color: #7378c5;
+    align-self: flex-start;
+}
+
+@media (max-width: 767px) {
+    #chatbotContainer {
+        top: 56.1%
+    }
+}
+
 #change-director-btn {
     padding: 5px 10px;
     cursor: pointer;
@@ -1932,6 +2085,7 @@ textarea {
 }
 
 #company-logo {
+    z-index: 100000000;
     transition: transform 0.5s ease, box-shadow 0.5s ease;
     cursor: pointer;
 }
@@ -2109,7 +2263,7 @@ canvas {
     transition: 0.1s ease-in;
 }
 
-@media (max-width: 840px) {
+@media (max-width: 800px) {
     #my-heading {
         margin-left: 0;
     }
@@ -2441,6 +2595,9 @@ canvas {
 
 #form1 {
     margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .movie-card img {
@@ -2885,7 +3042,7 @@ body {
     color: purple;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 800px) {
     .company-details-container {
         display: flex;
         flex-direction: column;
@@ -3010,6 +3167,7 @@ body {
     position: relative;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .buttons-container {
@@ -3089,9 +3247,8 @@ footer {
     transition: 0.3s ease-in;
 }
 
-footer p:hover {
-    transition: 0.1s ease-in;
-    color: #ff8623;
+#footer:hover {
+    cursor: pointer;
 }
 
 .notification-btn {

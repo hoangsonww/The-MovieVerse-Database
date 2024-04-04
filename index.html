@@ -17,7 +17,7 @@
     <meta http-equiv="content-language" content="en" />
     <meta property="og:description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more." />
     <meta property="og:url" content="https://movie-verse.com/" />
-    <meta property="og:site_name" content="The MovieVerse" />
+    <meta property="og:site_name" content="The MovieVerse - Your Ultimate Movie Guide" />
     <meta property="og:image" content="https://movie-verse.com/images/image.png"/>
     <meta property="og:favicon" content="./images/favicon.ico" />
     <meta name="keywords" content="movies, film guide, directors, actors, movie genres, cinema, film reviews">
@@ -38,7 +38,7 @@
     <meta name="referrer" content="no-referrer-when-downgrade">
 
     <!-- Stylesheets and scripts -->
-    <link rel="stylesheet" href="MovieVerse-Frontend/css/style.css"/>
+    <link rel="stylesheet" href="/MovieVerse-Frontend/css/style.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <script src="index.js" defer></script>
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
@@ -48,7 +48,7 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6608388491200814"
             crossorigin="anonymous"></script>
 
-    <!-- Schema.org markup for movies -->
+    <!-- Schema.org markup for rich results -->
     <script type="application/ld+json">
         {
             "@context": "http://schema.org",
@@ -58,22 +58,28 @@
             "director": {
                 "@type": "Person",
                 "name": "Christopher Nolan",
-                "url": "https://movie-verse.com/MovieVerse-Frontend/html/christopher-nolan.html"
+                "url": "https://movie-verse.com/MovieVerse-Frontend/html/christopher-nolan.html",
+                "birthDate": "1970-07-30",
+                "birthPlace": "London, England",
+                "award": "Academy Award for Best Original Screenplay"
             },
             "genre": ["Action", "Adventure", "Sci-Fi"],
             "actor": [
                 {
                     "@type": "Person",
                     "name": "Leonardo DiCaprio",
-                    "url": "https://movie-verse.com/MovieVerse-Frontend/html/leonardo-dicaprio.html"
+                    "url": "https://movie-verse.com/MovieVerse-Frontend/html/leonardo-dicaprio.html",
+                    "roleName": "Dom Cobb",
+                    "birthDate": "1974-11-11",
+                    "birthPlace": "Los Angeles, California, USA"
                 }
             ],
             "aggregateRating": {
                 "@type": "AggregateRating",
-                "ratingValue": "8.8",
-                "reviewCount": "1043299",
-                "bestRating": "10",
-                "worstRating": "1"
+                "ratingValue": 8.8,
+                "bestRating": 10,
+                "worstRating": 1,
+                "reviewCount": 1043299
             },
             "review": {
                 "@type": "Review",
@@ -84,14 +90,16 @@
                 "datePublished": "2024-03-06",
                 "reviewRating": {
                     "@type": "Rating",
-                    "ratingValue": "9",
-                    "bestRating": "10",
-                    "worstRating": "1"
+                    "ratingValue": 9.0,
+                    "bestRating": 10,
+                    "worstRating": 1
                 },
                 "reviewBody": "Inception is a masterpiece of narrative complexity, with an innovative structure and a compelling exploration of themes such as dream manipulation and the nature of reality."
             },
             "description": "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
             "datePublished": "2010-07-16",
+            "duration": "PT148M",
+            "contentRating": "PG-13",
             "url": "https://movie-verse.com/MovieVerse-Frontend/html/inception.html"
         }
     </script>
@@ -112,9 +120,13 @@
             background-size: 100% auto;
         }
 
+        #search {
+            margin-right: 0 !important;
+        }
+
         @media (min-width: 800px) {
             #form {
-                margin-top: 30px !important;
+                margin-top: 10px !important;
             }
         }
 
@@ -336,12 +348,42 @@
 
     <main id="documentary"></main>
 
+<!--    <div id="ad-container" style="display: block; text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px);" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">-->
+<!--        <p style="margin: 0;">Advertisement</p>-->
+<!--        <ins class="adsbygoogle"-->
+<!--             style="display: block; width: 100%;"-->
+<!--             data-ad-client="ca-pub-6608388491200814"-->
+<!--             data-ad-slot="4832732030"-->
+<!--             data-ad-format="auto"></ins>-->
+<!--        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="MovieVerse-Frontend/html/feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>-->
+<!--    </div>-->
+<!--    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6608388491200814"-->
+<!--            crossorigin="anonymous"></script>-->
+<!--    <script>-->
+<!--        (adsbygoogle = window.adsbygoogle || []).push({});-->
+<!--    </script>-->
+
     <div class="genres" id="animation-div">
         <h2 id="other" style="margin-top: 50px; cursor: pointer">Animated Adventures: Trending Animated Movies</h2>
         <div id="animation-pagination" class="pagination"></div>
     </div>
 
     <main id="animation"></main>
+
+<!--    <div id="ad-container" style="display: block; text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px);" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">-->
+<!--        <p style="margin: 0;">Advertisement</p>-->
+<!--        <ins class="adsbygoogle"-->
+<!--             style="display: block; width: 100%;"-->
+<!--             data-ad-client="ca-pub-6608388491200814"-->
+<!--             data-ad-slot="4832732030"-->
+<!--             data-ad-format="auto"></ins>-->
+<!--        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="MovieVerse-Frontend/html/feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>-->
+<!--    </div>-->
+<!--    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6608388491200814"-->
+<!--            crossorigin="anonymous"></script>-->
+<!--    <script>-->
+<!--        (adsbygoogle = window.adsbygoogle || []).push({});-->
+<!--    </script>-->
 
     <div class="genres" id="sci-fi-div">
         <h2 id="other" style="margin-top: 50px; cursor: pointer">Future Visions: Trending Science Fiction Movies</h2>
@@ -350,6 +392,21 @@
 
     <main id="sci-fi"></main>
 
+<!--    <div id="ad-container" style="display: block; text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px);" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">-->
+<!--        <p style="margin: 0;">Advertisement</p>-->
+<!--        <ins class="adsbygoogle"-->
+<!--             style="display: block; width: 100%;"-->
+<!--             data-ad-client="ca-pub-6608388491200814"-->
+<!--             data-ad-slot="4832732030"-->
+<!--             data-ad-format="auto"></ins>-->
+<!--        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="MovieVerse-Frontend/html/feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>-->
+<!--    </div>-->
+<!--    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6608388491200814"-->
+<!--            crossorigin="anonymous"></script>-->
+<!--    <script>-->
+<!--        (adsbygoogle = window.adsbygoogle || []).push({});-->
+<!--    </script>-->
+
     <div class="genres" id="romantic-div">
         <h2 id="other" style="margin-top: 50px; cursor: pointer">Love Is in the Air: Trending Romantic Movies</h2>
         <div id="romantic-pagination" class="pagination"></div>
@@ -357,15 +414,17 @@
 
     <main id="romantic"></main>
 
+    <div id="ad-container" style="display: block; text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px);" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
+        <p style="margin: 0;">Advertisement</p>
+        <ins class="adsbygoogle"
+             style="display: block; width: 100%;"
+             data-ad-client="ca-pub-6608388491200814"
+             data-ad-slot="4832732030"
+             data-ad-format="auto"></ins>
+        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="MovieVerse-Frontend/html/feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>
+    </div>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6608388491200814"
             crossorigin="anonymous"></script>
-    <ins class="adsbygoogle"
-         style="display:block; text-align:center;"
-         data-ad-client="ca-pub-6608388491200814"
-         data-ad-slot="4832732030"
-         data-ad-format="auto"
-         data-full-width-responsive="true"
-    ></ins>
     <script>
         (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
@@ -377,15 +436,17 @@
 
     <main id="thriller"></main>
 
+    <div id="ad-container" style="display: block; text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px);" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
+        <p style="margin: 0;">Advertisement</p>
+        <ins class="adsbygoogle"
+             style="display: block; width: 100%;"
+             data-ad-client="ca-pub-6608388491200814"
+             data-ad-slot="4832732030"
+             data-ad-format="auto"></ins>
+        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="MovieVerse-Frontend/html/feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>
+    </div>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6608388491200814"
             crossorigin="anonymous"></script>
-    <ins class="adsbygoogle"
-         style="display:block; text-align:center;"
-         data-ad-client="ca-pub-6608388491200814"
-         data-ad-slot="4832732030"
-         data-ad-format="auto"
-         data-full-width-responsive="true"
-    ></ins>
     <script>
         (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
@@ -397,15 +458,17 @@
 
     <main id="mystery"></main>
 
+    <div id="ad-container" style="display: block; text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px);" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
+        <p style="margin: 0;">Advertisement</p>
+        <ins class="adsbygoogle"
+             style="display: block; width: 100%;"
+             data-ad-client="ca-pub-6608388491200814"
+             data-ad-slot="4832732030"
+             data-ad-format="auto"></ins>
+        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="MovieVerse-Frontend/html/feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>
+    </div>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6608388491200814"
             crossorigin="anonymous"></script>
-    <ins class="adsbygoogle"
-         style="display:block; text-align:center;"
-         data-ad-client="ca-pub-6608388491200814"
-         data-ad-slot="4832732030"
-         data-ad-format="auto"
-         data-full-width-responsive="true"
-    ></ins>
     <script>
         (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
@@ -417,15 +480,17 @@
 
     <main id="adventure"></main>
 
+    <div id="ad-container" style="display: block; text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px);" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
+        <p style="margin: 0;">Advertisement</p>
+        <ins class="adsbygoogle"
+             style="display: block; width: 100%;"
+             data-ad-client="ca-pub-6608388491200814"
+             data-ad-slot="4832732030"
+             data-ad-format="auto"></ins>
+        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="MovieVerse-Frontend/html/feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>
+    </div>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6608388491200814"
             crossorigin="anonymous"></script>
-    <ins class="adsbygoogle"
-         style="display:block; text-align:center;"
-         data-ad-client="ca-pub-6608388491200814"
-         data-ad-slot="4832732030"
-         data-ad-format="auto"
-         data-full-width-responsive="true"
-    ></ins>
     <script>
         (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
@@ -437,15 +502,17 @@
 
     <main id="comedy"></main>
 
+    <div id="ad-container" style="display: block; text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px);" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
+        <p style="margin: 0;">Advertisement</p>
+        <ins class="adsbygoogle"
+             style="display: block; width: 100%;"
+             data-ad-client="ca-pub-6608388491200814"
+             data-ad-slot="4832732030"
+             data-ad-format="auto"></ins>
+        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="MovieVerse-Frontend/html/feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>
+    </div>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6608388491200814"
             crossorigin="anonymous"></script>
-    <ins class="adsbygoogle"
-         style="display:block; text-align:center;"
-         data-ad-client="ca-pub-6608388491200814"
-         data-ad-slot="4832732030"
-         data-ad-format="auto"
-         data-full-width-responsive="true"
-    ></ins>
     <script>
         (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
@@ -457,15 +524,17 @@
 
     <main id="fantasy"></main>
 
+    <div id="ad-container" style="display: block; text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px);" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
+        <p style="margin: 0;">Advertisement</p>
+        <ins class="adsbygoogle"
+             style="display: block; width: 100%;"
+             data-ad-client="ca-pub-6608388491200814"
+             data-ad-slot="4832732030"
+             data-ad-format="auto"></ins>
+        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="MovieVerse-Frontend/html/feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>
+    </div>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6608388491200814"
             crossorigin="anonymous"></script>
-    <!-- First Ad -->
-    <ins class="adsbygoogle"
-         style="display:block; text-align: center;"
-         data-ad-client="ca-pub-6608388491200814"
-         data-ad-slot="3621305298"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
     <script>
         (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
@@ -477,15 +546,17 @@
 
     <main id="family"></main>
 
+    <div id="ad-container" style="display: block; text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px);" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
+        <p style="margin: 0;">Advertisement</p>
+        <ins class="adsbygoogle"
+             style="display: block; width: 100%;"
+             data-ad-client="ca-pub-6608388491200814"
+             data-ad-slot="4832732030"
+             data-ad-format="auto"></ins>
+        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="MovieVerse-Frontend/html/feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>
+    </div>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6608388491200814"
             crossorigin="anonymous"></script>
-    <!-- Second ads -->
-    <ins class="adsbygoogle"
-         style="display:block; text-align: center;"
-         data-ad-client="ca-pub-6608388491200814"
-         data-ad-slot="3696476853"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
     <script>
         (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
@@ -497,15 +568,17 @@
 
     <main id="crime"></main>
 
+    <div id="ad-container" style="display: block; text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px);" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
+        <p style="margin: 0;">Advertisement</p>
+        <ins class="adsbygoogle"
+             style="display: block; width: 100%;"
+             data-ad-client="ca-pub-6608388491200814"
+             data-ad-slot="4832732030"
+             data-ad-format="auto"></ins>
+        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="MovieVerse-Frontend/html/feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>
+    </div>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6608388491200814"
             crossorigin="anonymous"></script>
-    <!-- Homepage 1 -->
-    <ins class="adsbygoogle"
-         style="display:block; text-align: center;"
-         data-ad-client="ca-pub-6608388491200814"
-         data-ad-slot="4832732030"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
     <script>
         (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
@@ -517,15 +590,17 @@
 
     <main id="musical"></main>
 
+    <div id="ad-container" style="display: block; text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px);" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
+        <p style="margin: 0;">Advertisement</p>
+        <ins class="adsbygoogle"
+             style="display: block; width: 100%;"
+             data-ad-client="ca-pub-6608388491200814"
+             data-ad-slot="4832732030"
+             data-ad-format="auto"></ins>
+        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="MovieVerse-Frontend/html/feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>
+    </div>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6608388491200814"
             crossorigin="anonymous"></script>
-    <!-- Homepage 1 -->
-    <ins class="adsbygoogle"
-         style="display:block; text-align: center;"
-         data-ad-client="ca-pub-6608388491200814"
-         data-ad-slot="4832732030"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
     <script>
         (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
@@ -537,15 +612,17 @@
 
     <main id="drama"></main>
 
+    <div id="ad-container" style="display: block; text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px);" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
+        <p style="margin: 0;">Advertisement</p>
+        <ins class="adsbygoogle"
+             style="display: block; width: 100%;"
+             data-ad-client="ca-pub-6608388491200814"
+             data-ad-slot="4832732030"
+             data-ad-format="auto"></ins>
+        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="MovieVerse-Frontend/html/feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>
+    </div>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6608388491200814"
             crossorigin="anonymous"></script>
-    <!-- Homepage 1 -->
-    <ins class="adsbygoogle"
-         style="display:block; text-align: center;"
-         data-ad-client="ca-pub-6608388491200814"
-         data-ad-slot="4832732030"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
     <script>
         (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
@@ -557,15 +634,17 @@
 
     <main id="classic"></main>
 
+    <div id="ad-container" style="display: block; text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px);" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
+        <p style="margin: 0;">Advertisement</p>
+        <ins class="adsbygoogle"
+             style="display: block; width: 100%;"
+             data-ad-client="ca-pub-6608388491200814"
+             data-ad-slot="4832732030"
+             data-ad-format="auto"></ins>
+        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="MovieVerse-Frontend/html/feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>
+    </div>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6608388491200814"
             crossorigin="anonymous"></script>
-    <!-- Homepage 1 -->
-    <ins class="adsbygoogle"
-         style="display:block; text-align: center;"
-         data-ad-client="ca-pub-6608388491200814"
-         data-ad-slot="4832732030"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
     <script>
         (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
@@ -614,8 +693,10 @@
         <span>Menu</span>
     </button>
 
-    <footer id="footer" style="cursor: pointer; margin-top: 40px">
-        <p>© 2024 The MovieVerse. All rights reserved.</p>
+    <footer style="margin-top: 40px">
+        <p id="footer">© 2024 The MovieVerse. All rights reserved.</p>
+        <p>Learn more about us <a href="MovieVerse-Frontend/html/about.html" id="githubLink">here</a>.</p>
+        <p style="font-size: 9px">View our demos at: <a href="MovieVerse-Frontend/html/inception.html" id="githubLink">Inception</a>, <a href="MovieVerse-Frontend/html/christopher-nolan.html" id="githubLink">Christopher Nolan</a>, and <a href="MovieVerse-Frontend/html/leonardo-dicaprio.html" id="githubLink">Leonardo DiCaprio</a>.</p>
     </footer>
 
     <script>
@@ -1104,6 +1185,7 @@
 
             function clearSelection() {
                 const results = searchResultsContainer.getElementsByClassName('search-result-card');
+
                 if (selectedIndex >= 0 && selectedIndex < results.length) {
                     results[selectedIndex].style.backgroundColor = '';
                 }

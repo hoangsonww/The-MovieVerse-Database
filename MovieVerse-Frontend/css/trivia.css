@@ -58,6 +58,117 @@ html {
     transition: 0.3s ease-in;
 }
 
+.search-results {
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+    margin: 0 auto;
+    align-items: center;
+}
+
+#form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+}
+
+.search-result-card {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #7378c5;
+    margin: 0;
+    margin-bottom: 2px;
+    margin-top: 5px;
+    width: 300px;
+    color: #212121;
+}
+
+.search-result-card:hover {
+    background-color: #ff8623;
+    transition: 0.3s ease-in;
+}
+
+.search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.buttons-container button {
+    padding-left: 20px;
+}
+
+#clear-search {
+    background-color: #7378c5;
+    border: none;
+    border-radius: 8px;
+    font: inherit;
+    cursor: pointer;
+    color: #000000;
+    padding: 5px 10px;
+    margin-top: 10px;
+    margin-left: 20px;
+}
+
+#clear-search:hover {
+    background-color: #ff8623;
+    transition: background-color 0.3s ease;
+}
+
+#view-all-results {
+    background-color: #7378c5;
+    border: none;
+    border-radius: 8px;
+    padding: 5px 10px;
+    font: inherit;
+    cursor: pointer;
+    color: #000000;
+    margin-top: 10px;
+}
+
+#view-all-results:hover {
+    background-color: #ff8623;
+    transition: background-color 0.3s ease;
+}
+
+.result-image {
+    width: 64px;
+    height: 96px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.result-details {
+    margin-left: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.result-name {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.result-type {
+    font-size: 14px;
+    font-style: italic;
+    color: #212121;
+}
+
 #googleSignInBtn {
     background-color: #7378c5;
     border: none;
@@ -721,7 +832,7 @@ main {
     text-align: center;
     color: white;
     text-decoration: none;
-    padding: 6px 0;
+    padding: 3px 0;
     width: 15%;
 }
 

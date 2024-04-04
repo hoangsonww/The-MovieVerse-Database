@@ -445,7 +445,7 @@ async function getMovies(url, mainElement, page = 1) {
 function showMovies(movies, mainElement) {
     mainElement.innerHTML = '';
     movies.forEach(movie => {
-        const { id, poster_path, title, vote_average, overview, genre_ids } = movie;
+        const { id, poster_path, title, vote_average, vote_count, overview, genre_ids } = movie;
         const movieEl = document.createElement('div');
         movieEl.style.zIndex = '1000';
         movieEl.classList.add('movie');
@@ -453,8 +453,8 @@ function showMovies(movies, mainElement) {
             ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
             : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
 
-        const voteAvg = vote_average > 0 ? vote_average.toFixed(1) : "Unrated";
-        const ratingClass = vote_average > 0 ? getClassByRate(vote_average) : "unrated";
+        const voteAvg = vote_count === 0 ? "Unrated" : vote_average.toFixed(1);
+        const ratingClass = vote_count === 0 ? "unrated" : getClassByRate(vote_average);
 
         movieEl.innerHTML = `
             ${movieImage}
@@ -546,7 +546,7 @@ async function rotateUserStats() {
         {
             label: "Favorite Movies",
             getValue: () => {
-                const favoritedMovies = JSON.parse(localStorage.getItem('favorites')) || [];
+                const favoritedMovies = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
                 return favoritedMovies.length;
             }
         },

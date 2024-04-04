@@ -61,7 +61,7 @@ Through The MovieVerse, users can search for movies, view detailed information, 
 
 **Additional Information:**
 - **Continuous Improvements**: The platform is ever-evolving with regular updates and new features.
-- **Free & No Ads**: The MovieVerse is free to use and ad-free for an uninterrupted experience.
+- **Free to Use**: The MovieVerse is completely free to use, with absolutely no hidden costs or subscriptions.
 - **Privacy & Security**: The MovieVerse is committed to protecting your privacy and ensuring a secure platform.
 
 **And So Much More!**

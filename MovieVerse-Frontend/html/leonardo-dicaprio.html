@@ -76,31 +76,49 @@
                 The Mo<span class="highlight">vieV</span>erse
             </h1>
         </a>
+
         <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
             <p id="stats-label" class="clock" style="font-size: 16px;"></p>
             <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
         </div>
+
         <button class="back-btn" onclick="window.location.href='../../index.html'">Home</button>
+
         <button class="about" onclick="window.location.href='about.html'">About</button>
+
         <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="View your favorites & watchlists">Favorites</button>
+
         <button id="googleSignInBtn" class="nav-btn" onclick="handleSignInOut()" title="Sign In/Out">
             <span id="signInOutText">Sign In</span>
             <i class="fas fa-sign-in-alt" id="signInIcon"></i>
             <i class="fas fa-sign-out-alt" id="signOutIcon" style="display: none;"></i>
         </button>
+
         <button id="profileBtn" class="nav-btn" onclick="window.location.href='user-profile.html'" title="Go to your profile">
             <span id="profileText">Profile</span>
             <i class="fas fa-user" id="profileIcon"></i>
         </button>
+
         <form id="form1">
-            <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!"/>
-            <button type="button" id="button-search" onclick="handleSearch()">Search</button>
+            <div class="search-container">
+                <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!" />
+                <button type="button" id="button-search" onclick="handleSearch()">Search</button>
+            </div>
+
+            <div id="search-results" class="search-results"></div>
+
+            <div class="buttons-container">
+                <button type="button" id="view-all-results" style="display: none;">View more results</button>
+                <button type="button" id="clear-search" style="display: none">Clear</button>
+            </div>
         </form>
     </header>
+
     <div class="genres" style="margin-left: 25px">
         <h2 id="search-title"></h2>
         <button id="clear-search-btn" style="display: none;">Clear Search Results</button>
     </div>
+
     <main id="main" style="margin-left: 25px"></main>
 
     <div class="details-container" id="actor-details-container">
