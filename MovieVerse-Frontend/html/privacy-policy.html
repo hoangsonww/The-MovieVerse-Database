@@ -69,11 +69,18 @@
         @media (min-width: 900px) {
             #form1 {
                 margin-right: 0;
+                margin-top: 10px;
             }
         }
 
-        #local-time {
-            transform: translateX(15%);
+        @media (min-width: 900px) {
+            header {
+                margin-top: 4px !important;
+            }
+        }
+
+        header {
+            margin-top: -5px;
         }
 
         body {
@@ -107,7 +114,7 @@
 </head>
 
 <body>
-    <header style="margin-top: -5px">
+    <header>
         <a href="https://movie-verse.com" style="text-decoration: none; color: inherit; cursor: pointer" title="Click to go back to the home page">
             <h1 id="my-heading" style="margin-bottom: -10px">
                 The Mo<span class="highlight">vieV</span>erse
