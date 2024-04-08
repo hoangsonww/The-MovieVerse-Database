@@ -47,7 +47,7 @@ export async function toggleFavoriteTVSeries() {
     const tvSeriesId = localStorage.getItem('selectedTvSeriesId');
 
     if (!tvSeriesId) {
-        console.error('TV Series ID is missing');
+        console.log('TV Series ID is missing');
         return;
     }
 
@@ -70,7 +70,7 @@ export async function toggleFavoriteTVSeries() {
 
     let userDocRef;
     if (querySnapshot.empty) {
-        console.error('Signed-in user does not have a Firestore document.');
+        console.log('Signed-in user does not have a Firestore document.');
         return;
     }
     else {
@@ -96,7 +96,7 @@ export async function checkAndUpdateFavoriteButtonTVSeries() {
     const tvSeriesId = localStorage.getItem('selectedTvSeriesId');
 
     if (!tvSeriesId) {
-        console.error('TV Series ID is missing');
+        console.log('TV Series ID is missing');
         return;
     }
 

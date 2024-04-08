@@ -277,14 +277,6 @@
             #search {
                 margin-top: 0 !important;
             }
-
-            #form1 {
-                margin-right: 19px;
-            }
-        }
-
-        #local-time {
-            transform: translateX(20%);
         }
 
         body {
@@ -506,7 +498,7 @@
                             const sortedResults = data.results.sort((a, b) => b.popularity - a.popularity);
                             displaySearchResults(sortedResults.slice(0, 5));
                         })
-                        .catch(err => console.error("Fetching error:", err));
+                        .catch(err => console.log("Fetching error:", err));
                 }
                 else {
                     searchInput.value = '';
@@ -591,7 +583,7 @@
                 console.log('Clicked item:', item.media_type, item.id);
 
                 if (!item.media_type) {
-                    console.error('Media type is undefined');
+                    console.log('Media type is undefined');
                     return;
                 }
 
@@ -619,11 +611,11 @@
                         }
                     }
                     catch (error) {
-                        console.error('Error fetching person details:', error);
+                        console.log('Error fetching person details:', error);
                     }
                 }
                 else {
-                    console.error('Unknown media type:', item.media_type);
+                    console.log('Unknown media type:', item.media_type);
                 }
             }
         });
@@ -744,7 +736,7 @@
                 }
             }
             catch (error) {
-                console.error('Error fetching movie:', error);
+                console.log('Error fetching movie:', error);
                 fallbackMovieSelection();
             }
         }
@@ -802,7 +794,7 @@
                 localStorage.setItem('genreMap', JSON.stringify(genreMap));
             }
             catch (error) {
-                console.error('Error fetching genre map:', error);
+                console.log('Error fetching genre map:', error);
             }
         }
 

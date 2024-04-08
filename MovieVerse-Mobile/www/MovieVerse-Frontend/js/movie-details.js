@@ -179,7 +179,7 @@ async function fetchGenreMap() {
         localStorage.setItem('genreMap', JSON.stringify(genreMap));
     }
     catch (error) {
-        console.error('Error fetching genre map:', error);
+        console.log('Error fetching genre map:', error);
     }
 }
 
@@ -703,7 +703,7 @@ async function fetchMovieDetails(movieId) {
             <div style="display: flex; justify-content: center; align-items: center; text-align: center; margin-top: 40px; width: 100vw; height: 800px">
                 <h2>Movie details not found - Try again with a different movie</h2>
             </div>`;
-        console.error('Error fetching movie details:', error);
+        console.log('Error fetching movie details:', error);
         hideSpinner();
     }
 }

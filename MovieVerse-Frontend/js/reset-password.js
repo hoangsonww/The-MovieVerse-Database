@@ -89,7 +89,7 @@ async function updatePassword() {
                 alert("Password updated successfully!");
                 window.location.href = 'sign-in.html';
             }).catch((error) => {
-                console.error("Error updating password: ", error);
+                console.log("Error updating password: ", error);
                 alert("Failed to update password. Please try again.");
             });
         });

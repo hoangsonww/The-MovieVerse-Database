@@ -116,7 +116,7 @@ async function fetchActorDetails(actorId) {
         }
     }
     catch (error) {
-        console.error('Error fetching actor details:', error);
+        console.log('Error fetching actor details:', error);
         document.getElementById('actor-details-container').innerHTML = '<h2>Error fetching actor details</h2>';
     }
 }
@@ -219,7 +219,7 @@ async function fetchGenreMap() {
         localStorage.setItem('genreMap', JSON.stringify(genreMap));
     }
     catch (error) {
-        console.error('Error fetching genre map:', error);
+        console.log('Error fetching genre map:', error);
     }
 }
 
@@ -452,7 +452,7 @@ async function showMovieOfTheDay() {
         }
     }
     catch (error) {
-        console.error('Error fetching movie:', error);
+        console.log('Error fetching movie:', error);
         fallbackMovieSelection();
     }
 }

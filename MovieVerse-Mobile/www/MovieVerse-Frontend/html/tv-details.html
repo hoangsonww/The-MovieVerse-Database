@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../css/style.css">
     <script src="../js/tv-details.js" defer></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <meta property="og:title" content="TV Series Details - The MovieVerse">
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
@@ -16,6 +17,7 @@
     <meta property="og:site_name" content="The MovieVerse" />
     <meta property="og:image" content="https://movie-verse.com/images/image.png"/>
     <meta property="og:favicon" content="./images/favicon.ico" />
+
     <meta name="keywords" content="movies, film guide, directors, actors, movie genres, cinema, film reviews">
     <meta name="author" content="Son Nguyen Hoang">
     <meta name="description" content="Discover in-depth details about your favorite TV series on The MovieVerse. Get information on cast, plot, ratings, and more.">
@@ -27,17 +29,19 @@
     <meta http-equiv="content-language" content="en">
     <meta name="language" content="en">
     <meta name="theme-color" content="#7378c5">
+
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@MovieVerse" />
     <meta name="twitter:creator" content="@hoangsonw" />
     <meta name="twitter:title" content="The MovieVerse - Your Ultimate Movie Guide">
     <meta name="twitter:description" content="Discover in-depth details about your favorite TV series on The MovieVerse. Get information on cast, plot, ratings, and more.">
     <meta name="twitter:image" content="https://movie-verse.com/images/image.png"/>
+
     <meta name="referrer" content="no-referrer-when-downgrade">
     <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
-    <script src="../js/settings.js"></script>
     <link rel="manifest" href="../../manifest.json">
+
     <script type="text/javascript">
         (function(c,l,a,r,i,t,y){
             c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -45,6 +49,7 @@
             y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
         })(window, document, "clarity", "script", "l7gqnssat8");
     </script>
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -53,6 +58,7 @@
 
         gtag('config', 'G-CQKJ67FXZ4');
     </script>
+
     <style>
         #comment-modal .modal-content {
             min-width: 400px;
@@ -127,28 +133,35 @@
                 The Mo<span class="highlight">vieV</span>erse
             </h1>
         </a>
+
         <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
             <p id="stats-label" class="clock" style="font-size: 16px;"></p>
             <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
         </div>
+
         <button class="back-btn" onclick="window.location.href='../../index.html'">Home</button>
         <button class="about" onclick="window.location.href='about.html'">About</button>
         <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="View your favorites & watchlists">Favorites</button>
+
         <button id="googleSignInBtn" class="nav-btn" onclick="handleSignInOut()" title="Sign In/Out">
             <span id="signInOutText">Sign In</span>
             <i class="fas fa-sign-in-alt" id="signInIcon"></i>
             <i class="fas fa-sign-out-alt" id="signOutIcon" style="display: none;"></i>
         </button>
+
         <button id="profileBtn" class="nav-btn" onclick="window.location.href='user-profile.html'" title="Go to your profile">
             <span id="profileText">Profile</span>
             <i class="fas fa-user" id="profileIcon"></i>
         </button>
+
         <form id="form1">
             <div class="search-container">
                 <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!" />
                 <button type="button" id="button-search" onclick="handleSearch()">Search</button>
             </div>
+
             <div id="search-results" class="search-results"></div>
+
             <div class="buttons-container">
                 <button type="button" id="view-all-results" style="display: none;">View more results</button>
                 <button type="button" id="clear-search" style="display: none">Clear</button>
@@ -168,7 +181,6 @@
     <div class="details-container" id="movie-details-container" style="margin-bottom: 100px">
         <!-- Left side for Title and Image -->
         <div class="movie-left">
-
             <!-- Container for Title and Favorites Button -->
             <div class="title-favorites-container">
                 <h2 id="movie-title" class="movie-header"></h2>
@@ -226,21 +238,6 @@
             </div>
         </div>
     </div>
-
-    <div id="ad-container" style="display: block; text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px);" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
-        <p style="margin: 0;">Advertisement</p>
-        <ins class="adsbygoogle"
-             style="display: block; width: 100%;"
-             data-ad-client="ca-pub-6608388491200814"
-             data-ad-slot="4832732030"
-             data-ad-format="auto"></ins>
-        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>
-    </div>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6608388491200814"
-            crossorigin="anonymous"></script>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
 
     <div id="myModal" class="modal-overlay">
         <div class="spinner"></div>
@@ -356,7 +353,7 @@
                             const sortedResults = data.results.sort((a, b) => b.popularity - a.popularity);
                             displaySearchResults(sortedResults.slice(0, 5));
                         })
-                        .catch(err => console.error("Fetching error:", err));
+                        .catch(err => console.log("Fetching error:", err));
                 }
                 else {
                     searchInput.value = '';
@@ -441,7 +438,7 @@
                 console.log('Clicked item:', item.media_type, item.id);
 
                 if (!item.media_type) {
-                    console.error('Media type is undefined');
+                    console.log('Media type is undefined');
                     return;
                 }
 
@@ -469,11 +466,11 @@
                         }
                     }
                     catch (error) {
-                        console.error('Error fetching person details:', error);
+                        console.log('Error fetching person details:', error);
                     }
                 }
                 else {
-                    console.error('Unknown media type:', item.media_type);
+                    console.log('Unknown media type:', item.media_type);
                 }
             }
         });
@@ -757,4 +754,5 @@
     </script>
 
 </body>
+
 </html>

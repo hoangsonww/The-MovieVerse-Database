@@ -70,7 +70,6 @@ function handleProfileDisplay() {
         welcomeMessage.textContent = `Welcome, ${profile.username || 'User'}!`;
         profileContainer.style.display = 'block';
         signInPrompt.style.display = 'none';
-        window.document.title = `${profile.username || 'User'}'s Profile - The MovieVerse`;
         loadProfile();
         hideSpinner();
     }
@@ -89,7 +88,10 @@ async function loadProfile() {
     const userEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
     if (!userEmail) return;
 
+    const welcomeMessage = document.getElementById('welcomeMessage');
+
     const docRef = doc(db, 'profiles', userEmail);
+
     try {
         const docSnap = await getDoc(docRef);
         let profile = {
@@ -110,8 +112,6 @@ async function loadProfile() {
             profile = { ...profile, ...docSnap.data() };
             const imageUrl = profile.profileImage || '../../images/user-default.png';
             document.getElementById('profileImage').src = imageUrl;
-
-            profile.hobbies = profile.hobbies && profile.hobbies.length > 0 ? profile.hobbies.join(', ') : 'N/A';
         }
 
         document.getElementById('profileImage').src = profile.profileImage;
@@ -126,10 +126,11 @@ async function loadProfile() {
         document.getElementById('favoriteActorDisplay').innerHTML = `<strong>Favorite Actor:</strong> ${profile.favoriteActor}`;
         document.getElementById('favoriteDirectorDisplay').innerHTML = `<strong>Favorite Director:</strong> ${profile.favoriteDirector}`;
         document.getElementById('personalQuoteDisplay').innerHTML = `<strong>Personal Quote:</strong> ${profile.personalQuote}`;
-        window.document.title = `${profile.username || 'User'}'s Profile - The MovieVerse`;
+        window.document.title = `${profile.username !== 'N/A' ? profile.username : 'User'}'s Profile - The MovieVerse`;
+        welcomeMessage.textContent = `Welcome, ${profile.username !== 'N/A' ? profile.username : 'User'}!`;
     }
     catch (error) {
-        console.error("Error loading profile: ", error);
+        console.log("Error loading profile: ", error);
     }
 
     hideSpinner();
@@ -140,8 +141,19 @@ async function saveProfileChanges() {
     if (!userEmail) return;
 
     const profileRef = doc(db, 'profiles', userEmail);
+    const currentDoc = await getDoc(profileRef);
+    const currentProfile = currentDoc.exists() ? currentDoc.data() : null;
+
+    const newUsername = document.getElementById('editUsername').value.trim();
+
+    if (currentProfile && currentProfile.username && currentProfile.username !== 'N/A' && !newUsername) {
+        alert("You cannot delete your username. Please enter a valid username.");
+        document.getElementById('editUsername').value = currentProfile.username;
+        return;
+    }
+
     const profile = {
-        username: document.getElementById('editUsername').value,
+        username: newUsername || currentProfile.username,
         dob: document.getElementById('editDob').value,
         bio: document.getElementById('editBio').value,
         favoriteGenres: document.getElementById('editFavoriteGenres').value.split(',').map(genre => genre.trim()),
@@ -160,7 +172,7 @@ async function saveProfileChanges() {
         loadProfile();
     }
     catch (error) {
-        console.error("Error updating profile: ", error);
+        console.log("Error updating profile: ", error);
     }
 }
 
@@ -168,17 +180,18 @@ async function removeProfileImage() {
     const userEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
     if (!userEmail) return;
 
-    const profileImageRef = ref(storage, `profileImages/${userEmail}`);
+    const defaultImageUrl = '../../images/user-default.png';
 
     try {
-        await deleteObject(profileImageRef);
-        console.log('File deleted successfully');
-        await setDoc(doc(db, 'profiles', userEmail), { profileImage: deleteField() }, { merge: true });
-        document.getElementById('profileImage').src = '../../images/user-default.png';
+        await setDoc(doc(db, 'profiles', userEmail), { profileImage: defaultImageUrl }, { merge: true });
+
+        document.getElementById('profileImage').src = defaultImageUrl;
         document.getElementById('removeProfileImage').style.display = 'none';
+
+        console.log('Profile image reset to default successfully');
     }
     catch (error) {
-        console.error("Error removing image: ", error);
+        console.log("Error removing image: ", error);
     }
 }
 
@@ -199,13 +212,14 @@ async function uploadImage() {
     try {
         const base64Image = await resizeImageAndConvertToBase64(file, 1024, 1024);
 
-        await setDoc(doc(db, 'profiles', userEmail), { profileImageBase64: base64Image }, { merge: true });
-        document.getElementById('profileImage').src = base64Image;
+        await setDoc(doc(db, 'profiles', userEmail), { profileImage: base64Image }, { merge: true });
 
+        document.getElementById('profileImage').src = base64Image;
         console.log('Image processed and Firestore updated');
+        window.location.reload();
     }
     catch (error) {
-        console.error("Error during image processing:", error);
+        console.log("Error during image processing:", error);
         alert('Error during image processing: ' + error.message);
     }
 }
@@ -307,7 +321,7 @@ function setupEventListeners() {
             document.getElementById('editProfileModal').style.display = 'block';
         }
         catch (error) {
-            console.error("Error accessing Firestore: ", error);
+            console.log("Error accessing Firestore: ", error);
         }
     });
 

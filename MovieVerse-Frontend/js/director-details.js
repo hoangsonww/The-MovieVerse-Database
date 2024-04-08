@@ -125,7 +125,7 @@ async function fetchDirectorDetails(directorId) {
             <div style="display: flex; justify-content: center; align-items: center; text-align: center; margin-top: 40px; width: 100vw; height: 800px">
                 <h2>Director details not found - try again with a different director.</h2>
             </div>`;
-        console.error('Error fetching director details:', error);
+        console.log('Error fetching director details:', error);
         hideSpinner();
     }
 }
@@ -221,7 +221,7 @@ async function fetchGenreMap() {
         localStorage.setItem('genreMap', JSON.stringify(genreMap));
     }
     catch (error) {
-        console.error('Error fetching genre map:', error);
+        console.log('Error fetching genre map:', error);
     }
 }
 

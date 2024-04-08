@@ -1,3 +1,5 @@
+const DEFAULT_BACKGROUND_IMAGE = '../../images/universe-1.png';
+
 document.addEventListener('DOMContentLoaded', () => {
     const bgSelect = document.getElementById('background-select');
     const textColorInput = document.getElementById('text-color-input');
@@ -7,31 +9,39 @@ document.addEventListener('DOMContentLoaded', () => {
     loadCustomBackgrounds();
     loadSettings();
 
-    bgSelect.addEventListener('change', function() {
-        document.body.style.backgroundImage = `url('${this.value}')`;
-        localStorage.setItem('backgroundImage', this.value);
-    });
-
-    textColorInput.addEventListener('input', function() {
-        document.querySelectorAll('h1, h2, h3, p, a, span, div, button, input, select, textarea, label, li').forEach(element => {
-            element.style.color = this.value;
+    if (bgSelect) {
+        bgSelect.addEventListener('change', function() {
+            document.body.style.backgroundImage = `url('${this.value}')`;
+            localStorage.setItem('backgroundImage', this.value);
         });
-        localStorage.setItem('textColor', this.value);
-    });
+    }
 
-    fontSizeSelect.addEventListener('change', function() {
-        const size = this.value === 'small' ? '12px' : this.value === 'medium' ? '16px' : '20px';
-        document.body.style.fontSize = size;
-        localStorage.setItem('fontSize', this.value);
-    });
+    if (textColorInput) {
+        textColorInput.addEventListener('input', function () {
+            document.querySelectorAll('h1, h2, h3, p, a, span, div, button, input, select, textarea, label, li').forEach(element => {
+                element.style.color = this.value;
+            });
+            localStorage.setItem('textColor', this.value);
+        });
+    }
 
-    resetButton.addEventListener('click', function() {
-        localStorage.removeItem('backgroundImage');
-        localStorage.setItem('backgroundImage', '../../images/universe-1.png')
-        localStorage.removeItem('textColor');
-        localStorage.removeItem('fontSize');
-        window.location.reload();
-    });
+    if (fontSizeSelect) {
+        fontSizeSelect.addEventListener('change', function () {
+            const size = this.value === 'small' ? '12px' : this.value === 'medium' ? '16px' : '20px';
+            document.body.style.fontSize = size;
+            localStorage.setItem('fontSize', this.value);
+        });
+    }
+
+    if (resetButton) {
+        resetButton.addEventListener('click', function () {
+            localStorage.removeItem('backgroundImage');
+            localStorage.setItem('backgroundImage', '../../images/universe-1.png')
+            localStorage.removeItem('textColor');
+            localStorage.removeItem('fontSize');
+            window.location.reload();
+        });
+    }
 
     function loadSettings() {
         let savedBg = localStorage.getItem('backgroundImage');
@@ -45,7 +55,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         document.body.style.backgroundImage = `url('${savedBg}')`;
         const foundImage = customImages.find(image => image.dataURL === savedBg);
-        bgSelect.value = foundImage ? foundImage.dataURL : savedBg;
 
         if (savedTextColor) {
             document.querySelectorAll('h1, h2, h3, p, a, span, div, button, input, select, textarea, label, li').forEach(element => {
@@ -58,57 +67,90 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.style.fontSize = size;
             fontSizeSelect.value = savedFontSize;
         }
+
+        if (bgSelect) {
+            bgSelect.value = foundImage ? foundImage.dataURL : savedBg;
+        }
+        else {
+            return;
+        }
     }
 
-    document.getElementById('delete-uploaded-btn').addEventListener('click', function() {
-        deleteImagesPrompt();
-    });
-});
+    const deleteButton = document.getElementById('delete-uploaded-btn');
+    if (deleteButton) {
+        deleteButton.addEventListener('click', function() {
+            deleteImagesPrompt();
+            document.body.style.backgroundImage = `url('${DEFAULT_BACKGROUND_IMAGE}')`;
+            localStorage.setItem('backgroundImage', DEFAULT_BACKGROUND_IMAGE);
+            if (bgSelect) {
+                bgSelect.value = DEFAULT_BACKGROUND_IMAGE;
+            }
+        });
+    }
+    else {
+        return;
+    }
+})
 
 function loadCustomBackgrounds() {
     const bgSelect = document.getElementById('background-select');
     const customImages = JSON.parse(localStorage.getItem('customImages')) || [];
 
-    customImages.forEach(image => {
-        const newOption = new Option(image.name, image.dataURL);
-        bgSelect.add(newOption);
-    });
-}
-
-document.getElementById('upload-bg-btn').addEventListener('click', function() {
-    const fileInput = document.getElementById('custom-bg-upload');
-    const imageNameInput = document.getElementById('custom-bg-name');
-    const bgSelect = document.getElementById('background-select');
-
-    if (fileInput.files.length > 0) {
-        const file = fileInput.files[0];
-        const customImages = JSON.parse(localStorage.getItem('customImages')) || [];
-        const totalSize = customImages.reduce((sum, img) => sum + img.dataURL.length, 0);
-        const quota = 4.5 * 1024 * 1024;
-
-        if (totalSize >= quota) {
-            handleQuotaExceedance();
-        }
-        else {
-            if (file.size > 204800) { // 200KB
-                resizeImage(file, 204800, (resizedDataUrl) => {
-                    processImageUpload(resizedDataUrl, imageNameInput, bgSelect);
-                    alert('The uploaded image was resized to fit the size limit of 200KB.');
-                });
-            }
-            else {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    processImageUpload(e.target.result, imageNameInput, bgSelect);
-                };
-                reader.readAsDataURL(file);
-            }
-        }
+    if (bgSelect) {
+        customImages.forEach(image => {
+            const newOption = new Option(image.name, image.dataURL);
+            bgSelect.add(newOption);
+        });
     }
     else {
-        alert('Please select an image to upload.');
+        return;
     }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const uploadButton = document.getElementById('upload-bg-btn');
+
+    if (!uploadButton) {
+        console.log('Upload button not found');
+        return;
+    }
+
+    uploadButton.addEventListener('click', function() {
+        const fileInput = document.getElementById('custom-bg-upload');
+        const imageNameInput = document.getElementById('custom-bg-name');
+        const bgSelect = document.getElementById('background-select');
+
+        if (fileInput && fileInput.files.length > 0) {
+            const file = fileInput.files[0];
+            const customImages = JSON.parse(localStorage.getItem('customImages')) || [];
+            const totalSize = customImages.reduce((sum, img) => sum + img.dataURL.length, 0);
+            const quota = 4.5 * 1024 * 1024;
+
+            if (totalSize >= quota) {
+                handleQuotaExceedance();
+            }
+            else {
+                if (file.size > 204800) { // 200KB
+                    resizeImage(file, 204800, (resizedDataUrl) => {
+                        processImageUpload(resizedDataUrl, imageNameInput, bgSelect);
+                        alert('The uploaded image was resized to fit the size limit of 200KB.');
+                    });
+                }
+                else {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        processImageUpload(e.target.result, imageNameInput, bgSelect);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+        }
+        else {
+            alert('Please select an image to upload.');
+        }
+    });
 });
+
 
 function handleQuotaExceedance() {
     const customImages = JSON.parse(localStorage.getItem('customImages')) || [];
