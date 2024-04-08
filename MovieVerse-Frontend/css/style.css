@@ -1881,6 +1881,14 @@ p {
     object-fit: contain;
 }
 
+#userLink {
+    color: black;
+}
+
+#userLink:hover {
+    color: #ff710d;
+}
+
 .user-search-result div {
     width: 67%;
     display: flex;

@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getFirestore, doc, getDoc, setDoc, query, collection, where, getDocs , deleteField } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { getFirestore, doc, getDoc, setDoc, query, collection, where, getDocs, serverTimestamp, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
 
 function showSpinner() {
@@ -182,6 +182,44 @@ async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMo
     profileContainer.style.display = 'block';
 
     const docRef = doc(db, 'profiles', userEmail);
+    const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
+    const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
+
+    let followUnfollowBtn = document.getElementById('followUnfollowBtn');
+    if (!followUnfollowBtn) {
+        followUnfollowBtn = document.createElement('button');
+        followUnfollowBtn.id = 'followUnfollowBtn';
+        followUnfollowBtn.style.width = '100%';
+        profileContainer.appendChild(followUnfollowBtn);
+    }
+
+    if (currentUserEmail && userEmail !== currentUserEmail && isSignedIn) {
+        const followingRef = doc(db, 'profiles', currentUserEmail, 'following', userEmail);
+        const followersRef = doc(db, 'profiles', userEmail, 'followers', currentUserEmail);
+
+        const followSnap = await getDoc(followingRef);
+        const isFollowing = followSnap.exists();
+
+        followUnfollowBtn.textContent = isFollowing ? 'Unfollow' : 'Follow';
+        followUnfollowBtn.style.display = 'block';
+
+        followUnfollowBtn.onclick = async () => {
+            if (isFollowing) {
+                await deleteDoc(followingRef);
+                await deleteDoc(followersRef);
+                followUnfollowBtn.textContent = 'Follow';
+            }
+            else {
+                const timestamp = serverTimestamp();
+                await setDoc(followingRef, { timestamp: timestamp });
+                await setDoc(followersRef, { timestamp: timestamp });
+                followUnfollowBtn.textContent = 'Unfollow';
+            }
+        };
+    }
+    else {
+        followUnfollowBtn.style.display = 'none';
+    }
 
     try {
         const docSnap = await getDoc(docRef);
@@ -229,6 +267,9 @@ async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMo
             else {
                 welcomeMessage.textContent = `Viewing ${profile.username}'s profile`;
             }
+
+            await displayUserList('following', userEmail);
+            await displayUserList('followers', userEmail);
         }
         else {
             console.log("No such profile exists!");
@@ -236,6 +277,46 @@ async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMo
     }
     catch (error) {
         console.log("Error loading profile: ", error);
+    }
+
+    hideSpinner();
+}
+
+async function displayUserList(listType, userEmail) {
+    showSpinner();
+
+    const db = getFirestore();
+    const listRef = collection(db, 'profiles', userEmail, listType);
+    const snapshot = await getDocs(listRef);
+    const userListSpan = document.getElementById(`${listType}List`);
+
+    userListSpan.innerHTML = '';
+
+    if (snapshot.empty) {
+        userListSpan.textContent = 'N/A';
+    }
+    else {
+        for (let docSnapshot of snapshot.docs) {
+            const userRef = doc(db, 'profiles', docSnapshot.id);
+            const userSnap = await getDoc(userRef);
+            if (userSnap.exists()) {
+                const userData = userSnap.data();
+
+                const userLink = document.createElement('a');
+                userLink.textContent = userData.username;
+                userLink.href = '#';
+                userLink.id = "userLink"
+                userLink.style.cursor = 'pointer';
+                userLink.onclick = () => loadProfile(docSnapshot.id);
+
+                userListSpan.appendChild(userLink);
+                userListSpan.appendChild(document.createTextNode(', '));
+            }
+        }
+
+        if (userListSpan.lastChild) {
+            userListSpan.removeChild(userListSpan.lastChild);
+        }
     }
 
     hideSpinner();
