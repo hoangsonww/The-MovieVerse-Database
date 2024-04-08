@@ -25,6 +25,7 @@
     <meta name="revisit-after" content="3 days">
     <meta name="distribution" content="global">
     <meta http-equiv="content-language" content="en">
+    <script src="../js/settings.js"></script>
     <meta name="language" content="en">
     <meta name="theme-color" content="#7378c5">
     <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
@@ -36,7 +37,6 @@
     <meta name="twitter:image" content="https://movie-verse.com/images/image.png"/>
     <meta name="referrer" content="no-referrer-when-downgrade">
     <script src="../js/favorites.js" type="module"></script>
-    <script src="../js/settings.js"></script>
     <link rel="manifest" href="../../manifest.json">
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js"></script>
@@ -112,13 +112,6 @@
             margin-left: 0;
             margin-top: 35px;
             margin-bottom: 15px;
-        }
-
-        #local-time {
-            transform: translateX(17%);
-            padding: 10px;
-            border-radius: 10px;
-            z-index: 10;
         }
 
         @media (max-width: 1200px) {
@@ -246,8 +239,8 @@
     </header>
 
     <div class="watchlist-buttons-container">
-        <button id="create-watchlist-btn">Create a Watch List</button>
-        <button id="edit-watchlist-btn">Edit a Watch List</button>
+        <button id="create-watchlist-btn">Create Watch Lists</button>
+        <button id="edit-watchlist-btn">Edit Watch Lists</button>
         <button id="delete-watchlist-btn">Delete Watch Lists</button>
     </div>
 
@@ -311,21 +304,6 @@
         <p><em>Note: if you sign in for the first time without any previously signed-in account, any locally stored favorites and watchlists will be replaced by your account data. To avoid losing data, consider backing it up or noting it down before signing in.</em></p>
         <p style="font-weight: bold; margin-top: 30px">Enjoy using MovieVerse Watchlists!</p>
     </div>
-
-    <div id="ad-container" style="display: block; text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px);" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
-        <p style="margin: 0;">Advertisement</p>
-        <ins class="adsbygoogle"
-             style="display: block; width: 100%;"
-             data-ad-client="ca-pub-6608388491200814"
-             data-ad-slot="4832732030"
-             data-ad-format="auto"></ins>
-        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>
-    </div>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6608388491200814"
-            crossorigin="anonymous"></script>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
 
     <button id="settings-btn" onclick="window.location.href='settings.html'" style="position: fixed; bottom: 265px; right: 10px; z-index: 10012">Settings</button>
     <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 230px; right: 10px; z-index: 10012">Movie Match</button>
@@ -573,7 +551,7 @@
                             const sortedResults = data.results.sort((a, b) => b.popularity - a.popularity);
                             displaySearchResults(sortedResults.slice(0, 5));
                         })
-                        .catch(err => console.error("Fetching error:", err));
+                        .catch(err => console.log("Fetching error:", err));
                 }
                 else {
                     searchInput.value = '';
@@ -658,7 +636,7 @@
                 console.log('Clicked item:', item.media_type, item.id);
 
                 if (!item.media_type) {
-                    console.error('Media type is undefined');
+                    console.log('Media type is undefined');
                     return;
                 }
 
@@ -686,11 +664,11 @@
                         }
                     }
                     catch (error) {
-                        console.error('Error fetching person details:', error);
+                        console.log('Error fetching person details:', error);
                     }
                 }
                 else {
-                    console.error('Unknown media type:', item.media_type);
+                    console.log('Unknown media type:', item.media_type);
                 }
             }
         });

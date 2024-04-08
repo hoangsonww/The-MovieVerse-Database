@@ -109,7 +109,7 @@ async function fetchGenreMap() {
         localStorage.setItem('genreMap', JSON.stringify(genreMap));
     }
     catch (error) {
-        console.error('Error fetching genre map:', error);
+        console.log('Error fetching genre map:', error);
     }
 }
 
@@ -604,7 +604,7 @@ async function populateEditModal() {
 
     if (watchlists.length === 0) {
         const noWatchlistMsg = document.createElement('div');
-        noWatchlistMsg.textContent = 'No Watchlists Available for Edit';
+        noWatchlistMsg.textContent = 'No Watch Lists Available for Edit';
         noWatchlistMsg.style.textAlign = 'center';
         noWatchlistMsg.style.marginTop = '30px';
         noWatchlistMsg.style.color = 'white';
@@ -1056,7 +1056,7 @@ async function loadWatchLists() {
         const watchlists = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
         if (watchlists.length === 0) {
-            displaySection.innerHTML = '<p style="text-align: center">No watch lists found. Click on "Create a Watch List" to start adding movies.</p>';
+            displaySection.innerHTML = '<p style="text-align: center">No watch lists found. Click on "Create Watch Lists" to start adding movies.</p>';
         }
         else {
             watchlists.sort((a, b) => a.order - b.order);

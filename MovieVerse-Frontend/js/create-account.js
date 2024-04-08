@@ -95,7 +95,7 @@ document.getElementById('createAccountForm').addEventListener('submit', async (e
         window.location.href = 'sign-in.html';
     }
     catch (error) {
-        console.error("Error creating account: ", error);
+        console.log("Error creating account: ", error);
         alert('Failed to create account. Please try again later.');
     }
 });

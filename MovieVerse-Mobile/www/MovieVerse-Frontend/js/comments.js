@@ -32,7 +32,7 @@ commentForm.addEventListener("submit", async (e) => {
         fetchComments();
     }
     catch (error) {
-        console.error("Error adding comment: ", error);
+        console.log("Error adding comment: ", error);
     }
 });
 

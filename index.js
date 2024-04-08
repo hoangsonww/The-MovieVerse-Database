@@ -15,6 +15,8 @@ const tv_series_main = document.getElementById("tv-series");
 const crime_main = document.getElementById("crime");
 const award_winning_main = document.getElementById('award-winning');
 const hidden_gems_main = document.getElementById('hidden-gems');
+const western_main = document.getElementById('western');
+const war_main = document.getElementById('war');
 const classic_main = document.getElementById('classic');
 const director_main = document.getElementById('director-spotlight');
 const korean_main = document.getElementById('korean');
@@ -45,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function movePagination() {
         if (window.innerWidth <= 767) {
-            mainContainer.parentNode.insertBefore(pagination, mainContainer.nextSibling);
+            mainContainer.parentNode.insertBefore(pagination, mainContainer);
         }
         else {
             genresContainer.appendChild(pagination);
@@ -145,7 +147,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function movePagination() {
         if (window.innerWidth <= 767) {
-            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
         }
         else {
             genresContainer.appendChild(paginationContainerAwardWinning);
@@ -237,7 +239,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function movePagination() {
         if (window.innerWidth <= 767) {
-            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
         }
         else {
             genresContainer.appendChild(paginationContainerAwardWinning);
@@ -328,7 +330,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function movePagination() {
         if (window.innerWidth <= 767) {
-            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
         }
         else {
             genresContainer.appendChild(paginationContainerAwardWinning);
@@ -450,7 +452,7 @@ function showMovies(movies, mainElement) {
         movieEl.style.zIndex = '1000';
         movieEl.classList.add('movie');
         const movieImage = poster_path
-            ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
+            ? `<img src="${IMGPATH + poster_path}" style="cursor: pointer;" alt="${title} poster - loading..." width="150" height="225">`
             : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
 
         const voteAvg = vote_count === 0 ? "Unrated" : vote_average.toFixed(1);
@@ -514,7 +516,7 @@ async function fetchGenreMap() {
         localStorage.setItem('genreMap', JSON.stringify(genreMap));
     }
     catch (error) {
-        console.error('Error fetching genre map:', error);
+        console.log('Error fetching genre map:', error);
     }
 }
 
@@ -630,7 +632,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function movePagination() {
         if (window.innerWidth <= 767) {
-            recommendedMain.parentNode.insertBefore(paginationContainerRecommended, recommendedMain.nextSibling);
+            recommendedMain.parentNode.insertBefore(paginationContainerRecommended, recommendedMain);
         }
         else {
             genresContainer.appendChild(paginationContainerRecommended);
@@ -841,7 +843,7 @@ async function showMovieOfTheDay() {
         }
     }
     catch (error) {
-        console.error('Error fetching movie:', error);
+        console.log('Error fetching movie:', error);
         fallbackMovieSelection();
     }
 }
@@ -949,7 +951,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function movePagination() {
         if (window.innerWidth <= 767) {
-            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
         }
         else {
             genresContainer.appendChild(paginationContainerAwardWinning);
@@ -1041,7 +1043,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function movePagination() {
         if (window.innerWidth <= 767) {
-            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
         }
         else {
             genresContainer.appendChild(paginationContainerAwardWinning);
@@ -1133,7 +1135,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function movePagination() {
         if (window.innerWidth <= 767) {
-            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
         }
         else {
             genresContainer.appendChild(paginationContainerAwardWinning);
@@ -1225,7 +1227,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function movePagination() {
         if (window.innerWidth <= 767) {
-            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
         }
         else {
             genresContainer.appendChild(paginationContainerAwardWinning);
@@ -1316,7 +1318,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function movePagination() {
         if (window.innerWidth <= 767) {
-            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
         }
         else {
             genresContainer.appendChild(paginationContainerAwardWinning);
@@ -1400,7 +1402,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 const DATABASEURL = `https://${getMovieVerseData()}/3/discover/movie?sort_by=popularity.desc&${generateMovieNames()}${getMovieCode()}`;
-const IMGPATH = `https://image.tmdb.org/t/p/w1280`;
+const IMGPATH = `https://image.tmdb.org/t/p/w500`;
 const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
 const ACTIONpath = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=28&sort_by=popularity.desc&vote_count.gte=8`;
 const HORRORpath = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=27&sort_by=popularity.desc&vote_count.gte=8`;
@@ -1424,6 +1426,8 @@ const AWARD_WINNING_PATH = `https://${getMovieVerseData()}/3/discover/movie?${ge
 const CLASSIC_MOVIES_PATH = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=popularity.desc&release_date.lte=1980`;
 const MUSICAL_PATH = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10402&sort_by=popularity.desc&vote_count.gte=8`;
 const DRAMA_PATH = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=18&sort_by=popularity.desc&vote_count.gte=8`;
+const WESTERN_PATH = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=37&sort_by=popularity.desc&vote_count.gte=8`;
+const WAR_PATH = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10752&sort_by=popularity.desc&vote_count.gte=8`;
 
 document.addEventListener('DOMContentLoaded', function() {
     let currentPageAwardWinning = 1;
@@ -1434,7 +1438,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function movePagination() {
         if (window.innerWidth <= 767) {
-            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
         }
         else {
             genresContainer.appendChild(paginationContainerAwardWinning);
@@ -1526,7 +1530,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function movePagination() {
         if (window.innerWidth <= 767) {
-            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
         }
         else {
             genresContainer.appendChild(paginationContainerAwardWinning);
@@ -1618,7 +1622,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function movePagination() {
         if (window.innerWidth <= 767) {
-            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
         }
         else {
             genresContainer.appendChild(paginationContainerAwardWinning);
@@ -1710,7 +1714,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function movePagination() {
         if (window.innerWidth <= 767) {
-            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
         }
         else {
             genresContainer.appendChild(paginationContainerAwardWinning);
@@ -1802,7 +1806,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function movePagination() {
         if (window.innerWidth <= 767) {
-            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
         }
         else {
             genresContainer.appendChild(paginationContainerAwardWinning);
@@ -1893,7 +1897,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function movePagination() {
         if (window.innerWidth <= 767) {
-            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
         }
         else {
             genresContainer.appendChild(paginationContainerAwardWinning);
@@ -1984,7 +1988,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function movePagination() {
         if (window.innerWidth <= 767) {
-            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
         }
         else {
             genresContainer.appendChild(paginationContainerAwardWinning);
@@ -2075,7 +2079,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function movePagination() {
         if (window.innerWidth <= 767) {
-            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
         }
         else {
             genresContainer.appendChild(paginationContainerAwardWinning);
@@ -2167,7 +2171,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function movePagination() {
         if (window.innerWidth <= 767) {
-            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
         }
         else {
             genresContainer.appendChild(paginationContainerAwardWinning);
@@ -2259,7 +2263,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function movePagination() {
         if (window.innerWidth <= 767) {
-            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
         }
         else {
             genresContainer.appendChild(paginationContainerAwardWinning);
@@ -2351,7 +2355,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function movePagination() {
         if (window.innerWidth <= 767) {
-            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
         }
         else {
             genresContainer.appendChild(paginationContainerAwardWinning);
@@ -2443,7 +2447,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function movePagination() {
         if (window.innerWidth <= 767) {
-            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
         }
         else {
             genresContainer.appendChild(paginationContainerAwardWinning);
@@ -2535,7 +2539,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function movePagination() {
         if (window.innerWidth <= 767) {
-            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
         }
         else {
             genresContainer.appendChild(paginationContainerAwardWinning);
@@ -2627,7 +2631,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function movePagination() {
         if (window.innerWidth <= 767) {
-            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain.nextSibling);
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
         }
         else {
             genresContainer.appendChild(paginationContainerAwardWinning);
@@ -2636,6 +2640,188 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const fetchAndUpdateAwardWinning = () => {
         const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=99&sort_by=popularity.desc&vote_count.gte=8`;
+        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
+        updatePaginationDisplayAwardWinning();
+    };
+
+    const updatePaginationDisplayAwardWinning = () => {
+        paginationContainerAwardWinning.innerHTML = '';
+
+        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
+            currentPageAwardWinning--;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(prevButton);
+
+        let startPage = Math.max(currentPageAwardWinning - 2, 1);
+        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
+        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
+
+        if (startPage > 1) {
+            paginationContainerAwardWinning.appendChild(createPageButton(1));
+            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            paginationContainerAwardWinning.appendChild(createPageButton(i));
+        }
+
+        if (endPage < totalPagesAwardWinning) {
+            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
+        }
+
+        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
+            currentPageAwardWinning++;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(nextButton);
+    };
+
+    function createNavigationButton(text, enabled, clickHandler) {
+        const button = document.createElement('button');
+        button.innerHTML = text;
+        button.disabled = !enabled;
+        button.className = 'nav-button';
+        if (enabled) {
+            button.addEventListener('click', clickHandler);
+        }
+        return button;
+    }
+
+    function createPageButton(pageNum) {
+        const button = document.createElement('button');
+        button.textContent = pageNum;
+        button.className = 'page-button';
+        if (pageNum === '...') {
+            button.disabled = true;
+        }
+        else {
+            button.addEventListener('click', () => {
+                currentPageAwardWinning = pageNum;
+                fetchAndUpdateAwardWinning();
+            });
+            if (pageNum === currentPageAwardWinning) {
+                button.classList.add('active');
+            }
+        }
+        return button;
+    }
+
+    movePagination();
+    fetchAndUpdateAwardWinning();
+    window.addEventListener('resize', movePagination);
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    let currentPageAwardWinning = 1;
+    const totalPagesAwardWinning = 60;
+    const awardWinningMain = document.getElementById('western');
+    const paginationContainerAwardWinning = document.getElementById('western-pagination');
+    const genresContainer = document.getElementById('western-div');
+
+    function movePagination() {
+        if (window.innerWidth <= 767) {
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
+        }
+        else {
+            genresContainer.appendChild(paginationContainerAwardWinning);
+        }
+    }
+
+    const fetchAndUpdateAwardWinning = () => {
+        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=37&sort_by=popularity.desc&vote_count.gte=8`;
+        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
+        updatePaginationDisplayAwardWinning();
+    };
+
+    const updatePaginationDisplayAwardWinning = () => {
+        paginationContainerAwardWinning.innerHTML = '';
+
+        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
+            currentPageAwardWinning--;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(prevButton);
+
+        let startPage = Math.max(currentPageAwardWinning - 2, 1);
+        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
+        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
+
+        if (startPage > 1) {
+            paginationContainerAwardWinning.appendChild(createPageButton(1));
+            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            paginationContainerAwardWinning.appendChild(createPageButton(i));
+        }
+
+        if (endPage < totalPagesAwardWinning) {
+            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
+        }
+
+        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
+            currentPageAwardWinning++;
+            fetchAndUpdateAwardWinning();
+        });
+        paginationContainerAwardWinning.appendChild(nextButton);
+    };
+
+    function createNavigationButton(text, enabled, clickHandler) {
+        const button = document.createElement('button');
+        button.innerHTML = text;
+        button.disabled = !enabled;
+        button.className = 'nav-button';
+        if (enabled) {
+            button.addEventListener('click', clickHandler);
+        }
+        return button;
+    }
+
+    function createPageButton(pageNum) {
+        const button = document.createElement('button');
+        button.textContent = pageNum;
+        button.className = 'page-button';
+        if (pageNum === '...') {
+            button.disabled = true;
+        }
+        else {
+            button.addEventListener('click', () => {
+                currentPageAwardWinning = pageNum;
+                fetchAndUpdateAwardWinning();
+            });
+            if (pageNum === currentPageAwardWinning) {
+                button.classList.add('active');
+            }
+        }
+        return button;
+    }
+
+    movePagination();
+    fetchAndUpdateAwardWinning();
+    window.addEventListener('resize', movePagination);
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    let currentPageAwardWinning = 1;
+    const totalPagesAwardWinning = 60;
+    const awardWinningMain = document.getElementById('war');
+    const paginationContainerAwardWinning = document.getElementById('war-pagination');
+    const genresContainer = document.getElementById('war-div');
+
+    function movePagination() {
+        if (window.innerWidth <= 767) {
+            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
+        }
+        else {
+            genresContainer.appendChild(paginationContainerAwardWinning);
+        }
+    }
+
+    const fetchAndUpdateAwardWinning = () => {
+        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10752&sort_by=popularity.desc&vote_count.gte=8`;
         getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
         updatePaginationDisplayAwardWinning();
     };
@@ -2727,6 +2913,8 @@ getMovies(CRIMEpath, crime_main);
 getMovies(AWARD_WINNING_PATH, award_winning_main);
 getMovies(HIDDEN_GEMS_PATH, hidden_gems_main);
 getMovies(CLASSIC_MOVIES_PATH, classic_main);
+getMovies(WESTERN_PATH, western_main);
+getMovies(WAR_PATH, war_main);
 getMovies(VIETNAMESE_PATH, vietnamese_main);
 getMovies(KOREAN_PATH, korean_main);
 getMovies(MUSICAL_PATH, musical_main);
@@ -3056,7 +3244,7 @@ async function fetchNewReleases() {
     }
 
     catch (error) {
-        console.error('Error fetching new releases:', error);
+        console.log('Error fetching new releases:', error);
         newReleasesList.innerHTML = '<li>Error fetching new releases.</li>';
     }
 

@@ -37,7 +37,6 @@
     <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <meta name="theme-color" content="#7378c5">
-    <script src="../js/settings.js"></script>
     <link rel="manifest" href="../../manifest.json">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
     <script>
@@ -289,7 +288,7 @@
             }
         }
         catch (error) {
-            console.error('Error fetching movie:', error);
+            console.log('Error fetching movie:', error);
             fallbackMovieSelection();
         }
     }

@@ -53,7 +53,7 @@ export async function checkAndUpdateFavoriteButton() {
     const movieId = localStorage.getItem('selectedMovieId');
 
     if (!movieId) {
-        console.error('Movie ID is missing');
+        console.log('Movie ID is missing');
         return;
     }
 
@@ -68,7 +68,7 @@ export async function checkAndUpdateFavoriteButton() {
     const querySnapshot = await getDocs(usersRef);
 
     if (querySnapshot.empty) {
-        console.error('No user found with that email');
+        console.log('No user found with that email');
         return;
     }
 
@@ -109,7 +109,7 @@ export async function toggleFavorite() {
     const movieId = localStorage.getItem('selectedMovieId');
 
     if (!movieId) {
-        console.error('Movie ID is missing');
+        console.log('Movie ID is missing');
         return;
     }
 
@@ -154,7 +154,7 @@ export async function toggleFavorite() {
         userDocRef = doc(db, "MovieVerseUsers", querySnapshot.docs[0].id);
     }
     else {
-        console.error('No user found with that email and user is supposed to be signed in.');
+        console.log('No user found with that email and user is supposed to be signed in.');
         return;
     }
 

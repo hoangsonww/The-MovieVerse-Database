@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <title>About The MovieVerse - Your Ultimate Movie Guide</title>
     <meta property="og:title" content="About The MovieVerse - Your Ultimate Movie Guide" />
-    <script src="../js/settings.js"></script>
     <meta name="description" content="Learn about The MovieVerse, your ultimate movie guide. Discover our mission, features, and how we create a haven for movie enthusiasts to explore cinema.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta property="og:locale" content="en_US" />
@@ -56,13 +55,6 @@
     </script>
 
     <style>
-        #local-time {
-            transform: translateX(15%);
-            padding: 10px;
-            border-radius: 10px;
-            z-index: 10;
-        }
-
         @media (min-width: 900px) {
             #form1 {
                 margin-right: 0;
@@ -414,7 +406,7 @@
                 }
             }
             catch (error) {
-                console.error('Error fetching movie:', error);
+                console.log('Error fetching movie:', error);
                 fallbackMovieSelection();
             }
         }
@@ -560,7 +552,7 @@
                 localStorage.setItem('genreMap', JSON.stringify(genreMap));
             }
             catch (error) {
-                console.error('Error fetching genre map:', error);
+                console.log('Error fetching genre map:', error);
             }
         }
 
@@ -888,7 +880,7 @@
                             const sortedResults = data.results.sort((a, b) => b.popularity - a.popularity);
                             displaySearchResults(sortedResults.slice(0, 5));
                         })
-                        .catch(err => console.error("Fetching error:", err));
+                        .catch(err => console.log("Fetching error:", err));
                 }
                 else {
                     searchInput.value = '';
@@ -973,7 +965,7 @@
                 console.log('Clicked item:', item.media_type, item.id);
 
                 if (!item.media_type) {
-                    console.error('Media type is undefined');
+                    console.log('Media type is undefined');
                     return;
                 }
 
@@ -1001,11 +993,11 @@
                         }
                     }
                     catch (error) {
-                        console.error('Error fetching person details:', error);
+                        console.log('Error fetching person details:', error);
                     }
                 }
                 else {
-                    console.error('Unknown media type:', item.media_type);
+                    console.log('Unknown media type:', item.media_type);
                 }
             }
         });

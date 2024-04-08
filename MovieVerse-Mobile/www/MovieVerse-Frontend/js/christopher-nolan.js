@@ -225,7 +225,7 @@ async function fetchDirectorDetails(directorId) {
         }
     }
     catch (error) {
-        console.error('Error fetching director details:', error);
+        console.log('Error fetching director details:', error);
         document.getElementById('director-details-container').innerHTML = '<h2>Error fetching director details</h2>';
     }
 }
@@ -320,7 +320,7 @@ async function fetchGenreMap() {
         localStorage.setItem('genreMap', JSON.stringify(genreMap));
     }
     catch (error) {
-        console.error('Error fetching genre map:', error);
+        console.log('Error fetching genre map:', error);
     }
 }
 

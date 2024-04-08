@@ -52,7 +52,7 @@ async function fetchGenreMap() {
         localStorage.setItem('genreMap', JSON.stringify(genreMap));
     }
     catch (error) {
-        console.error('Error fetching genre map:', error);
+        console.log('Error fetching genre map:', error);
     }
 }
 
@@ -424,7 +424,7 @@ async function fetchAndRedirectToMovieDetails(movieName) {
         }
     }
     catch (error) {
-        console.error('Error fetching movie details:', error);
+        console.log('Error fetching movie details:', error);
         alert('Failed to fetch movie details. Please try again later.');
     }
 }
@@ -449,7 +449,7 @@ async function fetchMovieTrailer(movieName) {
         }
     }
     catch (error) {
-        console.error('Error fetching movie trailer:', error);
+        console.log('Error fetching movie trailer:', error);
     }
 }
 
@@ -462,7 +462,7 @@ async function getTrailerUrl(movieId) {
         return trailer ? `https://www.youtube.com/watch?v=${trailer.key}` : null;
     }
     catch (error) {
-        console.error('Error fetching trailer:', error);
+        console.log('Error fetching trailer:', error);
         return null;
     }
 }
@@ -494,7 +494,7 @@ async function fetchPersonDetails(name, type) {
         }
     }
     catch (error) {
-        console.error(`Error fetching ${type} details:`, error);
+        console.log(`Error fetching ${type} details:`, error);
         alert(`Failed to fetch ${type} details. Please try again later.`);
     }
 }
@@ -514,7 +514,7 @@ async function fetchCompanyDetails(companyName) {
         }
     }
     catch (error) {
-        console.error('Error fetching company details:', error);
+        console.log('Error fetching company details:', error);
         alert('Failed to fetch company details. Please try again later.');
     }
 }
@@ -706,6 +706,19 @@ async function movieVerseResponse(message) {
         return "Movies in 2024 include: Indiana Jones 5, The Batman, etc.";
     } else if (lowerMessage.includes("movieverse analytics") || lowerMessage.includes("movieverse stats") || lowerMessage.includes("movieverse insights")) {
         return "MovieVerse Analytics provides insights into user activity, popular movies, and more. You can access it by pressing the About button on the top right, then selecting MovieVerse Analytics at the bottom of the page.";
+    } else if (lowerMessage.includes("most visited director")) {
+        return `The most visited director is ${getMostVisitedDirector()}.`;
+    } else if (lowerMessage.includes("trivia accuracy")) {
+        return `Your trivia accuracy is ${getTriviaAccuracy()}.`;
+    } else if (lowerMessage.includes("most common genre") || lowerMessage.includes("favorite genre")) {
+        return `Your most common genre is ${getMostCommonGenre()}.`;
+    } else if (lowerMessage.includes("movie of the day")) {
+        showMovieOfTheDay();
+        return "Searching for the movie of the day. Please wait...";
+    } else if (lowerMessage.includes("sign in") || lowerMessage.includes("sign out")) {
+        return "Please click the Sign In/Out button at the top to sign in or out.";
+    } else if (lowerMessage.includes("sign up")) {
+        return "Please click the Sign In button at the top to create an account.";
     } else {
         return "Sorry, I didn't catch that or find any movies with that name in our databases. Can you rephrase, check your spelling, or ask another question?";
     }
@@ -731,7 +744,7 @@ async function fetchMovieDetailsFromTMDB(movieName) {
         }
     }
     catch (error) {
-        console.error('Error fetching movie details:', error);
+        console.log('Error fetching movie details:', error);
         return "Sorry, I encountered an error while trying to fetch movie details. Please try again later.";
     }
 }
@@ -755,7 +768,7 @@ async function showMovieOfTheDay() {
         }
     }
     catch (error) {
-        console.error('Error fetching movie:', error);
+        console.log('Error fetching movie:', error);
         fallbackMovieSelection();
     }
 }

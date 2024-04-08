@@ -55,7 +55,7 @@ async function fetchGenreMap() {
         localStorage.setItem('genreMap', JSON.stringify(genreMap));
     }
     catch (error) {
-        console.error('Error fetching genre map:', error);
+        console.log('Error fetching genre map:', error);
     }
 }
 
@@ -551,7 +551,7 @@ async function fetchTvDetails(tvSeriesId) {
             <div style="display: flex; justify-content: center; align-items: center; text-align: center; margin-top: 40px; width: 100vw; height: 800px">
                 <h2>TV series details not found - Try again with another TV series</h2>
             </div>`;
-        console.error('Error fetching TV series details:', error);
+        console.log('Error fetching TV series details:', error);
         hideSpinner();
     }
 }
@@ -569,7 +569,7 @@ async function fetchTVRatings(imdbId) {
         return imdbRating;
     }
     catch (error) {
-        console.error('Error fetching TV series ratings:', error);
+        console.log('Error fetching TV series ratings:', error);
         return 'N/A';
     }
 }
@@ -782,7 +782,7 @@ async function showMovieOfTheDay() {
         }
     }
     catch (error) {
-        console.error('Error fetching movie:', error);
+        console.log('Error fetching movie:', error);
         fallbackMovieSelection();
     }
 }
