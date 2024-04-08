@@ -350,10 +350,11 @@
     <div id="profileContainer" class="profile-container" style="margin-bottom: 300px">
         <div class="profile-image-container">
             <img id="profileImage" style="cursor: pointer" title="Click to upload a new profile image" onclick="document.getElementById('imageUpload').click()" src="../../images/user-default.png" alt="Profile Image" />
-            <button id="removeProfileImage" title="Click to remove the current profile image" onclick="removeProfileImage()" style="display: none;">&times;</button>
+            <button id="removeProfileImage" title="Click to remove the current profile image" style="display: none;">&times;</button>
         </div>
+
         <input type="file" id="imageUpload" accept="image/*" hidden />
-        <button onclick="document.getElementById('imageUpload').click()">Change Profile Image</button>
+        <button id="changeProfileImageBtn" onclick="document.getElementById('imageUpload').click()">Change Profile Image</button>
 
         <div class="profile-info">
             <p id="usernameDisplay">Username: <span></span></p>

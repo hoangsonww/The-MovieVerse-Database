@@ -121,7 +121,7 @@ async function performSearch(searchText) {
     searchUserResults.innerHTML = '';
 
     if (querySnapshot.empty) {
-        searchUserResults.innerHTML = `<div>No User with Username "${searchText}" found</div>`;
+        searchUserResults.innerHTML = `<div style="text-align: center; font-weight: bold">No User with Username "${searchText}" found</div>`;
         searchUserResults.style.display = 'block';
     }
     else {
@@ -159,6 +159,26 @@ async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMo
 
     const welcomeMessage = document.getElementById('welcomeMessage');
     const profileContainer = document.getElementById('profileContainer');
+    const changeProfileImageBtn = document.getElementById('changeProfileImageBtn');
+    const editProfileBtn = document.getElementById('editProfileBtn');
+    const removeProfileImageBtn = document.getElementById('removeProfileImage');
+    const profileImage = document.getElementById('profileImage');
+
+    if (userEmail !== localStorage.getItem('currentlySignedInMovieVerseUser') || !localStorage.getItem('currentlySignedInMovieVerseUser') || !JSON.parse(localStorage.getItem('isSignedIn'))) {
+        changeProfileImageBtn.style.display = 'none';
+        editProfileBtn.style.display = 'none';
+        profileImage.removeAttribute('onclick');
+        profileImage.style.cursor = 'default';
+        profileImage.title = 'Sign in to change profile image';
+    }
+    else {
+        changeProfileImageBtn.style.display = '';
+        editProfileBtn.style.display = '';
+        profileImage.setAttribute('onclick', 'document.getElementById("imageUpload").click()');
+        profileImage.style.cursor = 'pointer';
+        profileImage.title = 'Click to change profile image';
+    }
+
     profileContainer.style.display = 'block';
 
     const docRef = doc(db, 'profiles', userEmail);
@@ -183,7 +203,14 @@ async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMo
             profile = { ...profile, ...docSnap.data() };
             const imageUrl = profile.profileImage || '../../images/user-default.png';
             document.getElementById('profileImage').src = imageUrl;
-            document.getElementById('removeProfileImage').style.display = profile.profileImage && profile.profileImage !== '../../images/user-default.png' ? 'inline' : 'none';
+
+            if (userEmail !== localStorage.getItem('currentlySignedInMovieVerseUser') || !localStorage.getItem('currentlySignedInMovieVerseUser') || !JSON.parse(localStorage.getItem('isSignedIn')) || profile.profileImage === '../../images/user-default.png') {
+                removeProfileImageBtn.style.display = 'none';
+            }
+            else {
+                removeProfileImageBtn.style.display = 'inline';
+            }
+
             document.getElementById('usernameDisplay').innerHTML = `<strong>Username:</strong> ${profile.username}`;
             document.getElementById('dobDisplay').innerHTML = `<strong>Date of Birth:</strong> ${profile.dob}`;
             document.getElementById('bioDisplay').innerHTML = `<strong>Bio:</strong> ${profile.bio}`;
@@ -361,6 +388,7 @@ function setupEventListeners() {
         try {
             const docRef = doc(db, 'profiles', userEmail);
             const docSnap = await getDoc(docRef);
+
             let profile = {
                 username: 'N/A',
                 dob: '',

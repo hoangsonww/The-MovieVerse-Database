@@ -64,12 +64,21 @@
             background-size: 100% auto;
         }
 
+        #actor-details-container {
+            margin-top: 0;
+        }
+
         @media (max-width: 767px) {
             body {
                 background-size: auto;
                 background-position: top center;
             }
+
+            #actor-details-container {
+                margin-top: 25px;
+            }
         }
+
     </style>
 </head>
 
@@ -116,7 +125,7 @@
 
     <main id="main" style="margin-left: 25px; height: 0"></main>
 
-    <div class="details-container" id="actor-details-container" style="margin-bottom: 70px; margin-top: 25px">
+    <div class="details-container" id="actor-details-container" style="margin-bottom: 70px;">
         <!-- Left side for Actor Image -->
         <div class="actor-left" style="overflow-y: hidden">
             <h2 id="actor-name" class="actor-header"></h2>
