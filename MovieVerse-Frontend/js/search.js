@@ -365,6 +365,7 @@ function attachEventListeners() {
         showResults('person');
     });
 
+
     const resetMovieFiltersBtn = movieFilters.querySelector('button[id="reset-filters"]');
     const resetTvFiltersBtn = tvFilters.querySelector('button[id="reset-filters"]');
     const resetPeopleFiltersBtn = peopleFilters.querySelector('button[id="reset-filters"]');

@@ -355,7 +355,7 @@ async function loadTopRatedMoviesPerYearChart() {
         datasets: [{
             label: 'Top Rated Movie Score',
             data: topMovies,
-            backgroundColor: 'rgba(255, 159, 64, 0.2)',
+            backgroundColor: 'rgba(255, 159, 64, 1)',
             borderColor: 'rgba(255, 159, 64, 1)',
             borderWidth: 1
         }]
@@ -379,7 +379,7 @@ async function loadTotalMovieVotesOverYearsChart() {
         datasets: [{
             label: 'Total Movie Votes',
             data: totalVoteCounts,
-            backgroundColor: 'rgba(255, 193, 7, 0.2)',
+            backgroundColor: 'rgba(255, 193, 7, 1)',
             borderColor: 'rgba(255, 193, 7, 1)',
             borderWidth: 1
         }]
@@ -403,7 +403,7 @@ async function loadHighlyRatedMoviesOverYearsChart() {
         datasets: [{
             label: 'Highly Rated Movies (Rating >= 8)',
             data: highRatedMovieCounts,
-            backgroundColor: 'rgba(0, 206, 209, 0.2)',
+            backgroundColor: 'rgba(0, 206, 209, 1)',
             borderColor: 'rgba(0, 206, 209, 1)',
             borderWidth: 1
         }]
