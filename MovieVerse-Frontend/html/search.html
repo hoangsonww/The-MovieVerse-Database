@@ -411,7 +411,7 @@
                     card.className = 'search-result-card';
                     card.style.cursor = 'pointer';
 
-                    const imagePath = item.poster_path || item.profile_path ? `https://image.tmdb.org/t/p/w500${item.poster_path || item.profile_path}` : null;
+                    const imagePath = item.poster_path || item.profile_path ? `https://image.tmdb.org/t/p/w300${item.poster_path || item.profile_path}` : null;
 
                     if (imagePath) {
                         const image = document.createElement('img');
