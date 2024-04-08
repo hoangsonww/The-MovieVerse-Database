@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getFirestore, doc, getDoc, setDoc, deleteField } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { getFirestore, doc, getDoc, setDoc, query, collection, where, getDocs , deleteField } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
 
 function showSpinner() {
@@ -54,41 +54,112 @@ const db = getFirestore(app);
 document.addEventListener('DOMContentLoaded', function() {
     handleProfileDisplay();
     setupEventListeners();
+    setupSearchListeners();
 });
 
 function handleProfileDisplay() {
-    showSpinner();
     const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
     const userEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
-    const profileKey = `profileInfo-${userEmail}`;
-    const profile = JSON.parse(localStorage.getItem(profileKey)) || {};
     const welcomeMessage = document.getElementById('welcomeMessage');
-    const profileContainer = document.getElementById('profileContainer');
     const signInPrompt = document.getElementById('signInPrompt');
+    const viewMyProfileBtn = document.getElementById('viewMyProfileBtn');
+    const profileContainer = document.getElementById('profileContainer');
+    profileContainer.style.display = 'none';
+
+    showSpinner();
 
     if (isSignedIn && userEmail) {
-        welcomeMessage.textContent = `Welcome, ${profile.username || 'User'}!`;
-        profileContainer.style.display = 'block';
-        signInPrompt.style.display = 'none';
-        loadProfile();
-        hideSpinner();
+        loadProfile(userEmail);
+        viewMyProfileBtn.disabled = false;
+        viewMyProfileBtn.style.display = 'block';
     }
     else {
-        document.getElementById('welcomeMessage').textContent = '';
-        document.getElementById('profileContainer').style.display = 'none';
-        signInPrompt.textContent = 'Please sign in to view your profile';
-        signInPrompt.style.fontWeight = '800';
-        signInPrompt.style.color = '#ff8623';
-        hideSpinner();
+        welcomeMessage.textContent = 'Please sign in to view your profile';
+        signInPrompt.style.display = 'block';
+        viewMyProfileBtn.disabled = true;
+        viewMyProfileBtn.style.display = 'none';
     }
+
+    document.getElementById('viewMyProfileBtn').addEventListener('click', () => {
+        loadCurrentUserProfile();
+    });
+
+    function loadCurrentUserProfile() {
+        const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
+        if (currentUserEmail) {
+            loadProfile(currentUserEmail);
+        }
+        else {
+            console.error("No user is currently signed in");
+        }
+    }
+
+    hideSpinner();
 }
 
-async function loadProfile() {
+function setupSearchListeners() {
+    const searchUserInput = document.getElementById('searchUserInput');
+
+    searchUserInput.addEventListener('input', () => {
+        const searchText = searchUserInput.value.trim();
+        if (searchText) {
+            performSearch(searchText);
+        }
+        else {
+            document.getElementById('searchUserResults').style.display = 'none';
+        }
+    });
+}
+
+async function performSearch(searchText) {
+    const searchUserResults = document.getElementById('searchUserResults');
     showSpinner();
-    const userEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
+
+    const userQuery = query(collection(db, 'profiles'), where('username', '>=', searchText));
+    const querySnapshot = await getDocs(userQuery);
+
+    searchUserResults.innerHTML = '';
+
+    if (querySnapshot.empty) {
+        searchUserResults.innerHTML = `<div>No User with Username "${searchText}" found</div>`;
+        searchUserResults.style.display = 'block';
+    }
+    else {
+        searchUserResults.style.display = 'block';
+        querySnapshot.forEach((doc) => {
+            const user = doc.data();
+            const userDiv = document.createElement('div');
+            userDiv.className = 'user-search-result';
+            userDiv.style.cursor = 'pointer';
+            userDiv.addEventListener('click', () => loadProfile(doc.id));
+
+            const img = document.createElement('img');
+            img.src = user.profileImage || '../../images/user-default.png';
+            img.style.width = '33%';
+            img.style.borderRadius = '8px';
+            userDiv.appendChild(img);
+
+            const textDiv = document.createElement('div');
+            textDiv.style.width = '67%';
+            textDiv.style.textAlign = 'left';
+            textDiv.innerHTML = `<strong style="text-align: left">${user.username}</strong><p style="text-align: left; margin-top: 5px">${user.bio || ''}</p>`;
+            userDiv.appendChild(textDiv);
+
+            searchUserResults.appendChild(userDiv);
+        });
+    }
+
+    hideSpinner();
+}
+
+async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMovieVerseUser')) {
+    showSpinner();
+
     if (!userEmail) return;
 
     const welcomeMessage = document.getElementById('welcomeMessage');
+    const profileContainer = document.getElementById('profileContainer');
+    profileContainer.style.display = 'block';
 
     const docRef = doc(db, 'profiles', userEmail);
 
@@ -112,22 +183,29 @@ async function loadProfile() {
             profile = { ...profile, ...docSnap.data() };
             const imageUrl = profile.profileImage || '../../images/user-default.png';
             document.getElementById('profileImage').src = imageUrl;
-        }
+            document.getElementById('removeProfileImage').style.display = profile.profileImage && profile.profileImage !== '../../images/user-default.png' ? 'inline' : 'none';
+            document.getElementById('usernameDisplay').innerHTML = `<strong>Username:</strong> ${profile.username}`;
+            document.getElementById('dobDisplay').innerHTML = `<strong>Date of Birth:</strong> ${profile.dob}`;
+            document.getElementById('bioDisplay').innerHTML = `<strong>Bio:</strong> ${profile.bio}`;
+            document.getElementById('favoriteGenresDisplay').innerHTML = `<strong>Favorite Genres:</strong> ${profile.favoriteGenres}`;
+            document.getElementById('locationDisplay').innerHTML = `<strong>Location:</strong> ${profile.location}`;
+            document.getElementById('favoriteMovieDisplay').innerHTML = `<strong>Favorite Movie:</strong> ${profile.favoriteMovie}`;
+            document.getElementById('hobbiesDisplay').innerHTML = `<strong>Hobbies:</strong> ${profile.hobbies}`;
+            document.getElementById('favoriteActorDisplay').innerHTML = `<strong>Favorite Actor:</strong> ${profile.favoriteActor}`;
+            document.getElementById('favoriteDirectorDisplay').innerHTML = `<strong>Favorite Director:</strong> ${profile.favoriteDirector}`;
+            document.getElementById('personalQuoteDisplay').innerHTML = `<strong>Personal Quote:</strong> ${profile.personalQuote}`;
+            window.document.title = `${profile.username !== 'N/A' ? profile.username : 'User'}'s Profile - The MovieVerse`;
 
-        document.getElementById('profileImage').src = profile.profileImage;
-        document.getElementById('removeProfileImage').style.display = profile.profileImage && profile.profileImage !== '../../images/user-default.png' ? 'inline' : 'none';
-        document.getElementById('usernameDisplay').innerHTML = `<strong>Username:</strong> ${profile.username}`;
-        document.getElementById('dobDisplay').innerHTML = `<strong>Date of Birth:</strong> ${profile.dob}`;
-        document.getElementById('bioDisplay').innerHTML = `<strong>Bio:</strong> ${profile.bio}`;
-        document.getElementById('favoriteGenresDisplay').innerHTML = `<strong>Favorite Genres:</strong> ${profile.favoriteGenres}`;
-        document.getElementById('locationDisplay').innerHTML = `<strong>Location:</strong> ${profile.location}`;
-        document.getElementById('favoriteMovieDisplay').innerHTML = `<strong>Favorite Movie:</strong> ${profile.favoriteMovie}`;
-        document.getElementById('hobbiesDisplay').innerHTML = `<strong>Hobbies:</strong> ${profile.hobbies}`;
-        document.getElementById('favoriteActorDisplay').innerHTML = `<strong>Favorite Actor:</strong> ${profile.favoriteActor}`;
-        document.getElementById('favoriteDirectorDisplay').innerHTML = `<strong>Favorite Director:</strong> ${profile.favoriteDirector}`;
-        document.getElementById('personalQuoteDisplay').innerHTML = `<strong>Personal Quote:</strong> ${profile.personalQuote}`;
-        window.document.title = `${profile.username !== 'N/A' ? profile.username : 'User'}'s Profile - The MovieVerse`;
-        welcomeMessage.textContent = `Welcome, ${profile.username !== 'N/A' ? profile.username : 'User'}!`;
+            if (userEmail === localStorage.getItem('currentlySignedInMovieVerseUser')) {
+                welcomeMessage.textContent = `Welcome, ${profile.username}!`;
+            }
+            else {
+                welcomeMessage.textContent = `Viewing ${profile.username}'s profile`;
+            }
+        }
+        else {
+            console.log("No such profile exists!");
+        }
     }
     catch (error) {
         console.log("Error loading profile: ", error);
