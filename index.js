@@ -2812,7 +2812,7 @@ getMovies(SCIFIpath, scifi_main);
 getMovies(ROMANTICpath, romantic_main);
 getMovies(THRILLERpath, thriller_main);
 getMovies(MYSTERYpath, mystery_main);
-getMovies(ADVENTUREpath, adventure_main);
+// getMovies(ADVENTUREpath, adventure_main);
 getMovies(COMEDYpath, comedy_main);
 getMovies(FANTASYpath, fantasy_main);
 getMovies(FAMILYpath, family_main);
