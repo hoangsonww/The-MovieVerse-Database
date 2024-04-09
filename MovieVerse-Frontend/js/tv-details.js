@@ -587,7 +587,7 @@ function getCountryName(code) {
 function populateTvSeriesDetails(tvSeries, imdbRating) {
     const title = tvSeries.name || 'Title not available';
     document.getElementById('movie-title').textContent = title;
-    document.title = tvSeries.name + " - TV Series";
+    document.title = tvSeries.name + " - TV Series Details";
 
     const posterPath = tvSeries.poster_path ? `https://image.tmdb.org/t/p/w1280${tvSeries.poster_path}` : 'path/to/default/poster.jpg';
     document.getElementById('movie-image').src = posterPath;

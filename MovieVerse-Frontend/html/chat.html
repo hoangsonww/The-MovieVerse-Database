@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat - The MovieVerse</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta property="og:title" content="User Profile - The MovieVerse">
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="website" />
+    <meta http-equiv="content-language" content="en" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="website" />
+    <meta http-equiv="content-language" content="en" />
+    <meta property="og:description" content="View and edit your user profile on The MovieVerse. Manage your preferences, watchlists, ratings, and personal details." />
+    <meta property="og:url" content="https://movie-verse.com/MovieVerse-Frontend/html/user-profile.html" />
+    <meta property="og:site_name" content="The MovieVerse" />
+    <meta property="og:image" content="https://movie-verse.com/images/image.png"/>
+    <meta property="og:favicon" content="./images/favicon.ico" />
+    <meta name="keywords" content="movies, film guide, directors, actors, movie genres, cinema, film reviews">
+    <meta name="author" content="Son Nguyen Hoang">
+    <meta name="description" content="View and edit your user profile on The MovieVerse. Manage your preferences, watchlists, ratings, and personal details.">
+    <link rel="canonical" href="https://movie-verse.com/MovieVerse-Frontend/html/user-profile.html">
+    <meta name="robots" content="index, follow">
+    <meta name="rating" content="General">
+    <meta name="revisit-after" content="3 days">
+    <meta name="distribution" content="global">
+    <meta http-equiv="content-language" content="en">
+    <meta name="language" content="en">
+    <meta name="theme-color" content="#7378c5">
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@MovieVerse" />
+    <meta name="twitter:creator" content="@hoangsonw" />
+    <meta name="twitter:title" content="The MovieVerse - Your Ultimate Movie Guide">
+    <meta name="twitter:description" content="View and edit your user profile on The MovieVerse. Manage your preferences, watchlists, ratings, and personal details.">
+    <meta name="twitter:image" content="https://movie-verse.com/images/image.png"/>
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link rel="icon" href="../../images/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="../css/style.css"/>
+    <link rel="manifest" href="../../manifest.json">
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "l7gqnssat8");
+    </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-CQKJ67FXZ4');
+    </script>
+    <style>
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        #main {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            min-height: 80vh;
+        }
+
+        #userListContainer {
+            flex-basis: 30%;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            color: white;
+        }
+
+        #searchUserInput {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ff8623;
+            margin-bottom: 10px;
+            background-color: #333;
+            color: white;
+        }
+
+        .user:hover {
+            background-color: #ff8623;
+            color: white;
+        }
+
+        .user {
+            border-radius: 8px;
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        .user-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            background-color: #333;
+            color: white;
+        }
+
+        .user-item:hover {
+            background-color: #ff8623;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .user-info {
+            flex-grow: 1;
+        }
+
+        .user-email {
+            font-weight: bold;
+        }
+
+        .user-bio {
+            color: #ccc;
+        }
+
+        #chatSection {
+            display: flex;
+            flex-direction: column;
+            flex-basis: 65%;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            color: white;
+            min-height: 90vh;
+        }
+
+        #messages {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            border-radius: 8px;
+        }
+
+        #chatInput {
+            padding: 10px;
+            border-top: 1px solid #ccc;
+        }
+
+        #userEmailDisplay {
+            background-color: #ff8623;
+            color: white;
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+        .message {
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 8px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        .my-message {
+            align-self: flex-end;
+            background-color: #ff8623;
+            color: white;
+        }
+
+        .other-message {
+            align-self: flex-start;
+            background-color: #7378c5;
+            color: white;
+        }
+
+        #chatInput {
+            padding: 10px;
+            border-top: 1px solid #ccc;
+        }
+
+        #messageInput {
+            flex-grow: 1;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ff8623;
+            background-color: #333;
+            color: white;
+            width: 100%;
+        }
+
+        #sendButton {
+            padding: 10px 20px;
+            border-radius: 5px;
+            background-color: #ff8623;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #sendButton:hover {
+            background-color: #7f4caf;
+        }
+
+        body {
+            background-image: url("../../images/universe-1.png");
+            background-repeat: repeat-y;
+            background-size: 100% auto;
+        }
+
+        @media (max-width: 767px) {
+            body {
+                background-size: auto;
+                background-position: top center;
+            }
+        }
+
+        .user.selected {
+            background-color: #ff8623;
+            color: white;
+        }
+
+        #userList {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        @media (max-width: 767px) {
+            #chatbotContainer {
+                top: 56.1%;
+            }
+        }
+
+        .user-search-result {
+            background-color: #333;
+            margin: 10px auto;
+            padding: 10px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            color: white;
+            transition: background-color 0.3s ease;
+            flex-wrap: wrap;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .user-search-result img {
+            flex-shrink: 0;
+            margin-right: 10px;
+            border-radius: 8px;
+        }
+
+        .user-search-result > div {
+            flex: 1;
+            min-width: 120px;
+            word-break: break-word;
+        }
+
+        #main {
+            display: flex;
+            justify-content: space-between;
+            align-items: stretch;
+            min-height: 80vh;
+            gap: 20px;
+        }
+
+        #userListContainer {
+            flex: 1;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            color: white;
+        }
+
+        #chatSection {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            color: white;
+            padding: 20px;
+        }
+
+        @media (max-width: 767px) {
+            #main {
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+                margin-left: 0;
+            }
+
+            #userListContainer, #chatSection {
+                width: 90% !important;
+                margin: 0 auto;
+                max-width: 100% !important;
+                display: flex;
+                flex-direction: column;
+            }
+
+            #userList {
+                max-height: 300px;
+                overflow-y: auto;
+            }
+
+            #chatSection {
+                width: 90% !important;
+                flex-grow: 1;
+            }
+
+            #noUserSelected {
+                width: 90% !important;
+                flex-grow: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="homepage-header" style="margin-top: -5px">
+        <a id="indexLink" href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer">
+            <h1 id="my-heading" style="margin-bottom: -10px">
+                The Mo<span class="highlight">vieV</span>erse
+            </h1>
+        </a>
+
+        <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
+            <p id="stats-label" class="clock" style="font-size: 16px;"></p>
+            <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
+        </div>
+
+        <button class="back-btn nav-btn" onclick="window.location.href='../../index.html'" title="Go back to homepage">Home</button>
+        <button class="about nav-btn" onclick="window.location.href='about.html'" title="About this wonderful app!">About</button>
+        <button class="favorites-btn nav-btn" onclick="window.location.href='favorites.html'" title="View your favorites & watchlists">Favorites</button>
+        <button id="profileBtn" class="nav-btn" onclick="window.location.href='user-profile.html'" title="Go to your profile">
+            <span id="profileText">Profile</span>
+            <i class="fas fa-user" id="profileIcon"></i>
+        </button>
+        <button id="googleSignInBtn" class="nav-btn" onclick="handleSignInOut()" title="Sign In/Out">
+            <span id="signInOutText">Sign In</span>
+            <i class="fas fa-sign-in-alt" id="signInIcon"></i>
+            <i class="fas fa-sign-out-alt" id="signOutIcon" style="display: none;"></i>
+        </button>
+        <form id="form1" style="margin-top: 19px">
+            <div class="search-container">
+                <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!" />
+                <button type="button" id="button-search" onclick="handleSearch()">Search</button>
+            </div>
+            <div id="search-results" class="search-results"></div>
+            <div class="buttons-container">
+                <button type="button" id="view-all-results" style="display: none;">View more results</button>
+                <button type="button" id="clear-search" style="display: none">Clear</button>
+            </div>
+        </form>
+        <button id="settings-btn" style="position: fixed; bottom: 265px; right: 10px">Settings</button>
+        <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 230px; right: 10px">Movie Match</button>
+        <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 195px; right: 10px">Movie Timeline</button>
+        <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 160px; right: 10px">Surprise Me!</button>
+        <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="bottom: 125px; right: 10px" title="Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
+        <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 90px; right: 10px" title="Test your movie knowledge">MovieVerse Trivia</button>
+    </header>
+
+    <main id="main">
+        <div id="userListContainer">
+            <div id="searchContainer">
+                <input type="text" id="searchUserInput" placeholder="Search for users" style="font: inherit" />
+            </div>
+            <div id="searchUserResults"></div>
+            <div id="userList"></div>
+        </div>
+        <div id="chatSection">
+            <div id="userEmailDisplay" style="padding: 10px;"></div>
+            <div id="messages"></div>
+            <div id="chatInput">
+                <input type="text" id="messageInput" placeholder="Type your message" style="font: inherit" />
+                <button id="sendButton">Send</button>
+            </div>
+        </div>
+        <div id="noUserSelected" style="flex-basis: 65%; background-color: rgba(0, 0, 0, 0.7); border-radius: 10px; color: white; display: flex; justify-content: center; align-items: center; min-height: 90vh;">
+            <p>Select or find a user to chat with</p>
+        </div>
+    </main>
+
+    <div id="myModal" class="modal-overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <footer>
+        <p>© 2024 The MovieVerse. All rights reserved.</p>
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, query, where, orderBy, onSnapshot, serverTimestamp, limit } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: atob("QUl6YVN5REw2a1FuU2ZVZDhVdDhIRnJwS3VpdnF6MXhkWG03aw=="),
+            authDomain: atob("bW92aWV2ZXJzZS1hcHAuZmlyZWJhc2VhcHAuY29t"),
+            projectId: "movieverse-app",
+            storageBucket: atob("bW92aWV2ZXJzZS1hcHAuYXBwc3BvdC5jb20="),
+            messagingSenderId: atob("ODAyOTQzNzE4ODcx"),
+            appId: atob("MTo4MDI5NDM3MTg4NzE6d2ViOjQ4YmM5MTZjYzk5ZTI3MjQyMTI3OTI=")
+        };
+
+        initializeApp(firebaseConfig);
+        const db = getFirestore();
+
+        const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
+        let selectedUserEmail = null;
+
+        const messagesDiv = document.getElementById('messages');
+        const userListDiv = document.getElementById('userList');
+        const messageInput = document.getElementById('messageInput');
+        const sendButton = document.getElementById('sendButton');
+
+        sendButton.addEventListener('click', async () => {
+            const text = messageInput.value.trim();
+            if (text && selectedUserEmail) {
+                try {
+                    await addDoc(collection(db, "messages"), {
+                        sender: currentUserEmail,
+                        recipient: selectedUserEmail,
+                        message: text,
+                        timestamp: serverTimestamp()
+                    });
+                    messageInput.value = '';
+                }
+                catch (error) {
+                    console.error("Error adding message: ", error);
+                }
+            }
+        });
+
+        document.getElementById('messageInput').addEventListener('keydown', function(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendButton.click();
+            }
+        });
+
+        function formatMessage(message, isCurrentUser) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message');
+            messageElement.textContent = isCurrentUser ? `You: ${message}` : `${selectedUserEmail}: ${message}`;
+            messageElement.classList.add(isCurrentUser ? 'my-message' : 'other-message');
+            return messageElement;
+        }
+
+        const chatSection = document.getElementById('chatSection');
+        const noUserSelected = document.getElementById('noUserSelected');
+
+        chatSection.style.display = 'none';
+        noUserSelected.style.display = 'flex';
+
+        async function loadMessages(userEmail) {
+            selectedUserEmail = userEmail;
+            messagesDiv.innerHTML = '';
+
+            chatSection.style.display = 'flex';
+            noUserSelected.style.display = 'none';
+
+            const userEmailDisplay = document.getElementById('userEmailDisplay');
+            if (userEmailDisplay) {
+                userEmailDisplay.textContent = `Chatting with: ${selectedUserEmail}`;
+            }
+
+            document.querySelectorAll('.user').forEach(user => user.classList.remove('selected'));
+            const selectedUser = document.querySelector(`.user[data-email="${selectedUserEmail}"]`);
+            if (selectedUser) {
+                selectedUser.classList.add('selected');
+            }
+
+            const messagesQuery = query(
+                collection(db, "messages"),
+                orderBy("timestamp"),
+                where("sender", "in", [currentUserEmail, selectedUserEmail]),
+                where("recipient", "in", [currentUserEmail, selectedUserEmail])
+            );
+
+            onSnapshot(messagesQuery, (snapshot) => {
+                messagesDiv.innerHTML = '';
+                snapshot.docs.forEach((doc) => {
+                    const message = doc.data();
+                    const isCurrentUser = message.sender === currentUserEmail;
+                    const messageElement = formatMessage(message.message, isCurrentUser);
+                    messagesDiv.appendChild(messageElement);
+                });
+
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            });
+        }
+
+        function setupSearchListeners() {
+            const searchUserInput = document.getElementById('searchUserInput');
+
+            searchUserInput.addEventListener('input', () => {
+                const searchText = searchUserInput.value.trim();
+                if (searchText) {
+                    performSearch(searchText);
+                }
+                else {
+                    document.getElementById('searchUserResults').style.display = 'none';
+                }
+            });
+        }
+
+        async function performSearch(searchText) {
+            const searchUserResults = document.getElementById('searchUserResults');
+            showSpinner();
+
+            const userQuery = query(
+                collection(db, 'MovieVerseUsers'),
+                where('email', '>=', searchText),
+                orderBy('email'),
+                limit(10)
+            );
+            const querySnapshot = await getDocs(userQuery);
+
+            searchUserResults.innerHTML = '';
+
+            if (querySnapshot.empty) {
+                searchUserResults.innerHTML = `<div style="text-align: center; font-weight: bold">No User with Email "${searchText}" found</div>`;
+                searchUserResults.style.display = 'block';
+            }
+            else {
+                searchUserResults.style.display = 'block';
+                querySnapshot.forEach((doc) => {
+                    const user = doc.data();
+                    const userDiv = document.createElement('div');
+                    userDiv.className = 'user-search-result';
+                    userDiv.style.cursor = 'pointer';
+                    userDiv.addEventListener('click', () => loadMessages(user.email));
+
+                    const img = document.createElement('img');
+                    img.src = user.profileImage || '../../images/user-default.png';
+                    img.style.width = '33%';
+                    img.style.borderRadius = '8px';
+                    userDiv.appendChild(img);
+
+                    const textDiv = document.createElement('div');
+                    textDiv.style.width = '67%';
+                    textDiv.style.textAlign = 'left';
+                    textDiv.innerHTML = `<strong style="text-align: left">${user.email}</strong><p style="text-align: left; margin-top: 5px">${user.bio || ''}</p>`;
+                    userDiv.appendChild(textDiv);
+
+                    searchUserResults.appendChild(userDiv);
+                });
+            }
+
+            hideSpinner();
+        }
+
+        async function loadUserList() {
+            const isMobile = window.innerWidth <= 767; // Check if the screen width is mobile size
+            const userLimit = isMobile ? 5 : 10; // Limit to 5 users for mobile
+
+            const recentMessagesQuery = query(collection(db, "messages"), where("sender", "==", currentUserEmail), orderBy("timestamp", "desc"), limit(userLimit));
+            const recentMessagesSnapshot = await getDocs(recentMessagesQuery);
+
+            let recentContacts = new Set();
+            recentMessagesSnapshot.forEach(doc => {
+                const data = doc.data();
+                recentContacts.add(data.recipient === currentUserEmail ? data.sender : data.recipient);
+            });
+
+            const allUsersQuery = query(collection(db, "MovieVerseUsers"), limit(10));
+            const allUsersSnapshot = await getDocs(allUsersQuery);
+
+            let users = [];
+            allUsersSnapshot.forEach(doc => {
+                const user = doc.data();
+                user.id = doc.id;
+                users.push(user);
+            });
+
+            users.sort((a, b) => {
+                let aIndex = recentContacts.has(a.email) ? Array.from(recentContacts).indexOf(a.email) : Infinity;
+                let bIndex = recentContacts.has(b.email) ? Array.from(recentContacts).indexOf(b.email) : Infinity;
+                return aIndex - bIndex;
+            });
+
+            userListDiv.innerHTML = '';
+            users.slice(0, 10).forEach(user => {
+                const userElement = document.createElement('div');
+                userElement.classList.add('user');
+                userElement.setAttribute('data-email', user.email); // Add data-email attribute
+                userElement.onclick = () => {
+                    selectedUserEmail = user.email;
+                    loadMessages(user.email);
+                    document.querySelectorAll('.user').forEach(user => user.classList.remove('selected'));
+                    userElement.classList.add('selected');
+                };
+
+                const img = document.createElement('img');
+                img.src = user.profileImage || '../../images/user-default.png';
+                img.style.width = '50px';
+                img.style.borderRadius = '25px';
+                img.style.marginRight = '10px';
+                userElement.appendChild(img);
+
+                const emailDiv = document.createElement('div');
+                emailDiv.textContent = user.email;
+                userElement.appendChild(emailDiv);
+
+                userListDiv.appendChild(userElement);
+            });
+        }
+
+        loadUserList();
+        setupSearchListeners();
+
+        function showSpinner() {
+            document.getElementById('myModal').classList.add('modal-visible');
+        }
+
+        function hideSpinner() {
+            document.getElementById('myModal').classList.remove('modal-visible');
+        }
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchBar = document.getElementById('search');
+            const searchButton = document.getElementById('button-search');
+            const myHeading = document.getElementById('my-heading');
+            const localTime = document.getElementById('local-time');
+
+            function toggleVisibility() {
+                const query = searchBar.value.trim();
+                if (query) {
+                    if (window.innerWidth > 800) {
+                        myHeading.style.position = 'fixed';
+                        myHeading.style.top = '28px';
+                        localTime.style.display = 'none';
+                        myHeading.style.zIndex = '0.05';
+                        searchBar.style.marginTop = '16px';
+                        searchButton.style.marginTop = '16px';
+                    }
+                }
+                else {
+                    myHeading.style.position = '';
+                    myHeading.style.top = '';
+                    myHeading.style.zIndex = '';
+                    localTime.style.display = '';
+                    searchBar.style.marginTop = '';
+                    searchButton.style.marginTop = '';
+                }
+            }
+
+            searchBar.addEventListener('input', toggleVisibility);
+            toggleVisibility();
+
+            const clearSearchBtn = document.getElementById('clear-search');
+            clearSearchBtn.addEventListener('click', function() {
+                searchBar.value = '';
+                toggleVisibility();
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search');
+            const viewAllResultsBtn = document.getElementById('view-all-results');
+            const clearSearchBtn = document.getElementById('clear-search');
+            const searchResultsContainer = document.getElementById('search-results');
+
+            function toggleButtons() {
+                const query = searchInput.value.trim();
+                viewAllResultsBtn.style.display = query ? 'inline-block' : 'none';
+                clearSearchBtn.style.display = query ? 'inline-block' : 'none';
+            }
+
+            clearSearchBtn.addEventListener('click', function() {
+                searchInput.value = '';
+                searchResultsContainer.innerHTML = '';
+                document.getElementById('local-time').style.display = '';
+                toggleButtons();
+                searchInput.focus();
+            });
+
+            toggleButtons();
+            searchInput.addEventListener('input', toggleButtons);
+        });
+    </script>
+
+    <script>
+        function showSpinner() {
+            document.getElementById('myModal').classList.add('modal-visible');
+        }
+
+        function hideSpinner() {
+            document.getElementById('myModal').classList.remove('modal-visible');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('search').addEventListener('input', function(e) {
+                showSpinner();
+                const viewAllResultsBtn = document.getElementById('view-all-results');
+                const searchInput = document.getElementById('search');
+                const query = e.target.value.trim();
+                const searchResultsContainer = document.getElementById('search-results');
+
+                viewAllResultsBtn.style.display = query ? 'block' : 'none';
+
+                function toggleButtons() {
+                    viewAllResultsBtn.style.display = query ? 'inline-block' : 'none';
+                    const clearSearchBtn = document.getElementById('clear-search');
+                    clearSearchBtn.style.display = query ? 'inline-block' : 'none';
+                }
+
+                if (query) {
+                    const searchURL = `https://${getMovieVerseData()}/3/search/multi?${generateMovieNames()}${getMovieCode()}&query=${encodeURIComponent(query)}`;
+                    fetch(searchURL)
+                        .then(response => response.json())
+                        .then(data => {
+                            const sortedResults = data.results.sort((a, b) => b.popularity - a.popularity);
+                            displaySearchResults(sortedResults.slice(0, 5));
+                        })
+                        .catch(err => console.log("Fetching error:", err));
+                }
+                else {
+                    searchInput.value = '';
+                    searchResultsContainer.innerHTML = '';
+                    toggleButtons();
+                    searchInput.focus();
+                }
+
+                searchInput.addEventListener('input', function() {
+                    if (searchInput.value.trim()) {
+                        viewAllResultsBtn.style.display = 'block';
+                    }
+                    else {
+                        viewAllResultsBtn.style.display = 'none';
+                    }
+                });
+
+                viewAllResultsBtn.addEventListener('click', function() {
+                    const searchQuery = searchInput.value.trim();
+                    if (searchQuery) {
+                        localStorage.setItem('searchQuery', searchQuery);
+                        window.location.href = 'search.html';
+                    }
+                    else {
+                        alert('Please enter a search query.');
+                    }
+                });
+
+                hideSpinner();
+            });
+
+            function displaySearchResults(results) {
+                showSpinner();
+                const resultsContainer = document.getElementById('search-results');
+                resultsContainer.innerHTML = '';
+
+                results.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'search-result-card';
+                    card.style.cursor = 'pointer';
+
+                    const imagePath = item.poster_path || item.profile_path ? `https://image.tmdb.org/t/p/w500${item.poster_path || item.profile_path}` : null;
+
+                    if (imagePath) {
+                        const image = document.createElement('img');
+                        image.src = imagePath;
+                        image.className = 'result-image';
+                        card.appendChild(image);
+                    }
+                    else {
+                        const placeholder = document.createElement('div');
+                        placeholder.className = 'result-image-placeholder';
+                        placeholder.textContent = 'Image Not Available';
+                        placeholder.style.textAlign = 'center';
+                        placeholder.style.padding = '10px';
+                        card.appendChild(placeholder);
+                    }
+
+                    const details = document.createElement('div');
+                    details.className = 'result-details';
+
+                    const name = document.createElement('div');
+                    name.className = 'result-name';
+                    name.textContent = item.title || item.name;
+                    details.appendChild(name);
+
+                    const type = document.createElement('div');
+                    type.className = 'result-type';
+                    type.textContent = item.media_type === 'movie' ? 'Movie' : item.media_type === 'tv' ? 'TV Series' : 'Person';
+                    details.appendChild(type);
+
+                    card.appendChild(details);
+                    resultsContainer.appendChild(card);
+
+                    card.addEventListener('click', () => handleResultClick(item));
+                });
+
+                hideSpinner();
+            }
+
+            async function handleResultClick(item) {
+                console.log('Clicked item:', item.media_type, item.id);
+
+                if (!item.media_type) {
+                    console.log('Media type is undefined');
+                    return;
+                }
+
+                if (item.media_type === 'movie') {
+                    localStorage.setItem('selectedMovieId', item.id);
+                    window.location.href = 'movie-details.html';
+                }
+                else if (item.media_type === 'tv') {
+                    localStorage.setItem('selectedTvSeriesId', item.id);
+                    window.location.href = 'tv-details.html';
+                }
+                else if (item.media_type === 'person') {
+                    try {
+                        const personDetailsUrl = `https://${getMovieVerseData()}/3/person/${item.id}?${generateMovieNames()}${getMovieCode()}`;
+                        const response = await fetch(personDetailsUrl);
+                        const personDetails = await response.json();
+
+                        if (personDetails.known_for_department === 'Directing') {
+                            localStorage.setItem('selectedDirectorId', item.id);
+                            window.location.href = 'director-details.html?' + item.id;
+                        }
+                        else {
+                            localStorage.setItem('selectedActorId', item.id);
+                            window.location.href = 'actor-details.html?' + item.id;
+                        }
+                    }
+                    catch (error) {
+                        console.log('Error fetching person details:', error);
+                    }
+                }
+                else {
+                    console.log('Unknown media type:', item.media_type);
+                }
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search');
+            const viewAllResultsBtn = document.getElementById('view-all-results');
+            const clearSearchBtn = document.getElementById('clear-search');
+            const searchResultsContainer = document.getElementById('search-results');
+            let selectedIndex = -1;
+
+            function clearSelection() {
+                const results = searchResultsContainer.getElementsByClassName('search-result-card');
+                if (selectedIndex >= 0 && selectedIndex < results.length) {
+                    results[selectedIndex].style.backgroundColor = '';
+                }
+                else if (selectedIndex === results.length) {
+                    viewAllResultsBtn.style.backgroundColor = '';
+                }
+                else if (selectedIndex === results.length + 1) {
+                    clearSearchBtn.style.backgroundColor = '';
+                }
+            }
+
+            function moveSelection(direction) {
+                const results = searchResultsContainer.getElementsByClassName('search-result-card');
+                const totalElements = results.length + 2;
+                clearSelection();
+
+                if (direction === 'down') {
+                    selectedIndex = (selectedIndex + 1) % totalElements;
+                }
+                else if (direction === 'up') {
+                    selectedIndex = (selectedIndex - 1 + totalElements) % totalElements;
+                }
+
+                if (selectedIndex < results.length) {
+                    results[selectedIndex].style.backgroundColor = '#ff8623';
+                    results[selectedIndex].scrollIntoView({ block: "nearest" });
+                }
+                else if (selectedIndex === results.length) {
+                    viewAllResultsBtn.style.backgroundColor = '#ff8623';
+                    viewAllResultsBtn.scrollIntoView({ block: "nearest" });
+                }
+                else if (selectedIndex === results.length + 1) {
+                    clearSearchBtn.style.backgroundColor = '#ff8623';
+                    clearSearchBtn.scrollIntoView({ block: "nearest" });
+                }
+            }
+
+            searchInput.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowDown' || (e.key === 'Tab' && !e.shiftKey)) {
+                    e.preventDefault();
+                    moveSelection('down');
+                }
+                else if (e.key === 'ArrowUp' || (e.key === 'Tab' && e.shiftKey)) {
+                    e.preventDefault();
+                    moveSelection('up');
+                }
+                else if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (selectedIndex >= 0 && selectedIndex < searchResultsContainer.getElementsByClassName('search-result-card').length) {
+                        searchResultsContainer.getElementsByClassName('search-result-card')[selectedIndex].click();
+                    }
+                    else if (selectedIndex === searchResultsContainer.getElementsByClassName('search-result-card').length) {
+                        viewAllResultsBtn.click();
+                    }
+                    else if (selectedIndex === searchResultsContainer.getElementsByClassName('search-result-card').length + 1) {
+                        clearSearchBtn.click();
+                    }
+                    else {
+                        const query = searchInput.value.trim();
+                        localStorage.setItem('searchQuery', query);
+                        window.location.href = 'search.html';
+                    }
+                }
+            });
+
+            searchInput.addEventListener('blur', clearSelection);
+        });
+    </script>
+
+    <script>
+        const movieCodes = {
+            part1: 'YzVhMjBjODY=',
+            part2: 'MWFjZjdiYjg=',
+            part3: 'ZDllOTg3ZGNjN2YxYjU1OA=='
+        };
+
+        function getMovieCode() {
+            return atob(movieCodes.part1) + atob(movieCodes.part2) + atob(movieCodes.part3);
+        }
+
+        function generateMovieNames(input) {
+            return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
+        }
+
+        function getMovieVerseData(input) {
+            return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
+        }
+
+        async function showMovieOfTheDay() {
+            const year = new Date().getFullYear();
+            const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                const movies = data.results;
+
+                if (movies.length > 0) {
+                    const randomMovie = movies[Math.floor(Math.random() * movies.length)];
+                    localStorage.setItem('selectedMovieId', randomMovie.id);
+                    window.location.href = 'movie-details.html';
+                }
+                else {
+                    fallbackMovieSelection();
+                }
+            }
+            catch (error) {
+                console.log('Error fetching movie:', error);
+                fallbackMovieSelection();
+            }
+        }
+
+        document.getElementById('settings-btn').addEventListener('click', () => {
+            window.location.href = 'settings.html';
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            applySettings();
+
+            function applySettings() {
+                const defaultBg = '../../images/universe-1.png';
+                const savedBg = localStorage.getItem('backgroundImage') || defaultBg;
+                const savedTextColor = localStorage.getItem('textColor');
+                const savedFontSize = localStorage.getItem('fontSize');
+                document.body.style.backgroundImage = `url('${savedBg}')`;
+
+                if (savedTextColor) {
+                    document.querySelectorAll('h1, h2, h3, p, a, span, div, button, input, select, textarea, label, li').forEach(element => {
+                        element.style.color = savedTextColor;
+                    });
+                }
+
+                if (savedFontSize) {
+                    const size = savedFontSize === 'small' ? '12px' : savedFontSize === 'medium' ? '16px' : '20px';
+                    document.body.style.fontSize = size;
+                }
+            }
+        });
+
+        async function ensureGenreMapIsAvailable() {
+            if (!localStorage.getItem('genreMap')) {
+                await fetchGenreMap();
+            }
+        }
+
+        async function fetchGenreMap() {
+            const url = `https://${getMovieVerseData()}/3/genre/movie/list?${generateMovieNames()}${getMovieCode()}`;
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                const genreMap = data.genres.reduce((map, genre) => {
+                    map[genre.id] = genre.name;
+                    return map;
+                }, {});
+                localStorage.setItem('genreMap', JSON.stringify(genreMap));
+            }
+            catch (error) {
+                console.log('Error fetching genre map:', error);
+            }
+        }
+
+        async function rotateUserStats() {
+            await ensureGenreMapIsAvailable();
+
+            const stats = [
+                {
+                    label: "Your Current Time",
+                    getValue: () => {
+                        const now = new Date();
+                        let hours = now.getHours();
+                        let minutes = now.getMinutes();
+                        hours = hours < 10 ? '0' + hours : hours;
+                        minutes = minutes < 10 ? '0' + minutes : minutes;
+                        return `${hours}:${minutes}`;
+                    }
+                },
+                { label: "Most Visited Movie", getValue: getMostVisitedMovie },
+                { label: "Most Visited Director", getValue: getMostVisitedDirector },
+                { label: "Most Visited Actor", getValue: getMostVisitedActor },
+                {
+                    label: "Movies Discovered",
+                    getValue: () => {
+                        const viewedMovies = JSON.parse(localStorage.getItem('uniqueMoviesViewed')) || [];
+                        return viewedMovies.length;
+                    }
+                },
+                {
+                    label: "Favorite Movies",
+                    getValue: () => {
+                        const favoritedMovies = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
+                        return favoritedMovies.length;
+                    }
+                },
+                {
+                    label: "Favorite Genre",
+                    getValue: () => {
+                        const mostCommonGenreCode = getMostCommonGenre();
+                        const genreMap = JSON.parse(localStorage.getItem('genreMap')) || {};
+                        return genreMap[mostCommonGenreCode] || 'Not Available';
+                    }
+                },
+                { label: "Watchlists Created", getValue: () => localStorage.getItem('watchlistsCreated') || 0 },
+                { label: "Average Movie Rating", getValue: () => localStorage.getItem('averageMovieRating') || 'Not Rated' },
+                {
+                    label: "Directors Discovered",
+                    getValue: () => {
+                        const viewedDirectors = JSON.parse(localStorage.getItem('uniqueDirectorsViewed')) || [];
+                        return viewedDirectors.length;
+                    }
+                },
+                {
+                    label: "Actors Discovered",
+                    getValue: () => {
+                        const viewedActors = JSON.parse(localStorage.getItem('uniqueActorsViewed')) || [];
+                        return viewedActors.length;
+                    }
+                },
+                { label: "Your Trivia Accuracy", getValue: getTriviaAccuracy },
+            ];
+
+            let currentStatIndex = 0;
+
+            function updateStatDisplay() {
+                const currentStat = stats[currentStatIndex];
+                document.getElementById('stats-label').textContent = currentStat.label + ':';
+                document.getElementById('stats-display').textContent = currentStat.getValue();
+                currentStatIndex = (currentStatIndex + 1) % stats.length;
+            }
+
+            updateStatDisplay();
+
+            const localTimeDiv = document.getElementById('local-time');
+            let statRotationInterval = setInterval(updateStatDisplay, 3000);
+
+            localTimeDiv.addEventListener('click', () => {
+                clearInterval(statRotationInterval);
+                updateStatDisplay();
+                statRotationInterval = setInterval(updateStatDisplay, 3000);
+            });
+        }
+
+        function updateMovieVisitCount(movieId, movieTitle) {
+            let movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
+            if (!movieVisits[movieId]) {
+                movieVisits[movieId] = { count: 0, title: movieTitle };
+            }
+            movieVisits[movieId].count += 1;
+            localStorage.setItem('movieVisits', JSON.stringify(movieVisits));
+        }
+
+        function getMostVisitedMovie() {
+            const movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
+            let mostVisitedMovie = '';
+            let maxVisits = 0;
+
+            for (const movieId in movieVisits) {
+                if (movieVisits[movieId].count > maxVisits) {
+                    mostVisitedMovie = movieVisits[movieId].title;
+                    maxVisits = movieVisits[movieId].count;
+                }
+            }
+
+            return mostVisitedMovie || 'Not Available';
+        }
+
+        function getMostVisitedActor() {
+            const actorVisits = JSON.parse(localStorage.getItem('actorVisits')) || {};
+            let mostVisitedActor = '';
+            let maxVisits = 0;
+
+            for (const actorId in actorVisits) {
+                if (actorVisits[actorId].count > maxVisits) {
+                    mostVisitedActor = actorVisits[actorId].name;
+                    maxVisits = actorVisits[actorId].count;
+                }
+            }
+
+            return mostVisitedActor || 'Not Available';
+        }
+
+        function getMostVisitedDirector() {
+            const directorVisits = JSON.parse(localStorage.getItem('directorVisits')) || {};
+            let mostVisitedDirector = '';
+            let maxVisits = 0;
+
+            for (const directorId in directorVisits) {
+                if (directorVisits[directorId].count > maxVisits) {
+                    mostVisitedDirector = directorVisits[directorId].name;
+                    maxVisits = directorVisits[directorId].count;
+                }
+            }
+
+            return mostVisitedDirector || 'Not Available';
+        }
+
+        function getTriviaAccuracy() {
+            let triviaStats = JSON.parse(localStorage.getItem('triviaStats')) || { totalCorrect: 0, totalAttempted: 0 };
+            if (triviaStats.totalAttempted === 0) {
+                return 'No trivia attempted';
+            }
+            let accuracy = (triviaStats.totalCorrect / triviaStats.totalAttempted) * 100;
+            return `${accuracy.toFixed(1)}% accuracy`;
+        }
+
+        function getMostCommonGenre() {
+            const favoriteGenresArray = JSON.parse(localStorage.getItem('favoriteGenres')) || [];
+            const genreCounts = favoriteGenresArray.reduce((acc, genre) => {
+                acc[genre] = (acc[genre] || 0) + 1;
+                return acc;
+            }, {});
+
+            let mostCommonGenre = '';
+            let maxCount = 0;
+
+            for (const genre in genreCounts) {
+                if (genreCounts[genre] > maxCount) {
+                    mostCommonGenre = genre;
+                    maxCount = genreCounts[genre];
+                }
+            }
+
+            return mostCommonGenre || 'Not Available';
+        }
+
+        document.addEventListener('DOMContentLoaded', rotateUserStats);
+
+        function handleSignInOut() {
+            const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
+
+            if (isSignedIn) {
+                localStorage.setItem('isSignedIn', JSON.stringify(false));
+                alert('You have been signed out.');
+            }
+            else {
+                window.location.href = 'sign-in.html';
+                return;
+            }
+
+            updateSignInButtonState();
+        }
+
+        function updateSignInButtonState() {
+            const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
+
+            const signInText = document.getElementById('signInOutText');
+            const signInIcon = document.getElementById('signInIcon');
+            const signOutIcon = document.getElementById('signOutIcon');
+
+            if (isSignedIn) {
+                signInText.textContent = 'Sign Out';
+                signInIcon.style.display = 'none';
+                signOutIcon.style.display = 'inline-block';
+            }
+            else {
+                signInText.textContent = 'Sign In';
+                signInIcon.style.display = 'inline-block';
+                signOutIcon.style.display = 'none';
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            updateSignInButtonState();
+            document.getElementById('googleSignInBtn').addEventListener('click', handleSignInOut);
+        });
+
+        const form = document.getElementById('form1');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const searchQuery = document.getElementById('search').value;
+            localStorage.setItem('searchQuery', searchQuery);
+            window.location.href = 'search.html';
+        });
+
+        function handleSearch() {
+            const searchQuery = document.getElementById('search').value;
+            localStorage.setItem('searchQuery', searchQuery);
+            window.location.href = 'search.html';
+        }
+
+        function closeModal() {
+            document.getElementById('editProfileModal').style.display = 'none';
+        }
+    </script>
+
+</body>
+
+</html>
