@@ -376,9 +376,10 @@
     <main id="main">
         <div id="userListContainer">
             <div id="searchContainer">
-                <input type="text" id="searchUserInput" placeholder="Search for users" style="font: inherit" />
+                <input type="text" id="searchUserInput" placeholder="Search for a user" style="font: inherit" />
             </div>
             <div id="searchUserResults"></div>
+            <h3>Recent Chats</h3>
             <div id="userList"></div>
         </div>
         <div id="chatSection">
@@ -437,6 +438,11 @@
                         timestamp: serverTimestamp()
                     });
                     messageInput.value = '';
+
+                    const userElement = document.querySelector(`.user[data-email="${selectedUserEmail}"]`);
+                    if (userElement) {
+                        userListDiv.prepend(userElement);
+                    }
                 }
                 catch (error) {
                     console.error("Error adding message: ", error);
@@ -564,8 +570,8 @@
         }
 
         async function loadUserList() {
-            const isMobile = window.innerWidth <= 767; // Check if the screen width is mobile size
-            const userLimit = isMobile ? 5 : 10; // Limit to 5 users for mobile
+            const isMobile = window.innerWidth <= 767;
+            const userLimit = isMobile ? 5 : 10;
 
             const recentMessagesQuery = query(collection(db, "messages"), where("sender", "==", currentUserEmail), orderBy("timestamp", "desc"), limit(userLimit));
             const recentMessagesSnapshot = await getDocs(recentMessagesQuery);
