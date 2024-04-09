@@ -499,7 +499,8 @@
         }
     </script>
 
-    <button id="settings-btn" style="position: fixed; bottom: 265px; right: 10px">Settings</button>
+    <button id="chat-button" onclick="window.location.href='chat.html'" style="bottom: 300px; right: 10px; z-index: 1001" title="Chat with fellow MovieVerse users!">Chat</button>
+    <button id="settings-btn" onclick="window.location.href='settings.html'" style="position: fixed; bottom: 265px; right: 10px">Settings</button>
     <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 230px; right: 10px">Movie Match</button>
     <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 195px; right: 10px">Movie Timeline</button>
     <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 160px; right: 10px">Surprise Me!</button>
@@ -556,6 +557,10 @@
     </footer>
 
     <div id="mobile-bottom-bar" class="mobile-bottom-bar">
+        <a href="chat.html" class="bottom-bar-item">
+            <i class="fas fa-comments"></i>
+            <span>Chat</span>
+        </a>
         <a href="settings.html" class="bottom-bar-item">
             <i class="fas fa-cog"></i>
             <span>Settings</span>
@@ -632,10 +637,11 @@
             isAnimating = true;
 
             const buttonIds = [
+                'chat-button',
                 'settings-btn',
-                'movie-of-the-day-btn',
                 'movie-match-btn3',
                 'movie-timeline-btn',
+                'movie-of-the-day-btn',
                 'discussions-btn',
                 'trivia-btn',
             ];
@@ -665,10 +671,11 @@
         window.addEventListener('resize', () => {
             if (window.innerWidth < 767) {
                 const buttonIds = [
+                    'chat-button',
                     'settings-btn',
-                    'movie-of-the-day-btn',
                     'movie-match-btn3',
                     'movie-timeline-btn',
+                    'movie-of-the-day-btn',
                     'discussions-btn',
                     'trivia-btn',
                 ];

@@ -109,6 +109,11 @@
                 <button type="button" id="clear-search" style="display: none">Clear</button>
             </div>
         </form>
+        <button id="nav-toggle" class="nav-toggle" title="Toggle side navbar" onclick="toggleNav()">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <button id="chat-button" onclick="window.location.href='chat.html'" style="bottom: 300px; right: 10px; z-index: 1001" title="Chat with fellow MovieVerse users!">Chat</button>
         <button id="settings-btn" style="position: fixed; bottom: 265px; right: 10px">Settings</button>
         <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 230px; right: 10px">Movie Match</button>
         <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 195px; right: 10px">Movie Timeline</button>
@@ -117,9 +122,38 @@
         <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 90px; right: 10px" title="Test your movie knowledge">MovieVerse Trivia</button>
     </header>
 
+    <nav id="side-nav" class="side-nav" style="z-index: 1002;">
+        <a id="heading-href" style="cursor: pointer" href="../../index.html" title="Click to go back to the home page">
+            <div id="my-heading" style="margin-bottom: 15px; margin-left: 0; margin-top: 15px; font-size: 2.1em; font-weight: bold;">
+                The Mo<span class="highlight">vieV</span>erse Menu
+            </div>
+        </a>
+
+        <div id="button-container">
+            <button id="button-remove" title="Close the navbar" onclick="removeNavBar()">Close</button>
+        </div>
+
+        <ul style="overflow-y: auto">
+            <li><a href="#chart1">Annual Releases</a></li>
+            <li><a href="#chart2">Genre Popularity</a></li>
+            <li><a href="#chart3">Certification Breakdown</a></li>
+            <li><a href="#chart4">Popularity Trends</a></li>
+            <li><a href="#chart5">Language Counts</a></li>
+            <li><a href="#chart6">Votes by Genre</a></li>
+            <li><a href="#chart7">Monthly Releases</a></li>
+            <li><a href="#chart8">Decadal Releases</a></li>
+            <li><a href="#chart9">Country Releases</a></li>
+            <li><a href="#chart11">Yearly Top Movies</a></li>
+            <li><a href="#chartVotesOverYears">Votes Over Time</a></li>
+            <li><a href="#chartHighlyRatedMovies">Top Movies Trends</a></li>
+            <li><a href="sign-in.html">Sign In</a></li>
+            <li><a href="user-profile.html">Profile</a></li>
+        </ul>
+    </nav>
+
     <div>
         <div class="chart-title" style="font-size: 28px; font-weight: bold">The MovieVerse Analytics</div>
-        <p class="chart-description">Here are some interesting and interactive insights about our MovieVerse Database!</p>
+        <p class="chart-description">Take a look at how our database has evolved over the years to serve more than <strong>150,000</strong> monthly active users!</p>
     </div>
 
     <div id="myModal" class="modal-overlay">
@@ -178,6 +212,10 @@
     </div>
 
     <div id="mobile-bottom-bar" class="mobile-bottom-bar">
+        <a href="chat.html" class="bottom-bar-item">
+            <i class="fas fa-comments"></i>
+            <span>Chat</span>
+        </a>
         <a href="settings.html" class="bottom-bar-item">
             <i class="fas fa-cog"></i>
             <span>Settings</span>
@@ -254,10 +292,11 @@
             isAnimating = true;
 
             const buttonIds = [
+                'chat-button',
                 'settings-btn',
-                'movie-of-the-day-btn',
                 'movie-match-btn3',
                 'movie-timeline-btn',
+                'movie-of-the-day-btn',
                 'discussions-btn',
                 'trivia-btn',
             ];
@@ -287,10 +326,11 @@
         window.addEventListener('resize', () => {
             if (window.innerWidth < 767) {
                 const buttonIds = [
+                    'chat-button',
                     'settings-btn',
-                    'movie-of-the-day-btn',
                     'movie-match-btn3',
                     'movie-timeline-btn',
+                    'movie-of-the-day-btn',
                     'discussions-btn',
                     'trivia-btn',
                 ];
@@ -625,6 +665,45 @@
             });
 
             searchInput.addEventListener('blur', clearSelection);
+        });
+
+        function toggleNav() {
+            const sideNav = document.getElementById('side-nav');
+            sideNav.classList.toggle('manual-toggle');
+            adjustNavBar();
+        }
+
+        function removeNavBar() {
+            const sideNav = document.getElementById('side-nav');
+            if (sideNav.classList.contains('manual-toggle')) {
+                sideNav.classList.remove('manual-toggle');
+            }
+
+            adjustNavBar();
+        }
+
+        function adjustNavBar() {
+            const sideNav = document.getElementById('side-nav');
+            if (sideNav.classList.contains('manual-toggle')) {
+                sideNav.style.left = '0px';
+            }
+            else {
+                sideNav.style.left = '-250px';
+            }
+        }
+
+        document.addEventListener('mousemove', function(event) {
+            const sideNav = document.getElementById('side-nav');
+            if (event.clientX < 10 && !sideNav.classList.contains('manual-toggle')) {
+                sideNav.style.left = '0';
+            }
+        });
+
+        document.getElementById('side-nav').addEventListener('mouseleave', function() {
+            const sideNav = document.getElementById('side-nav');
+            if (!sideNav.classList.contains('manual-toggle')) {
+                sideNav.style.left = '-250px';
+            }
         });
     </script>
 

@@ -117,6 +117,8 @@
                 <button type="button" id="clear-search" style="display: none">Clear</button>
             </div>
         </form>
+
+        <button id="chat-button" onclick="window.location.href='chat.html'" style="bottom: 300px; right: 10px; z-index: 1001" title="Chat with fellow MovieVerse users!">Chat</button>
         <button id="settings-btn" style="position: fixed; bottom: 265px; right: 10px">Settings</button>
         <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 230px; right: 10px">Movie Match</button>
         <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 195px; right: 10px">Movie Timeline</button>
@@ -147,6 +149,8 @@
             <li><a href="privacy-policy.html">Privacy Policy</a></li>
             <li><a href="feedback.html">Submit Feedback</a></li>
             <li><a href="support.html">Contact Support</a></li>
+            <li><a href="sign-in.html">Sign In</a></li>
+            <li><a href="user-profile.html">Profile</a></li>
             <li><a href="analytics.html">MovieVerse Analytics</a></li>
         </ul>
     </nav>
@@ -154,7 +158,7 @@
     <main id="main2" style="margin-bottom: 0">
         <h2 id="aboutHeader" style="align-self: center; cursor: pointer">About The MovieVerse</h2>
 
-        <p style="color: white">Welcome to The MovieVerse, your ultimate destination for exploring the magic of movies. Created by <a id="profileLink" href="http://github.com/hoangsonww">Son Nguyen</a> in 2023 with a vision to celebrate cinematic art, The MovieVerse offers a unique but comprehensive platform for movie lovers to discover, engage, and immerse themselves in the world of film!</p>
+        <p style="color: white; text-align: center">Welcome to The MovieVerse, your ultimate destination for exploring the magic of movies. Created by <strong><a id="profileLink" href="http://github.com/hoangsonww">Son Nguyen</a></strong> in 2023 with a vision to celebrate cinematic art, MovieVerse offers a unique but comprehensive platform for more than <strong>150,000</strong> movie lovers worldwide to discover, engage, and immerse themselves in the world of film!</p>
 
         <h3 id="subheading1" style="cursor: pointer">Core Features:</h3>
 
@@ -166,7 +170,7 @@
             <li><strong>Movie Timeline:</strong> Select a period and explore a curated list of movies from that era, offering a unique way to experience the evolution of film over time.</li>
             <li><strong>Movie Match/Recommendation:</strong> Find or get recommended a movie that matches your mood, genre, and time period, ensuring you always find the perfect movie to watch.</li>
             <li><strong>Detailed Filmography Insights:</strong> Delve into the careers of your favorite <a style="text-decoration: underline" id="githubLink1" href="director-details.html">directors</a>, <a style="text-decoration: underline" id="githubLink1" href="actor-details.html">actors</a>, and <a style="text-decoration: underline" id="githubLink1" href="company-details.html"> companies</a> with dedicated pages detailing their filmography and impact on cinema.</li>
-            <li><strong>Sign In/Sign Out:</strong> Sign in to your account to access your personalized movie recommendations, watchlists, and more.</li>
+            <li><strong>Sign In/Sign Out:</strong> Sign in to your account to access your personalized movie recommendations, <a style="text-decoration: underline" id="githubLink1" href="favorites.html">watchlists</a>, <a style="text-decoration: underline" id="githubLink1" href="user-profile.html">profile</a>, and more.</li>
             <li><strong>Watchlists:</strong> Save movies to your watchlist, ensuring you never miss out on a movie you want to watch. If you're signed in, these watchlists are <a style="text-decoration: underline" id="githubLink1" href="favorites.html">accessible</a> across all your devices!</li>
             <li><strong>Interesting User Stats:</strong> View your dynamic user stats, including your most common favorite genre, your average movie rating, and more.</li>
             <li><strong>Search Functionality:</strong> Use our extensive <a style="text-decoration: underline" id="githubLink1" href="search.html">search</a> functionality to find movies, actors, directors, and TV series, ensuring you always find what you're looking for.</li>
@@ -225,6 +229,10 @@
     </main>
 
     <div id="mobile-bottom-bar" class="mobile-bottom-bar">
+        <a href="chat.html" class="bottom-bar-item">
+            <i class="fas fa-comments"></i>
+            <span>Chat</span>
+        </a>
         <a href="settings.html" class="bottom-bar-item">
             <i class="fas fa-cog"></i>
             <span>Settings</span>
@@ -301,10 +309,11 @@
             isAnimating = true;
 
             const buttonIds = [
+                'chat-button',
                 'settings-btn',
-                'movie-of-the-day-btn',
                 'movie-match-btn3',
                 'movie-timeline-btn',
+                'movie-of-the-day-btn',
                 'discussions-btn',
                 'trivia-btn',
             ];
@@ -335,10 +344,11 @@
         window.addEventListener('resize', () => {
             if (window.innerWidth < 767) {
                 const buttonIds = [
+                    'chat-button',
                     'settings-btn',
-                    'movie-of-the-day-btn',
-                    'movie-match-btn',
+                    'movie-match-btn3',
                     'movie-timeline-btn',
+                    'movie-of-the-day-btn',
                     'discussions-btn',
                     'trivia-btn',
                 ];

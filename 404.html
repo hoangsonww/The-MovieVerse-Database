@@ -326,6 +326,7 @@
             </div>
         </form>
 
+        <button id="chat-button" onclick="window.location.href='MovieVerse-Frontend/html/chat.html'" style="bottom: 325px; right: 10px; z-index: 1001" title="Chat with fellow MovieVerse users!">Chat</button>
         <button id="settings-btn" style="position: fixed; bottom: 290px; right: 10px; z-index: 1001">Settings</button>
         <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" style="bottom: 255px; right: 10px; z-index: 1001" title="Get a recommended movie to watch for today!">Surprise Me!</button>
         <button id="movie-match-btn" onclick="window.location.href='https://movie-verse.com/MovieVerse-Frontend/html/movie-match.html'" title="Find movies that match your mood and preferences!" style="bottom: 220px; right: 10px; z-index: 1001">Movie Match</button>
@@ -336,6 +337,10 @@
     </header>
 
     <div id="mobile-bottom-bar" class="mobile-bottom-bar">
+        <a href="MovieVerse-Frontend/html/chat.html" class="bottom-bar-item">
+            <i class="fas fa-comments"></i>
+            <span>Chat</span>
+        </a>
         <a href="https://movie-verse.com/" class="bottom-bar-item">
             <i class="fas fa-home"></i>
             <span>Home</span>
@@ -416,6 +421,7 @@
             isAnimating = true;
 
             const buttonIds = [
+                'chat-button',
                 'settings-btn',
                 'movie-of-the-day-btn',
                 'movie-match-btn',
@@ -451,6 +457,7 @@
         window.addEventListener('resize', () => {
             if (window.innerWidth < 767) {
                 const buttonIds = [
+                    'chat-button',
                     'settings-btn',
                     'movie-of-the-day-btn',
                     'movie-match-btn',

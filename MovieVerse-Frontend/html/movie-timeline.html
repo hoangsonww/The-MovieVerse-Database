@@ -137,6 +137,7 @@
         <div class="spinner"></div>
     </div>
 
+    <button id="chat-button" onclick="window.location.href='chat.html'" style="bottom: 325px; right: 10px; z-index: 1001" title="Chat with fellow MovieVerse users!">Chat</button>
     <button id="settings-btn" style="position: fixed; bottom: 290px; right: 10px; z-index: 10012">Settings</button>
     <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 255px; right: 10px; z-index: 10012">Movie Match</button>
     <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 220px; right: 10px; z-index: 10012">Movie Timeline</button>
@@ -148,6 +149,10 @@
     <script src="../js/movie-timeline.js"></script>
 
     <div id="mobile-bottom-bar" class="mobile-bottom-bar">
+        <a href="chat.html" class="bottom-bar-item">
+            <i class="fas fa-comments"></i>
+            <span>Chat</span>
+        </a>
         <a href="settings.html" class="bottom-bar-item">
             <i class="fas fa-cog"></i>
             <span>Settings</span>
@@ -228,10 +233,11 @@
             isAnimating = true;
 
             const buttonIds = [
+                'chat-button',
                 'settings-btn',
-                'movie-of-the-day-btn',
                 'movie-match-btn3',
                 'movie-timeline-btn',
+                'movie-of-the-day-btn',
                 'discussions-btn',
                 'trivia-btn',
                 'back-to-top-btn'
@@ -264,10 +270,11 @@
         window.addEventListener('resize', () => {
             if (window.innerWidth < 767) {
                 const buttonIds = [
+                    'chat-button',
                     'settings-btn',
-                    'movie-of-the-day-btn',
                     'movie-match-btn3',
                     'movie-timeline-btn',
+                    'movie-of-the-day-btn',
                     'discussions-btn',
                     'trivia-btn',
                     'back-to-top-btn'

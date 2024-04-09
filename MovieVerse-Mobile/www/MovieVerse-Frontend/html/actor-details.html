@@ -64,12 +64,21 @@
             background-size: 100% auto;
         }
 
+        #actor-details-container {
+            margin-top: 0;
+        }
+
         @media (max-width: 767px) {
             body {
                 background-size: auto;
                 background-position: top center;
             }
+
+            #actor-details-container {
+                margin-top: 25px;
+            }
         }
+
     </style>
 </head>
 
@@ -116,7 +125,7 @@
 
     <main id="main" style="margin-left: 25px; height: 0"></main>
 
-    <div class="details-container" id="actor-details-container" style="margin-bottom: 70px">
+    <div class="details-container" id="actor-details-container" style="margin-bottom: 70px;">
         <!-- Left side for Actor Image -->
         <div class="actor-left" style="overflow-y: hidden">
             <h2 id="actor-name" class="actor-header"></h2>
@@ -135,6 +144,7 @@
 
     <script src="../js/actor-details.js"></script>
 
+    <button id="chat-button" onclick="window.location.href='chat.html'" style="bottom: 300px; right: 10px; z-index: 1001" title="Chat with fellow MovieVerse users!">Chat</button>
     <button id="settings-btn" style="position: fixed; bottom: 265px; right: 10px">Settings</button>
     <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 230px; right: 10px">Movie Match</button>
     <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 195px; right: 10px">Movie Timeline</button>
@@ -143,6 +153,10 @@
     <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 90px; right: 10px" title="Test your movie knowledge">MovieVerse Trivia</button>
 
     <div id="mobile-bottom-bar" class="mobile-bottom-bar">
+        <a href="chat.html" class="bottom-bar-item">
+            <i class="fas fa-comments"></i>
+            <span>Chat</span>
+        </a>
         <a href="settings.html" class="bottom-bar-item">
             <i class="fas fa-cog"></i>
             <span>Settings</span>
@@ -219,10 +233,11 @@
             isAnimating = true;
 
             const buttonIds = [
+                'chat-button',
                 'settings-btn',
-                'movie-of-the-day-btn',
                 'movie-match-btn3',
                 'movie-timeline-btn',
+                'movie-of-the-day-btn',
                 'discussions-btn',
                 'trivia-btn',
             ];
@@ -296,10 +311,11 @@
         window.addEventListener('resize', () => {
             if (window.innerWidth < 767) {
                 const buttonIds = [
+                    'chat-button',
                     'settings-btn',
-                    'movie-of-the-day-btn',
                     'movie-match-btn3',
                     'movie-timeline-btn',
+                    'movie-of-the-day-btn',
                     'discussions-btn',
                     'trivia-btn',
                 ];

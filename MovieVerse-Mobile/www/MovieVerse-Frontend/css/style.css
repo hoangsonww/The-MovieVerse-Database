@@ -5,7 +5,7 @@
 }
 
 body {
-    background-image: url("https://movie-verse.com/images/universe-1.png");
+    background-image: url("https://movie-verse.com/images/universe-1.webp");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -434,7 +434,7 @@ header h1 {
 }
 
 .highlight:hover {
-    color: #ff00dd;
+    color: #ff8623;
 }
 
 .search:focus {
@@ -1158,14 +1158,14 @@ p {
 }
 
 .movie-details-body {
-    background-image: url("https://movie-verse.com/images/universe-1.png");
+    background-image: url("https://movie-verse.com/images/universe-1.webp");
     background-size: cover;
     background-position: center;
     background-repeat: repeat;
 }
 
 .movie-details-body2 {
-    background-image: url("https://movie-verse.com/images/universe-1.png");
+    background-image: url("https://movie-verse.com/images/universe-1.webp");
     background-position: center;
     height: 100vh;
     background-size: auto;
@@ -1173,7 +1173,7 @@ p {
 }
 
 .movie-details-body3 {
-    background-image: url("https://movie-verse.com/images/universe-1.png");
+    background-image: url("https://movie-verse.com/images/universe-1.webp");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -1181,7 +1181,7 @@ p {
 }
 
 .movie-details-body4 {
-    background-image: url("https://movie-verse.com/images/universe-1.png");
+    background-image: url("https://movie-verse.com/images/universe-1.webp");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -1674,10 +1674,11 @@ p {
     border-radius: 32px;
     color: white;
     margin: 5px auto;
-    max-width: 500px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    max-width: 480px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
 }
 
+#chat-button,
 #settings-btn,
 #movie-of-the-day-btn,
 #movie-match-btn,
@@ -1693,6 +1694,7 @@ p {
 }
 
 @media (min-width: 768px) {
+    #chat-button,
     #settings-btn,
     #movie-of-the-day-btn,
     #movie-match-btn,
@@ -1773,6 +1775,7 @@ p {
         display: flex;
     }
 
+    #chat-button,
     #settings-btn,
     #movie-of-the-day-btn,
     #movie-match-btn,
@@ -1788,6 +1791,141 @@ p {
 .nav-button:disabled {
     background-color: #b5b5b5;
     cursor: not-allowed;
+}
+
+.search-users-container {
+    text-align: center;
+    margin: 20px auto;
+    background-color: rgba(55, 59, 105, 0.8);
+    padding: 15px;
+    border-radius: 8px;
+    max-width: 500px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    color: white;
+    font: inherit;
+}
+
+.search-users-container input[type="text"] {
+    width: 70%;
+    padding: 10px;
+    margin-right: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font: inherit;
+}
+
+.search-users-container button {
+    padding: 10px 20px;
+    background-color: #7378c5;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font: inherit;
+}
+
+.search-users-container button:hover {
+    background-color: #ff8623;
+}
+
+.search-results-container {
+    display: none;
+    background-color: rgba(211, 211, 211, 0.5);
+    max-width: 500px;
+    margin: 10px auto;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    text-align: left;
+}
+
+#viewMyProfileBtn {
+    display: block;
+    background-color: #7378c5;
+    color: white;
+    padding: 10px 20px;
+    margin: 20px auto;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font: inherit;
+}
+
+#viewMyProfileBtn:hover {
+    background-color: #ff8623;
+}
+
+.user-search-result {
+    background-color: rgba(55, 59, 105, 0.8);
+    margin: 10px auto;
+    padding: 10px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    color: white;
+    transition: background-color 0.3s ease;
+    height: 100px;
+    max-width: 400px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.user-search-result:hover {
+    background-color: #ff8623;
+}
+
+.user-search-result img {
+    width: auto;
+    height: 95%;
+    max-height: 100px;
+    margin-right: 10px;
+    border-radius: 8px;
+    object-fit: contain;
+}
+
+#userLink {
+    color: black;
+}
+
+#userLink:hover {
+    color: #ff710d;
+}
+
+#chat-button {
+    background-color: #7378c5;
+    bottom: 325px;
+    right: 10px;
+    color: black;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font: inherit;
+    position: fixed;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+#chat-button:hover {
+    background-color: #ff8623;
+    transition: 0.1s ease-in;
+}
+
+.user-search-result div {
+    width: 67%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+}
+
+.user-search-result strong {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.user-search-result p {
+    margin: 0;
+    font-size: 0.9rem;
 }
 
 .pagination {
@@ -2404,7 +2542,7 @@ canvas {
     }
 
     #movie-details-body3 {
-        background-image: url("https://movie-verse.com/images/universe.jpg");
+        background-image: url("https://movie-verse.com/images/universe-1.webp");
         background-position: center;
         height: 100vh;
         background-size: auto;

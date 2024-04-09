@@ -160,6 +160,75 @@
         #highlight:hover {
             color: #ff8623 !important;
         }
+
+        #chat-button {
+            background-color: #7378c5;
+            bottom: 325px;
+            right: 10px;
+            color: black;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font: inherit;
+            position: fixed;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        #chat-button:hover {
+            background-color: #ff8623;
+            transition: 0.1s ease-in;
+        }
+
+        #chat-button,
+        #settings-btn,
+        #movie-of-the-day-btn,
+        #movie-match-btn,
+        #movie-timeline-btn,
+        #discussions-btn,
+        #trivia-btn,
+        #back-to-top-btn {
+            transition: transform 0.5s ease, opacity 0.5s ease;
+            transform: translateY(20px);
+            opacity: 0;
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            #chat-button,
+            #settings-btn,
+            #movie-of-the-day-btn,
+            #movie-match-btn,
+            #movie-timeline-btn,
+            #discussions-btn,
+            #trivia-btn,
+            #back-to-top-btn {
+                position: fixed;
+                right: 10px;
+                z-index: 1000;
+            }
+
+            #menu-btn {
+                display: block;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .mobile-bottom-bar {
+                display: flex;
+            }
+
+            #chat-button,
+            #settings-btn,
+            #movie-of-the-day-btn,
+            #movie-match-btn,
+            #movie-timeline-btn,
+            #discussions-btn,
+            #trivia-btn,
+            #menu-btn,
+            #back-to-top-btn {
+                display: none;
+            }
+        }
     </style>
 </head>
 
@@ -474,27 +543,6 @@
 
     <main id="family"></main>
 
-    <div id="ad-container" style="display: block; text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px);" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
-        <p style="margin: 0;">Advertisement</p>
-        <ins class="adsbygoogle"
-             style="display: block; width: 100%;"
-             data-ad-client="ca-pub-6608388491200814"
-             data-ad-slot="4832732030"
-             data-ad-format="auto"></ins>
-        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="MovieVerse-Frontend/html/feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>
-    </div>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-
-    <div class="genres" id="musical-div">
-        <h2 id="other" style="margin-top: 50px; cursor: pointer">Enchanting Melodies: Trending Musical Movies</h2>
-    </div>
-
-    <div id="musical-pagination" class="pagination" style="text-align: center"></div>
-
-    <main id="musical"></main>
-
 <!--    <div id="ad-container" style="display: block; text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px);" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">-->
 <!--        <p style="margin: 0;">Advertisement</p>-->
 <!--        <ins class="adsbygoogle"-->
@@ -507,6 +555,14 @@
 <!--    <script>-->
 <!--        (adsbygoogle = window.adsbygoogle || []).push({});-->
 <!--    </script>-->
+
+    <div class="genres" id="musical-div">
+        <h2 id="other" style="margin-top: 50px; cursor: pointer">Enchanting Melodies: Trending Musical Movies</h2>
+    </div>
+
+    <div id="musical-pagination" class="pagination" style="text-align: center"></div>
+
+    <main id="musical"></main>
 
     <div class="genres" id="drama-div">
         <h2 id="other" style="margin-top: 50px; cursor: pointer">Emotional Journeys: Trending Drama Movies</h2>
@@ -524,7 +580,7 @@
 
     <main id="classic"></main>
 
-    <button id="chat-btn" onclick="window.location.href='MovieVerse-Frontend/html/chat.html'" style="position: fixed; bottom: 325px; right: 10px; z-index: 1001" title="Chat with fellow MovieVerse users!">Chat</button>
+    <button id="chat-button" onclick="window.location.href='MovieVerse-Frontend/html/chat.html'" style="bottom: 325px; right: 10px; z-index: 1001" title="Chat with fellow MovieVerse users!">Chat</button>
     <button id="settings-btn" style="position: fixed; bottom: 290px; right: 10px; z-index: 1001">Settings</button>
     <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" style="bottom: 255px; right: 10px; z-index: 1001" title="Get a recommended movie to watch for today!">Surprise Me!</button>
     <button id="movie-match-btn" onclick="window.location.href='MovieVerse-Frontend/html/movie-match.html'" title="Find movies that match your mood and preferences!" style="bottom: 220px; right: 10px; z-index: 1001">Movie Match</button>
@@ -534,6 +590,10 @@
     <button id="back-to-top-btn" style="bottom: 80px; right: 10px; z-index: 1001">Back To Top</button>
 
     <div id="mobile-bottom-bar" class="mobile-bottom-bar">
+        <a href="MovieVerse-Frontend/html/chat.html" class="bottom-bar-item">
+            <i class="fas fa-comments"></i>
+            <span>Chat</span>
+        </a>
         <a href="MovieVerse-Frontend/html/settings.html" class="bottom-bar-item">
             <i class="fas fa-cog"></i>
             <span>Settings</span>
@@ -635,13 +695,14 @@
             isAnimating = true;
 
             const buttonIds = [
+                'chat-button',
                 'settings-btn',
                 'movie-of-the-day-btn',
                 'movie-match-btn',
                 'movie-timeline-btn',
                 'discussions-btn',
                 'trivia-btn',
-                'back-to-top-btn'
+                'back-to-top-btn',
             ];
 
             buttonIds.forEach((id, index) => {
@@ -670,13 +731,14 @@
         window.addEventListener('resize', () => {
             if (window.innerWidth < 767) {
                 const buttonIds = [
+                    'chat-button',
                     'settings-btn',
                     'movie-of-the-day-btn',
                     'movie-match-btn',
                     'movie-timeline-btn',
                     'discussions-btn',
                     'trivia-btn',
-                    'back-to-top-btn'
+                    'back-to-top-btn',
                 ];
 
                 buttonIds.forEach(id => {

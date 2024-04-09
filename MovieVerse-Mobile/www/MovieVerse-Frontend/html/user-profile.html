@@ -330,6 +330,7 @@
                 <button type="button" id="clear-search" style="display: none">Clear</button>
             </div>
         </form>
+        <button id="chat-button" onclick="window.location.href='chat.html'" style="bottom: 300px; right: 10px; z-index: 1001" title="Chat with fellow MovieVerse users!">Chat</button>
         <button id="settings-btn" style="position: fixed; bottom: 265px; right: 10px">Settings</button>
         <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 230px; right: 10px">Movie Match</button>
         <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 195px; right: 10px">Movie Timeline</button>
@@ -340,13 +341,21 @@
 
     <div id="welcomeMessage" style="color: #ff8623; font-weight: bold; font-size: 30px; text-align: center; margin-top: 30px;"></div>
 
+    <div class="search-users-container">
+        <input type="text" id="searchUserInput" placeholder="Search For MovieVerse Users...">
+        <button id="searchUserBtn">Search</button>
+    </div>
+    <div id="searchUserResults" class="search-results-container"></div>
+    <button id="viewMyProfileBtn" style="margin-top: 20px;">View My Profile</button>
+
     <div id="profileContainer" class="profile-container" style="margin-bottom: 300px">
         <div class="profile-image-container">
             <img id="profileImage" style="cursor: pointer" title="Click to upload a new profile image" onclick="document.getElementById('imageUpload').click()" src="../../images/user-default.png" alt="Profile Image" />
-            <button id="removeProfileImage" title="Click to remove the current profile image" onclick="removeProfileImage()" style="display: none;">&times;</button>
+            <button id="removeProfileImage" title="Click to remove the current profile image" style="display: none;">&times;</button>
         </div>
+
         <input type="file" id="imageUpload" accept="image/*" hidden />
-        <button onclick="document.getElementById('imageUpload').click()">Change Profile Image</button>
+        <button id="changeProfileImageBtn" onclick="document.getElementById('imageUpload').click()">Change Profile Image</button>
 
         <div class="profile-info">
             <p id="usernameDisplay">Username: <span></span></p>
@@ -359,6 +368,8 @@
             <p id="favoriteActorDisplay"><strong>Favorite Actor:</strong> <span></span></p>
             <p id="favoriteDirectorDisplay"><strong>Favorite Director:</strong> <span></span></p>
             <p id="personalQuoteDisplay"><strong>Personal Quote:</strong> <span></span></p>
+            <p id="followingDisplay"><strong>Following:</strong> <span id="followingList"></span></p>
+            <p id="followersDisplay"><strong>Followers:</strong> <span id="followersList"></span></p>
         </div>
         <button id="editProfileBtn">Edit Profile Details</button>
     </div>
@@ -1029,6 +1040,10 @@
     </footer>
 
     <div id="mobile-bottom-bar" class="mobile-bottom-bar">
+        <a href="chat.html" class="bottom-bar-item">
+            <i class="fas fa-comments"></i>
+            <span>Chat</span>
+        </a>
         <a href="settings.html" class="bottom-bar-item">
             <i class="fas fa-cog"></i>
             <span>Settings</span>
@@ -1105,10 +1120,11 @@
             isAnimating = true;
 
             const buttonIds = [
+                'chat-button',
                 'settings-btn',
-                'movie-of-the-day-btn',
                 'movie-match-btn3',
                 'movie-timeline-btn',
+                'movie-of-the-day-btn',
                 'discussions-btn',
                 'trivia-btn',
             ];
@@ -1138,10 +1154,11 @@
         window.addEventListener('resize', () => {
             if (window.innerWidth < 767) {
                 const buttonIds = [
+                    'chat-button',
                     'settings-btn',
-                    'movie-of-the-day-btn',
                     'movie-match-btn3',
                     'movie-timeline-btn',
+                    'movie-of-the-day-btn',
                     'discussions-btn',
                     'trivia-btn',
                 ];

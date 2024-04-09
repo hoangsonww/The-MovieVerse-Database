@@ -135,7 +135,7 @@
             <label for="year-filter">Year:</label>
             <input type="number" id="year-filter" placeholder="Year of Publishing" style="color: white" min="1900" max="2024" />
             <label style="vertical-align: center" for="rating-filter">Rating:</label>
-            <input type="range" id="rating-filter" min="0" max="10" step="0.1" value="5" />
+            <input type="range" id="rating-filter" min="0" max="10" step="0.1" value="5" title="Rating" />
             <span id="rating-value" style="color: white; font: inherit"></span>
 
             <button id="reset-filters">Reset Filters</button>
@@ -153,7 +153,7 @@
             <label for="year-tv-filter">Year:</label>
             <input type="number" id="year-tv-filter" placeholder="Year of Publishing" style="color: white" min="1900" max="2024" />
             <label style="vertical-align: center" for="rating-tv-filter">Rating:</label>
-            <input type="range" id="rating-tv-filter" min="0" max="10" step="0.1" value="5" />
+            <input type="range" id="rating-tv-filter" min="0" max="10" step="0.1" value="5" title="Rating" />
             <span id="rating-tv-value" style="color: white; font: inherit"></span>
 
             <button id="reset-filters">Reset Filters</button>
@@ -179,7 +179,8 @@
         </div>
     </main>
 
-    <button id="settings-btn" style="position: fixed; bottom: 265px; right: 10px; z-index: 10012">Settings</button>
+    <button id="chat-button" onclick="window.location.href='chat.html'" style="bottom: 300px; right: 10px; z-index: 1001" title="Chat with fellow MovieVerse users!">Chat</button>
+    <button id="settings-btn" onclick="window.location.href='settings.html'" style="position: fixed; bottom: 265px; right: 10px; z-index: 10012">Settings</button>
     <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 230px; right: 10px; z-index: 10012">Movie Match</button>
     <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 195px; right: 10px; z-index: 10012">Movie Timeline</button>
     <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 160px; right: 10px; z-index: 10012">Surprise Me!</button>
@@ -411,7 +412,7 @@
                     card.className = 'search-result-card';
                     card.style.cursor = 'pointer';
 
-                    const imagePath = item.poster_path || item.profile_path ? `https://image.tmdb.org/t/p/w500${item.poster_path || item.profile_path}` : null;
+                    const imagePath = item.poster_path || item.profile_path ? `https://image.tmdb.org/t/p/w300${item.poster_path || item.profile_path}` : null;
 
                     if (imagePath) {
                         const image = document.createElement('img');
@@ -576,6 +577,10 @@
     </footer>
 
     <div id="mobile-bottom-bar" class="mobile-bottom-bar">
+        <a href="chat.html" class="bottom-bar-item">
+            <i class="fas fa-comments"></i>
+            <span>Chat</span>
+        </a>
         <a href="settings.html" class="bottom-bar-item">
             <i class="fas fa-cog"></i>
             <span>Settings</span>
@@ -652,10 +657,11 @@
             isAnimating = true;
 
             const buttonIds = [
+                'chat-button',
                 'settings-btn',
-                'movie-of-the-day-btn',
                 'movie-match-btn3',
                 'movie-timeline-btn',
+                'movie-of-the-day-btn',
                 'discussions-btn',
                 'trivia-btn',
             ];
@@ -685,10 +691,11 @@
         window.addEventListener('resize', () => {
             if (window.innerWidth < 767) {
                 const buttonIds = [
+                    'chat-button',
                     'settings-btn',
-                    'movie-of-the-day-btn',
                     'movie-match-btn3',
                     'movie-timeline-btn',
+                    'movie-of-the-day-btn',
                     'discussions-btn',
                     'trivia-btn',
                 ];

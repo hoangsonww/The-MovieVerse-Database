@@ -11,6 +11,7 @@
     <!-- Meta tags for SEO -->
     <meta name="description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta property="fb:app_id" content="753617793197513" />
     <meta property="og:title" content="The MovieVerse - Your Ultimate Movie Guide" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
@@ -19,7 +20,9 @@
     <meta property="og:url" content="https://movie-verse.com/" />
     <meta property="og:site_name" content="The MovieVerse - Your Ultimate Movie Guide" />
     <meta property="og:image" content="https://movie-verse.com/images/image.png"/>
+    <meta property="og:image:alt" content="Movie reel and popcorn, symbolizing The MovieVerse as a guide to the cinema world" />
     <meta property="og:favicon" content="./images/favicon.ico" />
+    <meta name="facebook-domain-verification" content="uogl1tjp9660kf4kq988ayjhslpxn1" />
     <meta name="keywords" content="movies, film guide, directors, actors, movie genres, cinema, film reviews">
     <meta name="author" content="Son Nguyen Hoang">
     <link rel="canonical" href="https://movie-verse.com/"/>
@@ -114,15 +117,6 @@
         }
     </script>
 
-    <!-- Microsoft Analytics Tag -->
-    <script type="text/javascript">
-        (function(c,l,a,r,i,t,y){
-            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        })(window, document, "clarity", "script", "l7gqnssat8");
-    </script>
-
     <style>
         #search {
             margin-right: 0 !important;
@@ -142,12 +136,12 @@
         }
 
         body {
-            background-image: url("https://movie-verse.com/images/universe-1-small.png");
+            background-image: url("https://movie-verse.com/images/universe-1-small.webp");
         }
 
         @media (min-width: 768px) {
             body {
-                background-image: url("https://movie-verse.com/images/universe-1-medium.png");
+                background-image: url("https://movie-verse.com/images/universe-1-medium.webp");
             }
         }
 
@@ -156,6 +150,83 @@
                 background-image: url("https://movie-verse.com/images/universe-1.webp");
                 background-repeat: repeat-y;
                 background-size: 100% auto;
+            }
+        }
+
+        #highlight {
+            color: orange;
+        }
+
+        #highlight:hover {
+            color: #ff8623 !important;
+        }
+
+        #chat-button {
+            background-color: #7378c5;
+            bottom: 325px;
+            right: 10px;
+            color: black;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font: inherit;
+            position: fixed;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        #chat-button:hover {
+            background-color: #ff8623;
+            transition: 0.1s ease-in;
+        }
+
+        #chat-button,
+        #settings-btn,
+        #movie-of-the-day-btn,
+        #movie-match-btn,
+        #movie-timeline-btn,
+        #discussions-btn,
+        #trivia-btn,
+        #back-to-top-btn {
+            transition: transform 0.5s ease, opacity 0.5s ease;
+            transform: translateY(20px);
+            opacity: 0;
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            #chat-button,
+            #settings-btn,
+            #movie-of-the-day-btn,
+            #movie-match-btn,
+            #movie-timeline-btn,
+            #discussions-btn,
+            #trivia-btn,
+            #back-to-top-btn {
+                position: fixed;
+                right: 10px;
+                z-index: 1000;
+            }
+
+            #menu-btn {
+                display: block;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .mobile-bottom-bar {
+                display: flex;
+            }
+
+            #chat-button,
+            #settings-btn,
+            #movie-of-the-day-btn,
+            #movie-match-btn,
+            #movie-timeline-btn,
+            #discussions-btn,
+            #trivia-btn,
+            #menu-btn,
+            #back-to-top-btn {
+                display: none;
             }
         }
     </style>
@@ -175,7 +246,7 @@
     <header id="homepage-header" style="margin-bottom: -10px; margin-top: -5px">
         <a id="indexLink" href="index.html" style="text-decoration: none; color: inherit; cursor: pointer">
             <h1 id="my-heading" style="margin-bottom: -10px">
-                The Mo<span class="highlight">vieV</span>erse
+                The Mo<span class="highlight" id="highlight">vieV</span>erse
             </h1>
         </a>
 
@@ -256,7 +327,6 @@
             <li><a href="#thriller">Thriller</a></li>
             <li><a href="#war">War</a></li>
             <li><a href="#mystery">Mystery</a></li>
-            <li><a href="#adventure">Adventure</a></li>
             <li><a href="#crime">Crime</a></li>
             <li><a href="#comedy">Comedy</a></li>
             <li><a href="#fantasy">Fantasy</a></li>
@@ -264,6 +334,8 @@
             <li><a href="#musical">Musical</a></li>
             <li><a href="#drama">Drama</a></li>
             <li><a href="#classic">Classic</a></li>
+            <li><a href="MovieVerse-Frontend/html/sign-in.html">Sign In</a></li>
+            <li><a href="MovieVerse-Frontend/html/user-profile.html">Profile</a></li>
             <li><a href="MovieVerse-Frontend/html/support.html">MovieVerse Support</a></li>
             <li><a href="MovieVerse-Frontend/html/feedback.html">MovieVerse Feedback</a></li>
         </ul>
@@ -439,14 +511,6 @@
 
     <main id="mystery"></main>
 
-    <div class="genres" id="adventure-div">
-        <h2 id="other" style="margin-top: 50px; cursor: pointer">Epic Journeys: Trending Adventure Movies</h2>
-    </div>
-
-    <div id="adventure-pagination" class="pagination" style="text-align: center"></div>
-
-    <main id="adventure"></main>
-
     <div class="genres" id="crime-div">
         <h2 id="other" style="margin-top: 50px; cursor: pointer">Underworld Tales: Trending Crime Movies</h2>
     </div>
@@ -479,18 +543,18 @@
 
     <main id="family"></main>
 
-    <div id="ad-container" style="display: block; text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px);" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
-        <p style="margin: 0;">Advertisement</p>
-        <ins class="adsbygoogle"
-             style="display: block; width: 100%;"
-             data-ad-client="ca-pub-6608388491200814"
-             data-ad-slot="4832732030"
-             data-ad-format="auto"></ins>
-        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="MovieVerse-Frontend/html/feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>
-    </div>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
+<!--    <div id="ad-container" style="display: block; text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px);" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">-->
+<!--        <p style="margin: 0;">Advertisement</p>-->
+<!--        <ins class="adsbygoogle"-->
+<!--             style="display: block; width: 100%;"-->
+<!--             data-ad-client="ca-pub-6608388491200814"-->
+<!--             data-ad-slot="4832732030"-->
+<!--             data-ad-format="auto"></ins>-->
+<!--        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="MovieVerse-Frontend/html/feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>-->
+<!--    </div>-->
+<!--    <script>-->
+<!--        (adsbygoogle = window.adsbygoogle || []).push({});-->
+<!--    </script>-->
 
     <div class="genres" id="musical-div">
         <h2 id="other" style="margin-top: 50px; cursor: pointer">Enchanting Melodies: Trending Musical Movies</h2>
@@ -499,19 +563,6 @@
     <div id="musical-pagination" class="pagination" style="text-align: center"></div>
 
     <main id="musical"></main>
-
-    <div id="ad-container" style="display: block; text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px);" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
-        <p style="margin: 0;">Advertisement</p>
-        <ins class="adsbygoogle"
-             style="display: block; width: 100%;"
-             data-ad-client="ca-pub-6608388491200814"
-             data-ad-slot="4832732030"
-             data-ad-format="auto"></ins>
-        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="MovieVerse-Frontend/html/feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>
-    </div>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
 
     <div class="genres" id="drama-div">
         <h2 id="other" style="margin-top: 50px; cursor: pointer">Emotional Journeys: Trending Drama Movies</h2>
@@ -529,6 +580,7 @@
 
     <main id="classic"></main>
 
+    <button id="chat-button" onclick="window.location.href='MovieVerse-Frontend/html/chat.html'" style="bottom: 325px; right: 10px; z-index: 1001" title="Chat with fellow MovieVerse users!">Chat</button>
     <button id="settings-btn" style="position: fixed; bottom: 290px; right: 10px; z-index: 1001">Settings</button>
     <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" style="bottom: 255px; right: 10px; z-index: 1001" title="Get a recommended movie to watch for today!">Surprise Me!</button>
     <button id="movie-match-btn" onclick="window.location.href='MovieVerse-Frontend/html/movie-match.html'" title="Find movies that match your mood and preferences!" style="bottom: 220px; right: 10px; z-index: 1001">Movie Match</button>
@@ -538,6 +590,10 @@
     <button id="back-to-top-btn" style="bottom: 80px; right: 10px; z-index: 1001">Back To Top</button>
 
     <div id="mobile-bottom-bar" class="mobile-bottom-bar">
+        <a href="MovieVerse-Frontend/html/chat.html" class="bottom-bar-item">
+            <i class="fas fa-comments"></i>
+            <span>Chat</span>
+        </a>
         <a href="MovieVerse-Frontend/html/settings.html" class="bottom-bar-item">
             <i class="fas fa-cog"></i>
             <span>Settings</span>
@@ -639,13 +695,14 @@
             isAnimating = true;
 
             const buttonIds = [
+                'chat-button',
                 'settings-btn',
                 'movie-of-the-day-btn',
                 'movie-match-btn',
                 'movie-timeline-btn',
                 'discussions-btn',
                 'trivia-btn',
-                'back-to-top-btn'
+                'back-to-top-btn',
             ];
 
             buttonIds.forEach((id, index) => {
@@ -674,13 +731,14 @@
         window.addEventListener('resize', () => {
             if (window.innerWidth < 767) {
                 const buttonIds = [
+                    'chat-button',
                     'settings-btn',
                     'movie-of-the-day-btn',
                     'movie-match-btn',
                     'movie-timeline-btn',
                     'discussions-btn',
                     'trivia-btn',
-                    'back-to-top-btn'
+                    'back-to-top-btn',
                 ];
 
                 buttonIds.forEach(id => {
