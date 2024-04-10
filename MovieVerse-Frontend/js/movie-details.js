@@ -1035,9 +1035,9 @@ function populateMovieDetails(movie, imdbRating, rtRating, metascore, awards, ra
     }
 
     const fullLanguage = twoLetterLangCodes.find(lang => lang.code === movie.original_language).name;
-    const overview = movie.overview;
+    const overview = movie.overview ? movie.overview : 'No overview available';
     const genres = movie.genres.map(genre => genre.name).join(', ');
-    const releaseDate = movie.release_date;
+    const releaseDate = movie.release_date ? movie.release_date : 'Release date not available';
 
     const budget = movie.budget === 0 ? 'Information Not Available' : `$${movie.budget.toLocaleString()}`;
     const revenue = movie.revenue <= 1000 ? 'Information Not Available' : `$${movie.revenue.toLocaleString()}`;
@@ -1045,9 +1045,9 @@ function populateMovieDetails(movie, imdbRating, rtRating, metascore, awards, ra
     const languages = movie.spoken_languages.map(lang => lang.name).join(', ');
 
     const countries = movie.production_countries.map(country => country.name).join(', ');
-    const originalLanguage = fullLanguage;
+    const originalLanguage = fullLanguage ? fullLanguage : 'Language Info Not Available';
     const popularityScore = movie.popularity.toFixed(0);
-    const status = movie.status;
+    const status = movie.status ? movie.status : 'Status Info Not Available';
 
     const voteCount = movie.vote_count.toLocaleString();
     let keywords = movie.keywords ? movie.keywords.keywords.map(kw => kw.name).join(', ') : 'None Available';
