@@ -59,44 +59,56 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 document.getElementById('createAccountForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = document.getElementById('newEmail').value;
-    const password = document.getElementById('newPassword').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
-
-    if (!isValidPassword(password)) {
-        alert('Password does not meet the security requirements.\n\n' +
-            'Your password must include:\n' +
-            '- At least 8 characters\n' +
-            '- At least one uppercase letter\n' +
-            '- At least one lowercase letter\n' +
-            '- At least one number\n' +
-            '- At least one special character (e.g., !@#$%^&*)');
-        return;
-    }
-
-    if (password !== confirmPassword) {
-        alert('Passwords do not match.');
-        return;
-    }
-
-    const exists = await accountExists(email);
-    if (exists) {
-        alert('An account with this email already exists.');
-        return;
-    }
-
     try {
-        await addDoc(collection(db, "MovieVerseUsers"), {
-            email: email,
-            password: password
-        });
-        alert('Account created successfully! Now please sign in on the sign in page to proceed.');
-        window.location.href = 'sign-in.html';
+        e.preventDefault();
+        const email = document.getElementById('newEmail').value;
+        const password = document.getElementById('newPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+
+        if (!isValidPassword(password)) {
+            alert('Password does not meet the security requirements.\n\n' +
+                'Your password must include:\n' +
+                '- At least 8 characters\n' +
+                '- At least one uppercase letter\n' +
+                '- At least one lowercase letter\n' +
+                '- At least one number\n' +
+                '- At least one special character (e.g., !@#$%^&*)');
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            alert('Passwords do not match.');
+            return;
+        }
+
+        const exists = await accountExists(email);
+        if (exists) {
+            alert('An account with this email already exists.');
+            return;
+        }
+
+        try {
+            await addDoc(collection(db, "MovieVerseUsers"), {
+                email: email,
+                password: password
+            });
+            alert('Account created successfully! Now please sign in on the sign in page to proceed.');
+            window.location.href = 'sign-in.html';
+        } catch (error) {
+            console.log("Error creating account: ", error);
+            alert('Failed to create account. Please try again later.');
+        }
     }
     catch (error) {
-        console.log("Error creating account: ", error);
-        alert('Failed to create account. Please try again later.');
+        console.error("Error fetching user list: ", error);
+        if (error.code === 'resource-exhausted') {
+            const noUserSelected = document.getElementById('account-creation-form-container');
+            if (noUserSelected) {
+                noUserSelected.innerHTML = "Sorry, our database is currently overloaded. Please try reloading once more, and if that still doesn't work, please try again in a couple hours. For full transparency, we are currently using a database that has a limited number of reads and writes per day due to lack of funding. Thank you for your patience as we work on scaling our services. At the mean time, feel free to use other MovieVerse features!";
+                noUserSelected.style.height = '350px';
+            }
+            hideSpinner();
+        }
     }
 });
 
