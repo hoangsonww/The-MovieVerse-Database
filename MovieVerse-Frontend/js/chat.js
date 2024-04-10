@@ -211,6 +211,7 @@ function setupSearchListeners() {
 
 async function performSearch(searchText, isNewSearch = false) {
     const searchUserResults = document.getElementById('searchUserResults');
+
     try {
         showSpinner();
 
