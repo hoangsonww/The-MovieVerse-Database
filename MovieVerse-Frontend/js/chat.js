@@ -29,7 +29,8 @@ sendButton.addEventListener('click', async () => {
                 sender: currentUserEmail,
                 recipient: selectedUserEmail,
                 message: text,
-                timestamp: serverTimestamp()
+                timestamp: serverTimestamp(),
+                readBy: [currentUserEmail]
             });
             messageInput.value = '';
 
@@ -92,7 +93,7 @@ function showTooltip(event) {
     const leftPosition = rect.left + (rect.width / 2) - (tooltipRect.width / 2);
     tooltip.style.position = 'fixed';
     tooltip.style.top = `${rect.top - tooltipRect.height - 5}px`;
-    tooltip.style.left = `${Math.max(leftPosition, 0) - 10}px`;
+    tooltip.style.left = `${Math.max(leftPosition, 0) - 12}px`;
 
     function removeTooltip() {
         tooltip.remove();
@@ -140,9 +141,20 @@ async function loadMessages(userEmail) {
             const timestamp = messageData.timestamp;
             const messageElement = formatMessage(messageData.message, isCurrentUser, timestamp);
             messagesDiv.appendChild(messageElement);
+
+            if (!isCurrentUser && (!messageData.readBy || !messageData.readBy.includes(currentUserEmail))) {
+                updateReadStatus(doc.id);
+            }
         });
 
         messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    });
+}
+
+async function updateReadStatus(messageId) {
+    const messageRef = doc(db, "messages", messageId);
+    await updateDoc(messageRef, {
+        readBy: arrayUnion(currentUserEmail)
     });
 }
 
@@ -206,20 +218,13 @@ async function performSearch(searchText) {
     hideSpinner();
 }
 
+let previouslySelectedUserElement = null;
+
 async function loadUserList() {
     const isMobile = window.innerWidth <= 767;
     const userLimit = isMobile ? 5 : 10;
 
-    const recentMessagesQuery = query(collection(db, "messages"), where("sender", "==", currentUserEmail), orderBy("timestamp", "desc"), limit(userLimit));
-    const recentMessagesSnapshot = await getDocs(recentMessagesQuery);
-
-    let recentContacts = new Set();
-    recentMessagesSnapshot.forEach(doc => {
-        const data = doc.data();
-        recentContacts.add(data.recipient === currentUserEmail ? data.sender : data.recipient);
-    });
-
-    const allUsersQuery = query(collection(db, "MovieVerseUsers"), limit(10));
+    const allUsersQuery = query(collection(db, "MovieVerseUsers"));
     const allUsersSnapshot = await getDocs(allUsersQuery);
 
     let users = [];
@@ -229,22 +234,52 @@ async function loadUserList() {
         users.push(user);
     });
 
+    const recentMessagesQuery = query(collection(db, "messages"), orderBy("timestamp", "desc"), limit(userLimit));
+    const recentMessagesSnapshot = await getDocs(recentMessagesQuery);
+
+    let recentInteractions = new Map();
+    recentMessagesSnapshot.forEach(doc => {
+        const data = doc.data();
+        const otherUser = data.sender === currentUserEmail ? data.recipient : data.sender;
+
+        if (!recentInteractions.has(otherUser)) {
+            recentInteractions.set(otherUser, data.timestamp.toDate());
+        }
+    });
+
     users.sort((a, b) => {
-        let aIndex = recentContacts.has(a.email) ? Array.from(recentContacts).indexOf(a.email) : Infinity;
-        let bIndex = recentContacts.has(b.email) ? Array.from(recentContacts).indexOf(b.email) : Infinity;
-        return aIndex - bIndex;
+        const aInteractionTime = recentInteractions.get(a.email);
+        const bInteractionTime = recentInteractions.get(b.email);
+        if (aInteractionTime && bInteractionTime) {
+            return bInteractionTime - aInteractionTime;
+        }
+        else if (aInteractionTime) {
+            return -1;
+        }
+        else if (bInteractionTime) {
+            return 1;
+        }
+        else {
+            return 0;
+        }
     });
 
     userListDiv.innerHTML = '';
-    users.slice(0, 10).forEach(user => {
+    users.slice(0, userLimit).forEach(user => {
         const userElement = document.createElement('div');
         userElement.classList.add('user');
         userElement.setAttribute('data-email', user.email);
         userElement.onclick = () => {
+            if (previouslySelectedUserElement) {
+                previouslySelectedUserElement.classList.remove('selected');
+                previouslySelectedUserElement.style.backgroundColor = '';
+            }
             selectedUserEmail = user.email;
             loadMessages(user.email);
             document.querySelectorAll('.user').forEach(user => user.classList.remove('selected'));
             userElement.classList.add('selected');
+            userElement.style.backgroundColor = '#ff8623';
+            previouslySelectedUserElement = userElement;
         };
 
         const img = document.createElement('img');
@@ -258,13 +293,37 @@ async function loadUserList() {
         emailDiv.textContent = user.email;
         userElement.appendChild(emailDiv);
 
-        if (recentContacts.has(user.email)) {
-            const dot = document.createElement('div');
-            dot.classList.add('orange-dot');
-            userElement.appendChild(dot);
-        }
-
         userListDiv.appendChild(userElement);
+    });
+
+    const unreadMessagesQuery = query(
+        collection(db, "messages"),
+        where("recipient", "==", currentUserEmail),
+        where("readBy", "not-in", [[currentUserEmail]])
+    );
+
+    const unreadMessagesSnapshot = await getDocs(unreadMessagesQuery);
+    let unreadUsers = new Set();
+    unreadMessagesSnapshot.forEach(doc => {
+        unreadUsers.add(doc.data().sender);
+    });
+
+    users.forEach(user => {
+        if (unreadUsers.has(user.email)) {
+            const userElement = document.querySelector(`.user[data-email="${user.email}"]`);
+            if (userElement && !userElement.querySelector('.orange-dot')) {
+                const dot = document.createElement('div');
+                dot.classList.add('orange-dot');
+                dot.style.width = '10px';
+                dot.style.height = '10px';
+                dot.style.backgroundColor = 'orange';
+                dot.style.borderRadius = '50%';
+                dot.style.position = 'absolute';
+                dot.style.right = '10px';
+                dot.style.top = '10px';
+                userElement.appendChild(dot);
+            }
+        }
     });
 }
 
