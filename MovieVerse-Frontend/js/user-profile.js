@@ -180,6 +180,8 @@ async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMo
     try {
         showSpinner();
 
+        document.getElementById('viewMyProfileBtn').disabled = false;
+
         if (!userEmail) return;
 
         const welcomeMessage = document.getElementById('welcomeMessage');
@@ -290,11 +292,21 @@ async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMo
 
                 await displayUserList('following', userEmail);
                 await displayUserList('followers', userEmail);
-            } else {
+            }
+            else {
                 console.log("No such profile exists!");
             }
         } catch (error) {
-            console.log("Error loading profile: ", error);
+            if (error.code === 'resource-exhausted') {
+                const noUserSelected = document.getElementById('profileContainer');
+                if (noUserSelected) {
+                    noUserSelected.innerHTML = "Sorry, our database is currently overloaded. Please try reloading once more, and if that still doesn't work, please try again in a couple hours. For full transparency, we are currently using a database that has a limited number of reads and writes per day due to lack of funding. Thank you for your patience as we work on scaling our services. At the mean time, feel free to use other MovieVerse features!";
+                    noUserSelected.style.height = '350px';
+                }
+                hideSpinner();
+            }
+
+            document.getElementById('viewMyProfileBtn').disabled = true;
         }
 
         hideSpinner();
@@ -309,6 +321,8 @@ async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMo
             }
             hideSpinner();
         }
+
+        document.getElementById('viewMyProfileBtn').disabled = true;
     }
 }
 
