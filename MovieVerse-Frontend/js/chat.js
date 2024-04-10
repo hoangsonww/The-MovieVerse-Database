@@ -14,7 +14,12 @@ document.addEventListener('DOMContentLoaded', () => {
         signInMessage.style.justifyContent = 'center';
         signInMessage.style.alignItems = 'center';
         signInMessage.style.height = '100vh';
-        signInMessage.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+        signInMessage.style.borderRadius = '12px';
+        signInMessage.style.margin = '10px auto';
+        signInMessage.style.marginRight = '20px';
+        signInMessage.style.marginLeft = '20px';
+        signInMessage.style.marginBottom = '20px';
+        signInMessage.style.backgroundColor = 'rgba(0, 0, 0, 0.6)';
         document.getElementById('footer').style.display = 'none';
         document.body.appendChild(signInMessage);
     }
