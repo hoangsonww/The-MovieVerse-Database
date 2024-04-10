@@ -806,6 +806,23 @@ header h1 {
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
+#loadMoreButton {
+    background-color: #7378c5;
+    font: inherit;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    padding: 10px 15px;
+    color: white;
+    margin-top: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+#loadMoreButton:hover {
+    background-color: #ff8623;
+    transition: 0.3s ease-in;
+}
+
 #movie-of-the-day-btn:hover {
     background-color: #ff8623;
     transition: 0.1s linear;

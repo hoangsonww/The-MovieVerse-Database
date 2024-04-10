@@ -264,6 +264,7 @@ async function performSearch(searchText, isNewSearch = false) {
         if (isNewSearch || querySnapshot.size === initialFetchLimit) {
             const loadMoreButton = document.createElement('button');
             loadMoreButton.textContent = 'Load More';
+            loadMoreButton.id = 'loadMoreButton';
             loadMoreButton.addEventListener('click', () => performSearch(searchText));
             searchUserResults.appendChild(loadMoreButton);
 
