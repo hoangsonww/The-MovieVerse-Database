@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap');
-
 * {
     box-sizing: border-box;
 }
@@ -520,7 +518,7 @@ header h1 {
 }
 
 .red {
-    color: #F44336;
+    color: #ff0000;
 }
 
 #profileBtn {
@@ -1076,6 +1074,51 @@ header h1 {
 }
 
 #githubLink1:hover {
+    color: #ff8623 !important;
+    transition: 0.1s ease-in;
+}
+
+#githubLink2 {
+    color: white !important;
+}
+
+#githubLink2:hover {
+    color: #ff8623 !important;
+    transition: 0.1s ease-in;
+}
+
+#githubLink3 {
+    color: white !important;
+}
+
+#githubLink3:hover {
+    color: #ff8623 !important;
+    transition: 0.1s ease-in;
+}
+
+#githubLink4 {
+    color: white !important;
+}
+
+#githubLink4:hover {
+    color: #ff8623 !important;
+    transition: 0.1s ease-in;
+}
+
+#githubLink5 {
+    color: white !important;
+}
+
+#githubLink5:hover {
+    color: #ff8623 !important;
+    transition: 0.1s ease-in;
+}
+
+#githubLink6 {
+    color: white !important;
+}
+
+#githubLink6:hover {
     color: #ff8623 !important;
     transition: 0.1s ease-in;
 }
@@ -1741,16 +1784,13 @@ p {
     justify-content: space-around;
     align-items: center;
     z-index: 100000222;
+    transition: transform 0.09s ease-in-out;
 }
 
 @media (max-width: 767px) {
     .mobile-bottom-bar {
         display: flex;
     }
-}
-
-.mobile-bottom-bar {
-    transition: transform 0.09s ease-in-out;
 }
 
 .hide-bar {
