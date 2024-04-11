@@ -143,7 +143,8 @@ function setupPagination(mainElementId, paginationContainerId, genresContainerId
     function movePagination() {
         if (window.innerWidth <= 767) {
             mainElement.parentNode.insertBefore(paginationContainer, mainElement);
-        } else {
+        }
+        else {
             genresContainer.appendChild(paginationContainer);
         }
     }
