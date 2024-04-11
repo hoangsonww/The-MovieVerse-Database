@@ -296,7 +296,8 @@ async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMo
             else {
                 console.log("No such profile exists!");
             }
-        } catch (error) {
+        }
+        catch (error) {
             if (error.code === 'resource-exhausted') {
                 const noUserSelected = document.getElementById('profileContainer');
                 if (noUserSelected) {
