@@ -58,6 +58,7 @@ Through The MovieVerse, users can search for movies, view detailed information, 
 - **Movie Recommendations**: Receive suggestions based on your movie preferences and reviews with AI-powered recommendations.
 - **Statistics and Insights**: Access dynamically updating, ML-powered statistics for a tailored experience on both desktop and mobile.
 - **Community Engagement**: Connect with other users, create your profile, share your thoughts, rate movies, and engage in discussions about your favorite movies.
+- **Chat Feature**: Chat with other users, share your thoughts, and discuss movies in real-time.
 
 **Additional Information:**
 - **Continuous Improvements**: The platform is ever-evolving with regular updates and new features.
