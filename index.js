@@ -265,6 +265,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         await fetchAndDisplayMovies(commonGenreUrl, totalMoviesToDisplay, recommendedMain);
         await fetchAndDisplayMovies(visitedGenreUrl, totalMoviesToDisplay, recommendedMain);
+
         updatePaginationDisplayRecommended();
         hideSpinner();
     }
