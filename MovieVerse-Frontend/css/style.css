@@ -1784,16 +1784,13 @@ p {
     justify-content: space-around;
     align-items: center;
     z-index: 100000222;
+    transition: transform 0.09s ease-in-out;
 }
 
 @media (max-width: 767px) {
     .mobile-bottom-bar {
         display: flex;
     }
-}
-
-.mobile-bottom-bar {
-    transition: transform 0.09s ease-in-out;
 }
 
 .hide-bar {
