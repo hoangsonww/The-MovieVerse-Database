@@ -291,7 +291,7 @@
             padding: 20px;
         }
 
-        @media (max-width: 767px) {
+        @media (max-width: 900px) {
             #main {
                 flex-direction: column;
                 align-items: center;
@@ -313,7 +313,7 @@
             }
 
             #chatSection {
-                width: 90% !important;
+                width: 100% !important;
                 flex-grow: 1;
             }
 
@@ -323,6 +323,9 @@
             }
         }
 
+        .selected-user {
+            background-color: #ff8623;
+        }
     </style>
 </head>
 <body>
@@ -369,7 +372,7 @@
                 <input type="text" id="searchUserInput" placeholder="Search for a user" style="font: inherit" />
             </div>
             <div id="searchUserResults"></div>
-            <h3>Recent Chats</h3>
+            <h3>Recent & Suggested Chats</h3>
             <div id="userList"></div>
         </div>
         <div id="chatSection">
@@ -381,7 +384,7 @@
             </div>
         </div>
         <div id="noUserSelected" style="flex-basis: 65%; background-color: rgba(0, 0, 0, 0.7); border-radius: 10px; color: white; display: flex; justify-content: center; align-items: center; min-height: 90vh;">
-            <p>Select or find a user to chat with</p>
+            <p>Welcome to MovieVerse Chats! Select or find a user to begin chatting</p>
         </div>
     </main>
 
@@ -389,7 +392,7 @@
         <div class="spinner"></div>
     </div>
 
-    <footer>
+    <footer id="footer">
         <p>© 2024 The MovieVerse. All rights reserved.</p>
     </footer>
 

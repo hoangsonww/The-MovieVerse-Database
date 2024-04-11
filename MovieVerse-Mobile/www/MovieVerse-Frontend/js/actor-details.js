@@ -192,7 +192,8 @@ function populateActorDetails(actor, credits) {
 
     const movieList = document.createElement('div');
     movieList.classList.add('movie-list');
-    credits.cast.forEach(movie => {
+
+    credits.cast.forEach((movie, index) => {
         const movieLink = document.createElement('span');
         movieLink.textContent = movie.title;
         movieLink.classList.add('movie-link');
@@ -201,7 +202,10 @@ function populateActorDetails(actor, credits) {
             window.location.href = 'movie-details.html';
         });
         movieList.appendChild(movieLink);
-        movieList.appendChild(document.createTextNode(', '));
+
+        if (index < credits.cast.length - 1) {
+            movieList.appendChild(document.createTextNode(', '));
+        }
     });
 
     filmographyHeading.appendChild(movieList);

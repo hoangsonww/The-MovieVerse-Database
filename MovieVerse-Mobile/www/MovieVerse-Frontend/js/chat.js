@@ -1,5 +1,35 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, query, where, orderBy, onSnapshot, serverTimestamp, limit } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, doc, startAfter, getDocs, query, where, orderBy, onSnapshot, documentId, serverTimestamp, limit } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+document.addEventListener('DOMContentLoaded', () => {
+    const mainElement = document.getElementById('main');
+    const isLoggedIn = localStorage.getItem('isSignedIn');
+
+    if (!isLoggedIn || isLoggedIn !== 'true') {
+        mainElement.style.display = 'none';
+
+        const signInMessage = document.createElement('div');
+        signInMessage.innerHTML = '<h3 style="color: white; text-align: center;">You must be signed in to access MovieVerse chat services.</h3>';
+        signInMessage.style.display = 'flex';
+        signInMessage.style.justifyContent = 'center';
+        signInMessage.style.alignItems = 'center';
+        signInMessage.style.height = '100vh';
+        signInMessage.style.borderRadius = '12px';
+        signInMessage.style.margin = '10px auto';
+        signInMessage.style.marginRight = '20px';
+        signInMessage.style.marginLeft = '20px';
+        signInMessage.style.marginBottom = '20px';
+        signInMessage.style.backgroundColor = 'rgba(0, 0, 0, 0.6)';
+        document.getElementById('footer').style.display = 'none';
+        document.body.appendChild(signInMessage);
+    }
+    else {
+        mainElement.style.display = '';
+    }
+
+    loadUserList();
+    setupSearchListeners();
+});
 
 const firebaseConfig = {
     apiKey: atob("QUl6YVN5REw2a1FuU2ZVZDhVdDhIRnJwS3VpdnF6MXhkWG03aw=="),
@@ -29,7 +59,8 @@ sendButton.addEventListener('click', async () => {
                 sender: currentUserEmail,
                 recipient: selectedUserEmail,
                 message: text,
-                timestamp: serverTimestamp()
+                timestamp: serverTimestamp(),
+                readBy: [currentUserEmail]
             });
             messageInput.value = '';
 
@@ -92,7 +123,7 @@ function showTooltip(event) {
     const leftPosition = rect.left + (rect.width / 2) - (tooltipRect.width / 2);
     tooltip.style.position = 'fixed';
     tooltip.style.top = `${rect.top - tooltipRect.height - 5}px`;
-    tooltip.style.left = `${Math.max(leftPosition, 0) - 10}px`;
+    tooltip.style.left = `${Math.max(leftPosition, 0) - 12}px`;
 
     function removeTooltip() {
         tooltip.remove();
@@ -140,46 +171,72 @@ async function loadMessages(userEmail) {
             const timestamp = messageData.timestamp;
             const messageElement = formatMessage(messageData.message, isCurrentUser, timestamp);
             messagesDiv.appendChild(messageElement);
+
+            if (!isCurrentUser && (!messageData.readBy || !messageData.readBy.includes(currentUserEmail))) {
+                updateReadStatus(doc.id);
+            }
         });
 
         messagesDiv.scrollTop = messagesDiv.scrollHeight;
     });
 }
 
+async function updateReadStatus(messageId) {
+    const messageRef = doc(db, "messages", messageId);
+    await updateDoc(messageRef, {
+        readBy: arrayUnion(currentUserEmail)
+    });
+}
+
+let searchDebounceTimeout;
+let lastVisible = null;
+const initialFetchLimit = 5;
+const maxTotalFetch = 20;
+
 function setupSearchListeners() {
     const searchUserInput = document.getElementById('searchUserInput');
 
     searchUserInput.addEventListener('input', () => {
+        clearTimeout(searchDebounceTimeout);
         const searchText = searchUserInput.value.trim();
+
         if (searchText) {
-            performSearch(searchText);
-        }
-        else {
-            document.getElementById('searchUserResults').style.display = 'none';
+            searchDebounceTimeout = setTimeout(() => {
+                lastVisible = null;
+                performSearch(searchText, true);
+            }, 300);
         }
     });
 }
 
-async function performSearch(searchText) {
+async function performSearch(searchText, isNewSearch = false) {
     const searchUserResults = document.getElementById('searchUserResults');
-    showSpinner();
 
-    const userQuery = query(
-        collection(db, 'MovieVerseUsers'),
-        where('email', '>=', searchText),
-        orderBy('email'),
-        limit(10)
-    );
-    const querySnapshot = await getDocs(userQuery);
+    try {
+        showSpinner();
 
-    searchUserResults.innerHTML = '';
+        let userQuery = query(
+            collection(db, 'MovieVerseUsers'),
+            where('email', '>=', searchText),
+            where('email', '<=', searchText + '\uf8ff'),
+            orderBy('email'),
+            limit(initialFetchLimit)
+        );
 
-    if (querySnapshot.empty) {
-        searchUserResults.innerHTML = `<div style="text-align: center; font-weight: bold">No User with Email "${searchText}" found</div>`;
-        searchUserResults.style.display = 'block';
-    }
-    else {
-        searchUserResults.style.display = 'block';
+        if (!isNewSearch && lastVisible) {
+            userQuery = query(userQuery, startAfter(lastVisible));
+        }
+
+        const querySnapshot = await getDocs(userQuery);
+
+        if (isNewSearch) {
+            searchUserResults.innerHTML = '';
+        }
+
+        if (!querySnapshot.empty) {
+            lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+        }
+
         querySnapshot.forEach((doc) => {
             const user = doc.data();
             const userDiv = document.createElement('div');
@@ -196,88 +253,146 @@ async function performSearch(searchText) {
             const textDiv = document.createElement('div');
             textDiv.style.width = '67%';
             textDiv.style.textAlign = 'left';
-            textDiv.innerHTML = `<strong style="text-align: left">${user.email}</strong><p style="text-align: left; margin-top: 5px">${user.bio || ''}</p>`;
+            textDiv.innerHTML = `<strong>${user.email}</strong><p>${user.bio || ''}</p>`;
             userDiv.appendChild(textDiv);
 
             searchUserResults.appendChild(userDiv);
         });
-    }
 
-    hideSpinner();
+        searchUserResults.style.display = 'block';
+        hideSpinner();
+
+        if (isNewSearch || querySnapshot.size === initialFetchLimit) {
+            const loadMoreButton = document.createElement('button');
+            loadMoreButton.textContent = 'Load More';
+            loadMoreButton.id = 'loadMoreButton';
+            loadMoreButton.addEventListener('click', () => performSearch(searchText));
+            searchUserResults.appendChild(loadMoreButton);
+
+            if (searchUserResults.children.length >= maxTotalFetch) {
+                loadMoreButton.style.display = 'none';
+            }
+        }
+    }
+    catch (error) {
+        console.error("Error fetching user list: ", error);
+        if (error.code === 'resource-exhausted') {
+            const noUserSelected = document.getElementById('noUserSelected');
+            if (noUserSelected) {
+                noUserSelected.textContent = "Sorry, our database is currently overloaded. Please try reloading once more, and if that still doesn't work, please try again in a couple hours. For full transparency, we are currently using a database that has a limited number of reads and writes per day due to lack of funding. Thank you for your patience as we work on scaling our services. At the mean time, feel free to use other MovieVerse features!";
+                noUserSelected.style.margin = '25px auto';
+            }
+            hideSpinner();
+        }
+    }
 }
+
+let previouslySelectedUserElement = null;
 
 async function loadUserList() {
-    const isMobile = window.innerWidth <= 767;
-    const userLimit = isMobile ? 5 : 10;
+    try {
+        showSpinner();
 
-    const recentMessagesQuery = query(collection(db, "messages"), where("sender", "==", currentUserEmail), orderBy("timestamp", "desc"), limit(userLimit));
-    const recentMessagesSnapshot = await getDocs(recentMessagesQuery);
+        const userLimit = 5;
+        const messageLimit = 30;
 
-    let recentContacts = new Set();
-    recentMessagesSnapshot.forEach(doc => {
-        const data = doc.data();
-        recentContacts.add(data.recipient === currentUserEmail ? data.sender : data.recipient);
-    });
+        const sentMessagesQuery = query(
+            collection(db, "messages"),
+            orderBy("timestamp", "desc"),
+            where("sender", "==", currentUserEmail),
+            limit(messageLimit)
+        );
+        const receivedMessagesQuery = query(
+            collection(db, "messages"),
+            orderBy("timestamp", "desc"),
+            where("recipient", "==", currentUserEmail),
+            limit(messageLimit)
+        );
 
-    const allUsersQuery = query(collection(db, "MovieVerseUsers"), limit(10));
-    const allUsersSnapshot = await getDocs(allUsersQuery);
+        const [sentMessagesSnapshot, receivedMessagesSnapshot] = await Promise.all([
+            getDocs(sentMessagesQuery),
+            getDocs(receivedMessagesQuery)
+        ]);
 
-    let users = [];
-    allUsersSnapshot.forEach(doc => {
-        const user = doc.data();
-        user.id = doc.id;
-        users.push(user);
-    });
+        let userEmails = new Set();
+        sentMessagesSnapshot.forEach(doc => userEmails.add(doc.data().recipient));
+        receivedMessagesSnapshot.forEach(doc => userEmails.add(doc.data().sender));
 
-    users.sort((a, b) => {
-        let aIndex = recentContacts.has(a.email) ? Array.from(recentContacts).indexOf(a.email) : Infinity;
-        let bIndex = recentContacts.has(b.email) ? Array.from(recentContacts).indexOf(b.email) : Infinity;
-        return aIndex - bIndex;
-    });
-
-    userListDiv.innerHTML = '';
-    users.slice(0, 10).forEach(user => {
-        const userElement = document.createElement('div');
-        userElement.classList.add('user');
-        userElement.setAttribute('data-email', user.email);
-        userElement.onclick = () => {
-            selectedUserEmail = user.email;
-            loadMessages(user.email);
-            document.querySelectorAll('.user').forEach(user => user.classList.remove('selected'));
-            userElement.classList.add('selected');
-        };
-
-        const img = document.createElement('img');
-        img.src = user.profileImage || '../../images/user-default.png';
-        img.style.width = '50px';
-        img.style.borderRadius = '25px';
-        img.style.marginRight = '10px';
-        userElement.appendChild(img);
-
-        const emailDiv = document.createElement('div');
-        emailDiv.textContent = user.email;
-        userElement.appendChild(emailDiv);
-
-        if (recentContacts.has(user.email)) {
-            const dot = document.createElement('div');
-            dot.classList.add('orange-dot');
-            userElement.appendChild(dot);
+        let users = [];
+        for (let email of userEmails) {
+            if (email) {
+                const userQuery = query(collection(db, "MovieVerseUsers"), where("email", "==", email));
+                const userSnapshot = await getDocs(userQuery);
+                userSnapshot.forEach(doc => {
+                    let userData = doc.data();
+                    if (userData.email) {
+                        users.push(userData);
+                    }
+                });
+            }
         }
 
-        userListDiv.appendChild(userElement);
-    });
+        users.sort((a, b) => {
+            const aLastMessage = [...sentMessagesSnapshot.docs, ...receivedMessagesSnapshot.docs].find(doc => doc.data().sender === a.email || doc.data().recipient === a.email);
+            const bLastMessage = [...sentMessagesSnapshot.docs, ...receivedMessagesSnapshot.docs].find(doc => doc.data().sender === b.email || doc.data().recipient === b.email);
+            return (bLastMessage?.data().timestamp.toDate() || 0) - (aLastMessage?.data().timestamp.toDate() || 0);
+        });
+
+        users = users.slice(0, userLimit);
+
+        userListDiv.innerHTML = '';
+        users.forEach(user => {
+            const userElement = document.createElement('div');
+            userElement.classList.add('user');
+            userElement.setAttribute('data-email', user.email);
+            userElement.onclick = () => {
+                if (previouslySelectedUserElement) {
+                    previouslySelectedUserElement.classList.remove('selected');
+                    previouslySelectedUserElement.style.backgroundColor = '';
+                }
+                selectedUserEmail = user.email;
+                loadMessages(user.email);
+                document.querySelectorAll('.user').forEach(u => u.classList.remove('selected'));
+                userElement.classList.add('selected');
+                userElement.style.backgroundColor = '#ff8623';
+                previouslySelectedUserElement = userElement;
+            };
+
+            const img = document.createElement('img');
+            img.src = user.profileImage || '../../images/user-default.png';
+            img.style.width = '50px';
+            img.style.borderRadius = '25px';
+            img.style.marginRight = '10px';
+            userElement.appendChild(img);
+
+            const emailDiv = document.createElement('div');
+            emailDiv.textContent = user.email;
+            userElement.appendChild(emailDiv);
+
+            userListDiv.appendChild(userElement);
+        });
+
+        hideSpinner();
+    }
+    catch (error) {
+        console.error("Error fetching user list: ", error);
+        if (error.code === 'resource-exhausted') {
+            const noUserSelected = document.getElementById('noUserSelected');
+            if (noUserSelected) {
+                noUserSelected.textContent = "Sorry, our database is currently overloaded. Please try reloading once more, and if that still doesn't work, please try again in a couple hours. For full transparency, we are currently using a database that has a limited number of reads and writes per day due to lack of funding. Thank you for your patience as we work on scaling our services. At the mean time, feel free to use other MovieVerse features!";
+            }
+            hideSpinner();
+        }
+    }
 }
 
-loadUserList();
-setupSearchListeners();
-
-onSnapshot(collection(db, "messages"), (snapshot) => {
-    snapshot.docChanges().forEach((change) => {
-        if (change.type === 'added') {
-            loadUserList();
-        }
-    });
-});
+// onSnapshot(collection(db, "messages"), (snapshot) => {
+//     snapshot.docChanges().forEach((change) => {
+//         if (change.type === 'added') {
+//             loadUserList();
+//         }
+//     });
+// });
 
 function showSpinner() {
     document.getElementById('myModal').classList.add('modal-visible');

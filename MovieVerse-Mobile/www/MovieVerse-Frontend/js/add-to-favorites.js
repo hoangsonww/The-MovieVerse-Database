@@ -57,25 +57,36 @@ export async function checkAndUpdateFavoriteButton() {
         return;
     }
 
-    if (!userEmail) {
-        console.log('User is not signed in. Checking local storage for favorites.');
-        const localFavorites = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
-        updateFavoriteButton(movieId, localFavorites);
-        return;
+    try {
+        if (!userEmail) {
+            console.log('User is not signed in. Checking local storage for favorites.');
+            const localFavorites = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
+            updateFavoriteButton(movieId, localFavorites);
+            return;
+        }
+
+        const usersRef = query(collection(db, "MovieVerseUsers"), where("email", "==", userEmail));
+        const querySnapshot = await getDocs(usersRef);
+
+        if (querySnapshot.empty) {
+            console.log('No user found with that email');
+            return;
+        }
+
+        const userData = querySnapshot.docs[0].data();
+        const favorites = userData.favoritesMovies || [];
+
+        updateFavoriteButton(movieId, favorites);
     }
-
-    const usersRef = query(collection(db, "MovieVerseUsers"), where("email", "==", userEmail));
-    const querySnapshot = await getDocs(usersRef);
-
-    if (querySnapshot.empty) {
-        console.log('No user found with that email');
-        return;
+    catch (error) {
+        if (error.code === 'resource-exhausted') {
+            console.log('Firebase quota exceeded. Checking local storage for favorites.');
+            const localFavorites = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
+            updateFavoriteButton(movieId, localFavorites);
+        } else {
+            console.error('An error occurred:', error);
+        }
     }
-
-    const userData = querySnapshot.docs[0].data();
-    const favorites = userData.favoritesMovies || [];
-
-    updateFavoriteButton(movieId, favorites);
 }
 
 function updateFavoriteButton(movieId, favorites) {
@@ -115,68 +126,105 @@ export async function toggleFavorite() {
 
     const movieGenre = await getMovieGenre(movieId);
 
-    if (!userEmail) {
-        console.log('User is not signed in. Using localStorage for favorites.');
-        let favoritesMovies = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
-        let favoriteGenres = JSON.parse(localStorage.getItem('favoriteGenres')) || [];
+    try {
+        if (!userEmail) {
+            console.log('User is not signed in. Using localStorage for favorites.');
+            let favoritesMovies = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
+            let favoriteGenres = JSON.parse(localStorage.getItem('favoriteGenres')) || [];
 
-        if (favoritesMovies.includes(movieId)) {
-            favoritesMovies = favoritesMovies.filter(id => id !== movieId);
-            favoriteGenres = favoriteGenres.filter(genre => genre !== movieGenre || favoritesMovies.some(id => localStorage.getItem(id).genre === movieGenre));
+            if (favoritesMovies.includes(movieId)) {
+                favoritesMovies = favoritesMovies.filter(id => id !== movieId);
+                favoriteGenres = favoriteGenres.filter(genre => favoritesMovies.some(id => {
+                    const movieDetails = JSON.parse(localStorage.getItem(id));
+                    return movieDetails && movieDetails.genre === genre;
+                }));
+            }
+            else {
+                favoritesMovies.push(movieId);
+                if (!favoriteGenres.includes(movieGenre)) {
+                    favoriteGenres.push(movieGenre);
+                }
+            }
+
+            localStorage.setItem('favoritesMovies', JSON.stringify(favoritesMovies));
+            localStorage.setItem('favoriteGenres', JSON.stringify(favoriteGenres));
+
+            console.log('Favorites movies updated successfully in localStorage');
+            window.location.reload();
+            return;
+        }
+
+        const usersRef = query(collection(db, "MovieVerseUsers"), where("email", "==", userEmail));
+        const querySnapshot = await getDocs(usersRef);
+
+        let userDocRef;
+
+        if (querySnapshot.empty && userEmail === "") {
+            const newUserRef = doc(collection(db, "MovieVerseUsers"));
+            userDocRef = newUserRef;
+            await setDoc(newUserRef, {email: userEmail, favoritesMovies: [movieId]});
+            console.log('New user created with favorite movie.');
+        }
+        else if (!querySnapshot.empty) {
+            userDocRef = doc(db, "MovieVerseUsers", querySnapshot.docs[0].id);
         }
         else {
-            favoritesMovies.push(movieId);
-            if (!favoriteGenres.includes(movieGenre)) {
-                favoriteGenres.push(movieGenre);
+            console.log('No user found with that email and user is supposed to be signed in.');
+            return;
+        }
+
+        if (userDocRef) {
+            const userData = querySnapshot.empty ? {favoritesMovies: []} : querySnapshot.docs[0].data();
+            let favoritesMovies = userData.favoritesMovies || [];
+            let favoriteGenres = JSON.parse(localStorage.getItem('favoriteGenres')) || [];
+
+            if (favoritesMovies.includes(movieId)) {
+                favoritesMovies = favoritesMovies.filter(id => id !== movieId);
+                favoriteGenres = favoriteGenres.filter(genre => favoritesMovies.some(id => {
+                    const movieDetails = JSON.parse(localStorage.getItem(id));
+                    return movieDetails && movieDetails.genre === genre;
+                }));
             }
-        }
-
-        localStorage.setItem('favoritesMovies', JSON.stringify(favoritesMovies));
-        localStorage.setItem('favoriteGenres', JSON.stringify(favoriteGenres));
-
-        console.log('Favorites movies updated successfully in localStorage');
-        window.location.reload();
-        return;
-    }
-
-    const usersRef = query(collection(db, "MovieVerseUsers"), where("email", "==", userEmail));
-    const querySnapshot = await getDocs(usersRef);
-
-    let userDocRef;
-
-    if (querySnapshot.empty && userEmail === "") {
-        const newUserRef = doc(collection(db, "MovieVerseUsers"));
-        userDocRef = newUserRef;
-        await setDoc(newUserRef, { email: userEmail, favoritesMovies: [movieId] });
-        console.log('New user created with favorite movie.');
-    }
-    else if (!querySnapshot.empty) {
-        userDocRef = doc(db, "MovieVerseUsers", querySnapshot.docs[0].id);
-    }
-    else {
-        console.log('No user found with that email and user is supposed to be signed in.');
-        return;
-    }
-
-    if (userDocRef) {
-        const userData = querySnapshot.empty ? { favoritesMovies: [] } : querySnapshot.docs[0].data();
-        let favoritesMovies = userData.favoritesMovies || [];
-        let favoriteGenres = JSON.parse(localStorage.getItem('favoriteGenres')) || [];
-
-        if (favoritesMovies.includes(movieId)) {
-            favoritesMovies = favoritesMovies.filter(id => id !== movieId);
-            favoriteGenres = favoriteGenres.filter(genre => genre !== movieGenre || favoritesMovies.some(id => localStorage.getItem(id).genre === movieGenre));
-        }
-        else {
-            favoritesMovies.push(movieId);
-            if (!favoriteGenres.includes(movieGenre)) {
-                favoriteGenres.push(movieGenre);
+            else {
+                favoritesMovies.push(movieId);
+                if (!favoriteGenres.includes(movieGenre)) {
+                    favoriteGenres.push(movieGenre);
+                }
             }
-        }
 
-        await updateDoc(userDocRef, { favoritesMovies });
-        localStorage.setItem('favoriteGenres', JSON.stringify(favoriteGenres));
-        console.log('Favorites movies updated successfully in Firestore');
+            await updateDoc(userDocRef, {favoritesMovies});
+            localStorage.setItem('favoriteGenres', JSON.stringify(favoriteGenres));
+            console.log('Favorites movies updated successfully in Firestore');
+        }
+    } catch (error) {
+        if (error.code === 'resource-exhausted') {
+            console.log('Firebase quota exceeded. Using localStorage for favorites.');
+            let favoritesMovies = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
+            let favoriteGenres = JSON.parse(localStorage.getItem('favoriteGenres')) || [];
+
+            if (favoritesMovies.includes(movieId)) {
+                favoritesMovies = favoritesMovies.filter(id => id !== movieId);
+                favoriteGenres = favoriteGenres.filter(genre => favoritesMovies.some(id => {
+                    const movieDetails = JSON.parse(localStorage.getItem(id));
+                    return movieDetails && movieDetails.genre === genre;
+                }));
+            }
+            else {
+                favoritesMovies.push(movieId);
+                if (!favoriteGenres.includes(movieGenre)) {
+                    favoriteGenres.push(movieGenre);
+                }
+            }
+
+            localStorage.setItem('favoritesMovies', JSON.stringify(favoritesMovies));
+            localStorage.setItem('favoriteGenres', JSON.stringify(favoriteGenres));
+
+            console.log('Favorites movies updated successfully in localStorage');
+            window.location.reload();
+            return;
+        } else {
+            console.error('An error occurred:', error);
+        }
     }
 
     window.location.reload();

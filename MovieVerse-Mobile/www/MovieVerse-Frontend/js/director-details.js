@@ -175,21 +175,27 @@ function populateDirectorDetails(director, credits) {
     const filmographyHeading = document.createElement('p');
     filmographyHeading.innerHTML = '<strong>Filmography:</strong> ';
     directorDescription.appendChild(filmographyHeading);
+
     const movieList = document.createElement('div');
     movieList.classList.add('movie-list');
-    credits.crew.forEach(movie => {
-        if (movie.job === "Director") {
-            const movieLink = document.createElement('span');
-            movieLink.textContent = movie.title;
-            movieLink.classList.add('movie-link');
-            movieLink.addEventListener('click', () => {
-                localStorage.setItem('selectedMovieId', movie.id);
-                window.location.href = 'movie-details.html';
-            });
-            movieList.appendChild(movieLink);
+
+    const directedMovies = credits.crew.filter(movie => movie.job === "Director");
+
+    directedMovies.forEach((movie, index) => {
+        const movieLink = document.createElement('span');
+        movieLink.textContent = movie.title;
+        movieLink.classList.add('movie-link');
+        movieLink.addEventListener('click', () => {
+            localStorage.setItem('selectedMovieId', movie.id);
+            window.location.href = 'movie-details.html';
+        });
+        movieList.appendChild(movieLink);
+
+        if (index < directedMovies.length - 1) {
             movieList.appendChild(document.createTextNode(', '));
         }
     });
+
     filmographyHeading.appendChild(movieList);
 
     applySettings();
