@@ -372,7 +372,6 @@ html {
     text-align: center;
     color: orange;
     scroll-behavior: smooth;
-    margin-left: 25px;
 }
 
 .main2 p {
@@ -2573,90 +2572,6 @@ canvas {
 
     #indexLink {
         margin-bottom: -15px;
-    }
-
-    #most-popular {
-        margin-left: 10px;
-    }
-
-    #main2 {
-        margin-left: 10px;
-    }
-
-    #action {
-        margin-left: 10px;
-    }
-
-    #horror {
-        margin-left: 10px;
-    }
-
-    #documentary {
-        margin-left: 10px;
-    }
-
-    #animation {
-        margin-left: 10px;
-    }
-
-    #sci-fi {
-        margin-left: 10px;
-    }
-
-    #romantic {
-        margin-left: 10px;
-    }
-
-    #thriller {
-        margin-left: 10px;
-    }
-
-    #mystery {
-        margin-left: 10px;
-    }
-
-    #adventure {
-        margin-left: 10px;
-    }
-
-    #comedy {
-        margin-left: 10px;
-    }
-
-    #fantasy {
-        margin-left: 10px;
-    }
-
-    #family {
-        margin-left: 10px;
-    }
-
-    #tv-series {
-        margin-left: 10px;
-    }
-
-    #crime {
-        margin-left: 10px;
-    }
-
-    #award-winning {
-        margin-left: 10px;
-    }
-
-    #hidden-gems {
-        margin-left: 10px;
-    }
-
-    #classic {
-        margin-left: 10px;
-    }
-
-    #director-spotlight {
-        margin-left: 10px;
-    }
-
-    #korean {
-        margin-left: 10px;
     }
 
     .back-btn {
