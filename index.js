@@ -7,7 +7,6 @@ const scifi_main = document.getElementById("sci-fi");
 const romantic_main = document.getElementById("romantic");
 const thriller_main = document.getElementById("thriller");
 const mystery_main = document.getElementById("mystery");
-// const adventure_main = document.getElementById("adventure");
 const comedy_main = document.getElementById("comedy");
 const fantasy_main = document.getElementById("fantasy");
 const family_main = document.getElementById("family");
@@ -24,8 +23,6 @@ const vietnamese_main = document.getElementById('vietnamese');
 const indian_main = document.getElementById("indian");
 const musical_main = document.getElementById('musical');
 const drama_main = document.getElementById('drama');
-const recommended_main = document.getElementById('recommended');
-
 const form = document.getElementById("form");
 const search = document.getElementById("search");
 const searchButton = document.getElementById("button-search");
@@ -44,7 +41,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const pagination = document.getElementById('most-popular-pagination');
     const genresContainer = document.querySelector('.genres');
     const mainContainer = document.getElementById('most-popular');
-
     function movePagination() {
         if (window.innerWidth <= 767) {
             mainContainer.parentNode.insertBefore(pagination, mainContainer);
@@ -53,7 +49,6 @@ document.addEventListener('DOMContentLoaded', function() {
             genresContainer.appendChild(pagination);
         }
     }
-
     movePagination();
     window.addEventListener('resize', movePagination);
 });
@@ -134,66 +129,172 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         return button;
     };
-
     fetchAndUpdateMostPopular();
 });
 
-document.addEventListener('DOMContentLoaded', function() {
-    let currentPageAwardWinning = 1;
-    const totalPagesAwardWinning = 60;
-    const awardWinningMain = document.getElementById('award-winning');
-    const paginationContainerAwardWinning = document.getElementById('award-winning-pagination');
-    const genresContainer = document.getElementById('award-winning-div');
+function setupPagination(mainElementId, paginationContainerId, genresContainerId) {
+    document.addEventListener('DOMContentLoaded', function () {
+        let currentPage = 1;
+        const totalPages = 60;
+        const mainElement = document.getElementById(mainElementId);
+        const paginationContainer = document.getElementById(paginationContainerId);
+        const genresContainer = document.getElementById(genresContainerId);
+
+        function movePagination() {
+            if (window.innerWidth <= 767) {
+                mainElement.parentNode.insertBefore(paginationContainer, mainElement);
+            } else {
+                genresContainer.appendChild(paginationContainer);
+            }
+        }
+
+        const fetchAndUpdate = () => {
+            const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=1000`;
+            getMovies(url, mainElement, currentPage);
+            updatePaginationDisplay();
+        };
+
+        const updatePaginationDisplay = () => {
+            paginationContainer.innerHTML = '';
+
+            const prevButton = createNavigationButton('<', currentPage > 1, () => {
+                currentPage--;
+                fetchAndUpdate();
+            });
+            paginationContainer.appendChild(prevButton);
+
+            let startPage = Math.max(currentPage - 2, 1);
+            let endPage = Math.min(startPage + 4, totalPages);
+
+            if (endPage === totalPages) startPage = Math.max(endPage - 4, 1);
+
+            if (startPage > 1) {
+                paginationContainer.appendChild(createPageButton(1));
+                if (startPage > 2) paginationContainer.appendChild(createPageButton('...'));
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                paginationContainer.appendChild(createPageButton(i));
+            }
+
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) paginationContainer.appendChild(createPageButton('...'));
+                paginationContainer.appendChild(createPageButton(totalPages));
+            }
+
+            const nextButton = createNavigationButton('>', currentPage < totalPages, () => {
+                currentPage++;
+                fetchAndUpdate();
+            });
+            paginationContainer.appendChild(nextButton);
+        };
+
+        function createNavigationButton(text, enabled, clickHandler) {
+            const button = document.createElement('button');
+            button.innerHTML = text;
+            button.disabled = !enabled;
+            button.className = 'nav-button';
+            if (enabled) {
+                button.addEventListener('click', clickHandler);
+            }
+            return button;
+        }
+
+        function createPageButton(pageNum) {
+            const button = document.createElement('button');
+            button.textContent = pageNum;
+            button.className = 'page-button';
+            if (pageNum === '...') {
+                button.disabled = true;
+            } else {
+                button.addEventListener('click', () => {
+                    currentPage = pageNum;
+                    fetchAndUpdate();
+                });
+                if (pageNum === currentPage) {
+                    button.classList.add('active');
+                }
+            }
+            return button;
+        }
+
+        movePagination();
+        fetchAndUpdate();
+        window.addEventListener('resize', movePagination);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+    let currentPageRecommended = 1;
+    const totalPagesRecommended = 60;
+    const recommendedMain = document.getElementById('recommended');
+    const paginationContainerRecommended = document.getElementById('recommended-pagination');
+    const genresContainer = document.getElementById('recommendedDIV');
 
     function movePagination() {
         if (window.innerWidth <= 767) {
-            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
+            recommendedMain.parentNode.insertBefore(paginationContainerRecommended, recommendedMain);
         }
         else {
-            genresContainer.appendChild(paginationContainerAwardWinning);
+            genresContainer.appendChild(paginationContainerRecommended);
         }
     }
 
-    const fetchAndUpdateAwardWinning = () => {
-        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=1000`;
-        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
-        updatePaginationDisplayAwardWinning();
-    };
+    async function generateRecommendations(pageNum = currentPageRecommended) {
+        showSpinner();
 
-    const updatePaginationDisplayAwardWinning = () => {
-        paginationContainerAwardWinning.innerHTML = '';
+        currentPageRecommended = pageNum;
+        const mostCommonGenre = getMostCommonGenre();
+        const mostVisitedMovieGenre = await getMostVisitedMovieGenre();
 
-        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
-            currentPageAwardWinning--;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(prevButton);
+        recommendedMain.innerHTML = '';
 
-        let startPage = Math.max(currentPageAwardWinning - 2, 1);
-        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
+        if (!mostVisitedMovieGenre || !mostCommonGenre) {
+            recommendedMain.innerHTML = `<div style="display: flex; justify-content: center; align-items: center; height: 100%;">
+                <p style="text-align: center; font-size: 20px;">
+                    Start exploring and rating movies or add them to your favorites to get personalized recommendations.
+                </p>
+            </div>`;
+            return;
+        }
 
-        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
+        const totalMoviesToDisplay = calculateMoviesToDisplay();
+        const commonGenreUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=${mostCommonGenre}&sort_by=popularity.desc&vote_count.gte=10&page=${currentPageRecommended}`;
+        const visitedGenreUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=${mostVisitedMovieGenre}&sort_by=popularity.desc&vote_count.gte=10&page=${currentPageRecommended}`;
+
+        await fetchAndDisplayMovies(commonGenreUrl, totalMoviesToDisplay, recommendedMain);
+        await fetchAndDisplayMovies(visitedGenreUrl, totalMoviesToDisplay, recommendedMain);
+        updatePaginationDisplayRecommended();
+        hideSpinner();
+    }
+
+    function updatePaginationDisplayRecommended() {
+        paginationContainerRecommended.innerHTML = '';
+
+        const prevButton = createNavigationButton('<', currentPageRecommended > 1, () => generateRecommendations(currentPageRecommended - 1));
+        paginationContainerRecommended.appendChild(prevButton);
+
+        let startPage = Math.max(currentPageRecommended - 2, 1);
+        let endPage = Math.min(startPage + 4, totalPagesRecommended);
+        if (endPage === totalPagesRecommended) startPage = Math.max(endPage - 4, 1);
 
         if (startPage > 1) {
-            paginationContainerAwardWinning.appendChild(createPageButton(1));
-            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
+            paginationContainerRecommended.appendChild(createPageButton(1, generateRecommendations));
+            if (startPage > 2) paginationContainerRecommended.appendChild(createPageButton('...'));
         }
 
         for (let i = startPage; i <= endPage; i++) {
-            paginationContainerAwardWinning.appendChild(createPageButton(i));
+            paginationContainerRecommended.appendChild(createPageButton(i, generateRecommendations, i === currentPageRecommended));
         }
 
-        if (endPage < totalPagesAwardWinning) {
-            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
-            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
+        if (endPage < totalPagesRecommended) {
+            if (endPage < totalPagesRecommended - 1) paginationContainerRecommended.appendChild(createPageButton('...'));
+            paginationContainerRecommended.appendChild(createPageButton(totalPagesRecommended, generateRecommendations));
         }
 
-        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
-            currentPageAwardWinning++;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(nextButton);
-    };
+        const nextButton = createNavigationButton('>', currentPageRecommended < totalPagesRecommended, () => generateRecommendations(currentPageRecommended + 1));
+        paginationContainerRecommended.appendChild(nextButton);
+    }
 
     function createNavigationButton(text, enabled, clickHandler) {
         const button = document.createElement('button');
@@ -206,224 +307,33 @@ document.addEventListener('DOMContentLoaded', function() {
         return button;
     }
 
-    function createPageButton(pageNum) {
+    function createPageButton(pageNum, fetchFunction, isActive) {
         const button = document.createElement('button');
         button.textContent = pageNum;
-        button.className = 'page-button';
-        if (pageNum === '...') {
-            button.disabled = true;
+        button.className = 'page-button' + (isActive ? ' active' : '');
+        if (pageNum !== '...') {
+            button.addEventListener('click', () => fetchFunction(pageNum));
         }
         else {
-            button.addEventListener('click', () => {
-                currentPageAwardWinning = pageNum;
-                fetchAndUpdateAwardWinning();
-            });
-            if (pageNum === currentPageAwardWinning) {
-                button.classList.add('active');
-            }
+            button.disabled = true;
         }
         return button;
     }
 
     movePagination();
-    fetchAndUpdateAwardWinning();
-    window.addEventListener('resize', movePagination);
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-    let currentPageAwardWinning = 1;
-    const totalPagesAwardWinning = 60;
-    const awardWinningMain = document.getElementById('action');
-    const paginationContainerAwardWinning = document.getElementById('action-pagination');
-    const genresContainer = document.getElementById('action-div');
-
-    function movePagination() {
-        if (window.innerWidth <= 767) {
-            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
-        }
-        else {
-            genresContainer.appendChild(paginationContainerAwardWinning);
-        }
-    }
-
-    const fetchAndUpdateAwardWinning = () => {
-        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=28&sort_by=popularity.desc&vote_count.gte=8`;
-        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
-        updatePaginationDisplayAwardWinning();
-    };
-
-    const updatePaginationDisplayAwardWinning = () => {
-        paginationContainerAwardWinning.innerHTML = '';
-
-        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
-            currentPageAwardWinning--;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(prevButton);
-
-        let startPage = Math.max(currentPageAwardWinning - 2, 1);
-        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
-        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
-
-        if (startPage > 1) {
-            paginationContainerAwardWinning.appendChild(createPageButton(1));
-            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
-        }
-
-        for (let i = startPage; i <= endPage; i++) {
-            paginationContainerAwardWinning.appendChild(createPageButton(i));
-        }
-
-        if (endPage < totalPagesAwardWinning) {
-            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
-            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
-        }
-
-        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
-            currentPageAwardWinning++;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(nextButton);
-    };
-
-    function createNavigationButton(text, enabled, clickHandler) {
-        const button = document.createElement('button');
-        button.innerHTML = text;
-        button.disabled = !enabled;
-        button.className = 'nav-button';
-        if (enabled) {
-            button.addEventListener('click', clickHandler);
-        }
-        return button;
-    }
-
-    function createPageButton(pageNum) {
-        const button = document.createElement('button');
-        button.textContent = pageNum;
-        button.className = 'page-button';
-        if (pageNum === '...') {
-            button.disabled = true;
-        }
-        else {
-            button.addEventListener('click', () => {
-                currentPageAwardWinning = pageNum;
-                fetchAndUpdateAwardWinning();
-            });
-            if (pageNum === currentPageAwardWinning) {
-                button.classList.add('active');
-            }
-        }
-        return button;
-    }
-
-    movePagination();
-    fetchAndUpdateAwardWinning();
-    window.addEventListener('resize', movePagination);
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-    let currentPageAwardWinning = 1;
-    const totalPagesAwardWinning = 60;
-    const awardWinningMain = document.getElementById('vietnamese');
-    const paginationContainerAwardWinning = document.getElementById('vietnamese-pagination');
-    const genresContainer = document.getElementById('vietnamese-div');
-
-    function movePagination() {
-        if (window.innerWidth <= 767) {
-            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
-        }
-        else {
-            genresContainer.appendChild(paginationContainerAwardWinning);
-        }
-    }
-
-    const fetchAndUpdateAwardWinning = () => {
-        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_original_language=vi&sort_by=popularity.desc`;
-        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
-        updatePaginationDisplayAwardWinning();
-    };
-
-    const updatePaginationDisplayAwardWinning = () => {
-        paginationContainerAwardWinning.innerHTML = '';
-
-        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
-            currentPageAwardWinning--;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(prevButton);
-
-        let startPage = Math.max(currentPageAwardWinning - 2, 1);
-        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
-        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
-
-        if (startPage > 1) {
-            paginationContainerAwardWinning.appendChild(createPageButton(1));
-            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
-        }
-
-        for (let i = startPage; i <= endPage; i++) {
-            paginationContainerAwardWinning.appendChild(createPageButton(i));
-        }
-
-        if (endPage < totalPagesAwardWinning) {
-            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
-            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
-        }
-
-        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
-            currentPageAwardWinning++;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(nextButton);
-    };
-
-    function createNavigationButton(text, enabled, clickHandler) {
-        const button = document.createElement('button');
-        button.innerHTML = text;
-        button.disabled = !enabled;
-        button.className = 'nav-button';
-        if (enabled) {
-            button.addEventListener('click', clickHandler);
-        }
-        return button;
-    }
-
-    function createPageButton(pageNum) {
-        const button = document.createElement('button');
-        button.textContent = pageNum;
-        button.className = 'page-button';
-        if (pageNum === '...') {
-            button.disabled = true;
-        }
-        else {
-            button.addEventListener('click', () => {
-                currentPageAwardWinning = pageNum;
-                fetchAndUpdateAwardWinning();
-            });
-            if (pageNum === currentPageAwardWinning) {
-                button.classList.add('active');
-            }
-        }
-        return button;
-    }
-
-    movePagination();
-    fetchAndUpdateAwardWinning();
+    await generateRecommendations();
     window.addEventListener('resize', movePagination);
 });
 
 async function getMovies(url, mainElement, page = 1) {
     showSpinner();
-
     url += `&page=${page}`;
 
     const numberOfMovies = calculateMoviesToDisplay();
     let allMovies = [];
-
     const response = await fetch(url);
     const data = await response.json();
     allMovies = allMovies.concat(data.results);
-
     const popularityThreshold = 0.5;
 
     allMovies.sort((a, b) => {
@@ -440,7 +350,6 @@ async function getMovies(url, mainElement, page = 1) {
     else {
         mainElement.innerHTML = `<p>We're having trouble fetching movies right now. Please try again later.</p>`;
     }
-
     hideSpinner();
 }
 
@@ -493,7 +402,6 @@ function updateFavoriteGenre(genre_ids) {
 
 function updateUniqueMoviesViewed(movieId) {
     let viewedMovies = JSON.parse(localStorage.getItem('uniqueMoviesViewed')) || [];
-
     if (!viewedMovies.includes(movieId)) {
         viewedMovies.push(movieId);
         localStorage.setItem('uniqueMoviesViewed', JSON.stringify(viewedMovies));
@@ -615,7 +523,6 @@ function getMostVisitedMovie() {
     const movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
     let mostVisitedMovie = '';
     let maxVisits = 0;
-
     for (const movieId in movieVisits) {
         if (movieVisits[movieId].count > maxVisits) {
             mostVisitedMovie = movieVisits[movieId].title;
@@ -625,123 +532,18 @@ function getMostVisitedMovie() {
     return mostVisitedMovie || 'Not Available';
 }
 
-document.addEventListener('DOMContentLoaded', async () => {
-    let currentPageRecommended = 1;
-    const totalPagesRecommended = 60; // Adjust this based on actual total pages for recommendations
-    const recommendedMain = document.getElementById('recommended');
-    const paginationContainerRecommended = document.getElementById('recommended-pagination');
-    const genresContainer = document.getElementById('recommendedDIV');
-
-    function movePagination() {
-        if (window.innerWidth <= 767) {
-            recommendedMain.parentNode.insertBefore(paginationContainerRecommended, recommendedMain);
-        }
-        else {
-            genresContainer.appendChild(paginationContainerRecommended);
-        }
-    }
-
-    async function generateRecommendations(pageNum = currentPageRecommended) {
-        showSpinner();
-
-        currentPageRecommended = pageNum;
-        const mostCommonGenre = getMostCommonGenre();
-        const mostVisitedMovieGenre = await getMostVisitedMovieGenre();
-
-        recommendedMain.innerHTML = '';
-
-        if (!mostVisitedMovieGenre || !mostCommonGenre) {
-            recommendedMain.innerHTML = `<div style="display: flex; justify-content: center; align-items: center; height: 100%;">
-                <p style="text-align: center; font-size: 20px;">
-                    Start exploring and rating movies or add them to your favorites to get personalized recommendations.
-                </p>
-            </div>`;
-            return;
-        }
-
-        const totalMoviesToDisplay = calculateMoviesToDisplay();
-        const commonGenreUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=${mostCommonGenre}&sort_by=popularity.desc&vote_count.gte=10&page=${currentPageRecommended}`;
-        const visitedGenreUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=${mostVisitedMovieGenre}&sort_by=popularity.desc&vote_count.gte=10&page=${currentPageRecommended}`;
-
-        await fetchAndDisplayMovies(commonGenreUrl, totalMoviesToDisplay, recommendedMain);
-        await fetchAndDisplayMovies(visitedGenreUrl, totalMoviesToDisplay, recommendedMain);
-        updatePaginationDisplayRecommended();
-
-        hideSpinner();
-    }
-
-    function updatePaginationDisplayRecommended() {
-        paginationContainerRecommended.innerHTML = '';
-
-        const prevButton = createNavigationButton('<', currentPageRecommended > 1, () => generateRecommendations(currentPageRecommended - 1));
-        paginationContainerRecommended.appendChild(prevButton);
-
-        let startPage = Math.max(currentPageRecommended - 2, 1);
-        let endPage = Math.min(startPage + 4, totalPagesRecommended);
-        if (endPage === totalPagesRecommended) startPage = Math.max(endPage - 4, 1);
-
-        if (startPage > 1) {
-            paginationContainerRecommended.appendChild(createPageButton(1, generateRecommendations));
-            if (startPage > 2) paginationContainerRecommended.appendChild(createPageButton('...'));
-        }
-
-        for (let i = startPage; i <= endPage; i++) {
-            paginationContainerRecommended.appendChild(createPageButton(i, generateRecommendations, i === currentPageRecommended));
-        }
-
-        if (endPage < totalPagesRecommended) {
-            if (endPage < totalPagesRecommended - 1) paginationContainerRecommended.appendChild(createPageButton('...'));
-            paginationContainerRecommended.appendChild(createPageButton(totalPagesRecommended, generateRecommendations));
-        }
-
-        const nextButton = createNavigationButton('>', currentPageRecommended < totalPagesRecommended, () => generateRecommendations(currentPageRecommended + 1));
-        paginationContainerRecommended.appendChild(nextButton);
-    }
-
-    function createNavigationButton(text, enabled, clickHandler) {
-        const button = document.createElement('button');
-        button.innerHTML = text;
-        button.disabled = !enabled;
-        button.className = 'nav-button';
-        if (enabled) {
-            button.addEventListener('click', clickHandler);
-        }
-        return button;
-    }
-
-    function createPageButton(pageNum, fetchFunction, isActive) {
-        const button = document.createElement('button');
-        button.textContent = pageNum;
-        button.className = 'page-button' + (isActive ? ' active' : '');
-        if (pageNum !== '...') {
-            button.addEventListener('click', () => fetchFunction(pageNum));
-        }
-        else {
-            button.disabled = true;
-        }
-        return button;
-    }
-
-    movePagination();
-    await generateRecommendations();
-    window.addEventListener('resize', movePagination);
-});
-
 async function fetchAndDisplayMovies(url, count, mainElement) {
     const response = await fetch(`${url}&page=1`);
     const data = await response.json();
     const movies = data.results.slice(0, count);
     movies.sort(() => Math.random() - 0.5);
-
     showMovies(movies, mainElement);
 }
-
 
 async function getMostVisitedMovieGenre() {
     const movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
     let mostVisitedGenre = null;
     let maxVisits = 0;
-
     for (const movieId in movieVisits) {
         const visits = movieVisits[movieId];
         if (visits.count > maxVisits) {
@@ -749,7 +551,6 @@ async function getMostVisitedMovieGenre() {
             mostVisitedGenre = await fetchGenreForMovie(movieId);
         }
     }
-
     return mostVisitedGenre;
 }
 
@@ -916,7 +717,6 @@ function removeNavBar() {
     if (sideNav.classList.contains('manual-toggle')) {
         sideNav.classList.remove('manual-toggle');
     }
-
     adjustNavBar();
 }
 
@@ -944,465 +744,6 @@ document.getElementById('side-nav').addEventListener('mouseleave', function() {
     }
 });
 
-document.addEventListener('DOMContentLoaded', function() {
-    let currentPageAwardWinning = 1;
-    const totalPagesAwardWinning = 60;
-    const awardWinningMain = document.getElementById('indian');
-    const paginationContainerAwardWinning = document.getElementById('indian-pagination');
-    const genresContainer = document.getElementById('indian-div');
-
-    function movePagination() {
-        if (window.innerWidth <= 767) {
-            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
-        }
-        else {
-            genresContainer.appendChild(paginationContainerAwardWinning);
-        }
-    }
-
-    const fetchAndUpdateAwardWinning = () => {
-        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_original_language=hi&sort_by=popularity.desc`;
-        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
-        updatePaginationDisplayAwardWinning();
-    };
-
-    const updatePaginationDisplayAwardWinning = () => {
-        paginationContainerAwardWinning.innerHTML = '';
-
-        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
-            currentPageAwardWinning--;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(prevButton);
-
-        let startPage = Math.max(currentPageAwardWinning - 2, 1);
-        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
-
-        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
-
-        if (startPage > 1) {
-            paginationContainerAwardWinning.appendChild(createPageButton(1));
-            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
-        }
-
-        for (let i = startPage; i <= endPage; i++) {
-            paginationContainerAwardWinning.appendChild(createPageButton(i));
-        }
-
-        if (endPage < totalPagesAwardWinning) {
-            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
-            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
-        }
-
-        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
-            currentPageAwardWinning++;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(nextButton);
-    };
-
-    function createNavigationButton(text, enabled, clickHandler) {
-        const button = document.createElement('button');
-        button.innerHTML = text;
-        button.disabled = !enabled;
-        button.className = 'nav-button';
-        if (enabled) {
-            button.addEventListener('click', clickHandler);
-        }
-        return button;
-    }
-
-    function createPageButton(pageNum) {
-        const button = document.createElement('button');
-        button.textContent = pageNum;
-        button.className = 'page-button';
-        if (pageNum === '...') {
-            button.disabled = true;
-        }
-        else {
-            button.addEventListener('click', () => {
-                currentPageAwardWinning = pageNum;
-                fetchAndUpdateAwardWinning();
-            });
-            if (pageNum === currentPageAwardWinning) {
-                button.classList.add('active');
-            }
-        }
-        return button;
-    }
-
-    movePagination();
-    fetchAndUpdateAwardWinning();
-    window.addEventListener('resize', movePagination);
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-    let currentPageAwardWinning = 1;
-    const totalPagesAwardWinning = 60;
-    const awardWinningMain = document.getElementById('korean');
-    const paginationContainerAwardWinning = document.getElementById('korean-pagination');
-    const genresContainer = document.getElementById('korean-div');
-
-    function movePagination() {
-        if (window.innerWidth <= 767) {
-            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
-        }
-        else {
-            genresContainer.appendChild(paginationContainerAwardWinning);
-        }
-    }
-
-    const fetchAndUpdateAwardWinning = () => {
-        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_original_language=ko&sort_by=vote_average.desc,popularity.desc&vote_count.gte=10&vote_average.gte=8`;
-        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
-        updatePaginationDisplayAwardWinning();
-    };
-
-    const updatePaginationDisplayAwardWinning = () => {
-        paginationContainerAwardWinning.innerHTML = '';
-
-        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
-            currentPageAwardWinning--;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(prevButton);
-
-        let startPage = Math.max(currentPageAwardWinning - 2, 1);
-        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
-
-        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
-
-        if (startPage > 1) {
-            paginationContainerAwardWinning.appendChild(createPageButton(1));
-            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
-        }
-
-        for (let i = startPage; i <= endPage; i++) {
-            paginationContainerAwardWinning.appendChild(createPageButton(i));
-        }
-
-        if (endPage < totalPagesAwardWinning) {
-            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
-            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
-        }
-
-        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
-            currentPageAwardWinning++;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(nextButton);
-    };
-
-    function createNavigationButton(text, enabled, clickHandler) {
-        const button = document.createElement('button');
-        button.innerHTML = text;
-        button.disabled = !enabled;
-        button.className = 'nav-button';
-        if (enabled) {
-            button.addEventListener('click', clickHandler);
-        }
-        return button;
-    }
-
-    function createPageButton(pageNum) {
-        const button = document.createElement('button');
-        button.textContent = pageNum;
-        button.className = 'page-button';
-        if (pageNum === '...') {
-            button.disabled = true;
-        }
-        else {
-            button.addEventListener('click', () => {
-                currentPageAwardWinning = pageNum;
-                fetchAndUpdateAwardWinning();
-            });
-            if (pageNum === currentPageAwardWinning) {
-                button.classList.add('active');
-            }
-        }
-        return button;
-    }
-
-    movePagination();
-    fetchAndUpdateAwardWinning();
-    window.addEventListener('resize', movePagination);
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-    let currentPageAwardWinning = 1;
-    const totalPagesAwardWinning = 60;
-    const awardWinningMain = document.getElementById('tv-series');
-    const paginationContainerAwardWinning = document.getElementById('tv-series-pagination');
-    const genresContainer = document.getElementById('tv-series-div');
-
-    function movePagination() {
-        if (window.innerWidth <= 767) {
-            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
-        }
-        else {
-            genresContainer.appendChild(paginationContainerAwardWinning);
-        }
-    }
-
-    const fetchAndUpdateAwardWinning = () => {
-        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10770&sort_by=popularity.desc&vote_count.gte=8`;
-        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
-        updatePaginationDisplayAwardWinning();
-    };
-
-    const updatePaginationDisplayAwardWinning = () => {
-        paginationContainerAwardWinning.innerHTML = '';
-
-        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
-            currentPageAwardWinning--;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(prevButton);
-
-        let startPage = Math.max(currentPageAwardWinning - 2, 1);
-        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
-
-        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
-
-        if (startPage > 1) {
-            paginationContainerAwardWinning.appendChild(createPageButton(1));
-            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
-        }
-
-        for (let i = startPage; i <= endPage; i++) {
-            paginationContainerAwardWinning.appendChild(createPageButton(i));
-        }
-
-        if (endPage < totalPagesAwardWinning) {
-            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
-            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
-        }
-
-        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
-            currentPageAwardWinning++;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(nextButton);
-    };
-
-    function createNavigationButton(text, enabled, clickHandler) {
-        const button = document.createElement('button');
-        button.innerHTML = text;
-        button.disabled = !enabled;
-        button.className = 'nav-button';
-        if (enabled) {
-            button.addEventListener('click', clickHandler);
-        }
-        return button;
-    }
-
-    function createPageButton(pageNum) {
-        const button = document.createElement('button');
-        button.textContent = pageNum;
-        button.className = 'page-button';
-        if (pageNum === '...') {
-            button.disabled = true;
-        }
-        else {
-            button.addEventListener('click', () => {
-                currentPageAwardWinning = pageNum;
-                fetchAndUpdateAwardWinning();
-            });
-            if (pageNum === currentPageAwardWinning) {
-                button.classList.add('active');
-            }
-        }
-        return button;
-    }
-
-    movePagination();
-    fetchAndUpdateAwardWinning();
-    window.addEventListener('resize', movePagination);
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-    let currentPageAwardWinning = 1;
-    const totalPagesAwardWinning = 60;
-    const awardWinningMain = document.getElementById('hidden-gems');
-    const paginationContainerAwardWinning = document.getElementById('hidden-gems-pagination');
-    const genresContainer = document.getElementById('hidden-gems-div');
-
-    function movePagination() {
-        if (window.innerWidth <= 767) {
-            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
-        }
-        else {
-            genresContainer.appendChild(paginationContainerAwardWinning);
-        }
-    }
-
-    const fetchAndUpdateAwardWinning = () => {
-        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&vote_average.gte=7&popularity.lte=10`;
-        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
-        updatePaginationDisplayAwardWinning();
-    };
-
-    const updatePaginationDisplayAwardWinning = () => {
-        paginationContainerAwardWinning.innerHTML = '';
-
-        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
-            currentPageAwardWinning--;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(prevButton);
-
-        let startPage = Math.max(currentPageAwardWinning - 2, 1);
-        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
-        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
-
-        if (startPage > 1) {
-            paginationContainerAwardWinning.appendChild(createPageButton(1));
-            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
-        }
-
-        for (let i = startPage; i <= endPage; i++) {
-            paginationContainerAwardWinning.appendChild(createPageButton(i));
-        }
-
-        if (endPage < totalPagesAwardWinning) {
-            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
-            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
-        }
-
-        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
-            currentPageAwardWinning++;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(nextButton);
-    };
-
-    function createNavigationButton(text, enabled, clickHandler) {
-        const button = document.createElement('button');
-        button.innerHTML = text;
-        button.disabled = !enabled;
-        button.className = 'nav-button';
-        if (enabled) {
-            button.addEventListener('click', clickHandler);
-        }
-        return button;
-    }
-
-    function createPageButton(pageNum) {
-        const button = document.createElement('button');
-        button.textContent = pageNum;
-        button.className = 'page-button';
-        if (pageNum === '...') {
-            button.disabled = true;
-        }
-        else {
-            button.addEventListener('click', () => {
-                currentPageAwardWinning = pageNum;
-                fetchAndUpdateAwardWinning();
-            });
-            if (pageNum === currentPageAwardWinning) {
-                button.classList.add('active');
-            }
-        }
-        return button;
-    }
-
-    movePagination();
-    fetchAndUpdateAwardWinning();
-    window.addEventListener('resize', movePagination);
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-    let currentPageAwardWinning = 1;
-    const totalPagesAwardWinning = 60;
-    const awardWinningMain = document.getElementById('horror');
-    const paginationContainerAwardWinning = document.getElementById('horror-pagination');
-    const genresContainer = document.getElementById('horror-div');
-
-    function movePagination() {
-        if (window.innerWidth <= 767) {
-            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
-        }
-        else {
-            genresContainer.appendChild(paginationContainerAwardWinning);
-        }
-    }
-
-    const fetchAndUpdateAwardWinning = () => {
-        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=27&sort_by=popularity.desc&vote_count.gte=8`;
-        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
-        updatePaginationDisplayAwardWinning();
-    };
-
-    const updatePaginationDisplayAwardWinning = () => {
-        paginationContainerAwardWinning.innerHTML = '';
-
-        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
-            currentPageAwardWinning--;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(prevButton);
-
-        let startPage = Math.max(currentPageAwardWinning - 2, 1);
-        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
-
-        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
-
-        if (startPage > 1) {
-            paginationContainerAwardWinning.appendChild(createPageButton(1));
-            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
-        }
-
-        for (let i = startPage; i <= endPage; i++) {
-            paginationContainerAwardWinning.appendChild(createPageButton(i));
-        }
-
-        if (endPage < totalPagesAwardWinning) {
-            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
-            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
-        }
-
-        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
-            currentPageAwardWinning++;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(nextButton);
-    };
-
-    function createNavigationButton(text, enabled, clickHandler) {
-        const button = document.createElement('button');
-        button.innerHTML = text;
-        button.disabled = !enabled;
-        button.className = 'nav-button';
-        if (enabled) {
-            button.addEventListener('click', clickHandler);
-        }
-        return button;
-    }
-
-    function createPageButton(pageNum) {
-        const button = document.createElement('button');
-        button.textContent = pageNum;
-        button.className = 'page-button';
-        if (pageNum === '...') {
-            button.disabled = true;
-        }
-        else {
-            button.addEventListener('click', () => {
-                currentPageAwardWinning = pageNum;
-                fetchAndUpdateAwardWinning();
-            });
-            if (pageNum === currentPageAwardWinning) {
-                button.classList.add('active');
-            }
-        }
-        return button;
-    }
-
-    movePagination();
-    fetchAndUpdateAwardWinning();
-    window.addEventListener('resize', movePagination);
-});
-
 const DATABASEURL = `https://${getMovieVerseData()}/3/discover/movie?sort_by=popularity.desc&${generateMovieNames()}${getMovieCode()}`;
 const IMGPATH = `https://image.tmdb.org/t/p/w500`;
 const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
@@ -1414,7 +755,6 @@ const SCIFIpath = `https://${getMovieVerseData()}/3/discover/movie?${generateMov
 const ROMANTICpath = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10749&sort_by=popularity.desc&vote_count.gte=8`;
 const THRILLERpath = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=53&sort_by=popularity.desc&vote_count.gte=8`;
 const MYSTERYpath = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=9648&sort_by=popularity.desc&vote_count.gte=8`;
-// const ADVENTUREpath = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=12&sort_by=popularity.desc&vote_count.gte=8`;
 const COMEDYpath = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=35&sort_by=popularity.desc&vote_count.gte=8`;
 const FANTASYpath = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=14&sort_by=popularity.desc&vote_count.gte=8`;
 const FAMILYpath = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10751&sort_by=popularity.desc&vote_count.gte=8`;
@@ -1431,1380 +771,6 @@ const DRAMA_PATH = `https://${getMovieVerseData()}/3/discover/movie?${generateMo
 const WESTERN_PATH = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=37&sort_by=popularity.desc&vote_count.gte=8`;
 const WAR_PATH = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10752&sort_by=popularity.desc&vote_count.gte=8`;
 
-document.addEventListener('DOMContentLoaded', function() {
-    let currentPageAwardWinning = 1;
-    const totalPagesAwardWinning = 60;
-    const awardWinningMain = document.getElementById('classic');
-    const paginationContainerAwardWinning = document.getElementById('classic-pagination');
-    const genresContainer = document.getElementById('classic-div');
-
-    function movePagination() {
-        if (window.innerWidth <= 767) {
-            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
-        }
-        else {
-            genresContainer.appendChild(paginationContainerAwardWinning);
-        }
-    }
-
-    const fetchAndUpdateAwardWinning = () => {
-        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=popularity.desc&release_date.lte=1980`;
-        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
-        updatePaginationDisplayAwardWinning();
-    };
-
-    const updatePaginationDisplayAwardWinning = () => {
-        paginationContainerAwardWinning.innerHTML = '';
-
-        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
-            currentPageAwardWinning--;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(prevButton);
-
-        let startPage = Math.max(currentPageAwardWinning - 2, 1);
-        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
-
-        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
-
-        if (startPage > 1) {
-            paginationContainerAwardWinning.appendChild(createPageButton(1));
-            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
-        }
-
-        for (let i = startPage; i <= endPage; i++) {
-            paginationContainerAwardWinning.appendChild(createPageButton(i));
-        }
-
-        if (endPage < totalPagesAwardWinning) {
-            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
-            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
-        }
-
-        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
-            currentPageAwardWinning++;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(nextButton);
-    };
-
-    function createNavigationButton(text, enabled, clickHandler) {
-        const button = document.createElement('button');
-        button.innerHTML = text;
-        button.disabled = !enabled;
-        button.className = 'nav-button';
-        if (enabled) {
-            button.addEventListener('click', clickHandler);
-        }
-        return button;
-    }
-
-    function createPageButton(pageNum) {
-        const button = document.createElement('button');
-        button.textContent = pageNum;
-        button.className = 'page-button';
-        if (pageNum === '...') {
-            button.disabled = true;
-        }
-        else {
-            button.addEventListener('click', () => {
-                currentPageAwardWinning = pageNum;
-                fetchAndUpdateAwardWinning();
-            });
-            if (pageNum === currentPageAwardWinning) {
-                button.classList.add('active');
-            }
-        }
-        return button;
-    }
-
-    movePagination();
-    fetchAndUpdateAwardWinning();
-    window.addEventListener('resize', movePagination);
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-    let currentPageAwardWinning = 1;
-    const totalPagesAwardWinning = 60;
-    const awardWinningMain = document.getElementById('drama');
-    const paginationContainerAwardWinning = document.getElementById('drama-pagination');
-    const genresContainer = document.getElementById('drama-div');
-
-    function movePagination() {
-        if (window.innerWidth <= 767) {
-            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
-        }
-        else {
-            genresContainer.appendChild(paginationContainerAwardWinning);
-        }
-    }
-
-    const fetchAndUpdateAwardWinning = () => {
-        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=18&sort_by=popularity.desc&vote_count.gte=8`;
-        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
-        updatePaginationDisplayAwardWinning();
-    };
-
-    const updatePaginationDisplayAwardWinning = () => {
-        paginationContainerAwardWinning.innerHTML = '';
-
-        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
-            currentPageAwardWinning--;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(prevButton);
-
-        let startPage = Math.max(currentPageAwardWinning - 2, 1);
-        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
-
-        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
-
-        if (startPage > 1) {
-            paginationContainerAwardWinning.appendChild(createPageButton(1));
-            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
-        }
-
-        for (let i = startPage; i <= endPage; i++) {
-            paginationContainerAwardWinning.appendChild(createPageButton(i));
-        }
-
-        if (endPage < totalPagesAwardWinning) {
-            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
-            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
-        }
-
-        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
-            currentPageAwardWinning++;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(nextButton);
-    };
-
-    function createNavigationButton(text, enabled, clickHandler) {
-        const button = document.createElement('button');
-        button.innerHTML = text;
-        button.disabled = !enabled;
-        button.className = 'nav-button';
-        if (enabled) {
-            button.addEventListener('click', clickHandler);
-        }
-        return button;
-    }
-
-    function createPageButton(pageNum) {
-        const button = document.createElement('button');
-        button.textContent = pageNum;
-        button.className = 'page-button';
-        if (pageNum === '...') {
-            button.disabled = true;
-        }
-        else {
-            button.addEventListener('click', () => {
-                currentPageAwardWinning = pageNum;
-                fetchAndUpdateAwardWinning();
-            });
-            if (pageNum === currentPageAwardWinning) {
-                button.classList.add('active');
-            }
-        }
-        return button;
-    }
-
-    movePagination();
-    fetchAndUpdateAwardWinning();
-    window.addEventListener('resize', movePagination);
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-    let currentPageAwardWinning = 1;
-    const totalPagesAwardWinning = 60;
-    const awardWinningMain = document.getElementById('musical');
-    const paginationContainerAwardWinning = document.getElementById('musical-pagination');
-    const genresContainer = document.getElementById('musical-div');
-
-    function movePagination() {
-        if (window.innerWidth <= 767) {
-            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
-        }
-        else {
-            genresContainer.appendChild(paginationContainerAwardWinning);
-        }
-    }
-
-    const fetchAndUpdateAwardWinning = () => {
-        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10402&sort_by=popularity.desc&vote_count.gte=8`;
-        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
-        updatePaginationDisplayAwardWinning();
-    };
-
-    const updatePaginationDisplayAwardWinning = () => {
-        paginationContainerAwardWinning.innerHTML = '';
-
-        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
-            currentPageAwardWinning--;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(prevButton);
-
-        let startPage = Math.max(currentPageAwardWinning - 2, 1);
-        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
-
-        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
-
-        if (startPage > 1) {
-            paginationContainerAwardWinning.appendChild(createPageButton(1));
-            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
-        }
-
-        for (let i = startPage; i <= endPage; i++) {
-            paginationContainerAwardWinning.appendChild(createPageButton(i));
-        }
-
-        if (endPage < totalPagesAwardWinning) {
-            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
-            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
-        }
-
-        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
-            currentPageAwardWinning++;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(nextButton);
-    };
-
-    function createNavigationButton(text, enabled, clickHandler) {
-        const button = document.createElement('button');
-        button.innerHTML = text;
-        button.disabled = !enabled;
-        button.className = 'nav-button';
-        if (enabled) {
-            button.addEventListener('click', clickHandler);
-        }
-        return button;
-    }
-
-    function createPageButton(pageNum) {
-        const button = document.createElement('button');
-        button.textContent = pageNum;
-        button.className = 'page-button';
-        if (pageNum === '...') {
-            button.disabled = true;
-        }
-        else {
-            button.addEventListener('click', () => {
-                currentPageAwardWinning = pageNum;
-                fetchAndUpdateAwardWinning();
-            });
-            if (pageNum === currentPageAwardWinning) {
-                button.classList.add('active');
-            }
-        }
-        return button;
-    }
-
-    movePagination();
-    fetchAndUpdateAwardWinning();
-    window.addEventListener('resize', movePagination);
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-    let currentPageAwardWinning = 1;
-    const totalPagesAwardWinning = 60;
-    const awardWinningMain = document.getElementById('crime');
-    const paginationContainerAwardWinning = document.getElementById('crime-pagination');
-    const genresContainer = document.getElementById('crime-div');
-
-    function movePagination() {
-        if (window.innerWidth <= 767) {
-            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
-        }
-        else {
-            genresContainer.appendChild(paginationContainerAwardWinning);
-        }
-    }
-
-    const fetchAndUpdateAwardWinning = () => {
-        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=80&sort_by=popularity.desc&vote_count.gte=8`;
-        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
-        updatePaginationDisplayAwardWinning();
-    };
-
-    const updatePaginationDisplayAwardWinning = () => {
-        paginationContainerAwardWinning.innerHTML = '';
-
-        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
-            currentPageAwardWinning--;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(prevButton);
-
-        let startPage = Math.max(currentPageAwardWinning - 2, 1);
-        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
-
-        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
-
-        if (startPage > 1) {
-            paginationContainerAwardWinning.appendChild(createPageButton(1));
-            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
-        }
-
-        for (let i = startPage; i <= endPage; i++) {
-            paginationContainerAwardWinning.appendChild(createPageButton(i));
-        }
-
-        if (endPage < totalPagesAwardWinning) {
-            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
-            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
-        }
-
-        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
-            currentPageAwardWinning++;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(nextButton);
-    };
-
-    function createNavigationButton(text, enabled, clickHandler) {
-        const button = document.createElement('button');
-        button.innerHTML = text;
-        button.disabled = !enabled;
-        button.className = 'nav-button';
-        if (enabled) {
-            button.addEventListener('click', clickHandler);
-        }
-        return button;
-    }
-
-    function createPageButton(pageNum) {
-        const button = document.createElement('button');
-        button.textContent = pageNum;
-        button.className = 'page-button';
-        if (pageNum === '...') {
-            button.disabled = true;
-        }
-        else {
-            button.addEventListener('click', () => {
-                currentPageAwardWinning = pageNum;
-                fetchAndUpdateAwardWinning();
-            });
-            if (pageNum === currentPageAwardWinning) {
-                button.classList.add('active');
-            }
-        }
-        return button;
-    }
-
-    movePagination();
-    fetchAndUpdateAwardWinning();
-    window.addEventListener('resize', movePagination);
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-    let currentPageAwardWinning = 1;
-    const totalPagesAwardWinning = 60;
-    const awardWinningMain = document.getElementById('family');
-    const paginationContainerAwardWinning = document.getElementById('family-pagination');
-    const genresContainer = document.getElementById('family-div');
-
-    function movePagination() {
-        if (window.innerWidth <= 767) {
-            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
-        }
-        else {
-            genresContainer.appendChild(paginationContainerAwardWinning);
-        }
-    }
-
-    const fetchAndUpdateAwardWinning = () => {
-        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10751&sort_by=popularity.desc&vote_count.gte=8`;
-        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
-        updatePaginationDisplayAwardWinning();
-    };
-
-    const updatePaginationDisplayAwardWinning = () => {
-        paginationContainerAwardWinning.innerHTML = '';
-
-        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
-            currentPageAwardWinning--;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(prevButton);
-
-        let startPage = Math.max(currentPageAwardWinning - 2, 1);
-        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
-        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
-
-        if (startPage > 1) {
-            paginationContainerAwardWinning.appendChild(createPageButton(1));
-            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
-        }
-
-        for (let i = startPage; i <= endPage; i++) {
-            paginationContainerAwardWinning.appendChild(createPageButton(i));
-        }
-
-        if (endPage < totalPagesAwardWinning) {
-            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
-            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
-        }
-
-        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
-            currentPageAwardWinning++;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(nextButton);
-    };
-
-    function createNavigationButton(text, enabled, clickHandler) {
-        const button = document.createElement('button');
-        button.innerHTML = text;
-        button.disabled = !enabled;
-        button.className = 'nav-button';
-        if (enabled) {
-            button.addEventListener('click', clickHandler);
-        }
-        return button;
-    }
-
-    function createPageButton(pageNum) {
-        const button = document.createElement('button');
-        button.textContent = pageNum;
-        button.className = 'page-button';
-        if (pageNum === '...') {
-            button.disabled = true;
-        }
-        else {
-            button.addEventListener('click', () => {
-                currentPageAwardWinning = pageNum;
-                fetchAndUpdateAwardWinning();
-            });
-            if (pageNum === currentPageAwardWinning) {
-                button.classList.add('active');
-            }
-        }
-        return button;
-    }
-
-    movePagination();
-    fetchAndUpdateAwardWinning();
-    window.addEventListener('resize', movePagination);
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-    let currentPageAwardWinning = 1;
-    const totalPagesAwardWinning = 60;
-    const awardWinningMain = document.getElementById('fantasy');
-    const paginationContainerAwardWinning = document.getElementById('fantasy-pagination');
-    const genresContainer = document.getElementById('fantasy-div');
-
-    function movePagination() {
-        if (window.innerWidth <= 767) {
-            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
-        }
-        else {
-            genresContainer.appendChild(paginationContainerAwardWinning);
-        }
-    }
-
-    const fetchAndUpdateAwardWinning = () => {
-        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=14&sort_by=popularity.desc&vote_count.gte=8`;
-        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
-        updatePaginationDisplayAwardWinning();
-    };
-
-    const updatePaginationDisplayAwardWinning = () => {
-        paginationContainerAwardWinning.innerHTML = '';
-
-        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
-            currentPageAwardWinning--;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(prevButton);
-
-        let startPage = Math.max(currentPageAwardWinning - 2, 1);
-        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
-        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
-
-        if (startPage > 1) {
-            paginationContainerAwardWinning.appendChild(createPageButton(1));
-            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
-        }
-
-        for (let i = startPage; i <= endPage; i++) {
-            paginationContainerAwardWinning.appendChild(createPageButton(i));
-        }
-
-        if (endPage < totalPagesAwardWinning) {
-            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
-            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
-        }
-
-        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
-            currentPageAwardWinning++;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(nextButton);
-    };
-
-    function createNavigationButton(text, enabled, clickHandler) {
-        const button = document.createElement('button');
-        button.innerHTML = text;
-        button.disabled = !enabled;
-        button.className = 'nav-button';
-        if (enabled) {
-            button.addEventListener('click', clickHandler);
-        }
-        return button;
-    }
-
-    function createPageButton(pageNum) {
-        const button = document.createElement('button');
-        button.textContent = pageNum;
-        button.className = 'page-button';
-        if (pageNum === '...') {
-            button.disabled = true;
-        }
-        else {
-            button.addEventListener('click', () => {
-                currentPageAwardWinning = pageNum;
-                fetchAndUpdateAwardWinning();
-            });
-            if (pageNum === currentPageAwardWinning) {
-                button.classList.add('active');
-            }
-        }
-        return button;
-    }
-
-    movePagination();
-    fetchAndUpdateAwardWinning();
-    window.addEventListener('resize', movePagination);
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-    let currentPageAwardWinning = 1;
-    const totalPagesAwardWinning = 60;
-    const awardWinningMain = document.getElementById('comedy');
-    const paginationContainerAwardWinning = document.getElementById('comedy-pagination');
-    const genresContainer = document.getElementById('comedy-div');
-
-    function movePagination() {
-        if (window.innerWidth <= 767) {
-            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
-        }
-        else {
-            genresContainer.appendChild(paginationContainerAwardWinning);
-        }
-    }
-
-    const fetchAndUpdateAwardWinning = () => {
-        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=35&sort_by=popularity.desc&vote_count.gte=8`;
-        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
-        updatePaginationDisplayAwardWinning();
-    };
-
-    const updatePaginationDisplayAwardWinning = () => {
-        paginationContainerAwardWinning.innerHTML = '';
-
-        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
-            currentPageAwardWinning--;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(prevButton);
-
-        let startPage = Math.max(currentPageAwardWinning - 2, 1);
-        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
-        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
-
-        if (startPage > 1) {
-            paginationContainerAwardWinning.appendChild(createPageButton(1));
-            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
-        }
-
-        for (let i = startPage; i <= endPage; i++) {
-            paginationContainerAwardWinning.appendChild(createPageButton(i));
-        }
-
-        if (endPage < totalPagesAwardWinning) {
-            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
-            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
-        }
-
-        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
-            currentPageAwardWinning++;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(nextButton);
-    };
-
-    function createNavigationButton(text, enabled, clickHandler) {
-        const button = document.createElement('button');
-        button.innerHTML = text;
-        button.disabled = !enabled;
-        button.className = 'nav-button';
-        if (enabled) {
-            button.addEventListener('click', clickHandler);
-        }
-        return button;
-    }
-
-    function createPageButton(pageNum) {
-        const button = document.createElement('button');
-        button.textContent = pageNum;
-        button.className = 'page-button';
-        if (pageNum === '...') {
-            button.disabled = true;
-        }
-        else {
-            button.addEventListener('click', () => {
-                currentPageAwardWinning = pageNum;
-                fetchAndUpdateAwardWinning();
-            });
-            if (pageNum === currentPageAwardWinning) {
-                button.classList.add('active');
-            }
-        }
-        return button;
-    }
-
-    movePagination();
-    fetchAndUpdateAwardWinning();
-    window.addEventListener('resize', movePagination);
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-    let currentPageAwardWinning = 1;
-    const totalPagesAwardWinning = 60;
-    const awardWinningMain = document.getElementById('mystery');
-    const paginationContainerAwardWinning = document.getElementById('mystery-pagination');
-    const genresContainer = document.getElementById('mystery-div');
-
-    function movePagination() {
-        if (window.innerWidth <= 767) {
-            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
-        }
-        else {
-            genresContainer.appendChild(paginationContainerAwardWinning);
-        }
-    }
-
-    const fetchAndUpdateAwardWinning = () => {
-        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=9648&sort_by=popularity.desc&vote_count.gte=8`;
-        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
-        updatePaginationDisplayAwardWinning();
-    };
-
-    const updatePaginationDisplayAwardWinning = () => {
-        paginationContainerAwardWinning.innerHTML = '';
-
-        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
-            currentPageAwardWinning--;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(prevButton);
-
-        let startPage = Math.max(currentPageAwardWinning - 2, 1);
-        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
-
-        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
-
-        if (startPage > 1) {
-            paginationContainerAwardWinning.appendChild(createPageButton(1));
-            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
-        }
-
-        for (let i = startPage; i <= endPage; i++) {
-            paginationContainerAwardWinning.appendChild(createPageButton(i));
-        }
-
-        if (endPage < totalPagesAwardWinning) {
-            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
-            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
-        }
-
-        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
-            currentPageAwardWinning++;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(nextButton);
-    };
-
-    function createNavigationButton(text, enabled, clickHandler) {
-        const button = document.createElement('button');
-        button.innerHTML = text;
-        button.disabled = !enabled;
-        button.className = 'nav-button';
-        if (enabled) {
-            button.addEventListener('click', clickHandler);
-        }
-        return button;
-    }
-
-    function createPageButton(pageNum) {
-        const button = document.createElement('button');
-        button.textContent = pageNum;
-        button.className = 'page-button';
-        if (pageNum === '...') {
-            button.disabled = true;
-        }
-        else {
-            button.addEventListener('click', () => {
-                currentPageAwardWinning = pageNum;
-                fetchAndUpdateAwardWinning();
-            });
-            if (pageNum === currentPageAwardWinning) {
-                button.classList.add('active');
-            }
-        }
-        return button;
-    }
-
-    movePagination();
-    fetchAndUpdateAwardWinning();
-    window.addEventListener('resize', movePagination);
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-    let currentPageAwardWinning = 1;
-    const totalPagesAwardWinning = 60;
-    const awardWinningMain = document.getElementById('thriller');
-    const paginationContainerAwardWinning = document.getElementById('thriller-pagination');
-    const genresContainer = document.getElementById('thriller-div');
-
-    function movePagination() {
-        if (window.innerWidth <= 767) {
-            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
-        }
-        else {
-            genresContainer.appendChild(paginationContainerAwardWinning);
-        }
-    }
-
-    const fetchAndUpdateAwardWinning = () => {
-        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=53&sort_by=popularity.desc&vote_count.gte=8`;
-        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
-        updatePaginationDisplayAwardWinning();
-    };
-
-    const updatePaginationDisplayAwardWinning = () => {
-        paginationContainerAwardWinning.innerHTML = '';
-
-        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
-            currentPageAwardWinning--;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(prevButton);
-
-        let startPage = Math.max(currentPageAwardWinning - 2, 1);
-        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
-
-        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
-
-        if (startPage > 1) {
-            paginationContainerAwardWinning.appendChild(createPageButton(1));
-            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
-        }
-
-        for (let i = startPage; i <= endPage; i++) {
-            paginationContainerAwardWinning.appendChild(createPageButton(i));
-        }
-
-        if (endPage < totalPagesAwardWinning) {
-            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
-            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
-        }
-
-        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
-            currentPageAwardWinning++;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(nextButton);
-    };
-
-    function createNavigationButton(text, enabled, clickHandler) {
-        const button = document.createElement('button');
-        button.innerHTML = text;
-        button.disabled = !enabled;
-        button.className = 'nav-button';
-        if (enabled) {
-            button.addEventListener('click', clickHandler);
-        }
-        return button;
-    }
-
-    function createPageButton(pageNum) {
-        const button = document.createElement('button');
-        button.textContent = pageNum;
-        button.className = 'page-button';
-        if (pageNum === '...') {
-            button.disabled = true;
-        }
-        else {
-            button.addEventListener('click', () => {
-                currentPageAwardWinning = pageNum;
-                fetchAndUpdateAwardWinning();
-            });
-            if (pageNum === currentPageAwardWinning) {
-                button.classList.add('active');
-            }
-        }
-        return button;
-    }
-
-    movePagination();
-    fetchAndUpdateAwardWinning();
-    window.addEventListener('resize', movePagination);
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-    let currentPageAwardWinning = 1;
-    const totalPagesAwardWinning = 60;
-    const awardWinningMain = document.getElementById('romantic');
-    const paginationContainerAwardWinning = document.getElementById('romantic-pagination');
-    const genresContainer = document.getElementById('romantic-div');
-
-    function movePagination() {
-        if (window.innerWidth <= 767) {
-            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
-        }
-        else {
-            genresContainer.appendChild(paginationContainerAwardWinning);
-        }
-    }
-
-    const fetchAndUpdateAwardWinning = () => {
-        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10749&sort_by=popularity.desc&vote_count.gte=8`;
-        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
-        updatePaginationDisplayAwardWinning();
-    };
-
-    const updatePaginationDisplayAwardWinning = () => {
-        paginationContainerAwardWinning.innerHTML = '';
-
-        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
-            currentPageAwardWinning--;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(prevButton);
-
-        let startPage = Math.max(currentPageAwardWinning - 2, 1);
-        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
-
-        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
-
-        if (startPage > 1) {
-            paginationContainerAwardWinning.appendChild(createPageButton(1));
-            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
-        }
-
-        for (let i = startPage; i <= endPage; i++) {
-            paginationContainerAwardWinning.appendChild(createPageButton(i));
-        }
-
-        if (endPage < totalPagesAwardWinning) {
-            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
-            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
-        }
-
-        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
-            currentPageAwardWinning++;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(nextButton);
-    };
-
-    function createNavigationButton(text, enabled, clickHandler) {
-        const button = document.createElement('button');
-        button.innerHTML = text;
-        button.disabled = !enabled;
-        button.className = 'nav-button';
-        if (enabled) {
-            button.addEventListener('click', clickHandler);
-        }
-        return button;
-    }
-
-    function createPageButton(pageNum) {
-        const button = document.createElement('button');
-        button.textContent = pageNum;
-        button.className = 'page-button';
-        if (pageNum === '...') {
-            button.disabled = true;
-        }
-        else {
-            button.addEventListener('click', () => {
-                currentPageAwardWinning = pageNum;
-                fetchAndUpdateAwardWinning();
-            });
-            if (pageNum === currentPageAwardWinning) {
-                button.classList.add('active');
-            }
-        }
-        return button;
-    }
-
-    movePagination();
-    fetchAndUpdateAwardWinning();
-    window.addEventListener('resize', movePagination);
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-    let currentPageAwardWinning = 1;
-    const totalPagesAwardWinning = 60;
-    const awardWinningMain = document.getElementById('sci-fi');
-    const paginationContainerAwardWinning = document.getElementById('sci-fi-pagination');
-    const genresContainer = document.getElementById('sci-fi-div');
-
-    function movePagination() {
-        if (window.innerWidth <= 767) {
-            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
-        }
-        else {
-            genresContainer.appendChild(paginationContainerAwardWinning);
-        }
-    }
-
-    const fetchAndUpdateAwardWinning = () => {
-        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=878&sort_by=popularity.desc&vote_count.gte=8`;
-        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
-        updatePaginationDisplayAwardWinning();
-    };
-
-    const updatePaginationDisplayAwardWinning = () => {
-        paginationContainerAwardWinning.innerHTML = '';
-
-        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
-            currentPageAwardWinning--;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(prevButton);
-
-        let startPage = Math.max(currentPageAwardWinning - 2, 1);
-        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
-
-        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
-
-        if (startPage > 1) {
-            paginationContainerAwardWinning.appendChild(createPageButton(1));
-            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
-        }
-
-        for (let i = startPage; i <= endPage; i++) {
-            paginationContainerAwardWinning.appendChild(createPageButton(i));
-        }
-
-        if (endPage < totalPagesAwardWinning) {
-            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
-            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
-        }
-
-        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
-            currentPageAwardWinning++;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(nextButton);
-    };
-
-    function createNavigationButton(text, enabled, clickHandler) {
-        const button = document.createElement('button');
-        button.innerHTML = text;
-        button.disabled = !enabled;
-        button.className = 'nav-button';
-        if (enabled) {
-            button.addEventListener('click', clickHandler);
-        }
-        return button;
-    }
-
-    function createPageButton(pageNum) {
-        const button = document.createElement('button');
-        button.textContent = pageNum;
-        button.className = 'page-button';
-        if (pageNum === '...') {
-            button.disabled = true;
-        }
-        else {
-            button.addEventListener('click', () => {
-                currentPageAwardWinning = pageNum;
-                fetchAndUpdateAwardWinning();
-            });
-            if (pageNum === currentPageAwardWinning) {
-                button.classList.add('active');
-            }
-        }
-        return button;
-    }
-
-    movePagination();
-    fetchAndUpdateAwardWinning();
-    window.addEventListener('resize', movePagination);
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-    let currentPageAwardWinning = 1;
-    const totalPagesAwardWinning = 60;
-    const awardWinningMain = document.getElementById('animation');
-    const paginationContainerAwardWinning = document.getElementById('animation-pagination');
-    const genresContainer = document.getElementById('animation-div');
-
-    function movePagination() {
-        if (window.innerWidth <= 767) {
-            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
-        }
-        else {
-            genresContainer.appendChild(paginationContainerAwardWinning);
-        }
-    }
-
-    const fetchAndUpdateAwardWinning = () => {
-        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=16&sort_by=popularity.desc&vote_count.gte=8`;
-        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
-        updatePaginationDisplayAwardWinning();
-    };
-
-    const updatePaginationDisplayAwardWinning = () => {
-        paginationContainerAwardWinning.innerHTML = '';
-
-        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
-            currentPageAwardWinning--;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(prevButton);
-
-        let startPage = Math.max(currentPageAwardWinning - 2, 1);
-        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
-
-        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
-
-        if (startPage > 1) {
-            paginationContainerAwardWinning.appendChild(createPageButton(1));
-            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
-        }
-
-        for (let i = startPage; i <= endPage; i++) {
-            paginationContainerAwardWinning.appendChild(createPageButton(i));
-        }
-
-        if (endPage < totalPagesAwardWinning) {
-            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
-            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
-        }
-
-        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
-            currentPageAwardWinning++;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(nextButton);
-    };
-
-    function createNavigationButton(text, enabled, clickHandler) {
-        const button = document.createElement('button');
-        button.innerHTML = text;
-        button.disabled = !enabled;
-        button.className = 'nav-button';
-        if (enabled) {
-            button.addEventListener('click', clickHandler);
-        }
-        return button;
-    }
-
-    function createPageButton(pageNum) {
-        const button = document.createElement('button');
-        button.textContent = pageNum;
-        button.className = 'page-button';
-        if (pageNum === '...') {
-            button.disabled = true;
-        }
-        else {
-            button.addEventListener('click', () => {
-                currentPageAwardWinning = pageNum;
-                fetchAndUpdateAwardWinning();
-            });
-            if (pageNum === currentPageAwardWinning) {
-                button.classList.add('active');
-            }
-        }
-        return button;
-    }
-
-    movePagination();
-    fetchAndUpdateAwardWinning();
-    window.addEventListener('resize', movePagination);
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-    let currentPageAwardWinning = 1;
-    const totalPagesAwardWinning = 60;
-    const awardWinningMain = document.getElementById('documentary');
-    const paginationContainerAwardWinning = document.getElementById('documentary-pagination');
-    const genresContainer = document.getElementById('documentary-div');
-
-    function movePagination() {
-        if (window.innerWidth <= 767) {
-            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
-        }
-        else {
-            genresContainer.appendChild(paginationContainerAwardWinning);
-        }
-    }
-
-    const fetchAndUpdateAwardWinning = () => {
-        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=99&sort_by=popularity.desc&vote_count.gte=8`;
-        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
-        updatePaginationDisplayAwardWinning();
-    };
-
-    const updatePaginationDisplayAwardWinning = () => {
-        paginationContainerAwardWinning.innerHTML = '';
-
-        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
-            currentPageAwardWinning--;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(prevButton);
-
-        let startPage = Math.max(currentPageAwardWinning - 2, 1);
-        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
-        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
-
-        if (startPage > 1) {
-            paginationContainerAwardWinning.appendChild(createPageButton(1));
-            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
-        }
-
-        for (let i = startPage; i <= endPage; i++) {
-            paginationContainerAwardWinning.appendChild(createPageButton(i));
-        }
-
-        if (endPage < totalPagesAwardWinning) {
-            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
-            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
-        }
-
-        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
-            currentPageAwardWinning++;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(nextButton);
-    };
-
-    function createNavigationButton(text, enabled, clickHandler) {
-        const button = document.createElement('button');
-        button.innerHTML = text;
-        button.disabled = !enabled;
-        button.className = 'nav-button';
-        if (enabled) {
-            button.addEventListener('click', clickHandler);
-        }
-        return button;
-    }
-
-    function createPageButton(pageNum) {
-        const button = document.createElement('button');
-        button.textContent = pageNum;
-        button.className = 'page-button';
-        if (pageNum === '...') {
-            button.disabled = true;
-        }
-        else {
-            button.addEventListener('click', () => {
-                currentPageAwardWinning = pageNum;
-                fetchAndUpdateAwardWinning();
-            });
-            if (pageNum === currentPageAwardWinning) {
-                button.classList.add('active');
-            }
-        }
-        return button;
-    }
-
-    movePagination();
-    fetchAndUpdateAwardWinning();
-    window.addEventListener('resize', movePagination);
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-    let currentPageAwardWinning = 1;
-    const totalPagesAwardWinning = 60;
-    const awardWinningMain = document.getElementById('western');
-    const paginationContainerAwardWinning = document.getElementById('western-pagination');
-    const genresContainer = document.getElementById('western-div');
-
-    function movePagination() {
-        if (window.innerWidth <= 767) {
-            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
-        }
-        else {
-            genresContainer.appendChild(paginationContainerAwardWinning);
-        }
-    }
-
-    const fetchAndUpdateAwardWinning = () => {
-        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=37&sort_by=popularity.desc&vote_count.gte=8`;
-        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
-        updatePaginationDisplayAwardWinning();
-    };
-
-    const updatePaginationDisplayAwardWinning = () => {
-        paginationContainerAwardWinning.innerHTML = '';
-
-        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
-            currentPageAwardWinning--;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(prevButton);
-
-        let startPage = Math.max(currentPageAwardWinning - 2, 1);
-        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
-        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
-
-        if (startPage > 1) {
-            paginationContainerAwardWinning.appendChild(createPageButton(1));
-            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
-        }
-
-        for (let i = startPage; i <= endPage; i++) {
-            paginationContainerAwardWinning.appendChild(createPageButton(i));
-        }
-
-        if (endPage < totalPagesAwardWinning) {
-            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
-            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
-        }
-
-        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
-            currentPageAwardWinning++;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(nextButton);
-    };
-
-    function createNavigationButton(text, enabled, clickHandler) {
-        const button = document.createElement('button');
-        button.innerHTML = text;
-        button.disabled = !enabled;
-        button.className = 'nav-button';
-        if (enabled) {
-            button.addEventListener('click', clickHandler);
-        }
-        return button;
-    }
-
-    function createPageButton(pageNum) {
-        const button = document.createElement('button');
-        button.textContent = pageNum;
-        button.className = 'page-button';
-        if (pageNum === '...') {
-            button.disabled = true;
-        }
-        else {
-            button.addEventListener('click', () => {
-                currentPageAwardWinning = pageNum;
-                fetchAndUpdateAwardWinning();
-            });
-            if (pageNum === currentPageAwardWinning) {
-                button.classList.add('active');
-            }
-        }
-        return button;
-    }
-
-    movePagination();
-    fetchAndUpdateAwardWinning();
-    window.addEventListener('resize', movePagination);
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-    let currentPageAwardWinning = 1;
-    const totalPagesAwardWinning = 60;
-    const awardWinningMain = document.getElementById('war');
-    const paginationContainerAwardWinning = document.getElementById('war-pagination');
-    const genresContainer = document.getElementById('war-div');
-
-    function movePagination() {
-        if (window.innerWidth <= 767) {
-            awardWinningMain.parentNode.insertBefore(paginationContainerAwardWinning, awardWinningMain);
-        }
-        else {
-            genresContainer.appendChild(paginationContainerAwardWinning);
-        }
-    }
-
-    const fetchAndUpdateAwardWinning = () => {
-        const awardWinningUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10752&sort_by=popularity.desc&vote_count.gte=8`;
-        getMovies(awardWinningUrl, awardWinningMain, currentPageAwardWinning);
-        updatePaginationDisplayAwardWinning();
-    };
-
-    const updatePaginationDisplayAwardWinning = () => {
-        paginationContainerAwardWinning.innerHTML = '';
-
-        const prevButton = createNavigationButton('<', currentPageAwardWinning > 1, () => {
-            currentPageAwardWinning--;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(prevButton);
-
-        let startPage = Math.max(currentPageAwardWinning - 2, 1);
-        let endPage = Math.min(startPage + 4, totalPagesAwardWinning);
-        if (endPage === totalPagesAwardWinning) startPage = Math.max(endPage - 4, 1);
-
-        if (startPage > 1) {
-            paginationContainerAwardWinning.appendChild(createPageButton(1));
-            if (startPage > 2) paginationContainerAwardWinning.appendChild(createPageButton('...'));
-        }
-
-        for (let i = startPage; i <= endPage; i++) {
-            paginationContainerAwardWinning.appendChild(createPageButton(i));
-        }
-
-        if (endPage < totalPagesAwardWinning) {
-            if (endPage < totalPagesAwardWinning - 1) paginationContainerAwardWinning.appendChild(createPageButton('...'));
-            paginationContainerAwardWinning.appendChild(createPageButton(totalPagesAwardWinning));
-        }
-
-        const nextButton = createNavigationButton('>', currentPageAwardWinning < totalPagesAwardWinning, () => {
-            currentPageAwardWinning++;
-            fetchAndUpdateAwardWinning();
-        });
-        paginationContainerAwardWinning.appendChild(nextButton);
-    };
-
-    function createNavigationButton(text, enabled, clickHandler) {
-        const button = document.createElement('button');
-        button.innerHTML = text;
-        button.disabled = !enabled;
-        button.className = 'nav-button';
-        if (enabled) {
-            button.addEventListener('click', clickHandler);
-        }
-        return button;
-    }
-
-    function createPageButton(pageNum) {
-        const button = document.createElement('button');
-        button.textContent = pageNum;
-        button.className = 'page-button';
-        if (pageNum === '...') {
-            button.disabled = true;
-        }
-        else {
-            button.addEventListener('click', () => {
-                currentPageAwardWinning = pageNum;
-                fetchAndUpdateAwardWinning();
-            });
-            if (pageNum === currentPageAwardWinning) {
-                button.classList.add('active');
-            }
-        }
-        return button;
-    }
-
-    movePagination();
-    fetchAndUpdateAwardWinning();
-    window.addEventListener('resize', movePagination);
-});
-
 getMovies(DATABASEURL, most_popular_main);
 getMovies(ACTIONpath, action_main);
 getMovies(HORRORpath, horror_main);
@@ -2814,7 +780,6 @@ getMovies(SCIFIpath, scifi_main);
 getMovies(ROMANTICpath, romantic_main);
 getMovies(THRILLERpath, thriller_main);
 getMovies(MYSTERYpath, mystery_main);
-// getMovies(ADVENTUREpath, adventure_main);
 getMovies(COMEDYpath, comedy_main);
 getMovies(FANTASYpath, fantasy_main);
 getMovies(FAMILYpath, family_main);
@@ -2869,7 +834,6 @@ function changeDirector() {
     if (currentDirectorIndex >= directors.length) {
         currentDirectorIndex = 0;
     }
-
     updateDirectorSpotlight();
 }
 
@@ -2878,7 +842,6 @@ setInterval(changeDirector, 3600000);
 function updateDirectorSpotlight() {
     const director = directors[currentDirectorIndex];
     document.getElementById('spotlight-director-name').textContent = director.name;
-
     const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_people=${director.id}&sort_by=popularity.desc&sort_by=vote_average.desc`;
     getDirectorSpotlight(url);
 }
@@ -2900,7 +863,6 @@ async function getDirectorSpotlight(url) {
     const resp = await fetch(url);
     const respData = await resp.json();
     let allMovies = [];
-
     if (respData.results.length > 0) {
         allMovies = respData.results.slice(0, numberOfMovies);
         showMoviesDirectorSpotlight(allMovies);
@@ -2945,7 +907,6 @@ function showMoviesDirectorSpotlight(movies) {
 
 function handleSignInOut() {
     const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
-
     if (isSignedIn) {
         localStorage.setItem('isSignedIn', JSON.stringify(false));
         alert('You have been signed out.');
@@ -2954,13 +915,11 @@ function handleSignInOut() {
         window.location.href = 'MovieVerse-Frontend/html/sign-in.html';
         return;
     }
-
     updateSignInButtonState();
 }
 
 function updateSignInButtonState() {
     const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
-
     const signInText = document.getElementById('signInOutText');
     const signInIcon = document.getElementById('signInIcon');
     const signOutIcon = document.getElementById('signOutIcon');
@@ -2992,8 +951,33 @@ function updateSignInButtonState() {
     }
 }
 
+setupPagination('award-winning', 'award-winning-pagination', 'award-winning-div');
+setupPagination('hidden-gems', 'hidden-gems-pagination', 'hidden-gems-div');
+setupPagination('classic-movies', 'classic-movies-pagination', 'classic-movies-div');
+setupPagination('western', 'western-pagination', 'western-div');
+setupPagination('war', 'war-pagination', 'war-div');
+setupPagination('vietnamese', 'vietnamese-pagination', 'vietnamese-div');
+setupPagination('korean', 'korean-pagination', 'korean-div');
+setupPagination('musical', 'musical-pagination', 'musical-div');
+setupPagination('drama', 'drama-pagination', 'drama-div');
+setupPagination('indian', 'indian-pagination', 'indian-div');
+setupPagination('most-popular', 'most-popular-pagination', 'most-popular-div');
+setupPagination('action', 'action-pagination', 'action-div');
+setupPagination('horror', 'horror-pagination', 'horror-div');
+setupPagination('documentary', 'documentary-pagination', 'documentary-div');
+setupPagination('animation', 'animation-pagination', 'animation-div');
+setupPagination('sci-fi', 'sci-fi-pagination', 'sci-fi-div');
+setupPagination('romantic', 'romantic-pagination', 'romantic-div');
+setupPagination('thriller', 'thriller-pagination', 'thriller-div');
+setupPagination('mystery', 'mystery-pagination', 'mystery-div');
+setupPagination('comedy', 'comedy-pagination', 'comedy-div');
+setupPagination('fantasy', 'fantasy-pagination', 'fantasy-div');
+setupPagination('family', 'family-pagination', 'family-div');
+setupPagination('tv-series', 'tv-series-pagination', 'tv-series-div');
+setupPagination('crime', 'crime-pagination', 'crime-div');
+setupPagination('classic', 'classic-pagination', 'classic-div');
+
 document.addEventListener("DOMContentLoaded", function() {
-    checkAndClearLocalStorage();
     updateSignInButtonState();
     document.getElementById('googleSignInBtn').addEventListener('click', handleSignInOut);
 });
@@ -3002,7 +986,6 @@ function applySettings() {
     const savedBg = localStorage.getItem('backgroundImage');
     const savedTextColor = localStorage.getItem('textColor');
     const savedFontSize = localStorage.getItem('fontSize');
-
     if (savedBg) {
         document.body.style.backgroundImage = `url('${savedBg}')`;
     }
@@ -3025,63 +1008,16 @@ function applyTextColor(color) {
 function handleSearch() {
     const searchQuery = document.getElementById('search').value;
     localStorage.setItem('searchQuery', searchQuery);
-    window.location.href = 'MovieVerse-Frontend/html/search.html';
-}
-
-function checkAndClearLocalStorage() {
-    const hasCleared = localStorage.getItem('hasUserClearedMovieVerseData2');
-    if (!hasCleared) {
-        clearMovieVerseLocalStorage();
-        localStorage.setItem('hasUserClearedMovieVerseData2', 'true');
-        window.location.reload();
-    }
-}
-
-function clearMovieVerseLocalStorage() {
-    localStorage.removeItem('favorites');
-    localStorage.removeItem('localWatchlists');
-    localStorage.removeItem('selectedMovieId');
-    localStorage.removeItem('isSignedIn');
-    localStorage.removeItem('selectedDirectorId');
-    localStorage.removeItem('selectedActorId');
-    localStorage.removeItem('selectedCompanyId');
-    localStorage.removeItem('selectedTvSeriesId');
-    localStorage.removeItem('movieVisits');
-    localStorage.removeItem('actorVisits');
-    localStorage.removeItem('directorVisits');
-    localStorage.removeItem('movieRatings');
-    localStorage.removeItem('triviaStats');
-    localStorage.removeItem('uniqueMoviesViewed');
-    localStorage.removeItem('uniqueDirectorsViewed');
-    localStorage.removeItem('uniqueActorsViewed');
-    localStorage.removeItem('uniqueCompaniesViewed');
-    localStorage.removeItem('favoriteGenres');
-    localStorage.removeItem('watchlistsCreated');
-    localStorage.removeItem('averageMovieRating');
-    localStorage.removeItem('backgroundImage');
-    localStorage.removeItem('textColor');
-    localStorage.removeItem('fontSize');
-    localStorage.removeItem('moviesFavorited');
-    localStorage.removeItem('searchQuery');
-    localStorage.removeItem('selectedTVSeriesId');
-    localStorage.removeItem('favoritesTVSeries');
-    localStorage.removeItem('currentlySignedInMovieVerseUser');
-    localStorage.removeItem('hasUserClearedMovieVerseData');
-    localStorage.removeItem('selectedCategory');
-    localStorage.removeItem('searchQuery');
-    localStorage.removeItem('watchlists');
-    localStorage.removeItem('favoritesMovies');
+    window.location.href = '/MovieVerse-Frontend/html/search.html';
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     const notificationBtn = document.getElementById('notificationBtn');
     const notificationModal = document.getElementById('notificationModal');
-
     notificationBtn.addEventListener('click', () => {
         notificationModal.style.display = notificationModal.style.display === 'none' ? 'block' : 'none';
         fetchNewReleases();
     });
-
     window.addEventListener('click', (event) => {
         if (event.target === notificationModal) {
             notificationModal.style.display = 'none';
@@ -3095,12 +1031,10 @@ function addCloseButton() {
     closeButton.textContent = 'Close';
     closeButton.id = 'closeModalButton';
     closeButton.style = 'display: block; margin: 20px auto; margin-bottom: 0; font: inherit; font-size: 15.5px; padding: 5px 15px;';
-
     closeButton.addEventListener('click', () => {
         const notificationModal = document.getElementById('notificationModal');
         notificationModal.style.display = 'none';
     });
-
     newReleasesList.appendChild(closeButton);
 }
 
@@ -3112,14 +1046,10 @@ async function fetchNewReleases() {
         const response = await fetch(URL);
         const data = await response.json();
         const movies = data.results;
-
         const lastVisit = localStorage.getItem('lastVisit') || new Date(0);
         const lastVisitDate = new Date(lastVisit);
-
         newReleasesList.innerHTML = '<h4 style="font-size: 18px">Notifications</h4><h5 style="font-size: 16px; margin-bottom: 0; margin-top: 10px">New Releases Since Your Last Visit:</h5>';
-
         let newReleaseFound = false;
-
         movies.forEach(movie => {
             const releaseDate = new Date(movie.release_date);
             if (releaseDate > lastVisitDate) {
@@ -3157,7 +1087,6 @@ async function fetchNewReleases() {
         console.log('Error fetching new releases:', error);
         newReleasesList.innerHTML = '<li>Error fetching new releases.</li>';
     }
-
     addCloseButton();
 }
 
