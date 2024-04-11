@@ -446,13 +446,15 @@ async function getMovies(url, mainElement, page = 1) {
 
 function showMovies(movies, mainElement) {
     mainElement.innerHTML = '';
-    movies.forEach(movie => {
+    movies.forEach((movie, index) => {
         const { id, poster_path, title, vote_average, vote_count, overview, genre_ids } = movie;
         const movieEl = document.createElement('div');
         movieEl.style.zIndex = '1000';
         movieEl.classList.add('movie');
+
+        const loadingType = index === 0 ? "eager" : "lazy";
         const movieImage = poster_path
-            ? `<img src="${IMGPATH + poster_path}" style="cursor: pointer;" alt="${title} poster - loading..." width="150" height="225">`
+            ? `<img src="${IMGPATH + poster_path}" loading="${loadingType}" alt="${title} poster" width="150" height="225">`
             : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
 
         const voteAvg = vote_count === 0 ? "Unrated" : vote_average.toFixed(1);

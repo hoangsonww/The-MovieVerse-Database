@@ -6,7 +6,6 @@
     <!-- Basic homepage tags -->
     <meta charset="UTF-8">
     <title>The MovieVerse - Explore Movies, TV Series, and More</title>
-    <script src="MovieVerse-Frontend/js/settings.js" defer></script>
 
     <!-- Meta tags for SEO -->
     <meta name="description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more.">
@@ -42,20 +41,21 @@
     <meta name="yandex-verification" content="82af90b194a42a28" />
     <meta name="referrer" content="no-referrer-when-downgrade">
 
-    <!-- Stylesheets and scripts -->
+    <!-- JS and CSS files -->
     <script src="index.js" defer></script>
+    <script src="/MovieVerse-Frontend/js/settings.js" defer></script>
+    <link rel="preload" href="https://movie-verse.com/MovieVerse-Frontend/css/style.css" as="style">
+    <link rel="stylesheet" href="https://movie-verse.com/MovieVerse-Frontend/css/style.css">
     <link rel="icon" type="image/x-icon" href="https://movie-verse.com/images/favicon.ico">
     <link rel="manifest" href="https://movie-verse.com/manifest.json">
-    <link rel="stylesheet" href="https://movie-verse.com/MovieVerse-Frontend/css/style.css">
-    <link rel="preload" href="https://movie-verse.com/MovieVerse-Frontend/css/style.css" as="style">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" as="style">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
-
-    <!-- Google AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6608388491200814"
-            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"></noscript>
+<!--    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6608388491200814"-->
+<!--            crossorigin="anonymous"></script>-->
 
     <!-- Schema.org markup for rich results -->
     <script type="application/ld+json">
@@ -152,6 +152,10 @@
                 background-repeat: repeat-y;
                 background-size: 100% auto;
             }
+        }
+
+        main {
+            margin-left: 0;
         }
 
         #highlight {
@@ -365,7 +369,7 @@
 
     <div id="most-popular-pagination" class="pagination" style="text-align: center"></div>
 
-    <main id="most-popular" style="margin-left: 0"></main>
+    <main id="most-popular" ></main>
 
     <div class="genres" id="recommendedDIV">
         <h2 id="other" style="margin-top: 45px; cursor: pointer" title="Here are some personalized movie suggestions we've generated based on your preferences! Check them out, and let us know what you think!">
@@ -375,7 +379,7 @@
 
     <div id="recommended-pagination" class="pagination" style="text-align: center"></div>
 
-    <main id="recommended" style="margin-left: 0"></main>
+    <main id="recommended" ></main>
 
     <div class="genres" id="award-winning-div">
         <h2 style="margin-top: 50px; cursor: pointer">Critics' Choice: Trending Award-Winning Movies</h2>
@@ -383,14 +387,14 @@
 
     <div id="award-winning-pagination" class="pagination" style="text-align: center"></div>
 
-    <main id="award-winning" style="margin-left: 0"></main>
+    <main id="award-winning" ></main>
 
     <div class="genres" style="display: flex; justify-content: space-between; align-items: center;">
         <h2 id="director-spotlight-title" style="cursor: pointer; margin-top: 50px">Director's Spotlight: <span id="spotlight-director-name">Alfred Hitchcock</span></h2>
         <button id="change-director-btn" onclick="changeDirector()" style="padding: 5px 10px; margin-right: 10px; margin-top: 25px; cursor: pointer;">Change Director</button>
     </div>
 
-    <main id="director-spotlight" style="margin-left: 0"></main>
+    <main id="director-spotlight" ></main>
 
     <div class="genres" id="action-div">
         <h2 id="other" style="margin-top: 50px; cursor: pointer">Adrenaline Rush: Trending Action Movies</h2>
@@ -398,7 +402,7 @@
 
     <div id="action-pagination" class="pagination" style="text-align: center"></div>
 
-    <main id="action" style="margin-left: 0"></main>
+    <main id="action" ></main>
 
     <div class="genres" id="vietnamese-div">
         <h2 id="other" style="margin-top: 50px; cursor: pointer">Cinematic Excellence: Trending Vietnamese Movies</h2>
@@ -406,7 +410,7 @@
 
     <div id="vietnamese-pagination" class="pagination" style="text-align: center"></div>
 
-    <main id="vietnamese" style="margin-left: 0"></main>
+    <main id="vietnamese" ></main>
 
     <div class="genres" id="indian-div">
         <h2 id="other" style="margin-top: 50px; cursor: pointer">Bollywood Blockbusters: Trending Indian Movies</h2>
@@ -414,7 +418,7 @@
 
     <div id="indian-pagination" class="pagination" style="text-align: center"></div>
 
-    <main id="indian" style="margin-left: 0"></main>
+    <main id="indian" ></main>
 
     <div class="genres" id="korean-div">
         <h2 id="other" style="margin-top: 50px; cursor: pointer">K-Drama & Beyond: Trending Korean Movies</h2>
@@ -422,7 +426,7 @@
 
     <div id="korean-pagination" class="pagination" style="text-align: center"></div>
 
-    <main id="korean" style="margin-left: 0"></main>
+    <main id="korean" ></main>
 
     <div class="genres" id="tv-series-div">
         <h2 id="other" style="margin-top: 50px; cursor: pointer">Binge-Worthy Series: Trending TV Series</h2>
@@ -430,7 +434,7 @@
 
     <div id="tv-series-pagination" class="pagination" style="text-align: center"></div>
 
-    <main id="tv-series" style="margin-left: 0"></main>
+    <main id="tv-series" ></main>
 
     <div class="genres" id="western-div">
         <h2 id="other" style="margin-top: 50px; cursor: pointer">Wild West: Trending Western Movies</h2>
@@ -438,7 +442,7 @@
 
     <div id="western-pagination" class="pagination" style="text-align: center"></div>
 
-    <main id="western" style="margin-left: 0"></main>
+    <main id="western" ></main>
 
     <div class="genres" id="hidden-gems-div">
         <h2 id="other" style="margin-top: 50px; cursor: pointer">Hidden Treasures: Discover Gems in Cinema</h2>
@@ -446,7 +450,7 @@
 
     <div id="hidden-gems-pagination" class="pagination" style="text-align: center"></div>
 
-    <main id="hidden-gems" style="margin-left: 0"></main>
+    <main id="hidden-gems" ></main>
 
     <div class="genres" id="horror-div">
         <h2 id="other" style="margin-top: 50px; cursor: pointer">Scream Queens & Slashers: Trending Horror Movies</h2>
@@ -454,7 +458,7 @@
 
     <div id="horror-pagination" class="pagination" style="text-align: center"></div>
 
-    <main id="horror" style="margin-left: 0"></main>
+    <main id="horror" ></main>
 
     <div class="genres" id="documentary-div">
         <h2 id="other" style="margin-top: 50px; cursor: pointer">Real Stories: Trending Documentary Movies</h2>
@@ -462,7 +466,7 @@
 
     <div id="documentary-pagination" class="pagination" style="text-align: center"></div>
 
-    <main id="documentary" style="margin-left: 0"></main>
+    <main id="documentary" ></main>
 
     <div class="genres" id="animation-div">
         <h2 id="other" style="margin-top: 50px; cursor: pointer">Animated Adventures: Trending Animated Movies</h2>
@@ -470,7 +474,7 @@
 
     <div id="animation-pagination" class="pagination" style="text-align: center"></div>
 
-    <main id="animation" style="margin-left: 0"></main>
+    <main id="animation" ></main>
 
     <div class="genres" id="sci-fi-div">
         <h2 id="other" style="margin-top: 50px; cursor: pointer">Future Visions: Trending Science Fiction Movies</h2>
@@ -478,7 +482,7 @@
 
     <div id="sci-fi-pagination" class="pagination" style="text-align: center"></div>
 
-    <main id="sci-fi" style="margin-left: 0"></main>
+    <main id="sci-fi" ></main>
 
     <div class="genres" id="romantic-div">
         <h2 id="other" style="margin-top: 50px; cursor: pointer">Love Is in the Air: Trending Romantic Movies</h2>
@@ -486,7 +490,7 @@
 
     <div id="romantic-pagination" class="pagination" style="text-align: center"></div>
 
-    <main id="romantic" style="margin-left: 0"></main>
+    <main id="romantic" ></main>
 
     <div class="genres" id="thriller-div">
         <h2 id="other" style="margin-top: 50px; cursor: pointer">Edge of Your Seat: Trending Thriller Movies</h2>
@@ -494,7 +498,7 @@
 
     <div id="thriller-pagination" class="pagination" style="text-align: center"></div>
 
-    <main id="thriller" style="margin-left: 0"></main>
+    <main id="thriller" ></main>
 
     <div class="genres" id="war-div">
         <h2 id="other" style="margin-top: 50px; cursor: pointer">War Stories: Trending War Movies</h2>
@@ -502,7 +506,7 @@
 
     <div id="war-pagination" class="pagination" style="text-align: center"></div>
 
-    <main id="war" style="margin-left: 0"></main>
+    <main id="war" ></main>
 
     <div class="genres" id="mystery-div">
         <h2 id="other" style="margin-top: 50px; cursor: pointer">Whodunit? Mystery & Intrigue in Trending Mystery Movies</h2>
@@ -510,7 +514,7 @@
 
     <div id="mystery-pagination" class="pagination" style="text-align: center"></div>
 
-    <main id="mystery" style="margin-left: 0"></main>
+    <main id="mystery" ></main>
 
     <div class="genres" id="crime-div">
         <h2 id="other" style="margin-top: 50px; cursor: pointer">Underworld Tales: Trending Crime Movies</h2>
@@ -518,7 +522,7 @@
 
     <div id="crime-pagination" class="pagination" style="text-align: center"></div>
 
-    <main id="crime" style="margin-left: 0"></main>
+    <main id="crime" ></main>
 
     <div class="genres" id="comedy-div">
         <h2 id="other" style="margin-top: 50px; cursor: pointer">Laughs Galore: Trending Comedy Movies</h2>
@@ -526,7 +530,7 @@
 
     <div id="comedy-pagination" class="pagination" style="text-align: center"></div>
 
-    <main id="comedy" style="margin-left: 0"></main>
+    <main id="comedy" ></main>
 
     <div class="genres" id="fantasy-div">
         <h2 id="other" style="margin-top: 50px; cursor: pointer">Other Worlds: Trending Fantasy Movies</h2>
@@ -534,7 +538,7 @@
 
     <div id="fantasy-pagination" class="pagination" style="text-align: center"></div>
 
-    <main id="fantasy" style="margin-left: 0"></main>
+    <main id="fantasy" ></main>
 
     <div class="genres" id="family-div">
         <h2 id="other" style="margin-top: 50px; cursor: pointer">Family Fun Time: Trending Family Movies</h2>
@@ -542,7 +546,7 @@
 
     <div id="family-pagination" class="pagination" style="text-align: center"></div>
 
-    <main id="family" style="margin-left: 0"></main>
+    <main id="family" ></main>
 
 <!--    <div id="ad-container" style="display: block; text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px);" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">-->
 <!--        <p style="margin: 0;">Advertisement</p>-->
@@ -563,7 +567,7 @@
 
     <div id="musical-pagination" class="pagination" style="text-align: center"></div>
 
-    <main id="musical" style="margin-left: 0"></main>
+    <main id="musical" ></main>
 
     <div class="genres" id="drama-div">
         <h2 id="other" style="margin-top: 50px; cursor: pointer">Emotional Journeys: Trending Drama Movies</h2>
@@ -571,7 +575,7 @@
 
     <div id="drama-pagination" class="pagination" style="text-align: center"></div>
 
-    <main id="drama" style="margin-left: 0"></main>
+    <main id="drama" ></main>
 
     <div class="genres" id="classic-div">
         <h2 id="other" style="margin-top: 50px; cursor: pointer">Timeless Classics: Trending Classic Movies</h2>
@@ -579,7 +583,7 @@
 
     <div id="classic-pagination" class="pagination" style="text-align: center"></div>
 
-    <main id="classic" style="margin-left: 0"></main>
+    <main id="classic" ></main>
 
     <button id="chat-button" onclick="window.location.href='MovieVerse-Frontend/html/chat.html'" style="bottom: 325px; right: 10px; z-index: 1001" title="Chat with fellow MovieVerse users!">Chat</button>
     <button id="settings-btn" style="position: fixed; bottom: 290px; right: 10px; z-index: 1001">Settings</button>
