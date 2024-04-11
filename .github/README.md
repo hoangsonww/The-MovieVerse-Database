@@ -75,6 +75,12 @@ The MovieVerse is a full-stack application with a robust backend and a user-frie
 
 There are also additional directories and files for project configuration, testing, and other utilities. The project is built using a variety of technologies, including `.github`, `utilities`, `project-config`, `MovieVerse-APIs`, `MovieVerse-Databases`, `MovieVerse-Middleware`, `MovieVerse-Design`, `images`, and more. Each directory serves a specific purpose in the development, deployment, and maintenance of The MovieVerse application.
 
+## Deployment
+
+The current deployment and production branch is `deployment-branch` and is being deployed to the official website at [movie-verse.com](https://movie-verse.com). The deployment process involves building the frontend, backend, and mobile app, configuring the server, and deploying the application to the server. The deployment process is automated using CI/CD pipelines and scripts to ensure a seamless deployment experience.
+
+The app is using `Netlify` for the frontend deployment and `Heroku` for the backend deployment. The deployment status is monitored regularly to ensure the application is up and running smoothly.
+
 ## Technology Stack
 
 | Frontend Technologies                                           | Backend Technologies                                            | Database Technologies                           | Mobile App Development                                            | Additional Technologies                                         |
