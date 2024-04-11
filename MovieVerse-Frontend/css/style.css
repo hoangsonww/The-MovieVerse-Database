@@ -1080,6 +1080,51 @@ header h1 {
     transition: 0.1s ease-in;
 }
 
+#githubLink2 {
+    color: white !important;
+}
+
+#githubLink2:hover {
+    color: #ff8623 !important;
+    transition: 0.1s ease-in;
+}
+
+#githubLink3 {
+    color: white !important;
+}
+
+#githubLink3:hover {
+    color: #ff8623 !important;
+    transition: 0.1s ease-in;
+}
+
+#githubLink4 {
+    color: white !important;
+}
+
+#githubLink4:hover {
+    color: #ff8623 !important;
+    transition: 0.1s ease-in;
+}
+
+#githubLink5 {
+    color: white !important;
+}
+
+#githubLink5:hover {
+    color: #ff8623 !important;
+    transition: 0.1s ease-in;
+}
+
+#githubLink6 {
+    color: white !important;
+}
+
+#githubLink6:hover {
+    color: #ff8623 !important;
+    transition: 0.1s ease-in;
+}
+
 .modal-overlay {
     display: none;
     position: fixed;
