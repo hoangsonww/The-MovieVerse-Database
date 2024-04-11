@@ -857,7 +857,7 @@ function fallbackMovieSelection() {
 
 function calculateMoviesToDisplay() {
     const screenWidth = window.innerWidth;
-    if (screenWidth <= 689.9) return 6; // 1 movie per row
+    if (screenWidth <= 689.9) return 5; // 1 movie per row (mobile)
     if (screenWidth <= 1021.24) return 20; // 2 movies per row
     if (screenWidth <= 1353.74) return 21; // 3 movies per row
     if (screenWidth <= 1684.9) return 20; // 4 movies per row
