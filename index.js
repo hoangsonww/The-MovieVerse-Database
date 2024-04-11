@@ -132,96 +132,96 @@ document.addEventListener('DOMContentLoaded', function() {
     fetchAndUpdateMostPopular();
 });
 
-function setupPagination(mainElementId, paginationContainerId, genresContainerId) {
-    document.addEventListener('DOMContentLoaded', function () {
-        let currentPage = 1;
-        const totalPages = 60;
-        const mainElement = document.getElementById(mainElementId);
-        const paginationContainer = document.getElementById(paginationContainerId);
-        const genresContainer = document.getElementById(genresContainerId);
+function setupPagination(mainElementId, paginationContainerId, genresContainerId, baseUrl) {
+    let currentPage = 1;
+    const totalPages = 60;
 
-        function movePagination() {
-            if (window.innerWidth <= 767) {
-                mainElement.parentNode.insertBefore(paginationContainer, mainElement);
-            } else {
-                genresContainer.appendChild(paginationContainer);
-            }
+    const mainElement = document.getElementById(mainElementId);
+    const paginationContainer = document.getElementById(paginationContainerId);
+    const genresContainer = document.getElementById(genresContainerId);
+
+    function movePagination() {
+        if (window.innerWidth <= 767) {
+            mainElement.parentNode.insertBefore(paginationContainer, mainElement);
+        } else {
+            genresContainer.appendChild(paginationContainer);
+        }
+    }
+
+    const fetchAndUpdate = () => {
+        const url = `${baseUrl}&page=${currentPage}`;
+        getMovies(url, mainElement, currentPage);
+        updatePaginationDisplay();
+    };
+
+    const updatePaginationDisplay = () => {
+        paginationContainer.innerHTML = '';
+
+        const prevButton = createNavigationButton('<', currentPage > 1, () => {
+            currentPage--;
+            fetchAndUpdate();
+        });
+        paginationContainer.appendChild(prevButton);
+
+        let startPage = Math.max(currentPage - 2, 1);
+        let endPage = Math.min(startPage + 4, totalPages);
+
+        if (endPage === totalPages) startPage = Math.max(endPage - 4, 1);
+
+        if (startPage > 1) {
+            paginationContainer.appendChild(createPageButton(1));
+            if (startPage > 2) paginationContainer.appendChild(createPageButton('...'));
         }
 
-        const fetchAndUpdate = () => {
-            const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=1000`;
-            getMovies(url, mainElement, currentPage);
-            updatePaginationDisplay();
-        };
+        for (let i = startPage; i <= endPage; i++) {
+            paginationContainer.appendChild(createPageButton(i));
+        }
 
-        const updatePaginationDisplay = () => {
-            paginationContainer.innerHTML = '';
+        if (endPage < totalPages) {
+            if (endPage < totalPages - 1) paginationContainer.appendChild(createPageButton('...'));
+            paginationContainer.appendChild(createPageButton(totalPages));
+        }
 
-            const prevButton = createNavigationButton('<', currentPage > 1, () => {
-                currentPage--;
+        const nextButton = createNavigationButton('>', currentPage < totalPages, () => {
+            currentPage++;
+            fetchAndUpdate();
+        });
+        paginationContainer.appendChild(nextButton);
+    };
+
+    function createNavigationButton(text, enabled, clickHandler) {
+        const button = document.createElement('button');
+        button.innerHTML = text;
+        button.disabled = !enabled;
+        button.className = 'nav-button';
+        if (enabled) {
+            button.addEventListener('click', clickHandler);
+        }
+        return button;
+    }
+
+    function createPageButton(pageNum) {
+        const button = document.createElement('button');
+        button.textContent = pageNum;
+        button.className = 'page-button';
+        if (pageNum === '...') {
+            button.disabled = true;
+        }
+        else {
+            button.addEventListener('click', () => {
+                currentPage = pageNum;
                 fetchAndUpdate();
             });
-            paginationContainer.appendChild(prevButton);
-
-            let startPage = Math.max(currentPage - 2, 1);
-            let endPage = Math.min(startPage + 4, totalPages);
-
-            if (endPage === totalPages) startPage = Math.max(endPage - 4, 1);
-
-            if (startPage > 1) {
-                paginationContainer.appendChild(createPageButton(1));
-                if (startPage > 2) paginationContainer.appendChild(createPageButton('...'));
+            if (pageNum === currentPage) {
+                button.classList.add('active');
             }
-
-            for (let i = startPage; i <= endPage; i++) {
-                paginationContainer.appendChild(createPageButton(i));
-            }
-
-            if (endPage < totalPages) {
-                if (endPage < totalPages - 1) paginationContainer.appendChild(createPageButton('...'));
-                paginationContainer.appendChild(createPageButton(totalPages));
-            }
-
-            const nextButton = createNavigationButton('>', currentPage < totalPages, () => {
-                currentPage++;
-                fetchAndUpdate();
-            });
-            paginationContainer.appendChild(nextButton);
-        };
-
-        function createNavigationButton(text, enabled, clickHandler) {
-            const button = document.createElement('button');
-            button.innerHTML = text;
-            button.disabled = !enabled;
-            button.className = 'nav-button';
-            if (enabled) {
-                button.addEventListener('click', clickHandler);
-            }
-            return button;
         }
+        return button;
+    }
 
-        function createPageButton(pageNum) {
-            const button = document.createElement('button');
-            button.textContent = pageNum;
-            button.className = 'page-button';
-            if (pageNum === '...') {
-                button.disabled = true;
-            } else {
-                button.addEventListener('click', () => {
-                    currentPage = pageNum;
-                    fetchAndUpdate();
-                });
-                if (pageNum === currentPage) {
-                    button.classList.add('active');
-                }
-            }
-            return button;
-        }
-
-        movePagination();
-        fetchAndUpdate();
-        window.addEventListener('resize', movePagination);
-    });
+    movePagination();
+    fetchAndUpdate();
+    window.addEventListener('resize', movePagination);
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -951,31 +951,29 @@ function updateSignInButtonState() {
     }
 }
 
-setupPagination('award-winning', 'award-winning-pagination', 'award-winning-div');
-setupPagination('hidden-gems', 'hidden-gems-pagination', 'hidden-gems-div');
-setupPagination('classic-movies', 'classic-movies-pagination', 'classic-movies-div');
-setupPagination('western', 'western-pagination', 'western-div');
-setupPagination('war', 'war-pagination', 'war-div');
-setupPagination('vietnamese', 'vietnamese-pagination', 'vietnamese-div');
-setupPagination('korean', 'korean-pagination', 'korean-div');
-setupPagination('musical', 'musical-pagination', 'musical-div');
-setupPagination('drama', 'drama-pagination', 'drama-div');
-setupPagination('indian', 'indian-pagination', 'indian-div');
-setupPagination('most-popular', 'most-popular-pagination', 'most-popular-div');
-setupPagination('action', 'action-pagination', 'action-div');
-setupPagination('horror', 'horror-pagination', 'horror-div');
-setupPagination('documentary', 'documentary-pagination', 'documentary-div');
-setupPagination('animation', 'animation-pagination', 'animation-div');
-setupPagination('sci-fi', 'sci-fi-pagination', 'sci-fi-div');
-setupPagination('romantic', 'romantic-pagination', 'romantic-div');
-setupPagination('thriller', 'thriller-pagination', 'thriller-div');
-setupPagination('mystery', 'mystery-pagination', 'mystery-div');
-setupPagination('comedy', 'comedy-pagination', 'comedy-div');
-setupPagination('fantasy', 'fantasy-pagination', 'fantasy-div');
-setupPagination('family', 'family-pagination', 'family-div');
-setupPagination('tv-series', 'tv-series-pagination', 'tv-series-div');
-setupPagination('crime', 'crime-pagination', 'crime-div');
-setupPagination('classic', 'classic-pagination', 'classic-div');
+setupPagination('award-winning', 'award-winning-pagination', 'award-winning-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=1000`);
+setupPagination('hidden-gems', 'hidden-gems-pagination', 'hidden-gems-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&vote_average.gte=7&popularity.lte=10`);
+setupPagination('western', 'western-pagination', 'western-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=37&sort_by=popularity.desc&vote_count.gte=8`);
+setupPagination('war', 'war-pagination', 'war-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10752&sort_by=popularity.desc&vote_count.gte=8`);
+setupPagination('vietnamese', 'vietnamese-pagination', 'vietnamese-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_original_language=vi&sort_by=popularity.desc`);
+setupPagination('korean', 'korean-pagination', 'korean-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_original_language=ko&sort_by=vote_average.desc,popularity.desc&vote_count.gte=10&vote_average.gte=8`);
+setupPagination('musical', 'musical-pagination', 'musical-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10402&sort_by=popularity.desc&vote_count.gte=8`);
+setupPagination('drama', 'drama-pagination', 'drama-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=18&sort_by=popularity.desc&vote_count.gte=8`);
+setupPagination('indian', 'indian-pagination', 'indian-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_original_language=hi&sort_by=popularity.desc`);
+setupPagination('action', 'action-pagination', 'action-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=28&sort_by=popularity.desc&vote_count.gte=8`);
+setupPagination('horror', 'horror-pagination', 'horror-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=27&sort_by=popularity.desc&vote_count.gte=8`);
+setupPagination('documentary', 'documentary-pagination', 'documentary-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=99&sort_by=popularity.desc&vote_count.gte=8`);
+setupPagination('animation', 'animation-pagination', 'animation-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=16&sort_by=popularity.desc&vote_count.gte=8`);
+setupPagination('sci-fi', 'sci-fi-pagination', 'sci-fi-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=878&sort_by=popularity.desc&vote_count.gte=8`);
+setupPagination('romantic', 'romantic-pagination', 'romantic-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10749&sort_by=popularity.desc&vote_count.gte=8`);
+setupPagination('thriller', 'thriller-pagination', 'thriller-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=53&sort_by=popularity.desc&vote_count.gte=8`);
+setupPagination('mystery', 'mystery-pagination', 'mystery-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=9648&sort_by=popularity.desc&vote_count.gte=8`);
+setupPagination('comedy', 'comedy-pagination', 'comedy-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=35&sort_by=popularity.desc&vote_count.gte=8\``);
+setupPagination('fantasy', 'fantasy-pagination', 'fantasy-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=14&sort_by=popularity.desc&vote_count.gte=8`);
+setupPagination('family', 'family-pagination', 'family-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10751&sort_by=popularity.desc&vote_count.gte=8`);
+setupPagination('tv-series', 'tv-series-pagination', 'tv-series-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10770&sort_by=popularity.desc&vote_count.gte=8`);
+setupPagination('crime', 'crime-pagination', 'crime-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=80&sort_by=popularity.desc&vote_count.gte=8`);
+setupPagination('classic', 'classic-pagination', 'classic-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=popularity.desc&release_date.lte=1980`);
 
 document.addEventListener("DOMContentLoaded", function() {
     updateSignInButtonState();
