@@ -8,10 +8,10 @@
     <link rel="canonical" href="https://movie-verse.com/404.html">
     <title>404 Not Found - The MovieVerse</title>
     <link rel="stylesheet" href="/MovieVerse-Frontend/css/style.css"/>
-    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="https://movie-verse.com/images/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <meta name="theme-color" content="#7378c5">
-    <link rel="manifest" href="/manifest.json">
+    <link rel="manifest" href="https://movie-verse.com/manifest.json">
     <meta property="og:title" content="The MovieVerse - Your Ultimate Movie Guide" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
@@ -326,7 +326,7 @@
             </div>
         </form>
 
-        <button id="chat-button" onclick="window.location.href='MovieVerse-Frontend/html/chat.html'" style="bottom: 325px; right: 10px; z-index: 1001" title="Chat with fellow MovieVerse users!">Chat</button>
+        <button id="chat-button" onclick="window.location.href='https://movie-verse.com/MovieVerse-Frontend/html/chat.html'" style="bottom: 325px; right: 10px; z-index: 1001" title="Chat with fellow MovieVerse users!">Chat</button>
         <button id="settings-btn" style="position: fixed; bottom: 290px; right: 10px; z-index: 1001">Settings</button>
         <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" style="bottom: 255px; right: 10px; z-index: 1001" title="Get a recommended movie to watch for today!">Surprise Me!</button>
         <button id="movie-match-btn" onclick="window.location.href='https://movie-verse.com/MovieVerse-Frontend/html/movie-match.html'" title="Find movies that match your mood and preferences!" style="bottom: 220px; right: 10px; z-index: 1001">Movie Match</button>
@@ -626,11 +626,8 @@
                 if (query) {
                     if (window.innerWidth > 800) {
                         myHeading.style.position = 'fixed';
-                        myHeading.style.top = '28px';
-                        localTime.style.position = 'fixed';
-                        localTime.style.left = '44.4%';
-                        localTime.style.top = '19px';
-                        localTime.style.zIndex = '0.0 !important';
+                        myHeading.style.top = '38px';
+                        localTime.style.display = 'none';
                         myHeading.style.zIndex = '0.05';
                         searchBar.style.marginTop = '16px';
                         searchButton.style.marginTop = '16px';
@@ -639,9 +636,7 @@
                 else {
                     myHeading.style.position = '';
                     myHeading.style.top = '';
-                    localTime.style.position = '';
-                    localTime.style.left = '';
-                    localTime.style.top = '';
+                    localTime.style.display = '';
                     searchBar.style.marginTop = '';
                     searchButton.style.marginTop = '';
                 }
@@ -915,7 +910,9 @@
     </script>
 
     <footer style="margin-top: 400px">
-        <p>© 2024 The MovieVerse. All rights reserved.</p>
+        <a href="https://movie-verse.com/" style="cursor: pointer; text-decoration: none">
+            <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
+        </a>
     </footer>
 
 </body>
