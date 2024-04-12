@@ -9,28 +9,60 @@ function getMovieCode() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    fetchReleasesByCategory('releasesSinceLastVisit', new Date(localStorage.getItem('lastVisit')));
-    fetchReleasesByCategory('releasesThisMonth', new Date(new Date().getFullYear(), new Date().getMonth(), 1));
-    fetchReleasesByCategory('releasesThisYear', new Date(new Date().getFullYear(), 0, 1));
+    const today = new Date();
+    fetchReleasesByCategory('releasesSinceLastVisit', new Date(localStorage.getItem('lastVisit')), today, true);
+    fetchReleasesByCategory('releasesThisMonth', new Date(today.getFullYear(), today.getMonth(), 1), today, false);
+    fetchReleasesByCategory('releasesThisYear', new Date(today.getFullYear(), 0, 1), today, false);
     fetchRecommendedReleases();
 });
 
-async function fetchReleasesByCategory(elementId, startDate) {
-    const API_KEY = 'your_api_key_here';
-    const formattedDate = `${startDate.getFullYear()}-${(startDate.getMonth() + 1).toString().padStart(2, '0')}-${startDate.getDate().toString().padStart(2, '0')}`;
-    const url = `https://api.themoviedb.org/3/discover/movie?api_key=${getMovieCode()}&language=en-US&sort_by=release_date.desc&include_adult=false&include_video=false&page=1&release_date.gte=${formattedDate}`;
+async function fetchReleasesByCategory(elementId, startDate, endDate, isLastVisit) {
+    const list = document.getElementById(elementId);
+    list.innerHTML = '';
+
+    let movies = await fetchMovies(startDate, endDate);
+    if (movies.length < 5 && !isLastVisit) {
+        const expandedStartDate = new Date(startDate.getFullYear(), startDate.getMonth() - 1, startDate.getDate());
+        movies = await fetchMovies(expandedStartDate, endDate);
+    }
+
+    if (movies.length === 0) {
+        if (isLastVisit) {
+            const noMoviesText = document.createElement('li');
+            noMoviesText.textContent = "No New Movies Released Since Your Last Visit";
+            list.appendChild(noMoviesText);
+        }
+        else {
+            const veryExpandedStartDate = new Date(startDate.getFullYear() - 1, startDate.getMonth(), startDate.getDate());
+            movies = await fetchMovies(veryExpandedStartDate, endDate);
+        }
+    }
+
+    populateList(elementId, movies.slice(0, 5));
+}
+
+async function fetchMovies(startDate, endDate) {
+    const formattedStartDate = `${startDate.getFullYear()}-${(startDate.getMonth() + 1).toString().padStart(2, '0')}-${startDate.getDate().toString().padStart(2, '0')}`;
+    const formattedEndDate = `${endDate.getFullYear()}-${(endDate.getMonth() + 1).toString().padStart(2, '0')}-${endDate.getDate().toString().padStart(2, '0')}`;
+
+    const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&release_date.gte=${formattedStartDate}&release_date.lte=${formattedEndDate}`;
 
     try {
         const response = await fetch(url);
         const data = await response.json();
-        populateList(elementId, data.results.slice(0, 5));  // Slicing to limit to 5 movies
-    } catch (error) {
-        console.error('Failed to fetch movies:', error);
+        return data.results.filter(movie => movie.popularity > 0);
+    }
+    catch (error) {
+        console.error('Failed to fetch movies for', elementId + ':', error);
+        return [];
     }
 }
 
+function generateMovieNames(input) {
+    return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
+}
+
 async function fetchRecommendedReleases() {
-    const API_KEY = 'your_api_key_here';
     let url;
 
     try {
@@ -39,43 +71,43 @@ async function fetchRecommendedReleases() {
             throw new Error('No favorite genres found in localStorage.');
         }
         const genresArray = JSON.parse(favoriteGenres);
-        const genreId = genresArray[0]; // Assuming the genre ID is the first element in the array
+        const genreId = genresArray[0];
         if (!genreId) {
             throw new Error('Genre ID is not valid.');
         }
-        url = `https://api.themoviedb.org/3/discover/movie?api_key=${getMovieCode()}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=${genreId}`;
-    } catch (error) {
+        url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=${genreId}`;
+    }
+    catch (error) {
         console.error('Fetching recommended movies failed or data issues:', error);
-        // Fallback to fetch the most popular movies
-        url = `https://api.themoviedb.org/3/movie/popular?api_key=${getMovieCode()}&language=en-US&page=1`;
+        url = `https://${getMovieVerseData()}/3/movie/popular?${generateMovieNames()}${getMovieCode()}&language=en-US&page=1`;
     }
 
     try {
         const response = await fetch(url);
         const data = await response.json();
         populateList('recommendedReleases', data.results.slice(0, 5));
-    } catch (error) {
+    }
+    catch (error) {
         console.error('Failed to fetch movies:', error);
     }
 }
 
 function populateList(elementId, movies) {
     const list = document.getElementById(elementId);
-    list.innerHTML = ''; // Clear existing content
+    list.innerHTML = '';
     movies.forEach(movie => {
         const li = document.createElement('li');
-        const a = document.createElement('a');
-        a.href = 'movie-details.html';
-        a.textContent = movie.title;
-        a.id = 'movie-link';
-        a.style.color = 'black'; // Style for link color
-        a.style.textDecoration = 'none'; // Remove underline
-        a.addEventListener('click', (event) => {
-            event.preventDefault(); // Prevent the default anchor click behavior
+        li.style.cursor = 'pointer';
+        li.addEventListener('click', () => {
             localStorage.setItem('selectedMovieId', movie.id.toString());
             window.location.href = 'movie-details.html';
         });
-        li.appendChild(a);
+
+        const title = document.createElement('span');
+        title.textContent = movie.title;
+        title.style.color = 'black';
+        li.appendChild(title);
+
         list.appendChild(li);
     });
 }
@@ -99,15 +131,16 @@ function populateActors() {
     const list = document.getElementById('popularActors').querySelector('ul');
     actors.forEach(actor => {
         const li = document.createElement('li');
-        const a = document.createElement('a');
-        a.textContent = actor.name;
-        a.href = '#';
-        a.id = 'actor-link';
-        a.onclick = () => {
+        li.style.cursor = 'pointer';
+        li.addEventListener('click', () => {
             localStorage.setItem('selectedActorId', actor.id.toString());
             window.location.href = 'actor-details.html';
-        };
-        li.appendChild(a);
+        });
+
+        const name = document.createElement('span');
+        name.textContent = actor.name;
+        li.appendChild(name);
+
         list.appendChild(li);
     });
 }
@@ -126,15 +159,16 @@ function populateDirectors() {
     const list = document.getElementById('popularDirectors').querySelector('ul');
     directors.forEach(director => {
         const li = document.createElement('li');
-        const a = document.createElement('a');
-        a.textContent = director.name;
-        a.href = '#';
-        a.id = 'director-link';
-        a.onclick = () => {
+        li.style.cursor = 'pointer';
+        li.addEventListener('click', () => {
             localStorage.setItem('selectedDirectorId', director.id.toString());
             window.location.href = 'director-details.html';
-        };
-        li.appendChild(a);
+        });
+
+        const name = document.createElement('span');
+        name.textContent = director.name;
+        li.appendChild(name);
+
         list.appendChild(li);
     });
 
