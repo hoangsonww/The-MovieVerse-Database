@@ -382,31 +382,12 @@ function showMovies(movies, mainElement) {
                 ${overview}
             </div>`;
 
-        let timer = null;
-        const handleLongPress = () => {
-            const overviewDiv = movieEl.querySelector('.overview');
-            overviewDiv.style.visibility = 'visible';
-            overviewDiv.style.opacity = '1';
-            overviewDiv.style.transform = 'translateY(0)';
-        };
-
-        movieEl.addEventListener('touchstart', (e) => {
-            e.preventDefault(); // Prevent click event on touch devices
-            timer = setTimeout(handleLongPress, 500); // Set timeout for long press
-        }, false);
-
-        movieEl.addEventListener('touchend', (e) => {
-            clearTimeout(timer); // Cancel the timer on touch end
-        }, false);
-
         movieEl.addEventListener('click', () => {
-            if (!timer) { // If the timer wasn't cleared, it's a click
-                localStorage.setItem('selectedMovieId', id);
-                updateUniqueMoviesViewed(id);
-                updateFavoriteGenre(genre_ids);
-                window.location.href = 'MovieVerse-Frontend/html/movie-details.html';
-                updateMovieVisitCount(id, title);
-            }
+            localStorage.setItem('selectedMovieId', id);
+            updateUniqueMoviesViewed(id);
+            updateFavoriteGenre(genre_ids);
+            window.location.href = 'MovieVerse-Frontend/html/movie-details.html';
+            updateMovieVisitCount(id, title);
         });
 
         mainElement.appendChild(movieEl);
