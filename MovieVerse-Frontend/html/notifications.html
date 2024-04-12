@@ -93,14 +93,14 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             display: flex;
             flex-direction: column;
-            align-items: center; /* Centers content horizontally */
-            text-align: center; /* Centers text within the section */
-            width: 100%; /* Ensures sections don't shrink smaller than their flex basis */
+            align-items: center;
+            text-align: center;
+            width: 100%;
         }
 
         @media (max-width: 1200px) {
             section {
-                flex: 1 1 calc(50% - 40px); /* Two sections per row on medium screens */
+                flex: 1 1 calc(50% - 40px);
             }
         }
 
@@ -109,19 +109,19 @@
                 flex-direction: column;
             }
             section {
-                flex-basis: 100%; /* Full width on smaller screens */
+                flex-basis: 100%;
             }
         }
 
         ul {
-            width: 100%; /* Ensures list takes full width of the section */
+            width: 100%;
             padding: 0;
             margin: 0;
             list-style-type: none;
         }
 
         li {
-            width: 100%; /* Each list item spans the full width */
+            width: 100%;
             margin-top: 10px;
             padding: 10px;
             background-color: #ecf0f1;
