@@ -768,7 +768,7 @@ function displayCompanyMovies(movies) {
         movieLink.style.cursor = 'pointer';
         movieLink.style.textDecoration = 'underline';
         movieLink.addEventListener('mouseenter', () => {
-            movieLink.style.color = '#f509d9';
+            movieLink.style.color = '#ff8623';
         });
         movieLink.addEventListener('mouseleave', () => {
             movieLink.style.color = 'white';

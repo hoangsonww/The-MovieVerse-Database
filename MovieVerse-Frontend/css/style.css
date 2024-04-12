@@ -86,7 +86,7 @@ button:disabled {
 }
 
 #cast-info:hover {
-    color: #f509d9;
+    color: #ff8623;
 }
 
 #similar-tv {
@@ -95,7 +95,7 @@ button:disabled {
 }
 
 #similar-tv:hover {
-    color: #f509d9;
+    color: #ff8623;
 }
 
 #director-link {
@@ -104,7 +104,7 @@ button:disabled {
 }
 
 #director-link:hover {
-    color: #f509d9;
+    color: #ff8623;
 }
 
 .modal-header {
@@ -713,7 +713,7 @@ header h1 {
 }
 
 #other1:hover {
-    color: #f509d9;
+    color: #ff8623;
     transition: 0.1s linear;
 }
 
@@ -957,7 +957,7 @@ header h1 {
 }
 
 .movie-link:hover {
-    color: #f509d9;
+    color: #ff8623;
 }
 
 .movie-image {
@@ -999,7 +999,7 @@ header h1 {
 }
 
 #rating:hover {
-    color: #f509d9;
+    color: #ff8623;
 }
 
 #metacritics {
@@ -1007,7 +1007,7 @@ header h1 {
 }
 
 #metacritics:hover {
-    color: #f509d9;
+    color: #ff8623;
 }
 
 .director-header {
@@ -1062,7 +1062,7 @@ header h1 {
 }
 
 #userRatings:hover {
-    color: #f509d9;
+    color: #ff8623;
 }
 
 #githubLink {
@@ -1182,11 +1182,11 @@ header h1 {
 }
 
 #imdbRating:hover {
-    color: #f509d9;
+    color: #ff8623;
 }
 
 #rtRating:hover {
-    color: #f509d9;
+    color: #ff8623;
 }
 
 #movie-rating h2:hover {
@@ -1213,7 +1213,7 @@ p {
 .similar-movies span:hover {
     text-decoration: none;
     opacity: 0.8;
-    color: #f509d9;
+    color: #ff8623;
 }
 
 .movie-details-body {
@@ -1439,7 +1439,7 @@ p {
 }
 
 .clock:hover {
-    color: #f509d9;
+    color: #ff8623;
 }
 
 #time-label {
@@ -1447,7 +1447,7 @@ p {
 }
 
 #time-label:hover {
-    color: #f509d9;
+    color: #ff8623;
 }
 
 .app-btn:hover {
@@ -2045,7 +2045,7 @@ p {
 }
 
 #search-results-label:hover {
-    color: #f509d9;
+    color: #ff8623;
 }
 
 .category-buttons button {
@@ -2186,12 +2186,12 @@ p {
 }
 
 #subheading:hover {
-    color: #f509d9;
+    color: #ff8623;
     transition: 0.1s linear;
 }
 
 #aboutHeader:hover {
-    color: #f509d9;
+    color: #ff8623;
     transition: 0.1s linear;
 }
 
@@ -2228,7 +2228,7 @@ textarea {
 }
 
 .actor-link:hover {
-    color: #f509d9;
+    color: #ff8623;
 }
 
 .genres {
@@ -2457,7 +2457,7 @@ ol li:hover {
 }
 
 .director-link:hover {
-    color: #f509d9;
+    color: #ff8623;
 }
 
 @media (max-width: 982px) {
@@ -2546,7 +2546,7 @@ canvas {
 }
 
 #ratingImdb:hover {
-    color: #f509d9;
+    color: #ff8623;
 }
 
 .chart-title {
@@ -2988,7 +2988,7 @@ canvas {
 }
 
 #select-text:hover {
-    color: #f509d9;
+    color: #ff8623;
 }
 
 #clear-search-btn {
@@ -3022,7 +3022,7 @@ canvas {
 }
 
 #search-title:hover {
-    color: #f509d9;
+    color: #ff8623;
 }
 
 #search-title1 {
@@ -3033,7 +3033,7 @@ canvas {
 }
 
 #search-title1:hover {
-    color: #f509d9;
+    color: #ff8623;
 }
 
 #movie-match-main {
@@ -3266,7 +3266,7 @@ body {
 }
 
 .company-link:hover {
-    color: #f509d9;
+    color: #ff8623;
 }
 
 .title-logo-container {
@@ -3294,7 +3294,7 @@ body {
 }
 
 #company-website:hover {
-    color: #f509d9;
+    color: #ff8623;
 }
 
 .movies-list {
@@ -3351,7 +3351,7 @@ body {
 }
 
 #rating-value:hover {
-    color: #f509d9;
+    color: #ff8623;
 }
 
 #button-clear:hover {
@@ -3585,7 +3585,7 @@ footer {
 }
 
 .notification-link:hover {
-    color: #f509d9 !important;
+    color: #ff8623 !important;
 }
 
 .notification-modal h4 {
