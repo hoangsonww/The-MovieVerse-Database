@@ -795,7 +795,7 @@ function getRatingDetails(rating) {
             break;
         case 'NR':
             details = {
-                color: 'grey',
+                color: 'white',
                 text: 'NR (Not Rated)',
                 description: ' - Movie has not been officially rated'
             };
@@ -803,7 +803,7 @@ function getRatingDetails(rating) {
         case 'UR':
         case 'Unrated':
             details = {
-                color: 'grey',
+                color: 'white',
                 text: 'UR (Unrated)',
                 description: ' - Contains content not used in the rated version'
             };
@@ -1183,7 +1183,7 @@ function populateMovieDetails(movie, imdbRating, rtRating, metascore, awards, ra
             movieLink.style.cursor = 'pointer';
             movieLink.style.textDecoration = 'underline';
             movieLink.addEventListener('mouseenter', () => {
-                movieLink.style.color = '#f509d9';
+                movieLink.style.color = '#ff8623';
             });
 
             movieLink.addEventListener('mouseleave', () => {
