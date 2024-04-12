@@ -35,8 +35,9 @@
     <meta name="referrer" content="no-referrer-when-downgrade">
     <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
-    <script src="../js/settings.js"></script>
     <link rel="manifest" href="../../manifest.json">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap" as="style" onload="this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap"></noscript>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -55,7 +56,7 @@
     </script>
     <style>
         #local-time {
-            transform: translateX(15%);
+            margin-left: 5px;
         }
 
         body {
@@ -122,27 +123,66 @@
             <button data-category="person" onclick="showResults('person')">People</button>
         </div>
 
+        <button id="toggle-filters-btn">Filter Results</button>
+
+        <!-- Filters for Movies and TV Series -->
+        <div id="movie-tv-filters" style="display: none;">
+            <p style="font-weight: bold">Filters Search Results</p>
+            <label for="genre-filter">Genre:</label>
+            <select id="genre-filter">
+                <option value="">Select Genre</option>
+                <!-- Populated with genres -->
+            </select>
+
+            <label for="year-filter">Year:</label>
+            <input type="number" id="year-filter" placeholder="Year of Publishing" style="color: white" min="1900" max="2024" />
+            <label style="vertical-align: center" for="rating-filter">Rating:</label>
+            <input type="range" id="rating-filter" min="0" max="10" step="0.1" value="5" title="Rating" />
+            <span id="rating-value" style="color: white; font: inherit"></span>
+
+            <button id="reset-filters">Reset Filters</button>
+        </div>
+
+        <!-- Filters for TV Series -->
+        <div id="tv-filters" style="display: none;">
+            <p style="font-weight: bold">Filters Search Results</p>
+            <label for="genre-tv-filter">Genre:</label>
+            <select id="genre-tv-filter">
+                <option value="">Select Genre</option>
+                <!-- Populated with genres -->
+            </select>
+
+            <label for="year-tv-filter">Year:</label>
+            <input type="number" id="year-tv-filter" placeholder="Year of Publishing" style="color: white" min="1900" max="2024" />
+            <label style="vertical-align: center" for="rating-tv-filter">Rating:</label>
+            <input type="range" id="rating-tv-filter" min="0" max="10" step="0.1" value="5" title="Rating" />
+            <span id="rating-tv-value" style="color: white; font: inherit"></span>
+
+            <button id="reset-filters">Reset Filters</button>
+        </div>
+
+        <!-- Filters for People -->
+        <div id="people-filters" style="display:none;">
+            <p style="font-weight: bold">Filters Search Results</p>
+            <label for="profession-filter">Profession:</label>
+            <select id="profession-filter">
+                <option value="">Select Profession</option>
+                <option value="Acting">Acting</option>
+                <option value="Directing">Directing</option>
+            </select>
+            <label for="popularity-filter">Popularity Score:</label>
+            <input type="range" id="popularity-filter" min="0" max="100" step="1" value="20" title="Popularity" />
+            <span id="popularity-value" style="color: white; font: inherit"></span>
+            <button id="reset-filters">Reset Filters</button>
+        </div>
+
         <div id="movie-match-container1" class="movie-match-container1">
             <main id="results"></main>
         </div>
     </main>
 
-    <div id="ad-container" style="display: block; text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px);" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
-        <p style="margin: 0;">Advertisement</p>
-        <ins class="adsbygoogle"
-             style="display: block; width: 100%;"
-             data-ad-client="ca-pub-6608388491200814"
-             data-ad-slot="4832732030"
-             data-ad-format="auto"></ins>
-        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>
-    </div>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6608388491200814"
-            crossorigin="anonymous"></script>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-
-    <button id="settings-btn" style="position: fixed; bottom: 265px; right: 10px; z-index: 10012">Settings</button>
+    <button id="chat-button" onclick="window.location.href='chat.html'" style="bottom: 300px; right: 10px; z-index: 1001" title="Chat with fellow MovieVerse users!">Chat</button>
+    <button id="settings-btn" onclick="window.location.href='settings.html'" style="position: fixed; bottom: 265px; right: 10px; z-index: 10012">Settings</button>
     <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 230px; right: 10px; z-index: 10012">Movie Match</button>
     <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 195px; right: 10px; z-index: 10012">Movie Timeline</button>
     <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 160px; right: 10px; z-index: 10012">Surprise Me!</button>
@@ -193,7 +233,7 @@
                 }
             }
             catch (error) {
-                console.error('Error fetching movie:', error);
+                console.log('Error fetching movie:', error);
                 fallbackMovieSelection();
             }
         }
@@ -332,7 +372,7 @@
                             const sortedResults = data.results.sort((a, b) => b.popularity - a.popularity);
                             displaySearchResults(sortedResults.slice(0, 5));
                         })
-                        .catch(err => console.error("Fetching error:", err));
+                        .catch(err => console.log("Fetching error:", err));
                 }
                 else {
                     searchInput.value = '';
@@ -374,7 +414,7 @@
                     card.className = 'search-result-card';
                     card.style.cursor = 'pointer';
 
-                    const imagePath = item.poster_path || item.profile_path ? `https://image.tmdb.org/t/p/w500${item.poster_path || item.profile_path}` : null;
+                    const imagePath = item.poster_path || item.profile_path ? `https://image.tmdb.org/t/p/w300${item.poster_path || item.profile_path}` : null;
 
                     if (imagePath) {
                         const image = document.createElement('img');
@@ -417,7 +457,7 @@
                 console.log('Clicked item:', item.media_type, item.id);
 
                 if (!item.media_type) {
-                    console.error('Media type is undefined');
+                    console.log('Media type is undefined');
                     return;
                 }
 
@@ -445,11 +485,11 @@
                         }
                     }
                     catch (error) {
-                        console.error('Error fetching person details:', error);
+                        console.log('Error fetching person details:', error);
                     }
                 }
                 else {
-                    console.error('Unknown media type:', item.media_type);
+                    console.log('Unknown media type:', item.media_type);
                 }
             }
         });
@@ -539,6 +579,10 @@
     </footer>
 
     <div id="mobile-bottom-bar" class="mobile-bottom-bar">
+        <a href="chat.html" class="bottom-bar-item">
+            <i class="fas fa-comments"></i>
+            <span>Chat</span>
+        </a>
         <a href="settings.html" class="bottom-bar-item">
             <i class="fas fa-cog"></i>
             <span>Settings</span>
@@ -615,10 +659,11 @@
             isAnimating = true;
 
             const buttonIds = [
+                'chat-button',
                 'settings-btn',
-                'movie-of-the-day-btn',
                 'movie-match-btn3',
                 'movie-timeline-btn',
+                'movie-of-the-day-btn',
                 'discussions-btn',
                 'trivia-btn',
             ];
@@ -648,10 +693,11 @@
         window.addEventListener('resize', () => {
             if (window.innerWidth < 767) {
                 const buttonIds = [
+                    'chat-button',
                     'settings-btn',
-                    'movie-of-the-day-btn',
                     'movie-match-btn3',
                     'movie-timeline-btn',
+                    'movie-of-the-day-btn',
                     'discussions-btn',
                     'trivia-btn',
                 ];
@@ -667,5 +713,4 @@
     </script>
 
 </body>
-
 </html>

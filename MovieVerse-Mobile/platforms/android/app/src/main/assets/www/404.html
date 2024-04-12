@@ -8,10 +8,10 @@
     <link rel="canonical" href="https://movie-verse.com/404.html">
     <title>404 Not Found - The MovieVerse</title>
     <link rel="stylesheet" href="/MovieVerse-Frontend/css/style.css"/>
-    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="https://movie-verse.com/images/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <meta name="theme-color" content="#7378c5">
-    <link rel="manifest" href="/manifest.json">
+    <link rel="manifest" href="https://movie-verse.com/manifest.json">
     <meta property="og:title" content="The MovieVerse - Your Ultimate Movie Guide" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
@@ -36,7 +36,8 @@
     <meta name="twitter:description" content="404 Page Not Found - The page you are looking for does not exist on The MovieVerse. Explore our site to find movies, directors, actors, and more." />
     <meta name="twitter:image" content="https://movie-verse.com/images/image.png"/>
     <meta name="referrer" content="no-referrer-when-downgrade">
-
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap" as="style" onload="this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap"></noscript>
     <script type="text/javascript">
         (function(c,l,a,r,i,t,y){
             c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -121,7 +122,7 @@
                 localStorage.setItem('genreMap', JSON.stringify(genreMap));
             }
             catch (error) {
-                console.error('Error fetching genre map:', error);
+                console.log('Error fetching genre map:', error);
             }
         }
 
@@ -161,8 +162,12 @@
                     label: "Favorite Genre",
                     getValue: () => {
                         const mostCommonGenreCode = getMostCommonGenre();
-                        const genreMap = JSON.parse(localStorage.getItem('genreMap')) || {};
-                        return genreMap[mostCommonGenreCode] || 'Not Available';
+                        const genreArray = JSON.parse(localStorage.getItem('genreMap')) || [];
+                        const genreObject = genreArray.reduce((acc, genre) => {
+                            acc[genre.id] = genre.name;
+                            return acc;
+                        }, {});
+                        return genreObject[mostCommonGenreCode] || 'Not Available';
                     }
                 },
                 { label: "Watchlists Created", getValue: () => localStorage.getItem('watchlistsCreated') || 0 },
@@ -326,6 +331,7 @@
             </div>
         </form>
 
+        <button id="chat-button" onclick="window.location.href='https://movie-verse.com/MovieVerse-Frontend/html/chat.html'" style="bottom: 325px; right: 10px; z-index: 1001" title="Chat with fellow MovieVerse users!">Chat</button>
         <button id="settings-btn" style="position: fixed; bottom: 290px; right: 10px; z-index: 1001">Settings</button>
         <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" style="bottom: 255px; right: 10px; z-index: 1001" title="Get a recommended movie to watch for today!">Surprise Me!</button>
         <button id="movie-match-btn" onclick="window.location.href='https://movie-verse.com/MovieVerse-Frontend/html/movie-match.html'" title="Find movies that match your mood and preferences!" style="bottom: 220px; right: 10px; z-index: 1001">Movie Match</button>
@@ -336,6 +342,10 @@
     </header>
 
     <div id="mobile-bottom-bar" class="mobile-bottom-bar">
+        <a href="MovieVerse-Frontend/html/chat.html" class="bottom-bar-item">
+            <i class="fas fa-comments"></i>
+            <span>Chat</span>
+        </a>
         <a href="https://movie-verse.com/" class="bottom-bar-item">
             <i class="fas fa-home"></i>
             <span>Home</span>
@@ -416,6 +426,7 @@
             isAnimating = true;
 
             const buttonIds = [
+                'chat-button',
                 'settings-btn',
                 'movie-of-the-day-btn',
                 'movie-match-btn',
@@ -451,6 +462,7 @@
         window.addEventListener('resize', () => {
             if (window.innerWidth < 767) {
                 const buttonIds = [
+                    'chat-button',
                     'settings-btn',
                     'movie-of-the-day-btn',
                     'movie-match-btn',
@@ -500,7 +512,7 @@
                 }
             }
             catch (error) {
-                console.error('Error fetching movie:', error);
+                console.log('Error fetching movie:', error);
                 fallbackMovieSelection();
             }
         }
@@ -619,11 +631,8 @@
                 if (query) {
                     if (window.innerWidth > 800) {
                         myHeading.style.position = 'fixed';
-                        myHeading.style.top = '28px';
-                        localTime.style.position = 'fixed';
-                        localTime.style.left = '44.4%';
-                        localTime.style.top = '19px';
-                        localTime.style.zIndex = '0.0 !important';
+                        myHeading.style.top = '38px';
+                        localTime.style.display = 'none';
                         myHeading.style.zIndex = '0.05';
                         searchBar.style.marginTop = '16px';
                         searchButton.style.marginTop = '16px';
@@ -632,9 +641,7 @@
                 else {
                     myHeading.style.position = '';
                     myHeading.style.top = '';
-                    localTime.style.position = '';
-                    localTime.style.left = '';
-                    localTime.style.top = '';
+                    localTime.style.display = '';
                     searchBar.style.marginTop = '';
                     searchButton.style.marginTop = '';
                 }
@@ -726,7 +733,7 @@
                         .then(data => {
                             const sortedResults = data.results.sort((a, b) => b.popularity - a.popularity);
                             displaySearchResults(sortedResults.slice(0, 5));
-                        }).catch(err => console.error("Fetching error:", err));
+                        }).catch(err => console.log("Fetching error:", err));
                 }
                 else {
                     document.getElementById('search-results').innerHTML = '';
@@ -828,7 +835,7 @@
                         }
                     }
                     catch (error) {
-                        console.error('Error fetching person details:', error);
+                        console.log('Error fetching person details:', error);
                     }
                 }
             }
@@ -908,7 +915,9 @@
     </script>
 
     <footer style="margin-top: 400px">
-        <p>© 2024 The MovieVerse. All rights reserved.</p>
+        <a href="https://movie-verse.com/" style="cursor: pointer; text-decoration: none">
+            <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
+        </a>
     </footer>
 
 </body>

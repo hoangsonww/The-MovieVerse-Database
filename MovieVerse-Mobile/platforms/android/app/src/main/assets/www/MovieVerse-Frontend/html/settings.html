@@ -36,6 +36,8 @@
     <meta name="referrer" content="no-referrer-when-downgrade">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <link rel="manifest" href="../../manifest.json">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap" as="style" onload="this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap"></noscript>
     <style>
         .settings-container {
             text-align: center;
@@ -203,7 +205,8 @@
                 <button type="button" id="clear-search" style="display: none">Clear</button>
             </div>
         </form>
-        <button id="settings-btn" style="position: fixed; bottom: 265px; right: 10px">Settings</button>
+        <button id="chat-button" onclick="window.location.href='chat.html'" style="bottom: 300px; right: 10px; z-index: 1001" title="Chat with fellow MovieVerse users!">Chat</button>
+        <button id="settings-btn" onclick="window.location.href='settings.html'" style="position: fixed; bottom: 265px; right: 10px">Settings</button>
         <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 230px; right: 10px">Movie Match</button>
         <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 195px; right: 10px">Movie Timeline</button>
         <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 160px; right: 10px">Surprise Me!</button>
@@ -283,22 +286,6 @@
 
         <button style="font: inherit" id="reset-button">Reset to Defaults</button>
     </main>
-
-    <div id="ad-container" style="display: block; text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px);" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
-        <p style="margin: 0;">Advertisement</p>
-        <ins class="adsbygoogle"
-             style="display: block; width: 100%;"
-             data-ad-client="ca-pub-6608388491200814"
-             data-ad-slot="4832732030"
-             data-ad-format="auto"></ins>
-        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>
-    </div>
-
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6608388491200814"
-            crossorigin="anonymous"></script>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
 
     <div id="myModal" class="modal-overlay">
         <div class="spinner"></div>
@@ -403,7 +390,7 @@
                             const sortedResults = data.results.sort((a, b) => b.popularity - a.popularity);
                             displaySearchResults(sortedResults.slice(0, 5));
                         })
-                        .catch(err => console.error("Fetching error:", err));
+                        .catch(err => console.log("Fetching error:", err));
                 }
                 else {
                     searchInput.value = '';
@@ -488,7 +475,7 @@
                 console.log('Clicked item:', item.media_type, item.id);
 
                 if (!item.media_type) {
-                    console.error('Media type is undefined');
+                    console.log('Media type is undefined');
                     return;
                 }
 
@@ -516,11 +503,11 @@
                         }
                     }
                     catch (error) {
-                        console.error('Error fetching person details:', error);
+                        console.log('Error fetching person details:', error);
                     }
                 }
                 else {
-                    console.error('Unknown media type:', item.media_type);
+                    console.log('Unknown media type:', item.media_type);
                 }
             }
         });
@@ -704,7 +691,7 @@
                 }
             }
             catch (error) {
-                console.error('Error fetching movie:', error);
+                console.log('Error fetching movie:', error);
                 fallbackMovieSelection();
             }
         }
@@ -727,7 +714,7 @@
                 localStorage.setItem('genreMap', JSON.stringify(genreMap));
             }
             catch (error) {
-                console.error('Error fetching genre map:', error);
+                console.log('Error fetching genre map:', error);
             }
         }
 
@@ -767,8 +754,12 @@
                     label: "Favorite Genre",
                     getValue: () => {
                         const mostCommonGenreCode = getMostCommonGenre();
-                        const genreMap = JSON.parse(localStorage.getItem('genreMap')) || {};
-                        return genreMap[mostCommonGenreCode] || 'Not Available';
+                        const genreArray = JSON.parse(localStorage.getItem('genreMap')) || [];
+                        const genreObject = genreArray.reduce((acc, genre) => {
+                            acc[genre.id] = genre.name;
+                            return acc;
+                        }, {});
+                        return genreObject[mostCommonGenreCode] || 'Not Available';
                     }
                 },
                 { label: "Watchlists Created", getValue: () => localStorage.getItem('watchlistsCreated') || 0 },
@@ -913,6 +904,10 @@
     </script>
 
     <div id="mobile-bottom-bar" class="mobile-bottom-bar">
+        <a href="chat.html" class="bottom-bar-item">
+            <i class="fas fa-comments"></i>
+            <span>Chat</span>
+        </a>
         <a href="settings.html" class="bottom-bar-item">
             <i class="fas fa-cog"></i>
             <span>Settings</span>
@@ -935,7 +930,7 @@
         </a>
         <a href="trivia.html" class="bottom-bar-item">
             <i class="fas fa-question-circle"></i>
-            <span>Movie Trivia</span>
+            <span>Trivia</span>
         </a>
     </div>
 
@@ -989,10 +984,11 @@
             isAnimating = true;
 
             const buttonIds = [
+                'chat-button',
                 'settings-btn',
-                'movie-of-the-day-btn',
                 'movie-match-btn3',
                 'movie-timeline-btn',
+                'movie-of-the-day-btn',
                 'discussions-btn',
                 'trivia-btn',
             ];
@@ -1023,10 +1019,11 @@
         window.addEventListener('resize', () => {
             if (window.innerWidth < 767) {
                 const buttonIds = [
+                    'chat-button',
                     'settings-btn',
-                    'movie-of-the-day-btn',
                     'movie-match-btn3',
                     'movie-timeline-btn',
+                    'movie-of-the-day-btn',
                     'discussions-btn',
                     'trivia-btn',
                 ];

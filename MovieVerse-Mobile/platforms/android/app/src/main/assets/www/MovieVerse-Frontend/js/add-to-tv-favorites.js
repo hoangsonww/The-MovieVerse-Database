@@ -43,79 +43,113 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 export async function toggleFavoriteTVSeries() {
-    let userEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
     const tvSeriesId = localStorage.getItem('selectedTvSeriesId');
 
-    if (!tvSeriesId) {
-        console.error('TV Series ID is missing');
-        return;
-    }
+    try {
+        let userEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
 
-    if (!userEmail) {
-        console.log('User is not signed in. Using localStorage for favorites.');
-        let favoritesTVSeries = JSON.parse(localStorage.getItem('favoritesTVSeries')) || [];
+        if (!tvSeriesId) {
+            console.log('TV Series ID is missing');
+            return;
+        }
+
+        if (!userEmail) {
+            console.log('User is not signed in. Using localStorage for favorites.');
+            let favoritesTVSeries = JSON.parse(localStorage.getItem('favoritesTVSeries')) || [];
+            if (favoritesTVSeries.includes(tvSeriesId)) {
+                favoritesTVSeries = favoritesTVSeries.filter(id => id !== tvSeriesId);
+            } else {
+                favoritesTVSeries.push(tvSeriesId);
+            }
+            localStorage.setItem('favoritesTVSeries', JSON.stringify(favoritesTVSeries));
+            console.log('Favorites TV Series updated successfully in localStorage');
+            await checkAndUpdateFavoriteButtonTVSeries();
+            return;
+        }
+
+        const usersRef = query(collection(db, "MovieVerseUsers"), where("email", "==", userEmail));
+        const querySnapshot = await getDocs(usersRef);
+
+        let userDocRef;
+        if (querySnapshot.empty) {
+            console.log('Signed-in user does not have a Firestore document.');
+            return;
+        } else {
+            userDocRef = doc(db, "MovieVerseUsers", querySnapshot.docs[0].id);
+        }
+
+        const userData = querySnapshot.docs[0].data();
+        let favoritesTVSeries = userData.favoritesTVSeries || [];
+
         if (favoritesTVSeries.includes(tvSeriesId)) {
             favoritesTVSeries = favoritesTVSeries.filter(id => id !== tvSeriesId);
         } else {
             favoritesTVSeries.push(tvSeriesId);
         }
-        localStorage.setItem('favoritesTVSeries', JSON.stringify(favoritesTVSeries));
-        console.log('Favorites TV Series updated successfully in localStorage');
+
+        await updateDoc(userDocRef, {favoritesTVSeries});
+        console.log('Favorites TV Series updated successfully in Firestore');
         await checkAndUpdateFavoriteButtonTVSeries();
-        return;
+        window.location.reload();
+
     }
-
-    const usersRef = query(collection(db, "MovieVerseUsers"), where("email", "==", userEmail));
-    const querySnapshot = await getDocs(usersRef);
-
-    let userDocRef;
-    if (querySnapshot.empty) {
-        console.error('Signed-in user does not have a Firestore document.');
-        return;
+    catch (error) {
+        if (error.code === 'resource-exhausted') {
+            console.log('Firebase quota exceeded. Using localStorage for favorites.');
+            let favoritesTVSeries = JSON.parse(localStorage.getItem('favoritesTVSeries')) || [];
+            if (favoritesTVSeries.includes(tvSeriesId)) {
+                favoritesTVSeries = favoritesTVSeries.filter(id => id !== tvSeriesId);
+            }
+            else {
+                favoritesTVSeries.push(tvSeriesId);
+            }
+            localStorage.setItem('favoritesTVSeries', JSON.stringify(favoritesTVSeries));
+            console.log('Favorites TV Series updated successfully in localStorage');
+        }
+        else {
+            console.error('An error occurred:', error);
+        }
+        window.location.reload();
     }
-    else {
-        userDocRef = doc(db, "MovieVerseUsers", querySnapshot.docs[0].id);
-    }
-
-    const userData = querySnapshot.docs[0].data();
-    let favoritesTVSeries = userData.favoritesTVSeries || [];
-
-    if (favoritesTVSeries.includes(tvSeriesId)) {
-        favoritesTVSeries = favoritesTVSeries.filter(id => id !== tvSeriesId);
-    } else {
-        favoritesTVSeries.push(tvSeriesId);
-    }
-
-    await updateDoc(userDocRef, { favoritesTVSeries });
-    console.log('Favorites TV Series updated successfully in Firestore');
-    await checkAndUpdateFavoriteButtonTVSeries();
 }
 
 export async function checkAndUpdateFavoriteButtonTVSeries() {
     let userEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
     const tvSeriesId = localStorage.getItem('selectedTvSeriesId');
 
-    if (!tvSeriesId) {
-        console.error('TV Series ID is missing');
-        return;
+    try {
+
+        if (!tvSeriesId) {
+            console.log('TV Series ID is missing');
+            return;
+        }
+
+        let favoritesTVSeries = [];
+
+        if (userEmail) {
+            const usersRef = query(collection(db, "MovieVerseUsers"), where("email", "==", userEmail));
+            const querySnapshot = await getDocs(usersRef);
+
+            if (!querySnapshot.empty) {
+                const userData = querySnapshot.docs[0].data();
+                favoritesTVSeries = userData.favoritesTVSeries || [];
+            }
+        } else {
+            favoritesTVSeries = JSON.parse(localStorage.getItem('favoritesTVSeries')) || [];
+        }
+
+        updateFavoriteButtonTVSeries(tvSeriesId, favoritesTVSeries);
     }
-
-    let favoritesTVSeries = [];
-
-    if (userEmail) {
-        const usersRef = query(collection(db, "MovieVerseUsers"), where("email", "==", userEmail));
-        const querySnapshot = await getDocs(usersRef);
-
-        if (!querySnapshot.empty) {
-            const userData = querySnapshot.docs[0].data();
-            favoritesTVSeries = userData.favoritesTVSeries || [];
+    catch (error) {
+        if (error.code === 'resource-exhausted') {
+            console.log('Firebase quota exceeded. Using localStorage for favorites.');
+            let favoritesTVSeries = JSON.parse(localStorage.getItem('favoritesTVSeries')) || [];
+            updateFavoriteButtonTVSeries(tvSeriesId, favoritesTVSeries);
+        }
+        else {
+            console.error('An error occurred:', error);
         }
     }
-    else {
-        favoritesTVSeries = JSON.parse(localStorage.getItem('favoritesTVSeries')) || [];
-    }
-
-    updateFavoriteButtonTVSeries(tvSeriesId, favoritesTVSeries);
 }
 
 function updateFavoriteButtonTVSeries(tvSeriesId, favoritesTVSeries) {

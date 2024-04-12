@@ -55,7 +55,7 @@ async function fetchGenreMap() {
         localStorage.setItem('genreMap', JSON.stringify(genreMap));
     }
     catch (error) {
-        console.error('Error fetching genre map:', error);
+        console.log('Error fetching genre map:', error);
     }
 }
 
@@ -95,8 +95,12 @@ async function rotateUserStats() {
             label: "Favorite Genre",
             getValue: () => {
                 const mostCommonGenreCode = getMostCommonGenre();
-                const genreMap = JSON.parse(localStorage.getItem('genreMap')) || {};
-                return genreMap[mostCommonGenreCode] || 'Not Available';
+                const genreArray = JSON.parse(localStorage.getItem('genreMap')) || [];
+                const genreObject = genreArray.reduce((acc, genre) => {
+                    acc[genre.id] = genre.name;
+                    return acc;
+                }, {});
+                return genreObject[mostCommonGenreCode] || 'Not Available';
             }
         },
         { label: "Watchlists Created", getValue: () => localStorage.getItem('watchlistsCreated') || 0 },
@@ -551,7 +555,7 @@ async function fetchTvDetails(tvSeriesId) {
             <div style="display: flex; justify-content: center; align-items: center; text-align: center; margin-top: 40px; width: 100vw; height: 800px">
                 <h2>TV series details not found - Try again with another TV series</h2>
             </div>`;
-        console.error('Error fetching TV series details:', error);
+        console.log('Error fetching TV series details:', error);
         hideSpinner();
     }
 }
@@ -569,7 +573,7 @@ async function fetchTVRatings(imdbId) {
         return imdbRating;
     }
     catch (error) {
-        console.error('Error fetching TV series ratings:', error);
+        console.log('Error fetching TV series ratings:', error);
         return 'N/A';
     }
 }
@@ -587,7 +591,7 @@ function getCountryName(code) {
 function populateTvSeriesDetails(tvSeries, imdbRating) {
     const title = tvSeries.name || 'Title not available';
     document.getElementById('movie-title').textContent = title;
-    document.title = tvSeries.name + " - TV Series";
+    document.title = tvSeries.name + " - TV Series Details";
 
     const posterPath = tvSeries.poster_path ? `https://image.tmdb.org/t/p/w1280${tvSeries.poster_path}` : 'path/to/default/poster.jpg';
     document.getElementById('movie-image').src = posterPath;
@@ -782,7 +786,7 @@ async function showMovieOfTheDay() {
         }
     }
     catch (error) {
-        console.error('Error fetching movie:', error);
+        console.log('Error fetching movie:', error);
         fallbackMovieSelection();
     }
 }

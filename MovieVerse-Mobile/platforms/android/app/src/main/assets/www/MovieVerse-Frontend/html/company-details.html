@@ -36,9 +36,10 @@
     <meta name="referrer" content="no-referrer-when-downgrade">
     <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
-    <script src="../js/settings.js"></script>
     <link rel="manifest" href="../../manifest.json">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap" as="style" onload="this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap"></noscript>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
@@ -47,16 +48,6 @@
         gtag('config', 'G-CQKJ67FXZ4');
     </script>
     <style>
-        @media (min-width: 900px) {
-            #search {
-                margin-top: 0 !important;
-            }
-
-            #form1 {
-                margin-right: 19px !important;
-            }
-        }
-
         body {
             background-image: url("../../images/universe-1.png");
             background-repeat: repeat-y;
@@ -146,6 +137,7 @@
         </div>
     </div>
 
+    <button id="chat-button" onclick="window.location.href='chat.html'" style="bottom: 300px; right: 10px; z-index: 1001" title="Chat with fellow MovieVerse users!">Chat</button>
     <button id="settings-btn" style="position: fixed; bottom: 265px; right: 10px">Settings</button>
     <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 230px; right: 10px">Movie Match</button>
     <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 195px; right: 10px">Movie Timeline</button>
@@ -156,6 +148,10 @@
     <script src="../js/company-details.js"></script>
 
     <div id="mobile-bottom-bar" class="mobile-bottom-bar">
+        <a href="chat.html" class="bottom-bar-item">
+            <i class="fas fa-comments"></i>
+            <span>Chat</span>
+        </a>
         <a href="settings.html" class="bottom-bar-item">
             <i class="fas fa-cog"></i>
             <span>Settings</span>
@@ -178,7 +174,7 @@
         </a>
         <a href="trivia.html" class="bottom-bar-item">
             <i class="fas fa-question-circle"></i>
-            <span>Movie Trivia</span>
+            <span>Trivia</span>
         </a>
     </div>
 
@@ -232,10 +228,11 @@
             isAnimating = true;
 
             const buttonIds = [
+                'chat-button',
                 'settings-btn',
-                'movie-of-the-day-btn',
                 'movie-match-btn3',
                 'movie-timeline-btn',
+                'movie-of-the-day-btn',
                 'discussions-btn',
                 'trivia-btn',
             ];
@@ -265,10 +262,11 @@
         window.addEventListener('resize', () => {
             if (window.innerWidth < 767) {
                 const buttonIds = [
+                    'chat-button',
                     'settings-btn',
-                    'movie-of-the-day-btn',
                     'movie-match-btn3',
                     'movie-timeline-btn',
+                    'movie-of-the-day-btn',
                     'discussions-btn',
                     'trivia-btn',
                 ];
@@ -436,7 +434,7 @@
                             const sortedResults = data.results.sort((a, b) => b.popularity - a.popularity);
                             displaySearchResults(sortedResults.slice(0, 5));
                         })
-                        .catch(err => console.error("Fetching error:", err));
+                        .catch(err => console.log("Fetching error:", err));
                 }
                 else {
                     searchInput.value = '';
@@ -521,7 +519,7 @@
                 console.log('Clicked item:', item.media_type, item.id);
 
                 if (!item.media_type) {
-                    console.error('Media type is undefined');
+                    console.log('Media type is undefined');
                     return;
                 }
 
@@ -549,11 +547,11 @@
                         }
                     }
                     catch (error) {
-                        console.error('Error fetching person details:', error);
+                        console.log('Error fetching person details:', error);
                     }
                 }
                 else {
-                    console.error('Unknown media type:', item.media_type);
+                    console.log('Unknown media type:', item.media_type);
                 }
             }
         });

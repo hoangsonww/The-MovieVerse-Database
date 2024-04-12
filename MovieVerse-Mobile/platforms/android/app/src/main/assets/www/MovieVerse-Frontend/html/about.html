@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <title>About The MovieVerse - Your Ultimate Movie Guide</title>
     <meta property="og:title" content="About The MovieVerse - Your Ultimate Movie Guide" />
-    <script src="../js/settings.js"></script>
     <meta name="description" content="Learn about The MovieVerse, your ultimate movie guide. Discover our mission, features, and how we create a haven for movie enthusiasts to explore cinema.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta property="og:locale" content="en_US" />
@@ -37,6 +36,8 @@
     <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <link rel="manifest" href="../../manifest.json">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap" as="style" onload="this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap"></noscript>
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
     <script type="text/javascript">
@@ -56,13 +57,6 @@
     </script>
 
     <style>
-        #local-time {
-            transform: translateX(15%);
-            padding: 10px;
-            border-radius: 10px;
-            z-index: 10;
-        }
-
         @media (min-width: 900px) {
             #form1 {
                 margin-right: 0;
@@ -125,6 +119,8 @@
                 <button type="button" id="clear-search" style="display: none">Clear</button>
             </div>
         </form>
+
+        <button id="chat-button" onclick="window.location.href='chat.html'" style="bottom: 300px; right: 10px; z-index: 1001" title="Chat with fellow MovieVerse users!">Chat</button>
         <button id="settings-btn" style="position: fixed; bottom: 265px; right: 10px">Settings</button>
         <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 230px; right: 10px">Movie Match</button>
         <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 195px; right: 10px">Movie Timeline</button>
@@ -145,6 +141,7 @@
         </div>
 
         <ul style="overflow-y: auto">
+            <li><a href="analytics.html">MovieVerse Analytics</a></li>
             <li><a href="#aboutHeader">About The MovieVerse</a></li>
             <li><a href="#subheading1">Core Features</a></li>
             <li><a href="#subheading2">Explore Our Other Apps</a></li>
@@ -155,14 +152,15 @@
             <li><a href="privacy-policy.html">Privacy Policy</a></li>
             <li><a href="feedback.html">Submit Feedback</a></li>
             <li><a href="support.html">Contact Support</a></li>
-            <li><a href="analytics.html">MovieVerse Analytics</a></li>
+            <li><a href="sign-in.html">Sign In</a></li>
+            <li><a href="user-profile.html">Profile</a></li>
         </ul>
     </nav>
 
-    <main id="main2" style="margin-bottom: 0">
+    <main id="main2" style="margin: 0 auto">
         <h2 id="aboutHeader" style="align-self: center; cursor: pointer">About The MovieVerse</h2>
 
-        <p style="color: white">Welcome to The MovieVerse, your ultimate destination for exploring the magic of movies. Created by <a id="profileLink" href="http://github.com/hoangsonww">Son Nguyen</a> in 2023 with a vision to celebrate cinematic art, The MovieVerse offers a unique but comprehensive platform for movie lovers to discover, engage, and immerse themselves in the world of film!</p>
+        <p style="color: white; text-align: center">Welcome to The MovieVerse, your ultimate destination for exploring the magic of movies. Created by <strong><a id="profileLink" href="http://github.com/hoangsonww">Son Nguyen</a></strong> in 2023 with a vision to celebrate cinematic art, MovieVerse offers a unique but comprehensive platform for more than <strong>150,000</strong> movie lovers worldwide to discover, engage, and immerse themselves in the world of film!</p>
 
         <h3 id="subheading1" style="cursor: pointer">Core Features:</h3>
 
@@ -174,15 +172,18 @@
             <li><strong>Movie Timeline:</strong> Select a period and explore a curated list of movies from that era, offering a unique way to experience the evolution of film over time.</li>
             <li><strong>Movie Match/Recommendation:</strong> Find or get recommended a movie that matches your mood, genre, and time period, ensuring you always find the perfect movie to watch.</li>
             <li><strong>Detailed Filmography Insights:</strong> Delve into the careers of your favorite <a style="text-decoration: underline" id="githubLink1" href="director-details.html">directors</a>, <a style="text-decoration: underline" id="githubLink1" href="actor-details.html">actors</a>, and <a style="text-decoration: underline" id="githubLink1" href="company-details.html"> companies</a> with dedicated pages detailing their filmography and impact on cinema.</li>
-            <li><strong>Sign In/Sign Out:</strong> Sign in to your account to access your personalized movie recommendations, watchlists, and more.</li>
+            <li><strong>Sign In/Sign Out:</strong> Sign in to your account to access your personalized movie recommendations, <a style="text-decoration: underline" id="githubLink1" href="favorites.html">watchlists</a>, <a style="text-decoration: underline" id="githubLink1" href="user-profile.html">profile</a>, and more.</li>
             <li><strong>Watchlists:</strong> Save movies to your watchlist, ensuring you never miss out on a movie you want to watch. If you're signed in, these watchlists are <a style="text-decoration: underline" id="githubLink1" href="favorites.html">accessible</a> across all your devices!</li>
             <li><strong>Interesting User Stats:</strong> View your dynamic user stats, including your most common favorite genre, your average movie rating, and more.</li>
+            <li><strong>Chat Functionality:</strong> Engage with fellow movie enthusiasts through our secure <a style="text-decoration: underline" id="githubLink1" href="chat.html">chat</a> feature, where you can discuss and connect with like-minded MovieVerse individuals!</li>
             <li><strong>Search Functionality:</strong> Use our extensive <a style="text-decoration: underline" id="githubLink1" href="search.html">search</a> functionality to find movies, actors, directors, and TV series, ensuring you always find what you're looking for.</li>
             <li><strong>User Ratings and Reviews:</strong> <a style="text-decoration: underline" id="githubLink1" href="movie-details.html">Rate</a> movies on a scale of 1 to 10, with your ratings contributing to the overall rating of each movie in our database & share your thoughts and opinions with the MovieVerse community.</li>
             <li><strong>IMDb, Metacritics, and Rotten Tomatoes Ratings:</strong> Aside from ratings from our users, you can also view IMDb, Metacritics, and RT ratings for each movie directly <a style="text-decoration: underline" id="githubLink1" href="movie-details.html">within our app</a>.</li>
         </ul>
 
         <h3 id="subheading2" style="cursor: pointer">Explore Our Other Apps:</h3>
+
+        <p style="color: white; text-align: center; margin-bottom: 12px">Like MovieVerse, our other apps are designed to enhance your daily life and help you stay organized, focused, and informed. Check out our other apps below, or visit my <a style="text-decoration: underline" id="githubLink" href="https://github.com/hoangsonww">GitHub profile</a> for more!</p>
 
         <ul style="align-content: center; color: white">
             <li>
@@ -230,9 +231,16 @@
         <button onclick="window.location.href='terms-of-service.html'" style="border: none; margin-top: 40px" class="app-btn">Terms of Service</button>
         <button onclick="window.location.href='privacy-policy.html';" style="border: none; margin-top: 40px" class="app-btn">Privacy Policy</button>
         <button onclick="window.location.href='support.html'" style="border: none; margin-top: 40px" class="app-btn">Contact Support</button>
+
+        <br/>
+        <p style="color: white; margin-top: 25px; text-align: center"><strong>Note:</strong> Our databases might be overloaded at times due to significantly increased traffic during certain times of day. If you encounter any issues, please try again in a couple hours. However, all essential MovieVerse functions are unaffected. Thank you for your understanding, and we apologize for any inconvenience caused.</p>
     </main>
 
     <div id="mobile-bottom-bar" class="mobile-bottom-bar">
+        <a href="chat.html" class="bottom-bar-item">
+            <i class="fas fa-comments"></i>
+            <span>Chat</span>
+        </a>
         <a href="settings.html" class="bottom-bar-item">
             <i class="fas fa-cog"></i>
             <span>Settings</span>
@@ -255,7 +263,7 @@
         </a>
         <a href="trivia.html" class="bottom-bar-item">
             <i class="fas fa-question-circle"></i>
-            <span>Movie Trivia</span>
+            <span>Trivia</span>
         </a>
     </div>
 
@@ -309,10 +317,11 @@
             isAnimating = true;
 
             const buttonIds = [
+                'chat-button',
                 'settings-btn',
-                'movie-of-the-day-btn',
                 'movie-match-btn3',
                 'movie-timeline-btn',
+                'movie-of-the-day-btn',
                 'discussions-btn',
                 'trivia-btn',
             ];
@@ -343,10 +352,11 @@
         window.addEventListener('resize', () => {
             if (window.innerWidth < 767) {
                 const buttonIds = [
+                    'chat-button',
                     'settings-btn',
-                    'movie-of-the-day-btn',
-                    'movie-match-btn',
+                    'movie-match-btn3',
                     'movie-timeline-btn',
+                    'movie-of-the-day-btn',
                     'discussions-btn',
                     'trivia-btn',
                 ];
@@ -414,7 +424,7 @@
                 }
             }
             catch (error) {
-                console.error('Error fetching movie:', error);
+                console.log('Error fetching movie:', error);
                 fallbackMovieSelection();
             }
         }
@@ -560,7 +570,7 @@
                 localStorage.setItem('genreMap', JSON.stringify(genreMap));
             }
             catch (error) {
-                console.error('Error fetching genre map:', error);
+                console.log('Error fetching genre map:', error);
             }
         }
 
@@ -600,8 +610,12 @@
                     label: "Favorite Genre",
                     getValue: () => {
                         const mostCommonGenreCode = getMostCommonGenre();
-                        const genreMap = JSON.parse(localStorage.getItem('genreMap')) || {};
-                        return genreMap[mostCommonGenreCode] || 'Not Available';
+                        const genreArray = JSON.parse(localStorage.getItem('genreMap')) || [];
+                        const genreObject = genreArray.reduce((acc, genre) => {
+                            acc[genre.id] = genre.name;
+                            return acc;
+                        }, {});
+                        return genreObject[mostCommonGenreCode] || 'Not Available';
                     }
                 },
                 { label: "Watchlists Created", getValue: () => localStorage.getItem('watchlistsCreated') || 0 },
@@ -888,7 +902,7 @@
                             const sortedResults = data.results.sort((a, b) => b.popularity - a.popularity);
                             displaySearchResults(sortedResults.slice(0, 5));
                         })
-                        .catch(err => console.error("Fetching error:", err));
+                        .catch(err => console.log("Fetching error:", err));
                 }
                 else {
                     searchInput.value = '';
@@ -973,7 +987,7 @@
                 console.log('Clicked item:', item.media_type, item.id);
 
                 if (!item.media_type) {
-                    console.error('Media type is undefined');
+                    console.log('Media type is undefined');
                     return;
                 }
 
@@ -1001,11 +1015,11 @@
                         }
                     }
                     catch (error) {
-                        console.error('Error fetching person details:', error);
+                        console.log('Error fetching person details:', error);
                     }
                 }
                 else {
-                    console.error('Unknown media type:', item.media_type);
+                    console.log('Unknown media type:', item.media_type);
                 }
             }
         });

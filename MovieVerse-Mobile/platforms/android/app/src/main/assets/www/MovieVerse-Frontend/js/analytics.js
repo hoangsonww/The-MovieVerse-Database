@@ -32,7 +32,7 @@ async function fetchData(url) {
         return await response.json();
     }
     catch (error) {
-        console.error('Error fetching data:', error);
+        console.log('Error fetching data:', error);
         return null;
     }
 }
@@ -334,6 +334,82 @@ async function loadMoviesByProductionCountriesChart() {
     hideSpinner();
 }
 
+async function loadTopRatedMoviesPerYearChart() {
+    const years = [];
+    const topMovies = [];
+    const currentYear = new Date().getFullYear();
+
+    for (let year = currentYear - 10; year <= currentYear; year++) {
+        years.push(year);
+        const response = await fetchData(`${BASE_URL}/discover/movie?${generateMovieNames()}=${string}&primary_release_year=${year}&sort_by=vote_average.desc&vote_count.gte=100`);
+        if (response.results.length > 0) {
+            topMovies.push(response.results[0].vote_average);
+        }
+        else {
+            topMovies.push(0);
+        }
+    }
+
+    createChart('chart11', 'bar', {
+        labels: years,
+        datasets: [{
+            label: 'Top Rated Movie Score',
+            data: topMovies,
+            backgroundColor: 'rgba(255, 159, 64, 1)',
+            borderColor: 'rgba(255, 159, 64, 1)',
+            borderWidth: 1
+        }]
+    });
+}
+
+async function loadTotalMovieVotesOverYearsChart() {
+    const years = [];
+    const totalVoteCounts = [];
+    const currentYear = new Date().getFullYear();
+
+    for (let year = currentYear - 10; year <= currentYear; year++) {
+        years.push(year);
+        const response = await fetchData(`${BASE_URL}/discover/movie?${generateMovieNames()}=${string}&primary_release_year=${year}`);
+        const yearlyTotalVotes = response.results.reduce((sum, movie) => sum + movie.vote_count, 0);
+        totalVoteCounts.push(yearlyTotalVotes);
+    }
+
+    createChart('chartVotesOverYears', 'line', {
+        labels: years,
+        datasets: [{
+            label: 'Total Movie Votes',
+            data: totalVoteCounts,
+            backgroundColor: 'rgba(255, 193, 7, 1)',
+            borderColor: 'rgba(255, 193, 7, 1)',
+            borderWidth: 1
+        }]
+    });
+}
+
+async function loadHighlyRatedMoviesOverYearsChart() {
+    const years = [];
+    const highRatedMovieCounts = [];
+    const currentYear = new Date().getFullYear();
+    const startYear = currentYear - 10;
+
+    for (let year = startYear; year <= currentYear; year++) {
+        years.push(year);
+        const response = await fetchData(`${BASE_URL}/discover/movie?${generateMovieNames()}=${string}&primary_release_year=${year}&vote_average.gte=8`);
+        highRatedMovieCounts.push(response.total_results);
+    }
+
+    createChart('chartHighlyRatedMovies', 'line', {
+        labels: years,
+        datasets: [{
+            label: 'Highly Rated Movies (Rating >= 8)',
+            data: highRatedMovieCounts,
+            backgroundColor: 'rgba(0, 206, 209, 1)',
+            borderColor: 'rgba(0, 206, 209, 1)',
+            borderWidth: 1
+        }]
+    });
+}
+
 function loadAllCharts() {
     loadMoviesByYearChart();
     loadGenrePopularityChart();
@@ -344,6 +420,9 @@ function loadAllCharts() {
     loadMovieReleaseDatesByMonthChart();
     loadMoviesByDecadeChart();
     loadMoviesByProductionCountriesChart();
+    loadTopRatedMoviesPerYearChart();
+    loadTotalMovieVotesOverYearsChart();
+    loadHighlyRatedMoviesOverYearsChart();
 }
 
 document.addEventListener('DOMContentLoaded', loadAllCharts);
@@ -369,7 +448,7 @@ async function showMovieOfTheDay() {
         }
     }
     catch (error) {
-        console.error('Error fetching movie:', error);
+        console.log('Error fetching movie:', error);
         fallbackMovieSelection();
     }
 }
@@ -465,7 +544,7 @@ async function fetchGenreMap() {
         localStorage.setItem('genreMap', JSON.stringify(genreMap));
     }
     catch (error) {
-        console.error('Error fetching genre map:', error);
+        console.log('Error fetching genre map:', error);
     }
 }
 
@@ -505,8 +584,12 @@ async function rotateUserStats() {
             label: "Favorite Genre",
             getValue: () => {
                 const mostCommonGenreCode = getMostCommonGenre();
-                const genreMap = JSON.parse(localStorage.getItem('genreMap')) || {};
-                return genreMap[mostCommonGenreCode] || 'Not Available';
+                const genreArray = JSON.parse(localStorage.getItem('genreMap')) || [];
+                const genreObject = genreArray.reduce((acc, genre) => {
+                    acc[genre.id] = genre.name;
+                    return acc;
+                }, {});
+                return genreObject[mostCommonGenreCode] || 'Not Available';
             }
         },
         { label: "Watchlists Created", getValue: () => localStorage.getItem('watchlistsCreated') || 0 },

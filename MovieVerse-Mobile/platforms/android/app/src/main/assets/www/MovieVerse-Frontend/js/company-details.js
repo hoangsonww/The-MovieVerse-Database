@@ -59,7 +59,7 @@ async function fetchGenreMap() {
         localStorage.setItem('genreMap', JSON.stringify(genreMap));
     }
     catch (error) {
-        console.error('Error fetching genre map:', error);
+        console.log('Error fetching genre map:', error);
     }
 }
 
@@ -99,8 +99,12 @@ async function rotateUserStats() {
             label: "Favorite Genre",
             getValue: () => {
                 const mostCommonGenreCode = getMostCommonGenre();
-                const genreMap = JSON.parse(localStorage.getItem('genreMap')) || {};
-                return genreMap[mostCommonGenreCode] || 'Not Available';
+                const genreArray = JSON.parse(localStorage.getItem('genreMap')) || [];
+                const genreObject = genreArray.reduce((acc, genre) => {
+                    acc[genre.id] = genre.name;
+                    return acc;
+                }, {});
+                return genreObject[mostCommonGenreCode] || 'Not Available';
             }
         },
         { label: "Watchlists Created", getValue: () => localStorage.getItem('watchlistsCreated') || 0 },
@@ -401,7 +405,7 @@ async function fetchCompanyDetails(companyId) {
         hideSpinner();
     }
     catch (error) {
-        console.error('Error fetching company details:', error);
+        console.log('Error fetching company details:', error);
         const companyDetailsContainer = document.getElementById('company-details-container');
         companyDetailsContainer.innerHTML = `
             <div style="display: flex; justify-content: center; align-items: center; height: 100vh; text-align: center; width: 100vw;">
@@ -424,7 +428,7 @@ async function fetchCompanyMovies(companyId) {
         displayCompanyMovies(data.results);
     }
     catch (error) {
-        console.error('Error fetching movies:', error);
+        console.log('Error fetching movies:', error);
     }
 }
 
@@ -447,7 +451,7 @@ async function showMovieOfTheDay() {
         }
     }
     catch (error) {
-        console.error('Error fetching movie:', error);
+        console.log('Error fetching movie:', error);
         fallbackMovieSelection();
     }
 }

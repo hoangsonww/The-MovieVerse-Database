@@ -1,11 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap');
-
 * {
     box-sizing: border-box;
 }
 
 body {
-    background-image: url("../../images/universe-1.png");
+    background-image: url("https://movie-verse.com/images/universe-1.webp");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -117,6 +115,123 @@ button:disabled {
     margin-top: 5px;
 }
 
+#toggle-filters-btn {
+    margin: 10px;
+    background-color: #7378c5;
+    color: white;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s ease;
+    padding: 10px 20px;
+    font-size: 16px;
+    font: inherit;
+}
+
+#toggle-filters-btn:hover {
+    background-color: #ff8623;
+    transition: 0.1s ease;
+}
+
+#movie-tv-filters, #people-filters, #tv-filters {
+    max-width: 500px;
+    margin: 4px auto;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border: 2px solid #7378c5;
+    min-width: 290px;
+}
+
+#movie-tv-filters label, #movie-tv-filters select, #movie-tv-filters input[type="number"], #movie-tv-filters input[type="range"],
+#people-filters label, #people-filters select, #people-filters input[type="range"], #people-filters input[type="number"], #tv-filters label, #tv-filters select, #tv-filters input[type="range"], #tv-filters input[type="number"] {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    font-family: "Poppins", sans-serif;
+    color: #fff;
+}
+
+#movie-tv-filters label, #people-filters label, #tv-filters label {
+    margin-bottom: 5px;
+    font-size: 1rem;
+}
+
+#movie-tv-filters select, #people-filters select, #tv-filters select {
+    background-color: #7378c5;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 25px;
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+#movie-tv-filters select:hover, #people-filters select:hover, #tv-filters select:hover {
+    background-color: #ff8623;
+    transition: background-color 0.3s ease;
+}
+
+#movie-tv-filters select:focus, #people-filters select:focus, #tv-filters select:focus {
+    background-color: #7378c5;
+}
+
+#movie-tv-filters select:focus option:hover, #people-filters select:focus option:hover, #tv-filters select:focus option:hover {
+    background-color: #ff8623;
+}
+
+#movie-tv-filters input[type="number"], #people-filters input[type="range"], #people-filters input[type="number"], #tv-filters input[type="range"], #tv-filters input[type="number"] {
+    background-color: #7378c5;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 25px;
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+#movie-tv-filters input[type="number"]:hover, #people-filters input[type="range"]:hover, #people-filters input[type="number"]:hover, #tv-filters input[type="range"]:hover, #tv-filters input[type="number"]:hover {
+    background-color: #ff8623;
+    transition: background-color 0.3s ease;
+}
+
+#reset-filters {
+    background-color: #7378c5;
+    font: inherit;
+    border-radius: 25px;
+    border: none;
+    cursor: pointer;
+    color: white;
+    padding: 10px 15px;
+    margin-top: 30px;
+    display: block;
+    width: 100%;
+}
+
+#reset-filters:hover {
+    background-color: #ff8623;
+    transition: background-color 0.3s ease;
+}
+
+#rating-filter {
+    vertical-align: top;
+}
+
+#movie-tv-filters span, #people-filters span {
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+input[type=range] {
+    cursor: pointer;
+}
+
+#rating-value {
+    font-weight: normal;
+    font: inherit;
+}
+
 .modal-header h3 {
     flex-grow: 1;
     text-align: center;
@@ -127,6 +242,14 @@ button:disabled {
     cursor: pointer;
     position: absolute;
     right: 10px;
+}
+
+#year-filter::placeholder {
+    color: white;
+}
+
+#year-tv-filter::placeholder {
+    color: white;
 }
 
 #toggle-comment-modal, #prev-page, #next-page {
@@ -247,7 +370,6 @@ html {
     text-align: center;
     color: orange;
     scroll-behavior: smooth;
-    margin-left: 25px;
 }
 
 .main2 p {
@@ -309,7 +431,7 @@ header h1 {
 }
 
 .highlight:hover {
-    color: #ff00dd;
+    color: #ff8623;
 }
 
 .search:focus {
@@ -396,9 +518,8 @@ header h1 {
 }
 
 .red {
-    color: #F44336;
+    color: #ff0000;
 }
-
 
 #profileBtn {
     background-color: #7378c5;
@@ -682,6 +803,23 @@ header h1 {
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
+#loadMoreButton {
+    background-color: #7378c5;
+    font: inherit;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    padding: 10px 15px;
+    color: white;
+    margin-top: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+#loadMoreButton:hover {
+    background-color: #ff8623;
+    transition: 0.3s ease-in;
+}
+
 #movie-of-the-day-btn:hover {
     background-color: #ff8623;
     transition: 0.1s linear;
@@ -940,6 +1078,51 @@ header h1 {
     transition: 0.1s ease-in;
 }
 
+#githubLink2 {
+    color: white !important;
+}
+
+#githubLink2:hover {
+    color: #ff8623 !important;
+    transition: 0.1s ease-in;
+}
+
+#githubLink3 {
+    color: white !important;
+}
+
+#githubLink3:hover {
+    color: #ff8623 !important;
+    transition: 0.1s ease-in;
+}
+
+#githubLink4 {
+    color: white !important;
+}
+
+#githubLink4:hover {
+    color: #ff8623 !important;
+    transition: 0.1s ease-in;
+}
+
+#githubLink5 {
+    color: white !important;
+}
+
+#githubLink5:hover {
+    color: #ff8623 !important;
+    transition: 0.1s ease-in;
+}
+
+#githubLink6 {
+    color: white !important;
+}
+
+#githubLink6:hover {
+    color: #ff8623 !important;
+    transition: 0.1s ease-in;
+}
+
 .modal-overlay {
     display: none;
     position: fixed;
@@ -1034,14 +1217,14 @@ p {
 }
 
 .movie-details-body {
-    background-image: url("../../images/universe-1.png");
+    background-image: url("https://movie-verse.com/images/universe-1.webp");
     background-size: cover;
     background-position: center;
     background-repeat: repeat;
 }
 
 .movie-details-body2 {
-    background-image: url("../../images/universe-1.png");
+    background-image: url("https://movie-verse.com/images/universe-1.webp");
     background-position: center;
     height: 100vh;
     background-size: auto;
@@ -1049,7 +1232,7 @@ p {
 }
 
 .movie-details-body3 {
-    background-image: url("../../images/universe-1.png");
+    background-image: url("https://movie-verse.com/images/universe-1.webp");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -1057,7 +1240,7 @@ p {
 }
 
 .movie-details-body4 {
-    background-image: url("../../images/universe-1.png");
+    background-image: url("https://movie-verse.com/images/universe-1.webp");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -1544,6 +1727,17 @@ p {
     transition: 0.1s linear;
 }
 
+#settings-container {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 32px;
+    color: white;
+    margin: 5px auto;
+    max-width: 480px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+#chat-button,
 #settings-btn,
 #movie-of-the-day-btn,
 #movie-match-btn,
@@ -1559,6 +1753,7 @@ p {
 }
 
 @media (min-width: 768px) {
+    #chat-button,
     #settings-btn,
     #movie-of-the-day-btn,
     #movie-match-btn,
@@ -1588,17 +1783,14 @@ p {
     box-shadow: 0 -2px 5px rgba(0,0,0,0.2);
     justify-content: space-around;
     align-items: center;
-    z-index: 1000002;
+    z-index: 100000222;
+    transition: transform 0.09s ease-in-out;
 }
 
 @media (max-width: 767px) {
     .mobile-bottom-bar {
         display: flex;
     }
-}
-
-.mobile-bottom-bar {
-    transition: transform 0.09s ease-in-out;
 }
 
 .hide-bar {
@@ -1639,6 +1831,7 @@ p {
         display: flex;
     }
 
+    #chat-button,
     #settings-btn,
     #movie-of-the-day-btn,
     #movie-match-btn,
@@ -1656,12 +1849,148 @@ p {
     cursor: not-allowed;
 }
 
+.search-users-container {
+    text-align: center;
+    margin: 20px auto;
+    background-color: rgba(55, 59, 105, 0.8);
+    padding: 15px;
+    border-radius: 8px;
+    max-width: 500px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    color: white;
+    font: inherit;
+}
+
+.search-users-container input[type="text"] {
+    width: 70%;
+    padding: 10px;
+    margin-right: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font: inherit;
+}
+
+.search-users-container button {
+    padding: 10px 20px;
+    background-color: #7378c5;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font: inherit;
+}
+
+.search-users-container button:hover {
+    background-color: #ff8623;
+}
+
+.search-results-container {
+    display: none;
+    background-color: rgba(211, 211, 211, 0.5);
+    max-width: 500px;
+    margin: 10px auto;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    text-align: left;
+}
+
+#viewMyProfileBtn {
+    display: block;
+    background-color: #7378c5;
+    color: white;
+    padding: 10px 20px;
+    margin: 20px auto;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font: inherit;
+}
+
+#viewMyProfileBtn:hover {
+    background-color: #ff8623;
+}
+
+.user-search-result {
+    background-color: rgba(55, 59, 105, 0.8);
+    margin: 10px auto;
+    padding: 10px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    color: white;
+    transition: background-color 0.3s ease;
+    height: 100px;
+    max-width: 400px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.user-search-result:hover {
+    background-color: #ff8623;
+}
+
+.user-search-result img {
+    width: auto;
+    height: 95%;
+    max-height: 100px;
+    margin-right: 10px;
+    border-radius: 8px;
+    object-fit: contain;
+}
+
+#userLink {
+    color: black;
+}
+
+#userLink:hover {
+    color: #ff710d;
+}
+
+#chat-button {
+    background-color: #7378c5;
+    bottom: 325px;
+    right: 10px;
+    color: black;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font: inherit;
+    position: fixed;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+#chat-button:hover {
+    background-color: #ff8623;
+    transition: 0.1s ease-in;
+}
+
+.user-search-result div {
+    width: 67%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+}
+
+.user-search-result strong {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.user-search-result p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
 .pagination {
     border-radius: 8px;
     background-color: rgba(255, 255, 255, 0.1);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     padding: 10px;
     margin: 10px;
+    text-align: center;
 }
 
 @media (max-width: 767px) {
@@ -2269,7 +2598,7 @@ canvas {
     }
 
     #movie-details-body3 {
-        background-image: url("../../images/universe.jpg");
+        background-image: url("https://movie-verse.com/images/universe-1.webp");
         background-position: center;
         height: 100vh;
         background-size: auto;
@@ -2283,90 +2612,6 @@ canvas {
 
     #indexLink {
         margin-bottom: -15px;
-    }
-
-    #most-popular {
-        margin-left: 10px;
-    }
-
-    #main2 {
-        margin-left: 10px;
-    }
-
-    #action {
-        margin-left: 10px;
-    }
-
-    #horror {
-        margin-left: 10px;
-    }
-
-    #documentary {
-        margin-left: 10px;
-    }
-
-    #animation {
-        margin-left: 10px;
-    }
-
-    #sci-fi {
-        margin-left: 10px;
-    }
-
-    #romantic {
-        margin-left: 10px;
-    }
-
-    #thriller {
-        margin-left: 10px;
-    }
-
-    #mystery {
-        margin-left: 10px;
-    }
-
-    #adventure {
-        margin-left: 10px;
-    }
-
-    #comedy {
-        margin-left: 10px;
-    }
-
-    #fantasy {
-        margin-left: 10px;
-    }
-
-    #family {
-        margin-left: 10px;
-    }
-
-    #tv-series {
-        margin-left: 10px;
-    }
-
-    #crime {
-        margin-left: 10px;
-    }
-
-    #award-winning {
-        margin-left: 10px;
-    }
-
-    #hidden-gems {
-        margin-left: 10px;
-    }
-
-    #classic {
-        margin-left: 10px;
-    }
-
-    #director-spotlight {
-        margin-left: 10px;
-    }
-
-    #korean {
-        margin-left: 10px;
     }
 
     .back-btn {
@@ -2549,7 +2794,7 @@ canvas {
     .watchlist-buttons-container {
         margin-left: -3px;
     }
-    
+
 }
 
 .year-input-container {
@@ -2565,7 +2810,7 @@ canvas {
 }
 
 #load-movies {
-    padding: 10px 20px;
+    padding: 10px 10px;
     background-color: #7378c5;
     color: white;
     border: none;
@@ -2576,6 +2821,7 @@ canvas {
 
 #load-movies:hover {
     background-color: #ff8623;
+    transition: 0.1s linear;
 }
 
 .movie-card {
@@ -2635,6 +2881,13 @@ canvas {
 }
 
 .timeline-container {
+    margin: 20px auto;
+    background-color: rgba(255,255,255,0.1);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    max-width: 75%;
+    border-radius: 8px;
+    margin-top: 50px;
     text-align: center;
 }
 
@@ -2762,6 +3015,17 @@ canvas {
 }
 
 #search-title:hover {
+    color: #f509d9;
+}
+
+#search-title1 {
+    color: #ff8623;
+    text-align: center;
+    font-size: 1.74rem;
+    margin-bottom: 20px;
+}
+
+#search-title1:hover {
     color: #f509d9;
 }
 

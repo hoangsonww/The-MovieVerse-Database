@@ -43,18 +43,31 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 document.getElementById('resetPasswordForm').addEventListener('submit', async function(event) {
-    event.preventDefault();
-    const resetEmail = document.getElementById('resetEmail').value;
+    try {
+        event.preventDefault();
+        const resetEmail = document.getElementById('resetEmail').value;
 
-    const q = query(collection(db, "MovieVerseUsers"), where("email", "==", resetEmail));
-    const querySnapshot = await getDocs(q);
+        const q = query(collection(db, "MovieVerseUsers"), where("email", "==", resetEmail));
+        const querySnapshot = await getDocs(q);
 
-    if (querySnapshot.empty) {
-        alert("No account with such credentials exists in our database, or you might have mistyped something. Please try again.");
-        return;
+        if (querySnapshot.empty) {
+            alert("No account with such credentials exists in our database, or you might have mistyped something. Please try again.");
+            return;
+        }
+
+        document.getElementById('newPasswordFields').style.display = 'block';
     }
-
-    document.getElementById('newPasswordFields').style.display = 'block';
+    catch (error) {
+        console.error("Error fetching user list: ", error);
+        if (error.code === 'resource-exhausted') {
+            const noUserSelected = document.getElementById('password-reset-form-container');
+            if (noUserSelected) {
+                noUserSelected.innerHTML = "Sorry, our database is currently overloaded. Please try reloading once more, and if that still doesn't work, please try again in a couple hours. For full transparency, we are currently using a database that has a limited number of reads and writes per day due to lack of funding. Thank you for your patience as we work on scaling our services. At the mean time, feel free to use other MovieVerse features!";
+                noUserSelected.style.height = '350px';
+            }
+            hideSpinner();
+        }
+    }
 });
 
 async function updatePassword() {
@@ -89,7 +102,7 @@ async function updatePassword() {
                 alert("Password updated successfully!");
                 window.location.href = 'sign-in.html';
             }).catch((error) => {
-                console.error("Error updating password: ", error);
+                console.log("Error updating password: ", error);
                 alert("Failed to update password. Please try again.");
             });
         });

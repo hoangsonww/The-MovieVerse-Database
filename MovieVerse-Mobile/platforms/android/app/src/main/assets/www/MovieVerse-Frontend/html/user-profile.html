@@ -39,6 +39,8 @@
     <link rel="icon" href="../../images/favicon.ico" type="image/x-icon"/>
     <link rel="stylesheet" href="../css/style.css"/>
     <link rel="manifest" href="../../manifest.json">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap" as="style" onload="this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap"></noscript>
     <script type="text/javascript">
         (function(c,l,a,r,i,t,y){
             c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -277,14 +279,6 @@
             #search {
                 margin-top: 0 !important;
             }
-
-            #form1 {
-                margin-right: 19px;
-            }
-        }
-
-        #local-time {
-            transform: translateX(20%);
         }
 
         body {
@@ -338,6 +332,7 @@
                 <button type="button" id="clear-search" style="display: none">Clear</button>
             </div>
         </form>
+        <button id="chat-button" onclick="window.location.href='chat.html'" style="bottom: 300px; right: 10px; z-index: 1001" title="Chat with fellow MovieVerse users!">Chat</button>
         <button id="settings-btn" style="position: fixed; bottom: 265px; right: 10px">Settings</button>
         <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 230px; right: 10px">Movie Match</button>
         <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 195px; right: 10px">Movie Timeline</button>
@@ -348,13 +343,21 @@
 
     <div id="welcomeMessage" style="color: #ff8623; font-weight: bold; font-size: 30px; text-align: center; margin-top: 30px;"></div>
 
+    <div class="search-users-container" id="search-users-container">
+        <input type="text" id="searchUserInput" placeholder="Search For MovieVerse Users...">
+        <button id="searchUserBtn">Search</button>
+    </div>
+    <div id="searchUserResults" class="search-results-container"></div>
+    <button id="viewMyProfileBtn" style="margin-top: 20px;">View My Profile</button>
+
     <div id="profileContainer" class="profile-container" style="margin-bottom: 300px">
         <div class="profile-image-container">
             <img id="profileImage" style="cursor: pointer" title="Click to upload a new profile image" onclick="document.getElementById('imageUpload').click()" src="../../images/user-default.png" alt="Profile Image" />
-            <button id="removeProfileImage" title="Click to remove the current profile image" onclick="removeProfileImage()" style="display: none;">&times;</button>
+            <button id="removeProfileImage" title="Click to remove the current profile image" style="display: none;">&times;</button>
         </div>
+
         <input type="file" id="imageUpload" accept="image/*" hidden />
-        <button onclick="document.getElementById('imageUpload').click()">Change Profile Image</button>
+        <button id="changeProfileImageBtn" onclick="document.getElementById('imageUpload').click()">Change Profile Image</button>
 
         <div class="profile-info">
             <p id="usernameDisplay">Username: <span></span></p>
@@ -367,6 +370,8 @@
             <p id="favoriteActorDisplay"><strong>Favorite Actor:</strong> <span></span></p>
             <p id="favoriteDirectorDisplay"><strong>Favorite Director:</strong> <span></span></p>
             <p id="personalQuoteDisplay"><strong>Personal Quote:</strong> <span></span></p>
+            <p id="followingDisplay"><strong>Following:</strong> <span id="followingList"></span></p>
+            <p id="followersDisplay"><strong>Followers:</strong> <span id="followersList"></span></p>
         </div>
         <button id="editProfileBtn">Edit Profile Details</button>
     </div>
@@ -506,7 +511,7 @@
                             const sortedResults = data.results.sort((a, b) => b.popularity - a.popularity);
                             displaySearchResults(sortedResults.slice(0, 5));
                         })
-                        .catch(err => console.error("Fetching error:", err));
+                        .catch(err => console.log("Fetching error:", err));
                 }
                 else {
                     searchInput.value = '';
@@ -591,7 +596,7 @@
                 console.log('Clicked item:', item.media_type, item.id);
 
                 if (!item.media_type) {
-                    console.error('Media type is undefined');
+                    console.log('Media type is undefined');
                     return;
                 }
 
@@ -619,11 +624,11 @@
                         }
                     }
                     catch (error) {
-                        console.error('Error fetching person details:', error);
+                        console.log('Error fetching person details:', error);
                     }
                 }
                 else {
-                    console.error('Unknown media type:', item.media_type);
+                    console.log('Unknown media type:', item.media_type);
                 }
             }
         });
@@ -744,7 +749,7 @@
                 }
             }
             catch (error) {
-                console.error('Error fetching movie:', error);
+                console.log('Error fetching movie:', error);
                 fallbackMovieSelection();
             }
         }
@@ -802,7 +807,7 @@
                 localStorage.setItem('genreMap', JSON.stringify(genreMap));
             }
             catch (error) {
-                console.error('Error fetching genre map:', error);
+                console.log('Error fetching genre map:', error);
             }
         }
 
@@ -842,8 +847,12 @@
                     label: "Favorite Genre",
                     getValue: () => {
                         const mostCommonGenreCode = getMostCommonGenre();
-                        const genreMap = JSON.parse(localStorage.getItem('genreMap')) || {};
-                        return genreMap[mostCommonGenreCode] || 'Not Available';
+                        const genreArray = JSON.parse(localStorage.getItem('genreMap')) || [];
+                        const genreObject = genreArray.reduce((acc, genre) => {
+                            acc[genre.id] = genre.name;
+                            return acc;
+                        }, {});
+                        return genreObject[mostCommonGenreCode] || 'Not Available';
                     }
                 },
                 { label: "Watchlists Created", getValue: () => localStorage.getItem('watchlistsCreated') || 0 },
@@ -1037,6 +1046,10 @@
     </footer>
 
     <div id="mobile-bottom-bar" class="mobile-bottom-bar">
+        <a href="chat.html" class="bottom-bar-item">
+            <i class="fas fa-comments"></i>
+            <span>Chat</span>
+        </a>
         <a href="settings.html" class="bottom-bar-item">
             <i class="fas fa-cog"></i>
             <span>Settings</span>
@@ -1059,7 +1072,7 @@
         </a>
         <a href="trivia.html" class="bottom-bar-item">
             <i class="fas fa-question-circle"></i>
-            <span>Movie Trivia</span>
+            <span>Trivia</span>
         </a>
     </div>
 
@@ -1113,10 +1126,11 @@
             isAnimating = true;
 
             const buttonIds = [
+                'chat-button',
                 'settings-btn',
-                'movie-of-the-day-btn',
                 'movie-match-btn3',
                 'movie-timeline-btn',
+                'movie-of-the-day-btn',
                 'discussions-btn',
                 'trivia-btn',
             ];
@@ -1146,10 +1160,11 @@
         window.addEventListener('resize', () => {
             if (window.innerWidth < 767) {
                 const buttonIds = [
+                    'chat-button',
                     'settings-btn',
-                    'movie-of-the-day-btn',
                     'movie-match-btn3',
                     'movie-timeline-btn',
+                    'movie-of-the-day-btn',
                     'discussions-btn',
                     'trivia-btn',
                 ];
