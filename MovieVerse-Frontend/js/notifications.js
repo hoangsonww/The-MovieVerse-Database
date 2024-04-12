@@ -15,9 +15,13 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchRecommendedReleases();
 });
 
+function getMovieVerseData(input) {
+    return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
+}
+
 async function fetchReleasesByCategory(elementId, startDate) {
     const formattedDate = `${startDate.getFullYear()}-${(startDate.getMonth() + 1).toString().padStart(2, '0')}-${startDate.getDate().toString().padStart(2, '0')}`;
-    const url = `https://api.themoviedb.org/3/discover/movie?api_key=${getMovieCode()}&language=en-US&sort_by=release_date.desc&include_adult=false&include_video=false&page=1&release_date.gte=${formattedDate}`;
+    const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&language=en-US&sort_by=release_date.desc&include_adult=false&include_video=false&page=1&release_date.gte=${formattedDate}`;
 
     try {
         const response = await fetch(url);
@@ -27,6 +31,10 @@ async function fetchReleasesByCategory(elementId, startDate) {
     catch (error) {
         console.error('Failed to fetch movies:', error);
     }
+}
+
+function generateMovieNames(input) {
+    return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
 }
 
 async function fetchRecommendedReleases() {
@@ -42,11 +50,11 @@ async function fetchRecommendedReleases() {
         if (!genreId) {
             throw new Error('Genre ID is not valid.');
         }
-        url = `https://api.themoviedb.org/3/discover/movie?api_key=${getMovieCode()}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=${genreId}`;
+        url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=${genreId}`;
     }
     catch (error) {
         console.error('Fetching recommended movies failed or data issues:', error);
-        url = `https://api.themoviedb.org/3/movie/popular?api_key=${getMovieCode()}&language=en-US&page=1`;
+        url = `https://${getMovieVerseData()}/3/movie/popular?${generateMovieNames()}${getMovieCode()}&language=en-US&page=1`;
     }
 
     try {
@@ -102,6 +110,7 @@ function populateActors() {
         a.textContent = actor.name;
         a.href = '#';
         a.id = 'actor-link';
+        a.style.textDecoration = 'none';
         a.onclick = () => {
             localStorage.setItem('selectedActorId', actor.id.toString());
             window.location.href = 'actor-details.html';
@@ -129,6 +138,7 @@ function populateDirectors() {
         a.textContent = director.name;
         a.href = '#';
         a.id = 'director-link';
+        a.style.textDecoration = 'none';
         a.onclick = () => {
             localStorage.setItem('selectedDirectorId', director.id.toString());
             window.location.href = 'director-details.html';

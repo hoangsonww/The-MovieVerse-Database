@@ -234,7 +234,9 @@
                 <li><strong>User Profile Search:</strong> Find and follow other users to discover their favorite movies and watchlists.</li>
                 <li><strong>Follow Other Users:</strong> Stay updated on your friends' movie preferences by following their profiles.</li>
             </ul>
-            <p style="color: black; margin-top: 35px"><em>Updated as of: <time datetime="2024-04-12">April 12th, 2024</time></em></p>
+            <p style="color: black; margin-top: 35px">
+                <em>Updated as of: <time class="updateDate" datetime=""></time></em>
+            </p>
         </section>
 
         <section id="newReleases">
@@ -268,7 +270,9 @@
                 <li><strong>Chatting with the Chatbot:</strong> Interact with our intelligent chatbot to get your movie recommendations and trivia questions.</li>
                 <li><strong>Cloud Syncing:</strong> Seamlessly sync your watchlists and favorites across all your devices for a consistent experience.</li>
             </ul>
-            <p style="color: black; margin-top: 35px"><em>Updated as of: <time datetime="2024-04-12">April 12th, 2024</time></em></p>
+            <p style="color: black; margin-top: 35px">
+                <em>Updated as of: <time class="updateDate" datetime=""></time></em>
+            </p>
         </section>
 
         <section id="popularActors">
@@ -277,7 +281,9 @@
             <ul>
                 <!-- Dynamically populated list of actors -->
             </ul>
-            <p style="color: black; margin-top: 35px"><em>Updated as of: <time datetime="2024-04-12">April 12th, 2024</time></em></p>
+            <p style="color: black; margin-top: 35px">
+                <em>Updated as of: <time class="updateDate" datetime=""></time></em>
+            </p>
         </section>
 
         <section id="popularDirectors">
@@ -286,7 +292,9 @@
             <ul>
                 <!-- Dynamically populated list of directors -->
             </ul>
-            <p style="color: black; margin-top: 35px"><em>Updated as of: <time datetime="2024-04-12">April 12th, 2024</time></em></p>
+            <p style="color: black; margin-top: 35px">
+                <em>Updated as of: <time class="updateDate" datetime=""></time></em>
+            </p>
         </section>
     </main>
 
@@ -297,6 +305,19 @@
     </div>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const updateDateElements = document.querySelectorAll('.updateDate');
+            const today = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const formattedDate = today.toLocaleDateString('en-US', options);
+            const formattedDateISO = today.toISOString().split('T')[0];
+
+            updateDateElements.forEach(element => {
+                element.textContent = formattedDate;
+                element.setAttribute('datetime', formattedDateISO);
+            });
+        });
+
         document.addEventListener('DOMContentLoaded', function() {
             const searchBar = document.getElementById('search');
             const searchButton = document.getElementById('button-search');
