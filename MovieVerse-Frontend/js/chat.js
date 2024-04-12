@@ -195,6 +195,7 @@ const maxTotalFetch = 20;
 
 function setupSearchListeners() {
     const searchUserInput = document.getElementById('searchUserInput');
+    const searchUserResults = document.getElementById('searchUserResults');
 
     searchUserInput.addEventListener('input', () => {
         clearTimeout(searchDebounceTimeout);
@@ -205,6 +206,10 @@ function setupSearchListeners() {
                 lastVisible = null;
                 performSearch(searchText, true);
             }, 300);
+        }
+        else {
+            searchUserResults.innerHTML = '';
+            searchUserResults.style.display = 'none';
         }
     });
 }
@@ -262,7 +267,7 @@ async function performSearch(searchText, isNewSearch = false) {
         searchUserResults.style.display = 'block';
         hideSpinner();
 
-        if (isNewSearch || querySnapshot.size === initialFetchLimit) {
+        if (isNewSearch || !querySnapshot.empty && querySnapshot.size === initialFetchLimit) {
             const loadMoreButton = document.createElement('button');
             loadMoreButton.textContent = 'Load More';
             loadMoreButton.id = 'loadMoreButton';

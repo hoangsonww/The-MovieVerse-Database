@@ -9,27 +9,52 @@ function getMovieCode() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    fetchReleasesByCategory('releasesSinceLastVisit', new Date(localStorage.getItem('lastVisit')));
-    fetchReleasesByCategory('releasesThisMonth', new Date(new Date().getFullYear(), new Date().getMonth(), 1));
-    fetchReleasesByCategory('releasesThisYear', new Date(new Date().getFullYear(), 0, 1));
+    const today = new Date();
+    fetchReleasesByCategory('releasesSinceLastVisit', new Date(localStorage.getItem('lastVisit')), today, true);
+    fetchReleasesByCategory('releasesThisMonth', new Date(today.getFullYear(), today.getMonth(), 1), today, false);
+    fetchReleasesByCategory('releasesThisYear', new Date(today.getFullYear(), 0, 1), today, false);
     fetchRecommendedReleases();
 });
 
-function getMovieVerseData(input) {
-    return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
+async function fetchReleasesByCategory(elementId, startDate, endDate, isLastVisit) {
+    const list = document.getElementById(elementId);
+    list.innerHTML = '';
+
+    let movies = await fetchMovies(startDate, endDate);
+    if (movies.length < 5 && !isLastVisit) {
+        const expandedStartDate = new Date(startDate.getFullYear(), startDate.getMonth() - 1, startDate.getDate());
+        movies = await fetchMovies(expandedStartDate, endDate);
+    }
+
+    if (movies.length === 0) {
+        if (isLastVisit) {
+            const noMoviesText = document.createElement('li');
+            noMoviesText.textContent = "No New Movies Released Since Your Last Visit";
+            list.appendChild(noMoviesText);
+        }
+        else {
+            const veryExpandedStartDate = new Date(startDate.getFullYear() - 1, startDate.getMonth(), startDate.getDate());
+            movies = await fetchMovies(veryExpandedStartDate, endDate);
+        }
+    }
+
+    populateList(elementId, movies.slice(0, 5));
 }
 
-async function fetchReleasesByCategory(elementId, startDate) {
-    const formattedDate = `${startDate.getFullYear()}-${(startDate.getMonth() + 1).toString().padStart(2, '0')}-${startDate.getDate().toString().padStart(2, '0')}`;
-    const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&language=en-US&sort_by=release_date.desc&include_adult=false&include_video=false&page=1&release_date.gte=${formattedDate}`;
+async function fetchMovies(startDate, endDate) {
+    const formattedStartDate = `${startDate.getFullYear()}-${(startDate.getMonth() + 1).toString().padStart(2, '0')}-${startDate.getDate().toString().padStart(2, '0')}`;
+    const formattedEndDate = `${endDate.getFullYear()}-${(endDate.getMonth() + 1).toString().padStart(2, '0')}-${endDate.getDate().toString().padStart(2, '0')}`;
+
+    const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&release_date.gte=${formattedStartDate}&release_date.lte=${formattedEndDate}`;
 
     try {
         const response = await fetch(url);
         const data = await response.json();
-        populateList(elementId, data.results.slice(0, 5));
+        return data.results.filter(movie => movie.popularity > 0);
     }
     catch (error) {
-        console.error('Failed to fetch movies:', error);
+        console.error('Failed to fetch movies for', elementId + ':', error);
+        return [];
     }
 }
 
@@ -61,7 +86,8 @@ async function fetchRecommendedReleases() {
         const response = await fetch(url);
         const data = await response.json();
         populateList('recommendedReleases', data.results.slice(0, 5));
-    } catch (error) {
+    }
+    catch (error) {
         console.error('Failed to fetch movies:', error);
     }
 }
@@ -71,16 +97,15 @@ function populateList(elementId, movies) {
     list.innerHTML = '';
     movies.forEach(movie => {
         const li = document.createElement('li');
-        li.style.cursor = 'pointer'; // Make it appear clickable
+        li.style.cursor = 'pointer';
         li.addEventListener('click', () => {
             localStorage.setItem('selectedMovieId', movie.id.toString());
             window.location.href = 'movie-details.html';
         });
 
-        // Display the title in a span or div inside li
         const title = document.createElement('span');
         title.textContent = movie.title;
-        title.style.color = 'black'; // Styling directly or via CSS class
+        title.style.color = 'black';
         li.appendChild(title);
 
         list.appendChild(li);
