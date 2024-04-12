@@ -382,7 +382,28 @@ function showMovies(movies, mainElement) {
                 ${overview}
             </div>`;
 
+        let touchTimer;
+
+        movieEl.addEventListener('touchstart', (e) => {
+            touchTimer = setTimeout(() => {
+                movieEl.querySelector('.overview').style.visibility = 'visible';
+                movieEl.querySelector('.overview').style.transform = 'translateY(0)';
+            }, 500);
+        }, { passive: true });
+
+        movieEl.addEventListener('touchend', (e) => {
+            clearTimeout(touchTimer);
+            if (e.cancelable) {
+                e.preventDefault();
+            }
+        });
+
         movieEl.addEventListener('click', () => {
+            if (!movieEl.querySelector('.overview').style.visibility === 'visible') {
+                localStorage.setItem('selectedMovieId', id);
+                window.location.href = 'movie-details.html';
+            }
+
             localStorage.setItem('selectedMovieId', id);
             updateUniqueMoviesViewed(id);
             updateFavoriteGenre(genre_ids);
