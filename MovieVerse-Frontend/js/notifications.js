@@ -71,18 +71,18 @@ function populateList(elementId, movies) {
     list.innerHTML = '';
     movies.forEach(movie => {
         const li = document.createElement('li');
-        const a = document.createElement('a');
-        a.href = 'movie-details.html';
-        a.textContent = movie.title;
-        a.id = 'movie-link';
-        a.style.color = 'black';
-        a.style.textDecoration = 'none';
-        a.addEventListener('click', (event) => {
-            event.preventDefault();
+        li.style.cursor = 'pointer'; // Make it appear clickable
+        li.addEventListener('click', () => {
             localStorage.setItem('selectedMovieId', movie.id.toString());
             window.location.href = 'movie-details.html';
         });
-        li.appendChild(a);
+
+        // Display the title in a span or div inside li
+        const title = document.createElement('span');
+        title.textContent = movie.title;
+        title.style.color = 'black'; // Styling directly or via CSS class
+        li.appendChild(title);
+
         list.appendChild(li);
     });
 }
@@ -106,16 +106,16 @@ function populateActors() {
     const list = document.getElementById('popularActors').querySelector('ul');
     actors.forEach(actor => {
         const li = document.createElement('li');
-        const a = document.createElement('a');
-        a.textContent = actor.name;
-        a.href = '#';
-        a.id = 'actor-link';
-        a.style.textDecoration = 'none';
-        a.onclick = () => {
+        li.style.cursor = 'pointer';
+        li.addEventListener('click', () => {
             localStorage.setItem('selectedActorId', actor.id.toString());
             window.location.href = 'actor-details.html';
-        };
-        li.appendChild(a);
+        });
+
+        const name = document.createElement('span');
+        name.textContent = actor.name;
+        li.appendChild(name);
+
         list.appendChild(li);
     });
 }
@@ -134,16 +134,16 @@ function populateDirectors() {
     const list = document.getElementById('popularDirectors').querySelector('ul');
     directors.forEach(director => {
         const li = document.createElement('li');
-        const a = document.createElement('a');
-        a.textContent = director.name;
-        a.href = '#';
-        a.id = 'director-link';
-        a.style.textDecoration = 'none';
-        a.onclick = () => {
+        li.style.cursor = 'pointer';
+        li.addEventListener('click', () => {
             localStorage.setItem('selectedDirectorId', director.id.toString());
             window.location.href = 'director-details.html';
-        };
-        li.appendChild(a);
+        });
+
+        const name = document.createElement('span');
+        name.textContent = director.name;
+        li.appendChild(name);
+
         list.appendChild(li);
     });
 
