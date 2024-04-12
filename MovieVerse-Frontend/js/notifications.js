@@ -16,21 +16,20 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function fetchReleasesByCategory(elementId, startDate) {
-    const API_KEY = 'your_api_key_here';
     const formattedDate = `${startDate.getFullYear()}-${(startDate.getMonth() + 1).toString().padStart(2, '0')}-${startDate.getDate().toString().padStart(2, '0')}`;
     const url = `https://api.themoviedb.org/3/discover/movie?api_key=${getMovieCode()}&language=en-US&sort_by=release_date.desc&include_adult=false&include_video=false&page=1&release_date.gte=${formattedDate}`;
 
     try {
         const response = await fetch(url);
         const data = await response.json();
-        populateList(elementId, data.results.slice(0, 5));  // Slicing to limit to 5 movies
-    } catch (error) {
+        populateList(elementId, data.results.slice(0, 5));
+    }
+    catch (error) {
         console.error('Failed to fetch movies:', error);
     }
 }
 
 async function fetchRecommendedReleases() {
-    const API_KEY = 'your_api_key_here';
     let url;
 
     try {
@@ -39,14 +38,14 @@ async function fetchRecommendedReleases() {
             throw new Error('No favorite genres found in localStorage.');
         }
         const genresArray = JSON.parse(favoriteGenres);
-        const genreId = genresArray[0]; // Assuming the genre ID is the first element in the array
+        const genreId = genresArray[0];
         if (!genreId) {
             throw new Error('Genre ID is not valid.');
         }
         url = `https://api.themoviedb.org/3/discover/movie?api_key=${getMovieCode()}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=${genreId}`;
-    } catch (error) {
+    }
+    catch (error) {
         console.error('Fetching recommended movies failed or data issues:', error);
-        // Fallback to fetch the most popular movies
         url = `https://api.themoviedb.org/3/movie/popular?api_key=${getMovieCode()}&language=en-US&page=1`;
     }
 
@@ -61,17 +60,17 @@ async function fetchRecommendedReleases() {
 
 function populateList(elementId, movies) {
     const list = document.getElementById(elementId);
-    list.innerHTML = ''; // Clear existing content
+    list.innerHTML = '';
     movies.forEach(movie => {
         const li = document.createElement('li');
         const a = document.createElement('a');
         a.href = 'movie-details.html';
         a.textContent = movie.title;
         a.id = 'movie-link';
-        a.style.color = 'black'; // Style for link color
-        a.style.textDecoration = 'none'; // Remove underline
+        a.style.color = 'black';
+        a.style.textDecoration = 'none';
         a.addEventListener('click', (event) => {
-            event.preventDefault(); // Prevent the default anchor click behavior
+            event.preventDefault();
             localStorage.setItem('selectedMovieId', movie.id.toString());
             window.location.href = 'movie-details.html';
         });
