@@ -1268,6 +1268,16 @@ p {
     z-index: 999;
 }
 
+#ad-container {
+    display: none;
+}
+
+@media (max-width: 767px) {
+    #ad-container {
+        display: block;
+    }
+}
+
 .favorites-btn:hover {
     background-color: #ff8623;
     transition: 0.3s ease-in;
