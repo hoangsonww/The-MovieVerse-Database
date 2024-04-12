@@ -14,7 +14,7 @@
     <meta http-equiv="content-language" content="en" />
     <meta property="og:description" content="View your MovieVerse notifications here. Stay updated with the latest news, updates, and recommendations.">
     <meta property="og:url" content="https://movie-verse.com/MovieVerse-Frontend/html/notifications.html" />
-    <meta property="og:site_name" content="The MovieVerse" />
+    <meta property="og:site_name" content="Notifications - The MovieVerse" />
     <meta property="og:image" content="https://movie-verse.com/images/image.png"/>
     <meta property="og:favicon" content="./images/favicon.ico" />
     <meta name="keywords" content="movies, film guide, directors, actors, movie genres, cinema, film reviews">
@@ -31,7 +31,7 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@MovieVerse" />
     <meta name="twitter:creator" content="@hoangsonw" />
-    <meta name="twitter:title" content="The MovieVerse - Your Ultimate Movie Guide">
+    <meta name="twitter:title" content="Notifications - The MovieVerse">
     <meta name="twitter:description" content="View your MovieVerse notifications here. Stay updated with the latest news, updates, and recommendations." />
     <meta name="twitter:image" content="https://movie-verse.com/images/image.png"/>
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -79,28 +79,28 @@
         main {
             display: flex;
             flex-wrap: wrap;
-            justify-content: center; /* Ensures sections are centered */
-            align-items: flex-start; /* Aligns sections to the top */
+            justify-content: center;
+            align-items: flex-start;
             gap: 20px;
             padding: 20px;
         }
 
         section {
-            flex: 1 1 calc(33% - 40px); /* Adjusts to three sections per row with gap considerations */
+            flex: 1 1 calc(33% - 40px);
             background-color: #fff;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             display: flex;
             flex-direction: column;
-            align-items: center; /* Centers content horizontally */
-            text-align: center; /* Centers text within the section */
-            width: 100%; /* Ensures sections don't shrink smaller than their flex basis */
+            align-items: center;
+            text-align: center;
+            width: 100%;
         }
 
         @media (max-width: 1200px) {
             section {
-                flex: 1 1 calc(50% - 40px); /* Two sections per row on medium screens */
+                flex: 1 1 calc(50% - 40px);
             }
         }
 
@@ -109,19 +109,19 @@
                 flex-direction: column;
             }
             section {
-                flex-basis: 100%; /* Full width on smaller screens */
+                flex-basis: 100%;
             }
         }
 
         ul {
-            width: 100%; /* Ensures list takes full width of the section */
+            width: 100%;
             padding: 0;
             margin: 0;
             list-style-type: none;
         }
 
         li {
-            width: 100%; /* Each list item spans the full width */
+            width: 100%;
             margin-top: 10px;
             padding: 10px;
             background-color: #ecf0f1;
