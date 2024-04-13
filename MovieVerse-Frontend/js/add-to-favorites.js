@@ -99,7 +99,7 @@ function updateFavoriteButton(movieId, favorites) {
     }
     else {
         favoriteButton.classList.remove('favorited');
-        favoriteButton.style.background = 'transparent';
+        favoriteButton.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
         favoriteButton.title = 'Add to favorites';
     }
 }
