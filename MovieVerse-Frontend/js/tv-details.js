@@ -736,8 +736,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
 }
 
 async function fetchTvSeriesStreamingLinks(tvSeriesId) {
-    const apiKey = getMovieCode();
-    const url = `https://${getMovieVerseData()}/3/tv/${tvSeriesId}/watch/providers?api_key=${apiKey}`;
+    const url = `https://${getMovieVerseData()}/3/tv/${tvSeriesId}/watch/providers?${generateMovieNames()}${getMovieCode()}`;
     try {
         const response = await fetch(url);
         const data = await response.json();
@@ -747,18 +746,17 @@ async function fetchTvSeriesStreamingLinks(tvSeriesId) {
         Object.values(results).forEach(region => {
             if (region.flatrate) {
                 region.flatrate.forEach(provider => {
-                    providersMap[provider.provider_id] = provider;  // Deduplicate
+                    providersMap[provider.provider_id] = provider;
                 });
             }
         });
 
-        return Object.values(providersMap).slice(0, 7);  // Limit to 7 providers
+        return Object.values(providersMap).slice(0, 7);
     } catch (error) {
         console.error('Error fetching TV series streaming links:', error);
         return [];
     }
 }
-
 
 function selectActorId(actorId) {
     localStorage.setItem('selectedActorId', actorId);
