@@ -1082,7 +1082,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     document.getElementById('movie-rating').innerHTML = `
         <a id="imdbRatingLink" href="${imdbLink}" target="_blank" title="Click to go to this movie's IMDb page!" style="text-decoration: none; color: inherit">IMDB Rating: ${imdbRating}</a>
     `;
-    document.getElementById('movie-rating').style.marginTop = '120px';
+    document.getElementById('movie-rating').style.marginTop = '129px';
     document.title = movie.title + " - Movie Details";
 
     const movieImage = document.getElementById('movie-image');
