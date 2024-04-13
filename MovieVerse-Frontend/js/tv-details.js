@@ -717,7 +717,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
                 break;
         }
 
-        return `<a href="${providerLink}" target="_blank" title="Watch on ${provider.provider_name}">
+        return `<a href="${providerLink}" target="_blank" title="Watch on ${provider.provider_name}" style="display: inline-flex; align-items: flex-end; vertical-align: bottom;">
             <img src="https://image.tmdb.org/t/p/original${provider.logo_path}" alt="${provider.provider_name}" style="width: 50px; margin-left: 10px;">
         </a>`;
     }).join('') : 'No streaming options available.';

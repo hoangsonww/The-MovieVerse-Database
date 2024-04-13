@@ -163,6 +163,6 @@ function updateFavoriteButtonTVSeries(tvSeriesId, favoritesTVSeries) {
     else {
         favoriteBtn.classList.remove('favorited');
         favoriteBtn.title = 'Add to Favorites';
-        favoriteBtn.style.backgroundColor = 'transparent';
+        favoriteBtn.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
     }
 }
