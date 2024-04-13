@@ -1001,8 +1001,9 @@ function createMetacriticSlug(title) {
 }
 
 async function fetchStreamingLinks(movieId) {
-    const apiKey = getMovieCode();
-    const url = `https://${getMovieVerseData()}/3/movie/${movieId}/watch/providers?api_key=${apiKey}`;
+    const url = `https://${getMovieVerseData()}/3/movie/${movieId}/watch/providers?${generateMovieNames()}${getMovieCode()}`;
+
+    console.log(url)
     try {
         const response = await fetch(url);
         const data = await response.json();
@@ -1012,19 +1013,18 @@ async function fetchStreamingLinks(movieId) {
         Object.values(results).forEach(region => {
             if (region.flatrate) {
                 region.flatrate.forEach(provider => {
-                    providersMap[provider.provider_id] = provider;  // Deduplicate
+                    providersMap[provider.provider_id] = provider;
                 });
             }
         });
 
-        // Convert map back to array and limit to 7 entries
         return Object.values(providersMap).slice(0, 7);
-    } catch (error) {
+    }
+    catch (error) {
         console.error('Error fetching streaming links:', error);
         return [];
     }
 }
-
 
 async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awards, rated) {
     document.getElementById('movie-image').src = `https://image.tmdb.org/t/p/w1280${movie.poster_path}`;
@@ -1162,20 +1162,21 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     `;
 
     if (movie.credits && movie.credits.crew) {
-        const director = movie.credits.crew.find(member => member.job === 'Director');
-        if (director) {
-            const directorAge = director.birthday ? calculateAge(director.birthday) : 'N/A';
-            const directorElement = document.createElement('p');
-            directorElement.innerHTML = `<strong>Director:</strong> <a href="../html/director-details.html" class="director-link">${director.name}</a>`;
-            directorElement.querySelector('.director-link').addEventListener('click', (e) => {
-                e.preventDefault();
-                localStorage.setItem('selectedDirectorId', director.id);
-                document.title = `${director.name} - Director's Details`;
-                window.location.href = 'director-details.html';
-                updateUniqueDirectorsViewed(director.id);
-                updateDirectorVisitCount(director.id, director.name);
-            });
-            document.getElementById('movie-description').appendChild(directorElement);
+        const directors = movie.credits.crew.filter(member => member.job === 'Director');
+
+        if (directors.length > 0) {
+            const directorsLinks = directors.map(director =>
+                `<a id="director-link" href="javascript:void(0);" onclick="handleDirectorClick(${director.id}, '${director.name.replace(/'/g, "\\'")}')" title="Click to view director details">${director.name}</a>`
+            ).join(', ');
+
+            const directorsElement = document.createElement('p');
+            directorsElement.innerHTML = `<strong>Director:</strong> ${directorsLinks}`;
+            document.getElementById('movie-description').appendChild(directorsElement);
+        }
+        else {
+            const noDirectorsElement = document.createElement('p');
+            noDirectorsElement.innerHTML = `<strong>Director:</strong> Information not available`;
+            document.getElementById('movie-description').appendChild(noDirectorsElement);
         }
     }
 
@@ -1186,87 +1187,46 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     if (movie.credits && movie.credits.cast.length > 0) {
         const topTenCast = movie.credits.cast.slice(0, 10);
         topTenCast.forEach((actor, index) => {
-            const actorLink = document.createElement('span');
-            actorLink.textContent = actor.name;
-            actorLink.classList.add('actor-link');
-            actorLink.addEventListener('click', () => {
-                localStorage.setItem('selectedActorId', actor.id);
-                window.location.href = 'actor-details.html';
-                updateUniqueActorsViewed(actor.id);
-                updateActorVisitCount(actor.id, actor.name);
-            });
-
+            const actorLink = document.createElement('a');
+            actorLink.innerHTML = `<a class="actor-link" href="javascript:void(0);" onclick="selectActorId(${actor.id})">${actor.name}</a>`;
             castHeading.appendChild(actorLink);
-
             if (index < topTenCast.length - 1) {
                 castHeading.appendChild(document.createTextNode(', '));
             }
         });
-    } else {
+    }
+    else {
         castHeading.appendChild(document.createTextNode('None available.'));
     }
 
-    const productionCompanies = movie.production_companies;
-    const productionCompaniesElement = document.createElement('p');
-    productionCompaniesElement.innerHTML = '<strong>Production Companies:</strong> ';
+    if (movie.production_companies && movie.production_companies.length > 0) {
+        let companiesHTML = movie.production_companies.map(company => {
+            return `<a id="prod-companies" class="company-link" href="javascript:void(0);" onclick="handleCompanyClick(${company.id}, '${company.name.replace(/'/g, "\\'")}')" title="Click to view company details">${company.name}</a>`;
+        }).join(', ');
 
-    if (productionCompanies.length === 0) {
-        productionCompaniesElement.innerHTML += 'None available.';
+        const productionCompaniesElement = document.createElement('p');
+        productionCompaniesElement.innerHTML = `<strong>Production Companies:</strong> ${companiesHTML}`;
+        document.getElementById('movie-description').appendChild(productionCompaniesElement);
     }
-    productionCompanies.forEach((company, index) => {
-        const companyLink = document.createElement('a');
-        companyLink.textContent = company.name;
-        companyLink.style.cursor = 'pointer';
-        companyLink.style.textDecoration = 'underline';
-        companyLink.href = '#';
-        companyLink.classList.add('company-link');
-        companyLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            localStorage.setItem('selectedCompanyId', company.id);
-            window.location.href = 'company-details.html';
-            updateUniqueCompaniesViewed(company.id);
-        });
+    else {
+        const noCompaniesElement = document.createElement('p');
+        noCompaniesElement.innerHTML = `<strong>Production Companies:</strong> Information not available`;
+        document.getElementById('movie-description').appendChild(noCompaniesElement);
+    }
 
-        productionCompaniesElement.appendChild(companyLink);
+    if (movie.similar && movie.similar.results && movie.similar.results.length > 0) {
+        let similarMoviesHTML = movie.similar.results.map(similarMovie => {
+            return `<a href="javascript:void(0);" id="similar-tv" onclick="handleSimilarMovieClick(${similarMovie.id}, '${similarMovie.title.replace(/'/g, "\\'")}')" title="Click to view movie details">${similarMovie.title}</a>`;
+        }).join(', ');
 
-        if (index < productionCompanies.length - 1) {
-            productionCompaniesElement.appendChild(document.createTextNode(', '));
-        }
-    });
-
-    document.getElementById('movie-description').appendChild(productionCompaniesElement);
-    const similarMoviesHeading = document.createElement('p');
-
-    similarMoviesHeading.innerHTML = '<strong>Similar Movies:</strong> ';
-    document.getElementById('movie-description').appendChild(similarMoviesHeading);
-
-    if (movie.similar && movie.similar.results.length > 0) {
-        movie.similar.results.forEach((similarMovie, index) => {
-            const movieLink = document.createElement('span');
-            movieLink.textContent = similarMovie.title;
-            movieLink.style.cursor = 'pointer';
-            movieLink.style.textDecoration = 'underline';
-            movieLink.addEventListener('mouseenter', () => {
-                movieLink.style.color = '#ff8623';
-            });
-
-            movieLink.addEventListener('mouseleave', () => {
-                movieLink.style.color = getSavedTextColor();
-            });
-
-            movieLink.addEventListener('click', () => {
-                localStorage.setItem('selectedMovieId', similarMovie.id);
-                window.location.href = 'movie-details.html';
-            });
-
-            similarMoviesHeading.appendChild(movieLink);
-
-            if (index < movie.similar.results.length - 1) {
-                similarMoviesHeading.appendChild(document.createTextNode(', '));
-            }
-        });
-    } else {
-        similarMoviesHeading.appendChild(document.createTextNode('None available.'));
+        const similarMoviesElement = document.createElement('p');
+        similarMoviesElement.innerHTML = `<strong>Similar Movies:</strong> ${similarMoviesHTML}`;
+        document.getElementById('movie-description').appendChild(similarMoviesElement);
+    }
+    else {
+        const noSimilarMoviesElement = document.createElement('p');
+        noSimilarMoviesElement.innerHTML = `<strong>Similar Movies:</strong> None available`;
+        document.getElementById('movie-description').appendChild(noSimilarMoviesElement);
     }
 
     document.getElementById('movie-description').innerHTML += `
@@ -1283,6 +1243,33 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
 
 function getSavedTextColor() {
     return localStorage.getItem('textColor') || 'white';
+}
+
+function handleDirectorClick(directorId, directorName) {
+    localStorage.setItem('selectedDirectorId', directorId);
+    document.title = `${directorName} - Director's Details`;
+    window.location.href = 'director-details.html';
+    updateUniqueDirectorsViewed(directorId);
+    updateDirectorVisitCount(directorId, directorName);
+}
+
+function selectActorId(actorId) {
+    localStorage.setItem('selectedActorId', actorId);
+    window.location.href = 'actor-details.html'
+}
+
+function handleCompanyClick(companyId, companyName) {
+    localStorage.setItem('selectedCompanyId', companyId);
+    document.title = `${companyName} - Company Details`;
+    window.location.href = 'company-details.html';
+    updateUniqueCompaniesViewed(companyId);
+}
+
+function handleSimilarMovieClick(movieId, movieTitle) {
+    localStorage.setItem('selectedMovieId', movieId);
+    document.title = `${movieTitle} - Movie Details`;
+    window.location.href = 'movie-details.html';
+    updateMovieVisitCount(movieId, movieTitle);
 }
 
 function updateMoviesFavorited(movieId) {
