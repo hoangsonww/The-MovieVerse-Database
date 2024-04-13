@@ -1000,12 +1000,78 @@ function createMetacriticSlug(title) {
         .replace(/[^\w-]/g, '');
 }
 
-function populateMovieDetails(movie, imdbRating, rtRating, metascore, awards, rated) {
+async function fetchStreamingLinks(movieId) {
+    const apiKey = getMovieCode();
+    const url = `https://${getMovieVerseData()}/3/movie/${movieId}/watch/providers?api_key=${apiKey}`;
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        const results = data.results || {};
+        let providersMap = {};
+
+        Object.values(results).forEach(region => {
+            if (region.flatrate) {
+                region.flatrate.forEach(provider => {
+                    providersMap[provider.provider_id] = provider;  // Deduplicate
+                });
+            }
+        });
+
+        // Convert map back to array and limit to 7 entries
+        return Object.values(providersMap).slice(0, 7);
+    } catch (error) {
+        console.error('Error fetching streaming links:', error);
+        return [];
+    }
+}
+
+
+async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awards, rated) {
     document.getElementById('movie-image').src = `https://image.tmdb.org/t/p/w1280${movie.poster_path}`;
     document.getElementById('movie-title').textContent = movie.title;
 
     const movieRating = movie.vote_average.toFixed(1);
     const imdbLink = `https://www.imdb.com/title/${movie.imdb_id}`;
+
+    const streamingProviders = await fetchStreamingLinks(movie.id);
+    const movieTitleEncoded = encodeURIComponent(movie.title);
+
+    const streamingHTML = streamingProviders.length > 0 ? streamingProviders.map(provider => {
+        let providerLink;
+        switch(provider.provider_name.toLowerCase()) {
+            case 'netflix':
+                providerLink = `https://www.netflix.com/search?q=${movieTitleEncoded}`;
+                break;
+            case 'disney plus':
+                providerLink = `https://www.disneyplus.com/search?q=${movieTitleEncoded}`;
+                break;
+            case 'hbo max':
+                providerLink = `https://www.hbomax.com/search?q=${movieTitleEncoded}`;
+                break;
+            case 'hulu':
+                providerLink = `https://www.hulu.com/search?q=${movieTitleEncoded}`;
+                break;
+            case 'amazon prime video':
+                providerLink = `https://www.amazon.com/s?k=${movieTitleEncoded}`;
+                break;
+            case 'apple tv plus':
+                providerLink = `https://tv.apple.com/search?term=${movieTitleEncoded}`;
+                break;
+            case 'stan':
+                providerLink = `https://www.stan.com.au/search?q=${movieTitleEncoded}`;
+                break;
+            case 'player':
+                providerLink = `https://player.pl/szukaj?search=${movieTitleEncoded}`;
+                break;
+            default:
+                providerLink = `https://www.google.com/search?q=watch+${movieTitleEncoded}+on+${encodeURIComponent(provider.provider_name)}`;
+                break;
+        }
+
+        return `<a href="${providerLink}" target="_blank" title="Watch on ${provider.provider_name}">
+            <img src="https://image.tmdb.org/t/p/original${provider.logo_path}" alt="${provider.provider_name}" style="width: 50px; margin-left: 10px;">
+        </a>`;
+    }).join('') : 'No streaming options available.';
 
     const rtLink = rtRating !== 'N/A' ? `https://www.rottentomatoes.com/m/${getRtSlug(movie.title)}` : '#';
     const metaCriticsLink = metascore !== 'N/A' ? `https://www.metacritic.com/movie/${createMetacriticSlug(movie.title)}` : '#';
@@ -1078,6 +1144,7 @@ function populateMovieDetails(movie, imdbRating, rtRating, metascore, awards, ra
 
     document.getElementById('movie-description').innerHTML += `
         <p id="descriptionP"><strong>Description: </strong>${overview}</p>
+        <p><strong>Tagline:</strong> ${tagline}</p>
         <p><strong>Genres:</strong> ${genres}</p>
         ${ratedElement}
         ${movieStatus}
@@ -1087,13 +1154,11 @@ function populateMovieDetails(movie, imdbRating, rtRating, metascore, awards, ra
         <p><strong>Revenue:</strong> ${revenue}</p>
         <p><strong>Languages:</strong> ${languages}</p>
         <p><strong>Countries of Production:</strong> ${countries}</p>
-        <p><strong>Original Language:</strong> ${originalLanguage}</p>
         <p><strong>Popularity Score:</strong> <span class="${isPopular ? 'popular' : ''}">${popularityText}</span></p>
         <p style="cursor: pointer" title="Your rating also counts - it might take a while for us to update!"><strong>MovieVerse User Ratings:</strong> <span style="cursor: pointer">${scaledRating}/5.0 (based on <strong>${movie.vote_count}</strong> votes)</span></p>
         ${awardsElement}
         ${metascoreElement}
         <p><strong>Rotten Tomatoes:</strong> <a href="${rtLink}" id="rating">${rtRating}</a></p>
-        <p><strong>Tagline:</strong> ${tagline}</p>
     `;
 
     if (movie.credits && movie.credits.crew) {
@@ -1137,8 +1202,7 @@ function populateMovieDetails(movie, imdbRating, rtRating, metascore, awards, ra
                 castHeading.appendChild(document.createTextNode(', '));
             }
         });
-    }
-    else {
+    } else {
         castHeading.appendChild(document.createTextNode('None available.'));
     }
 
@@ -1201,10 +1265,12 @@ function populateMovieDetails(movie, imdbRating, rtRating, metascore, awards, ra
                 similarMoviesHeading.appendChild(document.createTextNode(', '));
             }
         });
-    }
-    else {
+    } else {
         similarMoviesHeading.appendChild(document.createTextNode('None available.'));
     }
+
+    document.getElementById('movie-description').innerHTML += `
+        <p><strong>Streaming Options:</strong> ${streamingHTML}</p>`;
 
     const keywordsElement = document.createElement('p');
     keywordsElement.innerHTML = `<strong>Keywords:</strong> ${keywords}`;
