@@ -2287,11 +2287,10 @@ ol li:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Media query for mobile devices */
 @media (max-width: 600px) {
     #chatbotContainer {
-        width: 95%; /* Span 95% of the screen width */
-        margin: 20px auto; /* Center horizontally */
+        width: 95%;
+        margin: 5px auto;
     }
 }
 
