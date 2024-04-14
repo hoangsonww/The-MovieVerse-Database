@@ -46,7 +46,7 @@ Through The MovieVerse, users can search for movies, view detailed information, 
 - **Interactive Database**: Rate movies, write reviews, and read opinions from other users.
 - **Movie Watch Lists**: Create and manage watch lists for different genres, time periods, or preferences. The watchlists are saved to your account for easy access on any device.
 - **Movie Matching**: Discover movies that align with your preferences and ratings.
-
+- **Live Translation**: Translate movie information, reviews, and discussions into multiple languages for a global audience.
 
 **Navigating The MovieVerse:**
 - **MovieBot Chat**: Engage with our chatbot, MovieBot, for additional information about the application.
