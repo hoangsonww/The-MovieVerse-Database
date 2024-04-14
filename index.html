@@ -318,13 +318,6 @@
             z-index: 1000;
         }
 
-        #translate_control {
-            position: fixed;
-            left: 10px;
-            bottom: 10px;
-            z-index: 1000;
-        }
-
         @media (max-width: 767px) {
             #translate_control {
                 display: block;
@@ -333,6 +326,14 @@
                 left: 10px;
                 z-index: 1000;
             }
+        }
+
+        .translate-trigger {
+            background-color: #7378c5;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
         }
 
         .translate-trigger:hover {
@@ -735,6 +736,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             let lastScrollTop = 0;
             const translateControl = document.getElementById('translate_control');
+            const translateEl = document.getElementById('google_translate_element');
 
             window.addEventListener('scroll', function() {
                 let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
@@ -742,9 +744,11 @@
                 if (window.innerWidth <= 767) {
                     if (scrollTop > lastScrollTop) {
                         translateControl.style.display = 'none';
+                        translateEl.style.display = 'none';
                     }
                     else if (scrollTop < lastScrollTop || scrollTop === 0) {
                         translateControl.style.display = 'block';
+                        translateEl.style.display = 'none';
                     }
                     lastScrollTop = scrollTop;
                 }
