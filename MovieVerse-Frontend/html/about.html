@@ -84,6 +84,16 @@
             z-index: 1000;
         }
 
+        @media (max-width: 767px) {
+            #translate_control {
+                display: block;
+                bottom: 60px;
+                position: fixed;
+                left: 10px;
+                z-index: 1000;
+            }
+        }
+
         .translate-trigger {
             background-color: #7378c5;
             color: white;
@@ -129,6 +139,16 @@
             opacity: 0.8 !important;
             background-color: #f4f4f4 !important;
         }
+
+        @media (max-width: 767px) {
+            #google_translate_element {
+                bottom: 110px;
+            }
+
+            #translate_control {
+                bottom: 60px;
+            }
+        }
     </style>
 </head>
 
@@ -151,6 +171,25 @@
         document.querySelector('.translate-trigger').addEventListener('click', function() {
             const translateEl = document.getElementById('google_translate_element');
             translateEl.style.display = translateEl.style.display === 'block' ? 'none' : 'block';
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            let lastScrollTop = 0;
+            const translateControl = document.getElementById('translate_control');
+
+            window.addEventListener('scroll', function() {
+                let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+                if (window.innerWidth <= 767) {
+                    if (scrollTop > lastScrollTop) {
+                        translateControl.style.display = 'none';
+                    }
+                    else if (scrollTop < lastScrollTop || scrollTop === 0) {
+                        translateControl.style.display = 'block';
+                    }
+                    lastScrollTop = scrollTop;
+                }
+            }, { passive: true });
         });
     </script>
     <header style="margin-top: -5px">

@@ -113,6 +113,16 @@
             z-index: 1000;
         }
 
+        @media (max-width: 767px) {
+            #translate_control {
+                display: block;
+                bottom: 60px;
+                position: fixed;
+                left: 10px;
+                z-index: 1000;
+            }
+        }
+
         .translate-trigger {
             background-color: #7378c5;
             color: white;
@@ -166,16 +176,6 @@
 
             #translate_control {
                 bottom: 60px;
-            }
-        }
-
-        @media (max-width: 767px) {
-            #translate_control {
-                display: block;
-                bottom: 60px;
-                position: fixed;
-                left: 10px;
-                z-index: 1000;
             }
         }
     </style>

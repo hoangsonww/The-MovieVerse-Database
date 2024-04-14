@@ -79,6 +79,16 @@
             z-index: 1000;
         }
 
+        @media (max-width: 767px) {
+            #translate_control {
+                display: block;
+                bottom: 60px;
+                position: fixed;
+                left: 10px;
+                z-index: 1000;
+            }
+        }
+
         .translate-trigger {
             background-color: #7378c5;
             color: white;
@@ -134,20 +144,9 @@
                 bottom: 60px;
             }
         }
-
-        @media (max-width: 767px) {
-            #translate_control {
-                display: block;
-                bottom: 60px;
-                position: fixed;
-                left: 10px;
-                z-index: 1000;
-            }
-        }
     </style>
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap" as="style" onload="this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap"></noscript>
 </head>
+
 <body>
     <div id="google_translate_element"></div>
     <div id="translate_control">

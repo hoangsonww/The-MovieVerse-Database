@@ -80,6 +80,16 @@
             z-index: 1000;
         }
 
+        @media (max-width: 767px) {
+            #translate_control {
+                display: block;
+                bottom: 60px;
+                position: fixed;
+                left: 10px;
+                z-index: 1000;
+            }
+        }
+
         .translate-trigger {
             background-color: #7378c5;
             color: white;
@@ -135,20 +145,10 @@
                 bottom: 60px;
             }
         }
-
-        @media (max-width: 767px) {
-            #translate_control {
-                display: block;
-                bottom: 60px;
-                position: fixed;
-                left: 10px;
-                z-index: 1000;
-            }
-        }
     </style>
 </head>
 
-<body style="overflow-x: hidden">
+<body>
     <div id="google_translate_element"></div>
     <div id="translate_control">
         <div class="translate-trigger">Translate</div>
