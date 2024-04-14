@@ -74,9 +74,122 @@
             y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
         })(window, document, "clarity", "script", "l7gqnssat8");
     </script>
+    <style>
+        #translate_control {
+            position: fixed;
+            left: 10px;
+            bottom: 10px;
+            z-index: 1000;
+        }
+
+        .translate-trigger {
+            background-color: #7378c5;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .translate-trigger:hover {
+            background-color: #ff8623;
+            transition: 0.1s ease-in;
+        }
+
+        #google_translate_element {
+            display: none;
+            position: fixed;
+            left: 10px;
+            bottom: 60px;
+            background-color: #7378c5;
+            border: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            padding: 5px;
+            border-radius: 8px;
+            z-index: 100000000;
+            font: inherit;
+            color: white;
+        }
+
+        .goog-te-combo {
+            background-color: #7378c5 !important;
+            color: white !important;
+            border: 0.5px solid white !important;
+            border-radius: 8px !important;
+            font-size: 15px !important;
+            padding-left: 5px !important;
+        }
+
+        .skiptranslate {
+            color: white !important;
+        }
+
+        .goog-te-banner-frame {
+            opacity: 0.8 !important;
+            background-color: #f4f4f4 !important;
+        }
+
+        @media (max-width: 767px) {
+            #google_translate_element {
+                bottom: 110px;
+            }
+
+            #translate_control {
+                bottom: 60px;
+            }
+        }
+
+        @media (max-width: 767px) {
+            #translate_control {
+                display: block;
+                bottom: 60px;
+                position: fixed;
+                left: 10px;
+                z-index: 1000;
+            }
+        }
+    </style>
 </head>
 
 <body>
+    <div id="google_translate_element"></div>
+    <div id="translate_control">
+        <div class="translate-trigger">Translate</div>
+    </div>
+
+    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script>
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                layout: google.translate.TranslateElement.InlineLayout.VERTICAL,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+
+        document.querySelector('.translate-trigger').addEventListener('click', function() {
+            const translateEl = document.getElementById('google_translate_element');
+            translateEl.style.display = translateEl.style.display === 'block' ? 'none' : 'block';
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            let lastScrollTop = 0;
+            const translateControl = document.getElementById('translate_control');
+
+            window.addEventListener('scroll', function() {
+                let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+                if (window.innerWidth <= 767) {
+                    if (scrollTop > lastScrollTop) {
+                        translateControl.style.display = 'none';
+                    }
+                    else if (scrollTop < lastScrollTop || scrollTop === 0) {
+                        translateControl.style.display = 'block';
+                    }
+                    lastScrollTop = scrollTop;
+                }
+            }, { passive: true });
+        });
+    </script>
     <header style="margin-bottom: -20px; margin-top: -5px" id="homepage-header">
         <a id="indexLink" href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer; margin-bottom: -34px" title="Click to go back to the home page">
             <h1 id="my-heading">
