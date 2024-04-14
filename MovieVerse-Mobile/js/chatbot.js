@@ -92,8 +92,12 @@ async function rotateUserStats() {
             label: "Favorite Genre",
             getValue: () => {
                 const mostCommonGenreCode = getMostCommonGenre();
-                const genreMap = JSON.parse(localStorage.getItem('genreMap')) || {};
-                return genreMap[mostCommonGenreCode] || 'Not Available';
+                const genreArray = JSON.parse(localStorage.getItem('genreMap')) || [];
+                const genreObject = genreArray.reduce((acc, genre) => {
+                    acc[genre.id] = genre.name;
+                    return acc;
+                }, {});
+                return genreObject[mostCommonGenreCode] || 'Not Available';
             }
         },
         { label: "Watchlists Created", getValue: () => localStorage.getItem('watchlistsCreated') || 0 },

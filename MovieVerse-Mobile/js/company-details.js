@@ -99,8 +99,12 @@ async function rotateUserStats() {
             label: "Favorite Genre",
             getValue: () => {
                 const mostCommonGenreCode = getMostCommonGenre();
-                const genreMap = JSON.parse(localStorage.getItem('genreMap')) || {};
-                return genreMap[mostCommonGenreCode] || 'Not Available';
+                const genreArray = JSON.parse(localStorage.getItem('genreMap')) || [];
+                const genreObject = genreArray.reduce((acc, genre) => {
+                    acc[genre.id] = genre.name;
+                    return acc;
+                }, {});
+                return genreObject[mostCommonGenreCode] || 'Not Available';
             }
         },
         { label: "Watchlists Created", getValue: () => localStorage.getItem('watchlistsCreated') || 0 },
@@ -764,7 +768,7 @@ function displayCompanyMovies(movies) {
         movieLink.style.cursor = 'pointer';
         movieLink.style.textDecoration = 'underline';
         movieLink.addEventListener('mouseenter', () => {
-            movieLink.style.color = '#f509d9';
+            movieLink.style.color = '#ff8623';
         });
         movieLink.addEventListener('mouseleave', () => {
             movieLink.style.color = 'white';

@@ -45,21 +45,34 @@ const db = getFirestore(app);
 document.getElementById('signInForm').addEventListener('submit', async function(event) {
     event.preventDefault();
 
-    const email = document.getElementById('signInEmail').value;
-    const password = document.getElementById('signInPassword').value;
+    try {
 
-    const usersRef = collection(db, "MovieVerseUsers");
-    const q = query(usersRef, where("email", "==", email), where("password", "==", password));
-    const querySnapshot = await getDocs(q);
+        const email = document.getElementById('signInEmail').value;
+        const password = document.getElementById('signInPassword').value;
 
-    if (!querySnapshot.empty) {
-        alert('Successfully signed in!');
-        localStorage.setItem('isSignedIn', JSON.stringify(true));
-        localStorage.setItem('currentlySignedInMovieVerseUser', email);
-        window.location.href = '../../index.html';
+        const usersRef = collection(db, "MovieVerseUsers");
+        const q = query(usersRef, where("email", "==", email), where("password", "==", password));
+        const querySnapshot = await getDocs(q);
+
+        if (!querySnapshot.empty) {
+            alert('Successfully signed in!');
+            localStorage.setItem('isSignedIn', JSON.stringify(true));
+            localStorage.setItem('currentlySignedInMovieVerseUser', email);
+            window.location.href = '../../index.html';
+        } else {
+            alert('Invalid email or password. Ensure that you have entered a correct combination of email and password - one that we have on file.');
+        }
     }
-    else {
-        alert('Invalid email or password. Ensure that you have entered a correct combination of email and password - one that we have on file.');
+    catch (error) {
+        console.error("Error fetching user list: ", error);
+        if (error.code === 'resource-exhausted') {
+            const noUserSelected = document.getElementById('signInForm');
+            if (noUserSelected) {
+                noUserSelected.innerHTML = "Sorry, our database is currently overloaded. Please try reloading once more, and if that still doesn't work, please try again in a couple hours. For full transparency, we are currently using a database that has a limited number of reads and writes per day due to lack of funding. Thank you for your patience as we work on scaling our services. At the mean time, feel free to use other MovieVerse features!";
+                noUserSelected.style.height = '350px';
+            }
+            hideSpinner();
+        }
     }
 });
 

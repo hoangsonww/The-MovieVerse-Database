@@ -318,6 +318,13 @@
             z-index: 1000;
         }
 
+        #translate_control {
+            position: fixed;
+            left: 10px;
+            bottom: 10px;
+            z-index: 1000;
+        }
+
         @media (max-width: 767px) {
             #translate_control {
                 display: block;
@@ -326,14 +333,6 @@
                 left: 10px;
                 z-index: 1000;
             }
-        }
-
-        .translate-trigger {
-            background-color: #7378c5;
-            color: white;
-            padding: 10px;
-            border-radius: 5px;
-            cursor: pointer;
         }
 
         .translate-trigger:hover {
@@ -398,7 +397,7 @@
 <body>
     <header id="homepage-header" style="margin-bottom: -10px; margin-top: -5px">
         <a id="indexLink" href="index.html" style="text-decoration: none; color: inherit; cursor: pointer">
-            <h1 id="my-heading" style="margin-bottom: -10px">
+            <h1 id="my-heading" style="margin-bottom: -10px" class="notranslate">
                 The Mo<span class="highlight" id="highlight">vieV</span>erse
             </h1>
         </a>
@@ -409,14 +408,14 @@
         <button id="nav-toggle" style="z-index: 200000" class="nav-toggle" title="Toggle side navbar" onclick="toggleNav()">
             <i class="fas fa-bars"></i>
         </button>
-        <button class="back-btn nav-btn" id="home-btn" title="Go back to homepage">Home</button>
-        <button class="about nav-btn" onclick="window.location.href='MovieVerse-Frontend/html/about.html'" title="About this wonderful app!">About</button>
-        <button class="favorites-btn nav-btn" onclick="window.location.href='MovieVerse-Frontend/html/favorites.html'" title="View your favorites & watchlists">Favorites</button>
-        <button id="profileBtn" class="nav-btn" onclick="window.location.href='MovieVerse-Frontend/html/user-profile.html'" title="Go to your profile">
+        <button class="back-btn nav-btn notranslate" id="home-btn" title="Go back to homepage">Home</button>
+        <button class="about nav-btn notranslate" onclick="window.location.href='MovieVerse-Frontend/html/about.html'" title="About this wonderful app!">About</button>
+        <button class="favorites-btn nav-btn notranslate" onclick="window.location.href='MovieVerse-Frontend/html/favorites.html'" title="View your favorites & watchlists">Favorites</button>
+        <button id="profileBtn" class="nav-btn notranslate" onclick="window.location.href='MovieVerse-Frontend/html/user-profile.html'" title="Go to your profile">
             <span id="profileText">Profile</span>
             <i class="fas fa-user" id="profileIcon"></i>
         </button>
-        <button id="googleSignInBtn" class="nav-btn" onclick="handleSignInOut()" title="Sign In/Out">
+        <button id="googleSignInBtn" class="nav-btn notranslate" onclick="handleSignInOut()" title="Sign In/Out">
             <span id="signInOutText">Sign In</span>
             <i class="fas fa-sign-in-alt" id="signInIcon"></i>
             <i class="fas fa-sign-out-alt" id="signOutIcon" style="display: none;"></i>
@@ -441,7 +440,7 @@
     </header>
 
     <nav id="side-nav" class="side-nav" style="z-index: 1002000;">
-        <a id="heading-href" style="cursor: pointer">
+        <a id="heading-href" class="notranslate" style="cursor: pointer">
             <div id="my-heading" style="margin-bottom: 15px; margin-left: 0; margin-top: 15px; font-size: 2.1em; font-weight: bold;">
                 The Mo<span class="highlight">vieV</span>erse Menu
             </div>
