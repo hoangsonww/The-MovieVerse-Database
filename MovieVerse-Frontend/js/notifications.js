@@ -159,5 +159,4 @@ function populateDirectors() {
 
         list.appendChild(li);
     });
-
 }
