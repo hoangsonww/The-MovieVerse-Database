@@ -138,7 +138,11 @@ function setupPagination(mainElementId, paginationContainerId, genresContainerId
             const data = await response.json();
 
             if (data.total_pages) {
-                totalPages = data.total_pages;
+                if (data.total_pages > 250) {
+                    totalPages = 250;
+                } else {
+                    totalPages = data.total_pages;
+                }
             }
 
             if (data.results.length > 0) {
