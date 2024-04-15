@@ -34,12 +34,63 @@ document.addEventListener('DOMContentLoaded', () => {
     attachArrowKeyNavigation();
     fetchGenreMap();
     fetchTvGenreMap();
+    fetchLanguages();
+    fetchTvLanguages();
 
     document.getElementById('form1').addEventListener('submit', function(event) {
         event.preventDefault();
         handleSearch();
     });
 });
+
+async function fetchTvLanguages() {
+    const url = `https://${getMovieVerseData()}/3/configuration/languages?${generateMovieNames()}${getMovieCode()}`;
+
+    try {
+        const response = await fetch(url);
+        const languages = await response.json();
+        populateTvLanguageFilter(languages);
+    }
+    catch (error) {
+        console.log('Error fetching languages:', error);
+    }
+}
+
+function populateTvLanguageFilter(languages) {
+    const languageFilter = document.getElementById('language-tv-filter');
+    languageFilter.innerHTML = '<option value="">Select Language</option>';
+
+    languages.forEach(language => {
+        const option = document.createElement('option');
+        option.value = language.iso_639_1;
+        option.textContent = language.english_name;
+        languageFilter.appendChild(option);
+    });
+}
+
+async function fetchLanguages() {
+    const url = `https://${getMovieVerseData()}/3/configuration/languages?${generateMovieNames()}${getMovieCode()}`;
+
+    try {
+        const response = await fetch(url);
+        const languages = await response.json();
+        populateLanguageFilter(languages);
+    } catch (error) {
+        console.log('Error fetching languages:', error);
+    }
+}
+
+function populateLanguageFilter(languages) {
+    const languageFilter = document.getElementById('language-filter');
+    languageFilter.innerHTML = '<option value="">Select Language</option>';
+
+    languages.forEach(language => {
+        const option = document.createElement('option');
+        option.value = language.iso_639_1;
+        option.textContent = language.english_name;
+        languageFilter.appendChild(option);
+    });
+}
 
 async function fetchGenreMap() {
     const code = getMovieCode();
@@ -279,6 +330,7 @@ function attachEventListeners() {
     const genreMovieFilter = document.getElementById('genre-filter');
     const yearMovieFilter = document.getElementById('year-filter');
     const ratingMovieFilter = document.getElementById('rating-filter');
+    const languageFilter = document.getElementById('language-filter');
 
     const genreTvFilter = document.getElementById('genre-tv-filter');
     const yearTvFilter = document.getElementById('year-tv-filter');
@@ -355,6 +407,7 @@ function attachEventListeners() {
         ratingValueSpan.textContent = `Rating: ${ratingMovieFilter.value} and above`;
         showResults('movie');
     });
+    languageFilter.addEventListener('change', () => showResults('movie'));
 
     genreTvFilter.addEventListener('change', () => showResults('tv'));
     yearTvFilter.addEventListener('change', () => showResults('tv'));
@@ -369,7 +422,6 @@ function attachEventListeners() {
         showResults('person');
     });
 
-
     const resetMovieFiltersBtn = movieFilters.querySelector('button[id="reset-filters"]');
     const resetTvFiltersBtn = tvFilters.querySelector('button[id="reset-filters"]');
     const resetPeopleFiltersBtn = peopleFilters.querySelector('button[id="reset-filters"]');
@@ -378,6 +430,7 @@ function attachEventListeners() {
         genreMovieFilter.selectedIndex = 0;
         yearMovieFilter.value = '';
         ratingMovieFilter.value = 5;
+        languageFilter.selectedIndex = 0;
         setFilterDisplayValues();
         showResults('movie');
     });
@@ -505,15 +558,18 @@ async function showResults(category) {
             const genre = document.getElementById('genre-filter').value;
             const year = category === 'movie' ? document.getElementById('year-filter').value : document.getElementById('year-filter').value;
             const rating = parseFloat(document.getElementById('rating-filter').value);
+            const language = document.getElementById('language-filter').value;
 
             data.results = data.results.filter(item => {
                 const itemYear = category === 'movie' ? item.release_date?.substring(0, 4) : item.first_air_date?.substring(0, 4);
                 const itemRating = item.vote_average;
                 const itemGenres = item.genre_ids;
+                const itemLanguage = item.original_language;
 
                 return (!genre || itemGenres.includes(parseInt(genre))) &&
                     (!year || itemYear === year) &&
-                    (!rating || itemRating >= rating);
+                    (!rating || itemRating >= rating) &&
+                    (!language || itemLanguage === language);
             });
         }
         else if (category === 'person') {
