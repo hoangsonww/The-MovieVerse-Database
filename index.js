@@ -225,6 +225,14 @@ function setupPagination(mainElementId, paginationContainerId, genresContainerId
     window.addEventListener('resize', movePagination);
 }
 
+async function fetchAndDisplayMovies(url, count, mainElement) {
+    const response = await fetch(`${url}`);
+    const data = await response.json();
+    const movies = data.results.slice(0, count);
+    movies.sort(() => Math.random() - 0.5);
+    showMovies(movies, mainElement);
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
     let currentPageRecommended = 1;
     const totalPagesRecommended = 60;
@@ -536,14 +544,6 @@ function getMostVisitedMovie() {
         }
     }
     return mostVisitedMovie || 'Not Available';
-}
-
-async function fetchAndDisplayMovies(url, count, mainElement) {
-    const response = await fetch(`${url}&page=1`);
-    const data = await response.json();
-    const movies = data.results.slice(0, count);
-    movies.sort(() => Math.random() - 0.5);
-    showMovies(movies, mainElement);
 }
 
 async function getMostVisitedMovieGenre() {
