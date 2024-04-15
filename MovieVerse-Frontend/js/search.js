@@ -48,7 +48,8 @@ async function fetchTvLanguages() {
 
     try {
         const response = await fetch(url);
-        const languages = await response.json();
+        let languages = await response.json();
+        languages = languages.sort((a, b) => a.english_name.localeCompare(b.english_name));
         populateTvLanguageFilter(languages);
     }
     catch (error) {
@@ -73,9 +74,11 @@ async function fetchLanguages() {
 
     try {
         const response = await fetch(url);
-        const languages = await response.json();
+        let languages = await response.json();
+        languages = languages.sort((a, b) => a.english_name.localeCompare(b.english_name));
         populateLanguageFilter(languages);
-    } catch (error) {
+    }
+    catch (error) {
         console.log('Error fetching languages:', error);
     }
 }
@@ -338,6 +341,7 @@ function attachEventListeners() {
     const languageTvFilter = document.getElementById('language-tv-filter');
 
     const professionFilter = document.getElementById('profession-filter');
+    const genderFilter = document.getElementById('gender-filter');
     const popularityFilter = document.getElementById('popularity-filter');
 
     const ratingValueSpan = document.getElementById('rating-value');
@@ -418,6 +422,7 @@ function attachEventListeners() {
     });
     languageTvFilter.addEventListener('change', () => showResults('tv'));
 
+    genderFilter.addEventListener('change', () => showResults('person'));
     professionFilter.addEventListener('change', () => showResults('person'));
     popularityFilter.addEventListener('input', () => {
         popularityValueSpan.textContent = `Popularity: ${popularityFilter.value} and above`;
@@ -448,6 +453,7 @@ function attachEventListeners() {
 
     resetPeopleFiltersBtn.addEventListener('click', () => {
         professionFilter.selectedIndex = 0;
+        genderFilter.selectedIndex = 0;
         popularityFilter.value = 20;
         setFilterDisplayValues();
         showResults('person');
@@ -577,9 +583,16 @@ async function showResults(category) {
         }
         else if (category === 'person') {
             const profession = document.getElementById('profession-filter').value;
+            const gender = document.getElementById('gender-filter').value;
+
             if (profession) {
                 data.results = data.results.filter(person => person.known_for_department && person.known_for_department.toLowerCase() === profession.toLowerCase());
             }
+
+            if (gender) {
+                data.results = data.results.filter(person => person.gender.toString() === gender);
+            }
+
 
             const popularity = parseFloat(document.getElementById('popularity-filter').value);
             if (!isNaN(popularity) && popularity > 0) {
@@ -608,6 +621,8 @@ async function showResults(category) {
         }
 
         displayResults(data.results, category, searchQuery);
+
+        console.log('Search results:', data.results)
     }
     catch (error) {
         console.log('Error fetching search results:', error);

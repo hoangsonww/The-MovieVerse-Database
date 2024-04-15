@@ -293,14 +293,24 @@
         <!-- Filters for People -->
         <div id="people-filters" style="display:none;">
             <p style="font-weight: bold">Filters Search Results</p>
+
             <label for="profession-filter">Profession:</label>
             <select id="profession-filter">
                 <option value="">Select Profession</option>
                 <option value="Acting">Acting</option>
                 <option value="Directing">Directing</option>
             </select>
+
+            <label for="gender-filter">Gender:</label>
+            <select id="gender-filter">
+                <option value="">Select Gender</option>
+                <option value="2">Male</option>
+                <option value="1">Female</option>
+            </select>
+
             <label for="popularity-filter">Popularity Score:</label>
             <input type="range" id="popularity-filter" min="0" max="100" step="1" value="20" title="Popularity" />
+
             <span id="popularity-value" style="color: white; font: inherit"></span>
             <button id="reset-filters">Reset Filters</button>
         </div>
