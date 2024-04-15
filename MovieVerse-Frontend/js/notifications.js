@@ -77,9 +77,6 @@ async function fetchRecommendedReleases() {
 
     try {
         const genreId = mostVisitedMovieGenre || mostCommonGenre;
-
-        console.log(genreId)
-
         if (!genreId) {
             throw new Error('Genre ID is not valid.');
         }
