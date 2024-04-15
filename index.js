@@ -161,12 +161,12 @@ function setupPagination(mainElementId, paginationContainerId, genresContainerId
                 showMovies(allMovies.slice(0, numberOfMovies), mainElement);
             }
             else {
-                mainElement.innerHTML = `<p>No movies found or an error occurred.</p>`;
+                mainElement.innerHTML = `<p>No movies found on this page.</p>`;
             }
         }
         catch (error) {
             console.log("Error fetching data: ", error);
-            mainElement.innerHTML = `<p>Error fetching data. Please try again later.</p>`;
+            mainElement.innerHTML = `<p>No movies found on this page.</p>`;
         }
         finally {
             hideSpinner();
