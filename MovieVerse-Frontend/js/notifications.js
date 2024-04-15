@@ -128,7 +128,6 @@ function populateActors() {
         const name = document.createElement('span');
         name.textContent = actor.name;
         li.appendChild(name);
-
         list.appendChild(li);
     });
 }
