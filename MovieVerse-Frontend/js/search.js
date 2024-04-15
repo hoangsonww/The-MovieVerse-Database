@@ -335,6 +335,7 @@ function attachEventListeners() {
     const genreTvFilter = document.getElementById('genre-tv-filter');
     const yearTvFilter = document.getElementById('year-tv-filter');
     const ratingTvFilter = document.getElementById('rating-tv-filter');
+    const languageTvFilter = document.getElementById('language-tv-filter');
 
     const professionFilter = document.getElementById('profession-filter');
     const popularityFilter = document.getElementById('popularity-filter');
@@ -415,6 +416,7 @@ function attachEventListeners() {
         ratingTvValueSpan.textContent = `Rating: ${ratingTvFilter.value} and above`;
         showResults('tv');
     });
+    languageTvFilter.addEventListener('change', () => showResults('tv'));
 
     professionFilter.addEventListener('change', () => showResults('person'));
     popularityFilter.addEventListener('input', () => {
@@ -439,6 +441,7 @@ function attachEventListeners() {
         genreTvFilter.selectedIndex = 0;
         yearTvFilter.value = '';
         ratingTvFilter.value = 5;
+        languageTvFilter.selectedIndex = 0;
         setFilterDisplayValues();
         showResults('tv');
     });
@@ -589,15 +592,18 @@ async function showResults(category) {
             const genre = document.getElementById('genre-tv-filter').value;
             const year = document.getElementById('year-tv-filter').value;
             const rating = parseFloat(document.getElementById('rating-tv-filter').value);
+            const language = document.getElementById('language-tv-filter').value;
 
             data.results = data.results.filter(item => {
                 const itemYear = item.first_air_date?.substring(0, 4);
                 const itemRating = item.vote_average;
                 const itemGenres = item.genre_ids;
+                const itemLanguage = item.original_language;
 
                 return (!genre || itemGenres.includes(parseInt(genre))) &&
                     (!year || itemYear === year) &&
-                    (!rating || itemRating >= rating);
+                    (!rating || itemRating >= rating) &&
+                    (!language || itemLanguage === language);
             });
         }
 
