@@ -39,7 +39,7 @@ async function fetchMovies(startDate, endDate) {
         return data.results;
     }
     catch (error) {
-        console.error('Failed to fetch movies for', elementId + ':', error);
+        console.log('Failed to fetch movies for', elementId + ':', error);
         return [];
     }
 }
@@ -48,17 +48,37 @@ function generateMovieNames(input) {
     return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
 }
 
+async function getMostVisitedMovieGenre() {
+    const movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
+    let mostVisitedGenre = null;
+    let maxVisits = 0;
+    for (const movieId in movieVisits) {
+        const visits = movieVisits[movieId];
+        if (visits.count > maxVisits) {
+            maxVisits = visits.count;
+            mostVisitedGenre = await fetchGenreForMovie(movieId);
+        }
+    }
+    return mostVisitedGenre;
+}
+
+async function fetchGenreForMovie(movieId) {
+    const movieDetailsUrl = `https://${getMovieVerseData()}/3/movie/${movieId}?${generateMovieNames()}${getMovieCode()}`;
+    const response = await fetch(movieDetailsUrl);
+    const movieDetails = await response.json();
+    return movieDetails.genres[0] ? movieDetails.genres[0].id : null;
+}
+
 async function fetchRecommendedReleases() {
     let url;
 
-    try {
-        const favoriteGenres = localStorage.getItem('favoriteGenre');
+    const mostCommonGenre = getMostCommonGenre();
+    const mostVisitedMovieGenre = await getMostVisitedMovieGenre();
 
-        if (!favoriteGenres) {
-            throw new Error('No favorite genres found in localStorage.');
-        }
-        const genresArray = JSON.parse(favoriteGenres);
-        const genreId = genresArray[0];
+    try {
+        const genreId = mostVisitedMovieGenre || mostCommonGenre;
+
+        console.log(genreId)
 
         if (!genreId) {
             throw new Error('Genre ID is not valid.');
@@ -76,7 +96,7 @@ async function fetchRecommendedReleases() {
         populateList('recommendedReleases', data.results.slice(0, 5));
     }
     catch (error) {
-        console.error('Failed to fetch movies:', error);
+        console.log('Failed to fetch movies:', error);
     }
 }
 
