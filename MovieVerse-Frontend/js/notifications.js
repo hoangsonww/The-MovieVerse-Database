@@ -80,7 +80,7 @@ async function fetchRecommendedReleases() {
         if (!genreId) {
             throw new Error('Genre ID is not valid.');
         }
-        url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=${genreId}`;
+        url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=${genreId}`;
     }
     catch (error) {
         console.log('Fetching recommended movies failed or data issues:', error);
