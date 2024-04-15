@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 document.addEventListener('DOMContentLoaded', function() {
     let currentPageMostPopular = 1;
-    const totalPages = 120;
+    const totalPages = 320;
     const mostPopularMain = document.getElementById('most-popular');
     const paginationContainer = document.getElementById('most-popular-pagination');
 
@@ -138,7 +138,11 @@ function setupPagination(mainElementId, paginationContainerId, genresContainerId
             const data = await response.json();
 
             if (data.total_pages) {
-                totalPages = data.total_pages;
+                if (data.total_pages > 250) {
+                    totalPages = 250;
+                } else {
+                    totalPages = data.total_pages;
+                }
             }
 
             if (data.results.length > 0) {
@@ -157,12 +161,12 @@ function setupPagination(mainElementId, paginationContainerId, genresContainerId
                 showMovies(allMovies.slice(0, numberOfMovies), mainElement);
             }
             else {
-                mainElement.innerHTML = `<p>No movies found or an error occurred.</p>`;
+                mainElement.innerHTML = `<p>No movies found on this page.</p>`;
             }
         }
         catch (error) {
-            console.error("Error fetching data: ", error);
-            mainElement.innerHTML = `<p>Error fetching data. Please try again later.</p>`;
+            console.log("Error fetching data: ", error);
+            mainElement.innerHTML = `<p>No movies found on this page.</p>`;
         }
         finally {
             hideSpinner();

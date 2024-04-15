@@ -109,33 +109,43 @@ If you have a suggestion that would make this better, please fork the repo and c
 3. Install Emscripten and compile the C code to WebAssembly (refer to the README.md file in the `utilities` directory [here](../utilities/README.md).)
 4. Take a look at the project configuration directory (project-config) and make sure that the paths are correct.
 5. Visit the backend directory and install the dependencies (if any):
-    ```
+    ```bash
     npm install
     ```
 6. Start the backend server:
-    ```
+    ```bash
     npm start
     ```
 7. Visit the frontend directory (root) and install the dependencies (if any):
-    ```
+    ```bash
     npm install
     ```
 8. Start the frontend server:
-    ```
+    ```bash
     npm start
     ```
 9. Visit the mobile app directory and install the dependencies (if any):
-    ```
+    ```bash
     npm install
+    cordova platform add ios
+    cordova platform add android
     ```
-10. Start the mobile app server:
+10. Start the mobile app using Cordova (visit the `MovieVerse-Mobile` directory for more information):
+    ```bash
+    cordova build
+    cordova emulate ios
+    cordova emulate android
     ```
-    npm start
+11. Commit your Changes (Don't forget to create a branch for your feature):
+    ```bash
+    git commit -m 'Add some AmazingFeature'
     ```
-11. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-12. Push to the Branch (`git push origin feature/AmazingFeature`)
+12. Push to your Branch:
+    ```bash
+    git push origin feature/AmazingFeature
+    ```
 13. Open a Pull Request (if you want to merge your changes to our official app)
-14. Enjoy coding and let me know if you have any questions!
+14. Enjoy coding and [let me know](https://github.com/hoangsonww/The-MovieVerse-Database/discussions) if you have any questions!
 
 ## Privacy Policy
 
