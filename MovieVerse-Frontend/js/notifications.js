@@ -86,7 +86,7 @@ async function fetchRecommendedReleases() {
         url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=${genreId}`;
     }
     catch (error) {
-        console.error('Fetching recommended movies failed or data issues:', error);
+        console.log('Fetching recommended movies failed or data issues:', error);
         url = `https://${getMovieVerseData()}/3/movie/popular?${generateMovieNames()}${getMovieCode()}&language=en-US&page=1`;
     }
 
