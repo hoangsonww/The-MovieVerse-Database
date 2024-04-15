@@ -1266,6 +1266,7 @@ p {
     padding-right: 10px;
     box-sizing: border-box;
     z-index: 999;
+    max-width: 95px;
 }
 
 #ad-container {
@@ -2032,6 +2033,7 @@ p {
     cursor: pointer;
     font: inherit;
     font-size: 12.9px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 .page-button:hover {
@@ -2680,6 +2682,7 @@ canvas {
         cursor: pointer;
         position: absolute;
         top: 0;
+        width: 95px;
         margin-left: 188px;
         border-radius: 8px;
         padding-left: 10px;

@@ -277,26 +277,25 @@
         });
 
         document.addEventListener('DOMContentLoaded', function() {
-            let lastScrollTop = 0;
+            let lastScrollTop = window.scrollY;
             const translateControl = document.getElementById('translate_control');
             const translateEl = document.getElementById('google_translate_element');
 
             window.addEventListener('scroll', function() {
-                let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                let scrollTop = window.scrollY;
 
                 if (window.innerWidth <= 767) {
-                    if (scrollTop > lastScrollTop) {
+                    if (scrollTop > lastScrollTop && scrollTop > 0) {
                         translateControl.style.display = 'none';
                         translateEl.style.display = 'none';
                     }
-                    else if (scrollTop < lastScrollTop || scrollTop === 0) {
+                    else {
                         translateControl.style.display = 'block';
-                        translateEl.style.display = 'none';
                     }
                     lastScrollTop = scrollTop;
                 }
             }, { passive: true });
-        });
+        })
     </script>
     <header id="homepage-header" style="margin-top: -5px">
         <a id="indexLink" href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer">
