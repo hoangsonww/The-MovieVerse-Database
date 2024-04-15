@@ -1,28 +1,4 @@
-const most_popular_main = document.getElementById("most-popular");
-const action_main = document.getElementById("action");
-const horror_main = document.getElementById("horror");
-const documentary_main = document.getElementById("documentary");
-const animation_main = document.getElementById("animation");
-const scifi_main = document.getElementById("sci-fi");
-const romantic_main = document.getElementById("romantic");
-const thriller_main = document.getElementById("thriller");
-const mystery_main = document.getElementById("mystery");
-const comedy_main = document.getElementById("comedy");
-const fantasy_main = document.getElementById("fantasy");
-const family_main = document.getElementById("family");
-const tv_series_main = document.getElementById("tv-series");
-const crime_main = document.getElementById("crime");
-const award_winning_main = document.getElementById('award-winning');
-const hidden_gems_main = document.getElementById('hidden-gems');
-const western_main = document.getElementById('western');
-const war_main = document.getElementById('war');
-const classic_main = document.getElementById('classic');
 const director_main = document.getElementById('director-spotlight');
-const korean_main = document.getElementById('korean');
-const vietnamese_main = document.getElementById('vietnamese');
-const indian_main = document.getElementById("indian");
-const musical_main = document.getElementById('musical');
-const drama_main = document.getElementById('drama');
 const form = document.getElementById("form");
 const search = document.getElementById("search");
 const searchButton = document.getElementById("button-search");
@@ -55,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 document.addEventListener('DOMContentLoaded', function() {
     let currentPageMostPopular = 1;
-    const totalPages = 60;
+    const totalPages = 120;
     const mostPopularMain = document.getElementById('most-popular');
     const paginationContainer = document.getElementById('most-popular-pagination');
 
@@ -151,13 +127,11 @@ function setupPagination(mainElementId, paginationContainerId, genresContainerId
     const fetchAndUpdate = () => {
         const timestamp = new Date().getTime();
         const urlWithPage = `${baseUrl}&page=${currentPage}&_=${timestamp}`;
-        console.log("Fetching URL:", urlWithPage);
         getMovies(urlWithPage, mainElement);
     };
 
     async function getMovies(url, mainElement) {
         showSpinner();
-        console.log("Request URL:", url);
 
         try {
             const response = await fetch(url);
@@ -181,7 +155,8 @@ function setupPagination(mainElementId, paginationContainerId, genresContainerId
                 });
 
                 showMovies(allMovies.slice(0, numberOfMovies), mainElement);
-            } else {
+            }
+            else {
                 mainElement.innerHTML = `<p>No movies found or an error occurred.</p>`;
             }
         }
