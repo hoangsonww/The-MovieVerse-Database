@@ -21,22 +21,8 @@ async function fetchReleasesByCategory(elementId, startDate, endDate, isLastVisi
     list.innerHTML = '';
 
     let movies = await fetchMovies(startDate, endDate);
-    if (movies.length < 5 && !isLastVisit) {
-        const expandedStartDate = new Date(startDate.getFullYear(), startDate.getMonth() - 1, startDate.getDate());
-        movies = await fetchMovies(expandedStartDate, endDate);
-    }
 
-    if (movies.length === 0) {
-        if (isLastVisit) {
-            const noMoviesText = document.createElement('li');
-            noMoviesText.textContent = "No New Movies Released Since Your Last Visit";
-            list.appendChild(noMoviesText);
-        }
-        else {
-            const veryExpandedStartDate = new Date(startDate.getFullYear() - 1, startDate.getMonth(), startDate.getDate());
-            movies = await fetchMovies(veryExpandedStartDate, endDate);
-        }
-    }
+    movies = movies.sort((a, b) => new Date(b.release_date) - new Date(a.release_date));
 
     populateList(elementId, movies.slice(0, 5));
 }
@@ -45,12 +31,12 @@ async function fetchMovies(startDate, endDate) {
     const formattedStartDate = `${startDate.getFullYear()}-${(startDate.getMonth() + 1).toString().padStart(2, '0')}-${startDate.getDate().toString().padStart(2, '0')}`;
     const formattedEndDate = `${endDate.getFullYear()}-${(endDate.getMonth() + 1).toString().padStart(2, '0')}-${endDate.getDate().toString().padStart(2, '0')}`;
 
-    const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&release_date.gte=${formattedStartDate}&release_date.lte=${formattedEndDate}`;
+    const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&release_date.gte=${formattedStartDate}&release_date.lte=${formattedEndDate}`;
 
     try {
         const response = await fetch(url);
         const data = await response.json();
-        return data.results.filter(movie => movie.popularity > 0);
+        return data.results;
     }
     catch (error) {
         console.error('Failed to fetch movies for', elementId + ':', error);
