@@ -165,7 +165,7 @@ function setupPagination(mainElementId, paginationContainerId, genresContainerId
             }
         }
         catch (error) {
-            console.error("Error fetching data: ", error);
+            console.log("Error fetching data: ", error);
             mainElement.innerHTML = `<p>Error fetching data. Please try again later.</p>`;
         }
         finally {
