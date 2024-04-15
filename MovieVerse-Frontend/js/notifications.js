@@ -112,7 +112,6 @@ function populateList(elementId, movies) {
         title.textContent = movie.title;
         title.style.color = 'black';
         li.appendChild(title);
-
         list.appendChild(li);
     });
 }
