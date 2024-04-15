@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 document.addEventListener('DOMContentLoaded', function() {
     let currentPageMostPopular = 1;
-    const totalPages = 120;
+    const totalPages = 320;
     const mostPopularMain = document.getElementById('most-popular');
     const paginationContainer = document.getElementById('most-popular-pagination');
 
