@@ -53,11 +53,13 @@ async function fetchRecommendedReleases() {
 
     try {
         const favoriteGenres = localStorage.getItem('favoriteGenre');
+
         if (!favoriteGenres) {
             throw new Error('No favorite genres found in localStorage.');
         }
         const genresArray = JSON.parse(favoriteGenres);
         const genreId = genresArray[0];
+
         if (!genreId) {
             throw new Error('Genre ID is not valid.');
         }
