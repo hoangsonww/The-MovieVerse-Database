@@ -593,7 +593,6 @@ async function showResults(category) {
                 data.results = data.results.filter(person => person.gender.toString() === gender);
             }
 
-
             const popularity = parseFloat(document.getElementById('popularity-filter').value);
             if (!isNaN(popularity) && popularity > 0) {
                 data.results = data.results.filter(person => person.popularity >= popularity);
@@ -621,8 +620,6 @@ async function showResults(category) {
         }
 
         displayResults(data.results, category, searchQuery);
-
-        console.log('Search results:', data.results)
     }
     catch (error) {
         console.log('Error fetching search results:', error);
