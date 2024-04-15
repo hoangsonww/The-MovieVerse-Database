@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function setupPagination(mainElementId, paginationContainerId, genresContainerId, baseUrl) {
     let currentPage = 1;
-    const totalPages = 60;
+    let totalPages = 10;
 
     const mainElement = document.getElementById(mainElementId);
     const paginationContainer = document.getElementById(paginationContainerId);
@@ -153,23 +153,46 @@ function setupPagination(mainElementId, paginationContainerId, genresContainerId
         const urlWithPage = `${baseUrl}&page=${currentPage}&_=${timestamp}`;
         console.log("Fetching URL:", urlWithPage);
         getMovies(urlWithPage, mainElement);
-        updatePaginationDisplay();
     };
 
     async function getMovies(url, mainElement) {
         showSpinner();
         console.log("Request URL:", url);
 
-        const response = await fetch(url);
-        const data = await response.json();
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
 
-        if (data.results.length > 0) {
-            showMovies(data.results, mainElement);
+            if (data.total_pages) {
+                totalPages = data.total_pages;
+            }
+
+            if (data.results.length > 0) {
+                let allMovies = data.results;
+                const popularityThreshold = 0.5;
+                const numberOfMovies = calculateMoviesToDisplay();
+
+                allMovies.sort((a, b) => {
+                    const popularityDifference = Math.abs(a.popularity - b.popularity);
+                    if (popularityDifference < popularityThreshold) {
+                        return b.vote_average - a.vote_average;
+                    }
+                    return b.popularity - a.popularity;
+                });
+
+                showMovies(allMovies.slice(0, numberOfMovies), mainElement);
+            } else {
+                mainElement.innerHTML = `<p>No movies found or an error occurred.</p>`;
+            }
         }
-        else {
-            mainElement.innerHTML = `<p>No movies found or an error occurred.</p>`;
+        catch (error) {
+            console.error("Error fetching data: ", error);
+            mainElement.innerHTML = `<p>Error fetching data. Please try again later.</p>`;
         }
-        hideSpinner();
+        finally {
+            hideSpinner();
+            updatePaginationDisplay();
+        }
     }
 
     const updatePaginationDisplay = () => {
