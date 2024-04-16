@@ -568,7 +568,7 @@ async function fetchTVRatings(imdbId) {
         const response = await fetch(omdb);
         const data = await response.json();
 
-        let imdbRating = data.imdbRating ? data.imdbRating : 'N/A';
+        let imdbRating = data.imdbRating ? data.imdbRating : 'IMDb rating not available';
 
         return imdbRating;
     }
@@ -599,8 +599,10 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
 
     let detailsHTML = `<p><strong>Overview:</strong> ${tvSeries.overview || 'Overview not available.'}</p>`;
 
-    detailsHTML += `<p><strong>Tagline:</strong> ${tvSeries.tagline || 'Not available'}</p>`;
+    detailsHTML += `<p><strong>Original Title:</strong> ${tvSeries.original_name || 'Not available'}</p>`;
 
+    detailsHTML += `<p><strong>Tagline:</strong> ${tvSeries.tagline || 'Not available'}</p>`;
+console.log(tvSeries)
     const genres = tvSeries.genres && tvSeries.genres.length ? tvSeries.genres.map(genre => genre.name).join(', ') : 'Genres not available';
     detailsHTML += `<p><strong>Genres:</strong> ${genres}</p>`;
 
@@ -623,11 +625,27 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
         detailsHTML += `<p title="Click to go to this TV series' IMDB page"><strong>IMDb Rating:</strong> <strong><a id="ratingImdb" href="${imdbUrl}" target="_blank">${imdbRating}</a></strong></p>`;
     }
     else {
-        detailsHTML += `<p title="Click to go to this TV series' IMDB page"><strong>IMDb Rating:</strong> N/A</p>`;
+        detailsHTML += `<p title="Click to go to this TV series' IMDB page"><strong>IMDb Rating:</strong> <strong>IMDb rating not available</strong></p>`;
     }
 
     const homepage = tvSeries.homepage ? `<a id="homepage" href="${tvSeries.homepage}" target="_blank">Visit</a>` : 'Not available';
     detailsHTML += `<p><strong>Homepage:</strong> ${homepage}</p>`;
+
+    detailsHTML += `<p><strong>Seasons:</strong> ${tvSeries.number_of_seasons || 0}, <strong>Episodes:</strong> ${tvSeries.number_of_episodes || 0}</p>`;
+
+    if (tvSeries.origin_country && tvSeries.origin_country.length > 0) {
+        const countryNames = tvSeries.origin_country.map(code => getCountryName(code)).join(', ');
+        detailsHTML += `<p><strong>Country of Origin:</strong> ${countryNames}</p>`;
+    }
+    else {
+        detailsHTML += `<p><strong>Country of Origin:</strong> Information not available</p>`;
+    }
+
+    const languageName = getLanguageName(tvSeries.original_language);
+    detailsHTML += `<p><strong>Original Language:</strong> ${languageName}</p>`;
+
+    const productionCountries = tvSeries.production_countries && tvSeries.production_countries.length > 0 ? tvSeries.production_countries.map(country => getCountryName(country.iso_3166_1)).join(', ') : 'Information not available';
+    detailsHTML += `<p><strong>Production Countries:</strong> ${productionCountries}</p>`;
 
     if (tvSeries.created_by && tvSeries.created_by.length) {
         const creatorsLinks = tvSeries.created_by.map(creator =>
@@ -668,19 +686,6 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
     else {
         detailsHTML += `<p><strong>Similar TV Series:</strong> Information not available</p>`;
     }
-
-    detailsHTML += `<p><strong>Seasons:</strong> ${tvSeries.number_of_seasons || 0}, <strong>Episodes:</strong> ${tvSeries.number_of_episodes || 0}</p>`;
-
-    if (tvSeries.origin_country && tvSeries.origin_country.length > 0) {
-        const countryNames = tvSeries.origin_country.map(code => getCountryName(code)).join(', ');
-        detailsHTML += `<p><strong>Country of Origin:</strong> ${countryNames}</p>`;
-    }
-    else {
-        detailsHTML += `<p><strong>Country of Origin:</strong> Information not available</p>`;
-    }
-
-    const languageName = getLanguageName(tvSeries.original_language);
-    detailsHTML += `<p><strong>Original Language:</strong> ${languageName}</p>`;
 
     if (tvSeries.last_episode_to_air) {
         detailsHTML += `<p><strong>Last Episode:</strong> ${tvSeries.last_episode_to_air.name || 'Title not available'} - "${tvSeries.last_episode_to_air.overview || 'Overview not available.'}"</p>`;

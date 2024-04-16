@@ -854,6 +854,7 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
             const imdbRatingValue = imdbRating !== 'N/A' ? parseFloat(imdbRating) : (tmdbMovieData.vote_average / 2);
             rtRating = calculateFallbackRTRating(imdbRatingValue, tmdbMovieData.vote_average)
         }
+
         populateMovieDetails(tmdbMovieData, imdbRating, rtRating, metascore, awards, rated);
     }
     catch (error) {
@@ -1003,7 +1004,6 @@ function createMetacriticSlug(title) {
 async function fetchStreamingLinks(movieId) {
     const url = `https://${getMovieVerseData()}/3/movie/${movieId}/watch/providers?${generateMovieNames()}${getMovieCode()}`;
 
-    console.log(url)
     try {
         const response = await fetch(url);
         const data = await response.json();
@@ -1144,8 +1144,11 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         ? movie.runtime + ' minutes'
         : 'Runtime Info Not Available';
 
+    const originalTitle = movie.original_title !== movie.title ? `<p><strong>Original Title:</strong> ${movie.original_title}</p>` : `<p><strong>Original Title:</strong> ${movie.title}</p>`;
+
     document.getElementById('movie-description').innerHTML += `
         <p id="descriptionP"><strong>Description: </strong>${overview}</p>
+        ${originalTitle}
         <p><strong>Tagline:</strong> ${tagline}</p>
         <p><strong>Genres:</strong> ${genres}</p>
         ${ratedElement}

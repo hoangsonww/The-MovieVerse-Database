@@ -169,17 +169,17 @@ function populateActorDetails(actor, credits) {
     }
 
     actorDescription.innerHTML = `
-        <p><strong>Biography:</strong> ${actor.biography || 'N/A'}</p>
-        <p><strong>Date of Birth:</strong> ${actor.birthday || 'N/A'}</p>
-        <p><strong>Date of Death:</strong> ${actor.deathday || 'N/A'}</p>
+        <p><strong>Biography:</strong> ${actor.biography || 'Information Unavailable'}</p>
+        <p><strong>Date of Birth:</strong> ${actor.birthday || 'Information Unavailable'}</p>
+        <p><strong>Date of Death:</strong> ${actor.deathday || 'Information Unavailable'}</p>
         <p><strong>Age:</strong> ${ageOrStatus}</p>
-        <p><strong>Place of Birth:</strong> ${actor.place_of_birth || 'N/A'}</p>
-        <p><strong>Known For:</strong> ${actor.known_for_department || 'N/A'}</p>
-        <p><strong>Height:</strong> ${actor.height || 'N/A'}</p>
+        <p><strong>Place of Birth:</strong> ${actor.place_of_birth || 'Information Unavailable'}</p>
+        <p><strong>Known For:</strong> ${actor.known_for_department || 'Information Unavailable'}</p>
+        <p><strong>Height:</strong> ${actor.height || 'Information Unavailable'}</p>
     `;
 
     const gender = document.createElement('div');
-    gender.innerHTML = `<p><strong>Gender:</strong> ${actor.gender === 1 ? 'Female' : actor.gender === 2 ? 'Male' : 'N/A'}</p>`;
+    gender.innerHTML = `<p><strong>Gender:</strong> ${actor.gender === 1 ? 'Female' : actor.gender === 2 ? 'Male' : 'Information Unavailable'}</p>`;
     actorDescription.appendChild(gender);
 
     const popularity = document.createElement('div');
