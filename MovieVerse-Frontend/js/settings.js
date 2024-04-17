@@ -1,4 +1,4 @@
-const DEFAULT_BACKGROUND_IMAGE = '../../images/universe-1.webp';
+const DEFAULT_BACKGROUND_IMAGE = '../../images/universe-22.webp';
 
 document.addEventListener('DOMContentLoaded', () => {
     const bgSelect = document.getElementById('background-select');
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (resetButton) {
         resetButton.addEventListener('click', function () {
             localStorage.removeItem('backgroundImage');
-            localStorage.setItem('backgroundImage', '../../images/universe-1.webp')
+            localStorage.setItem('backgroundImage', '../../images/universe-22.webp')
             localStorage.removeItem('textColor');
             localStorage.removeItem('fontSize');
             window.location.reload();
@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const savedFontSize = localStorage.getItem('fontSize');
 
         if (!savedBg) {
-            savedBg = '../../images/universe-1.webp';
+            savedBg = '../../images/universe-22.webp';
         }
         document.body.style.backgroundImage = `url('${savedBg}')`;
         const foundImage = customImages.find(image => image.dataURL === savedBg);
