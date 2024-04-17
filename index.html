@@ -918,7 +918,10 @@
                 const savedBg = localStorage.getItem('backgroundImage');
                 const savedTextColor = localStorage.getItem('textColor');
                 const savedFontSize = localStorage.getItem('fontSize');
-                if (savedBg) {
+                if (savedBg === '../../images/universe-1.png') {
+                    document.body.style.backgroundImage = 'url("MovieVerse-Frontend/images/universe-1.webp")';
+                }
+                else if (savedBg) {
                     document.body.style.backgroundImage = `url('${savedBg}')`;
                 }
                 else {
