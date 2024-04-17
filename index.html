@@ -48,16 +48,13 @@
     <link rel="stylesheet" href="https://movie-verse.com/MovieVerse-Frontend/css/style.css">
     <link rel="icon" type="image/x-icon" href="https://movie-verse.com/images/favicon.ico">
     <link rel="manifest" href="https://movie-verse.com/manifest.json">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap&font-display=swap" as="style">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap&font-display=swap" rel="stylesheet" media="print" onload="this.onload=null;this.removeAttribute('media');">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap"></noscript>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" media="print" onload="this.media='all'">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" as="style">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" media="print" onload="this.media='all';">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"></noscript>
 
-<!--    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6608388491200814"-->
-<!--            crossorigin="anonymous"></script>-->
+    <link rel="preload" href="/fonts/Poppins-Light.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+    <link rel="preload" href="/fonts/Poppins-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+    <link rel="preload" href="/fonts/Poppins-SemiBold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 
     <!-- Schema.org markup for rich results -->
     <script type="application/ld+json">
@@ -121,6 +118,30 @@
     </script>
 
     <style>
+        @font-face {
+            font-family: 'Poppins';
+            src: url('/fonts/Poppins-Light.ttf') format('truetype');
+            font-weight: 200;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Poppins';
+            src: url('/fonts/Poppins-Regular.ttf') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Poppins';
+            src: url('/fonts/Poppins-SemiBold.ttf') format('truetype');
+            font-weight: 600;
+            font-style: normal;
+            font-display: swap;
+        }
+
         #search {
             margin-right: 0 !important;
         }
@@ -377,6 +398,11 @@
 
         #director-spotlight-title {
             margin-top: 40px;
+        }
+
+        .pagination {
+            min-height: 54px;
+            text-align: center;
         }
     </style>
 </head>

@@ -119,7 +119,8 @@ function setupPagination(mainElementId, paginationContainerId, genresContainerId
     function movePagination() {
         if (window.innerWidth <= 767) {
             mainElement.parentNode.insertBefore(paginationContainer, mainElement);
-        } else {
+        }
+        else {
             genresContainer.appendChild(paginationContainer);
         }
     }
@@ -243,7 +244,11 @@ function setupPagination(mainElementId, paginationContainerId, genresContainerId
 
     movePagination();
     fetchAndUpdate();
-    window.addEventListener('resize', movePagination);
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(movePagination, 250);
+    });
 }
 
 async function fetchAndDisplayMovies(url, count, mainElement) {

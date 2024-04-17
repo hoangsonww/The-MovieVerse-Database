@@ -51,9 +51,35 @@
 
         gtag('config', 'G-CQKJ67FXZ4');
     </script>
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap" as="style" onload="this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap"></noscript>
     <style>
+        @font-face {
+            font-family: 'Poppins';
+            src: url('/fonts/Poppins-Light.ttf') format('truetype');
+            font-weight: 200;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Poppins';
+            src: url('/fonts/Poppins-Regular.ttf') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Poppins';
+            src: url('/fonts/Poppins-SemiBold.ttf') format('truetype');
+            font-weight: 600;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
         @media (min-width: 900px) {
             #form1 {
                 margin-right: 0;
