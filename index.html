@@ -150,15 +150,8 @@
             background-image: url("/images/universe-1-small.webp");
         }
 
-        @media (min-width: 768px) {
-            body {
-                background-image: url("https://movie-verse.com/images/universe-1-medium.webp");
-            }
-        }
-
         @media (min-width: 1024px) {
             body {
-                background-image: url("https://movie-verse.com/images/universe-1.webp");
                 background-repeat: repeat-y;
                 background-size: 100% auto;
             }
@@ -865,7 +858,6 @@
             window.location.href = 'MovieVerse-Frontend/html/settings.html';
         });
         document.addEventListener('DOMContentLoaded', () => {
-            applySettings();
             document.querySelectorAll('nav a').forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -914,29 +906,28 @@
                 });
             });
 
-            function applySettings() {
-                const savedBg = localStorage.getItem('backgroundImage');
-                const savedTextColor = localStorage.getItem('textColor');
-                const savedFontSize = localStorage.getItem('fontSize');
-                if (savedBg === '../../images/universe-1.png') {
-                    document.body.style.backgroundImage = 'url("MovieVerse-Frontend/images/universe-1.webp")';
+            document.addEventListener('DOMContentLoaded', () => {
+                applySettings();
+
+                function applySettings() {
+                    const savedBg = localStorage.getItem('backgroundImage');
+                    const savedTextColor = localStorage.getItem('textColor');
+                    const savedFontSize = localStorage.getItem('fontSize');
+
+                    if (savedBg) {
+                        document.body.style.backgroundImage = `url('${savedBg}')`;
+                    }
+                    if (savedTextColor) {
+                        document.querySelectorAll('h1, h2, h3, p, a, span, div, button, input, select, textarea, label, li').forEach(element => {
+                            element.style.color = savedTextColor;
+                        });
+                    }
+                    if (savedFontSize) {
+                        const size = savedFontSize === 'small' ? '12px' : savedFontSize === 'medium' ? '16px' : '20px';
+                        document.body.style.fontSize = size;
+                    }
                 }
-                else if (savedBg) {
-                    document.body.style.backgroundImage = `url('${savedBg}')`;
-                }
-                else {
-                    document.body.style.backgroundImage = 'url("MovieVerse-Frontend/images/universe-1.webp")';
-                }
-                if (savedTextColor) {
-                    document.querySelectorAll('h1, h2, h3, p, span, div, button, input, select, textarea').forEach(element => {
-                        element.style.color = savedTextColor;
-                    });
-                }
-                if (savedFontSize) {
-                    const size = savedFontSize === 'small' ? '12px' : savedFontSize === 'medium' ? '16px' : '20px';
-                    document.body.style.fontSize = size;
-                }
-            }
+            });
         });
     </script>
 
