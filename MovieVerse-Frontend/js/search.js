@@ -1,5 +1,5 @@
 const form = document.getElementById('form1');
-const IMGPATH = "https://image.tmdb.org/t/p/w500";
+const IMGPATH = window.innerWidth < 750 ? 'https://image.tmdb.org/t/p/w300' : 'https://image.tmdb.org/t/p/w500';
 
 function showSpinner() {
     document.getElementById('myModal').classList.add('modal-visible');
