@@ -921,6 +921,9 @@
                 if (savedBg) {
                     document.body.style.backgroundImage = `url('${savedBg}')`;
                 }
+                else {
+                    document.body.style.backgroundImage = 'url("MovieVerse-Frontend/images/universe-1.webp")';
+                }
                 if (savedTextColor) {
                     document.querySelectorAll('h1, h2, h3, p, span, div, button, input, select, textarea').forEach(element => {
                         element.style.color = savedTextColor;
