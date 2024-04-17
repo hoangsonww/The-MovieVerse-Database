@@ -959,29 +959,6 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('googleSignInBtn').addEventListener('click', handleSignInOut);
 });
 
-function applySettings() {
-    const savedBg = localStorage.getItem('backgroundImage');
-    const savedTextColor = localStorage.getItem('textColor');
-    const savedFontSize = localStorage.getItem('fontSize');
-    if (savedBg) {
-        document.body.style.backgroundImage = `url('${savedBg}')`;
-    }
-    if (savedTextColor) {
-        applyTextColor(savedTextColor);
-    }
-    if (savedFontSize) {
-        const size = savedFontSize === 'small' ? '12px' : savedFontSize === 'medium' ? '16px' : '20px';
-        document.body.style.fontSize = size;
-    }
-}
-
-function applyTextColor(color) {
-    document.querySelectorAll('h1, h2, h3, p, a, span, div, button, input, select, textarea, label, li')
-        .forEach(element => {
-            element.style.color = color;
-        });
-}
-
 function handleSearch() {
     const searchQuery = document.getElementById('search').value;
     localStorage.setItem('searchQuery', searchQuery);

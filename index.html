@@ -905,39 +905,6 @@
                     this.parentElement.scrollIntoView({ behavior: 'smooth' });
                 });
             });
-
-            document.addEventListener('DOMContentLoaded', () => {
-                applySettings();
-
-                function applySettings() {
-                    const savedBg = localStorage.getItem('backgroundImage');
-                    const savedTextColor = localStorage.getItem('textColor');
-                    const savedFontSize = localStorage.getItem('fontSize');
-
-                    if (savedBg) {
-                        let imageUrl = savedBg;
-                        if (savedBg === '../../images/universe-1.webp') {
-                            if (window.innerWidth <= 680) {
-                                imageUrl = '../../images/universe-1-small.webp';
-                            }
-                            else if (window.innerWidth <= 1124) {
-                                imageUrl = '../../images/universe-1-medium.webp';
-                            }
-                        }
-                        document.body.style.backgroundImage = `url('${imageUrl}')`;
-                    }
-
-                    if (savedTextColor) {
-                        document.querySelectorAll('h1, h2, h3, p, a, span, div, button, input, select, textarea, label, li').forEach(element => {
-                            element.style.color = savedTextColor;
-                        });
-                    }
-                    if (savedFontSize) {
-                        const size = savedFontSize === 'small' ? '12px' : savedFontSize === 'medium' ? '16px' : '20px';
-                        document.body.style.fontSize = size;
-                    }
-                }
-            });
         });
     </script>
 

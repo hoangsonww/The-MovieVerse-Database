@@ -53,7 +53,25 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!savedBg) {
             savedBg = '../../images/universe-1.webp';
         }
-        document.body.style.backgroundImage = `url('${savedBg}')`;
+
+        if (savedBg === '../../images/universe-1.png') {
+            savedBg = '../../images/universe-1.webp';
+            localStorage.setItem('backgroundImage', savedBg);
+        }
+
+        if (savedBg) {
+            let imageUrl = savedBg;
+            if (savedBg === '../../images/universe-1.webp') {
+                if (window.innerWidth <= 680) {
+                    imageUrl = '../../images/universe-1-small.webp';
+                }
+                else if (window.innerWidth <= 1124) {
+                    imageUrl = '../../images/universe-1-medium.webp';
+                }
+            }
+            document.body.style.backgroundImage = `url('${imageUrl}')`;
+        }
+
         const foundImage = customImages.find(image => image.dataURL === savedBg);
 
         if (savedTextColor) {
@@ -253,4 +271,3 @@ function resizeImage(file, maxSize, callback) {
     };
     reader.readAsDataURL(file);
 }
-
