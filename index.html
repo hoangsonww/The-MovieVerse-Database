@@ -915,8 +915,18 @@
                     const savedFontSize = localStorage.getItem('fontSize');
 
                     if (savedBg) {
-                        document.body.style.backgroundImage = `url('${savedBg}')`;
+                        let imageUrl = savedBg;
+                        if (savedBg === '../../images/universe-1.webp') {
+                            if (window.innerWidth <= 680) {
+                                imageUrl = '../../images/universe-1-small.webp';
+                            }
+                            else if (window.innerWidth <= 1124) {
+                                imageUrl = '../../images/universe-1-medium.webp';
+                            }
+                        }
+                        document.body.style.backgroundImage = `url('${imageUrl}')`;
                     }
+
                     if (savedTextColor) {
                         document.querySelectorAll('h1, h2, h3, p, a, span, div, button, input, select, textarea, label, li').forEach(element => {
                             element.style.color = savedTextColor;
