@@ -54,7 +54,23 @@ document.addEventListener('DOMContentLoaded', () => {
             savedBg = '../../images/universe-1.webp';
         }
 
-        if (savedBg === '../../images/universe-1.png') {
+        const availableBackgrounds = [
+            '../../images/universe-1.webp', '../../images/universe-2.webp', '../../images/universe-22.webp',
+            '../../images/universe-3.webp', '../../images/universe-4.webp', '../../images/universe-5.webp',
+            '../../images/universe-6.webp', '../../images/universe-7.webp', '../../images/universe-8.webp',
+            '../../images/universe-9.webp', '../../images/universe-10.webp', '../../images/universe-11.webp',
+            '../../images/universe-12.webp', '../../images/universe-13.webp', '../../images/universe-14.webp',
+            '../../images/universe-15.webp', '../../images/universe-16.webp', '../../images/universe-17.webp',
+            '../../images/universe-18.webp', '../../images/universe-19.webp', '../../images/universe-20.webp',
+            '../../images/universe-21.webp', '../../images/universe.webp', '../../images/universe-23.webp',
+            '../../images/black.webp', '../../images/grey.webp', '../../images/blue.webp',
+            '../../images/silver.webp', '../../images/gold.webp', '../../images/rose.webp',
+            '../../images/pink.webp', '../../images/red.webp', '../../images/green.webp',
+            '../../images/brown.webp', '../../images/purple.webp', '../../images/orange.webp',
+            '../../images/yellow.webp'
+        ];
+
+        if (!availableBackgrounds.includes(savedBg)) {
             savedBg = '../../images/universe-1.webp';
             localStorage.setItem('backgroundImage', savedBg);
         }
@@ -80,6 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             textColorInput.value = savedTextColor;
         }
+
         if (savedFontSize) {
             const size = savedFontSize === 'small' ? '12px' : savedFontSize === 'medium' ? '16px' : '20px';
             document.body.style.fontSize = size;
