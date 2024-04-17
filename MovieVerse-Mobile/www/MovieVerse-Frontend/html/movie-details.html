@@ -66,7 +66,7 @@
         }
 
         body {
-            background-image: url("../../images/universe-1.png");
+            background-image: url("../../images/universe-1.webp");
             background-repeat: repeat-y;
             background-size: 100% auto;
         }
@@ -856,27 +856,6 @@
     </script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            setAdaptiveBackgroundImage();
-        });
-
-        function setAdaptiveBackgroundImage() {
-            let backgroundImageUrl = '../../images/universe-1.png';
-
-            if ('connection' in navigator) {
-                switch (navigator.connection.effectiveType) {
-                    case '2g':
-                        backgroundImageUrl = '../../images/universe-1-very-low.png';
-                        break;
-                    case '3g':
-                        backgroundImageUrl = '../../images/universe-1-low.png';
-                        break;
-                }
-            }
-
-            document.body.style.backgroundImage = `url('${backgroundImageUrl}')`;
-        }
-
         let isTrailerOpen = false;
 
         document.getElementById('movie-image').addEventListener('click', function() {

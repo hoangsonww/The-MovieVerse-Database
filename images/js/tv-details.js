@@ -721,7 +721,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
         <img src="https://image.tmdb.org/t/p/original${provider.logo_path}" alt="${provider.provider_name}" style="width: 50px; margin-left: 10px;">
     </a>`;
     }).join('') + `<a href="https://www.justwatch.com/us/search?q=${tvSeriesTitleEncoded}" target="_blank" title="View more streaming options on JustWatch" style="display: inline-flex; align-items: center; vertical-align: bottom; margin-left: 10px;">
-        <img src="../../images/justwatchlogo.png" alt="JustWatch" style="width: 50px;">
+        <img src="../../images/justwatchlogo.webp" alt="JustWatch" style="width: 50px;">
     </a>` : 'No streaming options available.';
 
     detailsHTML += `<p><strong>Streaming Options:</strong> ${streamingHTML}</p>`;

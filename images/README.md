@@ -22,7 +22,7 @@ To apply a background image from this directory in CSS:
 
 ```css
 body {
-    background-image: url('blue.jpg');
+    background-image: url('blue.webp');
     background-size: cover;
     background-repeat: no-repeat;
 }
