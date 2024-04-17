@@ -37,7 +37,7 @@ function generateMovieNames(input) {
     return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
 }
 
-const IMGPATH = window.innerWidth < 750 ? 'https://image.tmdb.org/t/p/w300' : 'https://image.tmdb.org/t/p/w500';
+const IMGPATH = "https://image.tmdb.org/t/p/w500";
 const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
 const searchTitle = document.getElementById("select-text");
 const searchButton = document.getElementById("button-search");

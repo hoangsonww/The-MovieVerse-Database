@@ -772,7 +772,7 @@ document.getElementById('side-nav').addEventListener('mouseleave', function() {
 });
 
 const DATABASEURL = `https://${getMovieVerseData()}/3/discover/movie?sort_by=popularity.desc&${generateMovieNames()}${getMovieCode()}`;
-const IMGPATH = window.innerWidth < 750 ? 'https://image.tmdb.org/t/p/w300' : 'https://image.tmdb.org/t/p/w500';
+const IMGPATH = `https://image.tmdb.org/t/p/w500`;
 const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
 
 const directors = [
