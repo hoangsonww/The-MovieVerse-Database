@@ -43,7 +43,7 @@ const urlsToCache = [
     '/images/universe.jpg',
     '/images/universe.png',
     '/images/universe-1-small.webp',
-    '/images/universe-1.png',
+    '/images/universe-1.webp',
     '/images/universe-2.png',
     '/images/universe-2.jpg',
     '/images/universe-3.jpg',
