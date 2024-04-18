@@ -239,23 +239,8 @@ function setStarRating(rating) {
     document.getElementById('rating-value').textContent = `${rating}.0/5.0`;
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    setInitialStarRating(tvSeriesId);
-});
-
 function getMovieVerseData(input) {
     return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
-}
-
-function setInitialStarRating(tvSeriesId) {
-    const savedRatings = JSON.parse(localStorage.getItem('tvSeriesRatings')) || {};
-    const tvSeriesRating = savedRatings[tvSeriesId];
-    if (tvSeriesRating) {
-        setStarRating(tvSeriesRating);
-    }
-    else {
-        setStarRating(0);
-    }
 }
 
 document.querySelectorAll('.rating .star').forEach(star => {
@@ -602,7 +587,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
     detailsHTML += `<p><strong>Original Title:</strong> ${tvSeries.original_name || 'Not available'}</p>`;
 
     detailsHTML += `<p><strong>Tagline:</strong> ${tvSeries.tagline || 'Not available'}</p>`;
-console.log(tvSeries)
+
     const genres = tvSeries.genres && tvSeries.genres.length ? tvSeries.genres.map(genre => genre.name).join(', ') : 'Genres not available';
     detailsHTML += `<p><strong>Genres:</strong> ${genres}</p>`;
 
@@ -804,7 +789,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('clear-search-btn').style.display = 'none';
 
-    const savedRatings = JSON.parse(localStorage.getItem('movieRatings')) || {};
+    const savedRatings = JSON.parse(localStorage.getItem('tvSeriesRatings')) || {};
     const movieRating = savedRatings[tvSeriesId] || 0;
     setStarRating(movieRating);
 });
