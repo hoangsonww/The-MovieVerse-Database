@@ -160,34 +160,43 @@ document.addEventListener('DOMContentLoaded', () => {
             const file = fileInput.files[0];
             const customImages = JSON.parse(localStorage.getItem('customImages')) || [];
             const totalSize = customImages.reduce((sum, img) => sum + img.dataURL.length, 0);
-            const quota = 4.5 * 1024 * 1024;
+            const quota = 4.5 * 1024 * 1024; // 4.5 MB
 
             if (totalSize >= quota) {
                 handleQuotaExceedance();
+                window.location.reload();
+                return;
+            }
+
+            if (file.size > 204800) { // 200 KB
+                resizeImage(file, 204800, (resizedDataUrl, err) => {
+                    if (err) {
+                        alert('Your browser does not support resizing images. Please use a different browser or upload an image smaller than 200KB.');
+                        window.location.reload();
+                        return;
+                    }
+                    processImageUpload(resizedDataUrl, imageNameInput, bgSelect);
+                    alert('The uploaded image was resized to fit the size limit of 200KB.');
+                    window.location.reload();
+                });
             }
             else {
-                if (file.size > 204800) { // 200KB
-                    resizeImage(file, 204800, (resizedDataUrl) => {
-                        processImageUpload(resizedDataUrl, imageNameInput, bgSelect);
-                        alert('The uploaded image was resized to fit the size limit of 200KB.');
-                    });
-                }
-                else {
-                    const reader = new FileReader();
-                    reader.onload = function (e) {
-                        processImageUpload(e.target.result, imageNameInput, bgSelect);
-                    };
-                    reader.readAsDataURL(file);
-                }
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    processImageUpload(e.target.result, imageNameInput, bgSelect);
+                    window.location.reload();
+                };
+                reader.onerror = function () {
+                    alert('Error reading the file.');
+                    window.location.reload();
+                };
+                reader.readAsDataURL(file);
             }
-            window.location.reload();
-        }
-        else {
+        } else {
             alert('Please select an image to upload.');
         }
     });
 });
-
 
 function handleQuotaExceedance() {
     const customImages = JSON.parse(localStorage.getItem('customImages')) || [];
@@ -257,36 +266,56 @@ function processImageUpload(dataUrl, imageNameInput, bgSelect) {
 }
 
 function resizeImage(file, maxSize, callback) {
+    if (!(window.FileReader && window.Blob && window.HTMLCanvasElement)) {
+        callback(null, new Error('Resizing not supported'));
+        return;
+    }
+
     const reader = new FileReader();
     reader.onload = function(e) {
         const img = new Image();
         img.onload = function() {
-            let canvas = document.createElement('canvas');
-            let ctx = canvas.getContext('2d');
+            try {
+                let canvas = document.createElement('canvas');
+                let ctx = canvas.getContext('2d');
 
-            let width = img.width;
-            let height = img.height;
+                let width = img.width;
+                let height = img.height;
 
-            if (width > height) {
-                if (width > maxSize) {
-                    height *= maxSize / width;
-                    width = maxSize;
+                if (width > height) {
+                    if (width > maxSize) {
+                        height *= maxSize / width;
+                        width = maxSize;
+                    }
                 }
-            }
-            else {
-                if (height > maxSize) {
-                    width *= maxSize / height;
-                    height = maxSize;
+                else {
+                    if (height > maxSize) {
+                        width *= maxSize / height;
+                        height = maxSize;
+                    }
                 }
+
+                canvas.width = width;
+                canvas.height = height;
+                ctx.drawImage(img, 0, 0, width, height);
+
+                callback(canvas.toDataURL('image/jpeg'), null);
+
+                canvas.height = 0;
+                canvas.width = 0;
+                canvas = null;
             }
-
-            canvas.width = width;
-            canvas.height = height;
-            ctx.drawImage(img, 0, 0, width, height);
-
-            callback(canvas.toDataURL('image/jpeg'));
+            catch (error) {
+                callback(null, error);
+            }
+        };
+        img.onerror = function() {
+            callback(null, new Error('Failed to load the image.'));
         };
         img.src = e.target.result;
+    };
+    reader.onerror = function() {
+        callback(null, new Error('Failed to read the image file.'));
     };
     reader.readAsDataURL(file);
 }
