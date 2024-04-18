@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
         bgSelect.addEventListener('change', function() {
             document.body.style.backgroundImage = `url('${this.value}')`;
             localStorage.setItem('backgroundImage', this.value);
+            window.location.reload();
         });
     }
 
