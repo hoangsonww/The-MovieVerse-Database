@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
             '../../images/yellow.webp'
         ];
 
-        if (!availableBackgrounds.includes(savedBg)) {
+        if (!availableBackgrounds.includes(savedBg) && !customImages.find(image => image.dataURL === savedBg)) {
             savedBg = '../../images/universe-1.webp';
             localStorage.setItem('backgroundImage', savedBg);
         }
@@ -180,6 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     reader.readAsDataURL(file);
                 }
             }
+            window.location.reload();
         }
         else {
             alert('Please select an image to upload.');
