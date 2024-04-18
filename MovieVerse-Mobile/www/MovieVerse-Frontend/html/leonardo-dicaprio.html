@@ -29,8 +29,6 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@MovieVerse" />
     <meta name="twitter:creator" content="@hoangsonw" />
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap" as="style" onload="this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap"></noscript>
     <meta name="twitter:title" content="Actor Details - Leonardo DiCaprio">
     <meta name="twitter:description" content="Dive into the career of Leonardo DiCaprio, featuring his filmography, latest movies, and achievements, on The MovieVerse.">
     <meta name="twitter:image" content="https://movie-verse.com/images/image.png"/>
@@ -48,6 +46,34 @@
         gtag('config', 'G-CQKJ67FXZ4');
     </script>
     <style>
+        @font-face {
+            font-family: 'Poppins';
+            src: url('/fonts/Poppins-Light.ttf') format('truetype');
+            font-weight: 200;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Poppins';
+            src: url('/fonts/Poppins-Regular.ttf') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Poppins';
+            src: url('/fonts/Poppins-SemiBold.ttf') format('truetype');
+            font-weight: 600;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
         body {
             background-image: url("../../images/universe-1.webp");
             background-repeat: repeat-y;
