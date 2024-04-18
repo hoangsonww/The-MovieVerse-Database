@@ -151,41 +151,49 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    uploadButton.addEventListener('click', function(event) {
-        event.preventDefault();
+    uploadButton.addEventListener('click', function() {
         const fileInput = document.getElementById('custom-bg-upload');
         const imageNameInput = document.getElementById('custom-bg-name');
         const bgSelect = document.getElementById('background-select');
 
-        if (!fileInput || fileInput.files.length === 0) {
-            alert('Please select an image to upload.');
-            return;
-        }
+        if (fileInput && fileInput.files.length > 0) {
+            const file = fileInput.files[0];
+            const customImages = JSON.parse(localStorage.getItem('customImages')) || [];
+            const totalSize = customImages.reduce((sum, img) => sum + img.dataURL.length, 0);
+            const quota = 4.5 * 1024 * 1024; // 4.5 MB
 
-        const file = fileInput.files[0];
+            if (totalSize >= quota) {
+                handleQuotaExceedance();
+                window.location.reload();
+                return;
+            }
 
-        if (window.FileReader && window.Blob && HTMLCanvasElement) {
-            resizeImage(file, 204800) // 200 KB
-                .then(resizedDataUrl => {
-                    const customImages = JSON.parse(localStorage.getItem('customImages')) || [];
-                    const totalSize = customImages.reduce((sum, img) => sum + img.dataURL.length, 0);
-                    const quota = 4.5 * 1024 * 1024; // 4.5 MB
-
-                    if (totalSize + resizedDataUrl.length >= quota) {
-                        handleQuotaExceedance();
+            if (file.size > 204800) { // 200 KB
+                resizeImage(file, 204800, (resizedDataUrl, err) => {
+                    if (err) {
+                        alert('Your browser does not support resizing images. Please use a different browser or upload an image smaller than 200KB.');
+                        window.location.reload();
+                        return;
                     }
-                    else {
-                        processImageUpload(resizedDataUrl, imageNameInput, bgSelect);
-                        alert('The uploaded image was resized to fit the size limit.');
-                    }
-                })
-                .catch(error => {
-                    console.error(error);
-                    alert('Error resizing the image: ' + error.message);
+                    processImageUpload(resizedDataUrl, imageNameInput, bgSelect);
+                    alert('The uploaded image was resized to fit the size limit of 200KB.');
+                    window.location.reload();
                 });
-        }
-        else {
-            alert('The uploaded image cannot be resized because your browser does not support the required features. Please try again with a different browser or with another image.');
+            }
+            else {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    processImageUpload(e.target.result, imageNameInput, bgSelect);
+                    window.location.reload();
+                };
+                reader.onerror = function () {
+                    alert('Error reading the file.');
+                    window.location.reload();
+                };
+                reader.readAsDataURL(file);
+            }
+        } else {
+            alert('Please select an image to upload.');
         }
     });
 });
@@ -257,14 +265,20 @@ function processImageUpload(dataUrl, imageNameInput, bgSelect) {
     localStorage.setItem('backgroundImage', dataUrl);
 }
 
-function resizeImage(file, maxSize) {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = event => {
-            const img = new Image();
-            img.onload = () => {
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
+function resizeImage(file, maxSize, callback) {
+    if (!(window.FileReader && window.Blob && window.HTMLCanvasElement)) {
+        callback(null, new Error('Resizing not supported'));
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+            try {
+                let canvas = document.createElement('canvas');
+                let ctx = canvas.getContext('2d');
+
                 let width = img.width;
                 let height = img.height;
 
@@ -285,12 +299,23 @@ function resizeImage(file, maxSize) {
                 canvas.height = height;
                 ctx.drawImage(img, 0, 0, width, height);
 
-                resolve(canvas.toDataURL('image/jpeg', 0.7));
-            };
-            img.onerror = () => reject(new Error("Failed to load image."));
-            img.src = event.target.result;
+                callback(canvas.toDataURL('image/jpeg'), null);
+
+                canvas.height = 0;
+                canvas.width = 0;
+                canvas = null;
+            }
+            catch (error) {
+                callback(null, error);
+            }
         };
-        reader.onerror = () => reject(new Error("Failed to read file."));
-        reader.readAsDataURL(file);
-    });
+        img.onerror = function() {
+            callback(null, new Error('Failed to load the image.'));
+        };
+        img.src = e.target.result;
+    };
+    reader.onerror = function() {
+        callback(null, new Error('Failed to read the image file.'));
+    };
+    reader.readAsDataURL(file);
 }
