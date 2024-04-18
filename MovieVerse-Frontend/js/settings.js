@@ -166,11 +166,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 handleQuotaExceedance();
             }
             else {
-                if (file.size > 204800) { // 200KB
-                    resizeImage(file, 204800, (resizedDataUrl) => {
-                        processImageUpload(resizedDataUrl, imageNameInput, bgSelect);
-                        alert('The uploaded image was resized to fit the size limit of 200KB.');
-                    });
+                if (file.size > 204800) { // 200 KB
+                    try {
+                        resizeImage(file, 204800, (resizedDataUrl) => {
+                            processImageUpload(resizedDataUrl, imageNameInput, bgSelect);
+                            alert('The uploaded image was resized to fit the size limit of 200KB.');
+                        });
+                    }
+                    catch (err) {
+                        alert('We attempted to resize your image to fit the size limit, but your browser does not support this feature. Please try again with an image smaller than 200KB.');
+                    }
                 }
                 else {
                     const reader = new FileReader();
@@ -288,5 +293,6 @@ function resizeImage(file, maxSize, callback) {
         };
         img.src = e.target.result;
     };
+
     reader.readAsDataURL(file);
 }
