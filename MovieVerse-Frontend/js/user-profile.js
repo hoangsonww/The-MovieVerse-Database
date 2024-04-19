@@ -138,7 +138,8 @@ async function performSearch(searchText) {
         if (querySnapshot.empty) {
             searchUserResults.innerHTML = `<div style="text-align: center; font-weight: bold">No User with Username "${searchText}" found</div>`;
             searchUserResults.style.display = 'block';
-        } else {
+        }
+        else {
             searchUserResults.style.display = 'block';
             querySnapshot.forEach((doc) => {
                 const user = doc.data();
@@ -199,7 +200,8 @@ async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMo
             profileImage.removeAttribute('onclick');
             profileImage.style.cursor = 'default';
             profileImage.title = 'Sign in to change profile image';
-        } else {
+        }
+        else {
             changeProfileImageBtn.style.display = '';
             editProfileBtn.style.display = '';
             profileImage.setAttribute('onclick', 'document.getElementById("imageUpload").click()');
@@ -226,7 +228,7 @@ async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMo
             const followersRef = doc(db, 'profiles', userEmail, 'followers', currentUserEmail);
 
             const followSnap = await getDoc(followingRef);
-            const isFollowing = followSnap.exists();
+            let isFollowing = followSnap.exists();
 
             followUnfollowBtn.textContent = isFollowing ? 'Unfollow' : 'Follow';
             followUnfollowBtn.style.display = 'block';
@@ -236,14 +238,20 @@ async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMo
                     await deleteDoc(followingRef);
                     await deleteDoc(followersRef);
                     followUnfollowBtn.textContent = 'Follow';
-                } else {
+                    isFollowing = false;
+                    await displayUserList('followers', userEmail);
+                }
+                else {
                     const timestamp = serverTimestamp();
                     await setDoc(followingRef, {timestamp: timestamp});
                     await setDoc(followersRef, {timestamp: timestamp});
                     followUnfollowBtn.textContent = 'Unfollow';
+                    isFollowing = true;
+                    await displayUserList('followers', userEmail);
                 }
             };
-        } else {
+        }
+        else {
             followUnfollowBtn.style.display = 'none';
         }
 
@@ -296,7 +304,37 @@ async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMo
                 await displayUserList('followers', userEmail);
             }
             else {
-                console.log("No such profile exists!");
+                const imageUrl = profile.profileImage || '../../images/user-default.png';
+                document.getElementById('profileImage').src = imageUrl;
+
+                if (userEmail !== localStorage.getItem('currentlySignedInMovieVerseUser') || !localStorage.getItem('currentlySignedInMovieVerseUser') || !JSON.parse(localStorage.getItem('isSignedIn')) || profile.profileImage === '../../images/user-default.png') {
+                    removeProfileImageBtn.style.display = 'none';
+                }
+                else {
+                    removeProfileImageBtn.style.display = 'inline';
+                }
+
+                document.getElementById('usernameDisplay').innerHTML = `<strong>Username:</strong> N/A`;
+                document.getElementById('dobDisplay').innerHTML = `<strong>Date of Birth:</strong> N/A`;
+                document.getElementById('bioDisplay').innerHTML = `<strong>Bio:</strong> N/A`;
+                document.getElementById('favoriteGenresDisplay').innerHTML = `<strong>Favorite Genres:</strong> N/A`;
+                document.getElementById('locationDisplay').innerHTML = `<strong>Location:</strong> N/A`;
+                document.getElementById('favoriteMovieDisplay').innerHTML = `<strong>Favorite Movie:</strong> N/A`;
+                document.getElementById('hobbiesDisplay').innerHTML = `<strong>Hobbies:</strong> N/A`;
+                document.getElementById('favoriteActorDisplay').innerHTML = `<strong>Favorite Actor:</strong> N/A`;
+                document.getElementById('favoriteDirectorDisplay').innerHTML = `<strong>Favorite Director:</strong> N/A`;
+                document.getElementById('personalQuoteDisplay').innerHTML = `<strong>Personal Quote:</strong> N/A`;
+                window.document.title = `${profile.username !== 'N/A' ? profile.username : 'User'}'s Profile - The MovieVerse`;
+
+                if (userEmail === localStorage.getItem('currentlySignedInMovieVerseUser')) {
+                    welcomeMessage.textContent = `Welcome, ${profile.username}!`;
+                }
+                else {
+                    welcomeMessage.textContent = `Viewing ${profile.username}'s profile`;
+                }
+
+                await displayUserList('following', userEmail);
+                await displayUserList('followers', userEmail);
             }
         }
         catch (error) {
