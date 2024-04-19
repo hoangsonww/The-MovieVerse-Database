@@ -171,9 +171,15 @@ document.addEventListener('DOMContentLoaded', () => {
             if (file.size > 204800) { // 200 KB
                 resizeImage(file, 204800, (resizedDataUrl, err) => {
                     if (err) {
-                        alert(err.message);
-                        window.location.reload();
-                        return;
+                        if (err.message === 'The quota has been exceeded.') {
+                            processImageUpload(resizedDataUrl, imageNameInput, bgSelect);
+                            alert('The uploaded image was resized to fit the size limit of 200KB.');
+                            window.location.reload();
+                        }
+                        else {
+                            alert(err.message);
+                            window.location.reload();
+                        }
                     }
                     processImageUpload(resizedDataUrl, imageNameInput, bgSelect);
                     alert('The uploaded image was resized to fit the size limit of 200KB.');
