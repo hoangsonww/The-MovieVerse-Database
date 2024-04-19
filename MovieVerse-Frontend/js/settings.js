@@ -143,6 +143,8 @@ function loadCustomBackgrounds() {
     }
 }
 
+let count = 0;
+
 document.addEventListener('DOMContentLoaded', () => {
     const uploadButton = document.getElementById('upload-bg-btn');
 
@@ -160,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const file = fileInput.files[0];
             const customImages = JSON.parse(localStorage.getItem('customImages')) || [];
             const totalSize = customImages.reduce((sum, img) => sum + img.dataURL.length, 0);
-            const quota = 2 * 1024 * 1024; // 2 MB
+            const quota = 4.5 * 1024 * 1024; // 4.5 MB
 
             if (totalSize >= quota) {
                 handleQuotaExceedance();
@@ -172,13 +174,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 resizeImage(file, 204800, (resizedDataUrl, err) => {
                     if (err) {
                         if (err.message === 'The quota has been exceeded.') {
-                            processImageUpload(resizedDataUrl, imageNameInput, bgSelect);
-                            alert('The uploaded image was resized to fit the size limit of 200KB.');
-                            window.location.reload();
-                        }
-                        else {
-                            alert('The uploaded image was too large to be resized. Please upload an image smaller than 2 MB.');
-                            window.location.reload();
+                            if (count === 0) {
+                                count += 1;
+                                processImageUpload(resizedDataUrl, imageNameInput, bgSelect);
+                                alert('The uploaded image was resized to fit the size limit of 200KB.');
+                                window.location.reload();
+                                return;
+                            }
+                            else {
+                                alert(err.message);
+                                window.location.reload();
+                                return;
+                            }
                         }
                     }
                     processImageUpload(resizedDataUrl, imageNameInput, bgSelect);
@@ -234,6 +241,9 @@ function deleteImagesPrompt() {
         updateBackgroundSelectOptions();
         alert('Selected images have been deleted.');
     }
+
+    count = 0;
+    window.location.reload();
 }
 
 function updateBackgroundSelectOptions() {
