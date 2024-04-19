@@ -171,7 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (file.size > 204800) { // 200 KB
                 resizeImage(file, 204800, (resizedDataUrl, err) => {
                     if (err) {
-                        alert('Your browser does not support resizing images. Please use a different browser or upload an image smaller than 200KB.');
+                        alert(err.message);
                         window.location.reload();
                         return;
                     }
@@ -267,7 +267,7 @@ function processImageUpload(dataUrl, imageNameInput, bgSelect) {
 
 function resizeImage(file, maxSize, callback) {
     if (!(window.FileReader && window.Blob && window.HTMLCanvasElement)) {
-        callback(null, new Error('Resizing not supported'));
+        callback(null, new Error('Your browser does not support resizing images. Please use a different browser or upload an image smaller than 200KB.'));
         return;
     }
 
