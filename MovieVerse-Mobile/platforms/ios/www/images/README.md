@@ -1,4 +1,4 @@
-# MovieVerse Images Directory README
+# The MovieVerse - `images` Directory
 
 ## Overview
 
@@ -12,6 +12,7 @@ This directory serves as a repository for the images used throughout our applica
 - `favicon.ico`: This icon is used as the website's favicon, visible in browser tabs and bookmarks.
 - `screenshot.png`: This image is used within the app to demonstrate features or provide visual guides, such as for UI design.
 - `user-default.png`: This image is used as a placeholder for the user's profile until they add their own profile image.
+- And more...
 
 ## Usage Guidelines
 
@@ -21,7 +22,7 @@ To apply a background image from this directory in CSS:
 
 ```css
 body {
-    background-image: url('blue.jpg');
+    background-image: url('blue.webp');
     background-size: cover;
     background-repeat: no-repeat;
 }
@@ -35,7 +36,7 @@ Users can select their background preference through the application's settings,
 
 ### Favicon
 
-`favicon.ico` is linked in the HTML to represent the site's favicon as follows:
+`favicon.ico` is linked in the HTML to represent the site's favicon across all pages of MovieVerse as follows:
 
 ```html
 <link rel="icon" type="image/x-icon" href="favicon.ico">

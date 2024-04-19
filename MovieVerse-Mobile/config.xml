@@ -8,6 +8,9 @@
     <platform name="ios">
         <!-- iOS icon -->
         <icon src="www/icons/iOSIcon.png" width="180" height="180"/>
+        <preference name="StatusBarOverlaysWebView" value="false" />
+        <preference name="StatusBarBackgroundColor" value="#7378c5" />
+        <preference name="StatusBarStyle" value="default" />
     </platform>
     <platform name="android">
         <!-- Android icon -->

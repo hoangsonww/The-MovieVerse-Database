@@ -43,6 +43,7 @@ function getMovieVerseData(input) {
 function fallbackMovieSelection() {
     const fallbackMovies = [432413, 299534, 1726, 562, 118340, 455207, 493922, 447332, 22970, 530385, 27205, 264660, 120467, 603, 577922, 76341, 539, 419704, 515001, 118340, 424, 98];
     const randomFallbackMovie = fallbackMovies[Math.floor(Math.random() * fallbackMovies.length)];
+
     localStorage.setItem('selectedMovieId', randomFallbackMovie);
     window.location.href = 'movie-details.html';
 }
@@ -171,8 +172,12 @@ async function rotateUserStats() {
             label: "Favorite Genre",
             getValue: () => {
                 const mostCommonGenreCode = getMostCommonGenre();
-                const genreMap = JSON.parse(localStorage.getItem('genreMap')) || {};
-                return genreMap[mostCommonGenreCode] || 'Not Available';
+                const genreArray = JSON.parse(localStorage.getItem('genreMap')) || [];
+                const genreObject = genreArray.reduce((acc, genre) => {
+                    acc[genre.id] = genre.name;
+                    return acc;
+                }, {});
+                return genreObject[mostCommonGenreCode] || 'Not Available';
             }
         },
         { label: "Watchlists Created", getValue: () => localStorage.getItem('watchlistsCreated') || 0 },

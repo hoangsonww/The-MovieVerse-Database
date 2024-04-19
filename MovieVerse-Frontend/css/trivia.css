@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap');
-
 footer {
     text-align: center;
     padding: 20px 0;
@@ -22,7 +20,7 @@ body {
     margin: 0;
     align-content: center;
     text-align: center;
-    background-image: url("https://wallpaperaccess.com/full/433561.jpg");
+    background-image: url("https://movie-verse.com/images/universe-1.webp");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -308,7 +306,7 @@ p {
 }
 
 .highlight:hover {
-    color: #f509d9;
+    color: #ff8623;
 }
 
 .button2 {
@@ -518,7 +516,7 @@ header h1 {
 }
 
 #other1:hover {
-    color: #f509d9;
+    color: #ff8623;
     transition: 0.1s linear;
 }
 
@@ -762,6 +760,25 @@ main {
     transition: 0.1s linear;
 }
 
+#chat-button {
+    background-color: #7378c5;
+    bottom: 260px;
+    right: 20px;
+    color: black;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font: inherit;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+#chat-button:hover {
+    background-color: #ff8623;
+    transition: 0.1s ease-in;
+}
+
+
+#chat-button,
 #settings-btn,
 #movie-of-the-day-btn,
 #movie-match-btn,
@@ -777,6 +794,7 @@ main {
 }
 
 @media (min-width: 768px) {
+    #chat-button,
     #settings-btn,
     #movie-of-the-day-btn,
     #movie-match-btn,
@@ -786,7 +804,7 @@ main {
     #trivia-btn,
     #back-to-top-btn {
         position: fixed;
-        right: 20px;
+        right: 10px;
         z-index: 1000;
     }
 
@@ -868,6 +886,7 @@ main {
         display: flex;
     }
 
+    #chat-button,
     #settings-btn,
     #movie-of-the-day-btn,
     #movie-match-btn,
@@ -881,7 +900,7 @@ main {
 }
 
 #trivia-label:hover {
-    color: #f509d9;
+    color: #ff8623;
 }
 
 #trivia-label {

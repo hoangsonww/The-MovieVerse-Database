@@ -32,7 +32,7 @@ commentForm.addEventListener("submit", async (e) => {
         fetchComments();
     }
     catch (error) {
-        console.error("Error adding comment: ", error);
+        console.log("Error adding comment: ", error);
     }
 });
 
@@ -66,61 +66,75 @@ let totalComments = 0;
 let totalPages = 1;
 
 async function fetchComments() {
-    const commentsContainer = document.getElementById("comments-container");
-    commentsContainer.innerHTML = '';
-    commentsContainer.style.maxWidth = "100%";
-    const movieId = localStorage.getItem("selectedMovieId");
+    try {
+        const commentsContainer = document.getElementById("comments-container");
+        commentsContainer.innerHTML = '';
+        commentsContainer.style.maxWidth = "100%";
+        const movieId = localStorage.getItem("selectedMovieId");
 
-    const q = query(collection(db, "comments"), where("movieId", "==", movieId), orderBy("commentDate", "desc"));
-    const querySnapshot = await getDocs(q);
+        const q = query(collection(db, "comments"), where("movieId", "==", movieId), orderBy("commentDate", "desc"));
+        const querySnapshot = await getDocs(q);
 
-    totalComments = querySnapshot.size;
-    totalPages = Math.ceil(totalComments / commentsPerPage);
+        totalComments = querySnapshot.size;
+        totalPages = Math.ceil(totalComments / commentsPerPage);
 
-    let index = 0;
-    let displayedComments = 0;
+        let index = 0;
+        let displayedComments = 0;
 
-    if (querySnapshot.empty) {
-        const noCommentsMsg = document.createElement("p");
-        noCommentsMsg.textContent = "No comments for this movie/TV show yet.";
-        commentsContainer.appendChild(noCommentsMsg);
-    }
-    else {
-        querySnapshot.forEach((doc) => {
-            if (index >= (currentPage - 1) * commentsPerPage && displayedComments < commentsPerPage) {
-                const comment = doc.data();
-                const commentDate = comment.commentDate.toDate();
+        if (querySnapshot.empty) {
+            const noCommentsMsg = document.createElement("p");
+            noCommentsMsg.textContent = "No comments for this movie/TV show yet.";
+            commentsContainer.appendChild(noCommentsMsg);
+        } else {
+            querySnapshot.forEach((doc) => {
+                if (index >= (currentPage - 1) * commentsPerPage && displayedComments < commentsPerPage) {
+                    const comment = doc.data();
+                    const commentDate = comment.commentDate.toDate();
 
-                const formattedDate = formatCommentDate(commentDate);
-                const formattedTime = formatAMPM(commentDate);
+                    const formattedDate = formatCommentDate(commentDate);
+                    const formattedTime = formatAMPM(commentDate);
 
-                const timezoneOffset = -commentDate.getTimezoneOffset() / 60;
-                const utcOffset = timezoneOffset >= 0 ? `UTC+${timezoneOffset}` : `UTC${timezoneOffset}`;
-                const commentElement = document.createElement("div");
+                    const timezoneOffset = -commentDate.getTimezoneOffset() / 60;
+                    const utcOffset = timezoneOffset >= 0 ? `UTC+${timezoneOffset}` : `UTC${timezoneOffset}`;
+                    const commentElement = document.createElement("div");
 
-                commentElement.title = `Posted at ${formattedTime} ${utcOffset}`;
-                const commentStyle = `
+                    commentElement.title = `Posted at ${formattedTime} ${utcOffset}`;
+                    const commentStyle = `
                     max-width: 100%;
                     word-wrap: break-word;
                     overflow-wrap: break-word;
                     margin-bottom: 1rem; // Add some space between comments
                 `;
-                commentElement.style.cssText = commentStyle;
-                commentElement.innerHTML = `
+                    commentElement.style.cssText = commentStyle;
+                    commentElement.innerHTML = `
                     <p>
                         <strong>${comment.userName}</strong> on ${formattedDate}: 
                         <em>${comment.userComment}</em>
                     </p>
                 `;
-                commentsContainer.appendChild(commentElement);
-                displayedComments++;
-            }
-            index++;
-        });
-    }
+                    commentsContainer.appendChild(commentElement);
+                    displayedComments++;
+                }
+                index++;
+            });
+        }
 
-    document.getElementById("prev-page").disabled = currentPage <= 1;
-    document.getElementById("next-page").disabled = currentPage >= totalPages;
+        document.getElementById("prev-page").disabled = currentPage <= 1;
+        document.getElementById("next-page").disabled = currentPage >= totalPages;
+    }
+    catch (error) {
+        console.error("Error fetching user list: ", error);
+        if (error.code === 'resource-exhausted') {
+            const noUserSelected = document.getElementById('comments-section');
+            if (noUserSelected) {
+                noUserSelected.innerHTML = "Sorry, our database is currently overloaded. Please try reloading once more, and if that still doesn't work, please try again in a couple hours. For full transparency, we are currently using a database that has a limited number of reads and writes per day due to lack of funding. Thank you for your patience as we work on scaling our services. At the mean time, feel free to use other MovieVerse features!";
+                noUserSelected.style.height = '350px';
+                noUserSelected.style.textAlign = 'center';
+                noUserSelected.style.maxWidth = '350px';
+            }
+            hideSpinner();
+        }
+    }
 }
 
 function formatCommentDate(commentDate) {

@@ -125,7 +125,7 @@ async function fetchDirectorDetails(directorId) {
             <div style="display: flex; justify-content: center; align-items: center; text-align: center; margin-top: 40px; width: 100vw; height: 800px">
                 <h2>Director details not found - try again with a different director.</h2>
             </div>`;
-        console.error('Error fetching director details:', error);
+        console.log('Error fetching director details:', error);
         hideSpinner();
     }
 }
@@ -164,32 +164,38 @@ function populateDirectorDetails(director, credits) {
     }
 
     directorDescription.innerHTML = `
-        <p><strong>Biography:</strong> ${director.biography || 'N/A'}</p>
-        <p><strong>Date of Birth:</strong> ${director.birthday || 'N/A'}</p>
-        <p><strong>Date of Death:</strong> ${director.deathday || 'N/A'}</p>
+        <p><strong>Biography:</strong> ${director.biography || 'Information Unavailable'}</p>
+        <p><strong>Date of Birth:</strong> ${director.birthday || 'Information Unavailable'}</p>
+        <p><strong>Date of Death:</strong> ${director.deathday || 'Information Unavailable'}</p>
         <p><strong>Age:</strong> ${ageOrStatus}</p>
-        <p><strong>Place of Birth:</strong> ${director.place_of_birth || 'N/A'}</p>
+        <p><strong>Place of Birth:</strong> ${director.place_of_birth || 'Information Unavailable'}</p>
         <p><strong>Known For:</strong> Directing</p>
     `;
 
     const filmographyHeading = document.createElement('p');
     filmographyHeading.innerHTML = '<strong>Filmography:</strong> ';
     directorDescription.appendChild(filmographyHeading);
+
     const movieList = document.createElement('div');
     movieList.classList.add('movie-list');
-    credits.crew.forEach(movie => {
-        if (movie.job === "Director") {
-            const movieLink = document.createElement('span');
-            movieLink.textContent = movie.title;
-            movieLink.classList.add('movie-link');
-            movieLink.addEventListener('click', () => {
-                localStorage.setItem('selectedMovieId', movie.id);
-                window.location.href = 'movie-details.html';
-            });
-            movieList.appendChild(movieLink);
+
+    const directedMovies = credits.crew.filter(movie => movie.job === "Director");
+
+    directedMovies.forEach((movie, index) => {
+        const movieLink = document.createElement('span');
+        movieLink.textContent = movie.title;
+        movieLink.classList.add('movie-link');
+        movieLink.addEventListener('click', () => {
+            localStorage.setItem('selectedMovieId', movie.id);
+            window.location.href = 'movie-details.html';
+        });
+        movieList.appendChild(movieLink);
+
+        if (index < directedMovies.length - 1) {
             movieList.appendChild(document.createTextNode(', '));
         }
     });
+
     filmographyHeading.appendChild(movieList);
 
     applySettings();
@@ -221,7 +227,7 @@ async function fetchGenreMap() {
         localStorage.setItem('genreMap', JSON.stringify(genreMap));
     }
     catch (error) {
-        console.error('Error fetching genre map:', error);
+        console.log('Error fetching genre map:', error);
     }
 }
 
@@ -261,8 +267,12 @@ async function rotateUserStats() {
             label: "Favorite Genre",
             getValue: () => {
                 const mostCommonGenreCode = getMostCommonGenre();
-                const genreMap = JSON.parse(localStorage.getItem('genreMap')) || {};
-                return genreMap[mostCommonGenreCode] || 'Not Available';
+                const genreArray = JSON.parse(localStorage.getItem('genreMap')) || [];
+                const genreObject = genreArray.reduce((acc, genre) => {
+                    acc[genre.id] = genre.name;
+                    return acc;
+                }, {});
+                return genreObject[mostCommonGenreCode] || 'Not Available';
             }
         },
         { label: "Watchlists Created", getValue: () => localStorage.getItem('watchlistsCreated') || 0 },

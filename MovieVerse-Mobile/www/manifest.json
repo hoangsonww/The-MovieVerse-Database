@@ -1,7 +1,7 @@
 {
   "name": "The MovieVerse - Explore Movies, TV Series, and More",
   "short_name": "The MovieVerse",
-  "start_url": "index.html",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#7378c5",

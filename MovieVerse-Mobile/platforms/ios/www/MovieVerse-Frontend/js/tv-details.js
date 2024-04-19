@@ -55,7 +55,7 @@ async function fetchGenreMap() {
         localStorage.setItem('genreMap', JSON.stringify(genreMap));
     }
     catch (error) {
-        console.error('Error fetching genre map:', error);
+        console.log('Error fetching genre map:', error);
     }
 }
 
@@ -95,8 +95,12 @@ async function rotateUserStats() {
             label: "Favorite Genre",
             getValue: () => {
                 const mostCommonGenreCode = getMostCommonGenre();
-                const genreMap = JSON.parse(localStorage.getItem('genreMap')) || {};
-                return genreMap[mostCommonGenreCode] || 'Not Available';
+                const genreArray = JSON.parse(localStorage.getItem('genreMap')) || [];
+                const genreObject = genreArray.reduce((acc, genre) => {
+                    acc[genre.id] = genre.name;
+                    return acc;
+                }, {});
+                return genreObject[mostCommonGenreCode] || 'Not Available';
             }
         },
         { label: "Watchlists Created", getValue: () => localStorage.getItem('watchlistsCreated') || 0 },
@@ -235,23 +239,8 @@ function setStarRating(rating) {
     document.getElementById('rating-value').textContent = `${rating}.0/5.0`;
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    setInitialStarRating(tvSeriesId);
-});
-
 function getMovieVerseData(input) {
     return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
-}
-
-function setInitialStarRating(tvSeriesId) {
-    const savedRatings = JSON.parse(localStorage.getItem('tvSeriesRatings')) || {};
-    const tvSeriesRating = savedRatings[tvSeriesId];
-    if (tvSeriesRating) {
-        setStarRating(tvSeriesRating);
-    }
-    else {
-        setStarRating(0);
-    }
 }
 
 document.querySelectorAll('.rating .star').forEach(star => {
@@ -551,7 +540,7 @@ async function fetchTvDetails(tvSeriesId) {
             <div style="display: flex; justify-content: center; align-items: center; text-align: center; margin-top: 40px; width: 100vw; height: 800px">
                 <h2>TV series details not found - Try again with another TV series</h2>
             </div>`;
-        console.error('Error fetching TV series details:', error);
+        console.log('Error fetching TV series details:', error);
         hideSpinner();
     }
 }
@@ -564,12 +553,12 @@ async function fetchTVRatings(imdbId) {
         const response = await fetch(omdb);
         const data = await response.json();
 
-        let imdbRating = data.imdbRating ? data.imdbRating : 'N/A';
+        let imdbRating = data.imdbRating ? data.imdbRating : 'IMDb rating not available';
 
         return imdbRating;
     }
     catch (error) {
-        console.error('Error fetching TV series ratings:', error);
+        console.log('Error fetching TV series ratings:', error);
         return 'N/A';
     }
 }
@@ -584,16 +573,20 @@ function getCountryName(code) {
     return regionNames.of(code);
 }
 
-function populateTvSeriesDetails(tvSeries, imdbRating) {
+async function populateTvSeriesDetails(tvSeries, imdbRating) {
     const title = tvSeries.name || 'Title not available';
     document.getElementById('movie-title').textContent = title;
-    document.title = tvSeries.name + " - TV Series";
+    document.title = tvSeries.name + " - TV Series Details";
 
     const posterPath = tvSeries.poster_path ? `https://image.tmdb.org/t/p/w1280${tvSeries.poster_path}` : 'path/to/default/poster.jpg';
     document.getElementById('movie-image').src = posterPath;
     document.getElementById('movie-image').alt = `Poster of ${title}`;
 
     let detailsHTML = `<p><strong>Overview:</strong> ${tvSeries.overview || 'Overview not available.'}</p>`;
+
+    detailsHTML += `<p><strong>Original Title:</strong> ${tvSeries.original_name || 'Not available'}</p>`;
+
+    detailsHTML += `<p><strong>Tagline:</strong> ${tvSeries.tagline || 'Not available'}</p>`;
 
     const genres = tvSeries.genres && tvSeries.genres.length ? tvSeries.genres.map(genre => genre.name).join(', ') : 'Genres not available';
     detailsHTML += `<p><strong>Genres:</strong> ${genres}</p>`;
@@ -617,11 +610,27 @@ function populateTvSeriesDetails(tvSeries, imdbRating) {
         detailsHTML += `<p title="Click to go to this TV series' IMDB page"><strong>IMDb Rating:</strong> <strong><a id="ratingImdb" href="${imdbUrl}" target="_blank">${imdbRating}</a></strong></p>`;
     }
     else {
-        detailsHTML += `<p title="Click to go to this TV series' IMDB page"><strong>IMDb Rating:</strong> N/A</p>`;
+        detailsHTML += `<p title="Click to go to this TV series' IMDB page"><strong>IMDb Rating:</strong> <strong>IMDb rating not available</strong></p>`;
     }
 
     const homepage = tvSeries.homepage ? `<a id="homepage" href="${tvSeries.homepage}" target="_blank">Visit</a>` : 'Not available';
     detailsHTML += `<p><strong>Homepage:</strong> ${homepage}</p>`;
+
+    detailsHTML += `<p><strong>Seasons:</strong> ${tvSeries.number_of_seasons || 0}, <strong>Episodes:</strong> ${tvSeries.number_of_episodes || 0}</p>`;
+
+    if (tvSeries.origin_country && tvSeries.origin_country.length > 0) {
+        const countryNames = tvSeries.origin_country.map(code => getCountryName(code)).join(', ');
+        detailsHTML += `<p><strong>Country of Origin:</strong> ${countryNames}</p>`;
+    }
+    else {
+        detailsHTML += `<p><strong>Country of Origin:</strong> Information not available</p>`;
+    }
+
+    const languageName = getLanguageName(tvSeries.original_language);
+    detailsHTML += `<p><strong>Original Language:</strong> ${languageName}</p>`;
+
+    const productionCountries = tvSeries.production_countries && tvSeries.production_countries.length > 0 ? tvSeries.production_countries.map(country => getCountryName(country.iso_3166_1)).join(', ') : 'Information not available';
+    detailsHTML += `<p><strong>Production Countries:</strong> ${productionCountries}</p>`;
 
     if (tvSeries.created_by && tvSeries.created_by.length) {
         const creatorsLinks = tvSeries.created_by.map(creator =>
@@ -663,32 +672,49 @@ function populateTvSeriesDetails(tvSeries, imdbRating) {
         detailsHTML += `<p><strong>Similar TV Series:</strong> Information not available</p>`;
     }
 
-    detailsHTML += `<p><strong>Tagline:</strong> ${tvSeries.tagline || 'Not available'}</p>`;
-
-    detailsHTML += `<p><strong>Seasons:</strong> ${tvSeries.number_of_seasons || 0}, <strong>Episodes:</strong> ${tvSeries.number_of_episodes || 0}</p>`;
-
-    // if (tvSeries.seasons && tvSeries.seasons.length) {
-    //     const seasonsToShow = tvSeries.seasons.slice(0, 3);
-    //
-    //     seasonsToShow.forEach(season => {
-    //         detailsHTML += `<p><strong>${season.name || 'Season information not available'}:</strong> ${season.overview || 'Overview not available.'}</p>`;
-    //     });
-    // }
-
-    if (tvSeries.origin_country && tvSeries.origin_country.length > 0) {
-        const countryNames = tvSeries.origin_country.map(code => getCountryName(code)).join(', ');
-        detailsHTML += `<p><strong>Country of Origin:</strong> ${countryNames}</p>`;
-    }
-    else {
-        detailsHTML += `<p><strong>Country of Origin:</strong> Information not available</p>`;
-    }
-
-    const languageName = getLanguageName(tvSeries.original_language);
-    detailsHTML += `<p><strong>Original Language:</strong> ${languageName}</p>`;
-
     if (tvSeries.last_episode_to_air) {
         detailsHTML += `<p><strong>Last Episode:</strong> ${tvSeries.last_episode_to_air.name || 'Title not available'} - "${tvSeries.last_episode_to_air.overview || 'Overview not available.'}"</p>`;
     }
+
+    const tvSeriesTitleEncoded = encodeURIComponent(title);
+    const streamingProviders = await fetchTvSeriesStreamingLinks(tvSeries.id);
+    const streamingHTML = streamingProviders.length > 0 ? streamingProviders.map(provider => {
+        let providerLink = `https://www.google.com/search?q=watch+${tvSeriesTitleEncoded}+on+${encodeURIComponent(provider.provider_name)}`;
+        switch(provider.provider_name.toLowerCase()) {
+            case 'netflix':
+                providerLink = `https://www.netflix.com/search?q=${tvSeriesTitleEncoded}`;
+                break;
+            case 'disney plus':
+                providerLink = `https://www.disneyplus.com/search?q=${tvSeriesTitleEncoded}`;
+                break;
+            case 'hbo max':
+                providerLink = `https://www.hbomax.com/search?q=${tvSeriesTitleEncoded}`;
+                break;
+            case 'hulu':
+                providerLink = `https://www.hulu.com/search?q=${tvSeriesTitleEncoded}`;
+                break;
+            case 'amazon prime video':
+                providerLink = `https://www.amazon.com/s?k=${tvSeriesTitleEncoded}`;
+                break;
+            case 'apple tv plus':
+                providerLink = `https://tv.apple.com/search?term=${tvSeriesTitleEncoded}`;
+                break;
+            case 'stan':
+                providerLink = `https://www.stan.com.au/search?q=${tvSeriesTitleEncoded}`;
+                break;
+            case 'player':
+                providerLink = `https://player.pl/szukaj?search=${tvSeriesTitleEncoded}`;
+                break;
+        }
+
+        return `<a href="${providerLink}" target="_blank" title="Watch on ${provider.provider_name}" style="display: inline-flex; align-items: flex-end; vertical-align: bottom;">
+        <img src="https://image.tmdb.org/t/p/original${provider.logo_path}" alt="${provider.provider_name}" style="width: 50px; margin-left: 10px;">
+    </a>`;
+    }).join('') + `<a href="https://www.justwatch.com/us/search?q=${tvSeriesTitleEncoded}" target="_blank" title="View more streaming options on JustWatch" style="display: inline-flex; align-items: center; vertical-align: bottom; margin-left: 10px;">
+        <img src="../../images/justwatchlogo.webp" alt="JustWatch" style="width: 50px;">
+    </a>` : 'No streaming options available.';
+
+    detailsHTML += `<p><strong>Streaming Options:</strong> ${streamingHTML}</p>`;
 
     if (tvSeries.keywords && tvSeries.keywords.results && tvSeries.keywords.results.length) {
         let keywordsHTML = tvSeries.keywords.results.map(keyword => keyword.name).join(', ');
@@ -699,6 +725,29 @@ function populateTvSeriesDetails(tvSeries, imdbRating) {
     }
 
     document.getElementById('movie-description').innerHTML = detailsHTML;
+}
+
+async function fetchTvSeriesStreamingLinks(tvSeriesId) {
+    const url = `https://${getMovieVerseData()}/3/tv/${tvSeriesId}/watch/providers?${generateMovieNames()}${getMovieCode()}`;
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        const results = data.results || {};
+        let providersMap = {};
+
+        Object.values(results).forEach(region => {
+            if (region.flatrate) {
+                region.flatrate.forEach(provider => {
+                    providersMap[provider.provider_id] = provider;
+                });
+            }
+        });
+
+        return Object.values(providersMap).slice(0, 7);
+    } catch (error) {
+        console.error('Error fetching TV series streaming links:', error);
+        return [];
+    }
 }
 
 function selectActorId(actorId) {
@@ -740,7 +789,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('clear-search-btn').style.display = 'none';
 
-    const savedRatings = JSON.parse(localStorage.getItem('movieRatings')) || {};
+    const savedRatings = JSON.parse(localStorage.getItem('tvSeriesRatings')) || {};
     const movieRating = savedRatings[tvSeriesId] || 0;
     setStarRating(movieRating);
 });
@@ -782,7 +831,7 @@ async function showMovieOfTheDay() {
         }
     }
     catch (error) {
-        console.error('Error fetching movie:', error);
+        console.log('Error fetching movie:', error);
         fallbackMovieSelection();
     }
 }

@@ -126,7 +126,7 @@ async function fetchActorDetails(actorId) {
         hideSpinner();
     }
     catch (error) {
-        console.error('Error fetching actor details:', error);
+        console.log('Error fetching actor details:', error);
         document.getElementById('actor-details-container').innerHTML = `
             <div style="display: flex; justify-content: center; align-items: center; text-align: center; width: 100vw; height: 800px">
                 <h2>Actor details not found - try again with a different actor.</h2>
@@ -169,17 +169,17 @@ function populateActorDetails(actor, credits) {
     }
 
     actorDescription.innerHTML = `
-        <p><strong>Biography:</strong> ${actor.biography || 'N/A'}</p>
-        <p><strong>Date of Birth:</strong> ${actor.birthday || 'N/A'}</p>
-        <p><strong>Date of Death:</strong> ${actor.deathday || 'N/A'}</p>
+        <p><strong>Biography:</strong> ${actor.biography || 'Information Unavailable'}</p>
+        <p><strong>Date of Birth:</strong> ${actor.birthday || 'Information Unavailable'}</p>
+        <p><strong>Date of Death:</strong> ${actor.deathday || 'Information Unavailable'}</p>
         <p><strong>Age:</strong> ${ageOrStatus}</p>
-        <p><strong>Place of Birth:</strong> ${actor.place_of_birth || 'N/A'}</p>
-        <p><strong>Known For:</strong> ${actor.known_for_department || 'N/A'}</p>
-        <p><strong>Height:</strong> ${actor.height || 'N/A'}</p>
+        <p><strong>Place of Birth:</strong> ${actor.place_of_birth || 'Information Unavailable'}</p>
+        <p><strong>Known For:</strong> ${actor.known_for_department || 'Information Unavailable'}</p>
+        <p><strong>Height:</strong> ${actor.height || 'Information Unavailable'}</p>
     `;
 
     const gender = document.createElement('div');
-    gender.innerHTML = `<p><strong>Gender:</strong> ${actor.gender === 1 ? 'Female' : actor.gender === 2 ? 'Male' : 'N/A'}</p>`;
+    gender.innerHTML = `<p><strong>Gender:</strong> ${actor.gender === 1 ? 'Female' : actor.gender === 2 ? 'Male' : 'Information Unavailable'}</p>`;
     actorDescription.appendChild(gender);
 
     const popularity = document.createElement('div');
@@ -192,7 +192,8 @@ function populateActorDetails(actor, credits) {
 
     const movieList = document.createElement('div');
     movieList.classList.add('movie-list');
-    credits.cast.forEach(movie => {
+
+    credits.cast.forEach((movie, index) => {
         const movieLink = document.createElement('span');
         movieLink.textContent = movie.title;
         movieLink.classList.add('movie-link');
@@ -201,7 +202,10 @@ function populateActorDetails(actor, credits) {
             window.location.href = 'movie-details.html';
         });
         movieList.appendChild(movieLink);
-        movieList.appendChild(document.createTextNode(', '));
+
+        if (index < credits.cast.length - 1) {
+            movieList.appendChild(document.createTextNode(', '));
+        }
     });
 
     filmographyHeading.appendChild(movieList);
@@ -234,7 +238,7 @@ async function fetchGenreMap() {
         localStorage.setItem('genreMap', JSON.stringify(genreMap));
     }
     catch (error) {
-        console.error('Error fetching genre map:', error);
+        console.log('Error fetching genre map:', error);
     }
 }
 
@@ -274,8 +278,12 @@ async function rotateUserStats() {
             label: "Favorite Genre",
             getValue: () => {
                 const mostCommonGenreCode = getMostCommonGenre();
-                const genreMap = JSON.parse(localStorage.getItem('genreMap')) || {};
-                return genreMap[mostCommonGenreCode] || 'Not Available';
+                const genreArray = JSON.parse(localStorage.getItem('genreMap')) || [];
+                const genreObject = genreArray.reduce((acc, genre) => {
+                    acc[genre.id] = genre.name;
+                    return acc;
+                }, {});
+                return genreObject[mostCommonGenreCode] || 'Not Available';
             }
         },
         { label: "Watchlists Created", getValue: () => localStorage.getItem('watchlistsCreated') || 0 },
@@ -463,7 +471,7 @@ async function showMovieOfTheDay() {
         }
     }
     catch (error) {
-        console.error('Error fetching movie:', error);
+        console.log('Error fetching movie:', error);
         fallbackMovieSelection();
     }
 }

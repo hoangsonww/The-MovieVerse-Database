@@ -46,6 +46,7 @@ Through The MovieVerse, users can search for movies, view detailed information, 
 - **Interactive Database**: Rate movies, write reviews, and read opinions from other users.
 - **Movie Watch Lists**: Create and manage watch lists for different genres, time periods, or preferences. The watchlists are saved to your account for easy access on any device.
 - **Movie Matching**: Discover movies that align with your preferences and ratings.
+- **Live Translation**: Translate movie information, reviews, and discussions into multiple languages for a global audience.
 
 **Navigating The MovieVerse:**
 - **MovieBot Chat**: Engage with our chatbot, MovieBot, for additional information about the application.
@@ -58,6 +59,7 @@ Through The MovieVerse, users can search for movies, view detailed information, 
 - **Movie Recommendations**: Receive suggestions based on your movie preferences and reviews with AI-powered recommendations.
 - **Statistics and Insights**: Access dynamically updating, ML-powered statistics for a tailored experience on both desktop and mobile.
 - **Community Engagement**: Connect with other users, create your profile, share your thoughts, rate movies, and engage in discussions about your favorite movies.
+- **Chat Feature**: Chat with other users, share your thoughts, and discuss movies in real-time.
 
 **Additional Information:**
 - **Continuous Improvements**: The platform is ever-evolving with regular updates and new features.
@@ -74,6 +76,12 @@ The MovieVerse is a full-stack application with a robust backend and a user-frie
 3. `MovieVerse-Mobile`: The mobile app directory contains the mobile application code, built using Apache Cordova, including the mobile user interface, user experience, and mobile client configuration.
 
 There are also additional directories and files for project configuration, testing, and other utilities. The project is built using a variety of technologies, including `.github`, `utilities`, `project-config`, `MovieVerse-APIs`, `MovieVerse-Databases`, `MovieVerse-Middleware`, `MovieVerse-Design`, `images`, and more. Each directory serves a specific purpose in the development, deployment, and maintenance of The MovieVerse application.
+
+## Deployment
+
+The current deployment and production branch is `deployment-branch` and is being deployed to the official website at [movie-verse.com](https://movie-verse.com). The deployment process involves building the frontend, backend, and mobile app, configuring the server, and deploying the application to the server. The deployment process is automated using CI/CD pipelines and scripts to ensure a seamless deployment experience.
+
+The app is using `Netlify` for the frontend deployment and `Heroku` for the backend deployment. The deployment status is monitored regularly to ensure the application is up and running smoothly.
 
 ## Technology Stack
 
@@ -101,33 +109,43 @@ If you have a suggestion that would make this better, please fork the repo and c
 3. Install Emscripten and compile the C code to WebAssembly (refer to the README.md file in the `utilities` directory [here](../utilities/README.md).)
 4. Take a look at the project configuration directory (project-config) and make sure that the paths are correct.
 5. Visit the backend directory and install the dependencies (if any):
-    ```
+    ```bash
     npm install
     ```
 6. Start the backend server:
-    ```
+    ```bash
     npm start
     ```
 7. Visit the frontend directory (root) and install the dependencies (if any):
-    ```
+    ```bash
     npm install
     ```
 8. Start the frontend server:
-    ```
+    ```bash
     npm start
     ```
 9. Visit the mobile app directory and install the dependencies (if any):
-    ```
+    ```bash
     npm install
+    cordova platform add ios
+    cordova platform add android
     ```
-10. Start the mobile app server:
+10. Start the mobile app using Cordova (visit the `MovieVerse-Mobile` directory for more information):
+    ```bash
+    cordova build
+    cordova emulate ios
+    cordova emulate android
     ```
-    npm start
+11. Commit your Changes (Don't forget to create a branch for your feature):
+    ```bash
+    git commit -m 'Add some AmazingFeature'
     ```
-11. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-12. Push to the Branch (`git push origin feature/AmazingFeature`)
+12. Push to your Branch:
+    ```bash
+    git push origin feature/AmazingFeature
+    ```
 13. Open a Pull Request (if you want to merge your changes to our official app)
-14. Enjoy coding and let me know if you have any questions!
+14. Enjoy coding and [let me know](https://github.com/hoangsonww/The-MovieVerse-Database/discussions) if you have any questions!
 
 ## Privacy Policy
 
@@ -163,4 +181,4 @@ Please also note that the **MovieVerse** is an ever-evolving platform, and more 
 
 Additionally, I'd like to express special gratitude to [The Movie Database (TMDb)](https://www.themoviedb.org/) for providing additional movie data that greatly enriches The MovieVerse experience!
 
-Also, if our service is down sometimes, please be patient as we are working hard to maintain the platform and ensure a seamless experience for all users. Thank you for your understanding and support! 🎬🍿
+Also, if our service is down sometimes, especially the database overloaded failure during durations of high traffic, please be patient as we are working hard to maintain the platform and ensure a seamless experience for all users. Thank you for your understanding and support! 🎬🍿

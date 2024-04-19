@@ -29,13 +29,12 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@MovieVerse" />
     <meta name="twitter:creator" content="@hoangsonw" />
-    <meta name="twitter:title" content="The MovieVerse - Your Ultimate Movie Guide">
+    <meta name="twitter:title" content="MovieVerse Trivia - Test Your Movie Knowledge">
     <meta name="twitter:description" content="Test your movie knowledge with The MovieVerse Trivia. Challenge yourself with a variety of questions about movies, actors, and directors.">
     <meta name="twitter:image" content="https://movie-verse.com/images/image.png"/>
     <meta name="referrer" content="no-referrer-when-downgrade">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <meta name="theme-color" content="#7378c5">
-    <script src="../js/settings.js"></script>
     <link rel="manifest" href="../../manifest.json">
     <script type="text/javascript">
         (function(c,l,a,r,i,t,y){
@@ -54,6 +53,30 @@
     </script>
 
     <style>
+        @font-face {
+            font-family: 'Poppins';
+            src: url('https://movie-verse.com/fonts/Poppins-Light.ttf') format('truetype');
+            font-weight: 200;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Poppins';
+            src: url('https://movie-verse.com/fonts/Poppins-Regular.ttf') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Poppins';
+            src: url('https://movie-verse.com/fonts/Poppins-SemiBold.ttf') format('truetype');
+            font-weight: 600;
+            font-style: normal;
+            font-display: swap;
+        }
+
         label {
             cursor: pointer;
         }
@@ -81,7 +104,7 @@
         }
 
         body {
-            background-image: url("../../images/universe-1.png");
+            background-image: url("../../images/universe-1.webp");
             background-repeat: repeat-y;
             background-size: 100% auto;
         }
@@ -103,27 +126,144 @@
             }
         }
     </style>
+    <style>
+        #translate_control {
+            position: fixed;
+            left: 10px;
+            bottom: 10px;
+            z-index: 1000000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border-radius: 8px;
+        }
+
+        @media (max-width: 767px) {
+            #translate_control {
+                display: block;
+                bottom: 70px;
+                position: fixed;
+                left: 10px;
+                z-index: 1000000;
+            }
+        }
+
+        .translate-trigger {
+            background-color: #7378c5;
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .translate-trigger:hover {
+            background-color: #ff8623;
+            transition: 0.1s ease-in;
+        }
+
+        #google_translate_element {
+            display: none;
+            position: fixed;
+            left: 10px;
+            bottom: 60px;
+            background-color: #7378c5;
+            border: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            padding: 5px;
+            border-radius: 8px;
+            z-index: 100000000;
+            font: inherit;
+            color: white;
+        }
+
+        .goog-te-combo {
+            background-color: #7378c5 !important;
+            color: white !important;
+            border: 0.5px solid white !important;
+            border-radius: 8px !important;
+            font-size: 15px !important;
+            padding-left: 5px !important;
+        }
+
+        .skiptranslate {
+            color: white !important;
+        }
+
+        .goog-te-banner-frame {
+            opacity: 0.8 !important;
+            background-color: #f4f4f4 !important;
+        }
+
+        @media (max-width: 767px) {
+            #google_translate_element {
+                bottom: 120px;
+            }
+
+            #translate_control {
+                bottom: 70px;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <header style="margin-bottom: -50px; margin-top: 9px">
+    <div id="google_translate_element"></div>
+    <div id="translate_control">
+        <div class="translate-trigger">Translate</div>
+    </div>
+
+    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script>
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                layout: google.translate.TranslateElement.InlineLayout.VERTICAL,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+
+        document.querySelector('.translate-trigger').addEventListener('click', function() {
+            const translateEl = document.getElementById('google_translate_element');
+            translateEl.style.display = translateEl.style.display === 'block' ? 'none' : 'block';
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            let lastScrollTop = window.scrollY;
+            const translateControl = document.getElementById('translate_control');
+            const translateEl = document.getElementById('google_translate_element');
+
+            window.addEventListener('scroll', function() {
+                let scrollTop = window.scrollY;
+
+                if (window.innerWidth <= 767) {
+                    if (scrollTop > lastScrollTop && scrollTop > 0) {
+                        translateControl.style.display = 'none';
+                        translateEl.style.display = 'none';
+                    }
+                    else {
+                        translateControl.style.display = 'block';
+                    }
+                    lastScrollTop = scrollTop;
+                }
+            }, { passive: true });
+        })
+    </script>
+    <header id="homepage-header" style="margin-bottom: -50px; margin-top: 9px">
         <a href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer; margin-bottom: 5px" title="Click to go back to the home page">
-            <h1 id="my-heading" style="margin-bottom: -10px">
+            <h1 id="my-heading" style="margin-bottom: -10px" class="notranslate">
                 The Mo<span class="highlight">vieV</span>erse
             </h1>
         </a>
 
-        <button class="back-btn" onclick="window.location.href='../../index.html'">Home</button>
-        <button class="about" onclick="window.location.href='about.html'">About</button>
-        <button class="favorites-btn" onclick="window.location.href='favorites.html'" title="View your favorites & watchlists">Favorites</button>
+        <button class="back-btn notranslate" onclick="window.location.href='../../index.html'">Home</button>
+        <button class="about notranslate" onclick="window.location.href='about.html'">About</button>
+        <button class="favorites-btn notranslate" onclick="window.location.href='favorites.html'" title="View your favorites & watchlists">Favorites</button>
 
-        <button id="googleSignInBtn" class="nav-btn" onclick="handleSignInOut()" title="Sign In/Out">
+        <button id="googleSignInBtn" class="nav-btn notranslate" onclick="handleSignInOut()" title="Sign In/Out">
             <span id="signInOutText">Sign In</span>
             <i class="fas fa-sign-in-alt" id="signInIcon"></i>
             <i class="fas fa-sign-out-alt" id="signOutIcon" style="display: none;"></i>
         </button>
 
-        <button id="profileBtn" class="nav-btn" onclick="window.location.href='user-profile.html'" title="Go to your profile">
+        <button id="profileBtn" class="nav-btn notranslate" onclick="window.location.href='user-profile.html'" title="Go to your profile">
             <span id="profileText">Profile</span>
             <i class="fas fa-user" id="profileIcon"></i>
         </button>
@@ -169,6 +309,7 @@
         <button type="submit" id="submit" class="button" style="color: black">Submit Answers</button>
     </form>
 
+    <button id="chat-button" onclick="window.location.href='chat.html'" style="bottom: 300px; right: 10px; z-index: 1001" title="Chat with fellow MovieVerse users!">Chat</button>
     <button id="settings-btn" style="position: fixed; bottom: 265px; right: 10px">Settings</button>
     <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 230px; right: 10px">Movie Match</button>
     <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 195px; right: 10px">Movie Timeline</button>
@@ -215,6 +356,10 @@
     </footer>
 
     <div id="mobile-bottom-bar" class="mobile-bottom-bar">
+        <a href="chat.html" class="bottom-bar-item">
+            <i class="fas fa-comments"></i>
+            <span>Chat</span>
+        </a>
         <a href="settings.html" class="bottom-bar-item">
             <i class="fas fa-cog"></i>
             <span>Settings</span>
@@ -225,7 +370,7 @@
         </a>
         <a href="movie-match.html" class="bottom-bar-item">
             <i class="fas fa-film"></i>
-            <span>Movie Match</span>
+            <span>Match</span>
         </a>
         <a href="movie-timeline.html" class="bottom-bar-item">
             <i class="fas fa-clock"></i>
@@ -237,7 +382,11 @@
         </a>
         <a href="trivia.html" class="bottom-bar-item">
             <i class="fas fa-question-circle"></i>
-            <span>Movie Trivia</span>
+            <span>Trivia</span>
+        </a>
+        <a href="#" class="bottom-bar-item" id="back-top">
+            <i class="fas fa-arrow-up"></i>
+            <span>Top</span>
         </a>
     </div>
 
@@ -291,10 +440,11 @@
             isAnimating = true;
 
             const buttonIds = [
+                'chat-button',
                 'settings-btn',
-                'movie-of-the-day-btn',
                 'movie-match-btn3',
                 'movie-timeline-btn',
+                'movie-of-the-day-btn',
                 'discussions-btn',
                 'trivia-btn',
             ];
@@ -325,10 +475,11 @@
         window.addEventListener('resize', () => {
             if (window.innerWidth < 767) {
                 const buttonIds = [
+                    'chat-button',
                     'settings-btn',
-                    'movie-of-the-day-btn',
                     'movie-match-btn3',
                     'movie-timeline-btn',
+                    'movie-of-the-day-btn',
                     'discussions-btn',
                     'trivia-btn',
                 ];
@@ -340,6 +491,12 @@
                     button.style.transform = 'translateY(20px)';
                 });
             }
+        });
+
+        document.getElementById('back-top').addEventListener('click', function(e) {
+            e.preventDefault();
+
+            document.getElementById('homepage-header').scrollIntoView({ behavior: 'smooth' });
         });
     </script>
 
@@ -446,7 +603,7 @@
                             const sortedResults = data.results.sort((a, b) => b.popularity - a.popularity);
                             displaySearchResults(sortedResults.slice(0, 5));
                         })
-                        .catch(err => console.error("Fetching error:", err));
+                        .catch(err => console.log("Fetching error:", err));
                 }
                 else {
                     searchInput.value = '';
@@ -531,7 +688,7 @@
                 console.log('Clicked item:', item.media_type, item.id);
 
                 if (!item.media_type) {
-                    console.error('Media type is undefined');
+                    console.log('Media type is undefined');
                     return;
                 }
 
@@ -559,11 +716,11 @@
                         }
                     }
                     catch (error) {
-                        console.error('Error fetching person details:', error);
+                        console.log('Error fetching person details:', error);
                     }
                 }
                 else {
-                    console.error('Unknown media type:', item.media_type);
+                    console.log('Unknown media type:', item.media_type);
                 }
             }
         });

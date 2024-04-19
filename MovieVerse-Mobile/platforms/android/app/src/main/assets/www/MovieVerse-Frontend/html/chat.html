@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat - The MovieVerse</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta property="og:title" content="Chat - The MovieVerse">
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="website" />
+    <meta http-equiv="content-language" content="en" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="website" />
+    <meta http-equiv="content-language" content="en" />
+    <meta property="og:description" content="Chat with other users on The MovieVerse. Share your thoughts, reviews, and recommendations with the community!">
+    <meta property="og:url" content="https://movie-verse.com/MovieVerse-Frontend/html/chat.html" />
+    <meta property="og:site_name" content="The MovieVerse" />
+    <meta property="og:image" content="https://movie-verse.com/images/image.png"/>
+    <meta property="og:favicon" content="./images/favicon.ico" />
+    <meta name="keywords" content="movies, film guide, directors, actors, movie genres, cinema, film reviews">
+    <meta name="author" content="Son Nguyen Hoang">
+    <meta name="description" content="Chat with other users on The MovieVerse. Share your thoughts, reviews, and recommendations with the community!">
+    <link rel="canonical" href="https://movie-verse.com/MovieVerse-Frontend/html/chat.html">
+    <meta name="robots" content="index, follow">
+    <meta name="rating" content="General">
+    <meta name="revisit-after" content="3 days">
+    <meta name="distribution" content="global">
+    <meta http-equiv="content-language" content="en">
+    <meta name="language" content="en">
+    <meta name="theme-color" content="#7378c5">
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@MovieVerse" />
+    <meta name="twitter:creator" content="@hoangsonw" />
+    <meta name="twitter:title" content="Chat - The MovieVerse">
+    <meta name="twitter:description" content="Chat with other users on The MovieVerse. Share your thoughts, reviews, and recommendations with the community!">
+    <meta name="twitter:image" content="https://movie-verse.com/images/image.png"/>
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link rel="icon" href="../../images/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="../css/style.css"/>
+    <link rel="manifest" href="../../manifest.json">
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "l7gqnssat8");
+    </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-CQKJ67FXZ4');
+    </script>
+    <style>
+        @font-face {
+            font-family: 'Poppins';
+            src: url('https://movie-verse.com/fonts/Poppins-Light.ttf') format('truetype');
+            font-weight: 200;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Poppins';
+            src: url('https://movie-verse.com/fonts/Poppins-Regular.ttf') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Poppins';
+            src: url('https://movie-verse.com/fonts/Poppins-SemiBold.ttf') format('truetype');
+            font-weight: 600;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .user-search-result {
+            background-color: #333;
+            margin: 10px auto;
+            padding: 10px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            color: white;
+            transition: background-color 0.3s ease;
+            flex-wrap: wrap;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .user-search-result img {
+            flex-shrink: 0;
+            margin-right: 10px;
+            border-radius: 8px;
+        }
+
+        .user-search-result > div {
+            flex: 1;
+            min-width: 120px;
+            word-break: break-word;
+        }
+
+        .tooltip {
+            position: absolute;
+            background-color: #333;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            z-index: 100;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            white-space: nowrap;
+        }
+
+        body {
+            background-image: url("../../images/universe-1.webp");
+            background-repeat: repeat-y;
+            background-size: 100% auto;
+        }
+
+        @media (max-width: 767px) {
+            body {
+                background-size: auto;
+                background-position: top center;
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        #main {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            min-height: 80vh;
+        }
+
+        #userListContainer {
+            flex-basis: 30%;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            color: white;
+        }
+
+        #searchUserInput {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ff8623;
+            margin-bottom: 10px;
+            background-color: #333;
+            color: white;
+        }
+
+        .user:hover {
+            background-color: #ff8623;
+            color: white;
+        }
+
+        .user {
+            border-radius: 8px;
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        .user-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            background-color: #333;
+            color: white;
+        }
+
+        .user-item:hover {
+            background-color: #ff8623;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .user-info {
+            flex-grow: 1;
+        }
+
+        .user-email {
+            font-weight: bold;
+        }
+
+        .user-bio {
+            color: #ccc;
+        }
+
+        #chatSection {
+            display: flex;
+            flex-direction: column;
+            flex-basis: 65%;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            color: white;
+            min-height: 90vh;
+        }
+
+        #messages {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: none;
+            display: flex;
+            flex-direction: column;
+            border-radius: 8px;
+        }
+
+        #chatInput {
+            padding: 10px;
+            border-top: 1px solid #ccc;
+        }
+
+        #userEmailDisplay {
+            background-color: #ff8623;
+            color: white;
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+        .message {
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 8px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        .my-message {
+            align-self: flex-end;
+            background-color: #ff8623;
+            color: white;
+        }
+
+        .other-message {
+            align-self: flex-start;
+            background-color: #7378c5;
+            color: white;
+        }
+
+        #chatInput {
+            padding: 10px;
+            border-top: 1px solid #ccc;
+        }
+
+        #messageInput {
+            flex-grow: 1;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ff8623;
+            background-color: #333;
+            color: white;
+            width: 100%;
+        }
+
+        #sendButton {
+            padding: 10px 20px;
+            border-radius: 5px;
+            background-color: #ff8623;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #sendButton:hover {
+            background-color: #7f4caf;
+        }
+
+        #main {
+            display: flex;
+            justify-content: space-between;
+            align-items: stretch;
+            min-height: 80vh;
+            gap: 20px;
+        }
+
+        #userListContainer {
+            flex: 1;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            color: white;
+        }
+
+        #chatSection {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            color: white;
+            padding: 20px;
+        }
+
+        @media (max-width: 900px) {
+            #main {
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+                margin-left: 0;
+            }
+
+            #userListContainer, #chatSection {
+                width: 90% !important;
+                margin: 0 auto;
+                max-width: 100% !important;
+                display: flex;
+                flex-direction: column;
+            }
+
+            #userList {
+                max-height: 300px;
+                overflow-y: auto;
+            }
+
+            #chatSection {
+                width: 100% !important;
+                flex-grow: 1;
+            }
+
+            #noUserSelected {
+                width: 90% !important;
+                flex-grow: 1;
+            }
+        }
+
+        .selected-user {
+            background-color: #ff8623;
+        }
+    </style>
+    <style>
+        #translate_control {
+            position: fixed;
+            left: 10px;
+            bottom: 10px;
+            z-index: 1000000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border-radius: 8px;
+        }
+
+        @media (max-width: 767px) {
+            #translate_control {
+                display: block;
+                bottom: 70px;
+                position: fixed;
+                left: 10px;
+                z-index: 1000000;
+            }
+        }
+
+        .translate-trigger {
+            background-color: #7378c5;
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .translate-trigger:hover {
+            background-color: #ff8623;
+            transition: 0.1s ease-in;
+        }
+
+        #google_translate_element {
+            display: none;
+            position: fixed;
+            left: 10px;
+            bottom: 60px;
+            background-color: #7378c5;
+            border: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            padding: 5px;
+            border-radius: 8px;
+            z-index: 100000000;
+            font: inherit;
+            color: white;
+        }
+
+        .goog-te-combo {
+            background-color: #7378c5 !important;
+            color: white !important;
+            border: 0.5px solid white !important;
+            border-radius: 8px !important;
+            font-size: 15px !important;
+            padding-left: 5px !important;
+        }
+
+        .skiptranslate {
+            color: white !important;
+        }
+
+        .goog-te-banner-frame {
+            opacity: 0.8 !important;
+            background-color: #f4f4f4 !important;
+        }
+
+        @media (max-width: 767px) {
+            #google_translate_element {
+                bottom: 120px;
+            }
+
+            #translate_control {
+                bottom: 70px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="google_translate_element"></div>
+    <div id="translate_control">
+        <div class="translate-trigger">Translate</div>
+    </div>
+
+    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script>
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                layout: google.translate.TranslateElement.InlineLayout.VERTICAL,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+
+        document.querySelector('.translate-trigger').addEventListener('click', function() {
+            const translateEl = document.getElementById('google_translate_element');
+            translateEl.style.display = translateEl.style.display === 'block' ? 'none' : 'block';
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            let lastScrollTop = window.scrollY;
+            const translateControl = document.getElementById('translate_control');
+            const translateEl = document.getElementById('google_translate_element');
+
+            window.addEventListener('scroll', function() {
+                let scrollTop = window.scrollY;
+
+                if (window.innerWidth <= 767) {
+                    if (scrollTop > lastScrollTop && scrollTop > 0) {
+                        translateControl.style.display = 'none';
+                        translateEl.style.display = 'none';
+                    }
+                    else {
+                        translateControl.style.display = 'block';
+                    }
+                    lastScrollTop = scrollTop;
+                }
+            }, { passive: true });
+        })
+    </script>
+    <header id="homepage-header" style="margin-top: -5px">
+        <a id="indexLink" href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer">
+            <h1 id="my-heading" style="margin-bottom: -10px" class="notranslate">
+                The Mo<span class="highlight">vieV</span>erse
+            </h1>
+        </a>
+
+        <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
+            <p id="stats-label" class="clock" style="font-size: 16px;"></p>
+            <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
+        </div>
+
+        <button class="back-btn nav-btn notranslate" onclick="window.location.href='../../index.html'" title="Go back to homepage">Home</button>
+        <button class="about nav-btn notranslate" onclick="window.location.href='about.html'" title="About this wonderful app!">About</button>
+        <button class="favorites-btn nav-btn notranslate" onclick="window.location.href='favorites.html'" title="View your favorites & watchlists">Favorites</button>
+        <button id="profileBtn" class="nav-btn notranslate" onclick="window.location.href='user-profile.html'" title="Go to your profile">
+            <span id="profileText">Profile</span>
+            <i class="fas fa-user" id="profileIcon"></i>
+        </button>
+        <button id="googleSignInBtn" class="nav-btn notranslate" onclick="handleSignInOut()" title="Sign In/Out">
+            <span id="signInOutText">Sign In</span>
+            <i class="fas fa-sign-in-alt" id="signInIcon"></i>
+            <i class="fas fa-sign-out-alt" id="signOutIcon" style="display: none;"></i>
+        </button>
+        <form id="form1" style="margin-top: 19px">
+            <div class="search-container">
+                <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!" />
+                <button type="button" id="button-search" onclick="handleSearch()">Search</button>
+            </div>
+            <div id="search-results" class="search-results"></div>
+            <div class="buttons-container">
+                <button type="button" id="view-all-results" style="display: none;">View more results</button>
+                <button type="button" id="clear-search" style="display: none">Clear</button>
+            </div>
+        </form>
+    </header>
+
+    <main id="main">
+        <div id="userListContainer">
+            <div id="searchContainer">
+                <input type="text" id="searchUserInput" placeholder="Search for a user" style="font: inherit" />
+            </div>
+            <div id="searchUserResults"></div>
+            <h3>Recent & Suggested Chats</h3>
+            <div id="userList"></div>
+        </div>
+        <div id="chatSection">
+            <div id="userEmailDisplay" style="padding: 10px;"></div>
+            <div id="messages"></div>
+            <div id="chatInput">
+                <input type="text" id="messageInput" placeholder="Type your message" style="font: inherit" />
+                <button id="sendButton">Send</button>
+            </div>
+        </div>
+        <div id="noUserSelected" style="flex-basis: 65%; background-color: rgba(0, 0, 0, 0.7); border-radius: 10px; color: white; display: flex; justify-content: center; align-items: center; min-height: 90vh;">
+            <p>Welcome to MovieVerse Chats! Select or find a user to begin chatting</p>
+        </div>
+    </main>
+
+    <div id="myModal" class="modal-overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <footer id="footer">
+        <p>© 2024 The MovieVerse. All rights reserved.</p>
+    </footer>
+
+    <script type="module" src="../js/chat.js"></script>
+
+    <script src="../js/chat-auxiliary.js"></script>
+
+    <button id="chat-button" onclick="window.location.href='chat.html'" style="bottom: 300px; right: 10px; z-index: 1001" title="Chat with fellow MovieVerse users!">Chat</button>
+    <button id="settings-btn" style="position: fixed; bottom: 265px; right: 10px">Settings</button>
+    <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 230px; right: 10px">Movie Match</button>
+    <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 195px; right: 10px">Movie Timeline</button>
+    <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 160px; right: 10px">Surprise Me!</button>
+    <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="bottom: 125px; right: 10px" title="Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
+    <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 90px; right: 10px" title="Test your movie knowledge">MovieVerse Trivia</button>
+
+    <div id="mobile-bottom-bar" class="mobile-bottom-bar">
+        <a href="chat.html" class="bottom-bar-item">
+            <i class="fas fa-comments"></i>
+            <span>Chat</span>
+        </a>
+        <a href="settings.html" class="bottom-bar-item">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+        </a>
+        <a href="#" class="bottom-bar-item" onclick="showMovieOfTheDay()">
+            <i class="fas fa-surprise"></i>
+            <span>Surprise Me</span>
+        </a>
+        <a href="movie-match.html" class="bottom-bar-item">
+            <i class="fas fa-film"></i>
+            <span>Match</span>
+        </a>
+        <a href="movie-timeline.html" class="bottom-bar-item">
+            <i class="fas fa-clock"></i>
+            <span>Timeline</span>
+        </a>
+        <a href="chatbot.html" class="bottom-bar-item">
+            <i class="fas fa-robot"></i>
+            <span>Chatbot</span>
+        </a>
+        <a href="trivia.html" class="bottom-bar-item">
+            <i class="fas fa-question-circle"></i>
+            <span>Trivia</span>
+        </a>
+    </div>
+
+    <button id="menu-btn" style="position: fixed; bottom: 10px; right: 10px; z-index: 1001" title="Toggle Menu Buttons">
+        <i class="fas fa-ellipsis-h"></i><br>
+        <span>Menu</span>
+    </button>
+
+    <script>
+        window.addEventListener('load', function() {
+            adjustAnchorHeights();
+        });
+
+        window.addEventListener('resize', adjustAnchorHeights);
+
+        function adjustAnchorHeights() {
+            const bottomBarAnchors = document.querySelectorAll('.mobile-bottom-bar a');
+            let maxHeight = 0;
+
+            bottomBarAnchors.forEach(anchor => {
+                anchor.style.height = 'auto';
+                const anchorHeight = anchor.getBoundingClientRect().height;
+                maxHeight = Math.max(maxHeight, anchorHeight);
+            });
+
+            bottomBarAnchors.forEach(anchor => {
+                anchor.style.height = `${maxHeight}px`;
+            });
+        }
+
+        let lastScrollY = window.scrollY;
+
+        window.addEventListener('scroll', () => {
+            const currentScrollY = window.scrollY;
+
+            if (currentScrollY > lastScrollY && currentScrollY > 0) {
+                document.querySelector('.mobile-bottom-bar').classList.add('hide-bar');
+            }
+            else {
+                document.querySelector('.mobile-bottom-bar').classList.remove('hide-bar');
+            }
+
+            lastScrollY = currentScrollY;
+        });
+
+        let isAnimating = false;
+
+        document.getElementById('menu-btn').addEventListener('click', () => {
+            if (isAnimating) return;
+
+            isAnimating = true;
+
+            const buttonIds = [
+                'chat-button',
+                'settings-btn',
+                'movie-match-btn3',
+                'movie-timeline-btn',
+                'movie-of-the-day-btn',
+                'discussions-btn',
+                'trivia-btn',
+            ];
+
+            buttonIds.forEach((id, index) => {
+                const button = document.getElementById(id);
+                if (button.style.display === 'none' || !button.style.display) {
+                    button.style.display = 'block';
+                    setTimeout(() => {
+                        button.style.opacity = '1';
+                        button.style.transform = 'translateY(0)';
+                    }, 50 * index);
+                } else {
+                    button.style.opacity = '0';
+                    button.style.transform = 'translateY(20px)';
+                }
+
+                setTimeout(() => {
+                    button.style.display = button.style.opacity === '1' ? 'block' : 'none';
+                    if (index === buttonIds.length - 1) {
+                        isAnimating = false;
+                    }
+                }, 500 + 50 * index);
+            });
+        });
+    </script>
+
+    <script>
+        document.getElementById('settings-btn').addEventListener('click', () => {
+            window.location.href = 'settings.html';
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            applySettings();
+
+            function applySettings() {
+                const savedBg = localStorage.getItem('backgroundImage');
+                const savedTextColor = localStorage.getItem('textColor');
+                const savedFontSize = localStorage.getItem('fontSize');
+
+                if (savedBg) {
+                    document.body.style.backgroundImage = `url('${savedBg}')`;
+                }
+                if (savedTextColor) {
+                    document.querySelectorAll('h1, h2, h3, p, a, span, div, button, input, select, textarea, label, li').forEach(element => {
+                        element.style.color = savedTextColor;
+                    });
+                }
+                if (savedFontSize) {
+                    const size = savedFontSize === 'small' ? '12px' : savedFontSize === 'medium' ? '16px' : '20px';
+                    document.body.style.fontSize = size;
+                }
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth < 767) {
+                const buttonIds = [
+                    'chat-button',
+                    'settings-btn',
+                    'movie-match-btn3',
+                    'movie-timeline-btn',
+                    'movie-of-the-day-btn',
+                    'discussions-btn',
+                    'trivia-btn',
+                ];
+
+                buttonIds.forEach(id => {
+                    const button = document.getElementById(id);
+                    button.style.display = 'none';
+                    button.style.opacity = '0';
+                    button.style.transform = 'translateY(20px)';
+                });
+            }
+        });
+
+        const movieCodes = {
+            part1: 'YzVhMjBjODY=',
+            part2: 'MWFjZjdiYjg=',
+            part3: 'ZDllOTg3ZGNjN2YxYjU1OA=='
+        };
+
+        function getMovieCode() {
+            return atob(movieCodes.part1) + atob(movieCodes.part2) + atob(movieCodes.part3);
+        }
+
+        function generateMovieNames(input) {
+            return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
+        }
+
+        function getMovieVerseData(input) {
+            return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
+        }
+
+        async function showMovieOfTheDay() {
+            const year = new Date().getFullYear();
+            const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                const movies = data.results;
+
+                if (movies.length > 0) {
+                    const randomMovie = movies[Math.floor(Math.random() * movies.length)];
+                    localStorage.setItem('selectedMovieId', randomMovie.id);
+                    window.location.href = 'movie-details.html';
+                }
+                else {
+                    fallbackMovieSelection();
+                }
+            }
+            catch (error) {
+                console.log('Error fetching movie:', error);
+                fallbackMovieSelection();
+            }
+        }
+
+        document.getElementById('settings-btn').addEventListener('click', () => {
+            window.location.href = 'settings.html';
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            applySettings();
+
+            function applySettings() {
+                const defaultBg = '../../images/universe-1.webp';
+                const savedBg = localStorage.getItem('backgroundImage') || defaultBg;
+                const savedTextColor = localStorage.getItem('textColor');
+                const savedFontSize = localStorage.getItem('fontSize');
+                document.body.style.backgroundImage = `url('${savedBg}')`;
+
+                if (savedTextColor) {
+                    document.querySelectorAll('h1, h2, h3, p, a, span, div, button, input, select, textarea, label, li').forEach(element => {
+                        element.style.color = savedTextColor;
+                    });
+                }
+
+                if (savedFontSize) {
+                    const size = savedFontSize === 'small' ? '12px' : savedFontSize === 'medium' ? '16px' : '20px';
+                    document.body.style.fontSize = size;
+                }
+            }
+        });
+
+        async function ensureGenreMapIsAvailable() {
+            if (!localStorage.getItem('genreMap')) {
+                await fetchGenreMap();
+            }
+        }
+
+        async function fetchGenreMap() {
+            const url = `https://${getMovieVerseData()}/3/genre/movie/list?${generateMovieNames()}${getMovieCode()}`;
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                const genreMap = data.genres.reduce((map, genre) => {
+                    map[genre.id] = genre.name;
+                    return map;
+                }, {});
+                localStorage.setItem('genreMap', JSON.stringify(genreMap));
+            }
+            catch (error) {
+                console.log('Error fetching genre map:', error);
+            }
+        }
+
+        async function rotateUserStats() {
+            await ensureGenreMapIsAvailable();
+
+            const stats = [
+                {
+                    label: "Your Current Time",
+                    getValue: () => {
+                        const now = new Date();
+                        let hours = now.getHours();
+                        let minutes = now.getMinutes();
+                        hours = hours < 10 ? '0' + hours : hours;
+                        minutes = minutes < 10 ? '0' + minutes : minutes;
+                        return `${hours}:${minutes}`;
+                    }
+                },
+                { label: "Most Visited Movie", getValue: getMostVisitedMovie },
+                { label: "Most Visited Director", getValue: getMostVisitedDirector },
+                { label: "Most Visited Actor", getValue: getMostVisitedActor },
+                {
+                    label: "Movies Discovered",
+                    getValue: () => {
+                        const viewedMovies = JSON.parse(localStorage.getItem('uniqueMoviesViewed')) || [];
+                        return viewedMovies.length;
+                    }
+                },
+                {
+                    label: "Favorite Movies",
+                    getValue: () => {
+                        const favoritedMovies = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
+                        return favoritedMovies.length;
+                    }
+                },
+                {
+                    label: "Favorite Genre",
+                    getValue: () => {
+                        const mostCommonGenreCode = getMostCommonGenre();
+                        const genreArray = JSON.parse(localStorage.getItem('genreMap')) || [];
+                        const genreObject = genreArray.reduce((acc, genre) => {
+                            acc[genre.id] = genre.name;
+                            return acc;
+                        }, {});
+                        return genreObject[mostCommonGenreCode] || 'Not Available';
+                    }
+                },
+                { label: "Watchlists Created", getValue: () => localStorage.getItem('watchlistsCreated') || 0 },
+                { label: "Average Movie Rating", getValue: () => localStorage.getItem('averageMovieRating') || 'Not Rated' },
+                {
+                    label: "Directors Discovered",
+                    getValue: () => {
+                        const viewedDirectors = JSON.parse(localStorage.getItem('uniqueDirectorsViewed')) || [];
+                        return viewedDirectors.length;
+                    }
+                },
+                {
+                    label: "Actors Discovered",
+                    getValue: () => {
+                        const viewedActors = JSON.parse(localStorage.getItem('uniqueActorsViewed')) || [];
+                        return viewedActors.length;
+                    }
+                },
+                { label: "Your Trivia Accuracy", getValue: getTriviaAccuracy },
+            ];
+
+            let currentStatIndex = 0;
+
+            function updateStatDisplay() {
+                const currentStat = stats[currentStatIndex];
+                document.getElementById('stats-label').textContent = currentStat.label + ':';
+                document.getElementById('stats-display').textContent = currentStat.getValue();
+                currentStatIndex = (currentStatIndex + 1) % stats.length;
+            }
+
+            updateStatDisplay();
+
+            const localTimeDiv = document.getElementById('local-time');
+            let statRotationInterval = setInterval(updateStatDisplay, 3000);
+
+            localTimeDiv.addEventListener('click', () => {
+                clearInterval(statRotationInterval);
+                updateStatDisplay();
+                statRotationInterval = setInterval(updateStatDisplay, 3000);
+            });
+        }
+
+        function updateMovieVisitCount(movieId, movieTitle) {
+            let movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
+            if (!movieVisits[movieId]) {
+                movieVisits[movieId] = { count: 0, title: movieTitle };
+            }
+            movieVisits[movieId].count += 1;
+            localStorage.setItem('movieVisits', JSON.stringify(movieVisits));
+        }
+
+        function getMostVisitedMovie() {
+            const movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
+            let mostVisitedMovie = '';
+            let maxVisits = 0;
+
+            for (const movieId in movieVisits) {
+                if (movieVisits[movieId].count > maxVisits) {
+                    mostVisitedMovie = movieVisits[movieId].title;
+                    maxVisits = movieVisits[movieId].count;
+                }
+            }
+
+            return mostVisitedMovie || 'Not Available';
+        }
+
+        function getMostVisitedActor() {
+            const actorVisits = JSON.parse(localStorage.getItem('actorVisits')) || {};
+            let mostVisitedActor = '';
+            let maxVisits = 0;
+
+            for (const actorId in actorVisits) {
+                if (actorVisits[actorId].count > maxVisits) {
+                    mostVisitedActor = actorVisits[actorId].name;
+                    maxVisits = actorVisits[actorId].count;
+                }
+            }
+
+            return mostVisitedActor || 'Not Available';
+        }
+
+        function getMostVisitedDirector() {
+            const directorVisits = JSON.parse(localStorage.getItem('directorVisits')) || {};
+            let mostVisitedDirector = '';
+            let maxVisits = 0;
+
+            for (const directorId in directorVisits) {
+                if (directorVisits[directorId].count > maxVisits) {
+                    mostVisitedDirector = directorVisits[directorId].name;
+                    maxVisits = directorVisits[directorId].count;
+                }
+            }
+
+            return mostVisitedDirector || 'Not Available';
+        }
+
+        function getTriviaAccuracy() {
+            let triviaStats = JSON.parse(localStorage.getItem('triviaStats')) || { totalCorrect: 0, totalAttempted: 0 };
+            if (triviaStats.totalAttempted === 0) {
+                return 'No trivia attempted';
+            }
+            let accuracy = (triviaStats.totalCorrect / triviaStats.totalAttempted) * 100;
+            return `${accuracy.toFixed(1)}% accuracy`;
+        }
+
+        function getMostCommonGenre() {
+            const favoriteGenresArray = JSON.parse(localStorage.getItem('favoriteGenres')) || [];
+            const genreCounts = favoriteGenresArray.reduce((acc, genre) => {
+                acc[genre] = (acc[genre] || 0) + 1;
+                return acc;
+            }, {});
+
+            let mostCommonGenre = '';
+            let maxCount = 0;
+
+            for (const genre in genreCounts) {
+                if (genreCounts[genre] > maxCount) {
+                    mostCommonGenre = genre;
+                    maxCount = genreCounts[genre];
+                }
+            }
+
+            return mostCommonGenre || 'Not Available';
+        }
+
+        document.addEventListener('DOMContentLoaded', rotateUserStats);
+
+        function handleSignInOut() {
+            const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
+
+            if (isSignedIn) {
+                localStorage.setItem('isSignedIn', JSON.stringify(false));
+                alert('You have been signed out.');
+            }
+            else {
+                window.location.href = 'sign-in.html';
+                return;
+            }
+
+            updateSignInButtonState();
+        }
+
+        function updateSignInButtonState() {
+            const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
+
+            const signInText = document.getElementById('signInOutText');
+            const signInIcon = document.getElementById('signInIcon');
+            const signOutIcon = document.getElementById('signOutIcon');
+
+            if (isSignedIn) {
+                signInText.textContent = 'Sign Out';
+                signInIcon.style.display = 'none';
+                signOutIcon.style.display = 'inline-block';
+            }
+            else {
+                signInText.textContent = 'Sign In';
+                signInIcon.style.display = 'inline-block';
+                signOutIcon.style.display = 'none';
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            updateSignInButtonState();
+            document.getElementById('googleSignInBtn').addEventListener('click', handleSignInOut);
+        });
+
+        const form = document.getElementById('form1');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const searchQuery = document.getElementById('search').value;
+            localStorage.setItem('searchQuery', searchQuery);
+            window.location.href = 'search.html';
+        });
+
+        function handleSearch() {
+            const searchQuery = document.getElementById('search').value;
+            localStorage.setItem('searchQuery', searchQuery);
+            window.location.href = 'search.html';
+        }
+
+        function closeModal() {
+            document.getElementById('editProfileModal').style.display = 'none';
+        }
+    </script>
+
+</body>
+</html>

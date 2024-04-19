@@ -6,6 +6,22 @@ MovieVerse is a dynamic, user-friendly mobile application that offers an extensi
 
 **Note:** The app is under active development and will be available for download on the App Store and Google Play Store soon. Stay tuned for updates!
 
+## User Interface (iOS)
+
+<p align="center" style="cursor: pointer">
+  <a href="https://movie-verse.com">
+    <img src="../images/Mobile-UI.png" alt="The MovieVerse App Interface" width="80%" height="auto"/>
+  </a>
+</p>
+
+## User Interface (Android)
+
+<p align="center" style="cursor: pointer">
+  <a href="https://movie-verse.com">
+    <img src="../images/Mobile-UI-Android.png" alt="The MovieVerse App Interface" width="80%" height="auto"/>
+  </a>
+</p>
+
 ## Features
 
 ### Easy Navigation
@@ -25,6 +41,16 @@ MovieVerse is a dynamic, user-friendly mobile application that offers an extensi
 
 ### And all other features from the web app!
 
+### Launch Screen
+
+MovieVerse also offers a launch screen that welcomes users with a sleek and engaging design. The launch screen is designed to provide a seamless transition to the main app interface, ensuring a visually appealing experience from the moment the app is launched.
+
+<p align="center" style="cursor: pointer">
+  <a href="https://movie-verse.com">
+    <img src="../images/Mobile-UI-LS.png" alt="The MovieVerse App Interface" width="80%" height="auto"/>
+  </a>
+</p>
+
 ## Development
 
 ### Prerequisites
@@ -38,39 +64,41 @@ MovieVerse is a dynamic, user-friendly mobile application that offers an extensi
 
 ### Instructions
 1. **Clone the Repository**: Clone the repository to your local machine using the following command:
-```
-git clone
-```
+    ```bash
+    git clone
+    ```
 2. **Install Dependencies**: Navigate to the project directory and install the dependencies using the following command:
-```
-npm install
-```
+    ```bash
+    npm install
+    ```
 3. **Add iOS Platform**: Add the iOS platform to the project using the following command:
-```
-cordova platform add ios
-```
+    ```bash
+    cordova platform add ios
+    ```
 4. **Add Android Platform**: Add the Android platform to the project using the following command:
-```
-cordova platform add android
-```
+    ```bash
+    cordova platform add android
+    ```
 5. **Build the Project**: Build the project using the following command:
-```
-cordova build ios
-cordova build android
-```
+    ```bash
+    cordova build ios
+    cordova build android
+    ```
 6. **Run the Project**: Run the project using the following command:
-```
-cordova emulate ios
-cordova emulate android
-```
+    ```bash
+    cordova emulate ios
+    cordova emulate android
+    ```
 7. **Open the Project**: Open the project in Xcode and/or Android Studio to view the source code and test the app within the simulator.
 8. **Enjoy coding!**
 
 **Important**: If you make any changes to the source code of the mobile app, you will need to update the iOS build process by removing iOS and adding it again using the following commands:
-```
+   
+```bash
 cordova platform rm ios
 cordova platform add ios
 ```
+
 The Android app, however, will build and run automatically as expected without any additional steps.
 
 ## Usage

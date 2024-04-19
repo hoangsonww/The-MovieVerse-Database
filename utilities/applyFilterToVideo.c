@@ -53,4 +53,5 @@ int main() {
 
 // If you were to run this code, be sure to compile it in Web Assembly format with the following command:
 // emcc -o utils/applyFilterToVideo.wasm utils/applyFilterToVideo.c -O3 -s WASM=1
+// Remember to cd to the root directory of the project before running the command.
 // Be sure that you have Environment Variables set up for emcc and emsdk, as well as Emscripten installed in your system.

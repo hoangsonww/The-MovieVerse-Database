@@ -302,7 +302,7 @@ async function showMovieOfTheDay() {
         }
     }
     catch (error) {
-        console.error('Error fetching movie:', error);
+        console.log('Error fetching movie:', error);
         fallbackMovieSelection();
     }
 }
