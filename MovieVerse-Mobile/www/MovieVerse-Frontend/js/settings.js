@@ -171,8 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (file.size > 204800) { // 200 KB
                 resizeImage(file, 204800, (resizedDataUrl, err) => {
                     if (err) {
-                        alert('Your browser does not support resizing images. Please use a different browser or upload an image smaller than 200KB.');
-                        window.location.reload();
+                        alert(`Error resizing the image due to a limitation in your browser. Browser error: ${err.message} Your image might still appear as the background, but it will not be stable. We recommend deleting it and then using a different browser or uploading an image smaller than 1MB.`);
                         return;
                     }
                     processImageUpload(resizedDataUrl, imageNameInput, bgSelect);
@@ -192,7 +191,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 };
                 reader.readAsDataURL(file);
             }
-        } else {
+        }
+        else {
             alert('Please select an image to upload.');
         }
     });
@@ -267,7 +267,7 @@ function processImageUpload(dataUrl, imageNameInput, bgSelect) {
 
 function resizeImage(file, maxSize, callback) {
     if (!(window.FileReader && window.Blob && window.HTMLCanvasElement)) {
-        callback(null, new Error('Resizing not supported'));
+        callback(null, new Error('Your browser does not support resizing images. Please use a different browser or upload an image smaller than 200KB.'));
         return;
     }
 

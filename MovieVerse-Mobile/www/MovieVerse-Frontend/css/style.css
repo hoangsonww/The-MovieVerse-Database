@@ -1297,8 +1297,16 @@ p {
     display: none;
 }
 
+#ad-container1 {
+    display: none;
+}
+
 @media (max-width: 699px) {
     #ad-container {
+        display: block;
+    }
+
+    #ad-container1 {
         display: block;
     }
 }
