@@ -93,7 +93,7 @@ function showMovies(movies, mainElement) {
         movieEl.addEventListener('click', () => {
             localStorage.setItem('selectedMovieId', id);
             updateUniqueMoviesViewed(id);
-            window.location.href = 'MovieVerse-Frontend/html/movie-details.html';
+            window.location.href = '../../../../MovieVerse-Frontend/html/movie-details.html';
             updateMovieVisitCount(id, title);
         });
 
@@ -288,7 +288,7 @@ async function showMovieOfTheDay() {
         if (movies.length > 0) {
             const randomMovie = movies[Math.floor(Math.random() * movies.length)];
             localStorage.setItem('selectedMovieId', randomMovie.id);
-            window.location.href = 'MovieVerse-Frontend/html/movie-details.html';
+            window.location.href = '../../../../MovieVerse-Frontend/html/movie-details.html';
         }
         else {
             fallbackMovieSelection();
@@ -304,7 +304,7 @@ function fallbackMovieSelection() {
     const fallbackMovies = [432413, 299534, 1726, 562, 118340, 455207, 493922, 447332, 22970, 530385, 27205, 264660, 120467, 603, 577922, 76341, 539, 419704, 515001, 118340, 424, 98];
     const randomFallbackMovie = fallbackMovies[Math.floor(Math.random() * fallbackMovies.length)];
     localStorage.setItem('selectedMovieId', randomFallbackMovie);
-    window.location.href = 'MovieVerse-Frontend/html/movie-details.html';
+    window.location.href = '../../../../MovieVerse-Frontend/html/movie-details.html';
 }
 
 function calculateMoviesToDisplay() {
@@ -352,7 +352,7 @@ form.addEventListener('submit', (e) => {
     e.preventDefault();
     const searchQuery = document.getElementById('search').value;
     localStorage.setItem('searchQuery', searchQuery);
-    window.location.href = 'MovieVerse-Frontend/html/search.html';
+    window.location.href = '../../../../MovieVerse-Frontend/html/search.html';
 });
 
 function toggleNav() {
@@ -541,7 +541,7 @@ function showMoviesDirectorSpotlight(movies) {
 
         movieE1.addEventListener('click', () => {
             localStorage.setItem('selectedMovieId', id);
-            window.location.href = 'MovieVerse-Frontend/html/movie-details.html';
+            window.location.href = '../../../../MovieVerse-Frontend/html/movie-details.html';
             updateMovieVisitCount(id, title);
         });
 
@@ -557,7 +557,7 @@ function handleSignInOut() {
         alert('You have been signed out.');
     }
     else {
-        window.location.href = 'MovieVerse-Frontend/html/sign-in.html';
+        window.location.href = '../../../../MovieVerse-Frontend/html/sign-in.html';
         return;
     }
 
@@ -631,7 +631,7 @@ function applyTextColor(color) {
 function handleSearch() {
     const searchQuery = document.getElementById('search').value;
     localStorage.setItem('searchQuery', searchQuery);
-    window.location.href = 'MovieVerse-Frontend/html/search.html';
+    window.location.href = '../../../../MovieVerse-Frontend/html/search.html';
 }
 
 function checkAndClearLocalStorage() {
