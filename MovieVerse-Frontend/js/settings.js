@@ -171,7 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (file.size > 204800) { // 200 KB
                 resizeImage(file, 204800, (resizedDataUrl, err) => {
                     if (err) {
-                        alert('Error resizing the image due to a limitation in your browser. Error: ' + err.message + ' Your image might still appear as the background, but it will not be stable. We recommend deleting it and then using a different browser or uploading an image smaller than 1MB.');
+                        alert(`Error resizing the image due to a limitation in your browser. Error: ${err.message} Your image might still appear as the background, but it will not be stable. We recommend deleting it and then using a different browser or uploading an image smaller than 1MB.`);
                         return;
                     }
                     processImageUpload(resizedDataUrl, imageNameInput, bgSelect);
