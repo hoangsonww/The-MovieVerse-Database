@@ -6,11 +6,11 @@
     <!-- Basic homepage tags -->
     <meta charset="UTF-8">
     <title>The MovieVerse - Explore Movies, TV Series, and More</title>
-    <script src="MovieVerse-Frontend/js/settings.js"></script>
 
     <!-- Meta tags for SEO -->
     <meta name="description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta property="fb:app_id" content="753617793197513" />
     <meta property="og:title" content="The MovieVerse - Your Ultimate Movie Guide" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
@@ -19,8 +19,11 @@
     <meta property="og:url" content="https://movie-verse.com/" />
     <meta property="og:site_name" content="The MovieVerse - Your Ultimate Movie Guide" />
     <meta property="og:image" content="https://movie-verse.com/images/image.png"/>
-    <meta property="og:favicon" content="./images/favicon.ico" />
-    <meta name="keywords" content="movies, film guide, directors, actors, movie genres, cinema, film reviews">
+    <meta property="og:image:alt" content="Movie reel and popcorn, symbolizing The MovieVerse as a guide to the cinema world" />
+    <meta property="og:favicon" content="https://movie-verse.com/images/favicon.ico" />
+    <meta name="naver-site-verification" content="2b6efdfb68cee6ad6fa4227d38a19b414e819bb7" />
+    <meta name="facebook-domain-verification" content="uogl1tjp9660kf4kq988ayjhslpxn1" />
+    <meta name="keywords" content="movies, film guide, directors, actors, movie genres, cinema, film reviews, tv shows, movie verse, movieverse, film" />
     <meta name="author" content="Son Nguyen Hoang">
     <link rel="canonical" href="https://movie-verse.com/"/>
     <meta name="robots" content="index, follow">
@@ -35,18 +38,23 @@
     <meta name="twitter:title" content="The MovieVerse - Your Ultimate Movie Guide">
     <meta name="twitter:description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more.">
     <meta name="twitter:image" content="https://movie-verse.com/images/image.png"/>
+    <meta name="yandex-verification" content="82af90b194a42a28" />
     <meta name="referrer" content="no-referrer-when-downgrade">
 
-    <!-- Stylesheets and scripts -->
-    <link rel="stylesheet" href="https://movie-verse.com/MovieVerse-Frontend/css/style.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <!-- JS and CSS files -->
     <script src="index.js" defer></script>
-    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
-    <link rel="manifest" href="manifest.json">
+    <script src="/MovieVerse-Frontend/js/settings.js" defer></script>
+    <link rel="preload" href="https://movie-verse.com/MovieVerse-Frontend/css/style.css" as="style">
+    <link rel="stylesheet" href="https://movie-verse.com/MovieVerse-Frontend/css/style.css">
+    <link rel="icon" type="image/x-icon" href="https://movie-verse.com/images/favicon.ico">
+    <link rel="manifest" href="https://movie-verse.com/manifest.json">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" as="style">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" media="print" onload="this.media='all';">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"></noscript>
 
-    <!-- Google AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6608388491200814"
-            crossorigin="anonymous"></script>
+    <link rel="preload" href="/fonts/Poppins-Light.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+    <link rel="preload" href="/fonts/Poppins-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+    <link rel="preload" href="/fonts/Poppins-SemiBold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 
     <!-- Schema.org markup for rich results -->
     <script type="application/ld+json">
@@ -60,7 +68,10 @@
                 "name": "Christopher Nolan",
                 "url": "https://movie-verse.com/MovieVerse-Frontend/html/christopher-nolan.html",
                 "birthDate": "1970-07-30",
-                "birthPlace": "London, England",
+                "birthPlace": {
+                    "@type": "Place",
+                    "name": "London, England"
+                },
                 "award": "Academy Award for Best Original Screenplay"
             },
             "genre": ["Action", "Adventure", "Sci-Fi"],
@@ -69,9 +80,11 @@
                     "@type": "Person",
                     "name": "Leonardo DiCaprio",
                     "url": "https://movie-verse.com/MovieVerse-Frontend/html/leonardo-dicaprio.html",
-                    "roleName": "Dom Cobb",
                     "birthDate": "1974-11-11",
-                    "birthPlace": "Los Angeles, California, USA"
+                    "birthPlace": {
+                        "@type": "Place",
+                        "name": "Los Angeles, California, USA"
+                    }
                 }
             ],
             "aggregateRating": {
@@ -104,20 +117,29 @@
         }
     </script>
 
-    <!-- Microsoft Analytics Tag -->
-    <script type="text/javascript">
-        (function(c,l,a,r,i,t,y){
-            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        })(window, document, "clarity", "script", "l7gqnssat8");
-    </script>
-
     <style>
-        body {
-            background-image: url("images/universe-1.png");
-            background-repeat: repeat-y;
-            background-size: 100% auto;
+        @font-face {
+            font-family: 'Poppins';
+            src: url('/fonts/Poppins-Light.ttf') format('truetype');
+            font-weight: 200;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Poppins';
+            src: url('/fonts/Poppins-Regular.ttf') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Poppins';
+            src: url('/fonts/Poppins-SemiBold.ttf') format('truetype');
+            font-weight: 600;
+            font-style: normal;
+            font-display: swap;
         }
 
         #search {
@@ -136,6 +158,252 @@
                 background-position: top center;
             }
         }
+
+        #stats-display:hover {
+            color: #ff8623;
+        }
+
+        #stats-label:hover {
+            color: #ff8623;
+        }
+
+        body {
+            background-image: url("/images/universe-1-small.webp");
+        }
+
+        @media (min-width: 1024px) {
+            body {
+                background-repeat: repeat-y;
+                background-size: 100% auto;
+            }
+        }
+
+        main {
+            margin-left: 0;
+        }
+
+        #highlight {
+            color: orange;
+        }
+
+        #highlight:hover {
+            color: #ff8623 !important;
+        }
+
+        #chat-button {
+            background-color: #7378c5;
+            bottom: 325px;
+            right: 10px;
+            color: black;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font: inherit;
+            position: fixed;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        #chat-button:hover {
+            background-color: #ff8623;
+            transition: 0.1s ease-in;
+        }
+
+        #chat-button,
+        #settings-btn,
+        #movie-of-the-day-btn,
+        #movie-match-btn,
+        #movie-timeline-btn,
+        #discussions-btn,
+        #trivia-btn,
+        #back-to-top-btn {
+            transition: transform 0.5s ease, opacity 0.5s ease;
+            transform: translateY(20px);
+            opacity: 0;
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            #chat-button,
+            #settings-btn,
+            #movie-of-the-day-btn,
+            #movie-match-btn,
+            #movie-timeline-btn,
+            #discussions-btn,
+            #trivia-btn,
+            #back-to-top-btn {
+                position: fixed;
+                right: 10px;
+                z-index: 1000;
+            }
+
+            #menu-btn {
+                display: block;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .mobile-bottom-bar {
+                display: flex;
+            }
+
+            #chat-button,
+            #settings-btn,
+            #movie-of-the-day-btn,
+            #movie-match-btn,
+            #movie-timeline-btn,
+            #discussions-btn,
+            #trivia-btn,
+            #menu-btn,
+            #back-to-top-btn {
+                display: none;
+            }
+        }
+
+        #translate_control {
+            position: fixed;
+            left: 10px;
+            bottom: 10px;
+            z-index: 1000000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border-radius: 8px;
+        }
+
+        @media (max-width: 767px) {
+            #translate_control {
+                display: block;
+                bottom: 70px;
+                position: fixed;
+                left: 10px;
+                z-index: 1000000;
+            }
+        }
+
+        .translate-trigger {
+            background-color: #7378c5;
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .translate-trigger:hover {
+            background-color: #ff8623;
+            transition: 0.1s ease-in;
+        }
+
+        #google_translate_element {
+            display: none;
+            position: fixed;
+            left: 10px;
+            bottom: 60px;
+            background-color: #7378c5;
+            border: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            padding: 5px;
+            border-radius: 8px;
+            z-index: 100000000;
+            font: inherit;
+            color: white;
+        }
+
+        .goog-te-combo {
+            background-color: #7378c5 !important;
+            color: white !important;
+            border: 0.5px solid white !important;
+            border-radius: 8px !important;
+            font-size: 15px !important;
+            padding-left: 5px !important;
+        }
+
+        .skiptranslate {
+            color: white !important;
+        }
+
+        .goog-te-banner-frame {
+            opacity: 0.8 !important;
+            background-color: #f4f4f4 !important;
+        }
+
+        @media (max-width: 767px) {
+            #google_translate_element {
+                bottom: 120px;
+            }
+
+            #translate_control {
+                bottom: 70px;
+            }
+        }
+
+        #githubLink {
+            color: white !important;
+        }
+
+        #githubLink7 {
+            color: white !important;
+        }
+
+        #githubLink7:hover {
+            color: #ff8623 !important;
+            transition: 0.1s ease-in;
+        }
+
+        #githubLink8 {
+            color: white !important;
+        }
+
+        #githubLink8:hover {
+            color: #ff8623 !important;
+            transition: 0.1s ease-in;
+        }
+
+        #githubLink3 {
+            color: white !important;
+        }
+
+        #githubLink3:hover {
+            color: #ff8623 !important;
+            transition: 0.1s ease-in;
+        }
+
+        #githubLink4 {
+            color: white !important;
+        }
+
+        #githubLink4:hover {
+            color: #ff8623 !important;
+            transition: 0.1s ease-in;
+        }
+
+        #githubLink5 {
+            color: white !important;
+        }
+
+        #githubLink5:hover {
+            color: #ff8623 !important;
+            transition: 0.1s ease-in;
+        }
+
+        #githubLink6 {
+            color: white !important;
+        }
+
+        #githubLink6:hover {
+            color: #ff8623 !important;
+            transition: 0.1s ease-in;
+        }
+
+        #other {
+            margin-top: 40px;
+        }
+
+        #director-spotlight-title {
+            margin-top: 40px;
+        }
+
+        .pagination {
+            min-height: 54px;
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -145,42 +413,35 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-
     gtag('config', 'G-CQKJ67FXZ4');
 </script>
 
 <body>
     <header id="homepage-header" style="margin-bottom: -10px; margin-top: -5px">
         <a id="indexLink" href="index.html" style="text-decoration: none; color: inherit; cursor: pointer">
-            <h1 id="my-heading" style="margin-bottom: -10px">
-                The Mo<span class="highlight">vieV</span>erse
+            <h1 id="my-heading" style="margin-bottom: -10px" class="notranslate">
+                The Mo<span class="highlight" id="highlight">vieV</span>erse
             </h1>
         </a>
-
         <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
             <p id="stats-label" class="clock" style="font-size: 16px;"></p>
             <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
         </div>
-
         <button id="nav-toggle" style="z-index: 200000" class="nav-toggle" title="Toggle side navbar" onclick="toggleNav()">
             <i class="fas fa-bars"></i>
         </button>
-
-        <button class="back-btn nav-btn" id="home-btn" title="Go back to homepage">Home</button>
-        <button class="about nav-btn" onclick="window.location.href='MovieVerse-Frontend/html/about.html'" title="About this wonderful app!">About</button>
-        <button class="favorites-btn nav-btn" onclick="window.location.href='MovieVerse-Frontend/html/favorites.html'" title="View your favorites & watchlists">Favorites</button>
-
-        <button id="profileBtn" class="nav-btn" onclick="window.location.href='MovieVerse-Frontend/html/user-profile.html'" title="Go to your profile">
+        <button class="back-btn nav-btn notranslate" id="home-btn" title="Go back to homepage">Home</button>
+        <button class="about nav-btn notranslate" onclick="window.location.href='MovieVerse-Frontend/html/about.html'" title="About this wonderful app!">About</button>
+        <button class="favorites-btn nav-btn notranslate" onclick="window.location.href='MovieVerse-Frontend/html/favorites.html'" title="View your favorites & watchlists">Favorites</button>
+        <button id="profileBtn" class="nav-btn notranslate" onclick="window.location.href='MovieVerse-Frontend/html/user-profile.html'" title="Go to your profile">
             <span id="profileText">Profile</span>
             <i class="fas fa-user" id="profileIcon"></i>
         </button>
-
-        <button id="googleSignInBtn" class="nav-btn" onclick="handleSignInOut()" title="Sign In/Out">
+        <button id="googleSignInBtn" class="nav-btn notranslate" onclick="handleSignInOut()" title="Sign In/Out">
             <span id="signInOutText">Sign In</span>
             <i class="fas fa-sign-in-alt" id="signInIcon"></i>
             <i class="fas fa-sign-out-alt" id="signOutIcon" style="display: none;"></i>
         </button>
-
         <form id="form">
             <div class="search-container">
                 <input type="text" id="search" placeholder="Search For Films, Actors..." style="width: 250px; margin-right: 5px" class="search" title="Search for movies, actors, TV series, and more!" />
@@ -192,27 +453,23 @@
                 <button type="button" id="clear-search" style="display: none">Clear</button>
             </div>
         </form>
-
         <button id="notificationBtn" style="z-index: 200000" class="notification-btn" title="Notifications">
             <i class="fas fa-bell" id="bellIcon" style="font-size: 15px"></i>
         </button>
-
         <div id="notificationModal" class="notification-modal" style="display: none;">
             <ul id="newReleasesList"></ul>
         </div>
     </header>
 
     <nav id="side-nav" class="side-nav" style="z-index: 1002000;">
-        <a id="heading-href" style="cursor: pointer">
+        <a id="heading-href" class="notranslate" style="cursor: pointer">
             <div id="my-heading" style="margin-bottom: 15px; margin-left: 0; margin-top: 15px; font-size: 2.1em; font-weight: bold;">
                 The Mo<span class="highlight">vieV</span>erse Menu
             </div>
         </a>
-
         <div id="button-container">
             <button id="button-remove" title="Close the navbar" onclick="removeNavBar()">Close</button>
         </div>
-
         <ul style="overflow-y: auto">
             <li><a href="MovieVerse-Frontend/html/analytics.html">MovieVerse Analytics</a></li>
             <li><a href="#most-popular">Popular Worldwide</a></li>
@@ -224,6 +481,7 @@
             <li><a href="#indian">Indian</a></li>
             <li><a href="#korean">Korean</a></li>
             <li><a href="#tv-series">TV Series</a></li>
+            <li><a href="#western">Western</a></li>
             <li><a href="#hidden-gems">Hidden Gems</a></li>
             <li><a href="#horror">Horror</a></li>
             <li><a href="#documentary">Documentary</a></li>
@@ -231,15 +489,17 @@
             <li><a href="#sci-fi">Science Fiction</a></li>
             <li><a href="#romantic">Romantic</a></li>
             <li><a href="#thriller">Thriller</a></li>
+            <li><a href="#war">War</a></li>
             <li><a href="#mystery">Mystery</a></li>
-            <li><a href="#adventure">Adventure</a></li>
+            <li><a href="#crime">Crime</a></li>
             <li><a href="#comedy">Comedy</a></li>
             <li><a href="#fantasy">Fantasy</a></li>
             <li><a href="#family">Family</a></li>
-            <li><a href="#crime">Crime</a></li>
             <li><a href="#musical">Musical</a></li>
             <li><a href="#drama">Drama</a></li>
             <li><a href="#classic">Classic</a></li>
+            <li><a href="MovieVerse-Frontend/html/sign-in.html">Sign In</a></li>
+            <li><a href="MovieVerse-Frontend/html/user-profile.html">Profile</a></li>
             <li><a href="MovieVerse-Frontend/html/support.html">MovieVerse Support</a></li>
             <li><a href="MovieVerse-Frontend/html/feedback.html">MovieVerse Feedback</a></li>
         </ul>
@@ -251,7 +511,6 @@
             <i class="fas fa-sign-in-alt" id="mobileSignInIcon"></i>
             <i class="fas fa-sign-out-alt" id="mobileSignOutIcon" style="display: none;"></i>
         </button>
-
         <button id="mobileProfileBtn" class="nav-btn" onclick="window.location.href='MovieVerse-Frontend/html/user-profile.html'" title="Go to your profile">
             <span id="mobileProfileText">Profile</span>
             <i class="fas fa-user" id="mobileProfileIcon"></i>
@@ -263,392 +522,164 @@
     </div>
 
     <div class="genres">
-        <h2 id="other" style="margin-top: 45px; cursor: pointer">Global Hits: Popular Movies Worldwide</h2>
-        <div id="most-popular-pagination" class="pagination"></div>
+        <h2 id="other" style="cursor: pointer">Global Hits: Popular Movies Worldwide</h2>
     </div>
-
+    <div id="most-popular-pagination" class="pagination" style="text-align: center"></div>
     <main id="most-popular"></main>
 
     <div class="genres" id="recommendedDIV">
-        <h2 id="other" style="margin-top: 45px; cursor: pointer" title="Here are some personalized movie suggestions we've generated based on your preferences! Check them out, and let us know what you think!">
+        <h2 id="other" style="cursor: pointer" title="Here are some personalized movie suggestions we've generated based on your preferences! Check them out, and let us know what you think!">
             Recommended For You: Personalized Movie Suggestions
         </h2>
-        <div id="recommended-pagination" class="pagination"></div>
     </div>
-
+    <div id="recommended-pagination" class="pagination" style="text-align: center"></div>
     <main id="recommended"></main>
 
     <div class="genres" id="award-winning-div">
-        <h2 style="margin-top: 50px; cursor: pointer">Critics' Choice: Trending Award-Winning Movies</h2>
-        <div id="award-winning-pagination" class="pagination"></div>
+        <h2 id="other" style="cursor: pointer">Critics' Choice: Trending Award-Winning Movies</h2>
     </div>
-
+    <div id="award-winning-pagination" class="pagination" style="text-align: center"></div>
     <main id="award-winning"></main>
 
     <div class="genres" style="display: flex; justify-content: space-between; align-items: center;">
-        <h2 id="director-spotlight-title" style="cursor: pointer; margin-top: 50px">Director's Spotlight: <span id="spotlight-director-name">Alfred Hitchcock</span></h2>
+        <h2 id="director-spotlight-title" style="cursor: pointer; ">Director's Spotlight: <span id="spotlight-director-name">Alfred Hitchcock</span></h2>
         <button id="change-director-btn" onclick="changeDirector()" style="padding: 5px 10px; margin-right: 10px; margin-top: 25px; cursor: pointer;">Change Director</button>
     </div>
-
     <main id="director-spotlight"></main>
 
     <div class="genres" id="action-div">
-        <h2 id="other" style="margin-top: 50px; cursor: pointer">Adrenaline Rush: Trending Action Movies</h2>
-        <div id="action-pagination" class="pagination"></div>
+        <h2 id="other" style="cursor: pointer">Adrenaline Rush: Trending Action Movies</h2>
     </div>
-
+    <div id="action-pagination" class="pagination" style="text-align: center"></div>
     <main id="action"></main>
 
     <div class="genres" id="vietnamese-div">
-        <h2 id="other" style="margin-top: 50px; cursor: pointer">Cinematic Excellence: Trending Vietnamese Movies</h2>
-        <div id="vietnamese-pagination" class="pagination"></div>
+        <h2 id="other" style="cursor: pointer">Cinematic Excellence: Trending Vietnamese Movies</h2>
     </div>
-
+    <div id="vietnamese-pagination" class="pagination" style="text-align: center"></div>
     <main id="vietnamese"></main>
 
     <div class="genres" id="indian-div">
-        <h2 id="other" style="margin-top: 50px; cursor: pointer">Bollywood Blockbusters: Trending Indian Movies</h2>
-        <div id="indian-pagination" class="pagination"></div>
+        <h2 id="other" style="cursor: pointer">Bollywood Blockbusters: Trending Indian Movies</h2>
     </div>
-
+    <div id="indian-pagination" class="pagination" style="text-align: center"></div>
     <main id="indian"></main>
 
     <div class="genres" id="korean-div">
-        <h2 id="other" style="margin-top: 50px; cursor: pointer">K-Drama & Beyond: Trending Korean Movies</h2>
-        <div id="korean-pagination" class="pagination"></div>
+        <h2 id="other" style="cursor: pointer">K-Drama & Beyond: Trending Korean Movies</h2>
     </div>
-
+    <div id="korean-pagination" class="pagination" style="text-align: center"></div>
     <main id="korean"></main>
 
     <div class="genres" id="tv-series-div">
-        <h2 id="other" style="margin-top: 50px; cursor: pointer">Binge-Worthy Series: Trending TV Series</h2>
-        <div id="tv-series-pagination" class="pagination"></div>
+        <h2 id="other" style="cursor: pointer">Binge-Worthy Series: Trending TV Series</h2>
     </div>
+    <div id="tv-series-pagination" class="pagination" style="text-align: center"></div>
+    <main id="tv-series" ></main>
 
-    <main id="tv-series"></main>
+    <div class="genres" id="western-div">
+        <h2 id="other" style="cursor: pointer">Wild West: Trending Western Movies</h2>
+    </div>
+    <div id="western-pagination" class="pagination" style="text-align: center"></div>
+    <main id="western"></main>
 
     <div class="genres" id="hidden-gems-div">
-        <h2 id="other" style="margin-top: 50px; cursor: pointer">Hidden Treasures: Discover Gems in Cinema</h2>
-        <div id="hidden-gems-pagination" class="pagination"></div>
+        <h2 id="other" style="cursor: pointer">Hidden Treasures: Discover Gems in Cinema</h2>
     </div>
-
+    <div id="hidden-gems-pagination" class="pagination" style="text-align: center"></div>
     <main id="hidden-gems"></main>
 
     <div class="genres" id="horror-div">
-        <h2 id="other" style="margin-top: 50px; cursor: pointer">Scream Queens & Slashers: Trending Horror Movies</h2>
-        <div id="horror-pagination" class="pagination"></div>
+        <h2 id="other" style="cursor: pointer">Scream Queens & Slashers: Trending Horror Movies</h2>
     </div>
-
+    <div id="horror-pagination" class="pagination" style="text-align: center"></div>
     <main id="horror"></main>
 
     <div class="genres" id="documentary-div">
-        <h2 id="other" style="margin-top: 50px; cursor: pointer">Real Stories: Trending Documentary Movies</h2>
-        <div id="documentary-pagination" class="pagination"></div>
+        <h2 id="other" style="; cursor: pointer">Real Stories: Trending Documentary Movies</h2>
     </div>
-
-    <main id="documentary"></main>
-
-<!--    <div id="ad-container" style="display: block; text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px);" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">-->
-<!--        <p style="margin: 0;">Advertisement</p>-->
-<!--        <ins class="adsbygoogle"-->
-<!--             style="display: block; width: 100%;"-->
-<!--             data-ad-client="ca-pub-6608388491200814"-->
-<!--             data-ad-slot="4832732030"-->
-<!--             data-ad-format="auto"></ins>-->
-<!--        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="MovieVerse-Frontend/html/feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>-->
-<!--    </div>-->
-<!--    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6608388491200814"-->
-<!--            crossorigin="anonymous"></script>-->
-<!--    <script>-->
-<!--        (adsbygoogle = window.adsbygoogle || []).push({});-->
-<!--    </script>-->
+    <div id="documentary-pagination" class="pagination" style="text-align: center"></div>
+    <main id="documentary" ></main>
 
     <div class="genres" id="animation-div">
-        <h2 id="other" style="margin-top: 50px; cursor: pointer">Animated Adventures: Trending Animated Movies</h2>
-        <div id="animation-pagination" class="pagination"></div>
+        <h2 id="other" style="cursor: pointer">Animated Adventures: Trending Animated Movies</h2>
     </div>
-
+    <div id="animation-pagination" class="pagination" style="text-align: center"></div>
     <main id="animation"></main>
 
-<!--    <div id="ad-container" style="display: block; text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px);" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">-->
-<!--        <p style="margin: 0;">Advertisement</p>-->
-<!--        <ins class="adsbygoogle"-->
-<!--             style="display: block; width: 100%;"-->
-<!--             data-ad-client="ca-pub-6608388491200814"-->
-<!--             data-ad-slot="4832732030"-->
-<!--             data-ad-format="auto"></ins>-->
-<!--        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="MovieVerse-Frontend/html/feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>-->
-<!--    </div>-->
-<!--    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6608388491200814"-->
-<!--            crossorigin="anonymous"></script>-->
-<!--    <script>-->
-<!--        (adsbygoogle = window.adsbygoogle || []).push({});-->
-<!--    </script>-->
-
     <div class="genres" id="sci-fi-div">
-        <h2 id="other" style="margin-top: 50px; cursor: pointer">Future Visions: Trending Science Fiction Movies</h2>
-        <div id="sci-fi-pagination" class="pagination"></div>
+        <h2 id="other" style="cursor: pointer">Future Visions: Trending Science Fiction Movies</h2>
     </div>
-
+    <div id="sci-fi-pagination" class="pagination" style="text-align: center"></div>
     <main id="sci-fi"></main>
 
-<!--    <div id="ad-container" style="display: block; text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px);" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">-->
-<!--        <p style="margin: 0;">Advertisement</p>-->
-<!--        <ins class="adsbygoogle"-->
-<!--             style="display: block; width: 100%;"-->
-<!--             data-ad-client="ca-pub-6608388491200814"-->
-<!--             data-ad-slot="4832732030"-->
-<!--             data-ad-format="auto"></ins>-->
-<!--        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="MovieVerse-Frontend/html/feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>-->
-<!--    </div>-->
-<!--    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6608388491200814"-->
-<!--            crossorigin="anonymous"></script>-->
-<!--    <script>-->
-<!--        (adsbygoogle = window.adsbygoogle || []).push({});-->
-<!--    </script>-->
-
     <div class="genres" id="romantic-div">
-        <h2 id="other" style="margin-top: 50px; cursor: pointer">Love Is in the Air: Trending Romantic Movies</h2>
-        <div id="romantic-pagination" class="pagination"></div>
+        <h2 id="other" style="; cursor: pointer">Love Is in the Air: Trending Romantic Movies</h2>
     </div>
-
+    <div id="romantic-pagination" class="pagination" style="text-align: center"></div>
     <main id="romantic"></main>
 
-    <div id="ad-container" style="display: block; text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px);" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
-        <p style="margin: 0;">Advertisement</p>
-        <ins class="adsbygoogle"
-             style="display: block; width: 100%;"
-             data-ad-client="ca-pub-6608388491200814"
-             data-ad-slot="4832732030"
-             data-ad-format="auto"></ins>
-        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="MovieVerse-Frontend/html/feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>
-    </div>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6608388491200814"
-            crossorigin="anonymous"></script>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-
     <div class="genres" id="thriller-div">
-        <h2 id="other" style="margin-top: 50px; cursor: pointer">Edge of Your Seat: Trending Thriller Movies</h2>
-        <div id="thriller-pagination" class="pagination"></div>
+        <h2 id="other" style="cursor: pointer">Edge of Your Seat: Trending Thriller Movies</h2>
     </div>
-
+    <div id="thriller-pagination" class="pagination" style="text-align: center"></div>
     <main id="thriller"></main>
 
-    <div id="ad-container" style="display: block; text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px);" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
-        <p style="margin: 0;">Advertisement</p>
-        <ins class="adsbygoogle"
-             style="display: block; width: 100%;"
-             data-ad-client="ca-pub-6608388491200814"
-             data-ad-slot="4832732030"
-             data-ad-format="auto"></ins>
-        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="MovieVerse-Frontend/html/feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>
+    <div class="genres" id="war-div">
+        <h2 id="other" style="cursor: pointer">War Stories: Trending War Movies</h2>
     </div>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6608388491200814"
-            crossorigin="anonymous"></script>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
+    <div id="war-pagination" class="pagination" style="text-align: center"></div>
+    <main id="war"></main>
 
     <div class="genres" id="mystery-div">
-        <h2 id="other" style="margin-top: 50px; cursor: pointer">Whodunit? Mystery & Intrigue in Trending Mystery Movies</h2>
-        <div id="mystery-pagination" class="pagination"></div>
+        <h2 id="other" style="cursor: pointer">Whodunit? Mystery & Intrigue in Trending Mystery Movies</h2>
     </div>
-
+    <div id="mystery-pagination" class="pagination" style="text-align: center"></div>
     <main id="mystery"></main>
 
-    <div id="ad-container" style="display: block; text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px);" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
-        <p style="margin: 0;">Advertisement</p>
-        <ins class="adsbygoogle"
-             style="display: block; width: 100%;"
-             data-ad-client="ca-pub-6608388491200814"
-             data-ad-slot="4832732030"
-             data-ad-format="auto"></ins>
-        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="MovieVerse-Frontend/html/feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>
-    </div>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6608388491200814"
-            crossorigin="anonymous"></script>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-
-    <div class="genres" id="adventure-div">
-        <h2 id="other" style="margin-top: 50px; cursor: pointer">Epic Journeys: Trending Adventure Movies</h2>
-        <div id="adventure-pagination" class="pagination"></div>
-    </div>
-
-    <main id="adventure"></main>
-
-    <div id="ad-container" style="display: block; text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px);" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
-        <p style="margin: 0;">Advertisement</p>
-        <ins class="adsbygoogle"
-             style="display: block; width: 100%;"
-             data-ad-client="ca-pub-6608388491200814"
-             data-ad-slot="4832732030"
-             data-ad-format="auto"></ins>
-        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="MovieVerse-Frontend/html/feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>
-    </div>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6608388491200814"
-            crossorigin="anonymous"></script>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-
-    <div class="genres" id="comedy-div">
-        <h2 id="other" style="margin-top: 50px; cursor: pointer">Laughs Galore: Trending Comedy Movies</h2>
-        <div id="comedy-pagination" class="pagination"></div>
-    </div>
-
-    <main id="comedy"></main>
-
-    <div id="ad-container" style="display: block; text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px);" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
-        <p style="margin: 0;">Advertisement</p>
-        <ins class="adsbygoogle"
-             style="display: block; width: 100%;"
-             data-ad-client="ca-pub-6608388491200814"
-             data-ad-slot="4832732030"
-             data-ad-format="auto"></ins>
-        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="MovieVerse-Frontend/html/feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>
-    </div>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6608388491200814"
-            crossorigin="anonymous"></script>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-
-    <div class="genres" id="fantasy-div">
-        <h2 id="other" style="margin-top: 50px; cursor: pointer">Other Worlds: Trending Fantasy Movies</h2>
-        <div id="fantasy-pagination" class="pagination"></div>
-    </div>
-
-    <main id="fantasy"></main>
-
-    <div id="ad-container" style="display: block; text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px);" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
-        <p style="margin: 0;">Advertisement</p>
-        <ins class="adsbygoogle"
-             style="display: block; width: 100%;"
-             data-ad-client="ca-pub-6608388491200814"
-             data-ad-slot="4832732030"
-             data-ad-format="auto"></ins>
-        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="MovieVerse-Frontend/html/feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>
-    </div>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6608388491200814"
-            crossorigin="anonymous"></script>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-
-    <div class="genres" id="family-div">
-        <h2 id="other" style="margin-top: 50px; cursor: pointer">Family Fun Time: Trending Family Movies</h2>
-        <div id="family-pagination" class="pagination"></div>
-    </div>
-
-    <main id="family"></main>
-
-    <div id="ad-container" style="display: block; text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px);" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
-        <p style="margin: 0;">Advertisement</p>
-        <ins class="adsbygoogle"
-             style="display: block; width: 100%;"
-             data-ad-client="ca-pub-6608388491200814"
-             data-ad-slot="4832732030"
-             data-ad-format="auto"></ins>
-        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="MovieVerse-Frontend/html/feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>
-    </div>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6608388491200814"
-            crossorigin="anonymous"></script>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-
     <div class="genres" id="crime-div">
-        <h2 id="other" style="margin-top: 50px; cursor: pointer">Underworld Tales: Trending Crime Movies</h2>
-        <div id="crime-pagination" class="pagination"></div>
+        <h2 id="other" style="cursor: pointer">Underworld Tales: Trending Crime Movies</h2>
     </div>
-
+    <div id="crime-pagination" class="pagination" style="text-align: center"></div>
     <main id="crime"></main>
 
-    <div id="ad-container" style="display: block; text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px);" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
-        <p style="margin: 0;">Advertisement</p>
-        <ins class="adsbygoogle"
-             style="display: block; width: 100%;"
-             data-ad-client="ca-pub-6608388491200814"
-             data-ad-slot="4832732030"
-             data-ad-format="auto"></ins>
-        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="MovieVerse-Frontend/html/feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>
+    <div class="genres" id="comedy-div">
+        <h2 id="other" style="cursor: pointer">Laughs Galore: Trending Comedy Movies</h2>
     </div>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6608388491200814"
-            crossorigin="anonymous"></script>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
+    <div id="comedy-pagination" class="pagination" style="text-align: center"></div>
+    <main id="comedy"></main>
+
+    <div class="genres" id="fantasy-div">
+        <h2 id="other" style="cursor: pointer">Other Worlds: Trending Fantasy Movies</h2>
+    </div>
+    <div id="fantasy-pagination" class="pagination" style="text-align: center"></div>
+    <main id="fantasy"></main>
+
+    <div class="genres" id="family-div">
+        <h2 id="other" style="cursor: pointer">Family Fun Time: Trending Family Movies</h2>
+    </div>
+    <div id="family-pagination" class="pagination" style="text-align: center"></div>
+    <main id="family"></main>
 
     <div class="genres" id="musical-div">
-        <h2 id="other" style="margin-top: 50px; cursor: pointer">Enchanting Melodies: Trending Musical Movies</h2>
-        <div id="musical-pagination" class="pagination"></div>
+        <h2 id="other" style="cursor: pointer">Enchanting Melodies: Trending Musical Movies</h2>
     </div>
-
+    <div id="musical-pagination" class="pagination" style="text-align: center"></div>
     <main id="musical"></main>
 
-    <div id="ad-container" style="display: block; text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px);" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
-        <p style="margin: 0;">Advertisement</p>
-        <ins class="adsbygoogle"
-             style="display: block; width: 100%;"
-             data-ad-client="ca-pub-6608388491200814"
-             data-ad-slot="4832732030"
-             data-ad-format="auto"></ins>
-        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="MovieVerse-Frontend/html/feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>
-    </div>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6608388491200814"
-            crossorigin="anonymous"></script>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-
     <div class="genres" id="drama-div">
-        <h2 id="other" style="margin-top: 50px; cursor: pointer">Emotional Journeys: Trending Drama Movies</h2>
-        <div id="drama-pagination" class="pagination"></div>
+        <h2 id="other" style="cursor: pointer">Emotional Journeys: Trending Drama Movies</h2>
     </div>
-
+    <div id="drama-pagination" class="pagination" style="text-align: center"></div>
     <main id="drama"></main>
 
-    <div id="ad-container" style="display: block; text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px);" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
-        <p style="margin: 0;">Advertisement</p>
-        <ins class="adsbygoogle"
-             style="display: block; width: 100%;"
-             data-ad-client="ca-pub-6608388491200814"
-             data-ad-slot="4832732030"
-             data-ad-format="auto"></ins>
-        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="MovieVerse-Frontend/html/feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>
-    </div>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6608388491200814"
-            crossorigin="anonymous"></script>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-
     <div class="genres" id="classic-div">
-        <h2 id="other" style="margin-top: 50px; cursor: pointer">Timeless Classics: Trending Classic Movies</h2>
-        <div id="classic-pagination" class="pagination"></div>
+        <h2 id="other" style="cursor: pointer">Timeless Classics: Trending Classic Movies</h2>
     </div>
-
+    <div id="classic-pagination" class="pagination" style="text-align: center"></div>
     <main id="classic"></main>
 
-    <div id="ad-container" style="display: block; text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px);" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
-        <p style="margin: 0;">Advertisement</p>
-        <ins class="adsbygoogle"
-             style="display: block; width: 100%;"
-             data-ad-client="ca-pub-6608388491200814"
-             data-ad-slot="4832732030"
-             data-ad-format="auto"></ins>
-        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="MovieVerse-Frontend/html/feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>
-    </div>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6608388491200814"
-            crossorigin="anonymous"></script>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-
+    <button id="chat-button" onclick="window.location.href='MovieVerse-Frontend/html/chat.html'" style="bottom: 325px; right: 10px; z-index: 1001" title="Chat with fellow MovieVerse users!">Chat</button>
     <button id="settings-btn" style="position: fixed; bottom: 290px; right: 10px; z-index: 1001">Settings</button>
     <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" style="bottom: 255px; right: 10px; z-index: 1001" title="Get a recommended movie to watch for today!">Surprise Me!</button>
     <button id="movie-match-btn" onclick="window.location.href='MovieVerse-Frontend/html/movie-match.html'" title="Find movies that match your mood and preferences!" style="bottom: 220px; right: 10px; z-index: 1001">Movie Match</button>
@@ -658,6 +689,10 @@
     <button id="back-to-top-btn" style="bottom: 80px; right: 10px; z-index: 1001">Back To Top</button>
 
     <div id="mobile-bottom-bar" class="mobile-bottom-bar">
+        <a href="MovieVerse-Frontend/html/chat.html" class="bottom-bar-item">
+            <i class="fas fa-comments"></i>
+            <span>Chat</span>
+        </a>
         <a href="MovieVerse-Frontend/html/settings.html" class="bottom-bar-item">
             <i class="fas fa-cog"></i>
             <span>Settings</span>
@@ -695,22 +730,62 @@
 
     <footer style="margin-top: 40px">
         <p id="footer">© 2024 The MovieVerse. All rights reserved.</p>
-        <p>Learn more about us <a href="MovieVerse-Frontend/html/about.html" id="githubLink">here</a>.</p>
-        <p style="font-size: 9px">View our demos at: <a href="MovieVerse-Frontend/html/inception.html" id="githubLink">Inception</a>, <a href="MovieVerse-Frontend/html/christopher-nolan.html" id="githubLink">Christopher Nolan</a>, and <a href="MovieVerse-Frontend/html/leonardo-dicaprio.html" id="githubLink">Leonardo DiCaprio</a>.</p>
+        <p>Learn more <a href="MovieVerse-Frontend/html/about.html" id="githubLink">about The MovieVerse</a> and <a href="MovieVerse-Frontend/html/notifications.html" id="githubLink8">what we offer.</a></p>
+        <p style="font-size: 9px">View our demos at: <a href="MovieVerse-Frontend/html/inception.html" id="githubLink7">Inception</a>, <a href="MovieVerse-Frontend/html/christopher-nolan.html" id="githubLink6">Christopher Nolan</a>, <a href="MovieVerse-Frontend/html/leonardo-dicaprio.html" id="githubLink3">Leonardo DiCaprio</a>, use our <a href="MovieVerse-Frontend/html/chat.html" id="githubLink4">chat application</a>, or explore the <a href="MovieVerse-Frontend/html/user-profile.html" id="githubLink5">profile feature</a>!</p>
     </footer>
+
+    <div id="google_translate_element"></div>
+    <div id="translate_control">
+        <div class="translate-trigger">Translate</div>
+    </div>
+
+    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script>
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                layout: google.translate.TranslateElement.InlineLayout.VERTICAL,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+
+        document.querySelector('.translate-trigger').addEventListener('click', function() {
+            const translateEl = document.getElementById('google_translate_element');
+            translateEl.style.display = translateEl.style.display === 'block' ? 'none' : 'block';
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            let lastScrollTop = window.scrollY;
+            const translateControl = document.getElementById('translate_control');
+            const translateEl = document.getElementById('google_translate_element');
+
+            window.addEventListener('scroll', function() {
+                let scrollTop = window.scrollY;
+
+                if (window.innerWidth <= 767) {
+                    if (scrollTop > lastScrollTop && scrollTop > 0) {
+                        translateControl.style.display = 'none';
+                        translateEl.style.display = 'none';
+                    }
+                    else {
+                        translateControl.style.display = 'block';
+                    }
+                    lastScrollTop = scrollTop;
+                }
+            }, { passive: true });
+        })
+    </script>
 
     <script>
         window.onload = function() {
             const bottomBarAnchors = document.querySelectorAll('.mobile-bottom-bar a');
             let maxHeight = 0;
-
             bottomBarAnchors.forEach(anchor => {
                 const anchorHeight = anchor.offsetHeight;
                 if (anchorHeight > maxHeight) {
                     maxHeight = anchorHeight;
                 }
             });
-
             bottomBarAnchors.forEach(anchor => {
                 anchor.style.height = `${maxHeight}px`;
             });
@@ -719,35 +794,29 @@
         window.onresize = function() {
             const bottomBarAnchors = document.querySelectorAll('.mobile-bottom-bar a');
             let maxHeight = 0;
-
             bottomBarAnchors.forEach(anchor => {
                 anchor.style.height = 'auto';
             });
-
             bottomBarAnchors.forEach(anchor => {
                 const anchorHeight = anchor.offsetHeight;
                 if (anchorHeight > maxHeight) {
                     maxHeight = anchorHeight;
                 }
             });
-
             bottomBarAnchors.forEach(anchor => {
                 anchor.style.height = `${maxHeight}px`;
             });
         };
 
         let lastScrollY = window.scrollY;
-
         window.addEventListener('scroll', () => {
             const currentScrollY = window.scrollY;
-
             if (currentScrollY > lastScrollY && currentScrollY > 0) {
                 document.querySelector('.mobile-bottom-bar').classList.add('hide-bar');
             }
             else {
                 document.querySelector('.mobile-bottom-bar').classList.remove('hide-bar');
             }
-
             lastScrollY = currentScrollY;
         });
 
@@ -755,19 +824,17 @@
 
         document.getElementById('menu-btn').addEventListener('click', () => {
             if (isAnimating) return;
-
             isAnimating = true;
-
             const buttonIds = [
+                'chat-button',
                 'settings-btn',
                 'movie-of-the-day-btn',
                 'movie-match-btn',
                 'movie-timeline-btn',
                 'discussions-btn',
                 'trivia-btn',
-                'back-to-top-btn'
+                'back-to-top-btn',
             ];
-
             buttonIds.forEach((id, index) => {
                 const button = document.getElementById(id);
                 if (button.style.display === 'none' || !button.style.display) {
@@ -781,7 +848,6 @@
                     button.style.opacity = '0';
                     button.style.transform = 'translateY(20px)';
                 }
-
                 setTimeout(() => {
                     button.style.display = button.style.opacity === '1' ? 'block' : 'none';
                     if (index === buttonIds.length - 1) {
@@ -794,15 +860,15 @@
         window.addEventListener('resize', () => {
             if (window.innerWidth < 767) {
                 const buttonIds = [
+                    'chat-button',
                     'settings-btn',
                     'movie-of-the-day-btn',
                     'movie-match-btn',
                     'movie-timeline-btn',
                     'discussions-btn',
                     'trivia-btn',
-                    'back-to-top-btn'
+                    'back-to-top-btn',
                 ];
-
                 buttonIds.forEach(id => {
                     const button = document.getElementById(id);
                     button.style.display = 'none';
@@ -817,14 +883,10 @@
         document.getElementById('settings-btn').addEventListener('click', () => {
             window.location.href = 'MovieVerse-Frontend/html/settings.html';
         });
-
         document.addEventListener('DOMContentLoaded', () => {
-            applySettings();
-
             document.querySelectorAll('nav a').forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
-
                     const href = this.getAttribute('href');
                     if (href.startsWith('#')) {
                         const targetMain = document.querySelector(href);
@@ -845,56 +907,30 @@
 
             document.getElementById("footer").addEventListener('click', function(e) {
                 e.preventDefault();
-
                 document.getElementById('homepage-header').scrollIntoView({ behavior: 'smooth' });
             });
 
             document.getElementById('heading-href').addEventListener('click', function(e) {
                 e.preventDefault();
-
                 document.getElementById('homepage-header').scrollIntoView({ behavior: 'smooth' });
             });
 
             document.getElementById('back-to-top-btn').addEventListener('click', function(e) {
                 e.preventDefault();
-
                 document.getElementById('homepage-header').scrollIntoView({ behavior: 'smooth' });
             });
 
             document.getElementById('home-btn').addEventListener('click', function(e) {
                 e.preventDefault();
-
                 document.getElementById('homepage-header').scrollIntoView({ behavior: 'smooth' });
             });
 
             const sectionTitles = document.querySelectorAll('.genres h2');
-
             sectionTitles.forEach(title => {
                 title.addEventListener('click', function() {
                     this.parentElement.scrollIntoView({ behavior: 'smooth' });
                 });
             });
-
-            function applySettings() {
-                const savedBg = localStorage.getItem('backgroundImage');
-                const savedTextColor = localStorage.getItem('textColor');
-                const savedFontSize = localStorage.getItem('fontSize');
-
-                if (savedBg) {
-                    document.body.style.backgroundImage = `url('${savedBg}')`;
-                }
-
-                if (savedTextColor) {
-                    document.querySelectorAll('h1, h2, h3, p, span, div, button, input, select, textarea').forEach(element => {
-                        element.style.color = savedTextColor;
-                    });
-                }
-
-                if (savedFontSize) {
-                    const size = savedFontSize === 'small' ? '12px' : savedFontSize === 'medium' ? '16px' : '20px';
-                    document.body.style.fontSize = size;
-                }
-            }
         });
     </script>
 
@@ -914,10 +950,8 @@
         document.addEventListener('DOMContentLoaded', function() {
             checkApiStatusWithRetry(3);
         });
-
         function checkApiStatusWithRetry(retries, delay = 1000) {
             const url = `https://${getMovieVerseData()}/3/configuration?${generateMovieNames()}${getMovieCode()}`;
-
             fetch(url)
                 .then(response => {
                     if (!response.ok) throw new Error(`API response failed with status: ${response.status}`);
@@ -940,7 +974,6 @@
         document.addEventListener('DOMContentLoaded', function() {
             const bellIcon = document.getElementById('bellIcon');
             bellIcon.classList.add('shake-animation');
-
             setTimeout(() => {
                 bellIcon.classList.remove('shake-animation');
             }, 500);
@@ -979,9 +1012,7 @@
                     searchButton.style.marginTop = '';
                 }
             }
-
             searchBar.addEventListener('input', toggleVisibility);
-
             toggleVisibility();
         });
     </script>
@@ -994,13 +1025,11 @@
             const searchResultsContainer = document.getElementById('search-results');
             const myHeading = document.getElementById('my-heading');
             const localTime = document.getElementById('local-time');
-
             function toggleButtons() {
                 const query = searchInput.value.trim();
                 viewAllResultsBtn.style.display = query ? 'inline-block' : 'none';
                 clearSearchBtn.style.display = query ? 'inline-block' : 'none';
             }
-
             clearSearchBtn.addEventListener('click', function() {
                 searchInput.value = '';
                 searchResultsContainer.innerHTML = '';
@@ -1015,9 +1044,7 @@
                 searchInput.style.marginTop = '';
                 searchButton.style.marginTop = '';
             });
-
             toggleButtons();
-
             searchInput.addEventListener('input', toggleButtons);
         });
     </script>
@@ -1034,24 +1061,19 @@
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('search').addEventListener('input', function(e) {
                 showSpinner();
-
                 const viewAllResultsBtn = document.getElementById('view-all-results');
                 const searchInput = document.getElementById('search');
                 const query = e.target.value.trim();
-
                 const clearSearchBtn = document.getElementById('clear-search');
                 const searchResultsContainer = document.getElementById('search-results');
                 const myHeading = document.getElementById('my-heading');
                 const localTime = document.getElementById('local-time');
-
                 viewAllResultsBtn.style.display = query ? 'block' : 'none';
-
                 function toggleButtons() {
                     const query = searchInput.value.trim();
                     viewAllResultsBtn.style.display = query ? 'inline-block' : 'none';
                     clearSearchBtn.style.display = query ? 'inline-block' : 'none';
                 }
-
                 if (query) {
                     const searchURL = `https://${getMovieVerseData()}/3/search/multi?${generateMovieNames()}${getMovieCode()}&query=${encodeURIComponent(query)}`;
                     fetch(searchURL)
@@ -1069,7 +1091,6 @@
                     myHeading.style.display = '';
                     localTime.style.display = '';
                 }
-
                 searchInput.addEventListener('input', function() {
                     if (searchInput.value.trim()) {
                         viewAllResultsBtn.style.display = 'block';
@@ -1078,10 +1099,8 @@
                         viewAllResultsBtn.style.display = 'none';
                     }
                 });
-
                 viewAllResultsBtn.addEventListener('click', function() {
                     const searchQuery = searchInput.value.trim();
-
                     if (searchQuery) {
                         localStorage.setItem('searchQuery', searchQuery);
                         window.location.href = 'MovieVerse-Frontend/html/search.html';
@@ -1090,22 +1109,19 @@
                         alert('Please enter a search query.');
                     }
                 });
-
                 hideSpinner();
             });
 
             function displaySearchResults(results) {
                 showSpinner();
-
                 const resultsContainer = document.getElementById('search-results');
                 resultsContainer.innerHTML = '';
-
                 results.forEach(item => {
                     const card = document.createElement('div');
                     card.className = 'search-result-card';
                     card.style.cursor = 'pointer';
 
-                    const imagePath = item.poster_path || item.profile_path ? `https://image.tmdb.org/t/p/w500${item.poster_path || item.profile_path}` : null;
+                    const imagePath = item.poster_path || item.profile_path ? `https://image.tmdb.org/t/p/w185${item.poster_path || item.profile_path}` : null;
 
                     if (imagePath) {
                         const image = document.createElement('img');
@@ -1121,23 +1137,18 @@
                         placeholder.style.padding = '10px';
                         card.appendChild(placeholder);
                     }
-
                     const details = document.createElement('div');
                     details.className = 'result-details';
-
                     const name = document.createElement('div');
                     name.className = 'result-name';
                     name.textContent = item.title || item.name;
                     details.appendChild(name);
-
                     const type = document.createElement('div');
                     type.className = 'result-type';
                     type.textContent = item.media_type === 'movie' ? 'Movie' : item.media_type === 'tv' ? 'TV Series' : 'Person';
                     details.appendChild(type);
-
                     card.appendChild(details);
                     resultsContainer.appendChild(card);
-
                     card.addEventListener('click', () => handleResultClick(item));
                 });
 
@@ -1158,7 +1169,6 @@
                         const personDetailsUrl = `https://${getMovieVerseData()}/3/person/${item.id}?${generateMovieNames()}${getMovieCode()}`;
                         const response = await fetch(personDetailsUrl);
                         const personDetails = await response.json();
-
                         if (personDetails.known_for_department === 'Directing') {
                             localStorage.setItem('selectedDirectorId', item.id);
                             window.location.href = 'MovieVerse-Frontend/html/director-details.html?' + item.id;
@@ -1180,7 +1190,6 @@
             const viewAllResultsBtn = document.getElementById('view-all-results');
             const clearSearchBtn = document.getElementById('clear-search');
             const searchResultsContainer = document.getElementById('search-results');
-
             let selectedIndex = -1;
 
             function clearSelection() {
@@ -1251,7 +1260,6 @@
                     }
                 }
             });
-
             searchInput.addEventListener('blur', clearSelection);
         });
     </script>

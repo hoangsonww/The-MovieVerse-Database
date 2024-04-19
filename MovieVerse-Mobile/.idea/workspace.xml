@@ -5,16 +5,362 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cd254aab-fb0b-4629-92a6-766779c47463" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/notifications.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/js/notifications.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/MovieVerse-UI.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/black.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/blue.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/brown.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/config.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/gold.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/green.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/grey.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/js/LICENSE" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/js/about.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/js/actor-details.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/js/add-to-favorites.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/js/add-to-tv-favorites.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/js/analytics.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/js/chat-auxiliary.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/js/chat.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/js/chatbot.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/js/christopher-nolan.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/js/comments.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/js/company-details.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/js/create-account.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/js/director-details.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/js/favorites.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/js/inception.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/js/index.ejs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/js/leonardo-dicarprio.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/js/movie-details.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/js/movie-match.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/js/movie-timeline.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/js/notifications.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/js/quiz.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/js/reset-password.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/js/root-config.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/js/router.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/js/search.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/js/service-worker.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/js/settings.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/js/sign-in.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/js/single-spa-config.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/js/systemjs-importmap.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/js/tv-details.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/js/user-profile.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/justwatchlogo.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/orange.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/pink.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/purple.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/red.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/rose.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/silver.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/universe-1-low.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/universe-1-medium.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/universe-1-small.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/universe-1-very-low.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/universe-1.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/universe-10.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/universe-11.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/universe-12.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/universe-13.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/universe-14.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/universe-15.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/universe-16.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/universe-17.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/universe-18.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/universe-19.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/universe-2.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/universe-20.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/universe-21.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/universe-22.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/universe-23.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/universe-3.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/universe-4.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/universe-5.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/universe-6.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/universe-7.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/universe-8.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/universe-9.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/universe.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/user-default.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/yellow.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/chat-auxiliary.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/chat.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/notifications.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/chat.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/notifications.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/chat-auxiliary.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/chat.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/notifications.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/MovieVerse-UI.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/black.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/blue.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/brown.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/config.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/gold.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/green.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/grey.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/js/LICENSE" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/js/about.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/js/actor-details.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/js/add-to-favorites.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/js/add-to-tv-favorites.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/js/analytics.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/js/chat-auxiliary.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/js/chat.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/js/chatbot.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/js/christopher-nolan.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/js/comments.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/js/company-details.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/js/create-account.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/js/director-details.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/js/favorites.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/js/inception.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/js/index.ejs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/js/leonardo-dicarprio.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/js/movie-details.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/js/movie-match.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/js/movie-timeline.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/js/notifications.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/js/quiz.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/js/reset-password.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/js/root-config.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/js/router.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/js/search.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/js/service-worker.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/js/settings.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/js/sign-in.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/js/single-spa-config.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/js/systemjs-importmap.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/js/tv-details.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/js/user-profile.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/justwatchlogo.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/orange.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/pink.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/purple.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/red.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/rose.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/silver.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/universe-1-low.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/universe-1-medium.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/universe-1-small.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/universe-1-very-low.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/universe-1.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/universe-10.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/universe-11.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/universe-12.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/universe-13.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/universe-14.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/universe-15.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/universe-16.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/universe-17.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/universe-18.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/universe-19.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/universe-2.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/universe-20.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/universe-21.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/universe-22.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/universe-23.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/universe-3.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/universe-4.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/universe-5.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/universe-6.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/universe-7.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/universe-8.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/universe-9.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/universe.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/user-default.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/images/yellow.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/js/LICENSE" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/js/about.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/js/actor-details.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/js/add-to-favorites.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/js/add-to-tv-favorites.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/js/analytics.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/js/chat-auxiliary.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/js/chat.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/js/chatbot.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/js/christopher-nolan.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/js/comments.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/js/company-details.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/js/create-account.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/js/director-details.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/js/favorites.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/js/inception.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/js/index.ejs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/js/leonardo-dicarprio.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/js/movie-details.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/js/movie-match.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/js/movie-timeline.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/js/notifications.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/js/quiz.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/js/reset-password.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/js/root-config.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/js/router.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/js/search.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/js/service-worker.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/js/settings.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/js/sign-in.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/js/single-spa-config.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/js/systemjs-importmap.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/js/tv-details.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/platforms/ios/www/js/user-profile.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/platforms/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/404.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/404.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Design/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Design/MovieVerse-Design.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Design/MovieVerse-Design.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Design/MovieVerse-Design.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Design/MovieVerse-Design.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Design/README.md" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/css/trivia.css" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/css/trivia.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/about.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/about.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/actor-details.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/actor-details.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/analytics.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/analytics.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/api_fails.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/api_fails.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/chat.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/chat.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/chatbot.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/chatbot.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/christopher-nolan.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/christopher-nolan.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/company-details.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/company-details.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/create-account.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/create-account.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/director-details.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/director-details.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/favorites.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/favorites.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/feedback.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/feedback.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/inception.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/inception.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/leonardo-dicaprio.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/leonardo-dicaprio.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/movie-details.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/movie-details.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/movie-match.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/movie-match.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/movie-timeline.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/movie-timeline.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/offline.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/offline.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/privacy-policy.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/privacy-policy.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/reset-password.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/reset-password.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/search.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/search.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/settings.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/settings.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/sign-in.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/sign-in.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/support.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/support.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/terms-of-service.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/terms-of-service.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/trivia.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/trivia.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/tv-details.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/tv-details.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/user-profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/user-profile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/js/actor-details.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/js/actor-details.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/js/add-to-favorites.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/js/add-to-favorites.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/js/add-to-tv-favorites.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/js/add-to-tv-favorites.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/js/chat.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/js/chat.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/js/company-details.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/js/company-details.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/js/director-details.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/js/director-details.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/js/favorites.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/js/favorites.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/js/movie-details.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/js/movie-details.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/js/search.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/js/search.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/js/service-worker.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/js/service-worker.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/js/settings.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/js/settings.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/js/tv-details.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/js/tv-details.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/js/user-profile.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/js/user-profile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/user-default.png" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/images/user-default.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/about.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/about.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/actor-details.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/actor-details.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/add-to-favorites.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/add-to-favorites.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/add-to-tv-favorites.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/add-to-tv-favorites.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/analytics.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/analytics.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/chatbot.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/chatbot.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/christopher-nolan.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/christopher-nolan.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/comments.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/comments.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/company-details.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/company-details.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/create-account.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/create-account.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/director-details.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/director-details.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/favorites.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/favorites.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/inception.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/inception.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/leonardo-dicarprio.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/leonardo-dicarprio.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/movie-details.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/movie-details.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/movie-match.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/movie-match.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/movie-timeline.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/movie-timeline.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/quiz.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/quiz.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/reset-password.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/reset-password.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/search.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/search.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/service-worker.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/service-worker.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/settings.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/settings.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/sign-in.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/sign-in.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/tv-details.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/tv-details.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/user-profile.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/js/user-profile.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/sitemap.xml" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/sitemap.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/platforms/android/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/settings.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/CordovaLib/CordovaLib.xcodeproj/xcuserdata/davidnguyen.xcuserdatad/xcschemes/xcschememanagement.plist" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/CordovaLib/CordovaLib.xcodeproj/xcuserdata/davidnguyen.xcuserdatad/xcschemes/xcschememanagement.plist" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/MovieVerse.xcworkspace/xcuserdata/davidnguyen.xcuserdatad/UserInterfaceState.xcuserstate" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/MovieVerse.xcworkspace/xcuserdata/davidnguyen.xcuserdatad/UserInterfaceState.xcuserstate" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/404.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/404.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Design/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Design/MovieVerse-Design.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Design/MovieVerse-Design.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Design/MovieVerse-Design.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Design/MovieVerse-Design.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Design/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/css/trivia.css" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/css/trivia.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/about.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/about.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/actor-details.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/actor-details.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/analytics.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/analytics.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/api_fails.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/api_fails.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/chatbot.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/chatbot.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/christopher-nolan.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/christopher-nolan.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/company-details.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/company-details.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/create-account.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/create-account.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/director-details.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/director-details.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/favorites.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/favorites.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/feedback.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/feedback.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/inception.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/inception.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/leonardo-dicaprio.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/leonardo-dicaprio.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/movie-details.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/movie-details.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/movie-match.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/movie-match.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/movie-timeline.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/movie-timeline.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/offline.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/offline.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/privacy-policy.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/privacy-policy.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/reset-password.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/reset-password.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/search.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/search.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/settings.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/settings.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/sign-in.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/sign-in.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/support.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/support.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/terms-of-service.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/terms-of-service.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/trivia.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/trivia.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/tv-details.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/tv-details.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/user-profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/user-profile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/about.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/about.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/actor-details.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/actor-details.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/add-to-favorites.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/add-to-favorites.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/add-to-tv-favorites.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/add-to-tv-favorites.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/analytics.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/analytics.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/chatbot.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/chatbot.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/christopher-nolan.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/christopher-nolan.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/comments.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/comments.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/company-details.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/company-details.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/create-account.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/create-account.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/director-details.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/director-details.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/favorites.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/favorites.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/inception.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/inception.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/leonardo-dicarprio.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/leonardo-dicarprio.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/movie-details.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/movie-details.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/movie-match.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/movie-match.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/movie-timeline.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/movie-timeline.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/quiz.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/quiz.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/reset-password.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/reset-password.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/search.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/search.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/service-worker.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/service-worker.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/settings.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/settings.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/sign-in.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/sign-in.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/tv-details.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/tv-details.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/user-profile.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/user-profile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/images/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/images/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/images/user-default.png" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/images/user-default.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/sitemap.xml" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/sitemap.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,20 +388,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "deployment-branch",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/hoang/WebstormProjects/The-MovieVerse-Database/MovieVerse-Mobile",
-    "settings.editor.selected.configurable": "AndroidSdkUpdater"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;deployment-branch&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/hoang/WebstormProjects/The-MovieVerse-Database/MovieVerse-Mobile&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;AndroidSdkUpdater&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">

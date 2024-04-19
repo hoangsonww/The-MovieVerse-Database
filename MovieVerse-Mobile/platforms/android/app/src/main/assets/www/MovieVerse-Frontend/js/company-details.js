@@ -386,9 +386,9 @@ async function fetchCompanyDetails(companyId) {
 
         const fullCountryName = twoLetterCountryCodes.find(country => country.code === company.origin_country)?.name;
 
-        document.getElementById('company-name').textContent = company.name || 'Name Not Available';
-        document.getElementById('company-headquarters').textContent = company.headquarters || 'Headquarters Not Available';
-        document.getElementById('company-country').textContent = fullCountryName || 'Country Not Available';
+        document.getElementById('company-name').textContent = company.name || 'Information Unavailable';
+        document.getElementById('company-headquarters').textContent = company.headquarters || 'Information Unavailable';
+        document.getElementById('company-country').textContent = fullCountryName || 'Information Unavailable';
         document.title = `${company.name} - Company Details`;
 
         const homepage = company.homepage || '#';
@@ -398,7 +398,7 @@ async function fetchCompanyDetails(companyId) {
             companyWebsite.textContent = homepage;
         }
         else {
-            companyWebsite.textContent = 'Website Not Available';
+            companyWebsite.textContent = 'Information Unavailable';
         }
 
         updateBrowserURL(company.name);
@@ -768,7 +768,7 @@ function displayCompanyMovies(movies) {
         movieLink.style.cursor = 'pointer';
         movieLink.style.textDecoration = 'underline';
         movieLink.addEventListener('mouseenter', () => {
-            movieLink.style.color = '#f509d9';
+            movieLink.style.color = '#ff8623';
         });
         movieLink.addEventListener('mouseleave', () => {
             movieLink.style.color = 'white';

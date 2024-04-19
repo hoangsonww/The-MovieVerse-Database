@@ -1,4 +1,4 @@
-const DEFAULT_BACKGROUND_IMAGE = '../../images/universe-1.png';
+const DEFAULT_BACKGROUND_IMAGE = '../../images/universe-1.webp';
 
 document.addEventListener('DOMContentLoaded', () => {
     const bgSelect = document.getElementById('background-select');
@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
         bgSelect.addEventListener('change', function() {
             document.body.style.backgroundImage = `url('${this.value}')`;
             localStorage.setItem('backgroundImage', this.value);
+            window.location.reload();
         });
     }
 
@@ -36,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (resetButton) {
         resetButton.addEventListener('click', function () {
             localStorage.removeItem('backgroundImage');
-            localStorage.setItem('backgroundImage', '../../images/universe-1.png')
+            localStorage.setItem('backgroundImage', '../../images/universe-1.webp')
             localStorage.removeItem('textColor');
             localStorage.removeItem('fontSize');
             window.location.reload();
@@ -51,9 +52,43 @@ document.addEventListener('DOMContentLoaded', () => {
         const savedFontSize = localStorage.getItem('fontSize');
 
         if (!savedBg) {
-            savedBg = '../../images/universe-1.png';
+            savedBg = '../../images/universe-1.webp';
         }
-        document.body.style.backgroundImage = `url('${savedBg}')`;
+
+        const availableBackgrounds = [
+            '../../images/universe-1.webp', '../../images/universe-2.webp', '../../images/universe-22.webp',
+            '../../images/universe-3.webp', '../../images/universe-4.webp', '../../images/universe-5.webp',
+            '../../images/universe-6.webp', '../../images/universe-7.webp', '../../images/universe-8.webp',
+            '../../images/universe-9.webp', '../../images/universe-10.webp', '../../images/universe-11.webp',
+            '../../images/universe-12.webp', '../../images/universe-13.webp', '../../images/universe-14.webp',
+            '../../images/universe-15.webp', '../../images/universe-16.webp', '../../images/universe-17.webp',
+            '../../images/universe-18.webp', '../../images/universe-19.webp', '../../images/universe-20.webp',
+            '../../images/universe-21.webp', '../../images/universe.webp', '../../images/universe-23.webp',
+            '../../images/black.webp', '../../images/grey.webp', '../../images/blue.webp',
+            '../../images/silver.webp', '../../images/gold.webp', '../../images/rose.webp',
+            '../../images/pink.webp', '../../images/red.webp', '../../images/green.webp',
+            '../../images/brown.webp', '../../images/purple.webp', '../../images/orange.webp',
+            '../../images/yellow.webp'
+        ];
+
+        if (!availableBackgrounds.includes(savedBg) && !customImages.find(image => image.dataURL === savedBg)) {
+            savedBg = '../../images/universe-1.webp';
+            localStorage.setItem('backgroundImage', savedBg);
+        }
+
+        if (savedBg) {
+            let imageUrl = savedBg;
+            if (savedBg === '../../images/universe-1.webp') {
+                if (window.innerWidth <= 680) {
+                    imageUrl = '../../images/universe-1-small.webp';
+                }
+                else if (window.innerWidth <= 1124) {
+                    imageUrl = '../../images/universe-1-medium.webp';
+                }
+            }
+            document.body.style.backgroundImage = `url('${imageUrl}')`;
+        }
+
         const foundImage = customImages.find(image => image.dataURL === savedBg);
 
         if (savedTextColor) {
@@ -62,6 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             textColorInput.value = savedTextColor;
         }
+
         if (savedFontSize) {
             const size = savedFontSize === 'small' ? '12px' : savedFontSize === 'medium' ? '16px' : '20px';
             document.body.style.fontSize = size;
@@ -124,25 +160,36 @@ document.addEventListener('DOMContentLoaded', () => {
             const file = fileInput.files[0];
             const customImages = JSON.parse(localStorage.getItem('customImages')) || [];
             const totalSize = customImages.reduce((sum, img) => sum + img.dataURL.length, 0);
-            const quota = 4.5 * 1024 * 1024;
+            const quota = 4.5 * 1024 * 1024; // 4.5 MB
 
             if (totalSize >= quota) {
                 handleQuotaExceedance();
+                window.location.reload();
+                return;
+            }
+
+            if (file.size > 204800) { // 200 KB
+                resizeImage(file, 204800, (resizedDataUrl, err) => {
+                    if (err) {
+                        alert(`Error resizing the image due to a limitation in your browser. Browser error: ${err.message} Your image might still appear as the background, but it will not be stable. We recommend deleting it and then using a different browser or uploading an image smaller than 1MB.`);
+                        return;
+                    }
+                    processImageUpload(resizedDataUrl, imageNameInput, bgSelect);
+                    alert('The uploaded image was resized to fit the size limit of 200KB.');
+                    window.location.reload();
+                });
             }
             else {
-                if (file.size > 204800) { // 200KB
-                    resizeImage(file, 204800, (resizedDataUrl) => {
-                        processImageUpload(resizedDataUrl, imageNameInput, bgSelect);
-                        alert('The uploaded image was resized to fit the size limit of 200KB.');
-                    });
-                }
-                else {
-                    const reader = new FileReader();
-                    reader.onload = function (e) {
-                        processImageUpload(e.target.result, imageNameInput, bgSelect);
-                    };
-                    reader.readAsDataURL(file);
-                }
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    processImageUpload(e.target.result, imageNameInput, bgSelect);
+                    window.location.reload();
+                };
+                reader.onerror = function () {
+                    alert('Error reading the file.');
+                    window.location.reload();
+                };
+                reader.readAsDataURL(file);
             }
         }
         else {
@@ -150,7 +197,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-
 
 function handleQuotaExceedance() {
     const customImages = JSON.parse(localStorage.getItem('customImages')) || [];
@@ -220,37 +266,56 @@ function processImageUpload(dataUrl, imageNameInput, bgSelect) {
 }
 
 function resizeImage(file, maxSize, callback) {
+    if (!(window.FileReader && window.Blob && window.HTMLCanvasElement)) {
+        callback(null, new Error('Your browser does not support resizing images. Please use a different browser or upload an image smaller than 200KB.'));
+        return;
+    }
+
     const reader = new FileReader();
     reader.onload = function(e) {
         const img = new Image();
         img.onload = function() {
-            let canvas = document.createElement('canvas');
-            let ctx = canvas.getContext('2d');
+            try {
+                let canvas = document.createElement('canvas');
+                let ctx = canvas.getContext('2d');
 
-            let width = img.width;
-            let height = img.height;
+                let width = img.width;
+                let height = img.height;
 
-            if (width > height) {
-                if (width > maxSize) {
-                    height *= maxSize / width;
-                    width = maxSize;
+                if (width > height) {
+                    if (width > maxSize) {
+                        height *= maxSize / width;
+                        width = maxSize;
+                    }
                 }
-            }
-            else {
-                if (height > maxSize) {
-                    width *= maxSize / height;
-                    height = maxSize;
+                else {
+                    if (height > maxSize) {
+                        width *= maxSize / height;
+                        height = maxSize;
+                    }
                 }
+
+                canvas.width = width;
+                canvas.height = height;
+                ctx.drawImage(img, 0, 0, width, height);
+
+                callback(canvas.toDataURL('image/jpeg'), null);
+
+                canvas.height = 0;
+                canvas.width = 0;
+                canvas = null;
             }
-
-            canvas.width = width;
-            canvas.height = height;
-            ctx.drawImage(img, 0, 0, width, height);
-
-            callback(canvas.toDataURL('image/jpeg'));
+            catch (error) {
+                callback(null, error);
+            }
+        };
+        img.onerror = function() {
+            callback(null, new Error('Failed to load the image.'));
         };
         img.src = e.target.result;
     };
+    reader.onerror = function() {
+        callback(null, new Error('Failed to read the image file.'));
+    };
     reader.readAsDataURL(file);
 }
-

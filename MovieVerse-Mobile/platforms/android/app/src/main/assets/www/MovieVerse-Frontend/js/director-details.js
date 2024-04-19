@@ -164,11 +164,11 @@ function populateDirectorDetails(director, credits) {
     }
 
     directorDescription.innerHTML = `
-        <p><strong>Biography:</strong> ${director.biography || 'N/A'}</p>
-        <p><strong>Date of Birth:</strong> ${director.birthday || 'N/A'}</p>
-        <p><strong>Date of Death:</strong> ${director.deathday || 'N/A'}</p>
+        <p><strong>Biography:</strong> ${director.biography || 'Information Unavailable'}</p>
+        <p><strong>Date of Birth:</strong> ${director.birthday || 'Information Unavailable'}</p>
+        <p><strong>Date of Death:</strong> ${director.deathday || 'Information Unavailable'}</p>
         <p><strong>Age:</strong> ${ageOrStatus}</p>
-        <p><strong>Place of Birth:</strong> ${director.place_of_birth || 'N/A'}</p>
+        <p><strong>Place of Birth:</strong> ${director.place_of_birth || 'Information Unavailable'}</p>
         <p><strong>Known For:</strong> Directing</p>
     `;
 

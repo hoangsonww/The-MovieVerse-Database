@@ -100,6 +100,7 @@ function handleProfileDisplay() {
 function setupSearchListeners() {
     try {
         const searchUserInput = document.getElementById('searchUserInput');
+        const searchUserResults = document.getElementById('searchUserResults');
 
         searchUserInput.addEventListener('input', () => {
             const searchText = searchUserInput.value.trim();
@@ -107,7 +108,8 @@ function setupSearchListeners() {
                 performSearch(searchText);
             }
             else {
-                document.getElementById('searchUserResults').style.display = 'none';
+                searchUserResults.innerHTML = '';
+                searchUserResults.style.display = 'none';
             }
         });
     }

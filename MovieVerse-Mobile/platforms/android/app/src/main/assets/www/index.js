@@ -1,28 +1,4 @@
-const most_popular_main = document.getElementById("most-popular");
-const action_main = document.getElementById("action");
-const horror_main = document.getElementById("horror");
-const documentary_main = document.getElementById("documentary");
-const animation_main = document.getElementById("animation");
-const scifi_main = document.getElementById("sci-fi");
-const romantic_main = document.getElementById("romantic");
-const thriller_main = document.getElementById("thriller");
-const mystery_main = document.getElementById("mystery");
-const comedy_main = document.getElementById("comedy");
-const fantasy_main = document.getElementById("fantasy");
-const family_main = document.getElementById("family");
-const tv_series_main = document.getElementById("tv-series");
-const crime_main = document.getElementById("crime");
-const award_winning_main = document.getElementById('award-winning');
-const hidden_gems_main = document.getElementById('hidden-gems');
-const western_main = document.getElementById('western');
-const war_main = document.getElementById('war');
-const classic_main = document.getElementById('classic');
 const director_main = document.getElementById('director-spotlight');
-const korean_main = document.getElementById('korean');
-const vietnamese_main = document.getElementById('vietnamese');
-const indian_main = document.getElementById("indian");
-const musical_main = document.getElementById('musical');
-const drama_main = document.getElementById('drama');
 const form = document.getElementById("form");
 const search = document.getElementById("search");
 const searchButton = document.getElementById("button-search");
@@ -55,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 document.addEventListener('DOMContentLoaded', function() {
     let currentPageMostPopular = 1;
-    const totalPages = 60;
+    const totalPages = 320;
     const mostPopularMain = document.getElementById('most-popular');
     const paginationContainer = document.getElementById('most-popular-pagination');
 
@@ -134,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function setupPagination(mainElementId, paginationContainerId, genresContainerId, baseUrl) {
     let currentPage = 1;
-    const totalPages = 60;
+    let totalPages = 10;
 
     const mainElement = document.getElementById(mainElementId);
     const paginationContainer = document.getElementById(paginationContainerId);
@@ -150,10 +126,54 @@ function setupPagination(mainElementId, paginationContainerId, genresContainerId
     }
 
     const fetchAndUpdate = () => {
-        const url = `${baseUrl}&page=${currentPage}`;
-        getMovies(url, mainElement, currentPage);
-        updatePaginationDisplay();
+        const timestamp = new Date().getTime();
+        const urlWithPage = `${baseUrl}&page=${currentPage}&_=${timestamp}`;
+        getMovies(urlWithPage, mainElement);
     };
+
+    async function getMovies(url, mainElement) {
+        showSpinner();
+
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+
+            if (data.total_pages) {
+                if (data.total_pages > 250) {
+                    totalPages = 250;
+                } else {
+                    totalPages = data.total_pages;
+                }
+            }
+
+            if (data.results.length > 0) {
+                let allMovies = data.results;
+                const popularityThreshold = 0.5;
+                const numberOfMovies = calculateMoviesToDisplay();
+
+                allMovies.sort((a, b) => {
+                    const popularityDifference = Math.abs(a.popularity - b.popularity);
+                    if (popularityDifference < popularityThreshold) {
+                        return b.vote_average - a.vote_average;
+                    }
+                    return b.popularity - a.popularity;
+                });
+
+                showMovies(allMovies.slice(0, numberOfMovies), mainElement);
+            }
+            else {
+                mainElement.innerHTML = `<p>No movies found on this page.</p>`;
+            }
+        }
+        catch (error) {
+            console.log("Error fetching data: ", error);
+            mainElement.innerHTML = `<p>No movies found on this page.</p>`;
+        }
+        finally {
+            hideSpinner();
+            updatePaginationDisplay();
+        }
+    }
 
     const updatePaginationDisplay = () => {
         paginationContainer.innerHTML = '';
@@ -167,7 +187,9 @@ function setupPagination(mainElementId, paginationContainerId, genresContainerId
         let startPage = Math.max(currentPage - 2, 1);
         let endPage = Math.min(startPage + 4, totalPages);
 
-        if (endPage === totalPages) startPage = Math.max(endPage - 4, 1);
+        if (endPage === totalPages) {
+            startPage = Math.max(endPage - 4, 1);
+        }
 
         if (startPage > 1) {
             paginationContainer.appendChild(createPageButton(1));
@@ -192,7 +214,7 @@ function setupPagination(mainElementId, paginationContainerId, genresContainerId
 
     function createNavigationButton(text, enabled, clickHandler) {
         const button = document.createElement('button');
-        button.innerHTML = text;
+        button.textContent = text;
         button.disabled = !enabled;
         button.className = 'nav-button';
         if (enabled) {
@@ -210,7 +232,7 @@ function setupPagination(mainElementId, paginationContainerId, genresContainerId
         }
         else {
             button.addEventListener('click', () => {
-                currentPage = pageNum;
+                currentPage = typeof pageNum === 'number' ? pageNum : currentPage;
                 fetchAndUpdate();
             });
             if (pageNum === currentPage) {
@@ -222,7 +244,19 @@ function setupPagination(mainElementId, paginationContainerId, genresContainerId
 
     movePagination();
     fetchAndUpdate();
-    window.addEventListener('resize', movePagination);
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(movePagination, 250);
+    });
+}
+
+async function fetchAndDisplayMovies(url, count, mainElement) {
+    const response = await fetch(`${url}`);
+    const data = await response.json();
+    const movies = data.results.slice(0, count);
+    movies.sort(() => Math.random() - 0.5);
+    showMovies(movies, mainElement);
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -538,14 +572,6 @@ function getMostVisitedMovie() {
     return mostVisitedMovie || 'Not Available';
 }
 
-async function fetchAndDisplayMovies(url, count, mainElement) {
-    const response = await fetch(`${url}&page=1`);
-    const data = await response.json();
-    const movies = data.results.slice(0, count);
-    movies.sort(() => Math.random() - 0.5);
-    showMovies(movies, mainElement);
-}
-
 async function getMostVisitedMovieGenre() {
     const movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
     let mostVisitedGenre = null;
@@ -753,54 +779,6 @@ document.getElementById('side-nav').addEventListener('mouseleave', function() {
 const DATABASEURL = `https://${getMovieVerseData()}/3/discover/movie?sort_by=popularity.desc&${generateMovieNames()}${getMovieCode()}`;
 const IMGPATH = `https://image.tmdb.org/t/p/w500`;
 const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
-const ACTIONpath = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=28&sort_by=popularity.desc&vote_count.gte=8`;
-const HORRORpath = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=27&sort_by=popularity.desc&vote_count.gte=8`;
-const DOCUMENTARYRpath = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=99&sort_by=popularity.desc&vote_count.gte=8`;
-const ANIMATIONpath = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=16&sort_by=popularity.desc&vote_count.gte=8`;
-const SCIFIpath = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=878&sort_by=popularity.desc&vote_count.gte=8`;
-const ROMANTICpath = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10749&sort_by=popularity.desc&vote_count.gte=8`;
-const THRILLERpath = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=53&sort_by=popularity.desc&vote_count.gte=8`;
-const MYSTERYpath = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=9648&sort_by=popularity.desc&vote_count.gte=8`;
-const COMEDYpath = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=35&sort_by=popularity.desc&vote_count.gte=8`;
-const FANTASYpath = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=14&sort_by=popularity.desc&vote_count.gte=8`;
-const FAMILYpath = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10751&sort_by=popularity.desc&vote_count.gte=8`;
-const TVpath = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10770&sort_by=popularity.desc&vote_count.gte=8`;
-const CRIMEpath = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=80&sort_by=popularity.desc&vote_count.gte=8`;
-const VIETNAMESE_PATH = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_original_language=vi&sort_by=popularity.desc`;
-const KOREAN_PATH = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_original_language=ko&sort_by=vote_average.desc,popularity.desc&vote_count.gte=10&vote_average.gte=8`;
-const INDIAN_PATH = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_original_language=hi&sort_by=popularity.desc`;
-const HIDDEN_GEMS_PATH = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&vote_average.gte=7&popularity.lte=10`;
-const AWARD_WINNING_PATH = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=1000`;
-const CLASSIC_MOVIES_PATH = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=popularity.desc&release_date.lte=1980`;
-const MUSICAL_PATH = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10402&sort_by=popularity.desc&vote_count.gte=8`;
-const DRAMA_PATH = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=18&sort_by=popularity.desc&vote_count.gte=8`;
-const WESTERN_PATH = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=37&sort_by=popularity.desc&vote_count.gte=8`;
-const WAR_PATH = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10752&sort_by=popularity.desc&vote_count.gte=8`;
-
-getMovies(DATABASEURL, most_popular_main);
-getMovies(ACTIONpath, action_main);
-getMovies(HORRORpath, horror_main);
-getMovies(DOCUMENTARYRpath, documentary_main);
-getMovies(ANIMATIONpath, animation_main);
-getMovies(SCIFIpath, scifi_main);
-getMovies(ROMANTICpath, romantic_main);
-getMovies(THRILLERpath, thriller_main);
-getMovies(MYSTERYpath, mystery_main);
-getMovies(COMEDYpath, comedy_main);
-getMovies(FANTASYpath, fantasy_main);
-getMovies(FAMILYpath, family_main);
-getMovies(TVpath, tv_series_main);
-getMovies(CRIMEpath, crime_main);
-getMovies(AWARD_WINNING_PATH, award_winning_main);
-getMovies(HIDDEN_GEMS_PATH, hidden_gems_main);
-getMovies(CLASSIC_MOVIES_PATH, classic_main);
-getMovies(WESTERN_PATH, western_main);
-getMovies(WAR_PATH, war_main);
-getMovies(VIETNAMESE_PATH, vietnamese_main);
-getMovies(KOREAN_PATH, korean_main);
-getMovies(MUSICAL_PATH, musical_main);
-getMovies(DRAMA_PATH, drama_main);
-getMovies(INDIAN_PATH, indian_main);
 
 const directors = [
     { name: "Alfred Hitchcock", id: "2636" },
@@ -974,7 +952,7 @@ setupPagination('sci-fi', 'sci-fi-pagination', 'sci-fi-div', `https://${getMovie
 setupPagination('romantic', 'romantic-pagination', 'romantic-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10749&sort_by=popularity.desc&vote_count.gte=8`);
 setupPagination('thriller', 'thriller-pagination', 'thriller-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=53&sort_by=popularity.desc&vote_count.gte=8`);
 setupPagination('mystery', 'mystery-pagination', 'mystery-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=9648&sort_by=popularity.desc&vote_count.gte=8`);
-setupPagination('comedy', 'comedy-pagination', 'comedy-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=35&sort_by=popularity.desc&vote_count.gte=8\``);
+setupPagination('comedy', 'comedy-pagination', 'comedy-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=35&sort_by=popularity.desc&vote_count.gte=8`);
 setupPagination('fantasy', 'fantasy-pagination', 'fantasy-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=14&sort_by=popularity.desc&vote_count.gte=8`);
 setupPagination('family', 'family-pagination', 'family-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10751&sort_by=popularity.desc&vote_count.gte=8`);
 setupPagination('tv-series', 'tv-series-pagination', 'tv-series-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10770&sort_by=popularity.desc&vote_count.gte=8`);
@@ -986,29 +964,6 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('googleSignInBtn').addEventListener('click', handleSignInOut);
 });
 
-function applySettings() {
-    const savedBg = localStorage.getItem('backgroundImage');
-    const savedTextColor = localStorage.getItem('textColor');
-    const savedFontSize = localStorage.getItem('fontSize');
-    if (savedBg) {
-        document.body.style.backgroundImage = `url('${savedBg}')`;
-    }
-    if (savedTextColor) {
-        applyTextColor(savedTextColor);
-    }
-    if (savedFontSize) {
-        const size = savedFontSize === 'small' ? '12px' : savedFontSize === 'medium' ? '16px' : '20px';
-        document.body.style.fontSize = size;
-    }
-}
-
-function applyTextColor(color) {
-    document.querySelectorAll('h1, h2, h3, p, a, span, div, button, input, select, textarea, label, li')
-        .forEach(element => {
-            element.style.color = color;
-        });
-}
-
 function handleSearch() {
     const searchQuery = document.getElementById('search').value;
     localStorage.setItem('searchQuery', searchQuery);
@@ -1017,84 +972,7 @@ function handleSearch() {
 
 document.addEventListener('DOMContentLoaded', () => {
     const notificationBtn = document.getElementById('notificationBtn');
-    const notificationModal = document.getElementById('notificationModal');
     notificationBtn.addEventListener('click', () => {
-        notificationModal.style.display = notificationModal.style.display === 'none' ? 'block' : 'none';
-        fetchNewReleases();
-    });
-    window.addEventListener('click', (event) => {
-        if (event.target === notificationModal) {
-            notificationModal.style.display = 'none';
-        }
+        window.location.href = 'MovieVerse-Frontend/html/notifications.html';
     });
 });
-
-function addCloseButton() {
-    const newReleasesList = document.getElementById('newReleasesList');
-    const closeButton = document.createElement('button');
-
-    closeButton.textContent = 'Close';
-    closeButton.id = 'closeModalButton';
-    closeButton.style = 'display: block; margin: 20px auto; margin-bottom: 0; font: inherit; font-size: 15.5px; padding: 5px 15px;';
-    closeButton.addEventListener('click', () => {
-        const notificationModal = document.getElementById('notificationModal');
-        notificationModal.style.display = 'none';
-    });
-    newReleasesList.appendChild(closeButton);
-}
-
-async function fetchNewReleases() {
-    const URL = `https://${getMovieVerseData()}/3/movie/now_playing?${generateMovieNames()}${getMovieCode()}&language=en-US&page=1`;
-    const newReleasesList = document.getElementById('newReleasesList');
-
-    try {
-        const response = await fetch(URL);
-        const data = await response.json();
-        const movies = data.results;
-        const lastVisit = localStorage.getItem('lastVisit') || new Date(0);
-        const lastVisitDate = new Date(lastVisit);
-        newReleasesList.innerHTML = '<h4 style="font-size: 18px">Notifications</h4><h5 style="font-size: 16px; margin-bottom: 0; margin-top: 10px">New Releases Since Your Last Visit:</h5>';
-        let newReleaseFound = false;
-        movies.forEach(movie => {
-            const releaseDate = new Date(movie.release_date);
-            if (releaseDate > lastVisitDate) {
-                newReleaseFound = true;
-                const li = document.createElement('li');
-                const a = document.createElement('a');
-                a.textContent = movie.title;
-                a.href = "javascript:void(0);";
-                a.style.color = 'white';
-                a.classList.add('notification-link');
-                a.addEventListener('click', () => {
-                    localStorage.setItem('selectedMovieId', movie.id);
-                    window.location.href = 'MovieVerse-Frontend/html/movie-details.html';
-                });
-
-                li.appendChild(a);
-                newReleasesList.appendChild(li);
-            }
-        });
-
-        if (!newReleaseFound) {
-            const noNewReleasesMsg = document.createElement('p');
-            noNewReleasesMsg.textContent = 'No new releases since your last visit.';
-            noNewReleasesMsg.style.textAlign = 'center';
-            noNewReleasesMsg.style.color = 'white';
-            noNewReleasesMsg.style.fontSize = '13.5px';
-            noNewReleasesMsg.style.marginTop = '20px';
-            newReleasesList.appendChild(noNewReleasesMsg);
-        }
-
-        localStorage.setItem('lastVisit', new Date().toISOString());
-    }
-
-    catch (error) {
-        console.log('Error fetching new releases:', error);
-        newReleasesList.innerHTML = '<li>Error fetching new releases.</li>';
-    }
-    addCloseButton();
-}
-
-if (!localStorage.getItem('lastVisit')) {
-    localStorage.setItem('lastVisit', new Date().toISOString());
-}
