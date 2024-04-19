@@ -57,7 +57,7 @@
     <style>
         @font-face {
             font-family: 'Poppins';
-            src: url('/fonts/Poppins-Light.ttf') format('truetype');
+            src: url('https://movie-verse.com/fonts/Poppins-Light.ttf') format('truetype');
             font-weight: 200;
             font-style: normal;
             font-display: swap;
@@ -65,7 +65,7 @@
 
         @font-face {
             font-family: 'Poppins';
-            src: url('/fonts/Poppins-Regular.ttf') format('truetype');
+            src: url('https://movie-verse.com/fonts/Poppins-Regular.ttf') format('truetype');
             font-weight: 400;
             font-style: normal;
             font-display: swap;
@@ -73,7 +73,7 @@
 
         @font-face {
             font-family: 'Poppins';
-            src: url('/fonts/Poppins-SemiBold.ttf') format('truetype');
+            src: url('https://movie-verse.com/fonts/Poppins-SemiBold.ttf') format('truetype');
             font-weight: 600;
             font-style: normal;
             font-display: swap;
@@ -518,29 +518,6 @@
             <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved. Special thanks for The Movie Database (TMDb).</p>
         </a>
     </footer>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            setAdaptiveBackgroundImage();
-        });
-
-        function setAdaptiveBackgroundImage() {
-            let backgroundImageUrl = '../../images/universe-1.png';
-
-            if ('connection' in navigator) {
-                switch (navigator.connection.effectiveType) {
-                    case '2g':
-                        backgroundImageUrl = '../../images/universe-1-very-low.png';
-                        break;
-                    case '3g':
-                        backgroundImageUrl = '../../images/universe-1-low.png';
-                        break;
-                }
-            }
-
-            document.body.style.backgroundImage = `url('${backgroundImageUrl}')`;
-        }
-    </script>
 
     <script>
         function getMovieVerseData(input) {
