@@ -22,8 +22,9 @@ Emscripten is a toolchain for compiling C and C++ code to WebAssembly (WASM) whi
    source ./emsdk_env.sh
    ```
 
-   Note that you must have Python installed on your system to run the `emsdk` commands.
+   Next, follow the instructions on console to complete the installation. `emsdk` will ask you to add the `source` command to your shell profile (e.g., `.bash_profile`, `.zshrc`, etc.). This ensures that the Emscripten environment is set up every time you open a new terminal window.
 
+   Note that you must have Python installed on your system to run the `emsdk` commands.
 
 2. **Verify Installation:**
 
