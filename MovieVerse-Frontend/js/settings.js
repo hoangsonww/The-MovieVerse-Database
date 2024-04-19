@@ -160,7 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const file = fileInput.files[0];
             const customImages = JSON.parse(localStorage.getItem('customImages')) || [];
             const totalSize = customImages.reduce((sum, img) => sum + img.dataURL.length, 0);
-            const quota = 4.5 * 1024 * 1024; // 4.5 MB
+            const quota = 2 * 1024 * 1024; // 2 MB
 
             if (totalSize >= quota) {
                 handleQuotaExceedance();
@@ -177,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             window.location.reload();
                         }
                         else {
-                            alert(err.message);
+                            alert('The uploaded image was too large to be resized. Please upload an image smaller than 2 MB.');
                             window.location.reload();
                         }
                     }
