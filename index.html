@@ -1018,23 +1018,16 @@
                 const query = searchBar.value.trim();
                 if (query) {
                     if (window.innerWidth > 800) {
-                        myHeading.style.position = 'fixed';
-                        myHeading.style.top = '28px';
-                        localTime.style.position = 'fixed';
-                        localTime.style.left = '44.4%';
-                        localTime.style.top = '19px';
-                        localTime.style.zIndex = '0.0 !important';
+                        myHeading.style.display = 'none';
+                        localTime.style.display = 'none';
                         myHeading.style.zIndex = '0.05';
                         searchBar.style.marginTop = '16px';
                         searchButton.style.marginTop = '16px';
                     }
                 }
                 else {
-                    myHeading.style.position = '';
-                    myHeading.style.top = '';
-                    localTime.style.position = '';
-                    localTime.style.left = '';
-                    localTime.style.top = '';
+                    myHeading.style.display = '';
+                    localTime.style.display = '';
                     searchBar.style.marginTop = '';
                     searchButton.style.marginTop = '';
                 }
@@ -1063,11 +1056,8 @@
                 toggleButtons();
                 searchInput.focus();
 
-                myHeading.style.position = '';
-                myHeading.style.top = '';
-                localTime.style.position = '';
-                localTime.style.left = '';
-                localTime.style.top = '';
+                myHeading.style.display = '';
+                localTime.style.display = '';
                 searchInput.style.marginTop = '';
                 searchButton.style.marginTop = '';
             });
