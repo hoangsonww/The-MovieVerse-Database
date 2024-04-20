@@ -484,13 +484,13 @@
     <div id="welcomeMessage" style="color: #ff8623; font-weight: bold; font-size: 30px; text-align: center; margin-top: 30px;"></div>
 
     <div class="search-users-container" id="search-users-container">
-        <input type="text" id="searchUserInput" placeholder="Search For MovieVerse Users...">
+        <input type="text" id="searchUserInput" placeholder="Search For Any MovieVerse User...">
         <button id="searchUserBtn">Search</button>
     </div>
     <div id="searchUserResults" class="search-results-container"></div>
     <button id="viewMyProfileBtn" style="margin-top: 20px;">View My Profile</button>
 
-    <div id="profileContainer" class="profile-container" style="margin-bottom: 300px">
+    <div id="profileContainer" class="profile-container">
         <div class="profile-image-container">
             <img id="profileImage" style="cursor: pointer" title="Click to upload a new profile image" onclick="document.getElementById('imageUpload').click()" src="../../images/user-default.png" alt="Profile Image" />
             <button id="removeProfileImage" title="Click to remove the current profile image" style="display: none;">&times;</button>
@@ -500,6 +500,25 @@
         <button id="changeProfileImageBtn" onclick="document.getElementById('imageUpload').click()">Change Profile Image</button>
 
         <div class="profile-info">
+            <div id="averageDisplays" style="display: flex; justify-content: center; gap: 20px; margin-top: 20px;">
+                <div class="progress-container">
+                    <svg class="progress-ring" width="100" height="100">
+                        <circle class="progress-ring__circle" cx="50" cy="50" r="40" />
+                        <circle class="progress-ring__progress" id="avgMovieRatingCircle" cx="50" cy="50" r="40" />
+                        <text class="progress-ring__text" id="avgMovieRatingText" x="50" y="50"></text>
+                    </svg>
+                    <p><strong>Average Movie Rating</strong></p>
+                </div>
+                <div class="progress-container">
+                    <svg class="progress-ring" width="100" height="100">
+                        <circle class="progress-ring__circle" cx="50" cy="50" r="40" />
+                        <circle class="progress-ring__progress" id="avgTriviaScoreCircle" cx="50" cy="50" r="40" />
+                        <text class="progress-ring__text" id="avgTriviaScoreText" x="50" y="50"></text>
+                    </svg>
+                    <p><strong>Average Movie Trivia Score</strong></p>
+                </div>
+            </div>
+
             <p id="usernameDisplay">Username: <span></span></p>
             <p id="dobDisplay">Date of Birth: <span></span></p>
             <p id="bioDisplay">Bio: <span></span></p>
@@ -542,7 +561,7 @@
                 <input type="text" id="editFavoriteActor" placeholder="Favorite Actor">
                 <input type="text" id="editFavoriteDirector" placeholder="Favorite Director">
                 <input type="text" id="editPersonalQuote" placeholder="Personal Quote">
-                <button type="button" id="saveChanges" onclick="saveProfileChanges()">Save Changes</button>
+                <button type="button" id="saveChanges">Save Changes</button>
                 <button type="button" id="cancelEdit" onclick="closeModal()">Cancel</button>
             </form>
         </div>
@@ -563,8 +582,7 @@
                 const query = searchBar.value.trim();
                 if (query) {
                     if (window.innerWidth > 800) {
-                        myHeading.style.position = 'fixed';
-                        myHeading.style.top = '28px';
+                        myHeading.style.display = 'none';
                         localTime.style.display = 'none';
                         myHeading.style.zIndex = '0.05';
                         searchBar.style.marginTop = '16px';
@@ -572,9 +590,7 @@
                     }
                 }
                 else {
-                    myHeading.style.position = '';
-                    myHeading.style.top = '';
-                    myHeading.style.zIndex = '';
+                    myHeading.style.display = '';
                     localTime.style.display = '';
                     searchBar.style.marginTop = '';
                     searchButton.style.marginTop = '';
