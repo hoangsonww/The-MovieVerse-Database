@@ -1301,12 +1301,20 @@ p {
     display: none;
 }
 
-@media (max-width: 699px) {
+#ad-container2 {
+    display: none;
+}
+
+@media (max-width: 700px) {
     #ad-container {
         display: block;
     }
 
     #ad-container1 {
+        display: block;
+    }
+
+    #ad-container2 {
         display: block;
     }
 }
