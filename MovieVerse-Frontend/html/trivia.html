@@ -283,9 +283,6 @@
 
     <div>
         <div style="font-weight: bold; font-size: 32px" id="trivia-label">Movie Trivia Quiz</div>
-        <div class="button-container">
-            <button id="clear-search-btn">Clear Search Results</button>
-        </div>
     </div>
 
     <div id="result-modal" class="modal">
@@ -317,7 +314,7 @@
     <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="bottom: 125px; right: 10px" title="Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
     <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 90px; right: 10px" title="Test your movie knowledge">MovieVerse Trivia</button>
 
-    <script src="../js/quiz.js"></script>
+    <script src="../js/quiz.js" type="module"></script>
 
     <script>
         document.getElementById('settings-btn').addEventListener('click', () => {

@@ -410,6 +410,48 @@
         checkAndUpdateFavoriteButton();
     </script>
 
+    <script type="module">
+        import { updateAverageMovieRating, loadUserRatings } from '../js/ratingsModule.js';
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
+            const savedRatings = await loadUserRatings(currentUserEmail);
+            const movieId = localStorage.getItem('selectedMovieId');
+            const movieRating = savedRatings[movieId] || 0;
+            setStarRating(movieRating);
+        });
+
+        function setStarRating(rating) {
+            const stars = document.querySelectorAll('.rating .star');
+            stars.forEach(star => {
+                star.style.color = star.dataset.value > rating ? 'white' : 'gold';
+            });
+            document.getElementById('rating-value').textContent = `${rating}.0/5.0`;
+        }
+
+        document.querySelectorAll('.rating .star').forEach(star => {
+            star.addEventListener('mouseover', (e) => {
+                setStarRating(e.target.dataset.value);
+            });
+
+            star.addEventListener('mouseout', async () => {
+                const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
+                const savedRatings = await loadUserRatings(currentUserEmail);
+                const movieId = localStorage.getItem('selectedMovieId');
+                const movieRating = savedRatings[movieId] || 0;
+                setStarRating(movieRating);
+            });
+
+            star.addEventListener('click', async (e) => {
+                const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
+                const movieId = localStorage.getItem('selectedMovieId');
+                const rating = e.target.dataset.value;
+                await updateAverageMovieRating(currentUserEmail, movieId, rating);
+                window.location.reload();
+            });
+        });
+    </script>
+
     <div id="myModal" class="modal-overlay">
         <div class="spinner"></div>
     </div>

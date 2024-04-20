@@ -500,6 +500,25 @@
         <button id="changeProfileImageBtn" onclick="document.getElementById('imageUpload').click()">Change Profile Image</button>
 
         <div class="profile-info">
+            <div id="averageDisplays" style="display: flex; justify-content: center; gap: 20px; margin-top: 20px;">
+                <div class="progress-container">
+                    <svg class="progress-ring" width="100" height="100">
+                        <circle class="progress-ring__circle" cx="50" cy="50" r="40" />
+                        <circle class="progress-ring__progress" id="avgMovieRatingCircle" cx="50" cy="50" r="40" />
+                        <text class="progress-ring__text" id="avgMovieRatingText" x="50" y="50"></text>
+                    </svg>
+                    <p><strong>Average Movie Rating</strong></p>
+                </div>
+                <div class="progress-container">
+                    <svg class="progress-ring" width="100" height="100">
+                        <circle class="progress-ring__circle" cx="50" cy="50" r="40" />
+                        <circle class="progress-ring__progress" id="avgTriviaScoreCircle" cx="50" cy="50" r="40" />
+                        <text class="progress-ring__text" id="avgTriviaScoreText" x="50" y="50"></text>
+                    </svg>
+                    <p><strong>Average Movie Trivia Score</strong></p>
+                </div>
+            </div>
+
             <p id="usernameDisplay">Username: <span></span></p>
             <p id="dobDisplay">Date of Birth: <span></span></p>
             <p id="bioDisplay">Bio: <span></span></p>
