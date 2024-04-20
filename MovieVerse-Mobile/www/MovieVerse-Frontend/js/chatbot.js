@@ -777,45 +777,6 @@ async function showMovieOfTheDay() {
     }
 }
 
-function handleSignInOut() {
-    const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
-
-    if (isSignedIn) {
-        localStorage.setItem('isSignedIn', JSON.stringify(false));
-        alert('You have been signed out.');
-    }
-    else {
-        window.location.href = 'sign-in.html';
-        return;
-    }
-
-    updateSignInButtonState();
-}
-
-function updateSignInButtonState() {
-    const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
-
-    const signInText = document.getElementById('signInOutText');
-    const signInIcon = document.getElementById('signInIcon');
-    const signOutIcon = document.getElementById('signOutIcon');
-
-    if (isSignedIn) {
-        signInText.textContent = 'Sign Out';
-        signInIcon.style.display = 'none';
-        signOutIcon.style.display = 'inline-block';
-    }
-    else {
-        signInText.textContent = 'Sign In';
-        signInIcon.style.display = 'inline-block';
-        signOutIcon.style.display = 'none';
-    }
-}
-
-document.addEventListener("DOMContentLoaded", function() {
-    updateSignInButtonState();
-    document.getElementById('googleSignInBtn').addEventListener('click', handleSignInOut);
-});
-
 function fallbackMovieSelection() {
     const fallbackMovies = [432413, 299534, 1726, 562, 118340, 455207, 493922, 447332, 22970, 530385, 27205, 264660, 120467, 603, 577922, 76341, 539, 419704, 515001, 118340, 424, 98];
     const randomFallbackMovie = fallbackMovies[Math.floor(Math.random() * fallbackMovies.length)];
