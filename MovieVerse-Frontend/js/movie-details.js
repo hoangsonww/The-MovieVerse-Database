@@ -1160,7 +1160,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         <p><strong>Languages:</strong> ${languages}</p>
         <p><strong>Countries of Production:</strong> ${countries}</p>
         <p><strong>Popularity Score:</strong> <span class="${isPopular ? 'popular' : ''}">${popularityText}</span></p>
-        <p style="cursor: pointer" title="Your rating also counts - it might take a while for us to update!"><strong>MovieVerse User Ratings:</strong> <span style="cursor: pointer">${scaledRating}/5.0 (based on <strong>${movie.vote_count}</strong> votes)</span></p>
+        <p title="Your rating also counts - it might take a while for us to update!"><strong>MovieVerse User Rating:</strong> <span>${scaledRating}/5.0 (based on <strong>${movie.vote_count}</strong> votes)</span></p>
         ${awardsElement}
         ${metascoreElement}
         <p><strong>Rotten Tomatoes:</strong> <a href="${rtLink}" id="rating">${rtRating}</a></p>

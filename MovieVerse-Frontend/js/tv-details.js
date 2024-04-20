@@ -602,7 +602,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
 
     const voteAverage = tvSeries.vote_average ? tvSeries.vote_average.toFixed(1) : 'N/A';
     const voteCount = tvSeries.vote_count ? tvSeries.vote_count.toLocaleString() : 'N/A';
-    detailsHTML += `<p><strong>User Rating:</strong> <strong>${(voteAverage / 2).toFixed(1)}/5.0</strong> (based on <strong>${voteCount}</strong> votes)</p>`;
+    detailsHTML += `<p title="Your rating also counts - it might take a while for us to update!"><strong>MovieVerse User Rating:</strong> <strong>${(voteAverage / 2).toFixed(1)}/5.0</strong> (based on <strong>${voteCount}</strong> votes)</p>`;
 
     if (tvSeries.external_ids && tvSeries.external_ids.imdb_id) {
         const imdbId = tvSeries.external_ids.imdb_id;
