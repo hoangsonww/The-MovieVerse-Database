@@ -89,25 +89,6 @@ function generateMovieNames(input) {
     return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
 }
 
-const IMGPATH = "https://image.tmdb.org/t/p/w1280";
-const main = document.getElementById("main");
-const search = document.getElementById("search");
-const searchButton = document.getElementById("button-search");
-const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
-const searchTitle = document.getElementById("trivia-label");
-
-function getClassByRate(vote){
-    if (vote >= 8) {
-        return 'green';
-    }
-    else if (vote >= 5) {
-        return 'orange';
-    }
-    else {
-        return 'red';
-    }
-}
-
 const form = document.getElementById("form");
 
 form.addEventListener('submit', (e) => {

@@ -41,6 +41,7 @@ export async function updateAverageMovieRating(currentUserEmail, movieId, newRat
 
         await setDoc(ratingsRef, { ratings: ratings }, { merge: true });
         updateFirebaseAverage(ratings, ratingsRef);
+        updateLocalAverage(ratings);
     }
 }
 
