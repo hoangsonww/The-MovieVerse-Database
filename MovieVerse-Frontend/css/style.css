@@ -1343,18 +1343,27 @@ p {
     }
 }
 
-/* Style for the container of the progress rings and text */
+#averageDisplays {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+    width: 100%;  /* Ensure the container takes full width of its parent */
+}
+
 .progress-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
+    flex: 1;  /* Makes each container take equal space */
+    text-align: center;  /* Center-aligns the text under the SVG */
 }
 
 .progress-ring {
-    width: 100px;
-    height: 100px;
+    width: 100px;  /* SVG width */
+    height: 100px;  /* SVG height */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1363,7 +1372,7 @@ p {
 .progress-ring__circle {
     fill: transparent;
     stroke-width: 10;
-    stroke: #fff;
+    stroke: #fff;  /* Background circle color */
     transform: rotate(-90deg);
     transform-origin: 50% 50%;
 }
@@ -1371,18 +1380,22 @@ p {
 .progress-ring__progress {
     fill: transparent;
     stroke-width: 10;
-    stroke: var(--progress-color);
+    stroke: var(--progress-color);  /* Use a CSS variable for stroke color */
     transform: rotate(-90deg);
     transform-origin: 50% 50%;
-    transition: stroke-dashoffset 0.6s ease-out;
+    transition: stroke-dashoffset 0.6s ease-out;  /* Smooth transition for the progress circle */
 }
 
 .progress-ring__text {
-    font-size: 20px;
+    font-size: 20px;  /* Text size within the SVG */
     dominant-baseline: middle;
     text-anchor: middle;
-    opacity: 0;
-    transition: opacity 0.6s ease-out;
+    opacity: 0;  /* Initially hide the text */
+    transition: opacity 0.6s ease-out;  /* Fade-in effect for text */
+}
+
+strong {
+    font-weight: bold;  /* Ensure labels are bold */
 }
 
 
