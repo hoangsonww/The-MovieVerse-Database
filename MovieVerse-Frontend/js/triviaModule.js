@@ -29,6 +29,7 @@ export async function updateTriviaStats(currentUserEmail, correctAnswers, totalQ
             triviaStats.totalCorrect += correctAnswers;
             triviaStats.totalAttempted += totalQuestions;
             await setDoc(statsRef, triviaStats, {merge: true});
+            localStorage.setItem('triviaStats', JSON.stringify(triviaStats));
         }
         catch (error) {
             if (error.code === 'resource-exhausted') {
