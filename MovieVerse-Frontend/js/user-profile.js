@@ -1,6 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getFirestore, doc, getDoc, setDoc, query, collection, where, getDocs, serverTimestamp, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
+import { getAverageMovieRating, loadUserRatings } from './ratingsModule.js';
+import { getTriviaStats } from './triviaModule.js';
 
 function showSpinner() {
     document.getElementById('myModal').classList.add('modal-visible');
@@ -56,6 +57,32 @@ document.addEventListener('DOMContentLoaded', function() {
     setupEventListeners();
     setupSearchListeners();
 });
+
+function updateProgressCircles(movieRating, triviaScore) {
+    const movieRatingPercent = movieRating;
+    const triviaScorePercent = triviaScore;
+
+    setProgress(document.getElementById('avgMovieRatingCircle'), document.getElementById('avgMovieRatingText'), movieRatingPercent);
+    setProgress(document.getElementById('avgTriviaScoreCircle'), document.getElementById('avgTriviaScoreText'), triviaScorePercent);
+}
+
+function setProgress(circle, text, percent) {
+    const radius = circle.r.baseVal.value;
+    const circumference = radius * 2 * Math.PI;
+    circle.style.strokeDasharray = `${circumference} ${circumference}`;
+    circle.style.strokeDashoffset = circumference;
+
+    setTimeout(() => {
+        const offset = circumference - (percent / 100) * circumference;
+        circle.style.strokeDashoffset = circumference;
+        circle.getBoundingClientRect();
+        circle.style.transition = 'stroke-dashoffset 0.6s ease-out, stroke 0.6s ease';
+        circle.style.strokeDashoffset = offset;
+        circle.style.setProperty('--progress-color', percent > 50 ? '#4CAF50' : '#2196F3');
+        text.style.opacity = 1;
+        text.textContent = `${Math.round(percent)}%`;
+    }, 100);
+}
 
 function handleProfileDisplay() {
     const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
@@ -255,6 +282,19 @@ async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMo
             followUnfollowBtn.style.display = 'none';
         }
 
+        const rating = await getAverageMovieRating(userEmail);
+        const convertRatingToPercent = (rating / 5) * 100;
+        const averageRating = convertRatingToPercent.toFixed(1);
+
+        const triviaStats = await getTriviaStats(userEmail);
+
+        let averageTriviaScore = 0;
+        if (triviaStats.totalAttempted > 0) {
+            averageTriviaScore = (triviaStats.totalCorrect / triviaStats.totalAttempted) * 100;
+        }
+
+        updateProgressCircles(averageRating, averageTriviaScore);
+
         try {
             const docSnap = await getDoc(docRef);
             let profile = {
@@ -365,6 +405,16 @@ async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMo
 
         document.getElementById('viewMyProfileBtn').disabled = true;
     }
+}
+
+function getTriviaAccuracy() {
+    let triviaStats = JSON.parse(localStorage.getItem('triviaStats')) || { totalCorrect: 0, totalAttempted: 0 };
+    if (triviaStats.totalAttempted === 0) {
+        return 'No trivia attempted';
+    }
+
+    let accuracy = (triviaStats.totalCorrect / triviaStats.totalAttempted) * 100;
+    return `${accuracy.toFixed(1)}% accuracy`;
 }
 
 async function displayUserList(listType, userEmail) {

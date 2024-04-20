@@ -54,7 +54,7 @@
     <style>
         @font-face {
             font-family: 'Poppins';
-            src: url('/fonts/Poppins-Light.ttf') format('truetype');
+            src: url('https://movie-verse.com/fonts/Poppins-Light.ttf') format('truetype');
             font-weight: 200;
             font-style: normal;
             font-display: swap;
@@ -62,7 +62,7 @@
 
         @font-face {
             font-family: 'Poppins';
-            src: url('/fonts/Poppins-Regular.ttf') format('truetype');
+            src: url('https://movie-verse.com/fonts/Poppins-Regular.ttf') format('truetype');
             font-weight: 400;
             font-style: normal;
             font-display: swap;
@@ -70,7 +70,7 @@
 
         @font-face {
             font-family: 'Poppins';
-            src: url('/fonts/Poppins-SemiBold.ttf') format('truetype');
+            src: url('https://movie-verse.com/fonts/Poppins-SemiBold.ttf') format('truetype');
             font-weight: 600;
             font-style: normal;
             font-display: swap;
@@ -410,6 +410,58 @@
         checkAndUpdateFavoriteButton();
     </script>
 
+    <script type="module">
+        import { loadUserRatings, updateAverageMovieRating } from '../js/ratingsModule.js';
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
+            const savedRatings = await loadUserRatings(currentUserEmail);
+            const movieId = localStorage.getItem('selectedMovieId');
+            const movieRating = savedRatings[movieId] || 0;
+            setStarRating(movieRating);
+        });
+
+        function setStarRating(rating) {
+            const stars = document.querySelectorAll('.rating .star');
+            stars.forEach(star => {
+                star.style.color = star.dataset.value > rating ? 'white' : 'gold';
+            });
+            document.getElementById('rating-value').textContent = `${rating}.0/5.0`;
+        }
+
+        let isHovering = false;
+
+        const stars = document.querySelectorAll('.rating .star');
+        stars.forEach(star => {
+            star.addEventListener('mouseover', (e) => {
+                isHovering = true;
+                setStarRating(e.target.dataset.value);
+            });
+
+            star.addEventListener('mouseout', () => {
+                isHovering = false;
+                setTimeout(() => {
+                    if (!isHovering) {
+                        const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
+                        loadUserRatings(currentUserEmail).then(savedRatings => {
+                            const movieId = localStorage.getItem('selectedMovieId');
+                            const movieRating = savedRatings[movieId] || 0;
+                            setStarRating(movieRating);
+                        });
+                    }
+                }, 10);
+            });
+
+            star.addEventListener('click', async (e) => {
+                const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
+                const movieId = localStorage.getItem('selectedMovieId');
+                const rating = e.target.dataset.value;
+                await updateAverageMovieRating(currentUserEmail, movieId, rating);
+                window.location.reload();
+            });
+        });
+    </script>
+
     <div id="myModal" class="modal-overlay">
         <div class="spinner"></div>
     </div>
@@ -426,8 +478,7 @@
                 const query = searchBar.value.trim();
                 if (query) {
                     if (window.innerWidth > 800) {
-                        myHeading.style.position = 'fixed';
-                        myHeading.style.top = '28px';
+                        myHeading.style.display = 'none';
                         localTime.style.display = 'none';
                         myHeading.style.zIndex = '0.05';
                         searchBar.style.marginTop = '16px';
@@ -436,9 +487,7 @@
                     }
                 }
                 else {
-                    myHeading.style.position = '';
-                    myHeading.style.top = '';
-                    myHeading.style.zIndex = '';
+                    myHeading.style.display = '';
                     localTime.style.display = '';
                     searchBar.style.marginTop = '';
                     searchButton.style.marginTop = '';

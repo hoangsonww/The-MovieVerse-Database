@@ -39,7 +39,7 @@
     <style>
         @font-face {
             font-family: 'Poppins';
-            src: url('/fonts/Poppins-Light.ttf') format('truetype');
+            src: url('https://movie-verse.com/fonts/Poppins-Light.ttf') format('truetype');
             font-weight: 200;
             font-style: normal;
             font-display: swap;
@@ -47,7 +47,7 @@
 
         @font-face {
             font-family: 'Poppins';
-            src: url('/fonts/Poppins-Regular.ttf') format('truetype');
+            src: url('https://movie-verse.com/fonts/Poppins-Regular.ttf') format('truetype');
             font-weight: 400;
             font-style: normal;
             font-display: swap;
@@ -55,7 +55,7 @@
 
         @font-face {
             font-family: 'Poppins';
-            src: url('/fonts/Poppins-SemiBold.ttf') format('truetype');
+            src: url('https://movie-verse.com/fonts/Poppins-SemiBold.ttf') format('truetype');
             font-weight: 600;
             font-style: normal;
             font-display: swap;
@@ -458,8 +458,7 @@
                 const query = searchBar.value.trim();
                 if (query) {
                     if (window.innerWidth > 800) {
-                        myHeading.style.position = 'fixed';
-                        myHeading.style.top = '28px';
+                        myHeading.style.display = 'none';
                         localTime.style.display = 'none';
                         myHeading.style.zIndex = '0.05';
                         searchBar.style.marginTop = '16px';
@@ -467,9 +466,7 @@
                     }
                 }
                 else {
-                    myHeading.style.position = '';
-                    myHeading.style.top = '';
-                    myHeading.style.zIndex = '';
+                    myHeading.style.display = '';
                     localTime.style.display = '';
                     searchBar.style.marginTop = '';
                     searchButton.style.marginTop = '';

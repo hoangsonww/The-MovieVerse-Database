@@ -65,7 +65,14 @@ sendButton.addEventListener('click', async () => {
             messageInput.value = '';
 
             const userElement = document.querySelector(`.user[data-email="${selectedUserEmail}"]`);
-            if (userElement) {
+
+            if (!userElement) {
+                const newUserElement = createUserElement(selectedUserEmail);
+                userListDiv.prepend(newUserElement);
+
+                selectUser(newUserElement);
+            }
+            else {
                 userListDiv.prepend(userElement);
             }
         }
@@ -74,6 +81,36 @@ sendButton.addEventListener('click', async () => {
         }
     }
 });
+
+function createUserElement(email) {
+    const userElement = document.createElement('div');
+    userElement.classList.add('user');
+    userElement.setAttribute('data-email', email);
+    userElement.addEventListener('click', () => loadMessages(email));
+
+    const img = document.createElement('img');
+    img.src = '../../images/user-default.png';
+    img.style.width = '50px';
+    img.style.borderRadius = '25px';
+    img.style.marginRight = '10px';
+    userElement.appendChild(img);
+
+    const emailDiv = document.createElement('div');
+    emailDiv.textContent = email;
+    userElement.appendChild(emailDiv);
+
+    return userElement;
+}
+
+function selectUser(userElement) {
+    if (previouslySelectedUserElement) {
+        previouslySelectedUserElement.classList.remove('selected');
+        previouslySelectedUserElement.style.backgroundColor = '';
+    }
+    userElement.classList.add('selected');
+    userElement.style.backgroundColor = '#ff8623';
+    previouslySelectedUserElement = userElement;
+}
 
 document.getElementById('messageInput').addEventListener('keydown', function(event) {
     if (event.key === 'Enter' && !event.shiftKey) {
@@ -87,10 +124,10 @@ function formatMessage(message, isCurrentUser, timestamp) {
     messageElement.classList.add('message');
     messageElement.textContent = isCurrentUser ? `You: ${message}` : `${selectedUserEmail}: ${message}`;
 
-    // Ensure the timestamp is correctly handled
     if (timestamp && timestamp.toDate) {
         messageElement.dataset.timestamp = timestamp.toDate().toISOString();
-    } else {
+    }
+    else {
         console.log('Timestamp is not in the expected format:', timestamp);
         messageElement.dataset.timestamp = 'Unknown time';
     }
@@ -390,14 +427,6 @@ async function loadUserList() {
         }
     }
 }
-
-// onSnapshot(collection(db, "messages"), (snapshot) => {
-//     snapshot.docChanges().forEach((change) => {
-//         if (change.type === 'added') {
-//             loadUserList();
-//         }
-//     });
-// });
 
 function showSpinner() {
     document.getElementById('myModal').classList.add('modal-visible');
