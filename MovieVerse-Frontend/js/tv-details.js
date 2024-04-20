@@ -233,7 +233,7 @@ document.addEventListener('DOMContentLoaded', rotateUserStats);
 function setStarRating(rating) {
     const stars = document.querySelectorAll('.rating .star');
     stars.forEach(star => {
-        star.style.color = star.dataset.value > rating ? 'grey' : 'gold';
+        star.style.color = star.dataset.value > rating ? 'white' : 'gold';
     });
 
     document.getElementById('rating-value').textContent = `${rating}.0/5.0`;
