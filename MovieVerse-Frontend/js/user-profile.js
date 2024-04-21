@@ -131,6 +131,7 @@ function setupSearchListeners() {
 
         searchUserInput.addEventListener('input', () => {
             const searchText = searchUserInput.value.trim();
+
             if (searchText) {
                 performSearch(searchText);
             }
@@ -153,20 +154,21 @@ function setupSearchListeners() {
 }
 
 async function performSearch(searchText) {
-    try {
-        const searchUserResults = document.getElementById('searchUserResults');
-        showSpinner();
+    const searchUserResults = document.getElementById('searchUserResults');
+    const db = getFirestore();
+    showSpinner();
 
-        const userQuery = query(collection(db, 'profiles'), where('username', '>=', searchText));
+    try {
+        // Prepare the query to search for usernames that contain the searchText
+        const userQuery = query(collection(db, 'profiles'), where('username', '>=', searchText), where('username', '<=', searchText + '\uf8ff'));
+
         const querySnapshot = await getDocs(userQuery);
 
         searchUserResults.innerHTML = '';
-
         if (querySnapshot.empty) {
             searchUserResults.innerHTML = `<div style="text-align: center; font-weight: bold">No User with Username "${searchText}" found</div>`;
             searchUserResults.style.display = 'block';
-        }
-        else {
+        } else {
             searchUserResults.style.display = 'block';
             querySnapshot.forEach((doc) => {
                 const user = doc.data();
@@ -184,25 +186,19 @@ async function performSearch(searchText) {
                 const textDiv = document.createElement('div');
                 textDiv.style.width = '67%';
                 textDiv.style.textAlign = 'left';
-                textDiv.innerHTML = `<strong style="text-align: left">${user.username}</strong><p style="text-align: left; margin-top: 5px">${user.bio || ''}</p>`;
+                textDiv.innerHTML = `<strong>${user.username}</strong><p style="margin-top: 5px">${user.bio || ''}</p>`;
                 userDiv.appendChild(textDiv);
 
                 searchUserResults.appendChild(userDiv);
             });
         }
-
         hideSpinner();
     }
     catch (error) {
-        console.error("Error fetching user list: ", error);
-        if (error.code === 'resource-exhausted') {
-            const noUserSelected = document.getElementById('search-users-container');
-            if (noUserSelected) {
-                noUserSelected.innerHTML = "Sorry, our database is currently overloaded. Please try reloading once more, and if that still doesn't work, please try again in a couple hours. For full transparency, we are currently using a database that has a limited number of reads and writes per day due to lack of funding. Thank you for your patience as we work on scaling our services. At the mean time, feel free to use other MovieVerse features!";
-                noUserSelected.style.height = '350px';
-            }
-            hideSpinner();
-        }
+        console.error("Error during search: ", error);
+        searchUserResults.innerHTML = `<div style="text-align: center; font-weight: bold">Error in searching: ${error.message}</div>`;
+        searchUserResults.style.display = 'block';
+        hideSpinner();
     }
 }
 
@@ -405,16 +401,6 @@ async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMo
 
         document.getElementById('viewMyProfileBtn').disabled = true;
     }
-}
-
-function getTriviaAccuracy() {
-    let triviaStats = JSON.parse(localStorage.getItem('triviaStats')) || { totalCorrect: 0, totalAttempted: 0 };
-    if (triviaStats.totalAttempted === 0) {
-        return 'No trivia attempted';
-    }
-
-    let accuracy = (triviaStats.totalCorrect / triviaStats.totalAttempted) * 100;
-    return `${accuracy.toFixed(1)}% accuracy`;
 }
 
 async function displayUserList(listType, userEmail) {

@@ -1317,6 +1317,10 @@ p {
     display: none;
 }
 
+#ad-container6 {
+    display: none;
+}
+
 @media (max-width: 700px) {
     #ad-container {
         display: block;
@@ -1341,14 +1345,50 @@ p {
     #ad-container5 {
         display: block;
     }
+
+    #ad-container6 {
+        display: block;
+    }
 }
+
+#searchContainer {
+    position: relative;
+    display: inline-block;
+}
+
+#searchTooltip {
+    display: none; /* Hidden by default */
+    background-color: black;
+    color: white;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 10px;
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -60px; /* Center the tooltip */
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
+}
+
+#searchTooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: black transparent transparent transparent;
+}
+
 
 #averageDisplays {
     display: flex;
     justify-content: center;
     gap: 20px;
     margin-top: 20px;
-    width: 100%;  /* Ensure the container takes full width of its parent */
+    width: 100%;
 }
 
 .progress-container {
@@ -1357,13 +1397,13 @@ p {
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
-    flex: 1;  /* Makes each container take equal space */
-    text-align: center;  /* Center-aligns the text under the SVG */
+    flex: 1;
+    text-align: center;
 }
 
 .progress-ring {
-    width: 100px;  /* SVG width */
-    height: 100px;  /* SVG height */
+    width: 100px;
+    height: 100px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1372,7 +1412,7 @@ p {
 .progress-ring__circle {
     fill: transparent;
     stroke-width: 10;
-    stroke: #fff;  /* Background circle color */
+    stroke: #fff;
     transform: rotate(-90deg);
     transform-origin: 50% 50%;
 }
@@ -1380,24 +1420,23 @@ p {
 .progress-ring__progress {
     fill: transparent;
     stroke-width: 10;
-    stroke: var(--progress-color);  /* Use a CSS variable for stroke color */
+    stroke: var(--progress-color);
     transform: rotate(-90deg);
     transform-origin: 50% 50%;
-    transition: stroke-dashoffset 0.6s ease-out;  /* Smooth transition for the progress circle */
+    transition: stroke-dashoffset 0.6s ease-out;
 }
 
 .progress-ring__text {
-    font-size: 20px;  /* Text size within the SVG */
+    font-size: 20px;
     dominant-baseline: middle;
     text-anchor: middle;
-    opacity: 0;  /* Initially hide the text */
-    transition: opacity 0.6s ease-out;  /* Fade-in effect for text */
+    opacity: 0;
+    transition: opacity 0.6s ease-out;
 }
 
 strong {
-    font-weight: bold;  /* Ensure labels are bold */
+    font-weight: bold;
 }
-
 
 .favorites-btn:hover {
     background-color: #ff8623;
