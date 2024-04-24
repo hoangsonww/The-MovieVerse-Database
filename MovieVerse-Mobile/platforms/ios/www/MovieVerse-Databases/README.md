@@ -1,6 +1,8 @@
 # The MovieVerse - `MovieVerse-Databases` Directory
 
-Welcome to the `MovieVerse-Database` directory of the MovieVerse App! This directory contains the SQL and JavaScript files essential for setting up and managing the databases used in the application, including Firebase, MySQL, and MongoDB. NOTE: These files are only placeholders and do not reflect what are actually used by us in production or development - you need to contact us for more details about using our databases if you would like to contribute and need database access!
+Welcome to the `MovieVerse-Database` directory of the MovieVerse App! This directory contains the SQL and JavaScript files essential for setting up and managing the databases used in the application, including Firebase, MySQL, and MongoDB. 
+
+**Note:** For security reasons, some files have only placeholders and do not reflect what are actually used by us in production or development - you need to contact us for more details about using our databases if you would like to contribute and need database access!
 
 ---
 
@@ -47,6 +49,10 @@ A configuration file for Firebase Storage, containing access rules and settings 
 ### test_api_db.py
 
 A Python script for testing the API and database connections. It includes sample queries, data retrieval, and other operations to test the database connections and API endpoints.
+
+### Data Analysis Subdirectory
+
+This subdirectory contains files related to data analysis and reporting. It includes scripts for extracting, transforming, and loading data into analytics tools, as well as generating reports and visualizations. See the `Data-Analysis` directory for more details.
 
 ## Using these Files
 
