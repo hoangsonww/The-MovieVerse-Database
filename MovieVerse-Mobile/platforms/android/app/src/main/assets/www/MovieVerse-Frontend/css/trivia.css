@@ -1035,7 +1035,6 @@ main {
     }
 
     header {
-        padding-bottom: 20px;
         justify-content: space-between;
         padding: 1.5rem;
         display: flex;
