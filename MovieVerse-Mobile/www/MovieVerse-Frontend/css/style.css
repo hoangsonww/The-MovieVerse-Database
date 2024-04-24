@@ -293,7 +293,6 @@ input[type=range] {
     opacity: 0.5;
     cursor: not-allowed;
 }
-
 #prev-page:disabled, #next-page:disabled {
     opacity: 0.5;
     cursor: not-allowed;
