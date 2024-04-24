@@ -24,18 +24,7 @@ const searchTitle = document.getElementById("search-title");
 
 let trailerUrlGlobal;
 let initialMainContent;
-
-function getClassByRate(vote){
-    if (vote >= 8) {
-        return 'green';
-    }
-    else if (vote >= 5) {
-        return 'orange';
-    }
-    else {
-        return 'red';
-    }
-}
+let trailerButton;
 
 form.addEventListener('submit', (e) => {
     e.preventDefault();

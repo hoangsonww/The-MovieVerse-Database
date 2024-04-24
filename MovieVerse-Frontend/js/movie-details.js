@@ -33,6 +33,7 @@ const searchTitle = document.getElementById("search-title");
 
 let trailerUrlGlobal;
 let initialMainContent;
+let trailerButton;
 
 function getClassByRate(vote){
     if (vote >= 8) {

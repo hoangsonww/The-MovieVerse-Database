@@ -541,19 +541,46 @@
                 <span class="close" onclick="closeModal()">&times;</span>
             </div>
             <form id="editProfileForm">
-                <input type="text" id="editUsername" placeholder="Username">
-                <div class="dob-container">
-                    <label for="editDob" style="color: white">Date of Birth:</label>
-                    <input type="date" id="editDob" style="padding-left: 5px" placeholder="Date of Birth" title="Click to select your date of birth"/>
+                <div style="text-align: center">
+                    <label for="editUsername" style="color: white">Username:</label>
+                    <input type="text" id="editUsername" placeholder="Username">
                 </div>
-                <input type="text" id="editBio" placeholder="Bio">
-                <input type="text" id="editFavoriteGenres" placeholder="Favorite Genres">
-                <input type="text" id="editLocation" placeholder="Location">
-                <input type="text" id="editFavoriteMovie" placeholder="Favorite Movie">
-                <input type="text" id="editHobbies" placeholder="Hobbies">
-                <input type="text" id="editFavoriteActor" placeholder="Favorite Actor">
-                <input type="text" id="editFavoriteDirector" placeholder="Favorite Director">
-                <input type="text" id="editPersonalQuote" placeholder="Personal Quote">
+                <div style="text-align: center">
+                    <label for="editDob" style="color: white">Date of Birth:</label>
+                    <input type="date" id="editDob" style="padding-left: 5px; width: 100%" placeholder="Date of Birth" title="Click to select your date of birth"/>
+                </div>
+                <div style="text-align: center; margin-top: 20px">
+                    <label for="editBio" style="color: white">Bio:</label>
+                    <input type="text" id="editBio" placeholder="Bio">
+                </div>
+                <div style="text-align: center">
+                    <label for="editFavoriteGenres" style="color: white">Favorite Genres:</label>
+                    <input type="text" id="editFavoriteGenres" placeholder="Favorite Genres">
+                </div>
+                <div style="text-align: center">
+                    <label for="editLocation" style="color: white">Location:</label>
+                    <input type="text" id="editLocation" placeholder="Location">
+                </div>
+                <div style="text-align: center">
+                    <label for="editFavoriteMovie" style="color: white">Favorite Movie:</label>
+                    <input type="text" id="editFavoriteMovie" placeholder="Favorite Movie">
+                </div>
+                <div style="text-align: center">
+                    <label for="editHobbies" style="color: white">Hobbies:</label>
+                    <input type="text" id="editHobbies" placeholder="Hobbies">
+                </div>
+                <div style="text-align: center">
+                    <label for="editFavoriteActor" style="color: white">Favorite Actor:</label>
+                    <input type="text" id="editFavoriteActor" placeholder="Favorite Actor">
+                </div>
+                <div style="text-align: center">
+                    <label for="editFavoriteDirector" style="color: white">Favorite Director:</label>
+                    <input type="text" id="editFavoriteDirector" placeholder="Favorite Director">
+                </div>
+                <div style="text-align: center">
+                    <label for="editPersonalQuote" style="color: white">Personal Quote:</label>
+                    <input type="text" id="editPersonalQuote" placeholder="Personal Quote">
+                </div>
                 <button type="button" id="saveChanges">Save Changes</button>
                 <button type="button" id="cancelEdit" onclick="closeModal()">Cancel</button>
             </form>
