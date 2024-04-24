@@ -265,6 +265,7 @@ input[type=range] {
     position: absolute;
     right: 10px;
 }
+
 #year-filter::placeholder {
     color: white;
 }
