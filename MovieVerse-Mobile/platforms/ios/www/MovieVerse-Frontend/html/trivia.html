@@ -283,9 +283,6 @@
 
     <div>
         <div style="font-weight: bold; font-size: 32px" id="trivia-label">Movie Trivia Quiz</div>
-        <div class="button-container">
-            <button id="clear-search-btn">Clear Search Results</button>
-        </div>
     </div>
 
     <div id="result-modal" class="modal">
@@ -317,7 +314,7 @@
     <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="bottom: 125px; right: 10px" title="Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
     <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 90px; right: 10px" title="Test your movie knowledge">MovieVerse Trivia</button>
 
-    <script src="../js/quiz.js"></script>
+    <script src="../js/quiz.js" type="module"></script>
 
     <script>
         document.getElementById('settings-btn').addEventListener('click', () => {
@@ -396,6 +393,61 @@
     </button>
 
     <script>
+        async function showMovieOfTheDay() {
+            const year = new Date().getFullYear();
+            const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                const movies = data.results;
+
+                if (movies.length > 0) {
+                    const randomMovie = movies[Math.floor(Math.random() * movies.length)];
+                    localStorage.setItem('selectedMovieId', randomMovie.id);
+                    window.location.href = 'movie-details.html';
+                }
+                else {
+                    fallbackMovieSelection();
+                }
+            }
+            catch (error) {
+                console.log('Error fetching movie:', error);
+                fallbackMovieSelection();
+            }
+        }
+
+        function getMovieVerseData(input) {
+            return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
+        }
+
+        function fallbackMovieSelection() {
+            const fallbackMovies = [432413, 299534, 1726, 562, 118340, 455207, 493922, 447332, 22970, 530385, 27205, 264660, 120467, 603, 577922, 76341, 539, 419704, 515001, 118340, 424, 98];
+            const randomFallbackMovie = fallbackMovies[Math.floor(Math.random() * fallbackMovies.length)];
+            localStorage.setItem('selectedMovieId', randomFallbackMovie);
+            window.location.href = 'movie-details.html';
+        }
+
+        function generateMovieNames(input) {
+            return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
+        }
+
+        function handleSearch() {
+            const searchQuery = document.getElementById('search').value;
+            localStorage.setItem('searchQuery', searchQuery);
+            window.location.href = 'search.html';
+        }
+
+        const movieCode = {
+            part1: 'YzVhMjBjODY=',
+            part2: 'MWFjZjdiYjg=',
+            part3: 'ZDllOTg3ZGNjN2YxYjU1OA=='
+        };
+
+        function getMovieCode() {
+            return atob(movieCode.part1) + atob(movieCode.part2) + atob(movieCode.part3);
+        }
+
         window.addEventListener('load', function() {
             adjustAnchorHeights();
         });
@@ -515,8 +567,7 @@
                 const query = searchBar.value.trim();
                 if (query) {
                     if (window.innerWidth > 800) {
-                        myHeading.style.position = 'fixed';
-                        myHeading.style.top = '28px';
+                        myHeading.style.display = 'none';
                         localTime.style.display = 'none';
                         myHeading.style.zIndex = '0.05';
                         searchBar.style.marginTop = '16px';
@@ -524,9 +575,7 @@
                     }
                 }
                 else {
-                    myHeading.style.position = '';
-                    myHeading.style.top = '';
-                    myHeading.style.zIndex = '';
+                    myHeading.style.display = '';
                     localTime.style.display = '';
                     searchBar.style.marginTop = '';
                     searchButton.style.marginTop = '';

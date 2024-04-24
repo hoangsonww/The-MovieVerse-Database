@@ -52,9 +52,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" media="print" onload="this.media='all';">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"></noscript>
 
-    <link rel="preload" href="/fonts/Poppins-Light.ttf" as="font" type="font/ttf" crossorigin="anonymous">
-    <link rel="preload" href="/fonts/Poppins-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
-    <link rel="preload" href="/fonts/Poppins-SemiBold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+    <link rel="preload" href="https://movie-verse.com/fonts/Poppins-Light.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+    <link rel="preload" href="https://movie-verse.com/fonts/Poppins-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+    <link rel="preload" href="https://movie-verse.com/fonts/Poppins-SemiBold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 
     <!-- Schema.org markup for rich results -->
     <script type="application/ld+json">
@@ -404,6 +404,56 @@
             min-height: 54px;
             text-align: center;
         }
+
+        #ad-container {
+            display: none;
+        }
+
+        #ad-container1 {
+            display: none;
+        }
+
+        #ad-container2 {
+            display: none;
+        }
+
+        #ad-container3 {
+            display: none;
+        }
+
+        #ad-container4 {
+            display: none;
+        }
+
+        #ad-container5 {
+            display: none;
+        }
+
+        @media (max-width: 700px) {
+            #ad-container {
+                display: block;
+            }
+
+            #ad-container1 {
+                display: block;
+            }
+
+            #ad-container2 {
+                display: block;
+            }
+
+            #ad-container3 {
+                display: block;
+            }
+
+            #ad-container4 {
+                display: block;
+            }
+
+            #ad-container5 {
+                display: block;
+            }
+        }
     </style>
 </head>
 
@@ -423,7 +473,7 @@
                 The Mo<span class="highlight" id="highlight">vieV</span>erse
             </h1>
         </a>
-        <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
+        <div id="local-time" style="cursor: pointer" title="Click to view more of your stats on this machine">
             <p id="stats-label" class="clock" style="font-size: 16px;"></p>
             <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
         </div>
@@ -498,8 +548,8 @@
             <li><a href="#musical">Musical</a></li>
             <li><a href="#drama">Drama</a></li>
             <li><a href="#classic">Classic</a></li>
-            <li><a href="MovieVerse-Frontend/html/sign-in.html">Sign In</a></li>
-            <li><a href="MovieVerse-Frontend/html/user-profile.html">Profile</a></li>
+            <li><a href="MovieVerse-Frontend/html/sign-in.html">Sign In/Sign Up</a></li>
+            <li><a href="MovieVerse-Frontend/html/user-profile.html">User Profile</a></li>
             <li><a href="MovieVerse-Frontend/html/support.html">MovieVerse Support</a></li>
             <li><a href="MovieVerse-Frontend/html/feedback.html">MovieVerse Feedback</a></li>
         </ul>
@@ -527,6 +577,20 @@
     <div id="most-popular-pagination" class="pagination" style="text-align: center"></div>
     <main id="most-popular"></main>
 
+    <div id="ad-container3" style="text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px)" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
+        <p style="margin: 0;">Advertisement</p>
+        <ins class="adsbygoogle"
+             style="display: block; width: 100%;"
+             data-ad-client="ca-pub-6608388491200814"
+             data-ad-slot="4832732030"
+             data-ad-format="auto"></ins>
+        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="/MovieVerse-Frontend/html/feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>
+    </div>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+
     <div class="genres" id="recommendedDIV">
         <h2 id="other" style="cursor: pointer" title="Here are some personalized movie suggestions we've generated based on your preferences! Check them out, and let us know what you think!">
             Recommended For You: Personalized Movie Suggestions
@@ -535,17 +599,56 @@
     <div id="recommended-pagination" class="pagination" style="text-align: center"></div>
     <main id="recommended"></main>
 
+    <div id="ad-container" style="text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px)" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
+        <p style="margin: 0;">Advertisement</p>
+        <ins class="adsbygoogle"
+             style="display: block; width: 100%;"
+             data-ad-client="ca-pub-6608388491200814"
+             data-ad-slot="4832732030"
+             data-ad-format="auto"></ins>
+        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="/MovieVerse-Frontend/html/feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>
+    </div>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+
     <div class="genres" id="award-winning-div">
         <h2 id="other" style="cursor: pointer">Critics' Choice: Trending Award-Winning Movies</h2>
     </div>
     <div id="award-winning-pagination" class="pagination" style="text-align: center"></div>
     <main id="award-winning"></main>
 
+    <div id="ad-container1" style="text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px);" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
+        <p style="margin: 0;">Advertisement</p>
+        <ins class="adsbygoogle"
+             style="display: block; width: 100%;"
+             data-ad-client="ca-pub-6608388491200814"
+             data-ad-slot="4832732030"
+             data-ad-format="auto"></ins>
+        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>
+    </div>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+
     <div class="genres" style="display: flex; justify-content: space-between; align-items: center;">
         <h2 id="director-spotlight-title" style="cursor: pointer; ">Director's Spotlight: <span id="spotlight-director-name">Alfred Hitchcock</span></h2>
         <button id="change-director-btn" onclick="changeDirector()" style="padding: 5px 10px; margin-right: 10px; margin-top: 25px; cursor: pointer;">Change Director</button>
     </div>
     <main id="director-spotlight"></main>
+
+    <div id="ad-container5" style="text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px)" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
+        <p style="margin: 0;">Advertisement</p>
+        <ins class="adsbygoogle"
+             style="display: block; width: 100%;"
+             data-ad-client="ca-pub-6608388491200814"
+             data-ad-slot="4832732030"
+             data-ad-format="auto"></ins>
+        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="/MovieVerse-Frontend/html/feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>
+    </div>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
 
     <div class="genres" id="action-div">
         <h2 id="other" style="cursor: pointer">Adrenaline Rush: Trending Action Movies</h2>
@@ -559,11 +662,37 @@
     <div id="vietnamese-pagination" class="pagination" style="text-align: center"></div>
     <main id="vietnamese"></main>
 
+    <div id="ad-container2" style="text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px)" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
+        <p style="margin: 0;">Advertisement</p>
+        <ins class="adsbygoogle"
+             style="display: block; width: 100%;"
+             data-ad-client="ca-pub-6608388491200814"
+             data-ad-slot="4832732030"
+             data-ad-format="auto"></ins>
+        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="/MovieVerse-Frontend/html/feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>
+    </div>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+
     <div class="genres" id="indian-div">
         <h2 id="other" style="cursor: pointer">Bollywood Blockbusters: Trending Indian Movies</h2>
     </div>
     <div id="indian-pagination" class="pagination" style="text-align: center"></div>
     <main id="indian"></main>
+
+    <div id="ad-container4" style="text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px)" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
+        <p style="margin: 0;">Advertisement</p>
+        <ins class="adsbygoogle"
+             style="display: block; width: 100%;"
+             data-ad-client="ca-pub-6608388491200814"
+             data-ad-slot="4832732030"
+             data-ad-format="auto"></ins>
+        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="/MovieVerse-Frontend/html/feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>
+    </div>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
 
     <div class="genres" id="korean-div">
         <h2 id="other" style="cursor: pointer">K-Drama & Beyond: Trending Korean Movies</h2>
@@ -991,23 +1120,16 @@
                 const query = searchBar.value.trim();
                 if (query) {
                     if (window.innerWidth > 800) {
-                        myHeading.style.position = 'fixed';
-                        myHeading.style.top = '28px';
-                        localTime.style.position = 'fixed';
-                        localTime.style.left = '44.4%';
-                        localTime.style.top = '19px';
-                        localTime.style.zIndex = '0.0 !important';
+                        myHeading.style.display = 'none';
+                        localTime.style.display = 'none';
                         myHeading.style.zIndex = '0.05';
                         searchBar.style.marginTop = '16px';
                         searchButton.style.marginTop = '16px';
                     }
                 }
                 else {
-                    myHeading.style.position = '';
-                    myHeading.style.top = '';
-                    localTime.style.position = '';
-                    localTime.style.left = '';
-                    localTime.style.top = '';
+                    myHeading.style.display = '';
+                    localTime.style.display = '';
                     searchBar.style.marginTop = '';
                     searchButton.style.marginTop = '';
                 }
@@ -1036,11 +1158,8 @@
                 toggleButtons();
                 searchInput.focus();
 
-                myHeading.style.position = '';
-                myHeading.style.top = '';
-                localTime.style.position = '';
-                localTime.style.left = '';
-                localTime.style.top = '';
+                myHeading.style.display = '';
+                localTime.style.display = '';
                 searchInput.style.marginTop = '';
                 searchButton.style.marginTop = '';
             });

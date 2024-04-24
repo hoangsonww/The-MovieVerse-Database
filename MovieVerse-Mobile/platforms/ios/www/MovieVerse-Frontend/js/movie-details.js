@@ -354,39 +354,6 @@ function getMostCommonGenre() {
 
 document.addEventListener('DOMContentLoaded', rotateUserStats);
 
-function setStarRating(rating) {
-    const stars = document.querySelectorAll('.rating .star');
-    stars.forEach(star => {
-        star.style.color = star.dataset.value > rating ? 'white' : 'gold';
-    });
-
-    document.getElementById('rating-value').textContent = `${rating}.0/5.0`;
-}
-
-document.querySelectorAll('.rating .star').forEach(star => {
-    star.addEventListener('mouseover', (e) => {
-        setStarRating(e.target.dataset.value);
-    });
-
-    star.addEventListener('mouseout', () => {
-        const movieId = localStorage.getItem('selectedMovieId');
-        const savedRatings = JSON.parse(localStorage.getItem('movieRatings')) || {};
-        const movieRating = savedRatings[movieId] || 0;
-        setStarRating(movieRating);
-    });
-
-    star.addEventListener('click', (e) => {
-        const movieId = localStorage.getItem('selectedMovieId');
-        const rating = e.target.dataset.value;
-        const savedRatings = JSON.parse(localStorage.getItem('movieRatings')) || {};
-        savedRatings[movieId] = rating;
-        localStorage.setItem('movieRatings', JSON.stringify(savedRatings));
-        setStarRating(rating);
-        updateAverageMovieRating(movieId, rating);
-        window.location.reload();
-    });
-});
-
 function updateUniqueDirectorsViewed(directorId) {
     let viewedDirectors = JSON.parse(localStorage.getItem('uniqueDirectorsViewed')) || [];
     if (!viewedDirectors.includes(directorId)) {
@@ -427,10 +394,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     document.getElementById('clear-search-btn').style.display = 'none';
-
-    const savedRatings = JSON.parse(localStorage.getItem('movieRatings')) || {};
-    const movieRating = savedRatings[movieId] || 0;
-    setStarRating(movieRating);
 });
 
 document.getElementById('clear-search-btn').addEventListener('click', () => {
@@ -1160,7 +1123,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         <p><strong>Languages:</strong> ${languages}</p>
         <p><strong>Countries of Production:</strong> ${countries}</p>
         <p><strong>Popularity Score:</strong> <span class="${isPopular ? 'popular' : ''}">${popularityText}</span></p>
-        <p style="cursor: pointer" title="Your rating also counts - it might take a while for us to update!"><strong>MovieVerse User Ratings:</strong> <span style="cursor: pointer">${scaledRating}/5.0 (based on <strong>${movie.vote_count}</strong> votes)</span></p>
+        <p title="Your rating also counts - it might take a while for us to update!"><strong>MovieVerse User Rating:</strong> <span>${scaledRating}/5.0 (based on <strong>${movie.vote_count}</strong> votes)</span></p>
         ${awardsElement}
         ${metascoreElement}
         <p><strong>Rotten Tomatoes:</strong> <a href="${rtLink}" id="rating">${rtRating}</a></p>

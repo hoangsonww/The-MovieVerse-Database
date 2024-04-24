@@ -1,6 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getFirestore, doc, getDoc, setDoc, query, collection, where, getDocs, serverTimestamp, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
+import { getAverageMovieRating, loadUserRatings } from './ratingsModule.js';
+import { getTriviaStats } from './triviaModule.js';
 
 function showSpinner() {
     document.getElementById('myModal').classList.add('modal-visible');
@@ -56,6 +57,32 @@ document.addEventListener('DOMContentLoaded', function() {
     setupEventListeners();
     setupSearchListeners();
 });
+
+function updateProgressCircles(movieRating, triviaScore) {
+    const movieRatingPercent = movieRating;
+    const triviaScorePercent = triviaScore;
+
+    setProgress(document.getElementById('avgMovieRatingCircle'), document.getElementById('avgMovieRatingText'), movieRatingPercent);
+    setProgress(document.getElementById('avgTriviaScoreCircle'), document.getElementById('avgTriviaScoreText'), triviaScorePercent);
+}
+
+function setProgress(circle, text, percent) {
+    const radius = circle.r.baseVal.value;
+    const circumference = radius * 2 * Math.PI;
+    circle.style.strokeDasharray = `${circumference} ${circumference}`;
+    circle.style.strokeDashoffset = circumference;
+
+    setTimeout(() => {
+        const offset = circumference - (percent / 100) * circumference;
+        circle.style.strokeDashoffset = circumference;
+        circle.getBoundingClientRect();
+        circle.style.transition = 'stroke-dashoffset 0.6s ease-out, stroke 0.6s ease';
+        circle.style.strokeDashoffset = offset;
+        circle.style.setProperty('--progress-color', percent > 50 ? '#4CAF50' : '#2196F3');
+        text.style.opacity = 1;
+        text.textContent = `${Math.round(percent)}%`;
+    }, 100);
+}
 
 function handleProfileDisplay() {
     const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
@@ -138,7 +165,8 @@ async function performSearch(searchText) {
         if (querySnapshot.empty) {
             searchUserResults.innerHTML = `<div style="text-align: center; font-weight: bold">No User with Username "${searchText}" found</div>`;
             searchUserResults.style.display = 'block';
-        } else {
+        }
+        else {
             searchUserResults.style.display = 'block';
             querySnapshot.forEach((doc) => {
                 const user = doc.data();
@@ -199,7 +227,8 @@ async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMo
             profileImage.removeAttribute('onclick');
             profileImage.style.cursor = 'default';
             profileImage.title = 'Sign in to change profile image';
-        } else {
+        }
+        else {
             changeProfileImageBtn.style.display = '';
             editProfileBtn.style.display = '';
             profileImage.setAttribute('onclick', 'document.getElementById("imageUpload").click()');
@@ -226,7 +255,7 @@ async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMo
             const followersRef = doc(db, 'profiles', userEmail, 'followers', currentUserEmail);
 
             const followSnap = await getDoc(followingRef);
-            const isFollowing = followSnap.exists();
+            let isFollowing = followSnap.exists();
 
             followUnfollowBtn.textContent = isFollowing ? 'Unfollow' : 'Follow';
             followUnfollowBtn.style.display = 'block';
@@ -236,16 +265,35 @@ async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMo
                     await deleteDoc(followingRef);
                     await deleteDoc(followersRef);
                     followUnfollowBtn.textContent = 'Follow';
-                } else {
+                    isFollowing = false;
+                    await displayUserList('followers', userEmail);
+                }
+                else {
                     const timestamp = serverTimestamp();
                     await setDoc(followingRef, {timestamp: timestamp});
                     await setDoc(followersRef, {timestamp: timestamp});
                     followUnfollowBtn.textContent = 'Unfollow';
+                    isFollowing = true;
+                    await displayUserList('followers', userEmail);
                 }
             };
-        } else {
+        }
+        else {
             followUnfollowBtn.style.display = 'none';
         }
+
+        const rating = await getAverageMovieRating(userEmail);
+        const convertRatingToPercent = (rating / 5) * 100;
+        const averageRating = convertRatingToPercent.toFixed(1);
+
+        const triviaStats = await getTriviaStats(userEmail);
+
+        let averageTriviaScore = 0;
+        if (triviaStats.totalAttempted > 0) {
+            averageTriviaScore = (triviaStats.totalCorrect / triviaStats.totalAttempted) * 100;
+        }
+
+        updateProgressCircles(averageRating, averageTriviaScore);
 
         try {
             const docSnap = await getDoc(docRef);
@@ -296,7 +344,37 @@ async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMo
                 await displayUserList('followers', userEmail);
             }
             else {
-                console.log("No such profile exists!");
+                const imageUrl = profile.profileImage || '../../images/user-default.png';
+                document.getElementById('profileImage').src = imageUrl;
+
+                if (userEmail !== localStorage.getItem('currentlySignedInMovieVerseUser') || !localStorage.getItem('currentlySignedInMovieVerseUser') || !JSON.parse(localStorage.getItem('isSignedIn')) || profile.profileImage === '../../images/user-default.png') {
+                    removeProfileImageBtn.style.display = 'none';
+                }
+                else {
+                    removeProfileImageBtn.style.display = 'inline';
+                }
+
+                document.getElementById('usernameDisplay').innerHTML = `<strong>Username:</strong> N/A`;
+                document.getElementById('dobDisplay').innerHTML = `<strong>Date of Birth:</strong> N/A`;
+                document.getElementById('bioDisplay').innerHTML = `<strong>Bio:</strong> N/A`;
+                document.getElementById('favoriteGenresDisplay').innerHTML = `<strong>Favorite Genres:</strong> N/A`;
+                document.getElementById('locationDisplay').innerHTML = `<strong>Location:</strong> N/A`;
+                document.getElementById('favoriteMovieDisplay').innerHTML = `<strong>Favorite Movie:</strong> N/A`;
+                document.getElementById('hobbiesDisplay').innerHTML = `<strong>Hobbies:</strong> N/A`;
+                document.getElementById('favoriteActorDisplay').innerHTML = `<strong>Favorite Actor:</strong> N/A`;
+                document.getElementById('favoriteDirectorDisplay').innerHTML = `<strong>Favorite Director:</strong> N/A`;
+                document.getElementById('personalQuoteDisplay').innerHTML = `<strong>Personal Quote:</strong> N/A`;
+                window.document.title = `${profile.username !== 'N/A' ? profile.username : 'User'}'s Profile - The MovieVerse`;
+
+                if (userEmail === localStorage.getItem('currentlySignedInMovieVerseUser')) {
+                    welcomeMessage.textContent = `Welcome, ${profile.username}!`;
+                }
+                else {
+                    welcomeMessage.textContent = `Viewing ${profile.username}'s profile`;
+                }
+
+                await displayUserList('following', userEmail);
+                await displayUserList('followers', userEmail);
             }
         }
         catch (error) {
@@ -327,6 +405,16 @@ async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMo
 
         document.getElementById('viewMyProfileBtn').disabled = true;
     }
+}
+
+function getTriviaAccuracy() {
+    let triviaStats = JSON.parse(localStorage.getItem('triviaStats')) || { totalCorrect: 0, totalAttempted: 0 };
+    if (triviaStats.totalAttempted === 0) {
+        return 'No trivia attempted';
+    }
+
+    let accuracy = (triviaStats.totalCorrect / triviaStats.totalAttempted) * 100;
+    return `${accuracy.toFixed(1)}% accuracy`;
 }
 
 async function displayUserList(listType, userEmail) {
