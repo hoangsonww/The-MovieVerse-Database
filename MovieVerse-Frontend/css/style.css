@@ -148,7 +148,6 @@ button:disabled {
     cursor: pointer;
     transition: 0.3s ease;
     padding: 10px 20px;
-    font-size: 16px;
     font: inherit;
 }
 
@@ -252,7 +251,6 @@ input[type=range] {
 }
 
 #rating-value {
-    font-weight: normal;
     font: inherit;
 }
 
