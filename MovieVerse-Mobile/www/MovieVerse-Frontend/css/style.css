@@ -283,6 +283,7 @@ input[type=range] {
     padding: 10px 15px;
     color: white;
 }
+
 #toggle-comment-modal:hover {
     background-color: #ff8623;
     transition: 0.3s ease-in;
