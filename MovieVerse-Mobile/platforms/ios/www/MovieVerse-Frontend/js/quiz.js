@@ -1,3 +1,5 @@
+import { updateTriviaStats } from './triviaModule.js';
+
 const questionBank = [
     { question: "What movie won the Academy Award for Best Picture in 2020?", options: ["Joker", "1917", "Parasite"], answer: "Parasite" },
     { question: "Who directed the movie 'The Godfather'?", options: ["Steven Spielberg", "Francis Ford Coppola", "Martin Scorsese"], answer: "Francis Ford Coppola" },
@@ -87,25 +89,6 @@ function generateMovieNames(input) {
     return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
 }
 
-const IMGPATH = "https://image.tmdb.org/t/p/w1280";
-const main = document.getElementById("main");
-const search = document.getElementById("search");
-const searchButton = document.getElementById("button-search");
-const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
-const searchTitle = document.getElementById("trivia-label");
-
-function getClassByRate(vote){
-    if (vote >= 8) {
-        return 'green';
-    }
-    else if (vote >= 5) {
-        return 'orange';
-    }
-    else {
-        return 'red';
-    }
-}
-
 const form = document.getElementById("form");
 
 form.addEventListener('submit', (e) => {
@@ -120,118 +103,6 @@ function handleSearch() {
     localStorage.setItem('searchQuery', searchQuery);
     window.location.href = 'search.html';
 }
-
-async function getMovies(url) {
-    clearMovieDetails();
-    const numberOfMovies = calculateMoviesToDisplay();
-    const pagesToFetch = numberOfMovies <= 20 ? 1 : 2;
-    let allMovies = [];
-
-    for (let page = 1; page <= pagesToFetch; page++) {
-        const response = await fetch(`${url}&page=${page}`);
-        const data = await response.json();
-        allMovies = allMovies.concat(data.results);
-    }
-
-    const popularityThreshold = 0.5;
-
-    allMovies.sort((a, b) => {
-        const popularityDifference = Math.abs(a.popularity - b.popularity);
-        if (popularityDifference < popularityThreshold) {
-            return b.vote_average - a.vote_average;
-        }
-        return b.popularity - a.popularity;
-    });
-
-    document.getElementById('clear-search-btn').style.display = 'block';
-
-    if (allMovies.length > 0) {
-        showMovies(allMovies.slice(0, numberOfMovies));
-    }
-    else {
-        main.innerHTML = `<p>No movie with the specified search term found. Please try again.</p>`;
-        document.getElementById('clear-search-btn').style.display = 'none';
-    }
-}
-
-document.getElementById('clear-search-btn').addEventListener('click', () => {
-    location.reload();
-});
-
-function clearMovieDetails() {
-    const movieDetailsContainer = document.getElementById('quiz-container');
-    if (movieDetailsContainer) {
-        movieDetailsContainer.innerHTML = '';
-    }
-    document.getElementById('regenerate-questions').style.display = 'none';
-    document.getElementById('submit').style.display = 'none';
-}
-
-function showMovies(movies){
-    main.innerHTML = '';
-    movies.forEach((movie) => {
-        const { id, poster_path, title, vote_average, overview } = movie;
-        const movieE1 = document.createElement('div');
-        const voteAverage = vote_average.toFixed(1);
-        movieE1.classList.add('movie');
-
-        const movieImage = poster_path
-            ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
-            : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
-
-        movieE1.innerHTML = `
-            ${movieImage} 
-            <div class="movie-info" style="cursor: pointer;">
-                <h3>${title}</h3>
-                <span class="${getClassByRate(vote_average)}">${voteAverage}</span>
-            </div>
-            <div class="overview" style="cursor: pointer;">
-                <h4>Movie Overview: </h4>
-                ${overview}
-            </div>`;
-
-        movieE1.addEventListener('click', () => {
-            localStorage.setItem('selectedMovieId', id);
-            window.location.href = 'movie-details.html';
-            updateMovieVisitCount(id, title);
-        });
-
-        main.appendChild(movieE1);
-    });
-}
-
-function calculateMoviesToDisplay() {
-    const screenWidth = window.innerWidth;
-    if (screenWidth <= 689.9) return 10;
-    if (screenWidth <= 1021.24) return 20;
-    if (screenWidth <= 1353.74) return 21;
-    if (screenWidth <= 1684.9) return 20;
-    if (screenWidth <= 2017.49) return 20;
-    if (screenWidth <= 2349.99) return 18;
-    if (screenWidth <= 2681.99) return 21;
-    if (screenWidth <= 3014.49) return 24;
-    if (screenWidth <= 3345.99) return 27;
-    if (screenWidth <= 3677.99) return 20;
-    if (screenWidth <= 4009.99) return 22;
-    if (screenWidth <= 4340.99) return 24;
-    if (screenWidth <= 4673.49) return 26;
-    if (screenWidth <= 5005.99) return 28;
-    if (screenWidth <= 5337.99) return 30;
-    if (screenWidth <= 5669.99) return 32;
-    if (screenWidth <= 6001.99) return 34;
-    if (screenWidth <= 6333.99) return 36;
-    if (screenWidth <= 6665.99) return 38;
-    if (screenWidth <= 6997.99) return 40;
-    if (screenWidth <= 7329.99) return 42;
-    if (screenWidth <= 7661.99) return 44;
-    if (screenWidth <= 7993.99) return 46;
-    if (screenWidth <= 8325.99) return 48;
-    return 20;
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('clear-search-btn').style.display = 'none';
-});
 
 function generateRandomQuestions() {
     const questionsToDisplay = 10;
@@ -260,24 +131,6 @@ function generateRandomQuestions() {
 
         headerElement.style.cursor = 'pointer';
     });
-}
-
-function updateTriviaStats(correctAnswers, totalQuestions) {
-    let triviaStats = JSON.parse(localStorage.getItem('triviaStats')) || { totalCorrect: 0, totalAttempted: 0 };
-
-    triviaStats.totalCorrect += correctAnswers;
-    triviaStats.totalAttempted += totalQuestions;
-
-    localStorage.setItem('triviaStats', JSON.stringify(triviaStats));
-}
-
-function getTriviaAccuracy() {
-    let triviaStats = JSON.parse(localStorage.getItem('triviaStats')) || { totalCorrect: 0, totalAttempted: 0 };
-    if (triviaStats.totalAttempted === 0) {
-        return 'No trivia attempted';
-    }
-    let accuracy = (triviaStats.totalCorrect / triviaStats.totalAttempted) * 100;
-    return `${accuracy.toFixed(1)}% accuracy`;
 }
 
 document.getElementById('regenerate-questions').addEventListener('click', generateRandomQuestions);
@@ -389,7 +242,9 @@ function calculateAndDisplayResults() {
         }
     });
 
-    updateTriviaStats(score, totalQuestions);
+    const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser') || null;
+
+    updateTriviaStats(currentUserEmail, score, totalQuestions);
 
     displayResults(score);
 }
