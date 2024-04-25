@@ -176,9 +176,12 @@ Website: [https://movie-verse.com](https://movie-verse.com)
 Email: [Official MovieVerse Email](mailto:info@movie-verse.com)
 
 ---
+## Special Note
 
 Please also note that the **MovieVerse** is an ever-evolving platform, and more updates are underway. I am continually enhancing the user experience and adding new features to help you navigate the vast sea of cinema with ease and excitement!
 
 Additionally, I'd like to express special gratitude to [The Movie Database (TMDb)](https://www.themoviedb.org/) for providing additional movie data that greatly enriches The MovieVerse experience!
 
 Also, if our service is down sometimes, especially the database overloaded failure during durations of high traffic, please be patient as we are working hard to maintain the platform and ensure a seamless experience for all users. Thank you for your understanding and support! 🎬🍿
+
+--- 
