@@ -43,6 +43,6 @@ If you have any questions or need guidance, don't hesitate to open an issue labe
 
 We're excited to welcome you to the MovieVerse community and look forward to your contributions!
 
-**Author:** Son Nguyen, 2023, [info@movie-verse.com](mailto:info@movie-verse.com).
+**Author:** Son Nguyen, 2024, [info@movie-verse.com](mailto:info@movie-verse.com).
 
 ---
