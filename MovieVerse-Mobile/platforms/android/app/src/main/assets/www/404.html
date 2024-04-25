@@ -36,13 +36,6 @@
     <meta name="twitter:description" content="404 Page Not Found - The page you are looking for does not exist on The MovieVerse. Explore our site to find movies, directors, actors, and more." />
     <meta name="twitter:image" content="https://movie-verse.com/images/image.png"/>
     <meta name="referrer" content="no-referrer-when-downgrade">
-    <script type="text/javascript">
-        (function(c,l,a,r,i,t,y){
-            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        })(window, document, "clarity", "script", "l7gqnssat8");
-    </script>
     <style>
         @font-face {
             font-family: 'Poppins';
@@ -770,8 +763,7 @@
                 const query = searchBar.value.trim();
                 if (query) {
                     if (window.innerWidth > 800) {
-                        myHeading.style.position = 'fixed';
-                        myHeading.style.top = '38px';
+                        myHeading.style.display = 'none';
                         localTime.style.display = 'none';
                         myHeading.style.zIndex = '0.05';
                         searchBar.style.marginTop = '16px';
@@ -779,8 +771,7 @@
                     }
                 }
                 else {
-                    myHeading.style.position = '';
-                    myHeading.style.top = '';
+                    myHeading.style.display = '';
                     localTime.style.display = '';
                     searchBar.style.marginTop = '';
                     searchButton.style.marginTop = '';
@@ -815,17 +806,13 @@
                 toggleButtons();
                 searchInput.focus();
 
-                myHeading.style.position = '';
-                myHeading.style.top = '';
-                localTime.style.position = '';
-                localTime.style.left = '';
-                localTime.style.top = '';
+                myHeading.style.display = '';
+                localTime.style.display = '';
                 searchInput.style.marginTop = '';
                 searchButton.style.marginTop = '';
             });
 
             toggleButtons();
-
             searchInput.addEventListener('input', toggleButtons);
         });
     </script>
@@ -1059,5 +1046,7 @@
             <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
         </a>
     </footer>
+
 </body>
+
 </html>
