@@ -20,6 +20,7 @@ Star this repository to show your support and stay updated on the latest feature
 - [Code of Conduct](#code-of-conduct)
 - [Security Policy](#security-policy)
 - [Contact](#contact)
+
 ## User Interface
 
 <p align="center" style="cursor: pointer">
