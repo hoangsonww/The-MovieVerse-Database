@@ -176,6 +176,7 @@ Website: [https://movie-verse.com](https://movie-verse.com)
 Email: [Official MovieVerse Email](mailto:info@movie-verse.com)
 
 ---
+
 ## Special Note
 
 Please also note that the **MovieVerse** is an ever-evolving platform, and more updates are underway. I am continually enhancing the user experience and adding new features to help you navigate the vast sea of cinema with ease and excitement!
