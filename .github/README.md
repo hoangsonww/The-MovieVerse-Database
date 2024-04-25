@@ -13,6 +13,9 @@ Star this repository to show your support and stay updated on the latest feature
 - [User Interface](#user-interface)
 - [Introduction](#introduction)
 - [Features & Usage](#features--usage)
+- [Project Structure](#project-structure)
+- [Deployment](#deployment)
+- [Technology Stack](#technology-stack)
 - [Contributing](#contributing)
 - [Privacy Policy](#privacy-policy)
 - [Terms of Service](#terms-of-service)
@@ -20,6 +23,7 @@ Star this repository to show your support and stay updated on the latest feature
 - [Code of Conduct](#code-of-conduct)
 - [Security Policy](#security-policy)
 - [Contact](#contact)
+- [Special Note](#special-note)
 
 ## User Interface
 
