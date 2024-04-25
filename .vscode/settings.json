@@ -52,5 +52,8 @@
         "stylelint.vscode-stylelint",
         "ms-vscode.vscode-typescript-next",
         "dsznajder.es7-react-js-snippets"
+    ],
+    "githubPullRequests.ignoredPullRequestBranches": [
+        "main"
     ]
 }

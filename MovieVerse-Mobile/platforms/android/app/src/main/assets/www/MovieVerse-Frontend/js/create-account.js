@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, query, where, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 function isValidPassword(password) {
     const minLength = 8;
@@ -92,6 +92,22 @@ document.getElementById('createAccountForm').addEventListener('submit', async (e
                 email: email,
                 password: password
             });
+
+            const profileRef = doc(db, 'profiles', email); // Using email as document ID for simplicity
+            await setDoc(profileRef, {
+                username: 'N/A',
+                dob: 'N/A',
+                bio: 'N/A',
+                favoriteGenres: ['N/A'],
+                location: 'N/A',
+                favoriteMovie: 'N/A',
+                hobbies: ['N/A'],
+                favoriteActor: 'N/A',
+                favoriteDirector: 'N/A',
+                personalQuote: 'N/A',
+                profileImage: '../../images/user-default.png'
+            });
+
             alert('Account created successfully! Now please sign in on the sign in page to proceed.');
             window.location.href = 'sign-in.html';
         }

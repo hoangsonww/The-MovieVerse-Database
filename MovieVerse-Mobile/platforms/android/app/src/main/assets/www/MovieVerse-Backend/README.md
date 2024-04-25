@@ -18,7 +18,7 @@ The microservices architecture of MovieVerse is designed to segregate the applic
 - **Review Service**: Handles user reviews and ratings.
 - **Recommendation Service**: Provides movie recommendations to users based on their preferences and viewing history.
 - **Search Service**: Offers comprehensive search functionality for movies and users.
-- And more...
+- **And more...**
 
 ## Getting Started
 
@@ -33,6 +33,7 @@ The microservices architecture of MovieVerse is designed to segregate the applic
 - PostgreSQL
 - Flask
 - Django
+- Flake8 for Python linting
 - Celery for asynchronous task queue
 - Redis or RabbitMQ as a broker for Celery
 - BeautifulSoup4 and Requests for web scraping in the Crawler Service
@@ -70,5 +71,6 @@ To run tests for each microservice:
 
 1. Navigate to the service's directory: `cd service_name`
 2. Execute the test command: `npm test` (For Django-based services, use `python manage.py test`)
+3. Review the test results and ensure all functionalities are working as expected.
 
 ---

@@ -128,13 +128,6 @@
 
         gtag('config', 'G-CQKJ67FXZ4');
     </script>
-    <script type="text/javascript">
-        (function(c,l,a,r,i,t,y){
-            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        })(window, document, "clarity", "script", "l7gqnssat8");
-    </script>
     <style>
         #translate_control {
             position: fixed;
@@ -357,6 +350,44 @@
     </div>
 
     <script>
+        function handleSignInOut() {
+            const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
+
+            if (isSignedIn) {
+                localStorage.setItem('isSignedIn', JSON.stringify(false));
+                alert('You have been signed out.');
+            }
+            else {
+                window.location.href = 'sign-in.html';
+                return;
+            }
+
+            updateSignInButtonState();
+        }
+
+        function updateSignInButtonState() {
+            const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
+            const signInText = document.getElementById('signInOutText');
+            const signInIcon = document.getElementById('signInIcon');
+            const signOutIcon = document.getElementById('signOutIcon');
+
+            if (isSignedIn) {
+                signInText.textContent = 'Sign Out';
+                signInIcon.style.display = 'none';
+                signOutIcon.style.display = 'inline-block';
+            }
+            else {
+                signInText.textContent = 'Sign In';
+                signInIcon.style.display = 'inline-block';
+                signOutIcon.style.display = 'none';
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            updateSignInButtonState();
+            document.getElementById('googleSignInBtn').addEventListener('click', handleSignInOut);
+        });
+        
         document.addEventListener('DOMContentLoaded', function() {
             const searchBar = document.getElementById('search');
             const searchButton = document.getElementById('button-search');
@@ -367,8 +398,7 @@
                 const query = searchBar.value.trim();
                 if (query) {
                     if (window.innerWidth > 800) {
-                        myHeading.style.position = 'fixed';
-                        myHeading.style.top = '28px';
+                        myHeading.style.display = 'none';
                         localTime.style.display = 'none';
                         myHeading.style.zIndex = '0.05';
                         searchBar.style.marginTop = '16px';
@@ -376,9 +406,7 @@
                     }
                 }
                 else {
-                    myHeading.style.position = '';
-                    myHeading.style.top = '';
-                    myHeading.style.zIndex = '';
+                    myHeading.style.display = '';
                     localTime.style.display = '';
                     searchBar.style.marginTop = '';
                     searchButton.style.marginTop = '';
@@ -674,45 +702,6 @@
     </script>
 
     <script>
-        function handleSignInOut() {
-            const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
-
-            if (isSignedIn) {
-                localStorage.setItem('isSignedIn', JSON.stringify(false));
-                alert('You have been signed out.');
-            }
-            else {
-                window.location.href = 'sign-in.html';
-                return;
-            }
-
-            updateSignInButtonState();
-        }
-
-        function updateSignInButtonState() {
-            const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
-
-            const signInText = document.getElementById('signInOutText');
-            const signInIcon = document.getElementById('signInIcon');
-            const signOutIcon = document.getElementById('signOutIcon');
-
-            if (isSignedIn) {
-                signInText.textContent = 'Sign Out';
-                signInIcon.style.display = 'none';
-                signOutIcon.style.display = 'inline-block';
-            }
-            else {
-                signInText.textContent = 'Sign In';
-                signInIcon.style.display = 'inline-block';
-                signOutIcon.style.display = 'none';
-            }
-        }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            updateSignInButtonState();
-            document.getElementById('googleSignInBtn').addEventListener('click', handleSignInOut);
-        });
-
         document.getElementById('settings-btn').addEventListener('click', () => {
             window.location.href = 'settings.html';
         });

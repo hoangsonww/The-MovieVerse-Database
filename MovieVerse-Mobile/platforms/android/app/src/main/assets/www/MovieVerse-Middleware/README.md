@@ -2,7 +2,7 @@
 
 ## Overview
 
-Welcome to the Middleware directory of the MovieVerse project! This directory contains crucial middleware components that handle various aspects of the MovieVerse application. These components include authentication, logging, error handling, and data processing for the application's backend.
+Welcome to the `MovieVerse-Middleware` directory of the MovieVerse project! This directory contains crucial middleware components that handle various aspects of the MovieVerse application. These components include authentication, logging, error handling, and data processing for the application's backend.
 
 ## Directory Contents
 

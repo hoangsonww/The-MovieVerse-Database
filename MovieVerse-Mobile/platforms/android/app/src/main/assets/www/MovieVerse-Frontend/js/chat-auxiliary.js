@@ -8,8 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const query = searchBar.value.trim();
         if (query) {
             if (window.innerWidth > 800) {
-                myHeading.style.position = 'fixed';
-                myHeading.style.top = '28px';
+                myHeading.style.display = 'none';
                 localTime.style.display = 'none';
                 myHeading.style.zIndex = '0.05';
                 searchBar.style.marginTop = '16px';
@@ -17,8 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
         else {
-            myHeading.style.position = '';
-            myHeading.style.top = '';
+            myHeading.style.display = '';
             myHeading.style.zIndex = '';
             localTime.style.display = '';
             searchBar.style.marginTop = '';
