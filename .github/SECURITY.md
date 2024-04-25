@@ -65,6 +65,6 @@ Security is an ongoing process. The MovieVerse App is committed to continuously 
 
 ## Contact Information
 
-
+For any queries or concerns regarding security, please contact us at [info@movie-verse.com](mailto:info@movie-verse.com).
 
 ---
