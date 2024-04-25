@@ -13,7 +13,7 @@ Star this repository to show your support and stay updated on the latest feature
 - [User Interface](#user-interface)
 - [Introduction](#introduction)
 - [Features & Usage](#features--usage)
-- [Contributing](#contributing)
+- [Project Structure](#project-structure)
 - [Privacy Policy](#privacy-policy)
 - [Terms of Service](#terms-of-service)
 - [License](#license)
