@@ -63,4 +63,8 @@ We encourage responsible disclosure of any security vulnerabilities. Please repo
 ## Continuous Improvement
 Security is an ongoing process. The MovieVerse App is committed to continuously improving the security posture of the application by staying up-to-date with the latest security trends, threats, and mitigation techniques.
 
+## Contact Information
+
+
+
 ---
