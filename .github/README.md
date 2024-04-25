@@ -186,3 +186,5 @@ Additionally, I'd like to express special gratitude to [The Movie Database (TMDb
 Also, if our service is down sometimes, especially the database overloaded failure during durations of high traffic, please be patient as we are working hard to maintain the platform and ensure a seamless experience for all users. Thank you for your understanding and support! 🎬🍿
 
 ---
+
+Created with ❤️ in 2024 by [Son Nguyen](https://github.com/hoangsonww). All rights reserved.
