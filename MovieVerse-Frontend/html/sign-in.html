@@ -87,6 +87,7 @@
 
         .sign-in-form-container input[type="email"],
         .sign-in-form-container input[type="password"],
+        .sign-in-form-container input[type="text"],
         .sign-in-form-container button {
             width: 90%;
             padding: 10px;
@@ -325,6 +326,9 @@
             <p>Sign in to save your stats, watchlists, get personalized movie recommendation, join our community, and more!</p>
             <input type="email" id="signInEmail" placeholder="Email" required>
             <input type="password" id="signInPassword" placeholder="Password" required>
+            <label style="margin-top: 10px; margin-bottom: 10px">
+                <input type="checkbox" id="togglePassword"> Show Password
+            </label>
             <button type="submit">Sign In</button>
             <button type="button" id="createAccountBtn">Create an Account</button>
             <p>Forgot password? Click <a style="text-decoration: underline" id="githubLink1" href="reset-password.html">below</a> to reset it.</p>
@@ -351,6 +355,16 @@
     </script>
 
     <script>
+        document.getElementById('togglePassword').addEventListener('change', function() {
+            const passwordInput = document.getElementById('signInPassword');
+            if (this.checked) {
+                passwordInput.type = 'text';
+            }
+            else {
+                passwordInput.type = 'password';
+            }
+        });
+
         document.addEventListener('DOMContentLoaded', function() {
             const searchBar = document.getElementById('search');
             const searchButton = document.getElementById('button-search');
