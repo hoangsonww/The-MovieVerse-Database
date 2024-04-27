@@ -260,9 +260,9 @@
         <div class="center-container">
             <div style="font-weight: bold; font-size: 27px" id="select-text">Select a Period</div>
             <div class="year-input-container">
-                <input type="number" id="start-year" class="year-input" title="Enter any year from 1900 until now" placeholder="Start Year" min="1900" max="${new Date().getFullYear()}" style="font: inherit">
-                <input type="number" id="end-year" class="year-input" placeholder="End Year" title="Enter any year from 1900 until now" min="1900" max="${new Date().getFullYear()}" style="font: inherit">
-                <button id="load-movies" onclick="updateMovies()" title="Press Enter or Click This Button to Get Movies in the Chosen Period!">Get Movies in This Period</button>
+                <input type="number" id="start-year" class="year-input" title="Enter any year from 1900 until now" placeholder="Start Year" min="1900" max="${new Date().getFullYear()}" style="font: inherit; margin-bottom: 20px">
+                <input type="number" id="end-year" class="year-input" placeholder="End Year" title="Enter any year from 1900 until now" min="1900" max="${new Date().getFullYear()}" style="font: inherit; margin-bottom: 20px">
+                <button id="load-movies" onclick="updateMovies()" title="Get Movies in the Chosen Period!">Get Movies in This Period</button>
             </div>
             <button id="clear-search-btn" style="display: none; color: white">Clear Search Results</button>
         </div>
