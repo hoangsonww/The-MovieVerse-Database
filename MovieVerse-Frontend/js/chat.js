@@ -21,15 +21,21 @@ document.addEventListener('DOMContentLoaded', () => {
         signInMessage.style.marginBottom = '20px';
         signInMessage.style.backgroundColor = 'rgba(0, 0, 0, 0.6)';
         document.getElementById('footer').style.display = 'none';
-        document.body.appendChild(signInMessage);
-    }
-    else {
+
+        const adContainer2 = document.getElementById('ad-container2');
+        if (adContainer2) {
+            document.body.insertBefore(signInMessage, adContainer2);
+        } else {
+            document.body.appendChild(signInMessage);
+        }
+    } else {
         mainElement.style.display = '';
     }
 
     loadUserList();
     setupSearchListeners();
 });
+
 
 const firebaseConfig = {
     apiKey: atob("QUl6YVN5REw2a1FuU2ZVZDhVdDhIRnJwS3VpdnF6MXhkWG03aw=="),
