@@ -279,15 +279,23 @@ async function performSearch(searchText, isNewSearch = false) {
             lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
         }
 
-        querySnapshot.forEach((doc) => {
+        for (const doc of querySnapshot.docs) {
             const user = doc.data();
             const userDiv = document.createElement('div');
             userDiv.className = 'user-search-result';
             userDiv.style.cursor = 'pointer';
             userDiv.addEventListener('click', () => loadMessages(user.email));
 
+            const profileQuery = query(collection(db, 'profiles'), where('__name__', '==', user.email));
+            const profileSnapshot = await getDocs(profileQuery);
+            let imageUrl = '../../images/user-default.png';
+            if (!profileSnapshot.empty) {
+                const profileData = profileSnapshot.docs[0].data();
+                imageUrl = profileData.profileImage || imageUrl;
+            }
+
             const img = document.createElement('img');
-            img.src = user.profileImage || '../../images/user-default.png';
+            img.src = imageUrl;
             img.style.width = '33%';
             img.style.borderRadius = '8px';
             userDiv.appendChild(img);
@@ -299,7 +307,7 @@ async function performSearch(searchText, isNewSearch = false) {
             userDiv.appendChild(textDiv);
 
             searchUserResults.appendChild(userDiv);
-        });
+        }
 
         searchUserResults.style.display = 'block';
         hideSpinner();
@@ -308,6 +316,7 @@ async function performSearch(searchText, isNewSearch = false) {
             const loadMoreButton = document.createElement('button');
             loadMoreButton.textContent = 'Load More';
             loadMoreButton.id = 'loadMoreButton';
+            loadMoreButton.style.marginBottom = '20px';
             loadMoreButton.addEventListener('click', () => performSearch(searchText));
             searchUserResults.appendChild(loadMoreButton);
 
