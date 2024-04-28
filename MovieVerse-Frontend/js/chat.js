@@ -392,7 +392,7 @@ async function loadUserList() {
         users = users.slice(0, userLimit);
 
         userListDiv.innerHTML = '';
-        users.forEach(user => {
+        for (const user of users) {
             const userElement = document.createElement('div');
             userElement.classList.add('user');
             userElement.setAttribute('data-email', user.email);
@@ -409,8 +409,16 @@ async function loadUserList() {
                 previouslySelectedUserElement = userElement;
             };
 
+            const profileQuery = query(collection(db, 'profiles'), where('__name__', '==', user.email));
+            const profileSnapshot = await getDocs(profileQuery);
+            let imageUrl = '../../images/user-default.png';
+            if (!profileSnapshot.empty) {
+                const profileData = profileSnapshot.docs[0].data();
+                imageUrl = profileData.profileImage || imageUrl;
+            }
+
             const img = document.createElement('img');
-            img.src = user.profileImage || '../../images/user-default.png';
+            img.src = imageUrl;
             img.style.width = '50px';
             img.style.borderRadius = '25px';
             img.style.marginRight = '10px';
@@ -421,7 +429,7 @@ async function loadUserList() {
             userElement.appendChild(emailDiv);
 
             userListDiv.appendChild(userElement);
-        });
+        }
 
         hideSpinner();
     }
