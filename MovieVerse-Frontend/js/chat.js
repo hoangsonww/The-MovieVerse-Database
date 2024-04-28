@@ -25,7 +25,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const adContainer2 = document.getElementById('ad-container2');
         if (adContainer2) {
             document.body.insertBefore(signInMessage, adContainer2);
-        } else {
+        }
+        else {
             document.body.appendChild(signInMessage);
         }
     } else {
