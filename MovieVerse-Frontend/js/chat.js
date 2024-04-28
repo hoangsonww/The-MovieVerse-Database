@@ -75,13 +75,13 @@ sendButton.addEventListener('click', async () => {
             const userElement = document.querySelector(`.user[data-email="${selectedUserEmail}"]`);
 
             if (!userElement) {
-                const newUserElement = createUserElement(selectedUserEmail);
+                const newUserElement = await createUserElement(selectedUserEmail);  // Note the await keyword here
                 userListDiv.prepend(newUserElement);
-
-                selectUser(newUserElement);
+                selectUser(newUserElement);  // Assuming selectUser is a function to handle selection
             }
             else {
                 userListDiv.prepend(userElement);
+                selectUser(userElement);  // Move selection logic out to be consistent
             }
         }
         catch (error) {
@@ -90,14 +90,24 @@ sendButton.addEventListener('click', async () => {
     }
 });
 
-function createUserElement(email) {
+
+async function createUserElement(email) {
     const userElement = document.createElement('div');
     userElement.classList.add('user');
     userElement.setAttribute('data-email', email);
     userElement.addEventListener('click', () => loadMessages(email));
 
+    // Fetch the profile image from Firestore
+    const profileQuery = query(collection(db, 'profiles'), where('__name__', '==', email));
+    const profileSnapshot = await getDocs(profileQuery);
+    let imageUrl = '../../images/user-default.png'; // Default image
+    if (!profileSnapshot.empty) {
+        const profileData = profileSnapshot.docs[0].data();
+        imageUrl = profileData.profileImage || imageUrl;
+    }
+
     const img = document.createElement('img');
-    img.src = '../../images/user-default.png';
+    img.src = imageUrl;
     img.style.width = '50px';
     img.style.borderRadius = '25px';
     img.style.marginRight = '10px';
