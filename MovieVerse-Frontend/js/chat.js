@@ -29,7 +29,8 @@ document.addEventListener('DOMContentLoaded', () => {
         else {
             document.body.appendChild(signInMessage);
         }
-    } else {
+    }
+    else {
         mainElement.style.display = '';
     }
 
