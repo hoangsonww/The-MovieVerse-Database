@@ -8,14 +8,14 @@ commentForm.addEventListener("submit", async (e) => {
     const userName = document.getElementById("user-name").value;
     const userComment = document.getElementById("user-comment").value;
     const commentDate = new Date();
-    const movieId = localStorage.getItem("selectedMovieId");
+    const tvSeriesId = localStorage.getItem("selectedTvSeriesId");
 
     try {
         await addDoc(collection(db, "comments"), {
             userName,
             userComment,
             commentDate,
-            movieId
+            tvSeriesId
         });
         commentForm.reset();
         fetchComments();
@@ -59,9 +59,9 @@ async function fetchComments() {
         const commentsContainer = document.getElementById("comments-container");
         commentsContainer.innerHTML = '';
         commentsContainer.style.maxWidth = "100%";
-        const movieId = localStorage.getItem("selectedMovieId");
+        const movieId = localStorage.getItem("selectedTvSeriesId");
 
-        const q = query(collection(db, "comments"), where("movieId", "==", movieId), orderBy("commentDate", "desc"));
+        const q = query(collection(db, "comments"), where("tvSeriesId", "==", movieId), orderBy("commentDate", "desc"));
         const querySnapshot = await getDocs(q);
 
         totalComments = querySnapshot.size;

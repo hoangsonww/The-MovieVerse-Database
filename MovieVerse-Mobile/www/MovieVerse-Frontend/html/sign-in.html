@@ -70,7 +70,7 @@
             max-width: 400px;
             margin: 100px auto;
             padding: 20px;
-            background-color: rgba(211, 211, 211, 0.5);
+            background-color: rgba(211, 211, 211, 0.75);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
             text-align: center;
@@ -87,6 +87,7 @@
 
         .sign-in-form-container input[type="email"],
         .sign-in-form-container input[type="password"],
+        .sign-in-form-container input[type="text"],
         .sign-in-form-container button {
             width: 90%;
             padding: 10px;
@@ -325,6 +326,9 @@
             <p>Sign in to save your stats, watchlists, get personalized movie recommendation, join our community, and more!</p>
             <input type="email" id="signInEmail" placeholder="Email" required>
             <input type="password" id="signInPassword" placeholder="Password" required>
+            <label style="margin-top: 10px; margin-bottom: 10px">
+                <input type="checkbox" id="togglePassword"> Show Password
+            </label>
             <button type="submit">Sign In</button>
             <button type="button" id="createAccountBtn">Create an Account</button>
             <p>Forgot password? Click <a style="text-decoration: underline" id="githubLink1" href="reset-password.html">below</a> to reset it.</p>
@@ -336,7 +340,31 @@
         <div class="spinner"></div>
     </div>
 
+    <div id="ad-container2" style="text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px)" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
+        <p style="margin: 0;">Advertisement</p>
+        <ins class="adsbygoogle"
+             style="display: block; width: 100%;"
+             data-ad-client="ca-pub-6608388491200814"
+             data-ad-slot="4832732030"
+             data-ad-format="auto"></ins>
+        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="/MovieVerse-Frontend/html/feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>
+    </div>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+
+    <script>
+        document.getElementById('togglePassword').addEventListener('change', function() {
+            const passwordInput = document.getElementById('signInPassword');
+            if (this.checked) {
+                passwordInput.type = 'text';
+            }
+            else {
+                passwordInput.type = 'password';
+            }
+        });
+
         document.addEventListener('DOMContentLoaded', function() {
             const searchBar = document.getElementById('search');
             const searchButton = document.getElementById('button-search');

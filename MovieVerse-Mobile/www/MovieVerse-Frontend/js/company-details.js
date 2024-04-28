@@ -372,8 +372,8 @@ async function fetchCompanyDetails(companyId) {
     try {
         const response = await fetch(url);
         const company = await response.json();
-
         const logoImg = document.getElementById('company-logo');
+
         if (company.logo_path) {
             logoImg.src = `https://image.tmdb.org/t/p/w500${company.logo_path}`;
         }

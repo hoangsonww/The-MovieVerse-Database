@@ -3035,7 +3035,7 @@ canvas {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     padding: 20px;
     width: calc(100% - 24px);
-    border-radius: 8px;
+    border-radius: 16px;
     margin-top: 50px;
     text-align: center;
 }
