@@ -159,16 +159,15 @@ async function performSearch(searchText) {
     showSpinner();
 
     try {
-        // Prepare the query to search for usernames that contain the searchText
         const userQuery = query(collection(db, 'profiles'), where('username', '>=', searchText), where('username', '<=', searchText + '\uf8ff'));
-
         const querySnapshot = await getDocs(userQuery);
 
         searchUserResults.innerHTML = '';
         if (querySnapshot.empty) {
             searchUserResults.innerHTML = `<div style="text-align: center; font-weight: bold">No User with Username "${searchText}" found</div>`;
             searchUserResults.style.display = 'block';
-        } else {
+        }
+        else {
             searchUserResults.style.display = 'block';
             querySnapshot.forEach((doc) => {
                 const user = doc.data();
@@ -186,7 +185,7 @@ async function performSearch(searchText) {
                 const textDiv = document.createElement('div');
                 textDiv.style.width = '67%';
                 textDiv.style.textAlign = 'left';
-                textDiv.innerHTML = `<strong>${user.username}</strong><p style="margin-top: 5px">${user.bio || ''}</p>`;
+                textDiv.innerHTML = `<strong style="font-size: 16px">${user.username}</strong><p style="margin-top: 5px; text-align: left; font-size: 16px">Bio: ${user.bio || 'Not Set'}</p>`;
                 userDiv.appendChild(textDiv);
 
                 searchUserResults.appendChild(userDiv);
