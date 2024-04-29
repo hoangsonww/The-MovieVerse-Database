@@ -203,7 +203,7 @@ async function performSearch(searchText) {
 }
 
 document.getElementById('container1').addEventListener('click', async () => {
-    const userEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
+    const userEmail = localStorage.getItem('currentlyViewingProfile');
 
     if (!userEmail) {
         console.error('No user email found');
@@ -229,7 +229,7 @@ document.getElementById('container1').addEventListener('click', async () => {
 });
 
 document.getElementById('container2').addEventListener('click', async () => {
-    const userEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
+    const userEmail = localStorage.getItem('currentlyViewingProfile');
 
     if (!userEmail) {
         console.error('No user email found');
@@ -340,6 +340,8 @@ async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMo
         if (triviaStats.totalAttempted > 0) {
             averageTriviaScore = (triviaStats.totalCorrect / triviaStats.totalAttempted) * 100;
         }
+
+        localStorage.setItem('currentlyViewingProfile', userEmail);
 
         updateProgressCircles(averageRating, averageTriviaScore);
 
