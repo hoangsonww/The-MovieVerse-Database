@@ -919,6 +919,15 @@
                 sideNav.style.left = '-250px';
             }
         });
+
+        document.addEventListener('click', function(event) {
+            const sideNav = document.getElementById('side-nav');
+            const navToggle = document.getElementById('nav-toggle');
+            if (!sideNav.contains(event.target) && !navToggle.contains(event.target) && sideNav.classList.contains('manual-toggle')) {
+                sideNav.classList.remove('manual-toggle');
+                adjustNavBar();
+            }
+        });
     </script>
 
     <div id="myModal" class="modal-overlay">
