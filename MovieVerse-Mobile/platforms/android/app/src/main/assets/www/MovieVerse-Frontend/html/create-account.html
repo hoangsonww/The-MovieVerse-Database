@@ -70,7 +70,7 @@
             max-width: 400px;
             margin: 100px auto;
             padding: 20px;
-            background-color: rgba(211, 211, 211, 0.5);
+            background-color: rgba(211, 211, 211, 0.75);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
             text-align: center;
@@ -79,6 +79,7 @@
 
         .account-creation-form-container input[type="email"],
         .account-creation-form-container input[type="password"],
+        .account-creation-form-container input[type="text"],
         .account-creation-form-container button {
             width: 90%;
             padding: 10px;
@@ -323,6 +324,9 @@
             <input type="email" id="newEmail" placeholder="Email" required>
             <input type="password" id="newPassword" placeholder="Password" required>
             <input type="password" id="confirmPassword" placeholder="Re-type Password" required>
+            <label style="margin-top: 10px; margin-bottom: 10px">
+                <input type="checkbox" id="togglePassword"> Show Password
+            </label>
             <button type="submit">Create Account</button>
             <button type="button" id="back-to-sign-in" onclick="window.location.href='sign-in.html'">Back to Sign In</button>
         </form>
@@ -368,6 +372,20 @@
     </div>
 
     <script>
+        document.getElementById('togglePassword').addEventListener('change', function() {
+            const passwordInput = document.getElementById('newPassword');
+            const confirmPasswordInput = document.getElementById('confirmPassword');
+
+            if (this.checked) {
+                passwordInput.type = 'text';
+                confirmPasswordInput.type = 'text';
+            }
+            else {
+                passwordInput.type = 'password';
+                confirmPasswordInput.type = 'password';
+            }
+        });
+
         document.addEventListener('DOMContentLoaded', function() {
             const searchBar = document.getElementById('search');
             const searchButton = document.getElementById('button-search');

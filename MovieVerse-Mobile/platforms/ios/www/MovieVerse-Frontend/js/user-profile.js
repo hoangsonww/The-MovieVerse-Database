@@ -69,19 +69,20 @@ function updateProgressCircles(movieRating, triviaScore) {
 function setProgress(circle, text, percent) {
     const radius = circle.r.baseVal.value;
     const circumference = radius * 2 * Math.PI;
+
+    circle.style.transition = 'none';
     circle.style.strokeDasharray = `${circumference} ${circumference}`;
     circle.style.strokeDashoffset = circumference;
+    circle.getBoundingClientRect();
 
     setTimeout(() => {
         const offset = circumference - (percent / 100) * circumference;
-        circle.style.strokeDashoffset = circumference;
-        circle.getBoundingClientRect();
         circle.style.transition = 'stroke-dashoffset 0.6s ease-out, stroke 0.6s ease';
         circle.style.strokeDashoffset = offset;
         circle.style.setProperty('--progress-color', percent > 50 ? '#4CAF50' : '#2196F3');
-        text.style.opacity = 1;
         text.textContent = `${Math.round(percent)}%`;
-    }, 100);
+        text.style.opacity = 1;
+    }, 10);
 }
 
 function handleProfileDisplay() {
@@ -159,16 +160,15 @@ async function performSearch(searchText) {
     showSpinner();
 
     try {
-        // Prepare the query to search for usernames that contain the searchText
         const userQuery = query(collection(db, 'profiles'), where('username', '>=', searchText), where('username', '<=', searchText + '\uf8ff'));
-
         const querySnapshot = await getDocs(userQuery);
 
         searchUserResults.innerHTML = '';
         if (querySnapshot.empty) {
             searchUserResults.innerHTML = `<div style="text-align: center; font-weight: bold">No User with Username "${searchText}" found</div>`;
             searchUserResults.style.display = 'block';
-        } else {
+        }
+        else {
             searchUserResults.style.display = 'block';
             querySnapshot.forEach((doc) => {
                 const user = doc.data();
@@ -186,7 +186,7 @@ async function performSearch(searchText) {
                 const textDiv = document.createElement('div');
                 textDiv.style.width = '67%';
                 textDiv.style.textAlign = 'left';
-                textDiv.innerHTML = `<strong>${user.username}</strong><p style="margin-top: 5px">${user.bio || ''}</p>`;
+                textDiv.innerHTML = `<strong style="font-size: 16px">${user.username}</strong><p style="margin-top: 5px; text-align: left; font-size: 16px">Bio: ${user.bio || 'Not Set'}</p>`;
                 userDiv.appendChild(textDiv);
 
                 searchUserResults.appendChild(userDiv);
@@ -201,6 +201,60 @@ async function performSearch(searchText) {
         hideSpinner();
     }
 }
+
+document.getElementById('container1').addEventListener('click', async () => {
+    const userEmail = localStorage.getItem('currentlyViewingProfile');
+
+    if (!userEmail) {
+        console.error('No user email found');
+        return;
+    }
+
+    try {
+        const rating = await getAverageMovieRating(userEmail);
+        const convertRatingToPercent = (rating / 5) * 100;
+        const averageRating = convertRatingToPercent.toFixed(1);
+
+        const triviaStats = await getTriviaStats(userEmail);
+
+        let averageTriviaScore = 0;
+        if (triviaStats.totalAttempted > 0) {
+            averageTriviaScore = (triviaStats.totalCorrect / triviaStats.totalAttempted) * 100;
+        }
+
+        updateProgressCircles(averageRating, averageTriviaScore, 'container1');
+    }
+    catch (error) {
+        console.error('Error updating progress circles:', error);
+    }
+});
+
+document.getElementById('container2').addEventListener('click', async () => {
+    const userEmail = localStorage.getItem('currentlyViewingProfile');
+
+    if (!userEmail) {
+        console.error('No user email found');
+        return;
+    }
+
+    try {
+        const rating = await getAverageMovieRating(userEmail);
+        const convertRatingToPercent = (rating / 5) * 100;
+        const averageRating = convertRatingToPercent.toFixed(1);
+
+        const triviaStats = await getTriviaStats(userEmail);
+
+        let averageTriviaScore = 0;
+        if (triviaStats.totalAttempted > 0) {
+            averageTriviaScore = (triviaStats.totalCorrect / triviaStats.totalAttempted) * 100;
+        }
+
+        updateProgressCircles(averageRating, averageTriviaScore, 'container2');
+    }
+    catch (error) {
+        console.error('Error updating progress circles:', error);
+    }
+});
 
 async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMovieVerseUser')) {
     try {
@@ -288,6 +342,8 @@ async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMo
         if (triviaStats.totalAttempted > 0) {
             averageTriviaScore = (triviaStats.totalCorrect / triviaStats.totalAttempted) * 100;
         }
+
+        localStorage.setItem('currentlyViewingProfile', userEmail);
 
         updateProgressCircles(averageRating, averageTriviaScore);
 

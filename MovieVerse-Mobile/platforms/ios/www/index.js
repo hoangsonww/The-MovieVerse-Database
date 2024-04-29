@@ -769,6 +769,15 @@ document.addEventListener('mousemove', function(event) {
     }
 });
 
+document.addEventListener('click', function(event) {
+    const sideNav = document.getElementById('side-nav');
+    const navToggle = document.getElementById('nav-toggle');
+    if (!sideNav.contains(event.target) && !navToggle.contains(event.target) && sideNav.classList.contains('manual-toggle')) {
+        sideNav.classList.remove('manual-toggle');
+        adjustNavBar();
+    }
+});
+
 document.getElementById('side-nav').addEventListener('mouseleave', function() {
     const sideNav = document.getElementById('side-nav');
     if (!sideNav.classList.contains('manual-toggle')) {
@@ -891,6 +900,7 @@ function showMoviesDirectorSpotlight(movies) {
 
 function handleSignInOut() {
     const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
+
     if (isSignedIn) {
         localStorage.setItem('isSignedIn', JSON.stringify(false));
         alert('You have been signed out.');
