@@ -1162,7 +1162,9 @@ async function fetchMovieDetails(movieId) {
     try {
         const response = await fetch(url);
         const movie = await response.json();
-        return createMovieCard(movie);
+        const movieCard = createMovieCard(movie);
+        movieCard.setAttribute('data-movie-title', movie.title);
+        return movieCard;
     }
     catch (error) {
         const errorDiv = document.createElement('div');
@@ -1397,7 +1399,8 @@ async function loadWatchLists() {
 
             favoritesDiv.appendChild(moviesContainer);
             displaySection.appendChild(favoritesDiv);
-        } else {
+        }
+        else {
             const favoritesDiv = document.createElement('div');
             favoritesDiv.className = 'watchlist';
             favoritesDiv.id = 'favorites-watchlist';
@@ -1489,7 +1492,8 @@ async function loadWatchLists() {
 
                 favoritesDiv.appendChild(moviesContainer);
                 displaySection.appendChild(favoritesDiv);
-            } else {
+            }
+            else {
                 const favoritesDiv = document.createElement('div');
                 favoritesDiv.className = 'watchlist';
                 favoritesDiv.id = 'favorites-watchlist';
@@ -1538,12 +1542,14 @@ async function fetchTVSeriesDetails(tvSeriesId) {
 
     try {
         const response = await fetch(url);
-        const movie = await response.json();
-        return createTVSeriesCard(movie);
+        const series = await response.json();
+        const seriesCard = createTVSeriesCard(series);
+        seriesCard.setAttribute('data-series-title', series.name);
+        return seriesCard;
     }
     catch (error) {
         const errorDiv = document.createElement('div');
-        errorDiv.textContent = 'Error loading movie details. Please try refreshing the page.';
+        errorDiv.textContent = 'Error loading series details. Please try refreshing the page.';
         return errorDiv;
     }
 }
@@ -1621,8 +1627,7 @@ function addWatchListControls(watchlistDiv, watchlistId) {
         pinBtn.title = isPinned ? 'Unpin this watch list' : 'Pin this watch list';
         if (isPinned) {
             pinBtn.classList.add('pinned');
-        }
-        else {
+        } else {
             pinBtn.classList.remove('pinned');
         }
         pinBtn.onclick = function() {
@@ -1640,10 +1645,63 @@ function addWatchListControls(watchlistDiv, watchlistId) {
     moveDownBtn.onclick = function() { moveWatchList(watchlistDiv, false); };
     moveDownBtn.title = 'Move this watch list down';
 
+    const shareBtn = document.createElement('button');
+    shareBtn.innerHTML = '<i class="fas fa-share-alt"></i>';
+    shareBtn.title = 'Share this watch list';
+    shareBtn.onclick = function() { shareWatchList(watchlistDiv); };
+
     controlContainer.appendChild(pinBtn);
     controlContainer.appendChild(moveUpBtn);
     controlContainer.appendChild(moveDownBtn);
+    controlContainer.appendChild(shareBtn);
     watchlistDiv.appendChild(controlContainer);
+}
+
+function shareWatchList(watchlistDiv) {
+    const watchlistTitle = watchlistDiv.querySelector('.watchlist-title').textContent;
+    let itemsToShare = `Explore my curated watchlist, "${watchlistTitle}", which contains:\n`;
+    let finalLine = 'Happy Watching! 🍿🎬🎥\n\n'
+
+    const movieCards = watchlistDiv.querySelectorAll('[data-movie-title]');
+    const tvSeriesCards = watchlistDiv.querySelectorAll('[data-series-title]');
+
+    movieCards.forEach(movieCard => {
+        itemsToShare += `- ${movieCard.getAttribute('data-movie-title')}\n`;
+    });
+
+    tvSeriesCards.forEach(seriesCard => {
+        itemsToShare += `- ${seriesCard.getAttribute('data-series-title')}\n`;
+    });
+
+    itemsToShare += finalLine;
+
+    if (navigator.share) {
+        navigator.share({
+            title: `Share Watchlist: ${watchlistTitle}`,
+            text: itemsToShare
+        }).catch(err => {
+            console.error('Error sharing the watchlist:', err);
+        });
+    }
+    else {
+        downloadWatchlist(watchlistTitle, itemsToShare);
+    }
+}
+
+function downloadWatchlist(title, content) {
+    const encodedContent = encodeURIComponent(content);
+    const dataUri = `data:text/plain;charset=utf-8,${encodedContent}`;
+
+    const element = document.createElement('a');
+    element.setAttribute('href', dataUri);
+    element.setAttribute('download', `${title.replace(/[\s]+/g, '_')}.txt`);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
 }
 
 function createWatchListDiv(watchlist) {
