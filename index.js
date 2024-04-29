@@ -900,6 +900,7 @@ function showMoviesDirectorSpotlight(movies) {
 
 function handleSignInOut() {
     const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
+
     if (isSignedIn) {
         localStorage.setItem('isSignedIn', JSON.stringify(false));
         alert('You have been signed out.');
