@@ -223,7 +223,8 @@ document.getElementById('container1').addEventListener('click', async () => {
         }
 
         updateProgressCircles(averageRating, averageTriviaScore, 'container1');
-    } catch (error) {
+    }
+    catch (error) {
         console.error('Error updating progress circles:', error);
     }
 });
@@ -249,7 +250,8 @@ document.getElementById('container2').addEventListener('click', async () => {
         }
 
         updateProgressCircles(averageRating, averageTriviaScore, 'container2');
-    } catch (error) {
+    }
+    catch (error) {
         console.error('Error updating progress circles:', error);
     }
 });
