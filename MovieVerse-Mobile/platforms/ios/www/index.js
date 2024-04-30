@@ -576,6 +576,7 @@ async function getMostVisitedMovieGenre() {
     const movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
     let mostVisitedGenre = null;
     let maxVisits = 0;
+
     for (const movieId in movieVisits) {
         const visits = movieVisits[movieId];
         if (visits.count > maxVisits) {
@@ -590,6 +591,7 @@ async function fetchGenreForMovie(movieId) {
     const movieDetailsUrl = `https://${getMovieVerseData()}/3/movie/${movieId}?${generateMovieNames()}${getMovieCode()}`;
     const response = await fetch(movieDetailsUrl);
     const movieDetails = await response.json();
+
     return movieDetails.genres[0] ? movieDetails.genres[0].id : null;
 }
 
@@ -624,10 +626,12 @@ function getMostVisitedDirector() {
 
 function getTriviaAccuracy() {
     let triviaStats = JSON.parse(localStorage.getItem('triviaStats')) || { totalCorrect: 0, totalAttempted: 0 };
+
     if (triviaStats.totalAttempted === 0) {
         return 'No trivia attempted';
     }
     let accuracy = (triviaStats.totalCorrect / triviaStats.totalAttempted) * 100;
+
     return `${accuracy.toFixed(1)}% accuracy`;
 }
 
@@ -686,6 +690,7 @@ async function showMovieOfTheDay() {
 function fallbackMovieSelection() {
     const fallbackMovies = [432413, 299534, 1726, 562, 118340, 455207, 493922, 447332, 22970, 530385, 27205, 264660, 120467, 603, 577922, 76341, 539, 419704, 515001, 118340, 424, 98];
     const randomFallbackMovie = fallbackMovies[Math.floor(Math.random() * fallbackMovies.length)];
+
     localStorage.setItem('selectedMovieId', randomFallbackMovie);
     window.location.href = 'MovieVerse-Frontend/html/movie-details.html';
 }
@@ -734,18 +739,21 @@ function getClassByRate(vote){
 form.addEventListener('submit', (e) => {
     e.preventDefault();
     const searchQuery = document.getElementById('search').value;
+
     localStorage.setItem('searchQuery', searchQuery);
     window.location.href = 'MovieVerse-Frontend/html/search.html';
 });
 
 function toggleNav() {
     const sideNav = document.getElementById('side-nav');
+
     sideNav.classList.toggle('manual-toggle');
     adjustNavBar();
 }
 
 function removeNavBar() {
     const sideNav = document.getElementById('side-nav');
+
     if (sideNav.classList.contains('manual-toggle')) {
         sideNav.classList.remove('manual-toggle');
     }
@@ -754,6 +762,7 @@ function removeNavBar() {
 
 function adjustNavBar() {
     const sideNav = document.getElementById('side-nav');
+
     if (sideNav.classList.contains('manual-toggle')) {
         sideNav.style.left = '0px';
     }
@@ -867,6 +876,7 @@ function showMoviesDirectorSpotlight(movies) {
     movies.forEach((movie) => {
         const { id, poster_path, title, vote_average } = movie;
         const movieEl = document.createElement('div');
+
         movieEl.classList.add('movie');
         movieEl.style.zIndex = '1000';
 
@@ -976,6 +986,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 function handleSearch() {
     const searchQuery = document.getElementById('search').value;
+
     localStorage.setItem('searchQuery', searchQuery);
     window.location.href = 'MovieVerse-Frontend/html/search.html';
 }

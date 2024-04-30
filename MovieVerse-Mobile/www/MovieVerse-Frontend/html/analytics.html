@@ -37,6 +37,7 @@
     <link rel="stylesheet" href="https://movie-verse.com/MovieVerse-Frontend/css/style.css"/>
     <link rel="manifest" href="../../manifest.json">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/MovieVerse-Frontend/js/settings.js" defer></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
@@ -80,7 +81,7 @@
         }
 
         body {
-            background-image: url("../../images/universe-1.webp");
+            background-image: url("https://movie-verse.com/images/universe-1.webp");
             background-repeat: repeat-y;
             background-size: 100% auto;
         }
@@ -262,11 +263,11 @@
     </header>
 
     <nav id="side-nav" class="side-nav" style="z-index: 1002;">
-        <h1 id="my-heading" style="margin-bottom: -10px" class="notranslate">
-            <a id="indexLink" href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer">
-                The Mo<span class="highlight" id="highlight">vieV</span>erse
-            </a>
-        </h1>
+        <a id="heading-href" style="cursor: pointer" href="../../index.html" title="Click to go back to the home page">
+            <div id="my-heading" style="margin-bottom: 15px; margin-left: 0; margin-top: 15px; font-size: 2.1em; font-weight: bold;">
+                The Mo<span class="highlight">vieV</span>erse Menu
+            </div>
+        </a>
 
         <div id="button-container">
             <button id="button-remove" title="Close the navbar" onclick="removeNavBar()">Close</button>
