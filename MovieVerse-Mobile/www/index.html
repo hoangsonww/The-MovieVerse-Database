@@ -497,6 +497,22 @@
             display: none;
         }
 
+        #ad-container6 {
+            display: none;
+        }
+
+        #ad-container7 {
+            display: none;
+        }
+
+        #ad-container8 {
+            display: none;
+        }
+
+        #ad-container9 {
+            display: none;
+        }
+
         @media (max-width: 700px) {
             #ad-container {
                 display: block;
@@ -521,6 +537,22 @@
             #ad-container5 {
                 display: block;
             }
+
+            #ad-container6 {
+                display: block;
+            }
+
+            #ad-container7 {
+                display: block;
+            }
+
+            #ad-container8 {
+                display: block;
+            }
+
+            #ad-container9 {
+                display: block;
+            }
         }
     </style>
 </head>
@@ -536,11 +568,11 @@
 
 <body>
     <header id="homepage-header" style="margin-bottom: -10px; margin-top: -5px">
-        <a id="indexLink" href="index.html" style="text-decoration: none; color: inherit; cursor: pointer">
-            <h1 id="my-heading" style="margin-bottom: -10px" class="notranslate">
-                The Mo<span class="highlight" id="highlight">vieV</span>erse
-            </h1>
-        </a>
+        <h1 id="my-heading" style="margin-bottom: -25px" class="notranslate">
+            <a id="indexLink" href="index.html" style="text-decoration: none; color: inherit; cursor: pointer">
+            The Mo<span class="highlight" id="highlight">vieV</span>erse
+            </a>
+        </h1>
         <div id="local-time" style="cursor: pointer" title="Click to view more of your stats on this machine">
             <p id="stats-label" class="clock" style="font-size: 16px;"></p>
             <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
@@ -599,12 +631,12 @@
             <li><a href="#indian">Indian</a></li>
             <li><a href="#korean">Korean</a></li>
             <li><a href="#tv-series">TV Series</a></li>
-            <li><a href="#western">Western</a></li>
             <li><a href="#hidden-gems">Hidden Gems</a></li>
             <li><a href="#horror">Horror</a></li>
             <li><a href="#documentary">Documentary</a></li>
             <li><a href="#animation">Animation</a></li>
             <li><a href="#sci-fi">Science Fiction</a></li>
+            <li><a href="#western">Western</a></li>
             <li><a href="#romantic">Romantic</a></li>
             <li><a href="#thriller">Thriller</a></li>
             <li><a href="#war">War</a></li>
@@ -781,17 +813,37 @@
     <div id="korean-pagination" class="pagination" style="text-align: center"></div>
     <main id="korean"></main>
 
+    <div id="ad-container7" style="text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px)" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
+        <p style="margin: 0;">Advertisement</p>
+        <ins class="adsbygoogle"
+             style="display: block; width: 100%;"
+             data-ad-client="ca-pub-6608388491200814"
+             data-ad-slot="4832732030"
+             data-ad-format="auto"></ins>
+        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="/MovieVerse-Frontend/html/feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>
+    </div>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+
     <div class="genres" id="tv-series-div">
         <h2 id="other" style="cursor: pointer">Binge-Worthy Series: Trending TV Series</h2>
     </div>
     <div id="tv-series-pagination" class="pagination" style="text-align: center"></div>
     <main id="tv-series" ></main>
 
-    <div class="genres" id="western-div">
-        <h2 id="other" style="cursor: pointer">Wild West: Trending Western Movies</h2>
+    <div id="ad-container8" style="text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px)" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
+        <p style="margin: 0;">Advertisement</p>
+        <ins class="adsbygoogle"
+             style="display: block; width: 100%;"
+             data-ad-client="ca-pub-6608388491200814"
+             data-ad-slot="4832732030"
+             data-ad-format="auto"></ins>
+        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="/MovieVerse-Frontend/html/feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>
     </div>
-    <div id="western-pagination" class="pagination" style="text-align: center"></div>
-    <main id="western"></main>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
 
     <div class="genres" id="hidden-gems-div">
         <h2 id="other" style="cursor: pointer">Hidden Treasures: Discover Gems in Cinema</h2>
@@ -806,7 +858,7 @@
     <main id="horror"></main>
 
     <div class="genres" id="documentary-div">
-        <h2 id="other" style="; cursor: pointer">Real Stories: Trending Documentary Movies</h2>
+        <h2 id="other" style="cursor: pointer">Real Stories: Trending Documentary Movies</h2>
     </div>
     <div id="documentary-pagination" class="pagination" style="text-align: center"></div>
     <main id="documentary" ></main>
@@ -817,14 +869,33 @@
     <div id="animation-pagination" class="pagination" style="text-align: center"></div>
     <main id="animation"></main>
 
+    <div id="ad-container9" style="text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px)" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
+        <p style="margin: 0;">Advertisement</p>
+        <ins class="adsbygoogle"
+             style="display: block; width: 100%;"
+             data-ad-client="ca-pub-6608388491200814"
+             data-ad-slot="4832732030"
+             data-ad-format="auto"></ins>
+        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="/MovieVerse-Frontend/html/feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>
+    </div>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+
     <div class="genres" id="sci-fi-div">
         <h2 id="other" style="cursor: pointer">Future Visions: Trending Science Fiction Movies</h2>
     </div>
     <div id="sci-fi-pagination" class="pagination" style="text-align: center"></div>
     <main id="sci-fi"></main>
 
+    <div class="genres" id="western-div">
+        <h2 id="other" style="cursor: pointer">Wild West: Trending Western Movies</h2>
+    </div>
+    <div id="western-pagination" class="pagination" style="text-align: center"></div>
+    <main id="western"></main>
+
     <div class="genres" id="romantic-div">
-        <h2 id="other" style="; cursor: pointer">Love Is in the Air: Trending Romantic Movies</h2>
+        <h2 id="other" style="cursor: pointer">Love Is in the Air: Trending Romantic Movies</h2>
     </div>
     <div id="romantic-pagination" class="pagination" style="text-align: center"></div>
     <main id="romantic"></main>

@@ -39,13 +39,20 @@ export default {
       { name: 'robots', content: 'index, follow' },
       { name: 'revisit-after', content: '1 day' },
       { name: 'language', content: 'English' },
-      { name: 'theme-color', content: '#7378c5' }
+      { name: 'theme-color', content: '#7378c5' },
+      { name: 'twitter:card', content: 'summary' },
+      { name: 'twitter:site', content: '@movieverse' },
+      { name: 'twitter:title', content: 'The MovieVerse - Your Ultimate Movie Guide' },
+      { name: 'twitter:description', content: 'Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more.' },
+      { name: 'twitter:image', content: 'https://movie-verse.com/images/image.png' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: 'https://movie-verse.com/images/favicon.ico' },
       { rel: 'canonical', href: 'https://movie-verse.com/' },
       { rel: 'stylesheet', href: 'https://movie-verse.com/MovieVerse-Frontend/css/style.css' },
-      { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css' }
+      { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css' },
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap' },
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Open+Sans:wght@200;400;600&display=swap' }
     ]
   }
 };

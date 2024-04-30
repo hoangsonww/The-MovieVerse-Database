@@ -429,11 +429,11 @@
         })
     </script>
     <header>
-        <a href="https://movie-verse.com/" style="text-decoration: none; color: inherit; cursor: pointer">
-            <h1 id="my-heading" style="margin-bottom: -10px" class="notranslate">
-                The Mo<span class="highlight">vieV</span>erse
-            </h1>
-        </a>
+        <h1 id="my-heading" style="margin-bottom: -10px" class="notranslate">
+            <a id="indexLink" href="https://movie-verse.com" style="text-decoration: none; color: inherit; cursor: pointer">
+                The Mo<span class="highlight" id="highlight">vieV</span>erse
+            </a>
+        </h1>
 
         <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
             <p id="stats-label" class="clock" style="font-size: 16px;"></p>
@@ -454,8 +454,8 @@
         </button>
         <form id="form1">
             <div class="search-container">
-                <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!" />
-                <button type="button" id="button-search" onclick="handleSearch()">Search</button>
+                <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!" style="margin-right: 0"/>
+                <button type="button" id="button-search" onclick="handleSearch()" style="margin-left: 0">Search</button>
             </div>
             <div id="search-results" class="search-results"></div>
             <div class="buttons-container">

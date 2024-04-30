@@ -2677,6 +2677,7 @@ canvas {
     .chart-container {
         flex-direction: column;
     }
+
     .chart-box {
         height: auto;
     }
