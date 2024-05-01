@@ -1107,6 +1107,8 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
 
     const originalTitle = movie.original_title !== movie.title ? `<p><strong>Original Title:</strong> ${movie.original_title}</p>` : `<p><strong>Original Title:</strong> ${movie.title}</p>`;
 
+    const tmdbRating = movie.vote_average.toFixed(1);
+
     document.getElementById('movie-description').innerHTML += `
         <p id="descriptionP"><strong>Description: </strong>${overview}</p>
         ${originalTitle}
@@ -1124,6 +1126,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         <p title="Your rating also counts - it might take a while for us to update!"><strong>MovieVerse User Rating:</strong> <span><strong>${scaledRating}/5.0</strong> (based on <strong>${movie.vote_count}</strong> votes)</span></p>
         ${awardsElement}
         ${metascoreElement}
+        <p><strong>TMDb Rating:</strong> <a href="https://www.themoviedb.org/movie/${movie.id}" id="rating" target="_blank">${tmdbRating}</a></p>
     `;
 
     if (movie.credits && movie.credits.crew) {
