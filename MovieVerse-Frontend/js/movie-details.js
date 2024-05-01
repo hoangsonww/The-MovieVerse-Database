@@ -823,7 +823,7 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
     }
     catch (error) {
         const fallbackImdbRating = (tmdbMovieData.vote_average / 2).toFixed(1) * 2;
-        populateMovieDetails(tmdbMovieData, fallbackImdbRating, 'N/A', 'Metascore information unavailable', 'Awards information unavailable');
+        populateMovieDetails(tmdbMovieData, fallbackImdbRating, 'N/A', 'Metascore information unavailable, click to search on Metacritics', 'Awards information unavailable');
     }
 }
 
