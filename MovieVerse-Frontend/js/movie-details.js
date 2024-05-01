@@ -1040,7 +1040,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     </a>` : 'No streaming options available.';
 
     const rtLink = rtRating !== 'N/A' ? `https://www.rottentomatoes.com/m/${getRtSlug(movie.title)}` : '#';
-    const metaCriticsLink = metascore !== 'N/A' ? `https://www.metacritic.com/movie/${createMetacriticSlug(movie.title)}` : '#';
+    const metaCriticsLink = metascore !== 'N/A' ? `https://www.metacritic.com/search/${createMetacriticSlug(movie.title)}` : '#';
 
     const ratingDetails = getRatingDetails(rated);
     const ratedElement = rated ? `<p id="movie-rated-element"><strong>Rated:</strong> <span style="color: ${ratingDetails.color};"><strong>${ratingDetails.text}</strong>${ratingDetails.description}</span></p>` : '';
