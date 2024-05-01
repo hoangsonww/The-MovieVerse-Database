@@ -1234,7 +1234,7 @@ function createImdbRatingCircle(imdbRating, imdbId) {
     }
     else {
         const text = document.getElementById('imdbRatingText');
-        text.textContent = `${imdbRating.toFixed(1)}`;
+        text.textContent = `${imdbRating}`;
     }
 
     const circle = circleContainer.querySelector('.progress-ring__progress');
