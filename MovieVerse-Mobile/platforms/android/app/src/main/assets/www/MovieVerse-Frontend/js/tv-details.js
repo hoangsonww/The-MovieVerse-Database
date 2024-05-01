@@ -522,6 +522,8 @@ async function fetchTvDetails(tvSeriesId) {
         const tvSeriesDetails = await response.json();
         const imdbId = tvSeriesDetails.external_ids.imdb_id;
 
+        console.log(tvSeriesDetails.external_ids)
+
         const imdbRating = await fetchTVRatings(imdbId);
 
         populateTvSeriesDetails(tvSeriesDetails, imdbRating);
@@ -546,16 +548,14 @@ async function fetchTvDetails(tvSeriesId) {
 }
 
 async function fetchTVRatings(imdbId) {
-    const omdbCode = `${getMovieCode2()}`;
-    const omdb = `https://${getMovieActor()}/?i=${imdbId}&${getMovieName()}${omdbCode}`;
+    const fff = `60a09d79`;
+    const link = `https://${getMovieActor()}/?i=${imdbId}&${getMovieName()}${fff}`;
 
     try {
-        const response = await fetch(omdb);
+        const response = await fetch(link);
         const data = await response.json();
 
-        let imdbRating = data.imdbRating ? data.imdbRating : 'IMDb rating not available';
-
-        return imdbRating;
+        return imdbRating = data.imdbRating ? data.imdbRating : 'IMDb data unavailable but you can check it out by clicking here';
     }
     catch (error) {
         console.log('Error fetching TV series ratings:', error);
