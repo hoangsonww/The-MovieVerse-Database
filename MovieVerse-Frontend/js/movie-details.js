@@ -1051,7 +1051,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     const movieImage = document.getElementById('movie-image');
     const movieDescription = document.getElementById('movie-description');
 
-    const metascoreElement = metascore ? `<p><strong>Metascore:</strong> <a id="metacritics" href="${metaCriticsLink}">${metascore}</a></p>` : '';
+    const metascoreElement = metascore ? `<p><strong>Metascore:</strong> <a id="metacritics" href="${metaCriticsLink}" title="Click to search/view on Metacritics" target="_blank">${metascore}</a></p>` : '';
     const awardsElement = awards ? `<p><strong>Awards:</strong> ${awards}</p>` : '';
 
     if (movie.poster_path) {
