@@ -75,9 +75,9 @@ Through The MovieVerse, users can search for movies, view detailed information, 
 ## Project Structure
 
 The MovieVerse is a full-stack application with a robust backend and a user-friendly frontend. The project is divided into the following **3 main** directories:
-1. `MovieVerse-Backend`: The backend directory contains the server-side code, including the API, database, and server configuration.
-2. `MovieVerse-Frontend`: The frontend directory contains the client-side code, including the user interface, user experience, and client configuration.
-3. `MovieVerse-Mobile`: The mobile app directory contains the mobile application code, built using Apache Cordova, including the mobile user interface, user experience, and mobile client configuration.
+1. `MovieVerse-Backend`: The [backend directory](../MovieVerse-Backend) contains the server-side code, including the API, database, and server configuration.
+2. `MovieVerse-Frontend`: The [frontend directory](../MovieVerse-Frontend) contains the client-side code, including the user interface, user experience, and client configuration.
+3. `MovieVerse-Mobile`: The [mobile app directory](../MovieVerse-Mobile) contains the mobile application code, built using Apache Cordova, including the mobile user interface, user experience, and mobile client configuration.
 
 There are also additional directories and files for project configuration, testing, and other utilities. The project is built using a variety of technologies, including `.github`, `utilities`, `project-config`, `MovieVerse-APIs`, `MovieVerse-Databases`, `MovieVerse-Middleware`, `MovieVerse-Design`, `images`, and more. Each directory serves a specific purpose in the development, deployment, and maintenance of The MovieVerse application.
 
