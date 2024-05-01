@@ -1045,10 +1045,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     const ratingDetails = getRatingDetails(rated);
     const ratedElement = rated ? `<p id="movie-rated-element"><strong>Rated:</strong> <span style="color: ${ratingDetails.color};"><strong>${ratingDetails.text}</strong>${ratingDetails.description}</span></p>` : '';
 
-    document.getElementById('movie-rating').innerHTML = `
-        <a id="imdbRatingLink" href="${imdbLink}" target="_blank" title="Click to go to this movie's IMDb page!" style="text-decoration: none; color: inherit">IMDB Rating: ${imdbRating}</a>
-    `;
-    document.getElementById('movie-rating').style.marginTop = '129px';
+    document.getElementById('movie-rating').innerHTML = ``;
     document.title = movie.title + " - Movie Details";
 
     const movieImage = document.getElementById('movie-image');
@@ -1206,8 +1203,65 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
 
     movieDescription.appendChild(keywordsElement);
 
+    createImdbRatingCircle(imdbRating, imdbLink);
+
     updateMoviesFavorited(movie.id);
     applySettings();
+}
+
+function createImdbRatingCircle(imdbRating, imdbId) {
+    // Create container for the rating circle if it doesn't exist
+    let circleContainer = document.getElementById('imdbRatingCircleContainer');
+    if (!circleContainer) {
+        circleContainer = document.createElement('div');
+        circleContainer.id = 'imdbRatingCircleContainer';
+        circleContainer.className = 'progress-container';
+        const imdbLink = `${imdbId}`; // Construct IMDb URL
+        circleContainer.innerHTML = `
+            <a href="${imdbLink}" target="_blank" style="text-decoration: none; color: inherit;">
+                <div style="margin-top: 0; font-size: 2.2rem; font-weight: bold; color: #ffeb3b" class="rating-header">IMDB Rating</div>
+            </a>
+            <svg class="progress-ring" width="100" height="100" onclick="retriggerAnimation(${imdbRating})" style="cursor: pointer">
+                <circle class="progress-ring__circle" stroke="white" stroke-width="10" fill="transparent" r="40" cx="50" cy="50" />
+                <circle class="progress-ring__progress" r="40" cx="50" cy="50" />
+                <text id="imdbRatingText" class="circle-text" x="50" y="52" text-anchor="middle" fill="yellow">${imdbRating.toFixed(1)}</text>
+            </svg>
+        `;
+        document.getElementById('movie-description').appendChild(circleContainer);
+    }
+    else {
+        const text = document.getElementById('imdbRatingText');
+        text.textContent = `${imdbRating.toFixed(1)}`;
+    }
+
+    const circle = circleContainer.querySelector('.progress-ring__progress');
+    const text = document.getElementById('imdbRatingText');
+    setProgress(circle, text, imdbRating);
+}
+
+function setProgress(circle, text, rating) {
+    const radius = circle.r.baseVal.value;
+    const circumference = radius * 2 * Math.PI;
+
+    circle.style.transition = 'none';
+    circle.style.strokeDasharray = `${circumference} ${circumference}`;
+    circle.style.strokeDashoffset = circumference;
+
+    circle.getBoundingClientRect();
+
+    setTimeout(() => {
+        const offset = circumference - (rating / 10) * circumference;
+        circle.style.transition = 'stroke-dashoffset 0.6s ease-out, stroke 0.6s ease';
+        circle.style.strokeDashoffset = offset;
+        circle.style.setProperty('--progress-color', rating <= 5 ? '#FF0000' : (rating >= 7.5 ? '#4CAF50' : '#2196F3'));
+        text.textContent = `${rating.toFixed(1)}`;
+    }, 10);
+}
+
+function retriggerAnimation(imdbRating) {
+    const circle = document.querySelector('.progress-ring__progress');
+    const text = document.getElementById('imdbRatingText');
+    setProgress(circle, text, imdbRating);
 }
 
 function getSavedTextColor() {

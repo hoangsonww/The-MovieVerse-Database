@@ -3757,3 +3757,9 @@ footer {
     padding: 20px;
     margin: 20px 0;
 }
+
+.circle-text {
+    font-size: 22px;
+    font-weight: bold;
+    dominant-baseline: middle;
+}
