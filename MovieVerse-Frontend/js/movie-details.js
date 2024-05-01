@@ -1224,7 +1224,7 @@ function createImdbRatingCircle(imdbRating, imdbId) {
         const imdbLink = `${imdbId}`;
         circleContainer.innerHTML = `
             <a href="${imdbLink}" target="_blank" style="text-decoration: none; color: inherit;">
-                <div style="margin-top: 0; font-size: 2.2rem; font-weight: bold" id="rating-header" class="rating-header">IMDB Rating</div>
+                <div style="margin-top: 0; font-size: 2.2rem; font-weight: bold" id="rating-header" class="rating-header" title="Click to view on IMDb">IMDb Rating</div>
             </a>
             <svg class="progress-ring" width="100" height="100" onclick="retriggerAnimation(${imdbRating})" style="cursor: pointer">
                 <circle class="progress-ring__circle" stroke="white" stroke-width="10" fill="transparent" r="40" cx="50" cy="50" />
