@@ -203,6 +203,24 @@
             color: #ff8623;
             transition: 0.2s ease-in;
         }
+
+        #movie-details-container {
+            margin-top: 39px;
+        }
+
+        @media (max-width: 767px) {
+            #movie-details-container {
+                margin-top: 0;
+            }
+
+            #form1 {
+                margin-bottom: 35px;
+            }
+
+            .movie-left {
+                margin-top: -35px;
+            }
+        }
     </style>
 </head>
 
@@ -303,7 +321,7 @@
         <div class="spinner"></div>
     </div>
 
-    <div class="details-container" id="movie-details-container" style="margin-bottom: 100px; margin-top: 39px">
+    <div class="details-container" id="movie-details-container" style="margin-bottom: 100px">
         <!-- Left side for Title and Image -->
         <div class="movie-left">
             <!-- Container for Title and Favorites Button -->
