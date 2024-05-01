@@ -1121,7 +1121,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         <p><strong>Languages:</strong> ${languages}</p>
         <p><strong>Countries of Production:</strong> ${countries}</p>
         <p><strong>Popularity Score:</strong> <span class="${isPopular ? 'popular' : ''}">${popularityText}</span></p>
-        <p title="Your rating also counts - it might take a while for us to update!"><strong>MovieVerse User Rating:</strong> <span>${scaledRating}/5.0 (based on <strong>${movie.vote_count}</strong> votes)</span></p>
+        <p title="Your rating also counts - it might take a while for us to update!"><strong>MovieVerse User Rating:</strong> <span><strong>${scaledRating}/5.0</strong> (based on <strong>${movie.vote_count}</strong> votes)</span></p>
         ${awardsElement}
         ${metascoreElement}
         <p><strong>Rotten Tomatoes:</strong> <a href="${rtLink}" id="rating">${rtRating}</a></p>
@@ -1210,13 +1210,16 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
 }
 
 function createImdbRatingCircle(imdbRating, imdbId) {
-    // Create container for the rating circle if it doesn't exist
+    if (imdbRating === 'N/A' || imdbRating === null || imdbRating === undefined) {
+        imdbRating = 0;
+    }
+
     let circleContainer = document.getElementById('imdbRatingCircleContainer');
     if (!circleContainer) {
         circleContainer = document.createElement('div');
         circleContainer.id = 'imdbRatingCircleContainer';
         circleContainer.className = 'progress-container';
-        const imdbLink = `${imdbId}`; // Construct IMDb URL
+        const imdbLink = `${imdbId}`;
         circleContainer.innerHTML = `
             <a href="${imdbLink}" target="_blank" style="text-decoration: none; color: inherit;">
                 <div style="margin-top: 0; font-size: 2.2rem; font-weight: bold; color: #ffeb3b" class="rating-header">IMDB Rating</div>
