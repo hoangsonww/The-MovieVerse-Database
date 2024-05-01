@@ -806,7 +806,7 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
         let rated = data.Rated ? data.Rated : 'Rating information unavailable';
 
         if (awards === 'N/A') {
-            awards = 'No awards information available';
+            awards = 'Awards information unavailable';
         }
 
         if (metascore === 'N/A/100') {
@@ -823,7 +823,7 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
     }
     catch (error) {
         const fallbackImdbRating = (tmdbMovieData.vote_average / 2).toFixed(1) * 2;
-        populateMovieDetails(tmdbMovieData, fallbackImdbRating, 'N/A', 'No metascore information available', 'No awards information available');
+        populateMovieDetails(tmdbMovieData, fallbackImdbRating, 'N/A', 'Metascore information unavailable', 'Awards information unavailable');
     }
 }
 
