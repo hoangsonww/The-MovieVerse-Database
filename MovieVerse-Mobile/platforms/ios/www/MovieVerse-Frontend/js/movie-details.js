@@ -806,7 +806,7 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
         let rated = data.Rated ? data.Rated : 'Rating information unavailable';
 
         if (awards === 'N/A') {
-            awards = 'No awards information available';
+            awards = 'Awards information unavailable';
         }
 
         if (metascore === 'N/A/100') {
@@ -823,7 +823,7 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
     }
     catch (error) {
         const fallbackImdbRating = (tmdbMovieData.vote_average / 2).toFixed(1) * 2;
-        populateMovieDetails(tmdbMovieData, fallbackImdbRating, 'N/A', 'No metascore information available', 'No awards information available');
+        populateMovieDetails(tmdbMovieData, fallbackImdbRating, 'N/A', 'Metascore information unavailable, click to search on Metacritics', 'Awards information unavailable');
     }
 }
 
@@ -1040,7 +1040,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     </a>` : 'No streaming options available.';
 
     const rtLink = rtRating !== 'N/A' ? `https://www.rottentomatoes.com/m/${getRtSlug(movie.title)}` : '#';
-    const metaCriticsLink = metascore !== 'N/A' ? `https://www.metacritic.com/movie/${createMetacriticSlug(movie.title)}` : '#';
+    const metaCriticsLink = metascore !== 'N/A' ? `https://www.metacritic.com/search/${createMetacriticSlug(movie.title)}` : '#';
 
     const ratingDetails = getRatingDetails(rated);
     const ratedElement = rated ? `<p id="movie-rated-element"><strong>Rated:</strong> <span style="color: ${ratingDetails.color};"><strong>${ratingDetails.text}</strong>${ratingDetails.description}</span></p>` : '';
@@ -1051,7 +1051,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     const movieImage = document.getElementById('movie-image');
     const movieDescription = document.getElementById('movie-description');
 
-    const metascoreElement = metascore ? `<p><strong>Metascore:</strong> <a id="metacritics" href="${metaCriticsLink}">${metascore}</a></p>` : '';
+    const metascoreElement = metascore ? `<p><strong>Metascore:</strong> <a id="metacritics" href="${metaCriticsLink}" title="Click to search/view on Metacritics" target="_blank">${metascore}</a></p>` : '';
     const awardsElement = awards ? `<p><strong>Awards:</strong> ${awards}</p>` : '';
 
     if (movie.poster_path) {
@@ -1107,6 +1107,8 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
 
     const originalTitle = movie.original_title !== movie.title ? `<p><strong>Original Title:</strong> ${movie.original_title}</p>` : `<p><strong>Original Title:</strong> ${movie.title}</p>`;
 
+    const tmdbRating = movie.vote_average.toFixed(1);
+
     document.getElementById('movie-description').innerHTML += `
         <p id="descriptionP"><strong>Description: </strong>${overview}</p>
         ${originalTitle}
@@ -1123,8 +1125,8 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         <p><strong>Popularity Score:</strong> <span class="${isPopular ? 'popular' : ''}">${popularityText}</span></p>
         <p title="Your rating also counts - it might take a while for us to update!"><strong>MovieVerse User Rating:</strong> <span><strong>${scaledRating}/5.0</strong> (based on <strong>${movie.vote_count}</strong> votes)</span></p>
         ${awardsElement}
+        <p><strong>TMDb Rating:</strong> <a href="https://www.themoviedb.org/movie/${movie.id}" id="rating" target="_blank">${tmdbRating}</a></p>
         ${metascoreElement}
-        <p><strong>Rotten Tomatoes:</strong> <a href="${rtLink}" id="rating">${rtRating}</a></p>
     `;
 
     if (movie.credits && movie.credits.crew) {
@@ -1222,7 +1224,7 @@ function createImdbRatingCircle(imdbRating, imdbId) {
         const imdbLink = `${imdbId}`;
         circleContainer.innerHTML = `
             <a href="${imdbLink}" target="_blank" style="text-decoration: none; color: inherit;">
-                <div style="margin-top: 0; font-size: 2.2rem; font-weight: bold; color: #ffeb3b" class="rating-header">IMDB Rating</div>
+                <div style="margin-top: 0; font-size: 2.2rem; font-weight: bold" id="rating-header" class="rating-header" title="Click to view on IMDb">IMDb Rating</div>
             </a>
             <svg class="progress-ring" width="100" height="100" onclick="retriggerAnimation(${imdbRating})" style="cursor: pointer">
                 <circle class="progress-ring__circle" stroke="white" stroke-width="10" fill="transparent" r="40" cx="50" cy="50" />
