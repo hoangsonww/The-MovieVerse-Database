@@ -1124,7 +1124,6 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         <p title="Your rating also counts - it might take a while for us to update!"><strong>MovieVerse User Rating:</strong> <span><strong>${scaledRating}/5.0</strong> (based on <strong>${movie.vote_count}</strong> votes)</span></p>
         ${awardsElement}
         ${metascoreElement}
-        <p><strong>Rotten Tomatoes:</strong> <a href="${rtLink}" id="rating">${rtRating}</a></p>
     `;
 
     if (movie.credits && movie.credits.crew) {
