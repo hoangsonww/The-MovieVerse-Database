@@ -76,9 +76,9 @@
     "redux-thunk": "^2.4.1",
     "single-spa": "^6.0.0",
     "styled-components": "^5.3.5",
-    "vue": "^3.3.13",
-    "vue-router": "^4.0.12",
-    "vuex": "^4.0.2",
+    "vue": "^3.4.23",
+    "vue-router": "^4.3.2",
+    "vuex": "^4.1.0",
     "webpack-dev-server": "^4.7.3"
   }
 }
