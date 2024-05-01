@@ -739,6 +739,12 @@ header h1 {
     transition: 0.1s linear;
 }
 
+.circle-text {
+    font-size: 25px;
+    font-weight: bold;
+    dominant-baseline: middle;
+}
+
 #back-to-top-btn {
     position: fixed;
     bottom: 20px;
@@ -3756,10 +3762,4 @@ footer {
     border-radius: 10px;
     padding: 20px;
     margin: 20px 0;
-}
-
-.circle-text {
-    font-size: 22px;
-    font-weight: bold;
-    dominant-baseline: middle;
 }

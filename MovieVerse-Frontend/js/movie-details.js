@@ -1227,7 +1227,7 @@ function createImdbRatingCircle(imdbRating, imdbId) {
             <svg class="progress-ring" width="100" height="100" onclick="retriggerAnimation(${imdbRating})" style="cursor: pointer">
                 <circle class="progress-ring__circle" stroke="white" stroke-width="10" fill="transparent" r="40" cx="50" cy="50" />
                 <circle class="progress-ring__progress" r="40" cx="50" cy="50" />
-                <text id="imdbRatingText" class="circle-text" x="50" y="52" text-anchor="middle" fill="yellow">${imdbRating.toFixed(1)}</text>
+                <text id="imdbRatingText" class="circle-text" x="50" y="52" text-anchor="middle" fill="yellow" style="font-weight: bold; font-size: 25px">${imdbRating.toFixed(1)}</text>
             </svg>
         `;
         document.getElementById('movie-description').appendChild(circleContainer);
