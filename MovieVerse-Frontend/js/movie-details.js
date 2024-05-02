@@ -1207,6 +1207,112 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
 
     createImdbRatingCircle(imdbRating, imdbLink);
 
+    const mediaUrl = `https://api.themoviedb.org/3/movie/${movie.id}/images?api_key=${getMovieCode()}`;
+    const mediaResponse = await fetch(mediaUrl);
+    const mediaData = await mediaResponse.json();
+    const images = mediaData.backdrops;
+
+    const mediaContainer = document.createElement('div');
+    mediaContainer.id = 'media-container';
+    mediaContainer.style.display = 'flex';
+    mediaContainer.style.alignItems = 'center';
+    mediaContainer.style.justifyContent = 'center';
+    mediaContainer.style.position = 'relative';
+    mediaContainer.style.width = '450px';
+    mediaContainer.style.margin = '0 auto';
+    mediaContainer.style.overflow = 'hidden';
+
+    mediaContainer.style.maxWidth = '100%';
+    mediaContainer.style.boxSizing = 'border-box';
+
+    const mediaTitle = document.createElement('p');
+    mediaTitle.textContent = 'Media:';
+    mediaTitle.style.fontWeight = 'bold';
+    document.getElementById('movie-description').appendChild(mediaTitle);
+
+    const imageElement = document.createElement('img');
+    imageElement.style.maxWidth = '100%';
+    imageElement.style.maxHeight = '210px';
+    imageElement.style.borderRadius = '16px';
+    if (images.length > 0) {
+        imageElement.src = `https://image.tmdb.org/t/p/w1280${images[0].file_path}`;
+    }
+    mediaContainer.appendChild(imageElement);
+
+    if (window.innerWidth <= 767) {
+        mediaContainer.style.width = 'calc(100% - 40px)';
+    }
+
+    const prevButton = document.createElement('button');
+    prevButton.textContent = '<';
+    prevButton.style.position = 'absolute';
+    prevButton.style.left = '0';
+    prevButton.style.top = '50%';
+    prevButton.style.transform = 'translateY(-50%)';
+    prevButton.style.backgroundColor = '#7378c5';
+    prevButton.style.color = 'white';
+    prevButton.style.borderRadius = '8px';
+    prevButton.style.height = '30px';
+    prevButton.style.width = '30px';
+    prevButton.id = 'prevButton';
+    prevButton.style.border = 'none';
+
+    prevButton.onclick = function () {
+        navigateMedia(images, imageElement, -1);
+    };
+
+    prevButton.addEventListener('mouseover', function() {
+        prevButton.style.backgroundColor = '#ff8623';
+    });
+
+    prevButton.addEventListener('mouseout', function() {
+        prevButton.style.backgroundColor = '#7378c5';
+    });
+
+    const nextButton = document.createElement('button');
+    nextButton.textContent = '>';
+    nextButton.style.position = 'absolute';
+    nextButton.style.right = '0';
+    nextButton.style.top = '50%';
+    nextButton.style.transform = 'translateY(-50%)';
+    nextButton.style.backgroundColor = '#7378c5';
+    nextButton.style.color = 'white';
+    nextButton.style.borderRadius = '8px';
+    nextButton.style.height = '30px';
+    nextButton.style.width = '30px';
+    nextButton.id = 'nextButton';
+    nextButton.style.border = 'none';
+
+    nextButton.onclick = function () {
+        navigateMedia(images, imageElement, 1);
+    };
+
+    nextButton.addEventListener('mouseover', function() {
+        nextButton.style.backgroundColor = '#ff8623';
+    });
+
+    nextButton.addEventListener('mouseout', function() {
+        nextButton.style.backgroundColor = '#7378c5';
+    });
+
+    mediaContainer.appendChild(prevButton);
+    mediaContainer.appendChild(nextButton);
+    mediaContainer.style.marginBottom = '20px';
+
+    document.getElementById('movie-description').appendChild(mediaContainer);
+
+    // Function to handle navigation
+    let currentIndex = 0;
+    function navigateMedia(images, imgElement, direction) {
+        currentIndex += direction;
+        if (currentIndex < 0) {
+            currentIndex = images.length - 1;
+        } else if (currentIndex >= images.length) {
+            currentIndex = 0;
+        }
+        imgElement.src = `https://image.tmdb.org/t/p/w1280${images[currentIndex].file_path}`;
+    }
+
     updateMoviesFavorited(movie.id);
     applySettings();
 }
