@@ -724,7 +724,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
         detailsHTML += `<p><strong>Keywords:</strong> Information not available</p>`;
     }
 
-    const mediaUrl = `https://api.themoviedb.org/3/tv/${tvSeries.id}/images?api_key=${getMovieCode()}`;
+    const mediaUrl = `https://${getMovieVerseData()}/3/tv/${tvSeries.id}/images?${generateMovieNames()}${getMovieCode()}`;
     const mediaResponse = await fetch(mediaUrl);
     const mediaData = await mediaResponse.json();
     const images = mediaData.backdrops;
