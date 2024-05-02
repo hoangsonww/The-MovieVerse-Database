@@ -772,6 +772,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
             transition: opacity 0.5s ease-in-out;
             opacity: 1;
             border-radius: 16px;
+            cursor: pointer;
         `;
         mediaContainer.appendChild(imageElement);
     }
@@ -779,6 +780,29 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
     if (images.length > 0) {
         imageElement.src = `https://image.tmdb.org/t/p/w1280${images[0].file_path}`;
     }
+
+    imageElement.addEventListener('click', function() {
+        const imageUrl = this.src;
+        const modalHtml = `
+        <div id="image-modal" style="z-index: 100022222; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
+            <img src="${imageUrl}" style="max-width: 80%; max-height: 80%; border-radius: 10px; cursor: default;" onclick="event.stopPropagation();">
+            <span style="position: absolute; top: 10px; right: 25px; font-size: 40px; cursor: pointer" id="removeBtn">&times;</span>
+        </div>
+    `;
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
+        const modal = document.getElementById('image-modal');
+        const closeModalBtn = document.getElementById('removeBtn');
+
+        closeModalBtn.onclick = function() {
+            modal.remove();
+        };
+
+        modal.addEventListener('click', function(event) {
+            if (event.target === this) {
+                this.remove();
+            }
+        });
+    });
 
     let prevButton = document.getElementById('prev-media-button');
     let nextButton = document.getElementById('next-media-button');
