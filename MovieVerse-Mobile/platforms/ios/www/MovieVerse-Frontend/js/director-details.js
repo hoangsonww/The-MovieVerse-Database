@@ -130,7 +130,7 @@ async function fetchDirectorDetails(directorId) {
     }
 }
 
-function populateDirectorDetails(director, credits) {
+async function populateDirectorDetails(director, credits) {
     const directorImage = document.getElementById('director-image');
     const directorName = document.getElementById('director-name');
     const directorDescription = document.getElementById('director-description');
@@ -197,6 +197,145 @@ function populateDirectorDetails(director, credits) {
     });
 
     filmographyHeading.appendChild(movieList);
+
+    const mediaUrl = `https://${getMovieVerseData()}/3/person/${director.id}/images?${generateMovieNames()}${getMovieCode()}`;
+    const mediaResponse = await fetch(mediaUrl);
+    const mediaData = await mediaResponse.json();
+    const images = mediaData.profiles;
+
+    const detailsContainer = document.getElementById('director-description');
+
+    let mediaContainer = document.getElementById('media-container');
+    if (!mediaContainer) {
+        mediaContainer = document.createElement('div');
+        mediaContainer.id = 'media-container';
+        mediaContainer.style = `
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            width: 450px;
+            margin: 20px auto;
+            overflow: hidden;
+            max-width: 100%;
+            box-sizing: border-box;
+        `;
+        detailsContainer.appendChild(mediaContainer);
+    }
+
+    let mediaTitle = document.getElementById('media-title');
+    if (!mediaTitle) {
+        mediaTitle = document.createElement('p');
+        mediaTitle.id = 'media-title';
+        mediaTitle.textContent = 'Media:';
+        mediaTitle.style = `
+            font-weight: bold;
+            align-self: center;
+            margin-bottom: 5px;
+        `;
+    }
+
+    detailsContainer.appendChild(mediaTitle);
+    detailsContainer.appendChild(mediaContainer);
+
+    let imageElement = document.getElementById('series-media-image');
+    if (!imageElement) {
+        imageElement = document.createElement('img');
+        imageElement.id = 'series-media-image';
+        imageElement.style = `
+            max-width: 100%;
+            max-height: 210px;
+            transition: opacity 0.5s ease-in-out;
+            opacity: 1;
+            border-radius: 16px;
+            cursor: pointer;
+        `;
+        mediaContainer.appendChild(imageElement);
+    }
+
+    if (images.length > 0) {
+        imageElement.src = `https://image.tmdb.org/t/p/w1280${images[0].file_path}`;
+    }
+
+    imageElement.addEventListener('click', function() {
+        const imageUrl = this.src;
+        const modalHtml = `
+        <div id="image-modal" style="z-index: 100022222; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
+            <img src="${imageUrl}" style="max-width: 80%; max-height: 80%; border-radius: 10px; cursor: default;" onclick="event.stopPropagation();">
+            <span style="position: absolute; top: 10px; right: 25px; font-size: 40px; cursor: pointer" id="removeBtn">&times;</span>
+        </div>
+    `;
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
+        const modal = document.getElementById('image-modal');
+        const closeModalBtn = document.getElementById('removeBtn');
+
+        closeModalBtn.onclick = function() {
+            modal.remove();
+        };
+
+        modal.addEventListener('click', function(event) {
+            if (event.target === this) {
+                this.remove();
+            }
+        });
+    });
+
+    let prevButton = document.getElementById('prev-media-button');
+    let nextButton = document.getElementById('next-media-button');
+    if (!prevButton || !nextButton) {
+        prevButton = document.createElement('button');
+        nextButton = document.createElement('button');
+        prevButton.id = 'prev-media-button';
+        nextButton.id = 'next-media-button';
+        prevButton.textContent = '<';
+        nextButton.textContent = '>';
+
+        [prevButton, nextButton].forEach(button => {
+            button.style = `
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                background-color: #7378c5;
+                color: white;
+                border-radius: 8px;
+                height: 30px;
+                width: 30px;
+                border: none;
+                cursor: pointer;
+            `;
+            button.onmouseover = () => button.style.backgroundColor = '#ff8623';
+            button.onmouseout = () => button.style.backgroundColor = '#7378c5';
+        });
+
+        prevButton.style.left = '0';
+        nextButton.style.right = '0';
+
+        mediaContainer.appendChild(prevButton);
+        mediaContainer.appendChild(nextButton);
+    }
+
+    let currentIndex = 0;
+    prevButton.onclick = () => navigateMedia(images, imageElement, -1);
+    nextButton.onclick = () => navigateMedia(images, imageElement, 1);
+
+    function navigateMedia(images, imgElement, direction) {
+        currentIndex += direction;
+        if (currentIndex < 0) {
+            currentIndex = images.length - 1;
+        } else if (currentIndex >= images.length) {
+            currentIndex = 0;
+        }
+        imgElement.style.opacity = '0';
+        setTimeout(() => {
+            imgElement.src = `https://image.tmdb.org/t/p/w1280${images[currentIndex].file_path}`;
+            imgElement.style.opacity = '1';
+        }, 390);
+    }
+
+    if (window.innerWidth <= 767) {
+        mediaContainer.style.width = 'calc(100% - 40px)';
+    }
 
     applySettings();
 }
