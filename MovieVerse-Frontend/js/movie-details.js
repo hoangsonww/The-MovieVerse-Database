@@ -1207,7 +1207,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
 
     createImdbRatingCircle(imdbRating, imdbLink);
 
-    const mediaUrl = `https://api.themoviedb.org/3/movie/${movie.id}/images?api_key=${getMovieCode()}`;
+    const mediaUrl = `https://${getMovieVerseData()}/3/movie/${movie.id}/images?${generateMovieNames()}${getMovieCode()}`;
     const mediaResponse = await fetch(mediaUrl);
     const mediaData = await mediaResponse.json();
     const images = mediaData.backdrops;
@@ -1301,7 +1301,6 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
 
     document.getElementById('movie-description').appendChild(mediaContainer);
 
-    // Function to handle navigation
     let currentIndex = 0;
     function navigateMedia(images, imgElement, direction) {
         currentIndex += direction;
