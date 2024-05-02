@@ -853,7 +853,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
         setTimeout(() => {
             imgElement.src = `https://image.tmdb.org/t/p/w1280${images[currentIndex].file_path}`;
             imgElement.style.opacity = '1';
-        }, 250);
+        }, 345);
     }
 
     if (window.innerWidth <= 767) {

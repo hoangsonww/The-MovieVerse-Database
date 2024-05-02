@@ -1125,7 +1125,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         <p><strong>Popularity Score:</strong> <span class="${isPopular ? 'popular' : ''}">${popularityText}</span></p>
         <p title="Your rating also counts - it might take a while for us to update!"><strong>MovieVerse User Rating:</strong> <span><strong>${scaledRating}/5.0</strong> (based on <strong>${movie.vote_count}</strong> votes)</span></p>
         ${awardsElement}
-        <p><strong>TMDb Rating:</strong> <a href="https://www.themoviedb.org/movie/${movie.id}" id="rating" target="_blank">${tmdbRating}</a></p>
+        <p><strong>TMDb Rating:</strong> <a href="https://www.themoviedb.org/movie/${movie.id}" id="rating" target="_blank">${tmdbRating}/10.0</a></p>
         ${metascoreElement}
     `;
 
@@ -1206,6 +1206,132 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     movieDescription.appendChild(keywordsElement);
 
     createImdbRatingCircle(imdbRating, imdbLink);
+
+    const mediaUrl = `https://${getMovieVerseData()}/3/movie/${movie.id}/images?${generateMovieNames()}${getMovieCode()}`;
+    const mediaResponse = await fetch(mediaUrl);
+    const mediaData = await mediaResponse.json();
+    const images = mediaData.backdrops;
+
+    const detailsContainer = document.getElementById('movie-description');
+
+    const mediaContainer = document.createElement('div');
+    mediaContainer.id = 'media-container';
+    mediaContainer.style = `
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        width: 450px;
+        margin: 20px auto;
+        overflow: hidden;
+        max-width: 100%;
+        box-sizing: border-box;
+    `;
+
+    const mediaTitle = document.createElement('p');
+    mediaTitle.textContent = 'Media:';
+    mediaTitle.style = `
+        font-weight: bold;
+        align-self: start;
+        margin-bottom: 5px;
+    `;
+
+    detailsContainer.appendChild(mediaTitle);
+    detailsContainer.appendChild(mediaContainer);
+
+    const imageElement = document.createElement('img');
+    imageElement.style = `
+        max-width: 100%;
+        max-height: 210px;
+        border-radius: 16px;
+        transition: opacity 0.5s ease-in-out;
+        opacity: 1;
+        cursor: pointer;
+    `;
+    if (images.length > 0) {
+        imageElement.src = `https://image.tmdb.org/t/p/w1280${images[0].file_path}`;
+    }
+    mediaContainer.appendChild(imageElement);
+
+    imageElement.addEventListener('click', function() {
+        const imageUrl = this.src;
+        const modalHtml = `
+        <div id="image-modal" style="z-index: 100022222; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
+            <img src="${imageUrl}" style="max-width: 80%; max-height: 80%; border-radius: 10px; cursor: default;" onclick="event.stopPropagation();">
+            <span style="position: absolute; top: 10px; right: 25px; font-size: 40px; cursor: pointer" id="removeBtn">&times;</span>
+        </div>
+    `;
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
+        const modal = document.getElementById('image-modal');
+        const closeModalBtn = document.getElementById('removeBtn');
+
+        closeModalBtn.onclick = function() {
+            modal.remove();
+        };
+
+        modal.addEventListener('click', function(event) {
+            if (event.target === this) {
+                this.remove();
+            }
+        });
+    });
+
+    const prevButton = document.createElement('button');
+    prevButton.textContent = '<';
+    prevButton.style = `
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: #7378c5;
+        color: white;
+        border-radius: 8px;
+        height: 30px;
+        width: 30px;
+        border: none;
+        cursor: pointer;
+    `;
+    prevButton.onmouseover = () => prevButton.style.backgroundColor = '#ff8623';
+    prevButton.onmouseout = () => prevButton.style.backgroundColor = '#7378c5';
+    prevButton.onclick = () => navigateMedia(images, imageElement, -1);
+    mediaContainer.appendChild(prevButton);
+
+    const nextButton = document.createElement('button');
+    nextButton.textContent = '>';
+    nextButton.style = `
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: #7378c5;
+        color: white;
+        border-radius: 8px;
+        height: 30px;
+        width: 30px;
+        border: none;
+        cursor: pointer;
+    `;
+    nextButton.onmouseover = () => nextButton.style.backgroundColor = '#ff8623';
+    nextButton.onmouseout = () => nextButton.style.backgroundColor = '#7378c5';
+    nextButton.onclick = () => navigateMedia(images, imageElement, 1);
+    mediaContainer.appendChild(nextButton);
+
+    let currentIndex = 0;
+    function navigateMedia(images, imgElement, direction) {
+        currentIndex += direction;
+        if (currentIndex < 0) {
+            currentIndex = images.length - 1;
+        }
+        else if (currentIndex >= images.length) {
+            currentIndex = 0;
+        }
+        imgElement.style.opacity = '0';
+        setTimeout(() => {
+            imgElement.src = `https://image.tmdb.org/t/p/w1280${images[currentIndex].file_path}`;
+            imgElement.style.opacity = '1';
+        }, 345);
+    }
 
     updateMoviesFavorited(movie.id);
     applySettings();
