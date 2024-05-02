@@ -495,6 +495,7 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('googleSignInBtn').addEventListener('click', handleSignInOut);
 });
 
+
 const twoLetterCountryCodes = [
     { name: 'Afghanistan', code: 'AF' },
     { name: 'Albania', code: 'AL' },
