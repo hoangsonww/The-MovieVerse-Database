@@ -521,9 +521,6 @@ async function fetchTvDetails(tvSeriesId) {
         const response = await fetch(urlWithAppend);
         const tvSeriesDetails = await response.json();
         const imdbId = tvSeriesDetails.external_ids.imdb_id;
-
-        console.log(tvSeriesDetails.external_ids)
-
         const imdbRating = await fetchTVRatings(imdbId);
 
         populateTvSeriesDetails(tvSeriesDetails, imdbRating);
@@ -727,7 +724,122 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
         detailsHTML += `<p><strong>Keywords:</strong> Information not available</p>`;
     }
 
+    const mediaUrl = `https://api.themoviedb.org/3/tv/${tvSeries.id}/images?api_key=${getMovieCode()}`;
+    const mediaResponse = await fetch(mediaUrl);
+    const mediaData = await mediaResponse.json();
+    const images = mediaData.backdrops;
+
+    const detailsContainer = document.getElementById('movie-description');
+
+    let mediaContainer = document.getElementById('media-container');
+    if (!mediaContainer) {
+        mediaContainer = document.createElement('div');
+        mediaContainer.id = 'media-container';
+        mediaContainer.style = `
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            width: 450px;
+            margin: 20px auto;
+            overflow: hidden;
+            max-width: 100%;
+            box-sizing: border-box;
+        `;
+        detailsContainer.appendChild(mediaContainer);
+    }
+
+    let mediaTitle = document.getElementById('media-title');
+    if (!mediaTitle) {
+        mediaTitle = document.createElement('p');
+        mediaTitle.id = 'media-title';
+        mediaTitle.textContent = 'Media:';
+        mediaTitle.style = `
+            font-weight: bold;
+            align-self: start;
+            margin-bottom: 5px;
+        `;
+    }
+
+    let imageElement = document.getElementById('series-media-image');
+    if (!imageElement) {
+        imageElement = document.createElement('img');
+        imageElement.id = 'series-media-image';
+        imageElement.style = `
+            max-width: 100%;
+            max-height: 210px;
+            transition: opacity 0.5s ease-in-out;
+            opacity: 1;
+            border-radius: 16px;
+        `;
+        mediaContainer.appendChild(imageElement);
+    }
+
+    if (images.length > 0) {
+        imageElement.src = `https://image.tmdb.org/t/p/w1280${images[0].file_path}`;
+    }
+
+    let prevButton = document.getElementById('prev-media-button');
+    let nextButton = document.getElementById('next-media-button');
+    if (!prevButton || !nextButton) {
+        prevButton = document.createElement('button');
+        nextButton = document.createElement('button');
+        prevButton.id = 'prev-media-button';
+        nextButton.id = 'next-media-button';
+        prevButton.textContent = '<';
+        nextButton.textContent = '>';
+
+        [prevButton, nextButton].forEach(button => {
+            button.style = `
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                background-color: #7378c5;
+                color: white;
+                border-radius: 8px;
+                height: 30px;
+                width: 30px;
+                border: none;
+                cursor: pointer;
+            `;
+            button.onmouseover = () => button.style.backgroundColor = '#ff8623';
+            button.onmouseout = () => button.style.backgroundColor = '#7378c5';
+        });
+
+        prevButton.style.left = '0';
+        nextButton.style.right = '0';
+
+        mediaContainer.appendChild(prevButton);
+        mediaContainer.appendChild(nextButton);
+    }
+
+    let currentIndex = 0;
+    prevButton.onclick = () => navigateMedia(images, imageElement, -1);
+    nextButton.onclick = () => navigateMedia(images, imageElement, 1);
+
+    function navigateMedia(images, imgElement, direction) {
+        currentIndex += direction;
+        if (currentIndex < 0) {
+            currentIndex = images.length - 1;
+        } else if (currentIndex >= images.length) {
+            currentIndex = 0;
+        }
+        imgElement.style.opacity = '0';
+        setTimeout(() => {
+            imgElement.src = `https://image.tmdb.org/t/p/w1280${images[currentIndex].file_path}`;
+            imgElement.style.opacity = '1';
+        }, 250);
+    }
+
+    if (window.innerWidth <= 767) {
+        mediaContainer.style.width = 'calc(100% - 40px)';
+    }
+
     document.getElementById('movie-description').innerHTML = detailsHTML;
+    document.getElementById('movie-description').appendChild(mediaTitle);
+    document.getElementById('movie-description').appendChild(mediaContainer);
+
 }
 
 async function fetchTvSeriesStreamingLinks(tvSeriesId) {
