@@ -2574,6 +2574,14 @@ ol li:hover {
     cursor: pointer;
 }
 
+#rating-link {
+    color: white;
+}
+
+#rating-link:hover {
+    color: #ff8623;
+}
+
 #company-logo:hover {
     transform: scale(1.05);
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);

@@ -170,6 +170,7 @@ async function populateActorDetails(actor, credits) {
 
     actorDescription.innerHTML = `
         <p><strong>Biography:</strong> ${actor.biography || 'Information Unavailable'}</p>
+        <p><strong>Also Known As:</strong> ${actor.also_known_as.join(', ') || 'Information Unavailable'}</p>
         <p><strong>Date of Birth:</strong> ${actor.birthday || 'Information Unavailable'}</p>
         <p><strong>Date of Death:</strong> ${actor.deathday || 'Information Unavailable'}</p>
         <p><strong>Age:</strong> ${ageOrStatus}</p>
@@ -300,8 +301,8 @@ async function populateActorDetails(actor, credits) {
         nextButton = document.createElement('button');
         prevButton.id = 'prev-media-button';
         nextButton.id = 'next-media-button';
-        prevButton.textContent = '<';
-        nextButton.textContent = '>';
+        prevButton.innerHTML = '<i class="fas fa-arrow-left"></i>';
+        nextButton.innerHTML = '<i class="fas fa-arrow-right"></i>';
 
         [prevButton, nextButton].forEach(button => {
             button.style = `

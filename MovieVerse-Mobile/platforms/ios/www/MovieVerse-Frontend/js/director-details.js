@@ -165,6 +165,7 @@ async function populateDirectorDetails(director, credits) {
 
     directorDescription.innerHTML = `
         <p><strong>Biography:</strong> ${director.biography || 'Information Unavailable'}</p>
+        <p><strong>Also Known As:</strong> ${director.also_known_as.join(', ') || 'Information Unavailable'}</p>
         <p><strong>Date of Birth:</strong> ${director.birthday || 'Information Unavailable'}</p>
         <p><strong>Date of Death:</strong> ${director.deathday || 'Information Unavailable'}</p>
         <p><strong>Age:</strong> ${ageOrStatus}</p>
@@ -258,6 +259,10 @@ async function populateDirectorDetails(director, credits) {
         imageElement.src = `https://image.tmdb.org/t/p/w1280${images[0].file_path}`;
     }
 
+    if (images.length === 0) {
+        mediaContainer.innerHTML = '<p>No media available</p>';
+    }
+
     imageElement.addEventListener('click', function() {
         const imageUrl = this.src;
         const modalHtml = `
@@ -288,8 +293,8 @@ async function populateDirectorDetails(director, credits) {
         nextButton = document.createElement('button');
         prevButton.id = 'prev-media-button';
         nextButton.id = 'next-media-button';
-        prevButton.textContent = '<';
-        nextButton.textContent = '>';
+        prevButton.innerHTML = '<i class="fas fa-arrow-left"></i>';
+        nextButton.innerHTML = '<i class="fas fa-arrow-right"></i>';
 
         [prevButton, nextButton].forEach(button => {
             button.style = `
@@ -323,14 +328,15 @@ async function populateDirectorDetails(director, credits) {
         currentIndex += direction;
         if (currentIndex < 0) {
             currentIndex = images.length - 1;
-        } else if (currentIndex >= images.length) {
+        }
+        else if (currentIndex >= images.length) {
             currentIndex = 0;
         }
         imgElement.style.opacity = '0';
         setTimeout(() => {
             imgElement.src = `https://image.tmdb.org/t/p/w1280${images[currentIndex].file_path}`;
             imgElement.style.opacity = '1';
-        }, 390);
+        }, 420);
     }
 
     if (window.innerWidth <= 767) {

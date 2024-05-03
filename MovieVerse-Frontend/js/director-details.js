@@ -165,6 +165,7 @@ async function populateDirectorDetails(director, credits) {
 
     directorDescription.innerHTML = `
         <p><strong>Biography:</strong> ${director.biography || 'Information Unavailable'}</p>
+        <p><strong>Also Known As:</strong> ${director.also_known_as.join(', ') || 'Information Unavailable'}</p>
         <p><strong>Date of Birth:</strong> ${director.birthday || 'Information Unavailable'}</p>
         <p><strong>Date of Death:</strong> ${director.deathday || 'Information Unavailable'}</p>
         <p><strong>Age:</strong> ${ageOrStatus}</p>
@@ -292,8 +293,8 @@ async function populateDirectorDetails(director, credits) {
         nextButton = document.createElement('button');
         prevButton.id = 'prev-media-button';
         nextButton.id = 'next-media-button';
-        prevButton.textContent = '<';
-        nextButton.textContent = '>';
+        prevButton.innerHTML = '<i class="fas fa-arrow-left"></i>';
+        nextButton.innerHTML = '<i class="fas fa-arrow-right"></i>';
 
         [prevButton, nextButton].forEach(button => {
             button.style = `
