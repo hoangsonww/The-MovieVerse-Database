@@ -349,6 +349,10 @@ async function populateActorDetails(actor, credits) {
         mediaContainer.style.width = 'calc(100% - 40px)';
     }
 
+    if (images.length === 0) {
+        mediaContainer.innerHTML = '<p>No media available</p>';
+    }
+
     applySettings();
 }
 

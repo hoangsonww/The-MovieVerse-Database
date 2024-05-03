@@ -1330,7 +1330,11 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         setTimeout(() => {
             imgElement.src = `https://image.tmdb.org/t/p/w1280${images[currentIndex].file_path}`;
             imgElement.style.opacity = '1';
-        }, 345);
+        }, 420);
+    }
+
+    if (images.length === 0) {
+        mediaContainer.innerHTML = '<p>No media available</p>';
     }
 
     updateMoviesFavorited(movie.id);

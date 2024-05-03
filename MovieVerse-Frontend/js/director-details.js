@@ -258,6 +258,10 @@ async function populateDirectorDetails(director, credits) {
         imageElement.src = `https://image.tmdb.org/t/p/w1280${images[0].file_path}`;
     }
 
+    if (images.length === 0) {
+        mediaContainer.innerHTML = '<p>No media available</p>';
+    }
+
     imageElement.addEventListener('click', function() {
         const imageUrl = this.src;
         const modalHtml = `
@@ -323,14 +327,15 @@ async function populateDirectorDetails(director, credits) {
         currentIndex += direction;
         if (currentIndex < 0) {
             currentIndex = images.length - 1;
-        } else if (currentIndex >= images.length) {
+        }
+        else if (currentIndex >= images.length) {
             currentIndex = 0;
         }
         imgElement.style.opacity = '0';
         setTimeout(() => {
             imgElement.src = `https://image.tmdb.org/t/p/w1280${images[currentIndex].file_path}`;
             imgElement.style.opacity = '1';
-        }, 390);
+        }, 420);
     }
 
     if (window.innerWidth <= 767) {

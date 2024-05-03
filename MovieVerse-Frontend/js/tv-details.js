@@ -853,17 +853,20 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
         setTimeout(() => {
             imgElement.src = `https://image.tmdb.org/t/p/w1280${images[currentIndex].file_path}`;
             imgElement.style.opacity = '1';
-        }, 345);
+        }, 420);
     }
 
     if (window.innerWidth <= 767) {
         mediaContainer.style.width = 'calc(100% - 40px)';
     }
 
+    if (images.length === 0) {
+        mediaContainer.innerHTML = '<p>No media available</p>';
+    }
+
     document.getElementById('movie-description').innerHTML = detailsHTML;
     document.getElementById('movie-description').appendChild(mediaTitle);
     document.getElementById('movie-description').appendChild(mediaContainer);
-
 }
 
 async function fetchTvSeriesStreamingLinks(tvSeriesId) {
