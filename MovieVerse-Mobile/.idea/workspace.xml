@@ -5,36 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cd254aab-fb0b-4629-92a6-766779c47463" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../.github/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../.github/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/404.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/404.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/about.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/about.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/chat.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/chat.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/company-details.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/company-details.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/favorites.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/favorites.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/notifications.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/notifications.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/user-profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/html/user-profile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/sitemap.xml" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/sitemap.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/platforms/ios/CordovaLib/CordovaLib.xcodeproj/xcuserdata/davidnguyen.xcuserdatad/xcschemes/xcschememanagement.plist" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/CordovaLib/CordovaLib.xcodeproj/xcuserdata/davidnguyen.xcuserdatad/xcschemes/xcschememanagement.plist" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/platforms/ios/MovieVerse.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/MovieVerse.xcodeproj/project.pbxproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/platforms/ios/MovieVerse.xcworkspace/xcuserdata/davidnguyen.xcuserdatad/UserInterfaceState.xcuserstate" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/MovieVerse.xcworkspace/xcuserdata/davidnguyen.xcuserdatad/UserInterfaceState.xcuserstate" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/platforms/ios/www/404.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/404.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/about.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/about.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/chat.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/chat.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/company-details.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/company-details.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/favorites.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/favorites.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/notifications.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/notifications.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/user-profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/html/user-profile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/platforms/ios/www/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/www/404.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/404.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Frontend/html/about.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/MovieVerse-Frontend/html/about.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Frontend/html/chat.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/MovieVerse-Frontend/html/chat.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Frontend/html/company-details.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/MovieVerse-Frontend/html/company-details.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Frontend/html/favorites.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/MovieVerse-Frontend/html/favorites.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Frontend/html/notifications.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/MovieVerse-Frontend/html/notifications.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Frontend/html/user-profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/MovieVerse-Frontend/html/user-profile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/www/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../easteregg.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/sitemap.xml" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/sitemap.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../utilities/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/../utilities/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,7 +47,7 @@
     "RunOnceActivity.readMode.enableVisualFormatting": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "deployment-branch",
+    "git-widget-placeholder": "new-feature/add-media-gallery",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/hoang/WebstormProjects/The-MovieVerse-Database/MovieVerse-Mobile",
