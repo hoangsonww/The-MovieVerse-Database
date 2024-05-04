@@ -451,7 +451,7 @@ async function populateCreateModalWithFavorites() {
 
         if (!userSnapshot.empty) {
             const userData = userSnapshot.docs[0].data();
-            const moviesFavorited = userData.moviesFavorited || [];
+            const moviesFavorited = userData.favoritesMovies || [];
             const favoritesTVSeries = userData.favoritesTVSeries || [];
 
             let moviesLabel = document.createElement('label');
@@ -551,6 +551,11 @@ async function populateCreateModalWithFavorites() {
             }
         }
     }
+    document.addEventListener('keydown', function(event) {
+        if (event.key === "Escape") {
+            closeModal('create-watchlist-modal');
+        }
+    });
 }
 
 document.getElementById('create-watchlist-form').addEventListener('submit', async function(e) {
@@ -702,7 +707,7 @@ async function populateEditModal() {
 
             if (!usersSnapshot.empty) {
                 const userData = usersSnapshot.docs[0].data();
-                moviesFavorited = userData.moviesFavorited || [];
+                moviesFavorited = userData.favoritesMovies || [];
                 favoritesTVSeries = userData.favoritesTVSeries || [];
             }
         }
@@ -960,12 +965,16 @@ async function populateEditModal() {
             editForm.appendChild(cancelButton);
         }
     }
+    document.addEventListener('keydown', function(event) {
+        if (event.key === "Escape") {
+            closeModal('edit-watchlist-modal');
+        }
+    });
 }
 
 document.getElementById('edit-watchlist-form').addEventListener('submit', async function(e) {
     try {
         showSpinner();
-
         e.preventDefault();
 
         const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
@@ -1151,6 +1160,11 @@ async function populateDeleteModal() {
             deleteForm.appendChild(deleteButton);
         }
     }
+    document.addEventListener('keydown', function(event) {
+        if (event.key === "Escape") {
+            closeModal('delete-watchlist-modal');
+        }
+    });
 }
 
 async function deleteSelectedWatchlists() {
@@ -1414,7 +1428,7 @@ async function loadWatchLists() {
 
             if (!userSnapshot.empty) {
                 const userData = userSnapshot.docs[0].data();
-                favorites = userData.moviesFavorited || [];
+                favorites = userData.favoritesMovies || [];
                 favoritesTVSeries = userData.favoritesTVSeries || [];
             }
         }

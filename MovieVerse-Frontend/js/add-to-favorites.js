@@ -196,6 +196,9 @@ export async function toggleFavorite() {
             localStorage.setItem('favoriteGenres', JSON.stringify(favoriteGenres));
             console.log('Favorites movies updated successfully in Firestore');
         }
+
+        updateMoviesFavorited(movieId);
+
     } catch (error) {
         if (error.code === 'resource-exhausted') {
             console.log('Firebase quota exceeded. Using localStorage for favorites.');
@@ -218,14 +221,24 @@ export async function toggleFavorite() {
 
             localStorage.setItem('favoritesMovies', JSON.stringify(favoritesMovies));
             localStorage.setItem('favoriteGenres', JSON.stringify(favoriteGenres));
-
             console.log('Favorites movies updated successfully in localStorage');
             window.location.reload();
             return;
-        } else {
+        }
+        else {
             console.error('An error occurred:', error);
         }
+
+        updateMoviesFavorited(movieId);
     }
 
     window.location.reload();
+}
+
+function updateMoviesFavorited(movieId) {
+    let favoritedMovies = JSON.parse(localStorage.getItem('moviesFavorited')) || [];
+    if (!favoritedMovies.includes(movieId)) {
+        favoritedMovies.push(movieId);
+        localStorage.setItem('moviesFavorited', JSON.stringify(favoritedMovies));
+    }
 }

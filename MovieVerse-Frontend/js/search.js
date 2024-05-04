@@ -260,11 +260,19 @@ async function rotateUserStats() {
 
 function updateMovieVisitCount(movieId, movieTitle) {
     let movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
+    let uniqueMoviesViewed = JSON.parse(localStorage.getItem('uniqueMoviesViewed')) || [];
+
     if (!movieVisits[movieId]) {
         movieVisits[movieId] = { count: 0, title: movieTitle };
     }
     movieVisits[movieId].count += 1;
+
+    if (!uniqueMoviesViewed.includes(movieId)) {
+        uniqueMoviesViewed.push(movieId);
+    }
+
     localStorage.setItem('movieVisits', JSON.stringify(movieVisits));
+    localStorage.setItem('uniqueMoviesViewed', JSON.stringify(uniqueMoviesViewed));
 }
 
 function getMostVisitedMovie() {

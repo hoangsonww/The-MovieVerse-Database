@@ -420,8 +420,8 @@ function showMovies(movies, mainElement) {
             localStorage.setItem('selectedMovieId', id);
             updateUniqueMoviesViewed(id);
             updateFavoriteGenre(genre_ids);
-            window.location.href = 'MovieVerse-Frontend/html/movie-details.html';
             updateMovieVisitCount(id, title);
+            window.location.href = 'MovieVerse-Frontend/html/movie-details.html';
         });
 
         mainElement.appendChild(movieEl);
@@ -899,7 +899,7 @@ async function getDirectorSpotlight(url) {
 function showMoviesDirectorSpotlight(movies) {
     director_main.innerHTML = '';
     movies.forEach((movie) => {
-        const { id, poster_path, title, vote_average } = movie;
+        const { id, poster_path, title, vote_average, genre_ids } = movie;
         const movieEl = document.createElement('div');
 
         movieEl.classList.add('movie');
@@ -925,8 +925,10 @@ function showMoviesDirectorSpotlight(movies) {
 
         movieEl.addEventListener('click', () => {
             localStorage.setItem('selectedMovieId', id);
-            window.location.href = 'MovieVerse-Frontend/html/movie-details.html';
+            updateUniqueMoviesViewed(id);
+            updateFavoriteGenre(genre_ids);
             updateMovieVisitCount(id, title);
+            window.location.href = 'MovieVerse-Frontend/html/movie-details.html';
         });
 
         director_main.appendChild(movieEl);
