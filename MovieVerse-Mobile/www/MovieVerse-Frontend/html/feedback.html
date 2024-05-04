@@ -590,7 +590,7 @@
 
     <div class="form-container">
         <div style="font-weight: bold; font-size: 28px; margin-top: 10px">Feedback</div>
-        <p style="color: black">We'd love to hear from you! Please share your feedback, suggestions, or any issues you've encountered while using MovieVerse. We'll do our best to address them.</p>
+        <p style="color: black">Noticed a bug? Have a suggestion? Wrong movie information? Or just want to say hi? We'd love to hear from you!</p>
         <form action="https://formspree.io/f/xqkrbdqd" method="POST">
             <input type="text" id="name" name="name" placeholder="Your Name" required>
             <input type="email" id="email" name="_replyto" placeholder="Your Email" required>
@@ -971,7 +971,7 @@
             applySettings();
 
             function applySettings() {
-                const defaultBg = '../../images/universe-1.png';
+                const defaultBg = '../../images/universe-1.webp';
                 const savedBg = localStorage.getItem('backgroundImage') || defaultBg;
                 const savedTextColor = localStorage.getItem('textColor');
                 const savedFontSize = localStorage.getItem('fontSize');
