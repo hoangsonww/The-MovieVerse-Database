@@ -659,7 +659,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
 
     if (tvSeries.created_by && tvSeries.created_by.length) {
         const creatorsLinks = tvSeries.created_by.map(creator =>
-            `<a id="director-link" href="javascript:void(0);" onclick="handleCreatorClick(${creator.id})">${creator.name}</a>`
+            `<a id="director-link" href="javascript:void(0);" onclick="handleCreatorClick(${creator.id}, '${creator.name.replace(/'/g, "\\'")}');">${creator.name}</a>`
         ).join(', ');
         detailsHTML += `<p><strong>Directors:</strong> ${creatorsLinks}</p>`;
     }
@@ -919,6 +919,34 @@ async function fetchTvSeriesStreamingLinks(tvSeriesId) {
     }
 }
 
+function updateUniqueDirectorsViewed(directorId) {
+    let viewedDirectors = JSON.parse(localStorage.getItem('uniqueDirectorsViewed')) || [];
+    if (!viewedDirectors.includes(directorId)) {
+        viewedDirectors.push(directorId);
+        localStorage.setItem('uniqueDirectorsViewed', JSON.stringify(viewedDirectors));
+    }
+}
+
+function updateActorVisitCount(actorId, actorName) {
+    let actorVisits = JSON.parse(localStorage.getItem('actorVisits')) || {};
+    if (!actorVisits[actorId]) {
+        actorVisits[actorId] = { count: 0, name: actorName };
+    }
+
+    actorVisits[actorId].count += 1;
+    localStorage.setItem('actorVisits', JSON.stringify(actorVisits));
+}
+
+function updateDirectorVisitCount(directorId, directorName) {
+    let directorVisits = JSON.parse(localStorage.getItem('directorVisits')) || {};
+    if (!directorVisits[directorId]) {
+        directorVisits[directorId] = { count: 0, name: directorName };
+    }
+
+    directorVisits[directorId].count += 1;
+    localStorage.setItem('directorVisits', JSON.stringify(directorVisits));
+}
+
 function selectActorId(actorId, actorName) {
     const actorVisits = JSON.parse(localStorage.getItem('actorVisits')) || {};
     const uniqueActorsViewed = JSON.parse(localStorage.getItem('uniqueActorsViewed')) || [];
@@ -959,8 +987,11 @@ function hideSpinner() {
     document.getElementById('myModal').classList.remove('modal-visible');
 }
 
-function handleCreatorClick(creatorId) {
+function handleCreatorClick(creatorId, creatorName) {
     localStorage.setItem('selectedDirectorId', creatorId);
+    document.title = `${creatorName} - Director's Details`;
+    updateUniqueDirectorsViewed(creatorId);
+    updateDirectorVisitCount(creatorId, creatorName);
     window.location.href = 'director-details.html';
 }
 

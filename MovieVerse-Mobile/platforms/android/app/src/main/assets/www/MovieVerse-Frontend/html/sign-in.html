@@ -346,6 +346,19 @@
         </form>
     </div>
 
+    <script>
+        document.getElementById('togglePassword').addEventListener('change', function() {
+            const passwordInput = document.getElementById('signInPassword');
+
+            if (this.checked) {
+                passwordInput.type = 'text';
+            }
+            else {
+                passwordInput.type = 'password';
+            }
+        });
+    </script>
+
     <div id="myModal" class="modal-overlay">
         <div class="spinner"></div>
     </div>

@@ -1435,9 +1435,9 @@ function getSavedTextColor() {
 function handleDirectorClick(directorId, directorName) {
     localStorage.setItem('selectedDirectorId', directorId);
     document.title = `${directorName} - Director's Details`;
-    window.location.href = 'director-details.html';
     updateUniqueDirectorsViewed(directorId);
     updateDirectorVisitCount(directorId, directorName);
+    window.location.href = 'director-details.html';
 }
 
 function selectActorId(actorId, actorName) {
