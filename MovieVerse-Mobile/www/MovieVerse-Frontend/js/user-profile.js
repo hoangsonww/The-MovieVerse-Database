@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getFirestore, doc, getDoc, setDoc, query, collection, where, getDocs, serverTimestamp, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-import { getAverageMovieRating } from './ratingsModule.js';
+import { getAverageMovieRating } from './moviesFavorited.js';
 import { getTriviaStats } from './triviaModule.js';
 
 function showSpinner() {

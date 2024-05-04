@@ -815,7 +815,7 @@
                 {
                     label: "Favorite Movies",
                     getValue: () => {
-                        const favoritedMovies = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
+                        const favoritedMovies = JSON.parse(localStorage.getItem('moviesFavorited')) || [];
                         return favoritedMovies.length;
                     }
                 },
@@ -823,11 +823,36 @@
                     label: "Favorite Genre",
                     getValue: () => {
                         const mostCommonGenreCode = getMostCommonGenre();
-                        const genreArray = JSON.parse(localStorage.getItem('genreMap')) || [];
-                        const genreObject = genreArray.reduce((acc, genre) => {
-                            acc[genre.id] = genre.name;
-                            return acc;
-                        }, {});
+                        const genreMapString = localStorage.getItem('genreMap');
+                        if (!genreMapString) {
+                            console.log('No genre map found in localStorage.');
+                            return 'Not Available';
+                        }
+
+                        let genreMap;
+                        try {
+                            genreMap = JSON.parse(genreMapString);
+                        }
+                        catch (e) {
+                            console.log('Error parsing genre map:', e);
+                            return 'Not Available';
+                        }
+
+                        let genreObject;
+                        if (Array.isArray(genreMap)) {
+                            genreObject = genreMap.reduce((acc, genre) => {
+                                acc[genre.id] = genre.name;
+                                return acc;
+                            }, {});
+                        }
+                        else if (typeof genreMap === 'object' && genreMap !== null) {
+                            genreObject = genreMap;
+                        }
+                        else {
+                            console.log('genreMap is neither an array nor a proper object:', genreMap);
+                            return 'Not Available';
+                        }
+
                         return genreObject[mostCommonGenreCode] || 'Not Available';
                     }
                 },

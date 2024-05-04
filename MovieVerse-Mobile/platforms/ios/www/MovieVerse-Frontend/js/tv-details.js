@@ -87,7 +87,7 @@ async function rotateUserStats() {
         {
             label: "Favorite Movies",
             getValue: () => {
-                const favoritedMovies = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
+                const favoritedMovies = JSON.parse(localStorage.getItem('moviesFavorited')) || [];
                 return favoritedMovies.length;
             }
         },
@@ -95,11 +95,36 @@ async function rotateUserStats() {
             label: "Favorite Genre",
             getValue: () => {
                 const mostCommonGenreCode = getMostCommonGenre();
-                const genreArray = JSON.parse(localStorage.getItem('genreMap')) || [];
-                const genreObject = genreArray.reduce((acc, genre) => {
-                    acc[genre.id] = genre.name;
-                    return acc;
-                }, {});
+                const genreMapString = localStorage.getItem('genreMap');
+                if (!genreMapString) {
+                    console.log('No genre map found in localStorage.');
+                    return 'Not Available';
+                }
+
+                let genreMap;
+                try {
+                    genreMap = JSON.parse(genreMapString);
+                }
+                catch (e) {
+                    console.log('Error parsing genre map:', e);
+                    return 'Not Available';
+                }
+
+                let genreObject;
+                if (Array.isArray(genreMap)) {
+                    genreObject = genreMap.reduce((acc, genre) => {
+                        acc[genre.id] = genre.name;
+                        return acc;
+                    }, {});
+                }
+                else if (typeof genreMap === 'object' && genreMap !== null) {
+                    genreObject = genreMap;
+                }
+                else {
+                    console.log('genreMap is neither an array nor a proper object:', genreMap);
+                    return 'Not Available';
+                }
+
                 return genreObject[mostCommonGenreCode] || 'Not Available';
             }
         },
@@ -644,7 +669,8 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
 
     if (tvSeries.credits && tvSeries.credits.cast && tvSeries.credits.cast.length) {
         let castHTML = tvSeries.credits.cast.slice(0, 100).map(castMember => {
-            return `<a id="cast-info" href="javascript:void(0);" onclick="selectActorId(${castMember.id})">${castMember.name}</a>`;
+            const escapedName = castMember.name.replace(/'/g, "\\'");
+            return `<a id="cast-info" href="javascript:void(0);" onclick="selectActorId(${castMember.id}, '${escapedName}');">${castMember.name}</a>`;
         }).join(', ');
         detailsHTML += `<p><strong>Cast:</strong> ${castHTML}</p>`;
     }
@@ -886,15 +912,33 @@ async function fetchTvSeriesStreamingLinks(tvSeriesId) {
         });
 
         return Object.values(providersMap).slice(0, 7);
-    } catch (error) {
+    }
+    catch (error) {
         console.error('Error fetching TV series streaming links:', error);
         return [];
     }
 }
 
-function selectActorId(actorId) {
+function selectActorId(actorId, actorName) {
+    const actorVisits = JSON.parse(localStorage.getItem('actorVisits')) || {};
+    const uniqueActorsViewed = JSON.parse(localStorage.getItem('uniqueActorsViewed')) || [];
+
+    if (!uniqueActorsViewed.includes(actorId)) {
+        uniqueActorsViewed.push(actorId);
+        localStorage.setItem('uniqueActorsViewed', JSON.stringify(uniqueActorsViewed));
+    }
+
+    if (actorVisits[actorId]) {
+        actorVisits[actorId].count++;
+    }
+    else {
+        actorVisits[actorId] = { count: 1, name: actorName };
+    }
+
+    localStorage.setItem('actorVisits', JSON.stringify(actorVisits));
+
     localStorage.setItem('selectedActorId', actorId);
-    window.location.href = 'actor-details.html'
+    window.location.href = 'actor-details.html';
 }
 
 function selectTvSeriesId(tvSeriesId) {

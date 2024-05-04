@@ -141,7 +141,7 @@ async function rotateUserStats() {
         {
             label: "Favorite Movies",
             getValue: () => {
-                const favoritedMovies = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
+                const favoritedMovies = JSON.parse(localStorage.getItem('moviesFavorited')) || [];
                 return favoritedMovies.length;
             }
         },
@@ -149,11 +149,36 @@ async function rotateUserStats() {
             label: "Favorite Genre",
             getValue: () => {
                 const mostCommonGenreCode = getMostCommonGenre();
-                const genreArray = JSON.parse(localStorage.getItem('genreMap')) || [];
-                const genreObject = genreArray.reduce((acc, genre) => {
-                    acc[genre.id] = genre.name;
-                    return acc;
-                }, {});
+                const genreMapString = localStorage.getItem('genreMap');
+                if (!genreMapString) {
+                    console.log('No genre map found in localStorage.');
+                    return 'Not Available';
+                }
+
+                let genreMap;
+                try {
+                    genreMap = JSON.parse(genreMapString);
+                }
+                catch (e) {
+                    console.log('Error parsing genre map:', e);
+                    return 'Not Available';
+                }
+
+                let genreObject;
+                if (Array.isArray(genreMap)) {
+                    genreObject = genreMap.reduce((acc, genre) => {
+                        acc[genre.id] = genre.name;
+                        return acc;
+                    }, {});
+                }
+                else if (typeof genreMap === 'object' && genreMap !== null) {
+                    genreObject = genreMap;
+                }
+                else {
+                    console.log('genreMap is neither an array nor a proper object:', genreMap);
+                    return 'Not Available';
+                }
+
                 return genreObject[mostCommonGenreCode] || 'Not Available';
             }
         },
@@ -356,7 +381,7 @@ async function populateCreateModalWithFavorites() {
         let currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser') || '';
 
         if (!currentUserEmail) {
-            const favoritesMovies = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
+            const moviesFavorited = JSON.parse(localStorage.getItem('moviesFavorited')) || [];
             const favoritesTVSeries = JSON.parse(localStorage.getItem('favoritesTVSeries')) || [];
 
             let container = document.getElementById('favorites-container');
@@ -378,11 +403,11 @@ async function populateCreateModalWithFavorites() {
             moviesContainer.style.marginTop = '-20px';
             container.appendChild(moviesContainer);
 
-            if (favoritesMovies.length === 0) {
+            if (moviesFavorited.length === 0) {
                 moviesContainer.innerHTML = '<p style="margin-top: 20px">No Favorite Movies Added Yet.</p>';
             }
             else {
-                for (const movieId of favoritesMovies) {
+                for (const movieId of moviesFavorited) {
                     const movieTitle = await getMovieTitle(movieId);
                     appendCheckbox(moviesContainer, movieId, movieTitle, 'favoritedMovies');
                 }
@@ -426,7 +451,7 @@ async function populateCreateModalWithFavorites() {
 
         if (!userSnapshot.empty) {
             const userData = userSnapshot.docs[0].data();
-            const favoritesMovies = userData.favoritesMovies || [];
+            const moviesFavorited = userData.moviesFavorited || [];
             const favoritesTVSeries = userData.favoritesTVSeries || [];
 
             let moviesLabel = document.createElement('label');
@@ -438,11 +463,11 @@ async function populateCreateModalWithFavorites() {
             moviesContainer.style.marginTop = '-20px';
             container.appendChild(moviesContainer);
 
-            if (favoritesMovies.length === 0) {
+            if (moviesFavorited.length === 0) {
                 moviesContainer.innerHTML = '<p style="margin-top: 20px">No Favorite Movies Added Yet.</p>';
             }
             else {
-                for (const movieId of favoritesMovies) {
+                for (const movieId of moviesFavorited) {
                     const movieTitle = await getMovieTitle(movieId);
                     appendCheckbox(moviesContainer, movieId, movieTitle, 'favoritedMovies');
                 }
@@ -474,7 +499,7 @@ async function populateCreateModalWithFavorites() {
     catch (error) {
         if (error.code === 'resource-exhausted') {
             console.log('Firebase quota exceeded. Using localStorage for favorites.');
-            const favoritesMovies = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
+            const moviesFavorited = JSON.parse(localStorage.getItem('moviesFavorited')) || [];
             const favoritesTVSeries = JSON.parse(localStorage.getItem('favoritesTVSeries')) || [];
 
             let container = document.getElementById('favorites-container');
@@ -496,11 +521,11 @@ async function populateCreateModalWithFavorites() {
             moviesContainer.style.marginTop = '-20px';
             container.appendChild(moviesContainer);
 
-            if (favoritesMovies.length === 0) {
+            if (moviesFavorited.length === 0) {
                 moviesContainer.innerHTML = '<p style="margin-top: 20px">No Favorite Movies Added Yet.</p>';
             }
             else {
-                for (const movieId of favoritesMovies) {
+                for (const movieId of moviesFavorited) {
                     const movieTitle = await getMovieTitle(movieId);
                     appendCheckbox(moviesContainer, movieId, movieTitle, 'favoritedMovies');
                 }
@@ -661,7 +686,7 @@ async function populateEditModal() {
         let currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
 
         let watchlists = [];
-        let favoritesMovies = [];
+        let moviesFavorited = [];
         let favoritesTVSeries = [];
 
         if (currentUserEmail) {
@@ -677,13 +702,13 @@ async function populateEditModal() {
 
             if (!usersSnapshot.empty) {
                 const userData = usersSnapshot.docs[0].data();
-                favoritesMovies = userData.favoritesMovies || [];
+                moviesFavorited = userData.moviesFavorited || [];
                 favoritesTVSeries = userData.favoritesTVSeries || [];
             }
         }
         else {
             watchlists = JSON.parse(localStorage.getItem('localWatchlists')) || [];
-            favoritesMovies = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
+            moviesFavorited = JSON.parse(localStorage.getItem('moviesFavorited')) || [];
             favoritesTVSeries = JSON.parse(localStorage.getItem('favoritesTVSeries')) || [];
         }
 
@@ -759,11 +784,11 @@ async function populateEditModal() {
             initialMoviesSelection = watchlist.movies.slice();
             initialTVSeriesSelection = watchlist.tvSeries.slice();
 
-            if (!favoritesMovies || favoritesMovies.length === 0) {
+            if (!moviesFavorited || moviesFavorited.length === 0) {
                 moviesContainer.innerHTML = '<p style="margin-top: 20px">No Favorite Movies Added Yet.</p>';
             }
             else {
-                for (const movieId of favoritesMovies) {
+                for (const movieId of moviesFavorited) {
                     const movieTitle = await getMovieTitle(movieId);
                     const isChecked = watchlist.movies.includes(movieId);
                     appendCheckbox(moviesContainer, movieId, movieTitle, 'favoritedMovies', isChecked);
@@ -811,7 +836,7 @@ async function populateEditModal() {
         if (error.code === 'resource-exhausted') {
             console.log('Firebase quota exceeded. Using localStorage for watchlists.');
             let watchlists = JSON.parse(localStorage.getItem('localWatchlists')) || [];
-            let favoritesMovies = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
+            let moviesFavorited = JSON.parse(localStorage.getItem('moviesFavorited')) || [];
             let favoritesTVSeries = JSON.parse(localStorage.getItem('favoritesTVSeries')) || [];
 
             const editForm = document.getElementById('edit-watchlist-form');
@@ -886,11 +911,11 @@ async function populateEditModal() {
                 initialMoviesSelection = watchlist.movies.slice();
                 initialTVSeriesSelection = watchlist.tvSeries.slice();
 
-                if (!favoritesMovies || favoritesMovies.length === 0) {
+                if (!moviesFavorited || moviesFavorited.length === 0) {
                     moviesContainer.innerHTML = '<p style="margin-top: 20px">No Favorite Movies Added Yet.</p>';
                 }
                 else {
-                    for (const movieId of favoritesMovies) {
+                    for (const movieId of moviesFavorited) {
                         const movieTitle = await getMovieTitle(movieId);
                         const isChecked = watchlist.movies.includes(movieId);
                         appendCheckbox(moviesContainer, movieId, movieTitle, 'favoritedMovies', isChecked);
@@ -1389,12 +1414,12 @@ async function loadWatchLists() {
 
             if (!userSnapshot.empty) {
                 const userData = userSnapshot.docs[0].data();
-                favorites = userData.favoritesMovies || [];
+                favorites = userData.moviesFavorited || [];
                 favoritesTVSeries = userData.favoritesTVSeries || [];
             }
         }
         else {
-            favorites = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
+            favorites = JSON.parse(localStorage.getItem('moviesFavorited')) || [];
             favoritesTVSeries = JSON.parse(localStorage.getItem('favoritesTVSeries')) || [];
         }
 
@@ -1491,7 +1516,7 @@ async function loadWatchLists() {
             let favorites = [];
             let favoritesTVSeries = [];
 
-            favorites = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
+            favorites = JSON.parse(localStorage.getItem('moviesFavorited')) || [];
             favoritesTVSeries = JSON.parse(localStorage.getItem('favoritesTVSeries')) || [];
 
             if (favorites.length > 0) {

@@ -178,6 +178,7 @@ async function fetchGenreMap() {
             return map;
         }, {});
         localStorage.setItem('genreMap', JSON.stringify(genreMap));
+        console.log(genreMap)
     }
     catch (error) {
         console.log('Error fetching genre map:', error);
@@ -212,7 +213,7 @@ async function rotateUserStats() {
         {
             label: "Favorite Movies",
             getValue: () => {
-                const favoritedMovies = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
+                const favoritedMovies = JSON.parse(localStorage.getItem('moviesFavorited')) || [];
                 return favoritedMovies.length;
             }
         },
@@ -220,11 +221,36 @@ async function rotateUserStats() {
             label: "Favorite Genre",
             getValue: () => {
                 const mostCommonGenreCode = getMostCommonGenre();
-                const genreArray = JSON.parse(localStorage.getItem('genreMap')) || [];
-                const genreObject = genreArray.reduce((acc, genre) => {
-                    acc[genre.id] = genre.name;
-                    return acc;
-                }, {});
+                const genreMapString = localStorage.getItem('genreMap');
+                if (!genreMapString) {
+                    console.log('No genre map found in localStorage.');
+                    return 'Not Available';
+                }
+
+                let genreMap;
+                try {
+                    genreMap = JSON.parse(genreMapString);
+                }
+                catch (e) {
+                    console.log('Error parsing genre map:', e);
+                    return 'Not Available';
+                }
+
+                let genreObject;
+                if (Array.isArray(genreMap)) {
+                    genreObject = genreMap.reduce((acc, genre) => {
+                        acc[genre.id] = genre.name;
+                        return acc;
+                    }, {});
+                }
+                else if (typeof genreMap === 'object' && genreMap !== null) {
+                    genreObject = genreMap;
+                }
+                else {
+                    console.log('genreMap is neither an array nor a proper object:', genreMap);
+                    return 'Not Available';
+                }
+
                 return genreObject[mostCommonGenreCode] || 'Not Available';
             }
         },
@@ -1156,7 +1182,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         const topTenCast = movie.credits.cast.slice(0, 10);
         topTenCast.forEach((actor, index) => {
             const actorLink = document.createElement('a');
-            actorLink.innerHTML = `<a class="actor-link" href="javascript:void(0);" onclick="selectActorId(${actor.id})">${actor.name}</a>`;
+            actorLink.innerHTML = `<a class="actor-link" href="javascript:void(0);" onclick="selectActorId(${actor.id}, '${actor.name.replace(/'/g, "\\'")}');">${actor.name}</a>`;
             castHeading.appendChild(actorLink);
             if (index < topTenCast.length - 1) {
                 castHeading.appendChild(document.createTextNode(', '));
@@ -1392,7 +1418,7 @@ function setProgress(circle, text, rating) {
         circle.style.transition = 'stroke-dashoffset 0.6s ease-out, stroke 0.6s ease';
         circle.style.strokeDashoffset = offset;
         circle.style.setProperty('--progress-color', rating <= 5 ? '#FF0000' : (rating >= 7.5 ? '#4CAF50' : '#2196F3'));
-        text.textContent = `${rating.toFixed(1)}`;
+        text.textContent = `${rating}`;
     }, 10);
 }
 
@@ -1414,9 +1440,26 @@ function handleDirectorClick(directorId, directorName) {
     updateDirectorVisitCount(directorId, directorName);
 }
 
-function selectActorId(actorId) {
+function selectActorId(actorId, actorName) {
+    const actorVisits = JSON.parse(localStorage.getItem('actorVisits')) || {};
+    const uniqueActorsViewed = JSON.parse(localStorage.getItem('uniqueActorsViewed')) || [];
+
+    if (!uniqueActorsViewed.includes(actorId)) {
+        uniqueActorsViewed.push(actorId);
+        localStorage.setItem('uniqueActorsViewed', JSON.stringify(uniqueActorsViewed));
+    }
+
+    if (actorVisits[actorId]) {
+        actorVisits[actorId].count++;
+    }
+    else {
+        actorVisits[actorId] = { count: 1, name: actorName };
+    }
+
+    localStorage.setItem('actorVisits', JSON.stringify(actorVisits));
+
     localStorage.setItem('selectedActorId', actorId);
-    window.location.href = 'actor-details.html'
+    window.location.href = 'actor-details.html';
 }
 
 function handleCompanyClick(companyId, companyName) {
