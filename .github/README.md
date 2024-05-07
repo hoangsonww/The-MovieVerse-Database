@@ -1,10 +1,16 @@
 # The MovieVerse App
 
-Welcome to The MovieVerse - your digital compass to the cinematic universe. Created by [Son Nguyen](https://github.com/hoangsonww) in 2023 and currently attracting more than **100,000 monthly users**, this application is a completely **free-to-use** app, designed to serve as a bridge connecting movie enthusiasts with an extensive collection of films across various genres and periods. Dive into an ocean of narratives, where stories come to life, right at your fingertips with MovieVerse!
+<p align="center" style="cursor: pointer">
+  <a href="https://movie-verse.com">
+    <img src="../images/uwu.webp" alt="The MovieVerse App Interface" style="border-radius: 10px" width="200"/>
+  </a>
+</p>
 
-Star this repository to show your support and stay updated on the latest features and enhancements. Feel free to contribute to the project, and let's build a vibrant community of movie lovers together 🎬🍿!
+Welcome to **The MovieVerse** - your digital compass to the cinematic universe. Created by [Son Nguyen](https://github.com/hoangsonww) in 2023 and currently attracting more than **150,000 monthly users**, this application is completely **free-to-use**, designed to serve as a bridge connecting movie enthusiasts with an extensive collection of films across various genres and periods. Dive into an ocean of narratives, where stories come to life, right at your fingertips with **MovieVerse**!
 
-**This app is currently available at [movie-verse.com](https://movie-verse.com)!**
+🌟 Star this repository to show your support and stay updated on the latest features and enhancements. Feel free to contribute to the project, and let's build a vibrant community of movie lovers together 🎬🍿!
+
+**This app is currently available at [movie-verse.com](https://movie-verse.com).**
 
 ---
 
@@ -193,4 +199,4 @@ Thank you for your understanding and support! 🎬🍿
 
 ---
 
-Created with ❤️ in 2024 by [Son Nguyen](https://github.com/hoangsonww). All rights reserved.
+Created with ❤️ in 2023 by [Son Nguyen](https://github.com/hoangsonww). All rights reserved.
