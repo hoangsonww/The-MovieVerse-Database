@@ -12,8 +12,6 @@ Welcome to **The MovieVerse** - your digital compass to the cinematic universe. 
 
 **This app is currently available at [movie-verse.com](https://movie-verse.com).**
 
----
-
 ## Table of Contents
 
 - [User Interface](#user-interface)
