@@ -963,6 +963,7 @@ function handleSignInOut() {
         window.location.href = 'MovieVerse-Frontend/html/sign-in.html';
         return;
     }
+
     updateSignInButtonState();
 }
 
