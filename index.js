@@ -104,6 +104,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 currentPageMostPopular = pageNum;
                 fetchAndUpdateMostPopular();
             };
+
             if (pageNum === currentPageMostPopular) {
                 button.classList.add('active');
             }
