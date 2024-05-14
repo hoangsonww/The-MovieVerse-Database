@@ -905,6 +905,7 @@ async function getDirectorSpotlight(url) {
     const resp = await fetch(url);
     const respData = await resp.json();
     let allMovies = [];
+
     if (respData.results.length > 0) {
         allMovies = respData.results.slice(0, numberOfMovies);
         showMoviesDirectorSpotlight(allMovies);
@@ -913,6 +914,7 @@ async function getDirectorSpotlight(url) {
 
 function showMoviesDirectorSpotlight(movies) {
     director_main.innerHTML = '';
+
     movies.forEach((movie) => {
         const { id, poster_path, title, vote_average, genre_ids } = movie;
         const movieEl = document.createElement('div');
