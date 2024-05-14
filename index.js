@@ -252,6 +252,7 @@ function setupPagination(mainElementId, paginationContainerId, genresContainerId
 
     movePagination();
     fetchAndUpdate();
+
     let resizeTimer;
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimer);
@@ -356,12 +357,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         const button = document.createElement('button');
         button.textContent = pageNum;
         button.className = 'page-button' + (isActive ? ' active' : '');
+
         if (pageNum !== '...') {
             button.addEventListener('click', () => fetchFunction(pageNum));
         }
         else {
             button.disabled = true;
         }
+
         return button;
     }
 
@@ -588,6 +591,7 @@ async function rotateUserStats() {
 
 function updateMovieVisitCount(movieId, movieTitle) {
     let movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
+
     if (!movieVisits[movieId]) {
         movieVisits[movieId] = { count: 0, title: movieTitle };
     }
@@ -599,6 +603,7 @@ function getMostVisitedMovie() {
     const movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
     let mostVisitedMovie = '';
     let maxVisits = 0;
+
     for (const movieId in movieVisits) {
         if (movieVisits[movieId].count > maxVisits) {
             mostVisitedMovie = movieVisits[movieId].title;
@@ -829,6 +834,7 @@ document.addEventListener('click', function(event) {
 
 document.getElementById('side-nav').addEventListener('mouseleave', function() {
     const sideNav = document.getElementById('side-nav');
+
     if (!sideNav.classList.contains('manual-toggle')) {
         sideNav.style.left = '-250px';
     }
@@ -1032,7 +1038,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 function handleSearch() {
     const searchQuery = document.getElementById('search').value;
-
     localStorage.setItem('searchQuery', searchQuery);
     window.location.href = 'MovieVerse-Frontend/html/search.html';
 }
