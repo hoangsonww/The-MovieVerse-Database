@@ -674,6 +674,7 @@ function getTriviaAccuracy() {
 
 function getMostCommonGenre() {
     const favoriteGenresArray = JSON.parse(localStorage.getItem('favoriteGenres')) || [];
+
     const genreCounts = favoriteGenresArray.reduce((acc, genre) => {
         acc[genre] = (acc[genre] || 0) + 1;
         return acc;
