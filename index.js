@@ -83,9 +83,11 @@ document.addEventListener('DOMContentLoaded', function() {
         button.innerHTML = text;
         button.disabled = !enabled;
         button.className = 'nav-button';
+
         if (enabled) {
             button.onclick = clickHandler;
         }
+
         return button;
     };
 
@@ -93,6 +95,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const button = document.createElement('button');
         button.textContent = pageNum;
         button.className = 'page-button';
+
         if (pageNum === '...') {
             button.disabled = true;
         }
