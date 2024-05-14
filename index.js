@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const pagination = document.getElementById('most-popular-pagination');
     const genresContainer = document.querySelector('.genres');
     const mainContainer = document.getElementById('most-popular');
+
     function movePagination() {
         if (window.innerWidth <= 767) {
             mainContainer.parentNode.insertBefore(pagination, mainContainer);
@@ -25,6 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
             genresContainer.appendChild(pagination);
         }
     }
+
     movePagination();
     window.addEventListener('resize', movePagination);
 });
