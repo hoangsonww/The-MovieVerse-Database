@@ -811,6 +811,7 @@ function adjustNavBar() {
 
 document.addEventListener('mousemove', function(event) {
     const sideNav = document.getElementById('side-nav');
+
     if (event.clientX < 10 && !sideNav.classList.contains('manual-toggle')) {
         sideNav.style.left = '0';
     }
@@ -819,6 +820,7 @@ document.addEventListener('mousemove', function(event) {
 document.addEventListener('click', function(event) {
     const sideNav = document.getElementById('side-nav');
     const navToggle = document.getElementById('nav-toggle');
+
     if (!sideNav.contains(event.target) && !navToggle.contains(event.target) && sideNav.classList.contains('manual-toggle')) {
         sideNav.classList.remove('manual-toggle');
         adjustNavBar();
