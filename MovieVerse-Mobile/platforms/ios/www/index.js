@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const pagination = document.getElementById('most-popular-pagination');
     const genresContainer = document.querySelector('.genres');
     const mainContainer = document.getElementById('most-popular');
+
     function movePagination() {
         if (window.innerWidth <= 767) {
             mainContainer.parentNode.insertBefore(pagination, mainContainer);
@@ -25,6 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
             genresContainer.appendChild(pagination);
         }
     }
+
     movePagination();
     window.addEventListener('resize', movePagination);
 });
@@ -81,9 +83,11 @@ document.addEventListener('DOMContentLoaded', function() {
         button.innerHTML = text;
         button.disabled = !enabled;
         button.className = 'nav-button';
+
         if (enabled) {
             button.onclick = clickHandler;
         }
+
         return button;
     };
 
@@ -91,6 +95,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const button = document.createElement('button');
         button.textContent = pageNum;
         button.className = 'page-button';
+
         if (pageNum === '...') {
             button.disabled = true;
         }
@@ -99,12 +104,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 currentPageMostPopular = pageNum;
                 fetchAndUpdateMostPopular();
             };
+
             if (pageNum === currentPageMostPopular) {
                 button.classList.add('active');
             }
         }
         return button;
     };
+
     fetchAndUpdateMostPopular();
 });
 
@@ -227,6 +234,7 @@ function setupPagination(mainElementId, paginationContainerId, genresContainerId
         const button = document.createElement('button');
         button.textContent = pageNum;
         button.className = 'page-button';
+
         if (pageNum === '...') {
             button.disabled = true;
         }
@@ -244,6 +252,7 @@ function setupPagination(mainElementId, paginationContainerId, genresContainerId
 
     movePagination();
     fetchAndUpdate();
+
     let resizeTimer;
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimer);
@@ -255,6 +264,7 @@ async function fetchAndDisplayMovies(url, count, mainElement) {
     const response = await fetch(`${url}`);
     const data = await response.json();
     const movies = data.results.slice(0, count);
+
     movies.sort(() => Math.random() - 0.5);
     showMovies(movies, mainElement);
 }
@@ -347,12 +357,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         const button = document.createElement('button');
         button.textContent = pageNum;
         button.className = 'page-button' + (isActive ? ' active' : '');
+
         if (pageNum !== '...') {
             button.addEventListener('click', () => fetchFunction(pageNum));
         }
         else {
             button.disabled = true;
         }
+
         return button;
     }
 
@@ -438,6 +450,7 @@ function updateFavoriteGenre(genre_ids) {
 
 function updateUniqueMoviesViewed(movieId) {
     let viewedMovies = JSON.parse(localStorage.getItem('uniqueMoviesViewed')) || [];
+
     if (!viewedMovies.includes(movieId)) {
         viewedMovies.push(movieId);
         localStorage.setItem('uniqueMoviesViewed', JSON.stringify(viewedMovies));
@@ -452,6 +465,7 @@ async function ensureGenreMapIsAvailable() {
 
 async function fetchGenreMap() {
     const url = `https://${getMovieVerseData()}/3/genre/movie/list?${generateMovieNames()}${getMovieCode()}`;
+
     try {
         const response = await fetch(url);
         const data = await response.json();
@@ -577,6 +591,7 @@ async function rotateUserStats() {
 
 function updateMovieVisitCount(movieId, movieTitle) {
     let movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
+
     if (!movieVisits[movieId]) {
         movieVisits[movieId] = { count: 0, title: movieTitle };
     }
@@ -588,6 +603,7 @@ function getMostVisitedMovie() {
     const movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
     let mostVisitedMovie = '';
     let maxVisits = 0;
+
     for (const movieId in movieVisits) {
         if (movieVisits[movieId].count > maxVisits) {
             mostVisitedMovie = movieVisits[movieId].title;
@@ -637,6 +653,7 @@ function getMostVisitedActor() {
 
 function getMostVisitedDirector() {
     const directorVisits = JSON.parse(localStorage.getItem('directorVisits')) || {};
+
     let mostVisitedDirector = '';
     let maxVisits = 0;
 
@@ -662,6 +679,7 @@ function getTriviaAccuracy() {
 
 function getMostCommonGenre() {
     const favoriteGenresArray = JSON.parse(localStorage.getItem('favoriteGenres')) || [];
+
     const genreCounts = favoriteGenresArray.reduce((acc, genre) => {
         acc[genre] = (acc[genre] || 0) + 1;
         return acc;
@@ -798,6 +816,7 @@ function adjustNavBar() {
 
 document.addEventListener('mousemove', function(event) {
     const sideNav = document.getElementById('side-nav');
+
     if (event.clientX < 10 && !sideNav.classList.contains('manual-toggle')) {
         sideNav.style.left = '0';
     }
@@ -806,6 +825,7 @@ document.addEventListener('mousemove', function(event) {
 document.addEventListener('click', function(event) {
     const sideNav = document.getElementById('side-nav');
     const navToggle = document.getElementById('nav-toggle');
+
     if (!sideNav.contains(event.target) && !navToggle.contains(event.target) && sideNav.classList.contains('manual-toggle')) {
         sideNav.classList.remove('manual-toggle');
         adjustNavBar();
@@ -814,6 +834,7 @@ document.addEventListener('click', function(event) {
 
 document.getElementById('side-nav').addEventListener('mouseleave', function() {
     const sideNav = document.getElementById('side-nav');
+
     if (!sideNav.classList.contains('manual-toggle')) {
         sideNav.style.left = '-250px';
     }
@@ -869,6 +890,7 @@ setInterval(changeDirector, 3600000);
 function updateDirectorSpotlight() {
     const director = directors[currentDirectorIndex];
     document.getElementById('spotlight-director-name').textContent = director.name;
+
     const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_people=${director.id}&sort_by=popularity.desc&sort_by=vote_average.desc`;
     getDirectorSpotlight(url);
 }
@@ -890,6 +912,7 @@ async function getDirectorSpotlight(url) {
     const resp = await fetch(url);
     const respData = await resp.json();
     let allMovies = [];
+
     if (respData.results.length > 0) {
         allMovies = respData.results.slice(0, numberOfMovies);
         showMoviesDirectorSpotlight(allMovies);
@@ -898,6 +921,7 @@ async function getDirectorSpotlight(url) {
 
 function showMoviesDirectorSpotlight(movies) {
     director_main.innerHTML = '';
+
     movies.forEach((movie) => {
         const { id, poster_path, title, vote_average, genre_ids } = movie;
         const movieEl = document.createElement('div');
@@ -946,6 +970,7 @@ function handleSignInOut() {
         window.location.href = 'MovieVerse-Frontend/html/sign-in.html';
         return;
     }
+
     updateSignInButtonState();
 }
 
@@ -1013,7 +1038,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 function handleSearch() {
     const searchQuery = document.getElementById('search').value;
-
     localStorage.setItem('searchQuery', searchQuery);
     window.location.href = 'MovieVerse-Frontend/html/search.html';
 }

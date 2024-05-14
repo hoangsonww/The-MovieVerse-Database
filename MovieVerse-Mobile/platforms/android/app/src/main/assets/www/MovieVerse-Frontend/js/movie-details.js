@@ -818,46 +818,64 @@ function getRatingDetails(rating) {
 }
 
 async function fetchMovieRatings(imdbId, tmdbMovieData) {
-    const omdbCode = `${getMovieCode2()}`;
-    const omdb = `https://${getMovieActor()}/?i=${imdbId}&${getMovieName()}${omdbCode}`;
+    const apiKeys = [
+        await getMovieCode2(),
+        '58efe859',
+        '60a09d79',
+        '956e468a'
+    ];
 
-    try {
-        const response = await fetch(omdb);
-        const data = await response.json();
+    const baseURL = `https://${getMovieActor()}/?i=${imdbId}&${getMovieName()}`;
 
-        let imdbRating = data.imdbRating ? data.imdbRating : 'N/A';
-
-        if (imdbRating === 'N/A' && tmdbMovieData.vote_average) {
-            imdbRating = (tmdbMovieData.vote_average / 2).toFixed(1) * 2;
+    async function tryFetch(apiKey) {
+        const url = `${baseURL}${apiKey}`;
+        try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error('API limit reached or other error');
+            return await response.json();
+        } catch (error) {
+            return null;
         }
-
-        const rtRatingObj = data.Ratings.find(rating => rating.Source === "Rotten Tomatoes");
-        let rtRating = rtRatingObj ? rtRatingObj.Value : 'N/A';
-
-        let metascore = data.Metascore ? `${data.Metascore}/100` : 'N/A';
-        let awards = data.Awards;
-        let rated = data.Rated ? data.Rated : 'Rating information unavailable';
-
-        if (awards === 'N/A') {
-            awards = 'Awards information unavailable';
-        }
-
-        if (metascore === 'N/A/100') {
-            const metacriticsRatingValue = imdbRating !== 'N/A' ? parseFloat(imdbRating) : (tmdbMovieData.vote_average / 2);
-            metascore = calculateFallbackMetacriticsRating(metacriticsRatingValue, tmdbMovieData.vote_average) + '/100';
-        }
-
-        if (rtRating === 'N/A') {
-            const imdbRatingValue = imdbRating !== 'N/A' ? parseFloat(imdbRating) : (tmdbMovieData.vote_average / 2);
-            rtRating = calculateFallbackRTRating(imdbRatingValue, tmdbMovieData.vote_average)
-        }
-
-        populateMovieDetails(tmdbMovieData, imdbRating, rtRating, metascore, awards, rated);
     }
-    catch (error) {
-        const fallbackImdbRating = (tmdbMovieData.vote_average / 2).toFixed(1) * 2;
-        populateMovieDetails(tmdbMovieData, fallbackImdbRating, 'N/A', 'Metascore information unavailable, click to search on Metacritics', 'Awards information unavailable');
+
+    let data;
+    for (const key of apiKeys) {
+        data = await tryFetch(key);
+        if (data) break;
     }
+
+    if (!data) {
+        populateMovieDetails(tmdbMovieData, tmdbMovieData.vote_average, 'N/A', 'Metascore information unavailable, click to search on Metacritics', 'Awards information unavailable');
+        return;
+    }
+
+    let imdbRating = data.imdbRating ? data.imdbRating : 'N/A';
+    if (imdbRating === 'N/A' || imdbRating === '0.0') {
+        imdbRating = 'N/A';
+    }
+
+    const rtRatingObj = data.Ratings.find(rating => rating.Source === "Rotten Tomatoes");
+    let rtRating = rtRatingObj ? rtRatingObj.Value : 'N/A';
+
+    let metascore = data.Metascore ? `${data.Metascore}/100` : 'N/A';
+    let awards = data.Awards;
+    let rated = data.Rated ? data.Rated : 'Rating information unavailable';
+
+    if (awards === 'N/A') {
+        awards = 'Awards information unavailable';
+    }
+
+    if (metascore === 'N/A/100') {
+        const metacriticsRatingValue = imdbRating !== 'N/A' ? parseFloat(imdbRating) : (tmdbMovieData.vote_average / 2);
+        metascore = calculateFallbackMetacriticsRating(metacriticsRatingValue, tmdbMovieData.vote_average) + '/100';
+    }
+
+    if (rtRating === 'N/A') {
+        const imdbRatingValue = imdbRating !== 'N/A' ? parseFloat(imdbRating) : (tmdbMovieData.vote_average / 2);
+        rtRating = calculateFallbackRTRating(imdbRatingValue, tmdbMovieData.vote_average)
+    }
+
+    populateMovieDetails(tmdbMovieData, imdbRating, rtRating, metascore, awards, rated);
 }
 
 function updateBrowserURL(title) {
@@ -1378,7 +1396,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
 
 function createImdbRatingCircle(imdbRating, imdbId) {
     if (imdbRating === 'N/A' || imdbRating === null || imdbRating === undefined) {
-        imdbRating = 0;
+        imdbRating = 'N/A';
     }
 
     let circleContainer = document.getElementById('imdbRatingCircleContainer');
@@ -1397,6 +1415,11 @@ function createImdbRatingCircle(imdbRating, imdbId) {
                 <text id="imdbRatingText" class="circle-text" x="50" y="52" text-anchor="middle" fill="yellow" style="font-weight: bold; font-size: 25px">${imdbRating}</text>
             </svg>
         `;
+
+        if (imdbRating === 'N/A') {
+            circleContainer.innerHTML += `<p style="color: white; margin-top: 10px;">Rating information currently unavailable</p>`;
+        }
+
         document.getElementById('movie-description').appendChild(circleContainer);
     }
     else {
