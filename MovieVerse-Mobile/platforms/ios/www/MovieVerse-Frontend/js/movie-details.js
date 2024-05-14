@@ -1276,10 +1276,10 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         align-items: center;
         justify-content: center;
         position: relative;
-        width: 450px;
+        width: 90vw; 
+        max-width: 450px;
         margin: 20px auto;
         overflow: hidden;
-        max-width: 100%;
         box-sizing: border-box;
     `;
 
@@ -1294,28 +1294,40 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     detailsContainer.appendChild(mediaTitle);
     detailsContainer.appendChild(mediaContainer);
 
+    const imageWrapper = document.createElement('div');
+    imageWrapper.style = `
+        width: 100%;
+        max-height: 210px; 
+        border-radius: 16px;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    `;
+
     const imageElement = document.createElement('img');
     imageElement.style = `
-        max-width: 100%;
-        max-height: 210px;
-        border-radius: 16px;
+        width: 100%;
+        height: auto;
         transition: opacity 0.5s ease-in-out;
         opacity: 1;
         cursor: pointer;
+        object-fit: contain;
     `;
     if (images.length > 0) {
         imageElement.src = `https://image.tmdb.org/t/p/w1280${images[0].file_path}`;
     }
-    mediaContainer.appendChild(imageElement);
+    imageWrapper.appendChild(imageElement);
+    mediaContainer.appendChild(imageWrapper);
 
     imageElement.addEventListener('click', function() {
         const imageUrl = this.src;
         const modalHtml = `
-        <div id="image-modal" style="z-index: 100022222; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
-            <img src="${imageUrl}" style="max-width: 80%; max-height: 80%; border-radius: 10px; cursor: default;" onclick="event.stopPropagation();">
-            <span style="position: absolute; top: 10px; right: 25px; font-size: 40px; cursor: pointer" id="removeBtn">&times;</span>
-        </div>
-    `;
+            <div id="image-modal" style="z-index: 100022222; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
+                <img src="${imageUrl}" style="max-width: 80%; max-height: 80%; border-radius: 16px; cursor: default;" onclick="event.stopPropagation();">
+                <span style="position: absolute; top: 10px; right: 25px; font-size: 40px; cursor: pointer" id="removeBtn">&times;</span>
+            </div>
+        `;
         document.body.insertAdjacentHTML('beforeend', modalHtml);
         const modal = document.getElementById('image-modal');
         const closeModalBtn = document.getElementById('removeBtn');
@@ -1335,7 +1347,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     prevButton.innerHTML = '<i class="fas fa-arrow-left"></i>';
     prevButton.style = `
         position: absolute;
-        left: 0;
+        left: 5px; 
         top: 50%;
         transform: translateY(-50%);
         background-color: #7378c5;
@@ -1345,6 +1357,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         width: 30px;
         border: none;
         cursor: pointer;
+        z-index: 10;
     `;
     prevButton.onmouseover = () => prevButton.style.backgroundColor = '#ff8623';
     prevButton.onmouseout = () => prevButton.style.backgroundColor = '#7378c5';
@@ -1355,7 +1368,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     nextButton.innerHTML = '<i class="fas fa-arrow-right"></i>';
     nextButton.style = `
         position: absolute;
-        right: 0;
+        right: 5px; 
         top: 50%;
         transform: translateY(-50%);
         background-color: #7378c5;
@@ -1365,6 +1378,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         width: 30px;
         border: none;
         cursor: pointer;
+        z-index: 10;
     `;
     nextButton.onmouseover = () => nextButton.style.backgroundColor = '#ff8623';
     nextButton.onmouseout = () => nextButton.style.backgroundColor = '#7378c5';
