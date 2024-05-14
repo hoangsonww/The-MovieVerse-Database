@@ -6,7 +6,7 @@ Welcome to the MovieVerse app, your ultimate guide to the world of movies! This 
 
 The MovieVerse app's `MovieVerse-Frontend` directory is organized into four primary directories: `css`, `html`, `js`, and `react`. Each directory contains specific files that contribute to the functionality and appearance of the app. Here's a detailed overview:
 
-### CSS Directory
+### CSS Directory - `css`
 
 This directory contains the Cascading Style Sheets (CSS) files responsible for the styling of the web pages.
 
@@ -15,7 +15,7 @@ This directory contains the Cascading Style Sheets (CSS) files responsible for t
 - `discussions.css`: Styles specific to the discussions page.
 - `trivia.css`: Styles for the trivia section of the app.
 
-### HTML Directory
+### HTML Directory - `html`
 
 The HTML directory includes all the markup files necessary for the structure of the web pages.
 
@@ -46,7 +46,7 @@ The HTML directory includes all the markup files necessary for the structure of 
 - `404.html`: A 404 error page for when a page is not found.
 - `index.ejs`: The entry point for the app.
 
-### JS Directory
+### JS Directory - `js`
 
 The JavaScript directory contains scripts that add interactivity and functionality to the web pages.
 
@@ -72,7 +72,7 @@ The JavaScript directory contains scripts that add interactivity and functionali
 - `single-spa-config.js`: Configuration file for the single-spa framework used in the app.
 - `systemjs-importmap.js`: Import map for the systemJS module loader.
 
-### React Directory
+### React Directory - `react`
 
 The React directory contains a collection of React components developed for the MovieVerse application.
 
@@ -88,7 +88,7 @@ Please note that it is currently under development, and the components may under
 - `UserProfile.jsx`: Component for managing user profiles
 - `FeaturedMoviesCarousel.jsx`: Component for featured movies carousel
 
-### Tests Directory
+### Tests Directory - `tests`
 
 The tests directory contains a collection of test scripts for the MovieVerse application. These tests are designed to ensure that the app's functionality is working as expected and to identify any potential issues or bugs.
 
