@@ -70,7 +70,7 @@
             max-width: 400px;
             margin: 100px auto;
             padding: 20px;
-            background-color: rgba(211, 211, 211, 0.5);
+            background-color: rgba(211, 211, 211, 0.75);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
             text-align: center;
@@ -79,6 +79,7 @@
 
         .account-creation-form-container input[type="email"],
         .account-creation-form-container input[type="password"],
+        .account-creation-form-container input[type="text"],
         .account-creation-form-container button {
             width: 90%;
             padding: 10px;
@@ -95,6 +96,16 @@
             border: none;
             cursor: pointer;
             transition: background-color 0.3s ease;
+        }
+
+        #my-heading {
+            margin-top: 24px !important;
+        }
+
+        @media (min-width: 767px) {
+            #my-heading {
+                margin-top: -5px !important;
+            }
         }
 
         .account-creation-form-container button:hover {
@@ -278,11 +289,11 @@
         })
     </script>
     <header id="homepage-header" style="margin-top: -5px">
-        <a id="indexLink" href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer">
-            <h1 id="my-heading" style="margin-bottom: -10px" class="notranslate">
-                The Mo<span class="highlight">vieV</span>erse
-            </h1>
-        </a>
+        <h1 id="my-heading" style="margin-bottom: -25px" class="notranslate">
+            <a id="indexLink" href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer">
+                The Mo<span class="highlight" id="highlight">vieV</span>erse
+            </a>
+        </h1>
 
         <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
             <p id="stats-label" class="clock" style="font-size: 16px;"></p>
@@ -296,7 +307,7 @@
             <span id="profileText">Profile</span>
             <i class="fas fa-user" id="profileIcon"></i>
         </button>
-        <form id="form1" style="margin-top: 19px">
+        <form id="form1" style="margin-top: 21px">
             <div class="search-container">
                 <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!" />
                 <button type="button" id="button-search" onclick="handleSearch()">Search</button>
@@ -323,6 +334,9 @@
             <input type="email" id="newEmail" placeholder="Email" required>
             <input type="password" id="newPassword" placeholder="Password" required>
             <input type="password" id="confirmPassword" placeholder="Re-type Password" required>
+            <label style="margin-top: 10px; margin-bottom: 10px">
+                <input type="checkbox" id="togglePassword"> Show Password
+            </label>
             <button type="submit">Create Account</button>
             <button type="button" id="back-to-sign-in" onclick="window.location.href='sign-in.html'">Back to Sign In</button>
         </form>
@@ -368,6 +382,22 @@
     </div>
 
     <script>
+        document.getElementById('togglePassword').addEventListener('change', function() {
+            const passwordInput = document.getElementById('newPassword');
+            const confirmPasswordInput = document.getElementById('confirmPassword');
+
+            if (this.checked) {
+                passwordInput.type = 'text';
+                confirmPasswordInput.type = 'text';
+            }
+            else {
+                passwordInput.type = 'password';
+                confirmPasswordInput.type = 'password';
+            }
+        });
+    </script>
+
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
             const searchBar = document.getElementById('search');
             const searchButton = document.getElementById('button-search');
@@ -378,30 +408,21 @@
                 const query = searchBar.value.trim();
                 if (query) {
                     if (window.innerWidth > 800) {
-                        myHeading.style.display = 'none';
-                        localTime.style.display = 'none';
-                        myHeading.style.zIndex = '0.05';
-                        searchBar.style.marginTop = '16px';
-                        searchButton.style.marginTop = '16px';
+                        myHeading.style.visibility = 'hidden';
+                        myHeading.style.opacity = '0';
+                        localTime.style.visibility = 'hidden';
+                        localTime.style.opacity = '0';
                     }
                 }
                 else {
-                    myHeading.style.display = '';
-                    myHeading.style.zIndex = '';
-                    localTime.style.display = '';
-                    searchBar.style.marginTop = '';
-                    searchButton.style.marginTop = '';
+                    myHeading.style.visibility = 'visible';
+                    myHeading.style.opacity = '1';
+                    localTime.style.visibility = 'visible';
+                    localTime.style.opacity = '1';
                 }
             }
-
             searchBar.addEventListener('input', toggleVisibility);
             toggleVisibility();
-
-            const clearSearchBtn = document.getElementById('clear-search');
-            clearSearchBtn.addEventListener('click', function() {
-                searchBar.value = '';
-                toggleVisibility();
-            });
         });
     </script>
 
@@ -411,6 +432,9 @@
             const viewAllResultsBtn = document.getElementById('view-all-results');
             const clearSearchBtn = document.getElementById('clear-search');
             const searchResultsContainer = document.getElementById('search-results');
+            const myHeading = document.getElementById('my-heading');
+            const localTime = document.getElementById('local-time');
+            const searchButton = document.getElementById('button-search');
 
             function toggleButtons() {
                 const query = searchInput.value.trim();
@@ -421,9 +445,13 @@
             clearSearchBtn.addEventListener('click', function() {
                 searchInput.value = '';
                 searchResultsContainer.innerHTML = '';
-                document.getElementById('local-time').style.display = '';
                 toggleButtons();
                 searchInput.focus();
+
+                myHeading.style.visibility = 'visible';
+                myHeading.style.opacity = '1';
+                localTime.style.visibility = 'visible';
+                localTime.style.opacity = '1';
             });
 
             toggleButtons();
@@ -840,7 +868,7 @@
                 {
                     label: "Favorite Movies",
                     getValue: () => {
-                        const favoritedMovies = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
+                        const favoritedMovies = JSON.parse(localStorage.getItem('moviesFavorited')) || [];
                         return favoritedMovies.length;
                     }
                 },
@@ -848,11 +876,36 @@
                     label: "Favorite Genre",
                     getValue: () => {
                         const mostCommonGenreCode = getMostCommonGenre();
-                        const genreArray = JSON.parse(localStorage.getItem('genreMap')) || [];
-                        const genreObject = genreArray.reduce((acc, genre) => {
-                            acc[genre.id] = genre.name;
-                            return acc;
-                        }, {});
+                        const genreMapString = localStorage.getItem('genreMap');
+                        if (!genreMapString) {
+                            console.log('No genre map found in localStorage.');
+                            return 'Not Available';
+                        }
+
+                        let genreMap;
+                        try {
+                            genreMap = JSON.parse(genreMapString);
+                        }
+                        catch (e) {
+                            console.log('Error parsing genre map:', e);
+                            return 'Not Available';
+                        }
+
+                        let genreObject;
+                        if (Array.isArray(genreMap)) {
+                            genreObject = genreMap.reduce((acc, genre) => {
+                                acc[genre.id] = genre.name;
+                                return acc;
+                            }, {});
+                        }
+                        else if (typeof genreMap === 'object' && genreMap !== null) {
+                            genreObject = genreMap;
+                        }
+                        else {
+                            console.log('genreMap is neither an array nor a proper object:', genreMap);
+                            return 'Not Available';
+                        }
+
                         return genreObject[mostCommonGenreCode] || 'Not Available';
                     }
                 },

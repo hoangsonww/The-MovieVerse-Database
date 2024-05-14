@@ -87,7 +87,7 @@ async function rotateUserStats() {
         {
             label: "Favorite Movies",
             getValue: () => {
-                const favoritedMovies = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
+                const favoritedMovies = JSON.parse(localStorage.getItem('moviesFavorited')) || [];
                 return favoritedMovies.length;
             }
         },
@@ -95,11 +95,36 @@ async function rotateUserStats() {
             label: "Favorite Genre",
             getValue: () => {
                 const mostCommonGenreCode = getMostCommonGenre();
-                const genreArray = JSON.parse(localStorage.getItem('genreMap')) || [];
-                const genreObject = genreArray.reduce((acc, genre) => {
-                    acc[genre.id] = genre.name;
-                    return acc;
-                }, {});
+                const genreMapString = localStorage.getItem('genreMap');
+                if (!genreMapString) {
+                    console.log('No genre map found in localStorage.');
+                    return 'Not Available';
+                }
+
+                let genreMap;
+                try {
+                    genreMap = JSON.parse(genreMapString);
+                }
+                catch (e) {
+                    console.log('Error parsing genre map:', e);
+                    return 'Not Available';
+                }
+
+                let genreObject;
+                if (Array.isArray(genreMap)) {
+                    genreObject = genreMap.reduce((acc, genre) => {
+                        acc[genre.id] = genre.name;
+                        return acc;
+                    }, {});
+                }
+                else if (typeof genreMap === 'object' && genreMap !== null) {
+                    genreObject = genreMap;
+                }
+                else {
+                    console.log('genreMap is neither an array nor a proper object:', genreMap);
+                    return 'Not Available';
+                }
+
                 return genreObject[mostCommonGenreCode] || 'Not Available';
             }
         },
@@ -521,7 +546,6 @@ async function fetchTvDetails(tvSeriesId) {
         const response = await fetch(urlWithAppend);
         const tvSeriesDetails = await response.json();
         const imdbId = tvSeriesDetails.external_ids.imdb_id;
-
         const imdbRating = await fetchTVRatings(imdbId);
 
         populateTvSeriesDetails(tvSeriesDetails, imdbRating);
@@ -546,16 +570,14 @@ async function fetchTvDetails(tvSeriesId) {
 }
 
 async function fetchTVRatings(imdbId) {
-    const omdbCode = `${getMovieCode2()}`;
-    const omdb = `https://${getMovieActor()}/?i=${imdbId}&${getMovieName()}${omdbCode}`;
+    const fff = `60a09d79`;
+    const link = `https://${getMovieActor()}/?i=${imdbId}&${getMovieName()}${fff}`;
 
     try {
-        const response = await fetch(omdb);
+        const response = await fetch(link);
         const data = await response.json();
 
-        let imdbRating = data.imdbRating ? data.imdbRating : 'IMDb rating not available';
-
-        return imdbRating;
+        return imdbRating = data.imdbRating ? data.imdbRating : 'IMDb data unavailable but you can check it out by clicking here';
     }
     catch (error) {
         console.log('Error fetching TV series ratings:', error);
@@ -613,7 +635,10 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
         detailsHTML += `<p title="Click to go to this TV series' IMDB page"><strong>IMDb Rating:</strong> <strong>IMDb rating not available</strong></p>`;
     }
 
-    const homepage = tvSeries.homepage ? `<a id="homepage" href="${tvSeries.homepage}" target="_blank">Visit</a>` : 'Not available';
+    const tmdbRating = tvSeries.vote_average ? tvSeries.vote_average.toFixed(1) : 'N/A';
+    detailsHTML += `<p><strong>TMDB Rating:</strong> <a href="https://www.themoviedb.org/tv/${tvSeries.id}" id="rating" target="_blank">${tmdbRating}/10.0</a></p>`;
+
+    const homepage = tvSeries.homepage ? `<a id="homepage" href="${tvSeries.homepage}" target="_blank">Visit homepage</a>` : 'Not available';
     detailsHTML += `<p><strong>Homepage:</strong> ${homepage}</p>`;
 
     detailsHTML += `<p><strong>Seasons:</strong> ${tvSeries.number_of_seasons || 0}, <strong>Episodes:</strong> ${tvSeries.number_of_episodes || 0}</p>`;
@@ -634,7 +659,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
 
     if (tvSeries.created_by && tvSeries.created_by.length) {
         const creatorsLinks = tvSeries.created_by.map(creator =>
-            `<a id="director-link" href="javascript:void(0);" onclick="handleCreatorClick(${creator.id})">${creator.name}</a>`
+            `<a id="director-link" href="javascript:void(0);" onclick="handleCreatorClick(${creator.id}, '${creator.name.replace(/'/g, "\\'")}');">${creator.name}</a>`
         ).join(', ');
         detailsHTML += `<p><strong>Directors:</strong> ${creatorsLinks}</p>`;
     }
@@ -644,7 +669,8 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
 
     if (tvSeries.credits && tvSeries.credits.cast && tvSeries.credits.cast.length) {
         let castHTML = tvSeries.credits.cast.slice(0, 100).map(castMember => {
-            return `<a id="cast-info" href="javascript:void(0);" onclick="selectActorId(${castMember.id})">${castMember.name}</a>`;
+            const escapedName = castMember.name.replace(/'/g, "\\'");
+            return `<a id="cast-info" href="javascript:void(0);" onclick="selectActorId(${castMember.id}, '${escapedName}');">${castMember.name}</a>`;
         }).join(', ');
         detailsHTML += `<p><strong>Cast:</strong> ${castHTML}</p>`;
     }
@@ -724,7 +750,149 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
         detailsHTML += `<p><strong>Keywords:</strong> Information not available</p>`;
     }
 
+    const mediaUrl = `https://${getMovieVerseData()}/3/tv/${tvSeries.id}/images?${generateMovieNames()}${getMovieCode()}`;
+    const mediaResponse = await fetch(mediaUrl);
+    const mediaData = await mediaResponse.json();
+    const images = mediaData.backdrops;
+
+    const detailsContainer = document.getElementById('movie-description');
+
+    let mediaContainer = document.getElementById('media-container');
+    if (!mediaContainer) {
+        mediaContainer = document.createElement('div');
+        mediaContainer.id = 'media-container';
+        mediaContainer.style = `
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            width: 450px;
+            margin: 20px auto;
+            overflow: hidden;
+            max-width: 100%;
+            box-sizing: border-box;
+        `;
+        detailsContainer.appendChild(mediaContainer);
+    }
+
+    let mediaTitle = document.getElementById('media-title');
+    if (!mediaTitle) {
+        mediaTitle = document.createElement('p');
+        mediaTitle.id = 'media-title';
+        mediaTitle.textContent = 'Media:';
+        mediaTitle.style = `
+            font-weight: bold;
+            align-self: start;
+            margin-bottom: 5px;
+        `;
+    }
+
+    let imageElement = document.getElementById('series-media-image');
+    if (!imageElement) {
+        imageElement = document.createElement('img');
+        imageElement.id = 'series-media-image';
+        imageElement.style = `
+            max-width: 100%;
+            max-height: 210px;
+            transition: opacity 0.5s ease-in-out;
+            opacity: 1;
+            border-radius: 16px;
+            cursor: pointer;
+        `;
+        mediaContainer.appendChild(imageElement);
+    }
+
+    if (images.length > 0) {
+        imageElement.src = `https://image.tmdb.org/t/p/w1280${images[0].file_path}`;
+    }
+
+    imageElement.addEventListener('click', function() {
+        const imageUrl = this.src;
+        const modalHtml = `
+        <div id="image-modal" style="z-index: 100022222; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
+            <img src="${imageUrl}" style="max-width: 80%; max-height: 80%; border-radius: 10px; cursor: default;" onclick="event.stopPropagation();">
+            <span style="position: absolute; top: 10px; right: 25px; font-size: 40px; cursor: pointer" id="removeBtn">&times;</span>
+        </div>
+    `;
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
+        const modal = document.getElementById('image-modal');
+        const closeModalBtn = document.getElementById('removeBtn');
+
+        closeModalBtn.onclick = function() {
+            modal.remove();
+        };
+
+        modal.addEventListener('click', function(event) {
+            if (event.target === this) {
+                this.remove();
+            }
+        });
+    });
+
+    let prevButton = document.getElementById('prev-media-button');
+    let nextButton = document.getElementById('next-media-button');
+    if (!prevButton || !nextButton) {
+        prevButton = document.createElement('button');
+        nextButton = document.createElement('button');
+        prevButton.id = 'prev-media-button';
+        nextButton.id = 'next-media-button';
+        prevButton.innerHTML = '<i class="fas fa-arrow-left"></i>';
+        nextButton.innerHTML = '<i class="fas fa-arrow-right"></i>';
+
+        [prevButton, nextButton].forEach(button => {
+            button.style = `
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                background-color: #7378c5;
+                color: white;
+                border-radius: 8px;
+                height: 30px;
+                width: 30px;
+                border: none;
+                cursor: pointer;
+            `;
+            button.onmouseover = () => button.style.backgroundColor = '#ff8623';
+            button.onmouseout = () => button.style.backgroundColor = '#7378c5';
+        });
+
+        prevButton.style.left = '0';
+        nextButton.style.right = '0';
+
+        mediaContainer.appendChild(prevButton);
+        mediaContainer.appendChild(nextButton);
+    }
+
+    let currentIndex = 0;
+    prevButton.onclick = () => navigateMedia(images, imageElement, -1);
+    nextButton.onclick = () => navigateMedia(images, imageElement, 1);
+
+    function navigateMedia(images, imgElement, direction) {
+        currentIndex += direction;
+        if (currentIndex < 0) {
+            currentIndex = images.length - 1;
+        } else if (currentIndex >= images.length) {
+            currentIndex = 0;
+        }
+        imgElement.style.opacity = '0';
+        setTimeout(() => {
+            imgElement.src = `https://image.tmdb.org/t/p/w1280${images[currentIndex].file_path}`;
+            imgElement.style.opacity = '1';
+        }, 420);
+    }
+
+    if (window.innerWidth <= 767) {
+        mediaContainer.style.width = 'calc(100% - 40px)';
+    }
+
+    if (images.length === 0) {
+        mediaContainer.innerHTML = '<p>No media available</p>';
+    }
+
     document.getElementById('movie-description').innerHTML = detailsHTML;
+    document.getElementById('movie-description').appendChild(mediaTitle);
+    document.getElementById('movie-description').appendChild(mediaContainer);
 }
 
 async function fetchTvSeriesStreamingLinks(tvSeriesId) {
@@ -744,15 +912,61 @@ async function fetchTvSeriesStreamingLinks(tvSeriesId) {
         });
 
         return Object.values(providersMap).slice(0, 7);
-    } catch (error) {
+    }
+    catch (error) {
         console.error('Error fetching TV series streaming links:', error);
         return [];
     }
 }
 
-function selectActorId(actorId) {
+function updateUniqueDirectorsViewed(directorId) {
+    let viewedDirectors = JSON.parse(localStorage.getItem('uniqueDirectorsViewed')) || [];
+    if (!viewedDirectors.includes(directorId)) {
+        viewedDirectors.push(directorId);
+        localStorage.setItem('uniqueDirectorsViewed', JSON.stringify(viewedDirectors));
+    }
+}
+
+function updateActorVisitCount(actorId, actorName) {
+    let actorVisits = JSON.parse(localStorage.getItem('actorVisits')) || {};
+    if (!actorVisits[actorId]) {
+        actorVisits[actorId] = { count: 0, name: actorName };
+    }
+
+    actorVisits[actorId].count += 1;
+    localStorage.setItem('actorVisits', JSON.stringify(actorVisits));
+}
+
+function updateDirectorVisitCount(directorId, directorName) {
+    let directorVisits = JSON.parse(localStorage.getItem('directorVisits')) || {};
+    if (!directorVisits[directorId]) {
+        directorVisits[directorId] = { count: 0, name: directorName };
+    }
+
+    directorVisits[directorId].count += 1;
+    localStorage.setItem('directorVisits', JSON.stringify(directorVisits));
+}
+
+function selectActorId(actorId, actorName) {
+    const actorVisits = JSON.parse(localStorage.getItem('actorVisits')) || {};
+    const uniqueActorsViewed = JSON.parse(localStorage.getItem('uniqueActorsViewed')) || [];
+
+    if (!uniqueActorsViewed.includes(actorId)) {
+        uniqueActorsViewed.push(actorId);
+        localStorage.setItem('uniqueActorsViewed', JSON.stringify(uniqueActorsViewed));
+    }
+
+    if (actorVisits[actorId]) {
+        actorVisits[actorId].count++;
+    }
+    else {
+        actorVisits[actorId] = { count: 1, name: actorName };
+    }
+
+    localStorage.setItem('actorVisits', JSON.stringify(actorVisits));
+
     localStorage.setItem('selectedActorId', actorId);
-    window.location.href = 'actor-details.html'
+    window.location.href = 'actor-details.html';
 }
 
 function selectTvSeriesId(tvSeriesId) {
@@ -773,8 +987,11 @@ function hideSpinner() {
     document.getElementById('myModal').classList.remove('modal-visible');
 }
 
-function handleCreatorClick(creatorId) {
+function handleCreatorClick(creatorId, creatorName) {
     localStorage.setItem('selectedDirectorId', creatorId);
+    document.title = `${creatorName} - Director's Details`;
+    updateUniqueDirectorsViewed(creatorId);
+    updateDirectorVisitCount(creatorId, creatorName);
     window.location.href = 'director-details.html';
 }
 

@@ -385,6 +385,16 @@
                 bottom: 70px;
             }
         }
+
+        #my-heading {
+            margin-top: 24px !important;
+        }
+
+        @media (min-width: 767px) {
+            #my-heading {
+                margin-top: -5px !important;
+            }
+        }
     </style>
 </head>
 
@@ -431,11 +441,11 @@
         })
     </script>
     <header id="homepage-header" style="margin-top: -5px">
-        <a id="indexLink" href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer">
-            <h1 id="my-heading" style="margin-bottom: -10px" class="notranslate">
-                The Mo<span class="highlight">vieV</span>erse
-            </h1>
-        </a>
+        <h1 id="my-heading" style="margin-bottom: -24px" class="notranslate">
+            <a id="indexLink" href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer">
+                The Mo<span class="highlight" id="highlight">vieV</span>erse
+            </a>
+        </h1>
 
         <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
             <p id="stats-label" class="clock" style="font-size: 16px;"></p>
@@ -494,7 +504,7 @@
 
         <div class="profile-info">
             <div id="averageDisplays" style="display: flex; justify-content: center; gap: 20px; margin-top: 20px;">
-                <div class="progress-container">
+                <div class="progress-container" id="container1" style="cursor: pointer">
                     <svg class="progress-ring" width="100" height="100">
                         <circle class="progress-ring__circle" cx="50" cy="50" r="40" />
                         <circle class="progress-ring__progress" id="avgMovieRatingCircle" cx="50" cy="50" r="40" />
@@ -502,7 +512,7 @@
                     </svg>
                     <p><strong>Average Movie Rating</strong></p>
                 </div>
-                <div class="progress-container">
+                <div class="progress-container" id="container2" style="cursor: pointer">
                     <svg class="progress-ring" width="100" height="100">
                         <circle class="progress-ring__circle" cx="50" cy="50" r="40" />
                         <circle class="progress-ring__progress" id="avgTriviaScoreCircle" cx="50" cy="50" r="40" />
@@ -616,29 +626,21 @@
                 const query = searchBar.value.trim();
                 if (query) {
                     if (window.innerWidth > 800) {
-                        myHeading.style.display = 'none';
-                        localTime.style.display = 'none';
-                        myHeading.style.zIndex = '0.05';
-                        searchBar.style.marginTop = '16px';
-                        searchButton.style.marginTop = '16px';
+                        myHeading.style.visibility = 'hidden';
+                        myHeading.style.opacity = '0';
+                        localTime.style.visibility = 'hidden';
+                        localTime.style.opacity = '0';
                     }
                 }
                 else {
-                    myHeading.style.display = '';
-                    localTime.style.display = '';
-                    searchBar.style.marginTop = '';
-                    searchButton.style.marginTop = '';
+                    myHeading.style.visibility = 'visible';
+                    myHeading.style.opacity = '1';
+                    localTime.style.visibility = 'visible';
+                    localTime.style.opacity = '1';
                 }
             }
-
             searchBar.addEventListener('input', toggleVisibility);
             toggleVisibility();
-
-            const clearSearchBtn = document.getElementById('clear-search');
-            clearSearchBtn.addEventListener('click', function() {
-                searchBar.value = '';
-                toggleVisibility();
-            });
         });
     </script>
 
@@ -648,6 +650,9 @@
             const viewAllResultsBtn = document.getElementById('view-all-results');
             const clearSearchBtn = document.getElementById('clear-search');
             const searchResultsContainer = document.getElementById('search-results');
+            const myHeading = document.getElementById('my-heading');
+            const localTime = document.getElementById('local-time');
+            const searchButton = document.getElementById('button-search');
 
             function toggleButtons() {
                 const query = searchInput.value.trim();
@@ -658,9 +663,13 @@
             clearSearchBtn.addEventListener('click', function() {
                 searchInput.value = '';
                 searchResultsContainer.innerHTML = '';
-                document.getElementById('local-time').style.display = '';
                 toggleButtons();
                 searchInput.focus();
+
+                myHeading.style.visibility = 'visible';
+                myHeading.style.opacity = '1';
+                localTime.style.visibility = 'visible';
+                localTime.style.opacity = '1';
             });
 
             toggleButtons();
@@ -1029,7 +1038,7 @@
                 {
                     label: "Favorite Movies",
                     getValue: () => {
-                        const favoritedMovies = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
+                        const favoritedMovies = JSON.parse(localStorage.getItem('moviesFavorited')) || [];
                         return favoritedMovies.length;
                     }
                 },
@@ -1037,11 +1046,36 @@
                     label: "Favorite Genre",
                     getValue: () => {
                         const mostCommonGenreCode = getMostCommonGenre();
-                        const genreArray = JSON.parse(localStorage.getItem('genreMap')) || [];
-                        const genreObject = genreArray.reduce((acc, genre) => {
-                            acc[genre.id] = genre.name;
-                            return acc;
-                        }, {});
+                        const genreMapString = localStorage.getItem('genreMap');
+                        if (!genreMapString) {
+                            console.log('No genre map found in localStorage.');
+                            return 'Not Available';
+                        }
+
+                        let genreMap;
+                        try {
+                            genreMap = JSON.parse(genreMapString);
+                        }
+                        catch (e) {
+                            console.log('Error parsing genre map:', e);
+                            return 'Not Available';
+                        }
+
+                        let genreObject;
+                        if (Array.isArray(genreMap)) {
+                            genreObject = genreMap.reduce((acc, genre) => {
+                                acc[genre.id] = genre.name;
+                                return acc;
+                            }, {});
+                        }
+                        else if (typeof genreMap === 'object' && genreMap !== null) {
+                            genreObject = genreMap;
+                        }
+                        else {
+                            console.log('genreMap is neither an array nor a proper object:', genreMap);
+                            return 'Not Available';
+                        }
+
                         return genreObject[mostCommonGenreCode] || 'Not Available';
                     }
                 },
@@ -1229,7 +1263,7 @@
         }
     </script>
 
-    <footer style="margin-top: 900px">
+    <footer style="margin-top: 800px">
         <a href="../../index.html" style="cursor: pointer; text-decoration: none">
             <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
         </a>

@@ -288,6 +288,15 @@
                 bottom: 70px;
             }
         }
+
+        #githubLink3 {
+            color: white !important;
+        }
+
+        #githubLink3:hover {
+            color: #ff8623 !important;
+            transition: 0.1s ease-in;
+        }
     </style>
 </head>
 
@@ -335,11 +344,11 @@
     </script>
     <header style="margin-bottom: -30px; padding-top: 19px">
         <div id="header-title">
-            <a href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer" title="Click to go back to the home page">
-                <h1 id="my-heading" style="margin-bottom: -10px" class="notranslate">
-                    The Mo<span class="highlight">vieV</span>erse
-                </h1>
-            </a>
+            <h1 id="my-heading" style="margin-bottom: -9px" class="notranslate">
+                <a id="indexLink" href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer">
+                    The Mo<span class="highlight" id="highlight">vieV</span>erse
+                </a>
+            </h1>
         </div>
 
         <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
@@ -442,7 +451,7 @@
         <p style="font-weight: bold; margin-top: 30px">Enjoy using MovieVerse Watchlists!</p>
     </div>
 
-    <div id="ad-container2" style="text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px)" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
+    <div id="ad-container1" style="text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px)" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
         <p style="margin: 0;">Advertisement</p>
         <ins class="adsbygoogle"
              style="display: block; width: 100%;"
@@ -452,6 +461,19 @@
         <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink" href="/MovieVerse-Frontend/html/feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>
     </div>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+
+    <div id="ad-container2" style="text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px)" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
+        <p style="margin: 0;">Advertisement</p>
+        <ins class="adsbygoogle"
+             style="display: block; width: 100%;"
+             data-ad-client="ca-pub-6608388491200814"
+             data-ad-slot="4832732030"
+             data-ad-format="auto"></ins>
+        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink3" href="/MovieVerse-Frontend/html/feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>
+    </div>
     <script>
         (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
@@ -660,29 +682,21 @@
                 const query = searchBar.value.trim();
                 if (query) {
                     if (window.innerWidth > 800) {
-                        myHeading.style.display = 'none';
-                        localTime.style.display = 'none';
-                        myHeading.style.zIndex = '0.05';
-                        searchBar.style.marginTop = '16px';
-                        searchButton.style.marginTop = '16px';
+                        myHeading.style.visibility = 'hidden';
+                        myHeading.style.opacity = '0';
+                        localTime.style.visibility = 'hidden';
+                        localTime.style.opacity = '0';
                     }
                 }
                 else {
-                    myHeading.style.display = '';
-                    localTime.style.display = '';
-                    searchBar.style.marginTop = '';
-                    searchButton.style.marginTop = '';
+                    myHeading.style.visibility = 'visible';
+                    myHeading.style.opacity = '1';
+                    localTime.style.visibility = 'visible';
+                    localTime.style.opacity = '1';
                 }
             }
-
             searchBar.addEventListener('input', toggleVisibility);
             toggleVisibility();
-
-            const clearSearchBtn = document.getElementById('clear-search');
-            clearSearchBtn.addEventListener('click', function() {
-                searchBar.value = '';
-                toggleVisibility();
-            });
         });
     </script>
 
@@ -692,6 +706,9 @@
             const viewAllResultsBtn = document.getElementById('view-all-results');
             const clearSearchBtn = document.getElementById('clear-search');
             const searchResultsContainer = document.getElementById('search-results');
+            const myHeading = document.getElementById('my-heading');
+            const localTime = document.getElementById('local-time');
+            const searchButton = document.getElementById('button-search');
 
             function toggleButtons() {
                 const query = searchInput.value.trim();
@@ -702,9 +719,13 @@
             clearSearchBtn.addEventListener('click', function() {
                 searchInput.value = '';
                 searchResultsContainer.innerHTML = '';
-                document.getElementById('local-time').style.display = '';
                 toggleButtons();
                 searchInput.focus();
+
+                myHeading.style.visibility = 'visible';
+                myHeading.style.opacity = '1';
+                localTime.style.visibility = 'visible';
+                localTime.style.opacity = '1';
             });
 
             toggleButtons();

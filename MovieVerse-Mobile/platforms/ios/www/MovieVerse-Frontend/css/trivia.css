@@ -930,14 +930,15 @@ main {
     background-color: rgba(255, 255, 255, 0.2);
     padding: 20px;
     border-radius: 10px;
-    max-width: 500px;
+    max-width: calc(100% - 20px);
+    width: 600px;
     margin: 10px auto;
     box-sizing: border-box;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 #quiz-form {
-    max-width: 500px;
+    width: calc(100% - 20px);
     margin: 10px auto;
     box-sizing: border-box;
     padding: 0 10px;
@@ -1021,10 +1022,10 @@ main {
         cursor: pointer;
         position: absolute;
         top: 0;
-        margin-left: 188px;
+        margin-left: 189px;
         border-radius: 8px;
-        padding-left: 10px;
-        padding-right: 10px;
+        padding-left: 12px;
+        padding-right: 12px;
         box-sizing: border-box;
     }
 

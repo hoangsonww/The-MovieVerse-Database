@@ -178,6 +178,7 @@ async function fetchGenreMap() {
             return map;
         }, {});
         localStorage.setItem('genreMap', JSON.stringify(genreMap));
+        console.log(genreMap)
     }
     catch (error) {
         console.log('Error fetching genre map:', error);
@@ -212,7 +213,7 @@ async function rotateUserStats() {
         {
             label: "Favorite Movies",
             getValue: () => {
-                const favoritedMovies = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
+                const favoritedMovies = JSON.parse(localStorage.getItem('moviesFavorited')) || [];
                 return favoritedMovies.length;
             }
         },
@@ -220,11 +221,36 @@ async function rotateUserStats() {
             label: "Favorite Genre",
             getValue: () => {
                 const mostCommonGenreCode = getMostCommonGenre();
-                const genreArray = JSON.parse(localStorage.getItem('genreMap')) || [];
-                const genreObject = genreArray.reduce((acc, genre) => {
-                    acc[genre.id] = genre.name;
-                    return acc;
-                }, {});
+                const genreMapString = localStorage.getItem('genreMap');
+                if (!genreMapString) {
+                    console.log('No genre map found in localStorage.');
+                    return 'Not Available';
+                }
+
+                let genreMap;
+                try {
+                    genreMap = JSON.parse(genreMapString);
+                }
+                catch (e) {
+                    console.log('Error parsing genre map:', e);
+                    return 'Not Available';
+                }
+
+                let genreObject;
+                if (Array.isArray(genreMap)) {
+                    genreObject = genreMap.reduce((acc, genre) => {
+                        acc[genre.id] = genre.name;
+                        return acc;
+                    }, {});
+                }
+                else if (typeof genreMap === 'object' && genreMap !== null) {
+                    genreObject = genreMap;
+                }
+                else {
+                    console.log('genreMap is neither an array nor a proper object:', genreMap);
+                    return 'Not Available';
+                }
+
                 return genreObject[mostCommonGenreCode] || 'Not Available';
             }
         },
@@ -270,12 +296,19 @@ async function rotateUserStats() {
 
 function updateMovieVisitCount(movieId, movieTitle) {
     let movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
+    let uniqueMoviesViewed = JSON.parse(localStorage.getItem('uniqueMoviesViewed')) || [];
 
     if (!movieVisits[movieId]) {
         movieVisits[movieId] = { count: 0, title: movieTitle };
     }
     movieVisits[movieId].count += 1;
+
+    if (!uniqueMoviesViewed.includes(movieId)) {
+        uniqueMoviesViewed.push(movieId);
+    }
+
     localStorage.setItem('movieVisits', JSON.stringify(movieVisits));
+    localStorage.setItem('uniqueMoviesViewed', JSON.stringify(uniqueMoviesViewed));
 }
 
 function getMostVisitedDirector() {
@@ -806,7 +839,7 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
         let rated = data.Rated ? data.Rated : 'Rating information unavailable';
 
         if (awards === 'N/A') {
-            awards = 'No awards information available';
+            awards = 'Awards information unavailable';
         }
 
         if (metascore === 'N/A/100') {
@@ -823,7 +856,7 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
     }
     catch (error) {
         const fallbackImdbRating = (tmdbMovieData.vote_average / 2).toFixed(1) * 2;
-        populateMovieDetails(tmdbMovieData, fallbackImdbRating, 'N/A', 'No metascore information available', 'No awards information available');
+        populateMovieDetails(tmdbMovieData, fallbackImdbRating, 'N/A', 'Metascore information unavailable, click to search on Metacritics', 'Awards information unavailable');
     }
 }
 
@@ -1040,21 +1073,18 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     </a>` : 'No streaming options available.';
 
     const rtLink = rtRating !== 'N/A' ? `https://www.rottentomatoes.com/m/${getRtSlug(movie.title)}` : '#';
-    const metaCriticsLink = metascore !== 'N/A' ? `https://www.metacritic.com/movie/${createMetacriticSlug(movie.title)}` : '#';
+    const metaCriticsLink = metascore !== 'N/A' ? `https://www.metacritic.com/search/${createMetacriticSlug(movie.title)}` : '#';
 
     const ratingDetails = getRatingDetails(rated);
     const ratedElement = rated ? `<p id="movie-rated-element"><strong>Rated:</strong> <span style="color: ${ratingDetails.color};"><strong>${ratingDetails.text}</strong>${ratingDetails.description}</span></p>` : '';
 
-    document.getElementById('movie-rating').innerHTML = `
-        <a id="imdbRatingLink" href="${imdbLink}" target="_blank" title="Click to go to this movie's IMDb page!" style="text-decoration: none; color: inherit">IMDB Rating: ${imdbRating}</a>
-    `;
-    document.getElementById('movie-rating').style.marginTop = '129px';
+    document.getElementById('movie-rating').innerHTML = ``;
     document.title = movie.title + " - Movie Details";
 
     const movieImage = document.getElementById('movie-image');
     const movieDescription = document.getElementById('movie-description');
 
-    const metascoreElement = metascore ? `<p><strong>Metascore:</strong> <a id="metacritics" href="${metaCriticsLink}">${metascore}</a></p>` : '';
+    const metascoreElement = metascore ? `<p><strong>Metascore:</strong> <a id="metacritics" href="${metaCriticsLink}" title="Click to search/view on Metacritics" target="_blank">${metascore}</a></p>` : '';
     const awardsElement = awards ? `<p><strong>Awards:</strong> ${awards}</p>` : '';
 
     if (movie.poster_path) {
@@ -1091,7 +1121,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     const scaledRating = (movie.vote_average / 2).toFixed(1);
 
     if (keywords.length === 0) {
-        keywords = 'None Available';
+        keywords = 'No keywords have been added';
     }
 
     const popularityThreshold = 80;
@@ -1110,6 +1140,8 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
 
     const originalTitle = movie.original_title !== movie.title ? `<p><strong>Original Title:</strong> ${movie.original_title}</p>` : `<p><strong>Original Title:</strong> ${movie.title}</p>`;
 
+    const tmdbRating = movie.vote_average.toFixed(1);
+
     document.getElementById('movie-description').innerHTML += `
         <p id="descriptionP"><strong>Description: </strong>${overview}</p>
         ${originalTitle}
@@ -1124,10 +1156,10 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         <p><strong>Languages:</strong> ${languages}</p>
         <p><strong>Countries of Production:</strong> ${countries}</p>
         <p><strong>Popularity Score:</strong> <span class="${isPopular ? 'popular' : ''}">${popularityText}</span></p>
-        <p title="Your rating also counts - it might take a while for us to update!"><strong>MovieVerse User Rating:</strong> <span>${scaledRating}/5.0 (based on <strong>${movie.vote_count}</strong> votes)</span></p>
+        <p title="Your rating also counts - it might take a while for us to update!"><strong>MovieVerse User Rating:</strong> <span><strong>${scaledRating}/5.0</strong> (based on <strong>${movie.vote_count}</strong> votes)</span></p>
         ${awardsElement}
+        <p><strong>TMDb Rating:</strong> <a href="https://www.themoviedb.org/movie/${movie.id}" id="rating" target="_blank">${tmdbRating}/10.0</a></p>
         ${metascoreElement}
-        <p><strong>Rotten Tomatoes:</strong> <a href="${rtLink}" id="rating">${rtRating}</a></p>
     `;
 
     if (movie.credits && movie.credits.crew) {
@@ -1157,7 +1189,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         const topTenCast = movie.credits.cast.slice(0, 10);
         topTenCast.forEach((actor, index) => {
             const actorLink = document.createElement('a');
-            actorLink.innerHTML = `<a class="actor-link" href="javascript:void(0);" onclick="selectActorId(${actor.id})">${actor.name}</a>`;
+            actorLink.innerHTML = `<a class="actor-link" href="javascript:void(0);" onclick="selectActorId(${actor.id}, '${actor.name.replace(/'/g, "\\'")}');">${actor.name}</a>`;
             castHeading.appendChild(actorLink);
             if (index < topTenCast.length - 1) {
                 castHeading.appendChild(document.createTextNode(', '));
@@ -1201,13 +1233,205 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     document.getElementById('movie-description').innerHTML += `
         <p><strong>Streaming Options:</strong> ${streamingHTML}</p>`;
 
+    const homepage = document.createElement('p');
+    homepage.innerHTML = movie.homepage ? `<strong>Homepage:</strong> <a id="rating-link" href="${movie.homepage}" target="_blank">Visit homepage</a>` : `<strong>Homepage:</strong> Information unavailable`;
+    movieDescription.appendChild(homepage);
+
     const keywordsElement = document.createElement('p');
     keywordsElement.innerHTML = `<strong>Keywords:</strong> ${keywords}`;
-
     movieDescription.appendChild(keywordsElement);
 
-    updateMoviesFavorited(movie.id);
+    createImdbRatingCircle(imdbRating, imdbLink);
+
+    const mediaUrl = `https://${getMovieVerseData()}/3/movie/${movie.id}/images?${generateMovieNames()}${getMovieCode()}`;
+    const mediaResponse = await fetch(mediaUrl);
+    const mediaData = await mediaResponse.json();
+    const images = mediaData.backdrops;
+
+    const detailsContainer = document.getElementById('movie-description');
+
+    const mediaContainer = document.createElement('div');
+    mediaContainer.id = 'media-container';
+    mediaContainer.style = `
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        width: 450px;
+        margin: 20px auto;
+        overflow: hidden;
+        max-width: 100%;
+        box-sizing: border-box;
+    `;
+
+    const mediaTitle = document.createElement('p');
+    mediaTitle.textContent = 'Media:';
+    mediaTitle.style = `
+        font-weight: bold;
+        align-self: start;
+        margin-bottom: 5px;
+    `;
+
+    detailsContainer.appendChild(mediaTitle);
+    detailsContainer.appendChild(mediaContainer);
+
+    const imageElement = document.createElement('img');
+    imageElement.style = `
+        max-width: 100%;
+        max-height: 210px;
+        border-radius: 16px;
+        transition: opacity 0.5s ease-in-out;
+        opacity: 1;
+        cursor: pointer;
+    `;
+    if (images.length > 0) {
+        imageElement.src = `https://image.tmdb.org/t/p/w1280${images[0].file_path}`;
+    }
+    mediaContainer.appendChild(imageElement);
+
+    imageElement.addEventListener('click', function() {
+        const imageUrl = this.src;
+        const modalHtml = `
+        <div id="image-modal" style="z-index: 100022222; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
+            <img src="${imageUrl}" style="max-width: 80%; max-height: 80%; border-radius: 10px; cursor: default;" onclick="event.stopPropagation();">
+            <span style="position: absolute; top: 10px; right: 25px; font-size: 40px; cursor: pointer" id="removeBtn">&times;</span>
+        </div>
+    `;
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
+        const modal = document.getElementById('image-modal');
+        const closeModalBtn = document.getElementById('removeBtn');
+
+        closeModalBtn.onclick = function() {
+            modal.remove();
+        };
+
+        modal.addEventListener('click', function(event) {
+            if (event.target === this) {
+                this.remove();
+            }
+        });
+    });
+
+    const prevButton = document.createElement('button');
+    prevButton.innerHTML = '<i class="fas fa-arrow-left"></i>';
+    prevButton.style = `
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: #7378c5;
+        color: white;
+        border-radius: 8px;
+        height: 30px;
+        width: 30px;
+        border: none;
+        cursor: pointer;
+    `;
+    prevButton.onmouseover = () => prevButton.style.backgroundColor = '#ff8623';
+    prevButton.onmouseout = () => prevButton.style.backgroundColor = '#7378c5';
+    prevButton.onclick = () => navigateMedia(images, imageElement, -1);
+    mediaContainer.appendChild(prevButton);
+
+    const nextButton = document.createElement('button');
+    nextButton.innerHTML = '<i class="fas fa-arrow-right"></i>';
+    nextButton.style = `
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: #7378c5;
+        color: white;
+        border-radius: 8px;
+        height: 30px;
+        width: 30px;
+        border: none;
+        cursor: pointer;
+    `;
+    nextButton.onmouseover = () => nextButton.style.backgroundColor = '#ff8623';
+    nextButton.onmouseout = () => nextButton.style.backgroundColor = '#7378c5';
+    nextButton.onclick = () => navigateMedia(images, imageElement, 1);
+    mediaContainer.appendChild(nextButton);
+
+    let currentIndex = 0;
+    function navigateMedia(images, imgElement, direction) {
+        currentIndex += direction;
+        if (currentIndex < 0) {
+            currentIndex = images.length - 1;
+        }
+        else if (currentIndex >= images.length) {
+            currentIndex = 0;
+        }
+        imgElement.style.opacity = '0';
+        setTimeout(() => {
+            imgElement.src = `https://image.tmdb.org/t/p/w1280${images[currentIndex].file_path}`;
+            imgElement.style.opacity = '1';
+        }, 420);
+    }
+
+    if (images.length === 0) {
+        mediaContainer.innerHTML = '<p>No media available</p>';
+    }
+
     applySettings();
+}
+
+function createImdbRatingCircle(imdbRating, imdbId) {
+    if (imdbRating === 'N/A' || imdbRating === null || imdbRating === undefined) {
+        imdbRating = 0;
+    }
+
+    let circleContainer = document.getElementById('imdbRatingCircleContainer');
+    if (!circleContainer) {
+        circleContainer = document.createElement('div');
+        circleContainer.id = 'imdbRatingCircleContainer';
+        circleContainer.className = 'progress-container';
+        const imdbLink = `${imdbId}`;
+        circleContainer.innerHTML = `
+            <a href="${imdbLink}" target="_blank" style="text-decoration: none; color: inherit;">
+                <div style="margin-top: 0; font-size: 2.2rem; font-weight: bold" id="rating-header" class="rating-header" title="Click to view on IMDb">IMDb Rating</div>
+            </a>
+            <svg class="progress-ring" width="100" height="100" onclick="retriggerAnimation(${imdbRating})" style="cursor: pointer">
+                <circle class="progress-ring__circle" stroke="white" stroke-width="10" fill="transparent" r="40" cx="50" cy="50" />
+                <circle class="progress-ring__progress" r="40" cx="50" cy="50" />
+                <text id="imdbRatingText" class="circle-text" x="50" y="52" text-anchor="middle" fill="yellow" style="font-weight: bold; font-size: 25px">${imdbRating}</text>
+            </svg>
+        `;
+        document.getElementById('movie-description').appendChild(circleContainer);
+    }
+    else {
+        const text = document.getElementById('imdbRatingText');
+        text.textContent = `${imdbRating}`;
+    }
+
+    const circle = circleContainer.querySelector('.progress-ring__progress');
+    const text = document.getElementById('imdbRatingText');
+    setProgress(circle, text, imdbRating);
+}
+
+function setProgress(circle, text, rating) {
+    const radius = circle.r.baseVal.value;
+    const circumference = radius * 2 * Math.PI;
+
+    circle.style.transition = 'none';
+    circle.style.strokeDasharray = `${circumference} ${circumference}`;
+    circle.style.strokeDashoffset = circumference;
+
+    circle.getBoundingClientRect();
+
+    setTimeout(() => {
+        const offset = circumference - (rating / 10) * circumference;
+        circle.style.transition = 'stroke-dashoffset 0.6s ease-out, stroke 0.6s ease';
+        circle.style.strokeDashoffset = offset;
+        circle.style.setProperty('--progress-color', rating <= 5 ? '#FF0000' : (rating >= 7.5 ? '#4CAF50' : '#2196F3'));
+        text.textContent = `${rating}`;
+    }, 10);
+}
+
+function retriggerAnimation(imdbRating) {
+    const circle = document.querySelector('.progress-ring__progress');
+    const text = document.getElementById('imdbRatingText');
+    setProgress(circle, text, imdbRating);
 }
 
 function getSavedTextColor() {
@@ -1217,14 +1441,31 @@ function getSavedTextColor() {
 function handleDirectorClick(directorId, directorName) {
     localStorage.setItem('selectedDirectorId', directorId);
     document.title = `${directorName} - Director's Details`;
-    window.location.href = 'director-details.html';
     updateUniqueDirectorsViewed(directorId);
     updateDirectorVisitCount(directorId, directorName);
+    window.location.href = 'director-details.html';
 }
 
-function selectActorId(actorId) {
+function selectActorId(actorId, actorName) {
+    const actorVisits = JSON.parse(localStorage.getItem('actorVisits')) || {};
+    const uniqueActorsViewed = JSON.parse(localStorage.getItem('uniqueActorsViewed')) || [];
+
+    if (!uniqueActorsViewed.includes(actorId)) {
+        uniqueActorsViewed.push(actorId);
+        localStorage.setItem('uniqueActorsViewed', JSON.stringify(uniqueActorsViewed));
+    }
+
+    if (actorVisits[actorId]) {
+        actorVisits[actorId].count++;
+    }
+    else {
+        actorVisits[actorId] = { count: 1, name: actorName };
+    }
+
+    localStorage.setItem('actorVisits', JSON.stringify(actorVisits));
+
     localStorage.setItem('selectedActorId', actorId);
-    window.location.href = 'actor-details.html'
+    window.location.href = 'actor-details.html';
 }
 
 function handleCompanyClick(companyId, companyName) {

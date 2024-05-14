@@ -5,10 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cd254aab-fb0b-4629-92a6-766779c47463" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/js/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/platforms/android/gradlew" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/gradlew" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/platforms/android/gradlew.bat" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/gradlew.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/js/ratingsModule.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/js/ratingsModule.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,12 +41,16 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "deployment-branch",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "new-feature/add-media-gallery",
     "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/hoang/WebstormProjects/The-MovieVerse-Database/MovieVerse-Mobile",
-    "settings.editor.selected.configurable": "AndroidSdkUpdater"
+    "settings.editor.selected.configurable": "AndroidSdkUpdater",
+    "show.migrate.to.gradle.popup": "false"
   }
 }]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

@@ -1,10 +1,16 @@
 # The MovieVerse App
 
-Welcome to The MovieVerse - your digital compass to the cinematic universe. Created by [Son Nguyen](https://github.com/hoangsonww) in 2023 and currently attracting more than **100,000 monthly users**, this application is a completely **free-to-use** app, designed to serve as a bridge connecting movie enthusiasts with an extensive collection of films across various genres and periods. Dive into an ocean of narratives, where stories come to life, right at your fingertips with MovieVerse!
+<p align="center" style="cursor: pointer">
+  <a href="https://movie-verse.com">
+    <img src="../images/uwu.webp" alt="The MovieVerse App Interface" style="border-radius: 10px" width="200"/>
+  </a>
+</p>
 
-Star this repository to show your support and stay updated on the latest features and enhancements. Feel free to contribute to the project, and let's build a vibrant community of movie lovers together 🎬🍿!
+Welcome to **The MovieVerse** - your digital compass to the cinematic universe. Created by [Son Nguyen](https://github.com/hoangsonww) in 2023 and currently attracting more than **150,000 monthly users**, this application is completely **free-to-use**, designed to serve as a bridge connecting movie enthusiasts with an extensive collection of films across various genres and periods. Dive into an ocean of narratives, where stories come to life, right at your fingertips with **MovieVerse**!
 
-**This app is currently available at [movie-verse.com](https://movie-verse.com)!**
+🌟 Star this repository to show your support and stay updated on the latest features and enhancements. Feel free to contribute to the project, and let's build a vibrant community of movie lovers together 🎬🍿!
+
+**This app is currently available at [movie-verse.com](https://movie-verse.com).**
 
 ---
 
@@ -75,9 +81,9 @@ Through The MovieVerse, users can search for movies, view detailed information, 
 ## Project Structure
 
 The MovieVerse is a full-stack application with a robust backend and a user-friendly frontend. The project is divided into the following **3 main** directories:
-1. `MovieVerse-Backend`: The backend directory contains the server-side code, including the API, database, and server configuration.
-2. `MovieVerse-Frontend`: The frontend directory contains the client-side code, including the user interface, user experience, and client configuration.
-3. `MovieVerse-Mobile`: The mobile app directory contains the mobile application code, built using Apache Cordova, including the mobile user interface, user experience, and mobile client configuration.
+1. `MovieVerse-Backend`: The [backend directory](../MovieVerse-Backend) contains the server-side code, including the API, database, and server configuration.
+2. `MovieVerse-Frontend`: The [frontend directory](../MovieVerse-Frontend) contains the client-side code, including the user interface, user experience, and client configuration.
+3. `MovieVerse-Mobile`: The [mobile app directory](../MovieVerse-Mobile) contains the mobile application code, built using Apache Cordova, including the mobile user interface, user experience, and mobile client configuration.
 
 There are also additional directories and files for project configuration, testing, and other utilities. The project is built using a variety of technologies, including `.github`, `utilities`, `project-config`, `MovieVerse-APIs`, `MovieVerse-Databases`, `MovieVerse-Middleware`, `MovieVerse-Design`, `images`, and more. Each directory serves a specific purpose in the development, deployment, and maintenance of The MovieVerse application.
 
@@ -100,7 +106,6 @@ The app is using `Netlify` for the frontend deployment and `Heroku` for the back
 | [FontAwesome Icons](https://react-icons.github.io/react-icons/) | [C (Emscripten, WebAssembly)](https://emscripten.org/)          |                                                 |                                                                   | [ESLint](https://eslint.org/)                                   |
 | [SASS](https://sass-lang.com/)                                  | [JavaScript](https://www.javascript.com/)                       |                                                 |                                                                   | [TensorFlow](https://www.tensorflow.org/)                       |
 | [Single Spa](https://single-spa.js.org/)                        |                                                                 |                                                 |                                                                   |                                                                 |
-
 
 ## Contributing
 
@@ -187,10 +192,8 @@ Please also note that the **MovieVerse** is an ever-evolving platform, and more 
 
 Additionally, I'd like to express special gratitude to [The Movie Database (TMDb)](https://www.themoviedb.org/) for providing additional movie data that greatly enriches The MovieVerse experience!
 
-Also, if our service is down sometimes, especially the database overloaded failure during durations of high traffic, please be patient as we are working hard to maintain the platform and ensure a seamless experience for all users. 
-
 Thank you for your understanding and support! 🎬🍿
 
 ---
 
-Created with ❤️ in 2024 by [Son Nguyen](https://github.com/hoangsonww). All rights reserved.
+Created with ❤️ in 2023 by [Son Nguyen](https://github.com/hoangsonww). All rights reserved.

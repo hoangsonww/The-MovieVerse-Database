@@ -76,6 +76,14 @@
             font-display: swap;
         }
 
+        #rating {
+            color: white !important;
+        }
+
+        #rating:hover {
+            color: #ff8623 !important;
+        }
+
         #favorite-btn:hover {
             background-color: #ff8623 !important;
             transition: background-color 0.3s;
@@ -272,11 +280,11 @@
         })
     </script>
     <header style="margin-bottom: -60px">
-        <a href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer" title="Click to go back to the home page">
-            <h1 id="my-heading" style="margin-bottom: -10px" class="notranslate">
-                The Mo<span class="highlight">vieV</span>erse
-            </h1>
-        </a>
+        <h1 id="my-heading" style="margin-bottom: -10px" class="notranslate">
+            <a id="indexLink" href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer">
+                The Mo<span class="highlight" id="highlight">vieV</span>erse
+            </a>
+        </h1>
 
         <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
             <p id="stats-label" class="clock" style="font-size: 16px;"></p>
@@ -332,7 +340,7 @@
                     ❤️
                 </button>
             </div>
-            <img id="movie-image" alt="Loading Movie Details..." style="width: 25vw; border-radius: 8px"/>
+            <img id="movie-image" alt="Loading TV Series Details..." style="width: 25vw; border-radius: 8px"/>
             <h3>Your Rating:</h3>
             <div class="rating" title="Click on a star to rate this movie!">
                 <span class="star" data-value="1" title="Oops, sorry to hear that this movie is disappointing to you">&#9733;</span>
@@ -437,29 +445,21 @@
                 const query = searchBar.value.trim();
                 if (query) {
                     if (window.innerWidth > 800) {
-                        myHeading.style.display = 'none';
-                        localTime.style.display = 'none';
-                        myHeading.style.zIndex = '0.05';
-                        searchBar.style.marginTop = '16px';
-                        searchButton.style.marginTop = '16px';
+                        myHeading.style.visibility = 'hidden';
+                        myHeading.style.opacity = '0';
+                        localTime.style.visibility = 'hidden';
+                        localTime.style.opacity = '0';
                     }
                 }
                 else {
-                    myHeading.style.display = '';
-                    localTime.style.display = '';
-                    searchBar.style.marginTop = '';
-                    searchButton.style.marginTop = '';
+                    myHeading.style.visibility = 'visible';
+                    myHeading.style.opacity = '1';
+                    localTime.style.visibility = 'visible';
+                    localTime.style.opacity = '1';
                 }
             }
-
             searchBar.addEventListener('input', toggleVisibility);
             toggleVisibility();
-
-            const clearSearchBtn = document.getElementById('clear-search');
-            clearSearchBtn.addEventListener('click', function() {
-                searchBar.value = '';
-                toggleVisibility();
-            });
         });
     </script>
 
@@ -469,6 +469,9 @@
             const viewAllResultsBtn = document.getElementById('view-all-results');
             const clearSearchBtn = document.getElementById('clear-search');
             const searchResultsContainer = document.getElementById('search-results');
+            const myHeading = document.getElementById('my-heading');
+            const localTime = document.getElementById('local-time');
+            const searchButton = document.getElementById('button-search');
 
             function toggleButtons() {
                 const query = searchInput.value.trim();
@@ -479,9 +482,13 @@
             clearSearchBtn.addEventListener('click', function() {
                 searchInput.value = '';
                 searchResultsContainer.innerHTML = '';
-                document.getElementById('local-time').style.display = '';
                 toggleButtons();
                 searchInput.focus();
+
+                myHeading.style.visibility = 'visible';
+                myHeading.style.opacity = '1';
+                localTime.style.visibility = 'visible';
+                localTime.style.opacity = '1';
             });
 
             toggleButtons();
@@ -786,7 +793,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js"></script>
 
-    <script src="../js/comments.js" type="module"></script>
+    <script src="../js/comments-tv.js" type="module"></script>
 
     <footer>
         <a href="../../index.html" style="cursor: pointer; text-decoration: none">

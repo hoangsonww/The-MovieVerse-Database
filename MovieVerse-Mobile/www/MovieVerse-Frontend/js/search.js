@@ -177,7 +177,7 @@ async function rotateUserStats() {
         {
             label: "Favorite Movies",
             getValue: () => {
-                const favoritedMovies = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
+                const favoritedMovies = JSON.parse(localStorage.getItem('moviesFavorited')) || [];
                 return favoritedMovies.length;
             }
         },
@@ -185,11 +185,36 @@ async function rotateUserStats() {
             label: "Favorite Genre",
             getValue: () => {
                 const mostCommonGenreCode = getMostCommonGenre();
-                const genreArray = JSON.parse(localStorage.getItem('genreMap')) || [];
-                const genreObject = genreArray.reduce((acc, genre) => {
-                    acc[genre.id] = genre.name;
-                    return acc;
-                }, {});
+                const genreMapString = localStorage.getItem('genreMap');
+                if (!genreMapString) {
+                    console.log('No genre map found in localStorage.');
+                    return 'Not Available';
+                }
+
+                let genreMap;
+                try {
+                    genreMap = JSON.parse(genreMapString);
+                }
+                catch (e) {
+                    console.log('Error parsing genre map:', e);
+                    return 'Not Available';
+                }
+
+                let genreObject;
+                if (Array.isArray(genreMap)) {
+                    genreObject = genreMap.reduce((acc, genre) => {
+                        acc[genre.id] = genre.name;
+                        return acc;
+                    }, {});
+                }
+                else if (typeof genreMap === 'object' && genreMap !== null) {
+                    genreObject = genreMap;
+                }
+                else {
+                    console.log('genreMap is neither an array nor a proper object:', genreMap);
+                    return 'Not Available';
+                }
+
                 return genreObject[mostCommonGenreCode] || 'Not Available';
             }
         },
@@ -235,11 +260,19 @@ async function rotateUserStats() {
 
 function updateMovieVisitCount(movieId, movieTitle) {
     let movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
+    let uniqueMoviesViewed = JSON.parse(localStorage.getItem('uniqueMoviesViewed')) || [];
+
     if (!movieVisits[movieId]) {
         movieVisits[movieId] = { count: 0, title: movieTitle };
     }
     movieVisits[movieId].count += 1;
+
+    if (!uniqueMoviesViewed.includes(movieId)) {
+        uniqueMoviesViewed.push(movieId);
+    }
+
     localStorage.setItem('movieVisits', JSON.stringify(movieVisits));
+    localStorage.setItem('uniqueMoviesViewed', JSON.stringify(uniqueMoviesViewed));
 }
 
 function getMostVisitedMovie() {
@@ -739,10 +772,44 @@ function showMovies(items, container, category) {
                     const response = await fetch(personDetailsUrl);
                     const personDetails = await response.json();
                     if (personDetails.known_for_department === 'Directing') {
+                        const directorVisits = JSON.parse(localStorage.getItem('directorVisits')) || {};
+                        const uniqueDirectorsViewed = JSON.parse(localStorage.getItem('uniqueDirectorsViewed')) || [];
+
+                        if (!uniqueDirectorsViewed.includes(id)) {
+                            uniqueDirectorsViewed.push(id);
+                            localStorage.setItem('uniqueDirectorsViewed', JSON.stringify(uniqueDirectorsViewed));
+                        }
+
+                        if (directorVisits[id]) {
+                            directorVisits[id].count++;
+                        }
+                        else {
+                            directorVisits[id] = { count: 1, name: personDetails.name || 'Unknown' };
+                        }
+
+                        localStorage.setItem('directorVisits', JSON.stringify(directorVisits));
+
                         localStorage.setItem('selectedDirectorId', id);
                         window.location.href = 'director-details.html?' + id;
                     }
                     else {
+                        const actorVisits = JSON.parse(localStorage.getItem('actorVisits')) || {};
+                        const uniqueActorsViewed = JSON.parse(localStorage.getItem('uniqueActorsViewed')) || [];
+
+                        if (!uniqueActorsViewed.includes(id)) {
+                            uniqueActorsViewed.push(id);
+                            localStorage.setItem('uniqueActorsViewed', JSON.stringify(uniqueActorsViewed));
+                        }
+
+                        if (actorVisits[id]) {
+                            actorVisits[id].count++;
+                        }
+                        else {
+                            actorVisits[id] = { count: 1, name: personDetails.name || 'Unknown' };
+                        }
+
+                        localStorage.setItem('actorVisits', JSON.stringify(actorVisits));
+
                         localStorage.setItem('selectedActorId', id);
                         window.location.href = 'actor-details.html?' + id;
                     }
@@ -765,6 +832,42 @@ function showMovies(items, container, category) {
 
         container.appendChild(movieEl);
     });
+}
+
+function handleDirectorClick(directorId, directorName) {
+    updateUniqueDirectorsViewed(directorId);
+    updateDirectorVisitCount(directorId, directorName);
+    localStorage.setItem('selectedDirectorId', directorId);
+    document.title = `${directorName} - Director's Details`;
+    window.location.href = 'director-details.html';
+}
+
+function updateUniqueDirectorsViewed(directorId) {
+    let viewedDirectors = JSON.parse(localStorage.getItem('uniqueDirectorsViewed')) || [];
+    if (!viewedDirectors.includes(directorId)) {
+        viewedDirectors.push(directorId);
+        localStorage.setItem('uniqueDirectorsViewed', JSON.stringify(viewedDirectors));
+    }
+}
+
+function updateActorVisitCount(actorId, actorName) {
+    let actorVisits = JSON.parse(localStorage.getItem('actorVisits')) || {};
+    if (!actorVisits[actorId]) {
+        actorVisits[actorId] = { count: 0, name: actorName };
+    }
+
+    actorVisits[actorId].count += 1;
+    localStorage.setItem('actorVisits', JSON.stringify(actorVisits));
+}
+
+function updateDirectorVisitCount(directorId, directorName) {
+    let directorVisits = JSON.parse(localStorage.getItem('directorVisits')) || {};
+    if (!directorVisits[directorId]) {
+        directorVisits[directorId] = { count: 0, name: directorName };
+    }
+
+    directorVisits[directorId].count += 1;
+    localStorage.setItem('directorVisits', JSON.stringify(directorVisits));
 }
 
 function getClassByRate(vote) {

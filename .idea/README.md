@@ -38,7 +38,7 @@ It is important to note that some files like `dataSources.local.xml` are intende
 - **Keep sensitive information secure** by not including plaintext passwords or other sensitive data in these configuration files.
 - **Review changes** to these files before committing them to version control to prevent the introduction of unwanted settings changes to team members.
 
-## Version Control
+## Version Control Considerations
 
 Typically, the `.idea` directory is included in version control with the exception of user-specific files such as `workspace.xml` or `tasks.xml`, which store user-specific IDE states and are not present here. This inclusion ensures that all developers working on the project have a consistent set of configurations.
 

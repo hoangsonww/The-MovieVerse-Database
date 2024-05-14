@@ -12,7 +12,7 @@ This directory serves as a repository for the images used throughout our applica
 - `favicon.ico`: This icon is used as the website's favicon, visible in browser tabs and bookmarks.
 - `screenshot.png`: This image is used within the app to demonstrate features or provide visual guides, such as for UI design.
 - `user-default.png`: This image is used as a placeholder for the user's profile until they add their own profile image.
-- And more...
+- And many more...
 
 ## Usage Guidelines
 

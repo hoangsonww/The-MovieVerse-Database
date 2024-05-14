@@ -420,8 +420,8 @@ function showMovies(movies, mainElement) {
             localStorage.setItem('selectedMovieId', id);
             updateUniqueMoviesViewed(id);
             updateFavoriteGenre(genre_ids);
-            window.location.href = 'MovieVerse-Frontend/html/movie-details.html';
             updateMovieVisitCount(id, title);
+            window.location.href = 'MovieVerse-Frontend/html/movie-details.html';
         });
 
         mainElement.appendChild(movieEl);
@@ -494,7 +494,7 @@ async function rotateUserStats() {
         {
             label: "Favorite Movies",
             getValue: () => {
-                const favoritedMovies = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
+                const favoritedMovies = JSON.parse(localStorage.getItem('moviesFavorited')) || [];
                 return favoritedMovies.length;
             }
         },
@@ -502,11 +502,36 @@ async function rotateUserStats() {
             label: "Favorite Genre",
             getValue: () => {
                 const mostCommonGenreCode = getMostCommonGenre();
-                const genreArray = JSON.parse(localStorage.getItem('genreMap')) || [];
-                const genreObject = genreArray.reduce((acc, genre) => {
-                    acc[genre.id] = genre.name;
-                    return acc;
-                }, {});
+                const genreMapString = localStorage.getItem('genreMap');
+                if (!genreMapString) {
+                    console.log('No genre map found in localStorage.');
+                    return 'Not Available';
+                }
+
+                let genreMap;
+                try {
+                    genreMap = JSON.parse(genreMapString);
+                }
+                catch (e) {
+                    console.log('Error parsing genre map:', e);
+                    return 'Not Available';
+                }
+
+                let genreObject;
+                if (Array.isArray(genreMap)) {
+                    genreObject = genreMap.reduce((acc, genre) => {
+                        acc[genre.id] = genre.name;
+                        return acc;
+                    }, {});
+                }
+                else if (typeof genreMap === 'object' && genreMap !== null) {
+                    genreObject = genreMap;
+                }
+                else {
+                    console.log('genreMap is neither an array nor a proper object:', genreMap);
+                    return 'Not Available';
+                }
+
                 return genreObject[mostCommonGenreCode] || 'Not Available';
             }
         },
@@ -576,6 +601,7 @@ async function getMostVisitedMovieGenre() {
     const movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
     let mostVisitedGenre = null;
     let maxVisits = 0;
+
     for (const movieId in movieVisits) {
         const visits = movieVisits[movieId];
         if (visits.count > maxVisits) {
@@ -590,6 +616,7 @@ async function fetchGenreForMovie(movieId) {
     const movieDetailsUrl = `https://${getMovieVerseData()}/3/movie/${movieId}?${generateMovieNames()}${getMovieCode()}`;
     const response = await fetch(movieDetailsUrl);
     const movieDetails = await response.json();
+
     return movieDetails.genres[0] ? movieDetails.genres[0].id : null;
 }
 
@@ -624,10 +651,12 @@ function getMostVisitedDirector() {
 
 function getTriviaAccuracy() {
     let triviaStats = JSON.parse(localStorage.getItem('triviaStats')) || { totalCorrect: 0, totalAttempted: 0 };
+
     if (triviaStats.totalAttempted === 0) {
         return 'No trivia attempted';
     }
     let accuracy = (triviaStats.totalCorrect / triviaStats.totalAttempted) * 100;
+
     return `${accuracy.toFixed(1)}% accuracy`;
 }
 
@@ -686,6 +715,7 @@ async function showMovieOfTheDay() {
 function fallbackMovieSelection() {
     const fallbackMovies = [432413, 299534, 1726, 562, 118340, 455207, 493922, 447332, 22970, 530385, 27205, 264660, 120467, 603, 577922, 76341, 539, 419704, 515001, 118340, 424, 98];
     const randomFallbackMovie = fallbackMovies[Math.floor(Math.random() * fallbackMovies.length)];
+
     localStorage.setItem('selectedMovieId', randomFallbackMovie);
     window.location.href = 'MovieVerse-Frontend/html/movie-details.html';
 }
@@ -734,18 +764,21 @@ function getClassByRate(vote){
 form.addEventListener('submit', (e) => {
     e.preventDefault();
     const searchQuery = document.getElementById('search').value;
+
     localStorage.setItem('searchQuery', searchQuery);
     window.location.href = 'MovieVerse-Frontend/html/search.html';
 });
 
 function toggleNav() {
     const sideNav = document.getElementById('side-nav');
+
     sideNav.classList.toggle('manual-toggle');
     adjustNavBar();
 }
 
 function removeNavBar() {
     const sideNav = document.getElementById('side-nav');
+
     if (sideNav.classList.contains('manual-toggle')) {
         sideNav.classList.remove('manual-toggle');
     }
@@ -754,6 +787,7 @@ function removeNavBar() {
 
 function adjustNavBar() {
     const sideNav = document.getElementById('side-nav');
+
     if (sideNav.classList.contains('manual-toggle')) {
         sideNav.style.left = '0px';
     }
@@ -766,6 +800,15 @@ document.addEventListener('mousemove', function(event) {
     const sideNav = document.getElementById('side-nav');
     if (event.clientX < 10 && !sideNav.classList.contains('manual-toggle')) {
         sideNav.style.left = '0';
+    }
+});
+
+document.addEventListener('click', function(event) {
+    const sideNav = document.getElementById('side-nav');
+    const navToggle = document.getElementById('nav-toggle');
+    if (!sideNav.contains(event.target) && !navToggle.contains(event.target) && sideNav.classList.contains('manual-toggle')) {
+        sideNav.classList.remove('manual-toggle');
+        adjustNavBar();
     }
 });
 
@@ -856,8 +899,9 @@ async function getDirectorSpotlight(url) {
 function showMoviesDirectorSpotlight(movies) {
     director_main.innerHTML = '';
     movies.forEach((movie) => {
-        const { id, poster_path, title, vote_average } = movie;
+        const { id, poster_path, title, vote_average, genre_ids } = movie;
         const movieEl = document.createElement('div');
+
         movieEl.classList.add('movie');
         movieEl.style.zIndex = '1000';
 
@@ -881,8 +925,10 @@ function showMoviesDirectorSpotlight(movies) {
 
         movieEl.addEventListener('click', () => {
             localStorage.setItem('selectedMovieId', id);
-            window.location.href = 'MovieVerse-Frontend/html/movie-details.html';
+            updateUniqueMoviesViewed(id);
+            updateFavoriteGenre(genre_ids);
             updateMovieVisitCount(id, title);
+            window.location.href = 'MovieVerse-Frontend/html/movie-details.html';
         });
 
         director_main.appendChild(movieEl);
@@ -891,6 +937,7 @@ function showMoviesDirectorSpotlight(movies) {
 
 function handleSignInOut() {
     const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
+
     if (isSignedIn) {
         localStorage.setItem('isSignedIn', JSON.stringify(false));
         alert('You have been signed out.');
@@ -966,6 +1013,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 function handleSearch() {
     const searchQuery = document.getElementById('search').value;
+
     localStorage.setItem('searchQuery', searchQuery);
     window.location.href = 'MovieVerse-Frontend/html/search.html';
 }

@@ -194,6 +194,37 @@
                 bottom: 70px;
             }
         }
+
+        #rating-header {
+            color: #ffeb3b;
+        }
+
+        #rating-header:hover {
+            color: #ff8623;
+            transition: 0.2s ease-in;
+        }
+
+        #movie-details-container {
+            margin-top: 39px;
+        }
+
+        .movie-left {
+            margin-top: -10px;
+        }
+
+        @media (max-width: 767px) {
+            #movie-details-container {
+                margin-top: 0;
+            }
+
+            #form1 {
+                margin-bottom: 39px;
+            }
+
+            .movie-left {
+                margin-top: -40px;
+            }
+        }
     </style>
 </head>
 
@@ -240,11 +271,11 @@
         })
     </script>
     <header style="margin-bottom: -60px; margin-top: -5px">
-        <a href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer" title="Click to go back to the home page">
-            <h1 id="my-heading" style="margin-bottom: -10px" class="notranslate">
-                The Mo<span class="highlight">vieV</span>erse
-            </h1>
-        </a>
+        <h1 id="my-heading" style="margin-bottom: -10px" class="notranslate">
+            <a id="indexLink" href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer">
+                The Mo<span class="highlight" id="highlight">vieV</span>erse
+            </a>
+        </h1>
 
         <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
             <p id="stats-label" class="clock" style="font-size: 16px;"></p>
@@ -268,7 +299,7 @@
             <i class="fas fa-user" id="profileIcon"></i>
         </button>
 
-        <form id="form1">
+        <form id="form1" >
             <div class="search-container">
                 <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!" />
                 <button type="button" id="button-search" onclick="handleSearch()">Search</button>
@@ -296,7 +327,7 @@
 
     <div class="details-container" id="movie-details-container" style="margin-bottom: 100px">
         <!-- Left side for Title and Image -->
-        <div class="movie-left" style="margin-top: 10px">
+        <div class="movie-left">
             <!-- Container for Title and Favorites Button -->
             <div class="title-favorites-container">
                 <h2 id="movie-title" class="movie-header"></h2>
@@ -317,7 +348,7 @@
         </div>
 
         <!-- Right side for Description and Rating -->
-        <div class="movie-right">
+        <div class="movie-right" style="margin-top: -50px">
             <p id="movie-description" class="movie-description"></p>
             <h2 id="movie-rating" class="movie-rating"></h2>
             <div id="comments-section">
@@ -404,7 +435,7 @@
     </script>
 
     <script type="module">
-        import { loadUserRatings, updateAverageMovieRating } from '../js/ratingsModule.js';
+        import { loadUserRatings, updateAverageMovieRating } from '../js/ratings-module.js';
 
         document.addEventListener('DOMContentLoaded', async () => {
             const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
@@ -465,37 +496,26 @@
             const searchButton = document.getElementById('button-search');
             const myHeading = document.getElementById('my-heading');
             const localTime = document.getElementById('local-time');
-            const movieDetailsContainer = document.getElementById('movie-details-container');
 
             function toggleVisibility() {
                 const query = searchBar.value.trim();
                 if (query) {
                     if (window.innerWidth > 800) {
-                        myHeading.style.display = 'none';
-                        localTime.style.display = 'none';
-                        myHeading.style.zIndex = '0.05';
-                        searchBar.style.marginTop = '16px';
-                        searchButton.style.marginTop = '16px';
-                        movieDetailsContainer.style.marginTop = '100px';
+                        myHeading.style.visibility = 'hidden';
+                        myHeading.style.opacity = '0';
+                        localTime.style.visibility = 'hidden';
+                        localTime.style.opacity = '0';
                     }
                 }
                 else {
-                    myHeading.style.display = '';
-                    localTime.style.display = '';
-                    searchBar.style.marginTop = '';
-                    searchButton.style.marginTop = '';
-                    movieDetailsContainer.style.marginTop = '';
+                    myHeading.style.visibility = 'visible';
+                    myHeading.style.opacity = '1';
+                    localTime.style.visibility = 'visible';
+                    localTime.style.opacity = '1';
                 }
             }
-
             searchBar.addEventListener('input', toggleVisibility);
             toggleVisibility();
-
-            const clearSearchBtn = document.getElementById('clear-search');
-            clearSearchBtn.addEventListener('click', function() {
-                searchBar.value = '';
-                toggleVisibility();
-            });
         });
     </script>
 
@@ -505,6 +525,9 @@
             const viewAllResultsBtn = document.getElementById('view-all-results');
             const clearSearchBtn = document.getElementById('clear-search');
             const searchResultsContainer = document.getElementById('search-results');
+            const myHeading = document.getElementById('my-heading');
+            const localTime = document.getElementById('local-time');
+            const searchButton = document.getElementById('button-search');
 
             function toggleButtons() {
                 const query = searchInput.value.trim();
@@ -515,10 +538,13 @@
             clearSearchBtn.addEventListener('click', function() {
                 searchInput.value = '';
                 searchResultsContainer.innerHTML = '';
-                document.getElementById('local-time').style.display = '';
-                document.getElementById('movie-details-container').style.marginTop = '';
                 toggleButtons();
                 searchInput.focus();
+
+                myHeading.style.visibility = 'visible';
+                myHeading.style.opacity = '1';
+                localTime.style.visibility = 'visible';
+                localTime.style.opacity = '1';
             });
 
             toggleButtons();
