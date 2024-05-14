@@ -234,6 +234,7 @@ function setupPagination(mainElementId, paginationContainerId, genresContainerId
         const button = document.createElement('button');
         button.textContent = pageNum;
         button.className = 'page-button';
+
         if (pageNum === '...') {
             button.disabled = true;
         }
@@ -262,6 +263,7 @@ async function fetchAndDisplayMovies(url, count, mainElement) {
     const response = await fetch(`${url}`);
     const data = await response.json();
     const movies = data.results.slice(0, count);
+
     movies.sort(() => Math.random() - 0.5);
     showMovies(movies, mainElement);
 }
