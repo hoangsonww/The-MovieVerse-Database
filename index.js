@@ -648,6 +648,7 @@ function getMostVisitedActor() {
 
 function getMostVisitedDirector() {
     const directorVisits = JSON.parse(localStorage.getItem('directorVisits')) || {};
+
     let mostVisitedDirector = '';
     let maxVisits = 0;
 
