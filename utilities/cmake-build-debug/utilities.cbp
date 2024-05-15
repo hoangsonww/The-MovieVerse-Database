@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="utilities"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="C:/Users/hoang/WebstormProjects/The-MovieVerse-Database/utilities/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="F:/CLion 2024.1.1/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/hoang/WebstormProjects/The-MovieVerse-Database/utilities/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="F:/CLion 2024.1.1/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/hoang/WebstormProjects/The-MovieVerse-Database/utilities/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="F:/CLion 2024.1.1/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/hoang/WebstormProjects/The-MovieVerse-Database/utilities/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="F:/CLion 2024.1.1/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/hoang/WebstormProjects/The-MovieVerse-Database/utilities/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="utilities">
+				<Option output="C:/Users/hoang/WebstormProjects/The-MovieVerse-Database/utilities/cmake-build-debug/utilities.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/hoang/WebstormProjects/The-MovieVerse-Database/utilities/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="F:/CLion 2024.1.1/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/13.1.0/include"/>
+					<Add directory="F:/CLion 2024.1.1/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/13.1.0/../../../../include"/>
+					<Add directory="F:/CLion 2024.1.1/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/13.1.0/include-fixed"/>
+					<Add directory="F:/CLion 2024.1.1/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/13.1.0/../../../../x86_64-w64-mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="F:/CLion 2024.1.1/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/hoang/WebstormProjects/The-MovieVerse-Database/utilities/cmake-build-debug/Makefile&quot;  VERBOSE=1 utilities"/>
+					<CompileFile command="F:/CLion 2024.1.1/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/hoang/WebstormProjects/The-MovieVerse-Database/utilities/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="F:/CLion 2024.1.1/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/hoang/WebstormProjects/The-MovieVerse-Database/utilities/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="F:/CLion 2024.1.1/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/hoang/WebstormProjects/The-MovieVerse-Database/utilities/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="utilities/fast">
+				<Option output="C:/Users/hoang/WebstormProjects/The-MovieVerse-Database/utilities/cmake-build-debug/utilities.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/hoang/WebstormProjects/The-MovieVerse-Database/utilities/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="F:/CLion 2024.1.1/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/13.1.0/include"/>
+					<Add directory="F:/CLion 2024.1.1/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/13.1.0/../../../../include"/>
+					<Add directory="F:/CLion 2024.1.1/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/13.1.0/include-fixed"/>
+					<Add directory="F:/CLion 2024.1.1/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/13.1.0/../../../../x86_64-w64-mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="F:/CLion 2024.1.1/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/hoang/WebstormProjects/The-MovieVerse-Database/utilities/cmake-build-debug/Makefile&quot;  VERBOSE=1 utilities/fast"/>
+					<CompileFile command="F:/CLion 2024.1.1/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/hoang/WebstormProjects/The-MovieVerse-Database/utilities/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="F:/CLion 2024.1.1/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/hoang/WebstormProjects/The-MovieVerse-Database/utilities/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="F:/CLion 2024.1.1/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/hoang/WebstormProjects/The-MovieVerse-Database/utilities/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="C:/Users/hoang/WebstormProjects/The-MovieVerse-Database/utilities/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="F:/CLion 2024.1.1/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/hoang/WebstormProjects/The-MovieVerse-Database/utilities/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="F:/CLion 2024.1.1/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/hoang/WebstormProjects/The-MovieVerse-Database/utilities/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="F:/CLion 2024.1.1/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/hoang/WebstormProjects/The-MovieVerse-Database/utilities/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="F:/CLion 2024.1.1/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/hoang/WebstormProjects/The-MovieVerse-Database/utilities/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="C:/Users/hoang/WebstormProjects/The-MovieVerse-Database/utilities/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="F:/CLion 2024.1.1/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/hoang/WebstormProjects/The-MovieVerse-Database/utilities/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="F:/CLion 2024.1.1/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/hoang/WebstormProjects/The-MovieVerse-Database/utilities/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="F:/CLion 2024.1.1/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/hoang/WebstormProjects/The-MovieVerse-Database/utilities/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="F:/CLion 2024.1.1/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/hoang/WebstormProjects/The-MovieVerse-Database/utilities/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="C:/Users/hoang/WebstormProjects/The-MovieVerse-Database/utilities/applyFilterToVideo.c">
+			<Option target="utilities"/>
+		</Unit>
+		<Unit filename="C:/Users/hoang/WebstormProjects/The-MovieVerse-Database/utilities/colorInvertingVideo.c">
+			<Option target="utilities"/>
+		</Unit>
+		<Unit filename="C:/Users/hoang/WebstormProjects/The-MovieVerse-Database/utilities/imageEnhancer.c">
+			<Option target="utilities"/>
+		</Unit>
+		<Unit filename="C:/Users/hoang/WebstormProjects/The-MovieVerse-Database/utilities/imageFilter.c">
+			<Option target="utilities"/>
+		</Unit>
+		<Unit filename="C:/Users/hoang/WebstormProjects/The-MovieVerse-Database/utilities/redrawImage.c">
+			<Option target="utilities"/>
+		</Unit>
+		<Unit filename="C:/Users/hoang/WebstormProjects/The-MovieVerse-Database/utilities/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
