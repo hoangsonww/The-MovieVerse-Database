@@ -1010,22 +1010,28 @@ function updateSignInButtonState() {
 setupPagination('award-winning', 'award-winning-pagination', 'award-winning-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=1000`);
 setupPagination('hidden-gems', 'hidden-gems-pagination', 'hidden-gems-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&vote_average.gte=7&popularity.lte=10`);
 setupPagination('western', 'western-pagination', 'western-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=37&sort_by=popularity.desc&vote_count.gte=8`);
+
 setupPagination('war', 'war-pagination', 'war-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10752&sort_by=popularity.desc&vote_count.gte=8`);
 setupPagination('vietnamese', 'vietnamese-pagination', 'vietnamese-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_original_language=vi&sort_by=popularity.desc`);
 setupPagination('korean', 'korean-pagination', 'korean-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_original_language=ko&sort_by=vote_average.desc,popularity.desc&vote_count.gte=10&vote_average.gte=8`);
 setupPagination('musical', 'musical-pagination', 'musical-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10402&sort_by=popularity.desc&vote_count.gte=8`);
+
 setupPagination('drama', 'drama-pagination', 'drama-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=18&sort_by=popularity.desc&vote_count.gte=8`);
 setupPagination('indian', 'indian-pagination', 'indian-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_original_language=hi&sort_by=popularity.desc`);
 setupPagination('action', 'action-pagination', 'action-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=28&sort_by=popularity.desc&vote_count.gte=8`);
+
 setupPagination('horror', 'horror-pagination', 'horror-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=27&sort_by=popularity.desc&vote_count.gte=8`);
 setupPagination('documentary', 'documentary-pagination', 'documentary-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=99&sort_by=popularity.desc&vote_count.gte=8`);
 setupPagination('animation', 'animation-pagination', 'animation-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=16&sort_by=popularity.desc&vote_count.gte=8`);
+
 setupPagination('sci-fi', 'sci-fi-pagination', 'sci-fi-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=878&sort_by=popularity.desc&vote_count.gte=8`);
 setupPagination('romantic', 'romantic-pagination', 'romantic-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10749&sort_by=popularity.desc&vote_count.gte=8`);
 setupPagination('thriller', 'thriller-pagination', 'thriller-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=53&sort_by=popularity.desc&vote_count.gte=8`);
+
 setupPagination('mystery', 'mystery-pagination', 'mystery-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=9648&sort_by=popularity.desc&vote_count.gte=8`);
 setupPagination('comedy', 'comedy-pagination', 'comedy-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=35&sort_by=popularity.desc&vote_count.gte=8`);
 setupPagination('fantasy', 'fantasy-pagination', 'fantasy-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=14&sort_by=popularity.desc&vote_count.gte=8`);
+
 setupPagination('family', 'family-pagination', 'family-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10751&sort_by=popularity.desc&vote_count.gte=8`);
 setupPagination('tv-series', 'tv-series-pagination', 'tv-series-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10770&sort_by=popularity.desc&vote_count.gte=8`);
 setupPagination('crime', 'crime-pagination', 'crime-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=80&sort_by=popularity.desc&vote_count.gte=8`);
