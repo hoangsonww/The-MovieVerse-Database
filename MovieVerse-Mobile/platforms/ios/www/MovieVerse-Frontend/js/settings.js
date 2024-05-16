@@ -5,6 +5,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const textColorInput = document.getElementById('text-color-input');
     const fontSizeSelect = document.getElementById('font-size-select');
     const resetButton = document.getElementById('reset-button');
+    const deleteButton = document.getElementById('delete-uploaded-btn');
+    const deleteImagesSection = document.getElementById('delete-images-section');
+    const customImagesContainer = document.getElementById('custom-images-container');
+    const deleteSelectedImagesBtn = document.getElementById('delete-selected-images-btn');
 
     loadCustomBackgrounds();
     loadSettings();
@@ -37,22 +41,91 @@ document.addEventListener('DOMContentLoaded', () => {
     if (resetButton) {
         resetButton.addEventListener('click', function () {
             localStorage.removeItem('backgroundImage');
-            localStorage.setItem('backgroundImage', '../../images/universe-1.webp')
+            localStorage.setItem('backgroundImage', '../../images/universe-1.webp');
             localStorage.removeItem('textColor');
             localStorage.removeItem('fontSize');
             window.location.reload();
         });
     }
 
+    if (deleteButton) {
+        deleteButton.addEventListener('click', function() {
+            if (deleteImagesSection.style.display === 'block') {
+                deleteImagesSection.style.display = 'none';
+            } else {
+                deleteImagesSection.style.display = 'block';
+                updateCustomImagesDisplay();
+            }
+        });
+    }
+
+    if (deleteSelectedImagesBtn) {
+        deleteSelectedImagesBtn.addEventListener('click', () => {
+            const customImages = JSON.parse(localStorage.getItem('customImages')) || [];
+            const selectedIndexes = Array.from(document.querySelectorAll('.delete-checkbox:checked')).map(checkbox => parseInt(checkbox.value));
+
+            const updatedImages = customImages.filter((_, index) => !selectedIndexes.includes(index));
+            localStorage.setItem('customImages', JSON.stringify(updatedImages));
+
+            updateCustomImagesDisplay();
+            updateBackgroundSelectOptions();
+            alert('Selected images have been deleted.');
+            window.location.reload();
+        });
+    }
+
+    function updateCustomImagesDisplay() {
+        const customImages = JSON.parse(localStorage.getItem('customImages')) || [];
+        customImagesContainer.innerHTML = '';
+
+        if (customImages.length === 0) {
+            customImagesContainer.innerHTML = '<p>No custom images uploaded.</p>';
+            deleteSelectedImagesBtn.style.display = 'none';
+            return;
+        }
+
+        customImages.forEach((image, index) => {
+            const imageContainer = document.createElement('div');
+            imageContainer.classList.add('image-container');
+
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.classList.add('delete-checkbox');
+            checkbox.value = index;
+
+            const img = document.createElement('img');
+            img.src = image.dataURL;
+            img.alt = image.name;
+            img.style.width = '100px';
+
+            const imageName = document.createElement('span');
+            imageName.classList.add('image-name');
+            imageName.textContent = image.name;
+
+            // Toggle checkbox when image container is clicked
+            imageContainer.addEventListener('click', (e) => {
+                if (e.target !== checkbox) { // Prevent checkbox click event from toggling twice
+                    checkbox.checked = !checkbox.checked;
+                }
+            });
+
+            imageContainer.appendChild(checkbox);
+            imageContainer.appendChild(img);
+            imageContainer.appendChild(imageName);
+            customImagesContainer.appendChild(imageContainer);
+        });
+
+        deleteSelectedImagesBtn.style.display = 'block';
+    }
+
     function loadSettings() {
         let savedBg = localStorage.getItem('backgroundImage');
-        const bgSelect = document.getElementById('background-select');
         const customImages = JSON.parse(localStorage.getItem('customImages')) || [];
         const savedTextColor = localStorage.getItem('textColor');
         const savedFontSize = localStorage.getItem('fontSize');
 
         if (!savedBg) {
-            savedBg = '../../images/universe-1.webp';
+            savedBg = DEFAULT_BACKGROUND_IMAGE;
         }
 
         const availableBackgrounds = [
@@ -72,13 +145,13 @@ document.addEventListener('DOMContentLoaded', () => {
         ];
 
         if (!availableBackgrounds.includes(savedBg) && !customImages.find(image => image.dataURL === savedBg)) {
-            savedBg = '../../images/universe-1.webp';
+            savedBg = DEFAULT_BACKGROUND_IMAGE;
             localStorage.setItem('backgroundImage', savedBg);
         }
 
         if (savedBg) {
             let imageUrl = savedBg;
-            if (savedBg === '../../images/universe-1.webp') {
+            if (savedBg === DEFAULT_BACKGROUND_IMAGE) {
                 if (window.innerWidth <= 680) {
                     imageUrl = '../../images/universe-1-small.webp';
                 }
@@ -107,41 +180,20 @@ document.addEventListener('DOMContentLoaded', () => {
         if (bgSelect) {
             bgSelect.value = foundImage ? foundImage.dataURL : savedBg;
         }
-        else {
-            return;
+    }
+
+    function loadCustomBackgrounds() {
+        const bgSelect = document.getElementById('background-select');
+        const customImages = JSON.parse(localStorage.getItem('customImages')) || [];
+
+        if (bgSelect) {
+            customImages.forEach(image => {
+                const newOption = new Option(image.name, image.dataURL);
+                bgSelect.add(newOption);
+            });
         }
     }
-
-    const deleteButton = document.getElementById('delete-uploaded-btn');
-    if (deleteButton) {
-        deleteButton.addEventListener('click', function() {
-            deleteImagesPrompt();
-            document.body.style.backgroundImage = `url('${DEFAULT_BACKGROUND_IMAGE}')`;
-            localStorage.setItem('backgroundImage', DEFAULT_BACKGROUND_IMAGE);
-            if (bgSelect) {
-                bgSelect.value = DEFAULT_BACKGROUND_IMAGE;
-            }
-        });
-    }
-    else {
-        return;
-    }
-})
-
-function loadCustomBackgrounds() {
-    const bgSelect = document.getElementById('background-select');
-    const customImages = JSON.parse(localStorage.getItem('customImages')) || [];
-
-    if (bgSelect) {
-        customImages.forEach(image => {
-            const newOption = new Option(image.name, image.dataURL);
-            bgSelect.add(newOption);
-        });
-    }
-    else {
-        return;
-    }
-}
+});
 
 document.addEventListener('DOMContentLoaded', () => {
     const uploadButton = document.getElementById('upload-bg-btn');

@@ -456,6 +456,14 @@ header h1 {
     color: #ff8623;
 }
 
+.highlight2 {
+    color: orange;
+}
+
+.highlight2:hover {
+    color: #ff8623;
+}
+
 .search:focus {
     outline: none;
     background-color: #22254b;
@@ -775,6 +783,45 @@ header h1 {
     text-align: center;
     background-color: transparent;
     margin-left: 40px;
+}
+
+#my-heading1 {
+    color: #ff8623;
+    padding: 10px;
+    font-size: 36px;
+    text-align: center;
+    background-color: transparent;
+    margin-left: 40px;
+}
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#my-heading {
+    margin-bottom: -25px;
+    opacity: 0;
+    animation: fadeInUp 1s ease forwards;
+}
+
+#my-heading a {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.highlight {
+    display: inline-block;
+    opacity: 0;
+    animation: fadeInUp 1s ease forwards 0.5s;
 }
 
 #trivia-btn {
@@ -3579,7 +3626,6 @@ body {
     padding: 10px;
     border-radius: 8px;
     background-color: #7378c5;
-    margin: 0;
     margin-bottom: 2px;
     margin-top: 5px;
     width: 300px;
@@ -3735,7 +3781,6 @@ footer {
         right: 12.5px;
     }
 
-
     .notification-btn {
         right: 12.5px;
     }
@@ -3770,4 +3815,47 @@ footer {
     border-radius: 10px;
     padding: 20px;
     margin: 20px 0;
+}
+
+@keyframes dropIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#my-heading {
+    margin-bottom: -25px;
+    opacity: 0;
+    animation: dropIn 1s ease forwards;
+}
+
+#my-heading a {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.highlight {
+    display: inline-block;
+    opacity: 0;
+    animation: dropIn 1s ease forwards 1s;
+}
+
+#local-time {
+    cursor: pointer;
+    opacity: 0;
+    animation: dropIn 1s ease forwards 1.5s;
+}
+
+#local-time p,
+#local-time div {
+    opacity: 0;
+    animation: dropIn 1s ease forwards 2s;
 }
