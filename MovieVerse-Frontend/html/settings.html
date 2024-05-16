@@ -257,6 +257,61 @@
                 bottom: 70px;
             }
         }
+
+        .image-container {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            background-color: #7378c5;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            cursor: pointer;
+        }
+
+        .image-container:hover {
+            background-color: #ff8623;
+            transition: background-color 0.3s;
+        }
+
+        .image-container img {
+            margin-left: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: transform 0.2s;
+        }
+
+        .image-container img:hover {
+            transform: scale(1.1);
+        }
+
+        .image-container input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        .image-name {
+            margin-left: 10px;
+            font-size: 1rem;
+            color: #fff;
+        }
+
+        #delete-selected-images-btn {
+            background-color: #7378c5;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: inline-block;
+            font: inherit;
+            margin: 20px auto;
+        }
+
+        #delete-selected-images-btn:hover {
+            background-color: #ff8623;
+        }
     </style>
 </head>
 
@@ -399,6 +454,12 @@
                 <button id="upload-bg-btn" style="font: inherit">Upload</button>
                 <button id="delete-uploaded-btn" style="font: inherit">Delete Uploaded Images</button>
             </div>
+        </div>
+
+        <div class="settings-section" id="delete-images-section" style="display: none;">
+            <h2>Select Images to Delete</h2>
+            <div id="custom-images-container"></div>
+            <button id="delete-selected-images-btn">Delete Selected Images</button>
         </div>
 
         <!-- Text Color Setting -->
