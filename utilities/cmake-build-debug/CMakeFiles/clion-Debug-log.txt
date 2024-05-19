@@ -1,10 +1,19 @@
-/Applications/CLion.app/Contents/bin/cmake/mac/aarch64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/Applications/CLion.app/Contents/bin/ninja/mac/aarch64/ninja -G Ninja -S /Users/davidnguyen/WebstormProjects/The-MovieVerse-Database/utilities -B /Users/davidnguyen/WebstormProjects/The-MovieVerse-Database/utilities/cmake-build-debug
--- The C compiler identification is AppleClang 15.0.0.15000309
+"F:\CLion 2024.1.1\bin\cmake\win\x64\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - MinGW Makefiles" -S C:\Users\hoang\WebstormProjects\The-MovieVerse-Database\utilities -B C:\Users\hoang\WebstormProjects\The-MovieVerse-Database\utilities\cmake-build-debug
+CMake Deprecation Warning:
+  Support for "Extra Generators" like
+
+    CodeBlocks
+
+  is deprecated and will be removed from a future version of CMake.  IDEs may
+  use the cmake-file-api(7) to view CMake-generated project build trees.
+
+
+-- The C compiler identification is GNU 13.1.0
 -- Detecting C compiler ABI info
 -- Detecting C compiler ABI info - done
--- Check for working C compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc - skipped
+-- Check for working C compiler: F:/CLion 2024.1.1/bin/mingw/bin/gcc.exe - skipped
 -- Detecting C compile features
 -- Detecting C compile features - done
--- Configuring done (5.4s)
+-- Configuring done (2.3s)
 -- Generating done (0.0s)
--- Build files have been written to: /Users/davidnguyen/WebstormProjects/The-MovieVerse-Database/utilities/cmake-build-debug
+-- Build files have been written to: C:/Users/hoang/WebstormProjects/The-MovieVerse-Database/utilities/cmake-build-debug

@@ -1,0 +1,3 @@
+"F:\CLion 2024.1.1\bin\cmake\win\x64\bin\cmake.exe" -E rm -f CMakeFiles\utilities.dir/objects.a
+"F:\CLion 2024.1.1\bin\mingw\bin\ar.exe" qc CMakeFiles\utilities.dir/objects.a @CMakeFiles\utilities.dir\objects1.rsp
+"F:\CLion 2024.1.1\bin\mingw\bin\gcc.exe" -g -Wl,--whole-archive CMakeFiles\utilities.dir/objects.a -Wl,--no-whole-archive -o utilities.exe -Wl,--out-implib,libutilities.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\utilities.dir\linkLibs.rsp
