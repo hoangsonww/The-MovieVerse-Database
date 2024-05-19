@@ -714,6 +714,8 @@ function getRatingDetails(rating) {
 }
 
 async function fetchMovieRatings(imdbId, tmdbMovieData) {
+    showSpinner();
+
     const apiKeys = [
         await getMovieCode2(),
         '58efe859',
@@ -729,7 +731,8 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
             const response = await fetch(url);
             if (!response.ok) throw new Error('API limit reached or other error');
             return await response.json();
-        } catch (error) {
+        }
+        catch (error) {
             return null;
         }
     }
@@ -772,6 +775,7 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
     }
 
     populateMovieDetails(tmdbMovieData, imdbRating, rtRating, metascore, awards, rated);
+    hideSpinner();
 }
 
 function updateBrowserURL(title) {
