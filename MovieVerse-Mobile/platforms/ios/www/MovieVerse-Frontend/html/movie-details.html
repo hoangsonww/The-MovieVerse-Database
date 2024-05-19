@@ -316,7 +316,6 @@
 
     <div class="genres" id="genresDiv" style="margin-left: 25px; margin-top: 25px; display: none; height: 0">
         <h2 id="search-title"></h2>
-        <button id="clear-search-btn" style="display: none;">Clear Search Results</button>
     </div>
 
     <main id="main" style="margin-left: 35px; height: 0"></main>
@@ -335,7 +334,7 @@
                     ❤️
                 </button>
             </div>
-            <img id="movie-image" alt="Loading Movie Details..." style="width: 25vw; border-radius: 8px; z-index: 100002"/>
+            <img id="movie-image" alt="Loading Movie Details..." style="width: 25vw; border-radius: 8px; z-index: 100002" loading="lazy">
             <h3>Your Rating:</h3>
             <div class="rating" title="Click on a star to rate this movie!">
                 <span class="star" data-value="1" title="Oops, sorry to hear that this movie is disappointing to you">&#9733;</span>
@@ -348,10 +347,10 @@
         </div>
 
         <!-- Right side for Description and Rating -->
-        <div class="movie-right" style="margin-top: -50px">
-            <p id="movie-description" class="movie-description"></p>
+        <div class="movie-right" style="margin-top: -15px">
+            <p id="movie-description" class="movie-description" style="margin-top: -60px"></p>
             <h2 id="movie-rating" class="movie-rating"></h2>
-            <div id="comments-section">
+            <div id="comments-section" style="margin-top: 75px">
                 <h3>Movie Comments</h3>
                 <div id="comments-container"></div>
                 <!-- Toggle Buttons -->
@@ -952,7 +951,9 @@
         let isTrailerOpen = false;
 
         document.getElementById('movie-image').addEventListener('click', function() {
-            document.getElementById('trailerButton').scrollIntoView({ behavior: 'smooth' });
+            if (document.getElementById('trailerButton')) {
+                document.getElementById('trailerButton').scrollIntoView({ behavior: 'smooth' });
+            }
 
             const imageUrl = this.src;
             const modalHtml = `<div id="image-modal" style="z-index: 10002; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">

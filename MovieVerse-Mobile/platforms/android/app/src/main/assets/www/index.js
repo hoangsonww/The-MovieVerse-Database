@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const pagination = document.getElementById('most-popular-pagination');
     const genresContainer = document.querySelector('.genres');
     const mainContainer = document.getElementById('most-popular');
+
     function movePagination() {
         if (window.innerWidth <= 767) {
             mainContainer.parentNode.insertBefore(pagination, mainContainer);
@@ -25,6 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
             genresContainer.appendChild(pagination);
         }
     }
+
     movePagination();
     window.addEventListener('resize', movePagination);
 });
@@ -81,9 +83,11 @@ document.addEventListener('DOMContentLoaded', function() {
         button.innerHTML = text;
         button.disabled = !enabled;
         button.className = 'nav-button';
+
         if (enabled) {
             button.onclick = clickHandler;
         }
+
         return button;
     };
 
@@ -91,6 +95,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const button = document.createElement('button');
         button.textContent = pageNum;
         button.className = 'page-button';
+
         if (pageNum === '...') {
             button.disabled = true;
         }
@@ -99,12 +104,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 currentPageMostPopular = pageNum;
                 fetchAndUpdateMostPopular();
             };
+
             if (pageNum === currentPageMostPopular) {
                 button.classList.add('active');
             }
         }
         return button;
     };
+
     fetchAndUpdateMostPopular();
 });
 
@@ -217,9 +224,11 @@ function setupPagination(mainElementId, paginationContainerId, genresContainerId
         button.textContent = text;
         button.disabled = !enabled;
         button.className = 'nav-button';
+
         if (enabled) {
             button.addEventListener('click', clickHandler);
         }
+
         return button;
     }
 
@@ -227,6 +236,7 @@ function setupPagination(mainElementId, paginationContainerId, genresContainerId
         const button = document.createElement('button');
         button.textContent = pageNum;
         button.className = 'page-button';
+
         if (pageNum === '...') {
             button.disabled = true;
         }
@@ -235,6 +245,7 @@ function setupPagination(mainElementId, paginationContainerId, genresContainerId
                 currentPage = typeof pageNum === 'number' ? pageNum : currentPage;
                 fetchAndUpdate();
             });
+
             if (pageNum === currentPage) {
                 button.classList.add('active');
             }
@@ -244,6 +255,7 @@ function setupPagination(mainElementId, paginationContainerId, genresContainerId
 
     movePagination();
     fetchAndUpdate();
+
     let resizeTimer;
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimer);
@@ -255,6 +267,7 @@ async function fetchAndDisplayMovies(url, count, mainElement) {
     const response = await fetch(`${url}`);
     const data = await response.json();
     const movies = data.results.slice(0, count);
+
     movies.sort(() => Math.random() - 0.5);
     showMovies(movies, mainElement);
 }
@@ -312,6 +325,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         let startPage = Math.max(currentPageRecommended - 2, 1);
         let endPage = Math.min(startPage + 4, totalPagesRecommended);
+
         if (endPage === totalPagesRecommended) startPage = Math.max(endPage - 4, 1);
 
         if (startPage > 1) {
@@ -347,12 +361,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         const button = document.createElement('button');
         button.textContent = pageNum;
         button.className = 'page-button' + (isActive ? ' active' : '');
+
         if (pageNum !== '...') {
             button.addEventListener('click', () => fetchFunction(pageNum));
         }
         else {
             button.disabled = true;
         }
+
         return button;
     }
 
@@ -438,6 +454,7 @@ function updateFavoriteGenre(genre_ids) {
 
 function updateUniqueMoviesViewed(movieId) {
     let viewedMovies = JSON.parse(localStorage.getItem('uniqueMoviesViewed')) || [];
+
     if (!viewedMovies.includes(movieId)) {
         viewedMovies.push(movieId);
         localStorage.setItem('uniqueMoviesViewed', JSON.stringify(viewedMovies));
@@ -452,6 +469,7 @@ async function ensureGenreMapIsAvailable() {
 
 async function fetchGenreMap() {
     const url = `https://${getMovieVerseData()}/3/genre/movie/list?${generateMovieNames()}${getMovieCode()}`;
+
     try {
         const response = await fetch(url);
         const data = await response.json();
@@ -577,6 +595,7 @@ async function rotateUserStats() {
 
 function updateMovieVisitCount(movieId, movieTitle) {
     let movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
+
     if (!movieVisits[movieId]) {
         movieVisits[movieId] = { count: 0, title: movieTitle };
     }
@@ -588,6 +607,7 @@ function getMostVisitedMovie() {
     const movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
     let mostVisitedMovie = '';
     let maxVisits = 0;
+
     for (const movieId in movieVisits) {
         if (movieVisits[movieId].count > maxVisits) {
             mostVisitedMovie = movieVisits[movieId].title;
@@ -637,6 +657,7 @@ function getMostVisitedActor() {
 
 function getMostVisitedDirector() {
     const directorVisits = JSON.parse(localStorage.getItem('directorVisits')) || {};
+
     let mostVisitedDirector = '';
     let maxVisits = 0;
 
@@ -662,6 +683,7 @@ function getTriviaAccuracy() {
 
 function getMostCommonGenre() {
     const favoriteGenresArray = JSON.parse(localStorage.getItem('favoriteGenres')) || [];
+
     const genreCounts = favoriteGenresArray.reduce((acc, genre) => {
         acc[genre] = (acc[genre] || 0) + 1;
         return acc;
@@ -798,6 +820,7 @@ function adjustNavBar() {
 
 document.addEventListener('mousemove', function(event) {
     const sideNav = document.getElementById('side-nav');
+
     if (event.clientX < 10 && !sideNav.classList.contains('manual-toggle')) {
         sideNav.style.left = '0';
     }
@@ -806,6 +829,7 @@ document.addEventListener('mousemove', function(event) {
 document.addEventListener('click', function(event) {
     const sideNav = document.getElementById('side-nav');
     const navToggle = document.getElementById('nav-toggle');
+
     if (!sideNav.contains(event.target) && !navToggle.contains(event.target) && sideNav.classList.contains('manual-toggle')) {
         sideNav.classList.remove('manual-toggle');
         adjustNavBar();
@@ -814,6 +838,7 @@ document.addEventListener('click', function(event) {
 
 document.getElementById('side-nav').addEventListener('mouseleave', function() {
     const sideNav = document.getElementById('side-nav');
+
     if (!sideNav.classList.contains('manual-toggle')) {
         sideNav.style.left = '-250px';
     }
@@ -869,6 +894,7 @@ setInterval(changeDirector, 3600000);
 function updateDirectorSpotlight() {
     const director = directors[currentDirectorIndex];
     document.getElementById('spotlight-director-name').textContent = director.name;
+
     const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_people=${director.id}&sort_by=popularity.desc&sort_by=vote_average.desc`;
     getDirectorSpotlight(url);
 }
@@ -890,6 +916,7 @@ async function getDirectorSpotlight(url) {
     const resp = await fetch(url);
     const respData = await resp.json();
     let allMovies = [];
+
     if (respData.results.length > 0) {
         allMovies = respData.results.slice(0, numberOfMovies);
         showMoviesDirectorSpotlight(allMovies);
@@ -898,6 +925,7 @@ async function getDirectorSpotlight(url) {
 
 function showMoviesDirectorSpotlight(movies) {
     director_main.innerHTML = '';
+
     movies.forEach((movie) => {
         const { id, poster_path, title, vote_average, genre_ids } = movie;
         const movieEl = document.createElement('div');
@@ -946,6 +974,7 @@ function handleSignInOut() {
         window.location.href = 'MovieVerse-Frontend/html/sign-in.html';
         return;
     }
+
     updateSignInButtonState();
 }
 
@@ -985,22 +1014,28 @@ function updateSignInButtonState() {
 setupPagination('award-winning', 'award-winning-pagination', 'award-winning-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=1000`);
 setupPagination('hidden-gems', 'hidden-gems-pagination', 'hidden-gems-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&vote_average.gte=7&popularity.lte=10`);
 setupPagination('western', 'western-pagination', 'western-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=37&sort_by=popularity.desc&vote_count.gte=8`);
+
 setupPagination('war', 'war-pagination', 'war-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10752&sort_by=popularity.desc&vote_count.gte=8`);
 setupPagination('vietnamese', 'vietnamese-pagination', 'vietnamese-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_original_language=vi&sort_by=popularity.desc`);
 setupPagination('korean', 'korean-pagination', 'korean-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_original_language=ko&sort_by=vote_average.desc,popularity.desc&vote_count.gte=10&vote_average.gte=8`);
 setupPagination('musical', 'musical-pagination', 'musical-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10402&sort_by=popularity.desc&vote_count.gte=8`);
+
 setupPagination('drama', 'drama-pagination', 'drama-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=18&sort_by=popularity.desc&vote_count.gte=8`);
 setupPagination('indian', 'indian-pagination', 'indian-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_original_language=hi&sort_by=popularity.desc`);
 setupPagination('action', 'action-pagination', 'action-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=28&sort_by=popularity.desc&vote_count.gte=8`);
+
 setupPagination('horror', 'horror-pagination', 'horror-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=27&sort_by=popularity.desc&vote_count.gte=8`);
 setupPagination('documentary', 'documentary-pagination', 'documentary-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=99&sort_by=popularity.desc&vote_count.gte=8`);
 setupPagination('animation', 'animation-pagination', 'animation-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=16&sort_by=popularity.desc&vote_count.gte=8`);
+
 setupPagination('sci-fi', 'sci-fi-pagination', 'sci-fi-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=878&sort_by=popularity.desc&vote_count.gte=8`);
 setupPagination('romantic', 'romantic-pagination', 'romantic-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10749&sort_by=popularity.desc&vote_count.gte=8`);
 setupPagination('thriller', 'thriller-pagination', 'thriller-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=53&sort_by=popularity.desc&vote_count.gte=8`);
+
 setupPagination('mystery', 'mystery-pagination', 'mystery-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=9648&sort_by=popularity.desc&vote_count.gte=8`);
 setupPagination('comedy', 'comedy-pagination', 'comedy-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=35&sort_by=popularity.desc&vote_count.gte=8`);
 setupPagination('fantasy', 'fantasy-pagination', 'fantasy-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=14&sort_by=popularity.desc&vote_count.gte=8`);
+
 setupPagination('family', 'family-pagination', 'family-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10751&sort_by=popularity.desc&vote_count.gte=8`);
 setupPagination('tv-series', 'tv-series-pagination', 'tv-series-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10770&sort_by=popularity.desc&vote_count.gte=8`);
 setupPagination('crime', 'crime-pagination', 'crime-div', `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=80&sort_by=popularity.desc&vote_count.gte=8`);
@@ -1013,7 +1048,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 function handleSearch() {
     const searchQuery = document.getElementById('search').value;
-
     localStorage.setItem('searchQuery', searchQuery);
     window.location.href = 'MovieVerse-Frontend/html/search.html';
 }

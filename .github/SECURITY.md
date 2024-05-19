@@ -3,7 +3,7 @@
 ## Introduction
 The MovieVerse is a dynamic web application designed to provide users with an engaging platform to explore and learn about various movies, directors, actors, and more. Ensuring the security of our users and the application is of paramount importance. This document outlines the security measures, policies, and best practices implemented in The MovieVerse.
 
-Current MovieVerse Version: `1.1.2`
+Current MovieVerse Version: `2.1.2`
 
 ## Security Measures
 

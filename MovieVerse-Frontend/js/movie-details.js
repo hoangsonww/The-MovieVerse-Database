@@ -60,108 +60,6 @@ function handleSearch() {
     window.location.href = 'search.html';
 }
 
-function calculateMoviesToDisplay() {
-    const screenWidth = window.innerWidth;
-    if (screenWidth <= 689.9) return 10;
-    if (screenWidth <= 1021.24) return 20;
-    if (screenWidth <= 1353.74) return 21;
-    if (screenWidth <= 1684.9) return 20;
-    if (screenWidth <= 2017.49) return 20;
-    if (screenWidth <= 2349.99) return 18;
-    if (screenWidth <= 2681.99) return 21;
-    if (screenWidth <= 3014.49) return 24;
-    if (screenWidth <= 3345.99) return 27;
-    if (screenWidth <= 3677.99) return 20;
-    if (screenWidth <= 4009.99) return 22;
-    if (screenWidth <= 4340.99) return 24;
-    if (screenWidth <= 4673.49) return 26;
-    if (screenWidth <= 5005.99) return 28;
-    if (screenWidth <= 5337.99) return 30;
-    if (screenWidth <= 5669.99) return 32;
-    if (screenWidth <= 6001.99) return 34;
-    if (screenWidth <= 6333.99) return 36;
-    if (screenWidth <= 6665.99) return 38;
-    if (screenWidth <= 6997.99) return 40;
-    if (screenWidth <= 7329.99) return 42;
-    if (screenWidth <= 7661.99) return 44;
-    if (screenWidth <= 7993.99) return 46;
-    if (screenWidth <= 8325.99) return 48;
-    return 20;
-}
-
-async function getMovies(url) {
-    clearMovieDetails();
-    const numberOfMovies = calculateMoviesToDisplay();
-    const pagesToFetch = numberOfMovies <= 20 ? 1 : 2;
-    let allMovies = [];
-
-    for (let page = 1; page <= pagesToFetch; page++) {
-        const response = await fetch(`${url}&page=${page}`);
-        const data = await response.json();
-        allMovies = allMovies.concat(data.results);
-    }
-
-    const popularityThreshold = 0.5;
-
-    allMovies.sort((a, b) => {
-        const popularityDifference = Math.abs(a.popularity - b.popularity);
-        if (popularityDifference < popularityThreshold) {
-            return b.vote_average - a.vote_average;
-        }
-        return b.popularity - a.popularity;
-    });
-
-    if (allMovies.length > 0) {
-        showMovies(allMovies.slice(0, numberOfMovies));
-        document.getElementById('clear-search-btn').style.display = 'block';
-    }
-    else {
-        main.innerHTML = `<p>No movie with the specified search term found. Please try again.</p>`;
-        document.getElementById('clear-search-btn').style.display = 'none';
-    }
-}
-
-function clearMovieDetails() {
-    const movieDetailsContainer = document.getElementById('movie-details-container');
-    if (movieDetailsContainer) {
-        movieDetailsContainer.innerHTML = '';
-    }
-}
-
-function showMovies(movies){
-    main.innerHTML = '';
-    movies.forEach((movie) => {
-        const { id, poster_path, title, vote_average, overview } = movie;
-        const movieE1 = document.createElement('div');
-        const voteAverage = vote_average.toFixed(1);
-        movieE1.classList.add('movie');
-
-        const movieImage = poster_path
-            ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
-            : `<div class="no-image" style="text-align: center; padding: 20px;">Movie Image Not Available</div>`;
-
-        movieE1.innerHTML = `
-            ${movieImage} 
-            <div class="movie-info" style="cursor: pointer;">
-                <h3>${title}</h3>
-                <span class="${getClassByRate(vote_average)}">${voteAverage}</span>
-            </div>
-            <div class="overview" style="cursor: pointer;">
-                <h4>Movie Overview: </h4>
-                ${overview}
-            </div>`;
-
-        movieE1.addEventListener('click', () => {
-            localStorage.setItem('selectedMovieId', id);
-            window.location.href = 'movie-details.html';
-            updateMovieVisitCount(id, title);
-        });
-
-        main.appendChild(movieE1);
-    });
-    applySettings();
-}
-
 async function ensureGenreMapIsAvailable() {
     if (!localStorage.getItem('genreMap')) {
         await fetchGenreMap();
@@ -417,6 +315,7 @@ function updateDirectorVisitCount(directorId, directorName) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    showSpinner();
     initialMainContent = document.getElementById('main').innerHTML;
 
     const movieId = localStorage.getItem('selectedMovieId');
@@ -427,11 +326,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fetchMovieDetails(1011985)
     }
 
-    document.getElementById('clear-search-btn').style.display = 'none';
-});
-
-document.getElementById('clear-search-btn').addEventListener('click', () => {
-    location.reload();
+    hideSpinner();
 });
 
 function handleSignInOut() {
@@ -469,8 +364,10 @@ function updateSignInButtonState() {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
+    showSpinner();
     updateSignInButtonState();
     document.getElementById('googleSignInBtn').addEventListener('click', handleSignInOut);
+    hideSpinner();
 });
 
 const twoLetterLangCodes = [
@@ -678,7 +575,6 @@ async function fetchMovieDetails(movieId) {
     const code = `${getMovieCode()}`;
     const url = `https://${getMovieVerseData()}/3/movie/${movieId}?${generateMovieNames()}${code}&append_to_response=credits,keywords,similar`;
     const url2 = `https://${getMovieVerseData()}/3/movie/${movieId}?${generateMovieNames()}${code}&append_to_response=videos`;
-    const imdbUrl = `https://${getMovieVerseData()}/3/movie/${movieId}?${generateMovieNames()}${code}&append_to_response=external_ids`;
 
     try {
         const response = await fetch(url);
@@ -818,46 +714,68 @@ function getRatingDetails(rating) {
 }
 
 async function fetchMovieRatings(imdbId, tmdbMovieData) {
-    const omdbCode = `${getMovieCode2()}`;
-    const omdb = `https://${getMovieActor()}/?i=${imdbId}&${getMovieName()}${omdbCode}`;
+    showSpinner();
 
-    try {
-        const response = await fetch(omdb);
-        const data = await response.json();
+    const apiKeys = [
+        await getMovieCode2(),
+        '58efe859',
+        '60a09d79',
+        '956e468a'
+    ];
 
-        let imdbRating = data.imdbRating ? data.imdbRating : 'N/A';
+    const baseURL = `https://${getMovieActor()}/?i=${imdbId}&${getMovieName()}`;
 
-        if (imdbRating === 'N/A' && tmdbMovieData.vote_average) {
-            imdbRating = (tmdbMovieData.vote_average / 2).toFixed(1) * 2;
+    async function tryFetch(apiKey) {
+        const url = `${baseURL}${apiKey}`;
+        try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error('API limit reached or other error');
+            return await response.json();
         }
-
-        const rtRatingObj = data.Ratings.find(rating => rating.Source === "Rotten Tomatoes");
-        let rtRating = rtRatingObj ? rtRatingObj.Value : 'N/A';
-
-        let metascore = data.Metascore ? `${data.Metascore}/100` : 'N/A';
-        let awards = data.Awards;
-        let rated = data.Rated ? data.Rated : 'Rating information unavailable';
-
-        if (awards === 'N/A') {
-            awards = 'Awards information unavailable';
+        catch (error) {
+            return null;
         }
-
-        if (metascore === 'N/A/100') {
-            const metacriticsRatingValue = imdbRating !== 'N/A' ? parseFloat(imdbRating) : (tmdbMovieData.vote_average / 2);
-            metascore = calculateFallbackMetacriticsRating(metacriticsRatingValue, tmdbMovieData.vote_average) + '/100';
-        }
-
-        if (rtRating === 'N/A') {
-            const imdbRatingValue = imdbRating !== 'N/A' ? parseFloat(imdbRating) : (tmdbMovieData.vote_average / 2);
-            rtRating = calculateFallbackRTRating(imdbRatingValue, tmdbMovieData.vote_average)
-        }
-
-        populateMovieDetails(tmdbMovieData, imdbRating, rtRating, metascore, awards, rated);
     }
-    catch (error) {
-        const fallbackImdbRating = (tmdbMovieData.vote_average / 2).toFixed(1) * 2;
-        populateMovieDetails(tmdbMovieData, fallbackImdbRating, 'N/A', 'Metascore information unavailable, click to search on Metacritics', 'Awards information unavailable');
+
+    let data;
+    for (const key of apiKeys) {
+        data = await tryFetch(key);
+        if (data) break;
     }
+
+    if (!data) {
+        populateMovieDetails(tmdbMovieData, tmdbMovieData.vote_average, 'N/A', 'Metascore information unavailable, click to search on Metacritics', 'Awards information unavailable');
+        return;
+    }
+
+    let imdbRating = data.imdbRating ? data.imdbRating : 'N/A';
+    if (imdbRating === 'N/A' || imdbRating === '0.0') {
+        imdbRating = 'N/A';
+    }
+
+    const rtRatingObj = data.Ratings.find(rating => rating.Source === "Rotten Tomatoes");
+    let rtRating = rtRatingObj ? rtRatingObj.Value : 'N/A';
+
+    let metascore = data.Metascore ? `${data.Metascore}/100` : 'N/A';
+    let awards = data.Awards;
+    let rated = data.Rated ? data.Rated : 'Rating information unavailable';
+
+    if (awards === 'N/A') {
+        awards = 'Awards information unavailable';
+    }
+
+    if (metascore === 'N/A/100') {
+        const metacriticsRatingValue = imdbRating !== 'N/A' ? parseFloat(imdbRating) : (tmdbMovieData.vote_average / 2);
+        metascore = calculateFallbackMetacriticsRating(metacriticsRatingValue, tmdbMovieData.vote_average) + '/100';
+    }
+
+    if (rtRating === 'N/A') {
+        const imdbRatingValue = imdbRating !== 'N/A' ? parseFloat(imdbRating) : (tmdbMovieData.vote_average / 2);
+        rtRating = calculateFallbackRTRating(imdbRatingValue, tmdbMovieData.vote_average)
+    }
+
+    populateMovieDetails(tmdbMovieData, imdbRating, rtRating, metascore, awards, rated);
+    hideSpinner();
 }
 
 function updateBrowserURL(title) {
@@ -933,6 +851,7 @@ function getYouTubeVideoId(url) {
 }
 
 function positionTrailerButton() {
+    showSpinner();
     if (!trailerButton)
         return;
 
@@ -944,6 +863,7 @@ function positionTrailerButton() {
         const movieRating = document.getElementById('movie-rating');
         movieRating.parentNode.insertBefore(trailerButton, movieRating.nextSibling);
     }
+    hideSpinner();
 }
 
 document.addEventListener('DOMContentLoaded', positionTrailerButton);
@@ -1024,12 +944,10 @@ async function fetchStreamingLinks(movieId) {
 }
 
 async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awards, rated) {
-    document.getElementById('movie-image').src = `https://image.tmdb.org/t/p/w1280${movie.poster_path}`;
+    showSpinner();
     document.getElementById('movie-title').textContent = movie.title;
 
-    const movieRating = movie.vote_average.toFixed(1);
     const imdbLink = `https://www.imdb.com/title/${movie.imdb_id}`;
-
     const streamingProviders = await fetchStreamingLinks(movie.id);
     const movieTitleEncoded = encodeURIComponent(movie.title);
 
@@ -1066,15 +984,13 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         }
 
         return `<a href="${providerLink}" target="_blank" title="Watch on ${provider.provider_name}" style="display: inline-flex; align-items: flex-end; vertical-align: bottom;">
-        <img src="https://image.tmdb.org/t/p/original${provider.logo_path}" alt="${provider.provider_name}" style="width: 50px; margin-left: 10px;">
+        <img src="https://image.tmdb.org/t/p/original${provider.logo_path}" alt="${provider.provider_name}" style="width: 50px; margin-left: 10px;" loading="lazy">
     </a>`;
     }).join('') + `<a href="https://www.justwatch.com/us/search?q=${movieTitleEncoded}" target="_blank" title="View more streaming options on JustWatch" style="display: inline-flex; align-items: center; vertical-align: bottom; margin-left: 10px;">
-        <img src="../../images/justwatchlogo.webp" alt="JustWatch" style="width: 50px;">
+        <img src="../../images/justwatchlogo.webp" alt="JustWatch" style="width: 50px;" loading="lazy">
     </a>` : 'No streaming options available.';
 
-    const rtLink = rtRating !== 'N/A' ? `https://www.rottentomatoes.com/m/${getRtSlug(movie.title)}` : '#';
     const metaCriticsLink = metascore !== 'N/A' ? `https://www.metacritic.com/search/${createMetacriticSlug(movie.title)}` : '#';
-
     const ratingDetails = getRatingDetails(rated);
     const ratedElement = rated ? `<p id="movie-rated-element"><strong>Rated:</strong> <span style="color: ${ratingDetails.color};"><strong>${ratingDetails.text}</strong>${ratingDetails.description}</span></p>` : '';
 
@@ -1083,13 +999,13 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
 
     const movieImage = document.getElementById('movie-image');
     const movieDescription = document.getElementById('movie-description');
-
     const metascoreElement = metascore ? `<p><strong>Metascore:</strong> <a id="metacritics" href="${metaCriticsLink}" title="Click to search/view on Metacritics" target="_blank">${metascore}</a></p>` : '';
     const awardsElement = awards ? `<p><strong>Awards:</strong> ${awards}</p>` : '';
 
     if (movie.poster_path) {
         movieImage.src = IMGPATH + movie.poster_path;
         movieImage.alt = movie.title;
+        movieImage.loading = 'lazy';
     }
     else {
         movieImage.style.display = 'none';
@@ -1100,7 +1016,6 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         document.querySelector('.movie-left').appendChild(noImageText);
     }
 
-    const fullLanguage = twoLetterLangCodes.find(lang => lang.code === movie.original_language).name;
     const overview = movie.overview ? movie.overview : 'No overview available';
     const genres = movie.genres.map(genre => genre.name).join(', ');
     const releaseDate = movie.release_date ? movie.release_date : 'Release date not available';
@@ -1111,13 +1026,9 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     const languages = movie.spoken_languages.map(lang => lang.name).join(', ');
 
     const countries = movie.production_countries.map(country => country.name).join(', ');
-    const originalLanguage = fullLanguage ? fullLanguage : 'Language Info Not Available';
     const popularityScore = movie.popularity.toFixed(0);
-    const status = movie.status ? movie.status : 'Status Info Not Available';
 
-    const voteCount = movie.vote_count.toLocaleString();
     let keywords = movie.keywords ? movie.keywords.keywords.map(kw => kw.name).join(', ') : 'None Available';
-    const similarTitles = movie.similar ? movie.similar.results.map(m => m.title).join(', ') : 'None Available';
     const scaledRating = (movie.vote_average / 2).toFixed(1);
 
     if (keywords.length === 0) {
@@ -1128,18 +1039,12 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     const isPopular = movie.popularity >= popularityThreshold;
     const popularityText = isPopular ? `${popularityScore} (This movie is <strong>popular</strong>)` : `${popularityScore} (This movie is <strong>unpopular</strong>)`;
 
-    const adultContentIndicator = movie.adult
-        ? `<span class="adult-indicator">Adult Content</span>`
-        : `<span class="general-indicator">General Audience</span>`;
-
     const movieStatus = `<p><strong>Status:</strong> ${movie.status}</p>`;
-
     const runtime = movie.runtime > 0
         ? movie.runtime + ' minutes'
         : 'Runtime Info Not Available';
 
     const originalTitle = movie.original_title !== movie.title ? `<p><strong>Original Title:</strong> ${movie.original_title}</p>` : `<p><strong>Original Title:</strong> ${movie.title}</p>`;
-
     const tmdbRating = movie.vote_average.toFixed(1);
 
     document.getElementById('movie-description').innerHTML += `
@@ -1258,10 +1163,10 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         align-items: center;
         justify-content: center;
         position: relative;
-        width: 450px;
+        width: 90vw; 
+        max-width: 450px;
         margin: 20px auto;
         overflow: hidden;
-        max-width: 100%;
         box-sizing: border-box;
     `;
 
@@ -1276,28 +1181,41 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     detailsContainer.appendChild(mediaTitle);
     detailsContainer.appendChild(mediaContainer);
 
+    const imageWrapper = document.createElement('div');
+    imageWrapper.style = `
+        width: 100%;
+        max-height: 210px; 
+        border-radius: 16px;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    `;
+
     const imageElement = document.createElement('img');
     imageElement.style = `
-        max-width: 100%;
-        max-height: 210px;
-        border-radius: 16px;
+        width: 100%;
+        height: auto;
         transition: opacity 0.5s ease-in-out;
         opacity: 1;
         cursor: pointer;
+        object-fit: contain;
     `;
     if (images.length > 0) {
         imageElement.src = `https://image.tmdb.org/t/p/w1280${images[0].file_path}`;
     }
-    mediaContainer.appendChild(imageElement);
+    imageElement.loading = 'lazy';
+    imageWrapper.appendChild(imageElement);
+    mediaContainer.appendChild(imageWrapper);
 
     imageElement.addEventListener('click', function() {
         const imageUrl = this.src;
         const modalHtml = `
-        <div id="image-modal" style="z-index: 100022222; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
-            <img src="${imageUrl}" style="max-width: 80%; max-height: 80%; border-radius: 10px; cursor: default;" onclick="event.stopPropagation();">
-            <span style="position: absolute; top: 10px; right: 25px; font-size: 40px; cursor: pointer" id="removeBtn">&times;</span>
-        </div>
-    `;
+            <div id="image-modal" style="z-index: 100022222; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
+                <img src="${imageUrl}" style="max-width: 80%; max-height: 80%; border-radius: 16px; cursor: default;" onclick="event.stopPropagation();" loading="lazy" alt="Movie Image">
+                <span style="position: absolute; top: 10px; right: 25px; font-size: 40px; cursor: pointer" id="removeBtn">&times;</span>
+            </div>
+        `;
         document.body.insertAdjacentHTML('beforeend', modalHtml);
         const modal = document.getElementById('image-modal');
         const closeModalBtn = document.getElementById('removeBtn');
@@ -1317,7 +1235,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     prevButton.innerHTML = '<i class="fas fa-arrow-left"></i>';
     prevButton.style = `
         position: absolute;
-        left: 0;
+        left: 5px; 
         top: 50%;
         transform: translateY(-50%);
         background-color: #7378c5;
@@ -1327,6 +1245,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         width: 30px;
         border: none;
         cursor: pointer;
+        z-index: 10;
     `;
     prevButton.onmouseover = () => prevButton.style.backgroundColor = '#ff8623';
     prevButton.onmouseout = () => prevButton.style.backgroundColor = '#7378c5';
@@ -1337,7 +1256,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     nextButton.innerHTML = '<i class="fas fa-arrow-right"></i>';
     nextButton.style = `
         position: absolute;
-        right: 0;
+        right: 5px; 
         top: 50%;
         transform: translateY(-50%);
         background-color: #7378c5;
@@ -1347,6 +1266,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         width: 30px;
         border: none;
         cursor: pointer;
+        z-index: 10;
     `;
     nextButton.onmouseover = () => nextButton.style.backgroundColor = '#ff8623';
     nextButton.onmouseout = () => nextButton.style.backgroundColor = '#7378c5';
@@ -1373,12 +1293,12 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         mediaContainer.innerHTML = '<p>No media available</p>';
     }
 
-    applySettings();
+    hideSpinner();
 }
 
 function createImdbRatingCircle(imdbRating, imdbId) {
     if (imdbRating === 'N/A' || imdbRating === null || imdbRating === undefined) {
-        imdbRating = 0;
+        imdbRating = 'N/A';
     }
 
     let circleContainer = document.getElementById('imdbRatingCircleContainer');
@@ -1397,6 +1317,11 @@ function createImdbRatingCircle(imdbRating, imdbId) {
                 <text id="imdbRatingText" class="circle-text" x="50" y="52" text-anchor="middle" fill="yellow" style="font-weight: bold; font-size: 25px">${imdbRating}</text>
             </svg>
         `;
+
+        if (imdbRating === 'N/A') {
+            circleContainer.innerHTML += `<p style="color: white; margin-top: 10px;">Rating information currently unavailable</p>`;
+        }
+
         document.getElementById('movie-description').appendChild(circleContainer);
     }
     else {
