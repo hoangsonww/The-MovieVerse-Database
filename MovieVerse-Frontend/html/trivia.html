@@ -82,6 +82,36 @@
             margin-top: 25px;
         }
 
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #my-heading {
+            margin-bottom: -25px;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        #my-heading a {
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .highlight {
+            display: inline-block;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards 0.5s;
+        }
+
         #form {
             margin-top: 16px;
         }

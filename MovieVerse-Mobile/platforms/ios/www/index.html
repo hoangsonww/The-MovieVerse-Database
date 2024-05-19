@@ -234,7 +234,6 @@
                 right: 10px;
                 z-index: 1000;
             }
-
             #menu-btn {
                 display: block;
             }
@@ -244,7 +243,6 @@
             .mobile-bottom-bar {
                 display: flex;
             }
-
             #chat-button,
             #settings-btn,
             #movie-of-the-day-btn,
@@ -327,7 +325,6 @@
             #google_translate_element {
                 bottom: 120px;
             }
-
             #translate_control {
                 bottom: 70px;
             }
@@ -336,151 +333,118 @@
         #githubLink {
             color: white !important;
         }
-
         #githubLink:hover {
             color: #ff8623 !important;
             transition: 0.1s ease-in;
         }
-
         #githubLink7 {
             color: white !important;
         }
-
         #githubLink7:hover {
             color: #ff8623 !important;
             transition: 0.1s ease-in;
         }
-
         #githubLink8 {
             color: white !important;
         }
-
         #githubLink8:hover {
             color: #ff8623 !important;
             transition: 0.1s ease-in;
         }
-
         #githubLink9 {
             color: white !important;
         }
-
         #githubLink9:hover {
             color: #ff8623 !important;
             transition: 0.1s ease-in;
         }
-
         #githubLink10 {
             color: white !important;
         }
-
         #githubLink10:hover {
             color: #ff8623 !important;
             transition: 0.1s ease-in;
         }
-
         #githubLink11 {
             color: white !important;
         }
-
         #githubLink11:hover {
             color: #ff8623 !important;
             transition: 0.1s ease-in;
         }
-
         #githubLink12 {
             color: white !important;
         }
-
         #githubLink12:hover {
             color: #ff8623 !important;
             transition: 0.1s ease-in;
         }
-
         #githubLink14 {
             color: white !important;
         }
-
         #githubLink14:hover {
             color: #ff8623 !important;
             transition: 0.1s ease-in;
         }
-
         #githubLink15 {
             color: white !important;
         }
-
         #githubLink15:hover {
             color: #ff8623 !important;
             transition: 0.1s ease-in;
         }
-
         #githubLink16 {
             color: white !important;
         }
-
         #githubLink16:hover {
             color: #ff8623 !important;
             transition: 0.1s ease-in;
         }
-
         #githubLink17 {
             color: white !important;
         }
-
         #githubLink17:hover {
             color: #ff8623 !important;
             transition: 0.1s ease-in;
         }
-
         #githubLink18 {
             color: white !important;
         }
-
         #githubLink18:hover {
             color: #ff8623 !important;
             transition: 0.1s ease-in;
         }
-
         #githubLink19 {
             color: white !important;
         }
-
         #githubLink19:hover {
             color: #ff8623 !important;
             transition: 0.1s ease-in;
         }
-
         #githubLink3 {
             color: white !important;
         }
-
         #githubLink3:hover {
             color: #ff8623 !important;
             transition: 0.1s ease-in;
         }
-
         #githubLink4 {
             color: white !important;
         }
-
         #githubLink4:hover {
             color: #ff8623 !important;
             transition: 0.1s ease-in;
         }
-
         #githubLink5 {
             color: white !important;
         }
-
         #githubLink5:hover {
             color: #ff8623 !important;
             transition: 0.1s ease-in;
         }
-
         #githubLink6 {
             color: white !important;
         }
-
         #githubLink6:hover {
             color: #ff8623 !important;
             transition: 0.1s ease-in;
@@ -585,10 +549,107 @@
             margin-top: 19.5px !important;
         }
 
+        #my-heading1 {
+            margin-top: 19.5px !important;
+        }
+
         @media (min-width: 767px) {
             #my-heading {
                 margin-top: -5px !important;
             }
+
+            #my-heading1 {
+                margin-top: -5px !important;
+            }
+        }
+
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #my-heading {
+            margin-bottom: -25px;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        #my-heading a {
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .highlight {
+            display: inline-block;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards 0.5s;
+        }
+
+        #my-heading1 {
+            color: #ff8623;
+            padding: 10px;
+            font-size: 36px;
+            text-align: center;
+            background-color: transparent;
+            margin-left: 40px;
+        }
+
+        .highlight2 {
+            color: orange;
+        }
+
+        .highlight2:hover {
+            color: #ff8623;
+        }
+
+        @keyframes dropIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #my-heading {
+            margin-bottom: -25px;
+            opacity: 0;
+            animation: dropIn 1s ease forwards;
+        }
+
+        #my-heading a {
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .highlight {
+            display: inline-block;
+            opacity: 0;
+            animation: dropIn 1s ease forwards 1s;
+        }
+
+        #local-time {
+            cursor: pointer;
+            opacity: 0;
+            animation: dropIn 1s ease forwards 1.5s;
+        }
+
+        #local-time p,
+        #local-time div {
+            opacity: 0;
+            animation: dropIn 1s ease forwards 2s;
         }
     </style>
 </head>
@@ -606,7 +667,7 @@
     <header id="homepage-header" style="margin-bottom: -10px">
         <h1 id="my-heading" style="margin-bottom: -25px" class="notranslate">
             <a id="indexLink" href="index.html" style="text-decoration: none; color: inherit; cursor: pointer">
-            The Mo<span class="highlight" id="highlight">vieV</span>erse
+                The Mo<span class="highlight" id="highlight">vieV</span>erse
             </a>
         </h1>
         <div id="local-time" style="cursor: pointer" title="Click to view more of your stats on this machine">
@@ -648,9 +709,9 @@
     </header>
 
     <nav id="side-nav" class="side-nav" style="z-index: 1002000;">
-        <a id="heading-href" class="notranslate" style="cursor: pointer">
-            <div id="my-heading" style="margin-bottom: 15px; margin-left: 0; margin-top: 15px !important; font-size: 2.1em; font-weight: bold;">
-                The Mo<span class="highlight">vieV</span>erse Menu
+        <a id="heading-href" class="notranslate" style="cursor: pointer; text-align: center">
+            <div id="my-heading1" style="margin-bottom: 15px; margin-left: 0; margin-top: 15px !important; font-size: 2.1em; font-weight: bold;">
+                The Mo<span class="highlight2">vieV</span>erse Menu
             </div>
         </a>
         <div id="button-container">

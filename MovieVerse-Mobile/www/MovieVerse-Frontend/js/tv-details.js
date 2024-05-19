@@ -800,6 +800,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
             border-radius: 16px;
             cursor: pointer;
         `;
+        imageElement.loading = 'lazy';
         mediaContainer.appendChild(imageElement);
     }
 

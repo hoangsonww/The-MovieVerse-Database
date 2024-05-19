@@ -224,9 +224,11 @@ function setupPagination(mainElementId, paginationContainerId, genresContainerId
         button.textContent = text;
         button.disabled = !enabled;
         button.className = 'nav-button';
+
         if (enabled) {
             button.addEventListener('click', clickHandler);
         }
+
         return button;
     }
 
@@ -243,6 +245,7 @@ function setupPagination(mainElementId, paginationContainerId, genresContainerId
                 currentPage = typeof pageNum === 'number' ? pageNum : currentPage;
                 fetchAndUpdate();
             });
+
             if (pageNum === currentPage) {
                 button.classList.add('active');
             }
@@ -322,6 +325,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         let startPage = Math.max(currentPageRecommended - 2, 1);
         let endPage = Math.min(startPage + 4, totalPagesRecommended);
+
         if (endPage === totalPagesRecommended) startPage = Math.max(endPage - 4, 1);
 
         if (startPage > 1) {
