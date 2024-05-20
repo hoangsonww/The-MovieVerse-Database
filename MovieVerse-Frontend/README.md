@@ -90,7 +90,7 @@ Please note that it is currently under development, and the components may under
 
 ### Tests Directory - `tests`
 
-The tests directory contains a collection of test scripts for the MovieVerse application. These tests are designed to ensure that the app's functionality is working as expected and to identify any potential issues or bugs.
+The tests directory contains a collection of test scripts and suites for the `MovieVerse` application. These tests are designed to ensure that the app's functionality is working as expected and to identify any potential issues or bugs.
 
 - `apiTests.js`: Tests for the API functionality
 - `chatbotInteractionTests.js`: Tests for the chatbot interaction
