@@ -997,24 +997,9 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     document.getElementById('movie-rating').innerHTML = ``;
     document.title = movie.title + " - Movie Details";
 
-    const movieImage = document.getElementById('movie-image');
     const movieDescription = document.getElementById('movie-description');
     const metascoreElement = metascore ? `<p><strong>Metascore:</strong> <a id="metacritics" href="${metaCriticsLink}" title="Click to search/view on Metacritics" target="_blank">${metascore}</a></p>` : '';
     const awardsElement = awards ? `<p><strong>Awards:</strong> ${awards}</p>` : '';
-
-    if (movie.poster_path) {
-        movieImage.src = IMGPATH + movie.poster_path;
-        movieImage.alt = movie.title;
-        movieImage.loading = 'lazy';
-    }
-    else {
-        movieImage.style.display = 'none';
-        const noImageText = document.createElement('h2');
-        noImageText.textContent = 'Movie Image Not Available';
-        noImageText.style.textAlign = 'center';
-        noImageText.style.height = '800px';
-        document.querySelector('.movie-left').appendChild(noImageText);
-    }
 
     const overview = movie.overview ? movie.overview : 'No overview available';
     const genres = movie.genres.map(genre => genre.name).join(', ');
@@ -1291,6 +1276,21 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
 
     if (images.length === 0) {
         mediaContainer.innerHTML = '<p>No media available</p>';
+    }
+
+    const movieImage = document.getElementById('movie-image');
+    if (movie.poster_path) {
+        movieImage.src = IMGPATH + movie.poster_path;
+        movieImage.alt = movie.title;
+        movieImage.loading = 'lazy';
+    }
+    else {
+        movieImage.style.display = 'none';
+        const noImageText = document.createElement('h2');
+        noImageText.textContent = 'Movie Image Not Available';
+        noImageText.style.textAlign = 'center';
+        noImageText.style.height = '800px';
+        document.querySelector('.movie-left').appendChild(noImageText);
     }
 
     hideSpinner();

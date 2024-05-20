@@ -22,7 +22,6 @@ document.getElementById('end-year').addEventListener('keydown', function(event) 
     }
 });
 
-
 const movieCode = {
     part1: 'YzVhMjBjODY=',
     part2: 'MWFjZjdiYjg=',
@@ -341,10 +340,16 @@ function showMovies(movies, mainElement) {
             : `<div class="no-image" style="margin-top: 20px; margin-bottom: 20px">Image Not Available</div>`;
         const voteAvg = movie.vote_average.toFixed(1);
         const ratingClass = getClassByRate(movie.vote_average);
+        let title = movie.title;
+        const words = title.split(' ');
+        if (words.length >= 9) {
+            words[8] = '...';
+            title = words.slice(0, 9).join(' ');
+        }
         movieEl.innerHTML = `
             ${movieImage}
             <div class="movie-info" style="display: flex; justify-content: space-between; align-items: start; cursor: pointer;">
-                <h3 style="text-align: left; margin-right: 5px; flex: 1;">${movie.title}</h3>
+                <h3 style="text-align: left; margin-right: 5px; flex: 1;">${title}</h3>
                 <span class="${ratingClass}" style="white-space: nowrap;">${voteAvg}</span>
             </div>
             <div class="overview" style="cursor: pointer;">

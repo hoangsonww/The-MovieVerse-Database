@@ -529,11 +529,6 @@ header h1 {
     background-position: center;
 }
 
-.movie-info {
-    padding: 20px;
-    flex-grow: 1;
-}
-
 .tvSeries-info {
     padding: 20px;
     flex-grow: 1;
@@ -657,10 +652,6 @@ header h1 {
     transition: opacity 0.3s ease-in, visibility 0.3s ease-in, transform 0.3s ease-in;
     overflow-y: auto;
     visibility: hidden;
-}
-
-.movie-info h3 {
-    margin: 0;
 }
 
 .tvSeries-info h3 {
@@ -3069,6 +3060,7 @@ canvas {
     padding: 0.5rem 1rem 1rem;
     letter-spacing: 0.5px;
     padding-top: 14px;
+    flex-grow: 1;
 }
 
 .tvSeries-info {

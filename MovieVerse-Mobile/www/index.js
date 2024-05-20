@@ -408,7 +408,7 @@ async function getMovies(url, mainElement, page = 1) {
 function showMovies(movies, mainElement) {
     mainElement.innerHTML = '';
     movies.forEach((movie, index) => {
-        const { id, poster_path, title, vote_average, vote_count, overview, genre_ids } = movie;
+        let { id, poster_path, title, vote_average, vote_count, overview, genre_ids } = movie;
         const movieEl = document.createElement('div');
         movieEl.style.zIndex = '1000';
         movieEl.classList.add('movie');
@@ -417,6 +417,12 @@ function showMovies(movies, mainElement) {
         const movieImage = poster_path
             ? `<img src="${IMGPATH + poster_path}" loading="${loadingType}" alt="${title} poster" width="150" height="225">`
             : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
+
+        const words = title.split(' ');
+        if (words.length >= 9) {
+            words[8] = '...';
+            title = words.slice(0, 9).join(' ');
+        }
 
         const voteAvg = vote_count === 0 ? "Unrated" : vote_average.toFixed(1);
         const ratingClass = vote_count === 0 ? "unrated" : getClassByRate(vote_average);

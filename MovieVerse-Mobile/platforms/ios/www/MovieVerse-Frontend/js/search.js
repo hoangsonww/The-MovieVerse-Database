@@ -726,7 +726,13 @@ function showMovies(items, container, category) {
         const isMovie = item.title && hasVoteAverage;
         const isTvSeries = item.name && hasVoteAverage && category === 'tv';
 
-        const title = item.title || item.name || "N/A";
+        let title = item.title || item.name || "N/A";
+        const words = title.split(' ');
+        if (words.length >= 9) {
+            words[8] = '...';
+            title = words.slice(0, 9).join(' ');
+        }
+
         const overview = item.overview || 'No overview available.';
         const biography = item.biography || 'Click to view the details of this person.';
 
