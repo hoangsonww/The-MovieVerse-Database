@@ -1189,7 +1189,6 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     if (images.length > 0) {
         imageElement.src = `https://image.tmdb.org/t/p/w1280${images[0].file_path}`;
     }
-    imageElement.loading = 'lazy';
     imageWrapper.appendChild(imageElement);
     mediaContainer.appendChild(imageWrapper);
 
