@@ -27,7 +27,7 @@ const form = document.getElementById("form1");
 const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
 
 const main = document.getElementById("main");
-const IMGPATH = "https://image.tmdb.org/t/p/w1280";
+const IMGPATH = "https://image.tmdb.org/t/p/w780";
 const favoriteButton = document.getElementById("favorite-btn");
 const searchTitle = document.getElementById("search-title");
 
@@ -1187,9 +1187,8 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         object-fit: contain;
     `;
     if (images.length > 0) {
-        imageElement.src = `https://image.tmdb.org/t/p/w1280${images[0].file_path}`;
+        imageElement.src = `https://image.tmdb.org/t/p/w780${images[0].file_path}`;
     }
-    imageElement.loading = 'lazy';
     imageWrapper.appendChild(imageElement);
     mediaContainer.appendChild(imageWrapper);
 
@@ -1269,7 +1268,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         }
         imgElement.style.opacity = '0';
         setTimeout(() => {
-            imgElement.src = `https://image.tmdb.org/t/p/w1280${images[currentIndex].file_path}`;
+            imgElement.src = `https://image.tmdb.org/t/p/w780${images[currentIndex].file_path}`;
             imgElement.style.opacity = '1';
         }, 420);
     }

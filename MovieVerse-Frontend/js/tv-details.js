@@ -20,7 +20,7 @@ const form = document.getElementById("form1");
 const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
 
 const main = document.getElementById("main");
-const IMGPATH = "https://image.tmdb.org/t/p/w1280";
+const IMGPATH = "https://image.tmdb.org/t/p/w780";
 const searchTitle = document.getElementById("search-title");
 let initialMainContent;
 
@@ -600,7 +600,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
     document.getElementById('movie-title').textContent = title;
     document.title = tvSeries.name + " - TV Series Details";
 
-    const posterPath = tvSeries.poster_path ? `https://image.tmdb.org/t/p/w1280${tvSeries.poster_path}` : 'path/to/default/poster.jpg';
+    const posterPath = tvSeries.poster_path ? `https://image.tmdb.org/t/p/w780${tvSeries.poster_path}` : 'path/to/default/poster.jpg';
     document.getElementById('movie-image').src = posterPath;
     document.getElementById('movie-image').alt = `Poster of ${title}`;
 
@@ -805,7 +805,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
     }
 
     if (images.length > 0) {
-        imageElement.src = `https://image.tmdb.org/t/p/w1280${images[0].file_path}`;
+        imageElement.src = `https://image.tmdb.org/t/p/w780${images[0].file_path}`;
     }
 
     imageElement.addEventListener('click', function() {
@@ -878,7 +878,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
         }
         imgElement.style.opacity = '0';
         setTimeout(() => {
-            imgElement.src = `https://image.tmdb.org/t/p/w1280${images[currentIndex].file_path}`;
+            imgElement.src = `https://image.tmdb.org/t/p/w780${images[currentIndex].file_path}`;
             imgElement.style.opacity = '1';
         }, 420);
     }
