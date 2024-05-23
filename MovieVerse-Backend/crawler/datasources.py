@@ -27,11 +27,7 @@ DATA_SOURCES = [
     'https://www.the-numbers.com/movie/weekly-per-theater-chart',
     'https://www.the-numbers.com/movie/theater-count',
     'https://www.the-numbers.com/movie/market',
-    'https://www.the-numbers.com/movie/production-countries',
-    'https://www.the-numbers.com/movie/production-method',
-    'https://www.the-numbers.com/movie/source',
     'https://www.the-numbers.com/movie/production-status',
-    'https://www.the-numbers.com/movie/production-countries',
     'https://www.the-numbers.com/movie/languages',
     'https://www.the-numbers.com/movie/certifications',
     'https://www.the-numbers.com/movie/mpaa-ratings',
@@ -50,8 +46,6 @@ DATA_SOURCES = [
     'https://www.the-numbers.com/movie/genres',
     'https://www.the-numbers.com/movie/franchises',
     'https://www.the-numbers.com/movie/creative-type',
-    'https://www.the-numbers.com/movie/production-method',
-    'https://www.the-numbers.com/movie/source',
 ]
 
 def fetch_from_sources():

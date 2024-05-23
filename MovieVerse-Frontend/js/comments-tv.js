@@ -25,9 +25,9 @@ commentForm.addEventListener("submit", async (e) => {
     }
 });
 
-var modal = document.getElementById("comment-modal");
-var btn = document.getElementById("toggle-comment-modal");
-var span = document.getElementsByClassName("close")[0];
+let modal = document.getElementById("comment-modal");
+let btn = document.getElementById("toggle-comment-modal");
+let span = document.getElementsByClassName("close")[0];
 
 btn.onclick = function() {
     modal.style.display = "block";
