@@ -753,8 +753,7 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
         imdbRating = 'N/A';
     }
 
-    const rtRatingObj = data.Ratings.find(rating => rating.Source === "Rotten Tomatoes");
-    let rtRating = rtRatingObj ? rtRatingObj.Value : 'N/A';
+    let rtRating =  'N/A';
 
     let metascore = data.Metascore ? `${data.Metascore}/100` : 'N/A';
     let awards = data.Awards;
