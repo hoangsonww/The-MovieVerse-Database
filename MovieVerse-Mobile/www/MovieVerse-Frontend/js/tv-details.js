@@ -577,7 +577,7 @@ async function fetchTVRatings(imdbId) {
         const response = await fetch(link);
         const data = await response.json();
 
-        return imdbRating = data.imdbRating ? data.imdbRating : 'IMDb data unavailable but you can check it out by clicking here';
+        return data.imdbRating ? data.imdbRating : 'IMDb data unavailable but you can check it out by clicking here';
     }
     catch (error) {
         console.log('Error fetching TV series ratings:', error);
