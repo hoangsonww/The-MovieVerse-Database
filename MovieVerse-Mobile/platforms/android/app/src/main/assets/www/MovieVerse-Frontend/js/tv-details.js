@@ -809,7 +809,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
     }
 
     imageElement.addEventListener('click', function() {
-        const imageUrl = this.src;
+        let imageUrl = this.src.replace('w780', 'w1280');
         const modalHtml = `
         <div id="image-modal" style="z-index: 100022222; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
             <img src="${imageUrl}" style="max-width: 80%; max-height: 80%; border-radius: 10px; cursor: default;" onclick="event.stopPropagation();">
