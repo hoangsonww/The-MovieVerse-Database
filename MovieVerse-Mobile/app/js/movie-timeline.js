@@ -22,7 +22,6 @@ document.getElementById('end-year').addEventListener('keydown', function(event) 
     }
 });
 
-
 const movieCode = {
     part1: 'YzVhMjBjODY=',
     part2: 'MWFjZjdiYjg=',
@@ -37,7 +36,7 @@ function generateMovieNames(input) {
     return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
 }
 
-const IMGPATH = "https://image.tmdb.org/t/p/w1280";
+const IMGPATH = "https://image.tmdb.org/t/p/w500";
 const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
 const searchTitle = document.getElementById("select-text");
 const searchButton = document.getElementById("button-search");
@@ -62,7 +61,7 @@ async function fetchGenreMap() {
         localStorage.setItem('genreMap', JSON.stringify(genreMap));
     }
     catch (error) {
-        console.error('Error fetching genre map:', error);
+        console.log('Error fetching genre map:', error);
     }
 }
 
@@ -94,7 +93,7 @@ async function rotateUserStats() {
         {
             label: "Favorite Movies",
             getValue: () => {
-                const favoritedMovies = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
+                const favoritedMovies = JSON.parse(localStorage.getItem('moviesFavorited')) || [];
                 return favoritedMovies.length;
             }
         },
@@ -102,8 +101,37 @@ async function rotateUserStats() {
             label: "Favorite Genre",
             getValue: () => {
                 const mostCommonGenreCode = getMostCommonGenre();
-                const genreMap = JSON.parse(localStorage.getItem('genreMap')) || {};
-                return genreMap[mostCommonGenreCode] || 'Not Available';
+                const genreMapString = localStorage.getItem('genreMap');
+                if (!genreMapString) {
+                    console.log('No genre map found in localStorage.');
+                    return 'Not Available';
+                }
+
+                let genreMap;
+                try {
+                    genreMap = JSON.parse(genreMapString);
+                }
+                catch (e) {
+                    console.log('Error parsing genre map:', e);
+                    return 'Not Available';
+                }
+
+                let genreObject;
+                if (Array.isArray(genreMap)) {
+                    genreObject = genreMap.reduce((acc, genre) => {
+                        acc[genre.id] = genre.name;
+                        return acc;
+                    }, {});
+                }
+                else if (typeof genreMap === 'object' && genreMap !== null) {
+                    genreObject = genreMap;
+                }
+                else {
+                    console.log('genreMap is neither an array nor a proper object:', genreMap);
+                    return 'Not Available';
+                }
+
+                return genreObject[mostCommonGenreCode] || 'Not Available';
             }
         },
         { label: "Watchlists Created", getValue: () => localStorage.getItem('watchlistsCreated') || 0 },
@@ -312,15 +340,25 @@ function showMovies(movies, mainElement) {
             : `<div class="no-image" style="margin-top: 20px; margin-bottom: 20px">Image Not Available</div>`;
         const voteAvg = movie.vote_average.toFixed(1);
         const ratingClass = getClassByRate(movie.vote_average);
+        let title = movie.title;
+        const words = title.split(' ');
+        if (words.length >= 9) {
+            words[8] = '...';
+            title = words.slice(0, 9).join(' ');
+        }
+        let overview = movie.overview;
+        if (overview === '') {
+            overview = 'No overview available.';
+        }
         movieEl.innerHTML = `
             ${movieImage}
             <div class="movie-info" style="display: flex; justify-content: space-between; align-items: start; cursor: pointer;">
-                <h3 style="text-align: left; margin-right: 5px; flex: 1;">${movie.title}</h3>
+                <h3 style="text-align: left; margin-right: 5px; flex: 1;">${title}</h3>
                 <span class="${ratingClass}" style="white-space: nowrap;">${voteAvg}</span>
             </div>
             <div class="overview" style="cursor: pointer;">
                 <h4>Overview: </h4>
-                ${movie.overview}
+                ${overview}
             </div>`;
         movieEl.addEventListener('click', () => {
             localStorage.setItem('selectedMovieId', movie.id);
@@ -412,7 +450,7 @@ async function showMovieOfTheDay() {
         }
     }
     catch (error) {
-        console.error('Error fetching movie:', error);
+        console.log('Error fetching movie:', error);
         fallbackMovieSelection();
     }
 }
