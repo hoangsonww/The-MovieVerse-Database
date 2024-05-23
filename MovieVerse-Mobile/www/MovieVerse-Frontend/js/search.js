@@ -733,8 +733,12 @@ function showMovies(items, container, category) {
             title = words.slice(0, 9).join(' ');
         }
 
-        const overview = item.overview || 'No overview available.';
+        let overview = item.overview || 'No overview available.';
         const biography = item.biography || 'Click to view the details of this person.';
+
+        if (overview === '') {
+            overview = 'No overview available.';
+        }
 
         const { id, profile_path, poster_path } = item;
         const imagePath = profile_path || poster_path ? IMGPATH + (profile_path || poster_path) : null;
