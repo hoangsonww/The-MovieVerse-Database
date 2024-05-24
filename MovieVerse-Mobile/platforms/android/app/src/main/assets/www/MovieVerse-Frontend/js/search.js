@@ -728,13 +728,18 @@ function showMovies(items, container, category) {
 
         let title = item.title || item.name || "N/A";
         const words = title.split(' ');
+
         if (words.length >= 9) {
             words[8] = '...';
             title = words.slice(0, 9).join(' ');
         }
 
-        const overview = item.overview || 'No overview available.';
+        let overview = item.overview || 'No overview available.';
         const biography = item.biography || 'Click to view the details of this person.';
+
+        if (overview === '') {
+            overview = 'No overview available.';
+        }
 
         const { id, profile_path, poster_path } = item;
         const imagePath = profile_path || poster_path ? IMGPATH + (profile_path || poster_path) : null;
@@ -763,10 +768,14 @@ function showMovies(items, container, category) {
         movieContentHTML += `</div>`;
 
         if (isPerson) {
-            movieContentHTML += `<div class="overview" style="cursor: pointer;"><h4>Details: </h4>${biography}</div>`;
+            const roleOverview = item.known_for_department === 'Directing' ? 'Director Overview' : 'Actor Overview';
+            movieContentHTML += `<div class="overview" style="cursor: pointer;"><h4>${roleOverview}: </h4>${biography}</div>`;
+        }
+        else if (isTvSeries) {
+            movieContentHTML += `<div class="overview" style="cursor: pointer;"><h4>TV Series Overview: </h4>${overview}</div>`;
         }
         else {
-            movieContentHTML += `<div class="overview" style="cursor: pointer;"><h4>Overview: </h4>${overview}</div>`;
+            movieContentHTML += `<div class="overview" style="cursor: pointer;"><h4>Movie Overview: </h4>${overview}</div>`;
         }
 
         movieEl.innerHTML = movieContentHTML;
@@ -794,7 +803,6 @@ function showMovies(items, container, category) {
                         }
 
                         localStorage.setItem('directorVisits', JSON.stringify(directorVisits));
-
                         localStorage.setItem('selectedDirectorId', id);
                         window.location.href = 'director-details.html?' + id;
                     }
@@ -815,7 +823,6 @@ function showMovies(items, container, category) {
                         }
 
                         localStorage.setItem('actorVisits', JSON.stringify(actorVisits));
-
                         localStorage.setItem('selectedActorId', id);
                         window.location.href = 'actor-details.html?' + id;
                     }

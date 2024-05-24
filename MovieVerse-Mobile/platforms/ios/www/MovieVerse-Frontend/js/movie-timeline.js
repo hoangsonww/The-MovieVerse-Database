@@ -346,6 +346,10 @@ function showMovies(movies, mainElement) {
             words[8] = '...';
             title = words.slice(0, 9).join(' ');
         }
+        let overview = movie.overview;
+        if (overview === '') {
+            overview = 'No overview available.';
+        }
         movieEl.innerHTML = `
             ${movieImage}
             <div class="movie-info" style="display: flex; justify-content: space-between; align-items: start; cursor: pointer;">
@@ -354,7 +358,7 @@ function showMovies(movies, mainElement) {
             </div>
             <div class="overview" style="cursor: pointer;">
                 <h4>Overview: </h4>
-                ${movie.overview}
+                ${overview}
             </div>`;
         movieEl.addEventListener('click', () => {
             localStorage.setItem('selectedMovieId', movie.id);

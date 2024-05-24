@@ -427,6 +427,10 @@ function showMovies(movies, mainElement) {
         const voteAvg = vote_count === 0 ? "Unrated" : vote_average.toFixed(1);
         const ratingClass = vote_count === 0 ? "unrated" : getClassByRate(vote_average);
 
+        if (overview === "") {
+            overview = "No overview available.";
+        }
+
         movieEl.innerHTML = `
             ${movieImage}
             <div class="movie-info" style="display: flex; justify-content: space-between; align-items: start; cursor: pointer;">
