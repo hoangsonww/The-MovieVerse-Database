@@ -851,8 +851,11 @@ function getYouTubeVideoId(url) {
 
 function positionTrailerButton() {
     showSpinner();
-    if (!trailerButton)
+    if (!trailerButton) {
+        document.getElementById('movie-description').style.marginTop = '-20px';
         return;
+    }
+    document.getElementById('movie-description').style.marginTop = '-60px';
 
     if (window.innerWidth <= 900) {
         const movieDescription = document.getElementById('movie-description');
