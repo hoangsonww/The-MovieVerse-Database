@@ -1384,6 +1384,10 @@ async function loadWatchLists() {
             const title = document.createElement('h3');
             title.textContent = "Favorite Movies";
             title.className = 'watchlist-title';
+            title.style.cursor = 'pointer';
+            title.addEventListener('click', () => {
+                favoritesDiv.scrollIntoView({behavior: 'smooth'});
+            });
 
             const description = document.createElement('p');
             description.textContent = "A collection of your favorite movies.";
@@ -1419,6 +1423,10 @@ async function loadWatchLists() {
             const title = document.createElement('h3');
             title.textContent = "Favorite TV Series";
             title.className = 'watchlist-title';
+            title.style.cursor = 'pointer';
+            title.addEventListener('click', () => {
+                favoritesDiv.scrollIntoView({behavior: 'smooth'});
+            });
 
             const description = document.createElement('p');
             description.textContent = "A collection of your favorite TV series.";
@@ -1762,6 +1770,10 @@ function createWatchListDiv(watchlist) {
     const title = document.createElement('h3');
     title.textContent = watchlist.name;
     title.className = 'watchlist-title';
+    title.style.cursor = 'pointer';
+    title.addEventListener('click', () => {
+        watchlistDiv.scrollIntoView({ behavior: 'smooth' })
+    });
 
     const description = document.createElement('p');
     description.textContent = watchlist.description;
