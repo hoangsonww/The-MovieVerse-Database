@@ -10,6 +10,7 @@ const movieCode = {
 
 function getMovieCode() {
     return atob(movieCode.part1) + atob(movieCode.part2) + atob(movieCode.part3);
+    return atob(movieCode.part1) + atob(movieCode.part2) + atob(movieCode.part3);
 }
 
 function generateMovieNames(input) {
@@ -167,11 +168,34 @@ async function rotateUserStats() {
 
 function updateMovieVisitCount(movieId, movieTitle) {
     let movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
+    let uniqueMoviesViewed = JSON.parse(localStorage.getItem('uniqueMoviesViewed')) || [];
+
     if (!movieVisits[movieId]) {
         movieVisits[movieId] = { count: 0, title: movieTitle };
     }
     movieVisits[movieId].count += 1;
+
+    if (!uniqueMoviesViewed.includes(movieId)) {
+        uniqueMoviesViewed.push(movieId);
+    }
+
     localStorage.setItem('movieVisits', JSON.stringify(movieVisits));
+    localStorage.setItem('uniqueMoviesViewed', JSON.stringify(uniqueMoviesViewed));
+}
+
+function getMostVisitedDirector() {
+    const directorVisits = JSON.parse(localStorage.getItem('directorVisits')) || {};
+    let mostVisitedDirector = '';
+    let maxVisits = 0;
+
+    for (const directorId in directorVisits) {
+        if (directorVisits[directorId].count > maxVisits) {
+            mostVisitedDirector = directorVisits[directorId].name;
+            maxVisits = directorVisits[directorId].count;
+        }
+    }
+
+    return mostVisitedDirector || 'Not Available';
 }
 
 function getMostVisitedMovie() {
@@ -204,26 +228,12 @@ function getMostVisitedActor() {
     return mostVisitedActor || 'Not Available';
 }
 
-function getMostVisitedDirector() {
-    const directorVisits = JSON.parse(localStorage.getItem('directorVisits')) || {};
-    let mostVisitedDirector = '';
-    let maxVisits = 0;
-
-    for (const directorId in directorVisits) {
-        if (directorVisits[directorId].count > maxVisits) {
-            mostVisitedDirector = directorVisits[directorId].name;
-            maxVisits = directorVisits[directorId].count;
-        }
-    }
-
-    return mostVisitedDirector || 'Not Available';
-}
-
 function getTriviaAccuracy() {
     let triviaStats = JSON.parse(localStorage.getItem('triviaStats')) || { totalCorrect: 0, totalAttempted: 0 };
     if (triviaStats.totalAttempted === 0) {
         return 'No trivia attempted';
     }
+
     let accuracy = (triviaStats.totalCorrect / triviaStats.totalAttempted) * 100;
     return `${accuracy.toFixed(1)}% accuracy`;
 }
@@ -249,6 +259,34 @@ function getMostCommonGenre() {
 }
 
 document.addEventListener('DOMContentLoaded', rotateUserStats);
+
+function updateUniqueDirectorsViewed(directorId) {
+    let viewedDirectors = JSON.parse(localStorage.getItem('uniqueDirectorsViewed')) || [];
+    if (!viewedDirectors.includes(directorId)) {
+        viewedDirectors.push(directorId);
+        localStorage.setItem('uniqueDirectorsViewed', JSON.stringify(viewedDirectors));
+    }
+}
+
+function updateActorVisitCount(actorId, actorName) {
+    let actorVisits = JSON.parse(localStorage.getItem('actorVisits')) || {};
+    if (!actorVisits[actorId]) {
+        actorVisits[actorId] = { count: 0, name: actorName };
+    }
+
+    actorVisits[actorId].count += 1;
+    localStorage.setItem('actorVisits', JSON.stringify(actorVisits));
+}
+
+function updateDirectorVisitCount(directorId, directorName) {
+    let directorVisits = JSON.parse(localStorage.getItem('directorVisits')) || {};
+    if (!directorVisits[directorId]) {
+        directorVisits[directorId] = { count: 0, name: directorName };
+    }
+
+    directorVisits[directorId].count += 1;
+    localStorage.setItem('directorVisits', JSON.stringify(directorVisits));
+}
 
 function calculateMoviesToDisplay() {
     const screenWidth = window.innerWidth;

@@ -82,10 +82,10 @@
             margin-top: 25px;
         }
 
-        @keyframes fadeInUp {
+        @keyframes dropIn {
             0% {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(-50px);
             }
             100% {
                 opacity: 1;
@@ -96,7 +96,7 @@
         #my-heading {
             margin-bottom: -25px;
             opacity: 0;
-            animation: fadeInUp 1s ease forwards;
+            animation: dropIn 1s ease forwards;
         }
 
         #my-heading a {
@@ -109,7 +109,7 @@
         .highlight {
             display: inline-block;
             opacity: 0;
-            animation: fadeInUp 1s ease forwards 0.5s;
+            animation: dropIn 1s ease forwards 0.5s;
         }
 
         #form {
@@ -243,6 +243,35 @@
                 bottom: 70px;
             }
         }
+
+        #local-time {
+            cursor: pointer;
+            opacity: 0;
+            animation: dropIn 1s ease forwards 1.5s;
+        }
+
+        #local-time p,
+        #local-time div {
+            opacity: 0;
+            animation: dropIn 1s ease forwards 2s;
+        }
+
+        #my-heading1 {
+            color: #ff8623;
+            padding: 10px;
+            font-size: 36px;
+            text-align: center;
+            background-color: transparent;
+            margin-left: 40px;
+        }
+
+        .highlight2 {
+            color: orange;
+        }
+
+        .highlight2:hover {
+            color: #ff8623;
+        }
     </style>
 </head>
 
@@ -295,6 +324,11 @@
             </a>
         </h1>
 
+        <div id="local-time" style="cursor: pointer; margin-left: 40px" title="Click to view more of your stats!">
+            <p id="stats-label" class="clock" style="font-size: 16px;"></p>
+            <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
+        </div>
+
         <button class="back-btn notranslate" onclick="window.location.href='../../index.html'">Home</button>
         <button class="about notranslate" onclick="window.location.href='about.html'">About</button>
         <button class="favorites-btn notranslate" onclick="window.location.href='favorites.html'" title="View your favorites & watchlists">Favorites</button>
@@ -303,6 +337,10 @@
             <span id="signInOutText">Sign In</span>
             <i class="fas fa-sign-in-alt" id="signInIcon"></i>
             <i class="fas fa-sign-out-alt" id="signOutIcon" style="display: none;"></i>
+        </button>
+
+        <button id="nav-toggle" class="nav-toggle notranslate" title="Toggle side navbar" onclick="toggleNav()">
+            <i class="fas fa-bars"></i>
         </button>
 
         <button id="profileBtn" class="nav-btn notranslate" onclick="window.location.href='user-profile.html'" title="Go to your profile">
@@ -322,6 +360,36 @@
             </div>
         </form>
     </header>
+
+    <nav id="side-nav" class="side-nav" style="z-index: 1000000">
+        <a id="heading-href" style="cursor: pointer; text-decoration: none" href="../../index.html" title="Click to go back to the home page">
+            <div id="my-heading1" style="margin-bottom: 15px; margin-left: 0; margin-top: 15px; font-size: 2.1em; font-weight: bold;">
+                The Mo<span class="highlight2">vieV</span>erse Menu
+            </div>
+        </a>
+
+        <div id="button-container">
+            <button id="button-remove" title="Close the navbar" onclick="removeNavBar()">Close</button>
+        </div>
+
+        <ul style="overflow-y: auto">
+            <li><a href="#0">Question 1</a></li>
+            <li><a href="#1">Question 2</a></li>
+            <li><a href="#2">Question 3</a></li>
+            <li><a href="#3">Question 4</a></li>
+            <li><a href="#4">Question 5</a></li>
+            <li><a href="#5">Question 6</a></li>
+            <li><a href="#6">Question 7</a></li>
+            <li><a href="#7">Question 8</a></li>
+            <li><a href="#8">Question 9</a></li>
+            <li><a href="#9">Question 10</a></li>
+            <li><a href="sign-in.html">Sign In</a></li>
+            <li><a href="user-profile.html">Profile</a></li>
+            <li><a href="analytics.html">MovieVerse Analytics</a></li>
+            <li><a href="feedback.html">Submit Feedback</a></li>
+            <li><a href="support.html">Contact Support</a></li>
+        </ul>
+    </nav>
 
     <div>
         <div style="font-weight: bold; font-size: 32px" id="trivia-label">Movie Trivia Quiz</div>
@@ -373,6 +441,54 @@
     <script src="../js/quiz.js" type="module"></script>
 
     <script>
+        function toggleNav() {
+            const sideNav = document.getElementById('side-nav');
+            sideNav.classList.toggle('manual-toggle');
+            adjustNavBar();
+        }
+
+        function removeNavBar() {
+            const sideNav = document.getElementById('side-nav');
+            if (sideNav.classList.contains('manual-toggle')) {
+                sideNav.classList.remove('manual-toggle');
+            }
+
+            adjustNavBar();
+        }
+
+        function adjustNavBar() {
+            const sideNav = document.getElementById('side-nav');
+            if (sideNav.classList.contains('manual-toggle')) {
+                sideNav.style.left = '0px';
+            }
+            else {
+                sideNav.style.left = '-250px';
+            }
+        }
+
+        document.addEventListener('mousemove', function(event) {
+            const sideNav = document.getElementById('side-nav');
+            if (event.clientX < 10 && !sideNav.classList.contains('manual-toggle')) {
+                sideNav.style.left = '0';
+            }
+        });
+
+        document.getElementById('side-nav').addEventListener('mouseleave', function() {
+            const sideNav = document.getElementById('side-nav');
+            if (!sideNav.classList.contains('manual-toggle')) {
+                sideNav.style.left = '-250px';
+            }
+        });
+
+        document.addEventListener('click', function(event) {
+            const sideNav = document.getElementById('side-nav');
+            const navToggle = document.getElementById('nav-toggle');
+            if (!sideNav.contains(event.target) && !navToggle.contains(event.target) && sideNav.classList.contains('manual-toggle')) {
+                sideNav.classList.remove('manual-toggle');
+                adjustNavBar();
+            }
+        });
+
         document.getElementById('settings-btn').addEventListener('click', () => {
             window.location.href = 'settings.html';
         });
@@ -447,6 +563,224 @@
         <i class="fas fa-ellipsis-h"></i><br>
         <span>Menu</span>
     </button>
+
+    <script>
+        async function ensureGenreMapIsAvailable() {
+            if (!localStorage.getItem('genreMap')) {
+                await fetchGenreMap();
+            }
+        }
+
+        async function fetchGenreMap() {
+            const url = `https://${getMovieVerseData()}/3/genre/movie/list?${generateMovieNames()}${getMovieCode()}`;
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                const genreMap = data.genres.reduce((map, genre) => {
+                    map[genre.id] = genre.name;
+                    return map;
+                }, {});
+                localStorage.setItem('genreMap', JSON.stringify(genreMap));
+            }
+            catch (error) {
+                console.log('Error fetching genre map:', error);
+            }
+        }
+
+        async function rotateUserStats() {
+            await ensureGenreMapIsAvailable();
+
+            const stats = [
+                {
+                    label: "Your Current Time",
+                    getValue: () => {
+                        const now = new Date();
+                        let hours = now.getHours();
+                        let minutes = now.getMinutes();
+                        hours = hours < 10 ? '0' + hours : hours;
+                        minutes = minutes < 10 ? '0' + minutes : minutes;
+                        return `${hours}:${minutes}`;
+                    }
+                },
+                { label: "Most Visited Movie", getValue: getMostVisitedMovie },
+                { label: "Most Visited Director", getValue: getMostVisitedDirector },
+                { label: "Most Visited Actor", getValue: getMostVisitedActor },
+                {
+                    label: "Movies Discovered",
+                    getValue: () => {
+                        const viewedMovies = JSON.parse(localStorage.getItem('uniqueMoviesViewed')) || [];
+                        return viewedMovies.length;
+                    }
+                },
+                {
+                    label: "Favorite Movies",
+                    getValue: () => {
+                        const favoritedMovies = JSON.parse(localStorage.getItem('moviesFavorited')) || [];
+                        return favoritedMovies.length;
+                    }
+                },
+                {
+                    label: "Favorite Genre",
+                    getValue: () => {
+                        const mostCommonGenreCode = getMostCommonGenre();
+                        const genreMapString = localStorage.getItem('genreMap');
+                        if (!genreMapString) {
+                            console.log('No genre map found in localStorage.');
+                            return 'Not Available';
+                        }
+
+                        let genreMap;
+                        try {
+                            genreMap = JSON.parse(genreMapString);
+                        }
+                        catch (e) {
+                            console.log('Error parsing genre map:', e);
+                            return 'Not Available';
+                        }
+
+                        let genreObject;
+                        if (Array.isArray(genreMap)) {
+                            genreObject = genreMap.reduce((acc, genre) => {
+                                acc[genre.id] = genre.name;
+                                return acc;
+                            }, {});
+                        }
+                        else if (typeof genreMap === 'object' && genreMap !== null) {
+                            genreObject = genreMap;
+                        }
+                        else {
+                            console.log('genreMap is neither an array nor a proper object:', genreMap);
+                            return 'Not Available';
+                        }
+
+                        return genreObject[mostCommonGenreCode] || 'Not Available';
+                    }
+                },
+                { label: "Watchlists Created", getValue: () => localStorage.getItem('watchlistsCreated') || 0 },
+                { label: "Average Movie Rating", getValue: () => localStorage.getItem('averageMovieRating') || 'Not Rated' },
+                {
+                    label: "Directors Discovered",
+                    getValue: () => {
+                        const viewedDirectors = JSON.parse(localStorage.getItem('uniqueDirectorsViewed')) || [];
+                        return viewedDirectors.length;
+                    }
+                },
+                {
+                    label: "Actors Discovered",
+                    getValue: () => {
+                        const viewedActors = JSON.parse(localStorage.getItem('uniqueActorsViewed')) || [];
+                        return viewedActors.length;
+                    }
+                },
+                { label: "Your Trivia Accuracy", getValue: getTriviaAccuracy },
+            ];
+
+            let currentStatIndex = 0;
+
+            function updateStatDisplay() {
+                const currentStat = stats[currentStatIndex];
+                document.getElementById('stats-label').textContent = currentStat.label + ':';
+                document.getElementById('stats-display').textContent = currentStat.getValue();
+                currentStatIndex = (currentStatIndex + 1) % stats.length;
+            }
+
+            updateStatDisplay();
+
+            const localTimeDiv = document.getElementById('local-time');
+            let statRotationInterval = setInterval(updateStatDisplay, 3000);
+
+            localTimeDiv.addEventListener('click', () => {
+                clearInterval(statRotationInterval);
+                updateStatDisplay();
+                statRotationInterval = setInterval(updateStatDisplay, 3000);
+            });
+        }
+
+        function updateMovieVisitCount(movieId, movieTitle) {
+            let movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
+            if (!movieVisits[movieId]) {
+                movieVisits[movieId] = { count: 0, title: movieTitle };
+            }
+            movieVisits[movieId].count += 1;
+            localStorage.setItem('movieVisits', JSON.stringify(movieVisits));
+        }
+
+        function getMostVisitedMovie() {
+            const movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
+            let mostVisitedMovie = '';
+            let maxVisits = 0;
+
+            for (const movieId in movieVisits) {
+                if (movieVisits[movieId].count > maxVisits) {
+                    mostVisitedMovie = movieVisits[movieId].title;
+                    maxVisits = movieVisits[movieId].count;
+                }
+            }
+
+            return mostVisitedMovie || 'Not Available';
+        }
+
+        function getMostVisitedActor() {
+            const actorVisits = JSON.parse(localStorage.getItem('actorVisits')) || {};
+            let mostVisitedActor = '';
+            let maxVisits = 0;
+
+            for (const actorId in actorVisits) {
+                if (actorVisits[actorId].count > maxVisits) {
+                    mostVisitedActor = actorVisits[actorId].name;
+                    maxVisits = actorVisits[actorId].count;
+                }
+            }
+
+            return mostVisitedActor || 'Not Available';
+        }
+
+        function getMostVisitedDirector() {
+            const directorVisits = JSON.parse(localStorage.getItem('directorVisits')) || {};
+            let mostVisitedDirector = '';
+            let maxVisits = 0;
+
+            for (const directorId in directorVisits) {
+                if (directorVisits[directorId].count > maxVisits) {
+                    mostVisitedDirector = directorVisits[directorId].name;
+                    maxVisits = directorVisits[directorId].count;
+                }
+            }
+
+            return mostVisitedDirector || 'Not Available';
+        }
+
+        function getTriviaAccuracy() {
+            let triviaStats = JSON.parse(localStorage.getItem('triviaStats')) || { totalCorrect: 0, totalAttempted: 0 };
+            if (triviaStats.totalAttempted === 0) {
+                return 'No trivia attempted';
+            }
+            let accuracy = (triviaStats.totalCorrect / triviaStats.totalAttempted) * 100;
+            return `${accuracy.toFixed(1)}% accuracy`;
+        }
+
+        function getMostCommonGenre() {
+            const favoriteGenresArray = JSON.parse(localStorage.getItem('favoriteGenres')) || [];
+            const genreCounts = favoriteGenresArray.reduce((acc, genre) => {
+                acc[genre] = (acc[genre] || 0) + 1;
+                return acc;
+            }, {});
+
+            let mostCommonGenre = '';
+            let maxCount = 0;
+
+            for (const genre in genreCounts) {
+                if (genreCounts[genre] > maxCount) {
+                    mostCommonGenre = genre;
+                    maxCount = genreCounts[genre];
+                }
+            }
+
+            return mostCommonGenre || 'Not Available';
+        }
+
+        document.addEventListener('DOMContentLoaded', rotateUserStats);
+    </script>
 
     <script>
         async function showMovieOfTheDay() {

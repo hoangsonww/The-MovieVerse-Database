@@ -329,7 +329,7 @@
             </a>
         </h1>
 
-        <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
+        <div id="local-time" style="cursor: pointer; margin-left: 40px" title="Click to view more of your stats!">
             <p id="stats-label" class="clock" style="font-size: 16px;"></p>
             <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
         </div>
@@ -368,7 +368,7 @@
 
     <main>
         <section id="newFeatures">
-            <h2>New Features</h2>
+            <h2 style="cursor: pointer">New Features</h2>
             <p style="color: black">Explore the exciting new features we've recently launched to enhance your MovieVerse experience:</p>
             <ul>
                 <li><strong>Enhanced Search Functionality:</strong> Our new search engine supports advanced filters for genres, ratings, and release years.</li>
@@ -385,7 +385,7 @@
         </section>
 
         <section id="newReleases">
-            <h2>New Releases</h2>
+            <h2 style="cursor: pointer">New Releases</h2>
 
             <h3>Since Your Last Visit</h3>
             <ul id="releasesSinceLastVisit"></ul>
@@ -406,7 +406,7 @@
         </section>
 
         <section id="tipsTricks">
-            <h2>Tips & Tricks</h2>
+            <h2 style="cursor: pointer">Tips & Tricks</h2>
             <p style="color: black">Maximize your enjoyment of The MovieVerse with these handy tips:</p>
             <ul>
                 <li><strong>Creating Custom Watchlists:</strong> Learn how to create personalized watchlists to keep track of your favorite movies.</li>
@@ -422,7 +422,7 @@
         </section>
 
         <section id="popularActors">
-            <h2>Popular Actors</h2>
+            <h2 style="cursor: pointer">Popular Actors</h2>
             <p style="color: black">Explore films featuring the actors our users can’t get enough of this month!</p>
             <ul></ul>
             <p style="color: black; margin-top: 35px">
@@ -431,7 +431,7 @@
         </section>
 
         <section id="popularDirectors">
-            <h2>Popular Directors</h2>
+            <h2 style="cursor: pointer">Popular Directors</h2>
             <p style="color: black">Discover the visionaries behind the camera who are shaping the world of cinema!</p>
             <ul></ul>
             <p style="color: black; margin-top: 35px">
@@ -474,6 +474,36 @@
     </script>
 
     <script>
+        document.getElementById('newFeatures').addEventListener('click', function(e) {
+            e.preventDefault();
+
+            document.getElementById('newFeatures').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        document.getElementById('newReleases').addEventListener('click', function(e) {
+            e.preventDefault();
+
+            document.getElementById('newReleases').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        document.getElementById('tipsTricks').addEventListener('click', function(e) {
+            e.preventDefault();
+
+            document.getElementById('tipsTricks').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        document.getElementById('popularActors').addEventListener('click', function(e) {
+            e.preventDefault();
+
+            document.getElementById('popularActors').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        document.getElementById('popularDirectors').addEventListener('click', function(e) {
+            e.preventDefault();
+
+            document.getElementById('popularDirectors').scrollIntoView({ behavior: 'smooth' });
+        });
+
         document.addEventListener('DOMContentLoaded', function() {
             const updateDateElements = document.querySelectorAll('.updateDate');
             const today = new Date();

@@ -171,6 +171,29 @@
                 bottom: 70px;
             }
         }
+
+        .load-more-container {
+            width: 100%;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .load-more-container button {
+            margin: 10px auto;
+            background-color: #7378c5;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font: inherit;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+
+        .load-more-container button:hover {
+            background-color: #ff8623;
+        }
     </style>
 </head>
 
@@ -223,7 +246,7 @@
             </a>
         </h1>
 
-        <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
+        <div id="local-time" style="cursor: pointer; margin-left: 40px" title="Click to view more of your stats!">
             <p id="stats-label" class="clock" style="font-size: 16px;"></p>
             <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
         </div>
@@ -266,7 +289,7 @@
             </div>
             <button id="clear-search-btn" style="display: none; color: white">Clear Search Results</button>
         </div>
-        <div class="center-container1">
+        <div class="center-container1" id="center-container1">
             <main id="results" style="scroll-behavior: smooth">
                 <!-- Movies will be dynamically loaded here -->
             </main>

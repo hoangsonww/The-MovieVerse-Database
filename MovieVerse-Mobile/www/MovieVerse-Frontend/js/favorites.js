@@ -559,18 +559,35 @@ async function populateCreateModalWithFavorites() {
 }
 
 document.getElementById('create-watchlist-form').addEventListener('submit', async function(e) {
-    try {
-        showSpinner();
-        e.preventDefault();
+    e.preventDefault();
+    showSpinner();
 
-        const name = document.getElementById('new-watchlist-name').value;
-        const description = document.getElementById('new-watchlist-description').value;
-        const selectedMovies = Array.from(document.querySelectorAll('#movies-container input:checked')).map(checkbox => checkbox.value);
-        const selectedTVSeries = Array.from(document.querySelectorAll('#tvseries-container input:checked')).map(checkbox => checkbox.value);
-        const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
-        const q = query(collection(db, "watchlists"), where("userEmail", "==", currentUserEmail));
-        const querySnapshot = await getDocs(q);
-        let maxOrder = querySnapshot.docs.reduce((max, docSnapshot) => Math.max(max, docSnapshot.data().order || 0), 0);
+    const name = document.getElementById('new-watchlist-name').value.trim();
+    const description = document.getElementById('new-watchlist-description').value;
+    const selectedMovies = Array.from(document.querySelectorAll('#movies-container input:checked')).map(checkbox => checkbox.value);
+    const selectedTVSeries = Array.from(document.querySelectorAll('#tvseries-container input:checked')).map(checkbox => checkbox.value);
+    const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
+
+    let isDuplicate = false;
+    let maxOrder = 0;
+    let localWatchlists = JSON.parse(localStorage.getItem('localWatchlists')) || [];
+
+    try {
+        if (currentUserEmail) {
+            const q = query(collection(db, "watchlists"), where("userEmail", "==", currentUserEmail));
+            const querySnapshot = await getDocs(q);
+            maxOrder = querySnapshot.docs.reduce((max, docSnapshot) => Math.max(max, docSnapshot.data().order || 0), 0);
+            isDuplicate = querySnapshot.docs.some(doc => doc.data().name.toLowerCase() === name.toLowerCase());
+        }
+        else {
+            isDuplicate = localWatchlists.some(watchlist => watchlist.name.toLowerCase() === name.toLowerCase());
+        }
+
+        if (isDuplicate) {
+            alert('A watchlist with this name already exists. Please choose a different name.');
+            hideSpinner();
+            return;
+        }
 
         if (currentUserEmail) {
             const newWatchlistRef = doc(collection(db, 'watchlists'));
@@ -586,7 +603,6 @@ document.getElementById('create-watchlist-form').addEventListener('submit', asyn
             });
         }
         else {
-            const localWatchlists = JSON.parse(localStorage.getItem('localWatchlists')) || [];
             localWatchlists.push({
                 id: `local-${new Date().getTime()}`,
                 userEmail: "",
@@ -599,20 +615,10 @@ document.getElementById('create-watchlist-form').addEventListener('submit', asyn
             });
             localStorage.setItem('localWatchlists', JSON.stringify(localWatchlists));
         }
-
-        closeModal('create-watchlist-modal');
-        loadWatchLists();
-        hideSpinner();
-        window.location.reload();
     }
     catch (error) {
         if (error.code === 'resource-exhausted') {
             console.log('Firebase quota exceeded. Using localStorage for watchlists.');
-            const name = document.getElementById('new-watchlist-name').value;
-            const description = document.getElementById('new-watchlist-description').value;
-            const selectedMovies = Array.from(document.querySelectorAll('#movies-container input:checked')).map(checkbox => checkbox.value);
-            const selectedTVSeries = Array.from(document.querySelectorAll('#tvseries-container input:checked')).map(checkbox => checkbox.value);
-            const localWatchlists = JSON.parse(localStorage.getItem('localWatchlists')) || [];
             localWatchlists.push({
                 id: `local-${new Date().getTime()}`,
                 userEmail: "",
@@ -624,12 +630,17 @@ document.getElementById('create-watchlist-form').addEventListener('submit', asyn
                 createdAt: new Date().toISOString()
             });
             localStorage.setItem('localWatchlists', JSON.stringify(localWatchlists));
-            closeModal('create-watchlist-modal');
-            loadWatchLists();
-            hideSpinner();
-            window.location.reload();
+        }
+        else {
+            console.error('An error occurred while creating a watchlist:', error);
+            alert('Failed to create the watchlist due to an error.');
         }
     }
+
+    closeModal('create-watchlist-modal');
+    loadWatchLists();
+    hideSpinner();
+    window.location.reload();
 });
 
 async function getTVSeriesTitle(seriesId) {
@@ -1368,7 +1379,7 @@ async function loadWatchLists() {
         if (favorites.length > 0) {
             const favoritesDiv = document.createElement('div');
             favoritesDiv.className = 'watchlist';
-            favoritesDiv.id = 'favorites-watchlist';
+            favoritesDiv.id = 'favorite-movies';
 
             const title = document.createElement('h3');
             title.textContent = "Favorite Movies";
@@ -1395,7 +1406,7 @@ async function loadWatchLists() {
         else {
             const favoritesDiv = document.createElement('div');
             favoritesDiv.className = 'watchlist';
-            favoritesDiv.id = 'favorites-watchlist';
+            favoritesDiv.id = 'favorite-movies';
             favoritesDiv.innerHTML = '<div style="text-align: center"><h3 style="text-align: center; font-size: 24px; color: #ff8623">Favorite Movies</h3><p style="text-align: center">No favorite movies added yet.</p></div>';
             displaySection.appendChild(favoritesDiv);
         }
@@ -1403,7 +1414,7 @@ async function loadWatchLists() {
         if (favoritesTVSeries.length > 0) {
             const favoritesDiv = document.createElement('div');
             favoritesDiv.className = 'watchlist';
-            favoritesDiv.id = 'favorites-tvseries-watchlist';
+            favoritesDiv.id = 'favorite-tv-series';
 
             const title = document.createElement('h3');
             title.textContent = "Favorite TV Series";
@@ -1430,7 +1441,7 @@ async function loadWatchLists() {
         else {
             const favoritesDiv = document.createElement('div');
             favoritesDiv.className = 'watchlist';
-            favoritesDiv.id = 'favorites-tvseries-watchlist';
+            favoritesDiv.id = 'favorite-tv-series';
             favoritesDiv.innerHTML = '<div style="text-align: center"><h3 style="text-align: center; font-size: 24px; color: #ff8623">Favorite TV Series</h3><p style="text-align: center">No favorite TV series added yet.</p></div>';
             displaySection.appendChild(favoritesDiv);
         }
@@ -1464,7 +1475,7 @@ async function loadWatchLists() {
             if (favorites.length > 0) {
                 const favoritesDiv = document.createElement('div');
                 favoritesDiv.className = 'watchlist';
-                favoritesDiv.id = 'favorites-watchlist';
+                favoritesDiv.id = 'favorite-movies';
 
                 const title = document.createElement('h3');
                 title.textContent = "Favorite Movies";
@@ -1491,7 +1502,7 @@ async function loadWatchLists() {
             else {
                 const favoritesDiv = document.createElement('div');
                 favoritesDiv.className = 'watchlist';
-                favoritesDiv.id = 'favorites-watchlist';
+                favoritesDiv.id = 'favorite-movies';
                 favoritesDiv.innerHTML = '<div style="text-align: center"><h3 style="text-align: center; font-size: 24px; color: #ff8623">Favorite Movies</h3><p style="text-align: center">No favorite movies added yet.</p></div>';
                 displaySection.appendChild(favoritesDiv);
             }
@@ -1499,7 +1510,7 @@ async function loadWatchLists() {
             if (favoritesTVSeries.length > 0) {
                 const favoritesDiv = document.createElement('div');
                 favoritesDiv.className = 'watchlist';
-                favoritesDiv.id = 'favorites-tvseries-watchlist';
+                favoritesDiv.id = 'favorite-tv-series';
 
                 const title = document.createElement('h3');
                 title.textContent = "Favorite TV Series";
@@ -1521,6 +1532,14 @@ async function loadWatchLists() {
                 }
 
                 favoritesDiv.appendChild(moviesContainer);
+                displaySection.appendChild(favoritesDiv);
+                hideSpinner();
+            }
+            else {
+                const favoritesDiv = document.createElement('div');
+                favoritesDiv.className = 'watchlist';
+                favoritesDiv.id = 'favorite-tv-series';
+                favoritesDiv.innerHTML = '<div style="text-align: center"><h3 style="text-align: center; font-size: 24px; color: #ff8623">Favorite TV Series</h3><p style="text-align: center">No favorite TV series added yet.</p></div>';
                 displaySection.appendChild(favoritesDiv);
                 hideSpinner();
             }

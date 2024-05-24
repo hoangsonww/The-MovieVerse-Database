@@ -213,7 +213,7 @@
                 The Mo<span class="highlight" id="highlight">vieV</span>erse
             </a>
         </h1>
-        <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
+        <div id="local-time" style="cursor: pointer; margin-left: 40px" title="Click to view more of your stats!">
             <p id="stats-label" class="clock" style="font-size: 16px;"></p>
             <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
         </div>
@@ -255,9 +255,9 @@
             <button data-category="person" onclick="showResults('person')">People</button>
         </div>
 
-        <button id="toggle-filters-btn">Filter Results</button>
+        <button id="toggle-filters-btn">Filter & Sort Results</button>
 
-        <!-- Filters for Movies and TV Series -->
+        <!-- Filters for Movies -->
         <div id="movie-tv-filters" style="display: none;">
             <p style="font-weight: bold">Filters Search Results</p>
             <label for="genre-filter">Genre:</label>
@@ -279,6 +279,19 @@
             <span id="rating-value" style="color: white; font: inherit"></span>
 
             <button id="reset-filters">Reset Filters</button>
+
+            <div style="border-top: 1px solid white; margin-top: 20px; padding-top: 10px"></div>
+
+            <label for="sort-movie"><strong>Sort by:</strong></label>
+            <select id="sort-movie" style="max-width: 300px">
+                <option value="">Default</option>
+                <option value="release_date.asc">Sort by release date (oldest to latest)</option>
+                <option value="release_date.desc">Sort by release date (latest to oldest)</option>
+                <option value="popularity.desc">Sort by popularity (highest to lowest)</option>
+                <option value="popularity.asc">Sort by popularity (lowest to highest)</option>
+                <option value="vote_average.desc">Sort by vote average (highest to lowest)</option>
+                <option value="vote_average.asc">Sort by vote average (lowest to highest)</option>
+            </select>
         </div>
 
         <!-- Filters for TV Series -->
@@ -303,6 +316,19 @@
             <span id="rating-tv-value" style="color: white; font: inherit"></span>
 
             <button id="reset-filters">Reset Filters</button>
+
+            <div style="border-top: 1px solid white; margin-top: 20px; padding-top: 10px"></div>
+
+            <label for="sort-tv"><strong>Sort by:</strong></label>
+            <select id="sort-tv" style="max-width: 300px">
+                <option value="">Default</option>
+                <option value="first_air_date.asc">Sort by release date (oldest to latest)</option>
+                <option value="first_air_date.desc">Sort by release date (latest to oldest)</option>
+                <option value="popularity.desc">Sort by popularity (highest to lowest)</option>
+                <option value="popularity.asc">Sort by popularity (lowest to highest)</option>
+                <option value="vote_average.desc">Sort by vote average (highest to lowest)</option>
+                <option value="vote_average.asc">Sort by vote average (lowest to highest)</option>
+            </select>
         </div>
 
         <!-- Filters for People -->
@@ -328,6 +354,15 @@
 
             <span id="popularity-value" style="color: white; font: inherit"></span>
             <button id="reset-filters">Reset Filters</button>
+
+            <div style="border-top: 1px solid white; margin-top: 20px; padding-top: 10px"></div>
+
+            <label for="sort-people"><strong>Sort by:</strong></label>
+            <select id="sort-people" style="max-width: 300px">
+                <option value="">Default</option>
+                <option value="popularity.asc">Sort by popularity (lowest to highest)</option>
+                <option value="popularity.desc">Sort by popularity (highest to lowest)</option>
+            </select>
         </div>
 
         <div id="movie-match-container1" class="movie-match-container1">

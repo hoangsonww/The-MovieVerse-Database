@@ -192,6 +192,10 @@
             background-color: #f4f4f4 !important;
         }
 
+        #homepage-header {
+            margin-top: -10px;
+        }
+
         @media (max-width: 767px) {
             #google_translate_element {
                 bottom: 120px;
@@ -199,6 +203,10 @@
 
             #translate_control {
                 bottom: 70px;
+            }
+
+            #homepage-header {
+                margin-top: 10px;
             }
         }
     </style>
@@ -246,12 +254,17 @@
             }, { passive: true });
         })
     </script>
-    <header style="margin-top: 10px !important;">
-        <h1 id="my-heading" style="margin-bottom: -10px" class="notranslate">
+    <header id="homepage-header">
+        <h1 id="my-heading" style="margin-bottom: -24px" class="notranslate">
             <a id="indexLink" href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer">
                 The Mo<span class="highlight" id="highlight">vieV</span>erse
             </a>
         </h1>
+
+        <div id="local-time" style="cursor: pointer; margin-left: 40px" title="Click to view more of your stats!">
+            <p id="stats-label" class="clock" style="font-size: 16px;"></p>
+            <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
+        </div>
 
         <button class="back-btn notranslate" onclick="window.location.href='../../index.html'">Home</button>
         <button class="about notranslate" onclick="window.location.href='about.html'">About</button>
@@ -268,7 +281,7 @@
             <i class="fas fa-user" id="profileIcon"></i>
         </button>
 
-        <form id="form1">
+        <form id="form1" style="margin-top: 20px">
             <div class="search-container">
                 <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!" />
                 <button type="button" id="button-search" onclick="handleSearch()">Search</button>

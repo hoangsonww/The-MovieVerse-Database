@@ -962,6 +962,88 @@ main {
     background-color: #ff8623;
 }
 
+.side-nav {
+    position: fixed;
+    left: -250px;
+    top: 0;
+    width: 250px;
+    height: 100%;
+    background-color: #373b69;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.5);
+    overflow-y: auto;
+    transition: left 0.39s;
+    z-index: 1000;
+}
+
+.side-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.side-nav ul li {
+    padding: 15px 20px;
+    border-radius: 8px;
+    text-align: left;
+}
+
+.side-nav ul li a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding-left: 5px;
+}
+
+.side-nav ul li a:hover {
+    background-color: #ff8623;
+    border-radius: 8px;
+}
+
+.nav-toggle {
+    background-color: #7378c5;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 1.5rem;
+    top: 5px;
+    left: 15px;
+    border-radius: 8px;
+    padding: 3.5px;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    display: flex;
+    position: fixed;
+    justify-content: center;
+    align-items: center;
+    padding-left: 4.25px;
+}
+
+.nav-toggle i {
+    line-height: inherit;
+}
+
+.nav-toggle:hover {
+    background-color: #ff8623;
+    transition: 0.3s ease-in;
+}
+
+#button-remove {
+    color: #171616;
+    background-color: #7378c5;
+    font: inherit;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+#button-remove:hover {
+    background-color: #ff8623;
+    transition: 0.1s linear;
+}
+
 @media (max-width: 900px) {
     #profileBtn {
         display: none;

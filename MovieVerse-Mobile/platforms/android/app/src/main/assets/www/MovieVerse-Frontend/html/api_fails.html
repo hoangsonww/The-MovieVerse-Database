@@ -483,7 +483,7 @@
             </a>
         </h1>
 
-        <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
+        <div id="local-time" style="cursor: pointer; margin-left: 40px" title="Click to view more of your stats!">
             <p id="stats-label" class="clock" style="font-size: 16px;"></p>
             <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
         </div>
@@ -560,19 +560,6 @@
             window.location.href = 'MovieVerse-Frontend/html/movie-details.html';
         }
 
-        function updateClock() {
-            var now = new Date();
-            var hours = now.getHours();
-            var minutes = now.getMinutes();
-            hours = hours < 10 ? '0' + hours : hours;
-            minutes = minutes < 10 ? '0' + minutes : minutes;
-            var timeString = hours + ':' + minutes;
-            document.getElementById('clock').innerHTML = timeString;
-        }
-
-        setInterval(updateClock, 1000);
-        window.onload = updateClock;
-
         document.getElementById('settings-btn').addEventListener('click', () => {
             window.location.href = 'settings.html';
         });
@@ -581,7 +568,7 @@
             applySettings();
 
             function applySettings() {
-                const defaultBg = '../../images/universe-1.png';
+                const defaultBg = '../../images/universe-1.webp';
                 const savedBg = localStorage.getItem('backgroundImage') || defaultBg;
                 const savedTextColor = localStorage.getItem('textColor');
                 const savedFontSize = localStorage.getItem('fontSize');
