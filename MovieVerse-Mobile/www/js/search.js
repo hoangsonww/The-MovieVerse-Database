@@ -34,12 +34,66 @@ document.addEventListener('DOMContentLoaded', () => {
     attachArrowKeyNavigation();
     fetchGenreMap();
     fetchTvGenreMap();
+    fetchLanguages();
+    fetchTvLanguages();
 
     document.getElementById('form1').addEventListener('submit', function(event) {
         event.preventDefault();
         handleSearch();
     });
 });
+
+async function fetchTvLanguages() {
+    const url = `https://${getMovieVerseData()}/3/configuration/languages?${generateMovieNames()}${getMovieCode()}`;
+
+    try {
+        const response = await fetch(url);
+        let languages = await response.json();
+        languages = languages.sort((a, b) => a.english_name.localeCompare(b.english_name));
+        populateTvLanguageFilter(languages);
+    }
+    catch (error) {
+        console.log('Error fetching languages:', error);
+    }
+}
+
+function populateTvLanguageFilter(languages) {
+    const languageFilter = document.getElementById('language-tv-filter');
+    languageFilter.innerHTML = '<option value="">Select Language</option>';
+
+    languages.forEach(language => {
+        const option = document.createElement('option');
+        option.value = language.iso_639_1;
+        option.textContent = language.english_name;
+        languageFilter.appendChild(option);
+    });
+}
+
+async function fetchLanguages() {
+    const url = `https://${getMovieVerseData()}/3/configuration/languages?${generateMovieNames()}${getMovieCode()}`;
+
+    try {
+        const response = await fetch(url);
+        let languages = await response.json();
+        languages = languages.sort((a, b) => a.english_name.localeCompare(b.english_name));
+        populateLanguageFilter(languages);
+    }
+    catch (error) {
+        console.log('Error fetching languages:', error);
+    }
+}
+
+function populateLanguageFilter(languages) {
+    const languageFilter = document.getElementById('language-filter');
+    languageFilter.innerHTML = '<option value="">Select Language</option>';
+
+    languages.forEach(language => {
+        const option = document.createElement('option');
+        option.value = language.iso_639_1;
+        option.textContent = language.english_name;
+        languageFilter.appendChild(option);
+    });
+}
 
 async function fetchGenreMap() {
     const code = getMovieCode();
@@ -123,7 +177,7 @@ async function rotateUserStats() {
         {
             label: "Favorite Movies",
             getValue: () => {
-                const favoritedMovies = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
+                const favoritedMovies = JSON.parse(localStorage.getItem('moviesFavorited')) || [];
                 return favoritedMovies.length;
             }
         },
@@ -131,11 +185,36 @@ async function rotateUserStats() {
             label: "Favorite Genre",
             getValue: () => {
                 const mostCommonGenreCode = getMostCommonGenre();
-                const genreArray = JSON.parse(localStorage.getItem('genreMap')) || [];
-                const genreObject = genreArray.reduce((acc, genre) => {
-                    acc[genre.id] = genre.name;
-                    return acc;
-                }, {});
+                const genreMapString = localStorage.getItem('genreMap');
+                if (!genreMapString) {
+                    console.log('No genre map found in localStorage.');
+                    return 'Not Available';
+                }
+
+                let genreMap;
+                try {
+                    genreMap = JSON.parse(genreMapString);
+                }
+                catch (e) {
+                    console.log('Error parsing genre map:', e);
+                    return 'Not Available';
+                }
+
+                let genreObject;
+                if (Array.isArray(genreMap)) {
+                    genreObject = genreMap.reduce((acc, genre) => {
+                        acc[genre.id] = genre.name;
+                        return acc;
+                    }, {});
+                }
+                else if (typeof genreMap === 'object' && genreMap !== null) {
+                    genreObject = genreMap;
+                }
+                else {
+                    console.log('genreMap is neither an array nor a proper object:', genreMap);
+                    return 'Not Available';
+                }
+
                 return genreObject[mostCommonGenreCode] || 'Not Available';
             }
         },
@@ -181,11 +260,19 @@ async function rotateUserStats() {
 
 function updateMovieVisitCount(movieId, movieTitle) {
     let movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
+    let uniqueMoviesViewed = JSON.parse(localStorage.getItem('uniqueMoviesViewed')) || [];
+
     if (!movieVisits[movieId]) {
         movieVisits[movieId] = { count: 0, title: movieTitle };
     }
     movieVisits[movieId].count += 1;
+
+    if (!uniqueMoviesViewed.includes(movieId)) {
+        uniqueMoviesViewed.push(movieId);
+    }
+
     localStorage.setItem('movieVisits', JSON.stringify(movieVisits));
+    localStorage.setItem('uniqueMoviesViewed', JSON.stringify(uniqueMoviesViewed));
 }
 
 function getMostVisitedMovie() {
@@ -279,12 +366,15 @@ function attachEventListeners() {
     const genreMovieFilter = document.getElementById('genre-filter');
     const yearMovieFilter = document.getElementById('year-filter');
     const ratingMovieFilter = document.getElementById('rating-filter');
+    const languageFilter = document.getElementById('language-filter');
 
     const genreTvFilter = document.getElementById('genre-tv-filter');
     const yearTvFilter = document.getElementById('year-tv-filter');
     const ratingTvFilter = document.getElementById('rating-tv-filter');
+    const languageTvFilter = document.getElementById('language-tv-filter');
 
     const professionFilter = document.getElementById('profession-filter');
+    const genderFilter = document.getElementById('gender-filter');
     const popularityFilter = document.getElementById('popularity-filter');
 
     const ratingValueSpan = document.getElementById('rating-value');
@@ -314,7 +404,7 @@ function attachEventListeners() {
         movieFilters.style.display = 'none';
         tvFilters.style.display = 'none';
         peopleFilters.style.display = 'none';
-        toggleFiltersBtn.textContent = 'Filter Results';
+        toggleFiltersBtn.textContent = 'Filter & Sort Results';
     });
 
     tvBtn.addEventListener('click', () => {
@@ -324,7 +414,7 @@ function attachEventListeners() {
         movieFilters.style.display = 'none';
         tvFilters.style.display = 'none';
         peopleFilters.style.display = 'none';
-        toggleFiltersBtn.textContent = 'Filter Results';
+        toggleFiltersBtn.textContent = 'Filter & Sort Results';
     });
 
     peopleBtn.addEventListener('click', () => {
@@ -334,7 +424,7 @@ function attachEventListeners() {
         movieFilters.style.display = 'none';
         tvFilters.style.display = 'none';
         peopleFilters.style.display = 'none';
-        toggleFiltersBtn.textContent = 'Filter Results';
+        toggleFiltersBtn.textContent = 'Filter & Sort Results';
     });
 
     toggleFiltersBtn.addEventListener('click', () => {
@@ -355,6 +445,7 @@ function attachEventListeners() {
         ratingValueSpan.textContent = `Rating: ${ratingMovieFilter.value} and above`;
         showResults('movie');
     });
+    languageFilter.addEventListener('change', () => showResults('movie'));
 
     genreTvFilter.addEventListener('change', () => showResults('tv'));
     yearTvFilter.addEventListener('change', () => showResults('tv'));
@@ -362,13 +453,14 @@ function attachEventListeners() {
         ratingTvValueSpan.textContent = `Rating: ${ratingTvFilter.value} and above`;
         showResults('tv');
     });
+    languageTvFilter.addEventListener('change', () => showResults('tv'));
 
+    genderFilter.addEventListener('change', () => showResults('person'));
     professionFilter.addEventListener('change', () => showResults('person'));
     popularityFilter.addEventListener('input', () => {
         popularityValueSpan.textContent = `Popularity: ${popularityFilter.value} and above`;
         showResults('person');
     });
-
 
     const resetMovieFiltersBtn = movieFilters.querySelector('button[id="reset-filters"]');
     const resetTvFiltersBtn = tvFilters.querySelector('button[id="reset-filters"]');
@@ -378,6 +470,7 @@ function attachEventListeners() {
         genreMovieFilter.selectedIndex = 0;
         yearMovieFilter.value = '';
         ratingMovieFilter.value = 5;
+        languageFilter.selectedIndex = 0;
         setFilterDisplayValues();
         showResults('movie');
     });
@@ -386,12 +479,14 @@ function attachEventListeners() {
         genreTvFilter.selectedIndex = 0;
         yearTvFilter.value = '';
         ratingTvFilter.value = 5;
+        languageTvFilter.selectedIndex = 0;
         setFilterDisplayValues();
         showResults('tv');
     });
 
     resetPeopleFiltersBtn.addEventListener('click', () => {
         professionFilter.selectedIndex = 0;
+        genderFilter.selectedIndex = 0;
         popularityFilter.value = 20;
         setFilterDisplayValues();
         showResults('person');
@@ -434,9 +529,25 @@ document.addEventListener('DOMContentLoaded', function() {
             toggleFiltersBtn.textContent = 'Close Filters';
         }
         else {
-            toggleFiltersBtn.textContent = 'Filter Results';
+            toggleFiltersBtn.textContent = 'Filter & Sort Results';
         }
     });
+
+    document.getElementById('sort-movie').addEventListener('change', () => {
+        movieSortChanged = true;
+        showResults('movie');
+    });
+
+    document.getElementById('sort-tv').addEventListener('change', () => {
+        tvSortChanged = true;
+        showResults('tv');
+    });
+
+    document.getElementById('sort-people').addEventListener('change', () => {
+        peopleSortChanged = true;
+        showResults('person');
+    });
+
 
     document.querySelectorAll('.category-buttons button').forEach(button => {
         button.addEventListener('click', function() {
@@ -444,6 +555,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+let movieSortChanged = false;
+let tvSortChanged = false;
+let peopleSortChanged = false;
 
 function attachArrowKeyNavigation() {
     const categories = ['movie', 'tv', 'person'];
@@ -485,6 +600,23 @@ function getMovieVerseData(input) {
     return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
 }
 
+function sortResults(results, sortBy) {
+    if (!sortBy) return results;
+
+    const [property, order] = sortBy.split('.');
+    results.sort((a, b) => {
+        let propA = (property === 'release_date' || property === 'first_air_date') ? new Date(a[property]) : a[property];
+        let propB = (property === 'release_date' || property === 'first_air_date') ? new Date(b[property]) : b[property];
+
+        if (order === 'asc') {
+            return propA > propB ? 1 : propA < propB ? -1 : 0;
+        } else {
+            return propA < propB ? 1 : propA > propB ? -1 : 0;
+        }
+    });
+    return results;
+}
+
 async function showResults(category) {
     showSpinner();
     localStorage.setItem('selectedCategory', category);
@@ -496,6 +628,17 @@ async function showResults(category) {
     const code = getMovieCode();
     const baseApiUrl = `https://${getMovieVerseData()}/3`;
     let url = `${baseApiUrl}/search/${category}?${generateMovieNames()}${code}&query=${encodeURIComponent(searchQuery)}`;
+    let sortValue = '';
+
+    if (category === 'movie') {
+        sortValue = document.getElementById('sort-movie').value;
+    }
+    else if (category === 'tv') {
+        sortValue = document.getElementById('sort-tv').value;
+    }
+    else if (category === 'person') {
+        sortValue = document.getElementById('sort-people').value;
+    }
 
     try {
         const response = await fetch(url);
@@ -505,21 +648,30 @@ async function showResults(category) {
             const genre = document.getElementById('genre-filter').value;
             const year = category === 'movie' ? document.getElementById('year-filter').value : document.getElementById('year-filter').value;
             const rating = parseFloat(document.getElementById('rating-filter').value);
+            const language = document.getElementById('language-filter').value;
 
             data.results = data.results.filter(item => {
                 const itemYear = category === 'movie' ? item.release_date?.substring(0, 4) : item.first_air_date?.substring(0, 4);
                 const itemRating = item.vote_average;
                 const itemGenres = item.genre_ids;
+                const itemLanguage = item.original_language;
 
                 return (!genre || itemGenres.includes(parseInt(genre))) &&
                     (!year || itemYear === year) &&
-                    (!rating || itemRating >= rating);
+                    (!rating || itemRating >= rating) &&
+                    (!language || itemLanguage === language);
             });
         }
         else if (category === 'person') {
             const profession = document.getElementById('profession-filter').value;
+            const gender = document.getElementById('gender-filter').value;
+
             if (profession) {
                 data.results = data.results.filter(person => person.known_for_department && person.known_for_department.toLowerCase() === profession.toLowerCase());
+            }
+
+            if (gender) {
+                data.results = data.results.filter(person => person.gender.toString() === gender);
             }
 
             const popularity = parseFloat(document.getElementById('popularity-filter').value);
@@ -533,16 +685,25 @@ async function showResults(category) {
             const genre = document.getElementById('genre-tv-filter').value;
             const year = document.getElementById('year-tv-filter').value;
             const rating = parseFloat(document.getElementById('rating-tv-filter').value);
+            const language = document.getElementById('language-tv-filter').value;
 
             data.results = data.results.filter(item => {
                 const itemYear = item.first_air_date?.substring(0, 4);
                 const itemRating = item.vote_average;
                 const itemGenres = item.genre_ids;
+                const itemLanguage = item.original_language;
 
                 return (!genre || itemGenres.includes(parseInt(genre))) &&
                     (!year || itemYear === year) &&
-                    (!rating || itemRating >= rating);
+                    (!rating || itemRating >= rating) &&
+                    (!language || itemLanguage === language);
             });
+        }
+
+        if ((category === 'movie' && movieSortChanged) ||
+            (category === 'tv' && tvSortChanged) ||
+            (category === 'person' && peopleSortChanged)) {
+            data.results = sortResults(data.results, sortValue);
         }
 
         displayResults(data.results, category, searchQuery);
@@ -619,9 +780,20 @@ function showMovies(items, container, category) {
         const isMovie = item.title && hasVoteAverage;
         const isTvSeries = item.name && hasVoteAverage && category === 'tv';
 
-        const title = item.title || item.name || "N/A";
-        const overview = item.overview || 'No overview available.';
+        let title = item.title || item.name || "N/A";
+        const words = title.split(' ');
+
+        if (words.length >= 9) {
+            words[8] = '...';
+            title = words.slice(0, 9).join(' ');
+        }
+
+        let overview = item.overview || 'No overview available.';
         const biography = item.biography || 'Click to view the details of this person.';
+
+        if (overview === '') {
+            overview = 'No overview available.';
+        }
 
         const { id, profile_path, poster_path } = item;
         const imagePath = profile_path || poster_path ? IMGPATH + (profile_path || poster_path) : null;
@@ -650,10 +822,14 @@ function showMovies(items, container, category) {
         movieContentHTML += `</div>`;
 
         if (isPerson) {
-            movieContentHTML += `<div class="overview" style="cursor: pointer;"><h4>Details: </h4>${biography}</div>`;
+            const roleOverview = item.known_for_department === 'Directing' ? 'Director Overview' : 'Actor Overview';
+            movieContentHTML += `<div class="overview" style="cursor: pointer;"><h4>${roleOverview}: </h4>${biography}</div>`;
+        }
+        else if (isTvSeries) {
+            movieContentHTML += `<div class="overview" style="cursor: pointer;"><h4>TV Series Overview: </h4>${overview}</div>`;
         }
         else {
-            movieContentHTML += `<div class="overview" style="cursor: pointer;"><h4>Overview: </h4>${overview}</div>`;
+            movieContentHTML += `<div class="overview" style="cursor: pointer;"><h4>Movie Overview: </h4>${overview}</div>`;
         }
 
         movieEl.innerHTML = movieContentHTML;
@@ -665,10 +841,42 @@ function showMovies(items, container, category) {
                     const response = await fetch(personDetailsUrl);
                     const personDetails = await response.json();
                     if (personDetails.known_for_department === 'Directing') {
+                        const directorVisits = JSON.parse(localStorage.getItem('directorVisits')) || {};
+                        const uniqueDirectorsViewed = JSON.parse(localStorage.getItem('uniqueDirectorsViewed')) || [];
+
+                        if (!uniqueDirectorsViewed.includes(id)) {
+                            uniqueDirectorsViewed.push(id);
+                            localStorage.setItem('uniqueDirectorsViewed', JSON.stringify(uniqueDirectorsViewed));
+                        }
+
+                        if (directorVisits[id]) {
+                            directorVisits[id].count++;
+                        }
+                        else {
+                            directorVisits[id] = { count: 1, name: personDetails.name || 'Unknown' };
+                        }
+
+                        localStorage.setItem('directorVisits', JSON.stringify(directorVisits));
                         localStorage.setItem('selectedDirectorId', id);
                         window.location.href = 'director-details.html?' + id;
                     }
                     else {
+                        const actorVisits = JSON.parse(localStorage.getItem('actorVisits')) || {};
+                        const uniqueActorsViewed = JSON.parse(localStorage.getItem('uniqueActorsViewed')) || [];
+
+                        if (!uniqueActorsViewed.includes(id)) {
+                            uniqueActorsViewed.push(id);
+                            localStorage.setItem('uniqueActorsViewed', JSON.stringify(uniqueActorsViewed));
+                        }
+
+                        if (actorVisits[id]) {
+                            actorVisits[id].count++;
+                        }
+                        else {
+                            actorVisits[id] = { count: 1, name: personDetails.name || 'Unknown' };
+                        }
+
+                        localStorage.setItem('actorVisits', JSON.stringify(actorVisits));
                         localStorage.setItem('selectedActorId', id);
                         window.location.href = 'actor-details.html?' + id;
                     }
@@ -693,43 +901,41 @@ function showMovies(items, container, category) {
     });
 }
 
-function handleSignInOut() {
-    const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
-
-    if (isSignedIn) {
-        localStorage.setItem('isSignedIn', JSON.stringify(false));
-        alert('You have been signed out.');
-    }
-    else {
-        window.location.href = 'sign-in.html';
-        return;
-    }
-
-    updateSignInButtonState();
+function handleDirectorClick(directorId, directorName) {
+    updateUniqueDirectorsViewed(directorId);
+    updateDirectorVisitCount(directorId, directorName);
+    localStorage.setItem('selectedDirectorId', directorId);
+    document.title = `${directorName} - Director's Details`;
+    window.location.href = 'director-details.html';
 }
 
-function updateSignInButtonState() {
-    const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
-    const signInText = document.getElementById('signInOutText');
-    const signInIcon = document.getElementById('signInIcon');
-    const signOutIcon = document.getElementById('signOutIcon');
-
-    if (isSignedIn) {
-        signInText.textContent = 'Sign Out';
-        signInIcon.style.display = 'none';
-        signOutIcon.style.display = 'inline-block';
-    }
-    else {
-        signInText.textContent = 'Sign In';
-        signInIcon.style.display = 'inline-block';
-        signOutIcon.style.display = 'none';
+function updateUniqueDirectorsViewed(directorId) {
+    let viewedDirectors = JSON.parse(localStorage.getItem('uniqueDirectorsViewed')) || [];
+    if (!viewedDirectors.includes(directorId)) {
+        viewedDirectors.push(directorId);
+        localStorage.setItem('uniqueDirectorsViewed', JSON.stringify(viewedDirectors));
     }
 }
 
-document.addEventListener("DOMContentLoaded", function() {
-    updateSignInButtonState();
-    document.getElementById('googleSignInBtn').addEventListener('click', handleSignInOut);
-});
+function updateActorVisitCount(actorId, actorName) {
+    let actorVisits = JSON.parse(localStorage.getItem('actorVisits')) || {};
+    if (!actorVisits[actorId]) {
+        actorVisits[actorId] = { count: 0, name: actorName };
+    }
+
+    actorVisits[actorId].count += 1;
+    localStorage.setItem('actorVisits', JSON.stringify(actorVisits));
+}
+
+function updateDirectorVisitCount(directorId, directorName) {
+    let directorVisits = JSON.parse(localStorage.getItem('directorVisits')) || {};
+    if (!directorVisits[directorId]) {
+        directorVisits[directorId] = { count: 0, name: directorName };
+    }
+
+    directorVisits[directorId].count += 1;
+    localStorage.setItem('directorVisits', JSON.stringify(directorVisits));
+}
 
 function getClassByRate(vote) {
     if (vote >= 8) {

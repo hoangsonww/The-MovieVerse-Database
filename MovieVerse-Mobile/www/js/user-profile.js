@@ -1,6 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getFirestore, doc, getDoc, setDoc, query, collection, where, getDocs, serverTimestamp, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
+import { getAverageMovieRating } from './ratings-module.js';
+import { getTriviaStats } from './triviaModule.js';
 
 function showSpinner() {
     document.getElementById('myModal').classList.add('modal-visible');
@@ -57,6 +58,33 @@ document.addEventListener('DOMContentLoaded', function() {
     setupSearchListeners();
 });
 
+function updateProgressCircles(movieRating, triviaScore) {
+    const movieRatingPercent = movieRating;
+    const triviaScorePercent = triviaScore;
+
+    setProgress(document.getElementById('avgMovieRatingCircle'), document.getElementById('avgMovieRatingText'), movieRatingPercent);
+    setProgress(document.getElementById('avgTriviaScoreCircle'), document.getElementById('avgTriviaScoreText'), triviaScorePercent);
+}
+
+function setProgress(circle, text, percent) {
+    const radius = circle.r.baseVal.value;
+    const circumference = radius * 2 * Math.PI;
+
+    circle.style.transition = 'none';
+    circle.style.strokeDasharray = `${circumference} ${circumference}`;
+    circle.style.strokeDashoffset = circumference;
+    circle.getBoundingClientRect();
+
+    setTimeout(() => {
+        const offset = circumference - (percent / 100) * circumference;
+        circle.style.transition = 'stroke-dashoffset 0.6s ease-out, stroke 0.6s ease';
+        circle.style.strokeDashoffset = offset;
+        circle.style.setProperty('--progress-color', percent > 50 ? '#4CAF50' : '#2196F3');
+        text.textContent = `${Math.round(percent)}%`;
+        text.style.opacity = 1;
+    }, 10);
+}
+
 function handleProfileDisplay() {
     const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
     const userEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
@@ -104,6 +132,7 @@ function setupSearchListeners() {
 
         searchUserInput.addEventListener('input', () => {
             const searchText = searchUserInput.value.trim();
+
             if (searchText) {
                 performSearch(searchText);
             }
@@ -126,19 +155,20 @@ function setupSearchListeners() {
 }
 
 async function performSearch(searchText) {
-    try {
-        const searchUserResults = document.getElementById('searchUserResults');
-        showSpinner();
+    const searchUserResults = document.getElementById('searchUserResults');
+    const db = getFirestore();
+    showSpinner();
 
-        const userQuery = query(collection(db, 'profiles'), where('username', '>=', searchText));
+    try {
+        const userQuery = query(collection(db, 'profiles'), where('username', '>=', searchText), where('username', '<=', searchText + '\uf8ff'));
         const querySnapshot = await getDocs(userQuery);
 
         searchUserResults.innerHTML = '';
-
         if (querySnapshot.empty) {
             searchUserResults.innerHTML = `<div style="text-align: center; font-weight: bold">No User with Username "${searchText}" found</div>`;
             searchUserResults.style.display = 'block';
-        } else {
+        }
+        else {
             searchUserResults.style.display = 'block';
             querySnapshot.forEach((doc) => {
                 const user = doc.data();
@@ -156,27 +186,75 @@ async function performSearch(searchText) {
                 const textDiv = document.createElement('div');
                 textDiv.style.width = '67%';
                 textDiv.style.textAlign = 'left';
-                textDiv.innerHTML = `<strong style="text-align: left">${user.username}</strong><p style="text-align: left; margin-top: 5px">${user.bio || ''}</p>`;
+                textDiv.innerHTML = `<strong style="font-size: 16px">${user.username}</strong><p style="margin-top: 5px; text-align: left; font-size: 16px">Bio: ${user.bio || 'Not Set'}</p>`;
                 userDiv.appendChild(textDiv);
 
                 searchUserResults.appendChild(userDiv);
             });
         }
-
         hideSpinner();
     }
     catch (error) {
-        console.error("Error fetching user list: ", error);
-        if (error.code === 'resource-exhausted') {
-            const noUserSelected = document.getElementById('search-users-container');
-            if (noUserSelected) {
-                noUserSelected.innerHTML = "Sorry, our database is currently overloaded. Please try reloading once more, and if that still doesn't work, please try again in a couple hours. For full transparency, we are currently using a database that has a limited number of reads and writes per day due to lack of funding. Thank you for your patience as we work on scaling our services. At the mean time, feel free to use other MovieVerse features!";
-                noUserSelected.style.height = '350px';
-            }
-            hideSpinner();
-        }
+        console.error("Error during search: ", error);
+        searchUserResults.innerHTML = `<div style="text-align: center; font-weight: bold">Error in searching: ${error.message}</div>`;
+        searchUserResults.style.display = 'block';
+        hideSpinner();
     }
 }
+
+document.getElementById('container1').addEventListener('click', async () => {
+    const userEmail = localStorage.getItem('currentlyViewingProfile');
+
+    if (!userEmail) {
+        console.error('No user email found');
+        return;
+    }
+
+    try {
+        const rating = await getAverageMovieRating(userEmail);
+        const convertRatingToPercent = (rating / 5) * 100;
+        const averageRating = convertRatingToPercent.toFixed(1);
+
+        const triviaStats = await getTriviaStats(userEmail);
+
+        let averageTriviaScore = 0;
+        if (triviaStats.totalAttempted > 0) {
+            averageTriviaScore = (triviaStats.totalCorrect / triviaStats.totalAttempted) * 100;
+        }
+
+        updateProgressCircles(averageRating, averageTriviaScore, 'container1');
+    }
+    catch (error) {
+        console.error('Error updating progress circles:', error);
+    }
+});
+
+document.getElementById('container2').addEventListener('click', async () => {
+    const userEmail = localStorage.getItem('currentlyViewingProfile');
+
+    if (!userEmail) {
+        console.error('No user email found');
+        return;
+    }
+
+    try {
+        const rating = await getAverageMovieRating(userEmail);
+        const convertRatingToPercent = (rating / 5) * 100;
+        const averageRating = convertRatingToPercent.toFixed(1);
+
+        const triviaStats = await getTriviaStats(userEmail);
+
+        let averageTriviaScore = 0;
+        if (triviaStats.totalAttempted > 0) {
+            averageTriviaScore = (triviaStats.totalCorrect / triviaStats.totalAttempted) * 100;
+        }
+
+        updateProgressCircles(averageRating, averageTriviaScore, 'container2');
+    }
+    catch (error) {
+        console.error('Error updating progress circles:', error);
+    }
+});
 
 async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMovieVerseUser')) {
     try {
@@ -199,7 +277,8 @@ async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMo
             profileImage.removeAttribute('onclick');
             profileImage.style.cursor = 'default';
             profileImage.title = 'Sign in to change profile image';
-        } else {
+        }
+        else {
             changeProfileImageBtn.style.display = '';
             editProfileBtn.style.display = '';
             profileImage.setAttribute('onclick', 'document.getElementById("imageUpload").click()');
@@ -226,7 +305,7 @@ async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMo
             const followersRef = doc(db, 'profiles', userEmail, 'followers', currentUserEmail);
 
             const followSnap = await getDoc(followingRef);
-            const isFollowing = followSnap.exists();
+            let isFollowing = followSnap.exists();
 
             followUnfollowBtn.textContent = isFollowing ? 'Unfollow' : 'Follow';
             followUnfollowBtn.style.display = 'block';
@@ -236,16 +315,37 @@ async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMo
                     await deleteDoc(followingRef);
                     await deleteDoc(followersRef);
                     followUnfollowBtn.textContent = 'Follow';
-                } else {
+                    isFollowing = false;
+                    await displayUserList('followers', userEmail);
+                }
+                else {
                     const timestamp = serverTimestamp();
                     await setDoc(followingRef, {timestamp: timestamp});
                     await setDoc(followersRef, {timestamp: timestamp});
                     followUnfollowBtn.textContent = 'Unfollow';
+                    isFollowing = true;
+                    await displayUserList('followers', userEmail);
                 }
             };
-        } else {
+        }
+        else {
             followUnfollowBtn.style.display = 'none';
         }
+
+        const rating = await getAverageMovieRating(userEmail);
+        const convertRatingToPercent = (rating / 5) * 100;
+        const averageRating = convertRatingToPercent.toFixed(1);
+
+        const triviaStats = await getTriviaStats(userEmail);
+
+        let averageTriviaScore = 0;
+        if (triviaStats.totalAttempted > 0) {
+            averageTriviaScore = (triviaStats.totalCorrect / triviaStats.totalAttempted) * 100;
+        }
+
+        localStorage.setItem('currentlyViewingProfile', userEmail);
+
+        updateProgressCircles(averageRating, averageTriviaScore);
 
         try {
             const docSnap = await getDoc(docRef);
@@ -296,7 +396,37 @@ async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMo
                 await displayUserList('followers', userEmail);
             }
             else {
-                console.log("No such profile exists!");
+                const imageUrl = profile.profileImage || '../../images/user-default.png';
+                document.getElementById('profileImage').src = imageUrl;
+
+                if (userEmail !== localStorage.getItem('currentlySignedInMovieVerseUser') || !localStorage.getItem('currentlySignedInMovieVerseUser') || !JSON.parse(localStorage.getItem('isSignedIn')) || profile.profileImage === '../../images/user-default.png') {
+                    removeProfileImageBtn.style.display = 'none';
+                }
+                else {
+                    removeProfileImageBtn.style.display = 'inline';
+                }
+
+                document.getElementById('usernameDisplay').innerHTML = `<strong>Username:</strong> N/A`;
+                document.getElementById('dobDisplay').innerHTML = `<strong>Date of Birth:</strong> N/A`;
+                document.getElementById('bioDisplay').innerHTML = `<strong>Bio:</strong> N/A`;
+                document.getElementById('favoriteGenresDisplay').innerHTML = `<strong>Favorite Genres:</strong> N/A`;
+                document.getElementById('locationDisplay').innerHTML = `<strong>Location:</strong> N/A`;
+                document.getElementById('favoriteMovieDisplay').innerHTML = `<strong>Favorite Movie:</strong> N/A`;
+                document.getElementById('hobbiesDisplay').innerHTML = `<strong>Hobbies:</strong> N/A`;
+                document.getElementById('favoriteActorDisplay').innerHTML = `<strong>Favorite Actor:</strong> N/A`;
+                document.getElementById('favoriteDirectorDisplay').innerHTML = `<strong>Favorite Director:</strong> N/A`;
+                document.getElementById('personalQuoteDisplay').innerHTML = `<strong>Personal Quote:</strong> N/A`;
+                window.document.title = `${profile.username !== 'N/A' ? profile.username : 'User'}'s Profile - The MovieVerse`;
+
+                if (userEmail === localStorage.getItem('currentlySignedInMovieVerseUser')) {
+                    welcomeMessage.textContent = `Welcome, ${profile.username}!`;
+                }
+                else {
+                    welcomeMessage.textContent = `Viewing ${profile.username}'s profile`;
+                }
+
+                await displayUserList('following', userEmail);
+                await displayUserList('followers', userEmail);
             }
         }
         catch (error) {

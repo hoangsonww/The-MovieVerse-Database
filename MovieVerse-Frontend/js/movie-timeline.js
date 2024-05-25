@@ -419,6 +419,7 @@ function createLoadMoreButton(startYear, endYear, mainElement) {
 let currentPage = 1;
 
 async function fetchMoviesByTimePeriod(startYear, endYear, append = false) {
+    showSpinner();
     const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&primary_release_date.gte=${startYear}-01-01&primary_release_date.lte=${endYear}-12-31&page=${currentPage}`;
     const response = await fetch(url);
     const data = await response.json();
@@ -430,6 +431,7 @@ async function fetchMoviesByTimePeriod(startYear, endYear, append = false) {
     else {
         showMovies(moviesToShow, document.getElementById('results'), startYear, endYear, false);
     }
+    hideSpinner();
 }
 
 document.getElementById('load-movies').addEventListener('click', () => {
