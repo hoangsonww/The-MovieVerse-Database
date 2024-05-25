@@ -570,19 +570,43 @@ async function fetchTvDetails(tvSeriesId) {
 }
 
 async function fetchTVRatings(imdbId) {
-    const fff = `60a09d79`;
-    const link = `https://${getMovieActor()}/?i=${imdbId}&${getMovieName()}${fff}`;
+    const baseURL = `https://${getMovieActor()}/?i=${imdbId}&${getMovieName()}`;
 
-    try {
-        const response = await fetch(link);
-        const data = await response.json();
+    async function tryFetch(apiKey) {
+        const url = `${baseURL}${apiKey}`;
+        try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error('API limit reached or other error');
+            const data = await response.json();
+            if (!data || data.Error) throw new Error('Data fetch error');
+            return data;
+        }
+        catch (error) {
+            console.log(`Fetching error with API Key ${apiKey}: ${error.message}`);
+            return null;
+        }
+    }
 
-        return imdbRating = data.imdbRating ? data.imdbRating : 'IMDb data unavailable but you can check it out by clicking here';
+    const apiKeys = [
+        await getMovieCode2(),
+        '58efe859',
+        '60a09d79',
+        '956e468a',
+        'bd55ada4',
+        'cbfc076',
+        'dc091ff2',
+        '6e367eef',
+        '2a2a3080'
+    ];
+
+    for (const key of apiKeys) {
+        const data = await tryFetch(key);
+        if (data) {
+            return data.imdbRating ? data.imdbRating : 'IMDb data unavailable but you can check it out by clicking here';
+        }
     }
-    catch (error) {
-        console.log('Error fetching TV series ratings:', error);
-        return 'N/A';
-    }
+
+    return 'IMDb data unavailable but you can check it out by clicking here';
 }
 
 function getLanguageName(code) {
