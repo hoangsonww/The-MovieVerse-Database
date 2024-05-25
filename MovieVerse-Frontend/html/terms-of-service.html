@@ -253,6 +253,10 @@
             <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
         </div>
 
+        <button id="nav-toggle" class="nav-toggle notranslate" title="Toggle side navbar" onclick="toggleNav()">
+            <i class="fas fa-bars"></i>
+        </button>
+
         <button class="back-btn notranslate" onclick="window.location.href='../../index.html'">Home</button>
         <button class="about notranslate" onclick="window.location.href='about.html'">About</button>
         <button class="favorites-btn notranslate" onclick="window.location.href='favorites.html'" title="View your favorites & watchlists">Favorites</button>
@@ -285,6 +289,33 @@
         <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="bottom: 125px; right: 10px" title="Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
         <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 90px; right: 10px" title="Test your movie knowledge">MovieVerse Trivia</button>
     </header>
+
+    <nav id="side-nav" class="side-nav" style="z-index: 1000000">
+        <a id="heading-href" style="cursor: pointer" href="../../index.html" title="Click to go back to the home page">
+            <div id="my-heading1" style="margin-bottom: 15px; margin-left: 0; margin-top: 15px; font-size: 2.1em; font-weight: bold;">
+                The Mo<span class="highlight2">vieV</span>erse Menu
+            </div>
+        </a>
+
+        <div id="button-container">
+            <button id="button-remove" title="Close the navbar" onclick="removeNavBar()">Close</button>
+        </div>
+
+        <ul style="overflow-y: auto">
+            <li><a href="analytics.html">MovieVerse Analytics</a></li>
+            <li><a href="#introduction">Introduction</a></li>
+            <li><a href="#consent">Consent</a></li>
+            <li><a href="#subheading2">Information We Collect</a></li>
+            <li><a href="#subheading">How We Use Your Information</a></li>
+            <li><a href="#subheading3">Log Files</a></li>
+            <li><a href="#subheading4">Cookies and Web Beacons</a></li>
+            <li><a href="terms-of-service.html">Terms of Service</a></li>
+            <li><a href="sign-in.html">Sign In</a></li>
+            <li><a href="user-profile.html">Profile</a></li>
+            <li><a href="feedback.html">Submit Feedback</a></li>
+            <li><a href="support.html">Contact Support</a></li>
+        </ul>
+    </nav>
 
     <main class="content-area">
         <div style="text-align: center; width: 90%">
@@ -420,6 +451,54 @@
 
             toggleButtons();
             searchInput.addEventListener('input', toggleButtons);
+        });
+
+        function toggleNav() {
+            const sideNav = document.getElementById('side-nav');
+            sideNav.classList.toggle('manual-toggle');
+            adjustNavBar();
+        }
+
+        function removeNavBar() {
+            const sideNav = document.getElementById('side-nav');
+            if (sideNav.classList.contains('manual-toggle')) {
+                sideNav.classList.remove('manual-toggle');
+            }
+
+            adjustNavBar();
+        }
+
+        function adjustNavBar() {
+            const sideNav = document.getElementById('side-nav');
+            if (sideNav.classList.contains('manual-toggle')) {
+                sideNav.style.left = '0px';
+            }
+            else {
+                sideNav.style.left = '-250px';
+            }
+        }
+
+        document.addEventListener('mousemove', function(event) {
+            const sideNav = document.getElementById('side-nav');
+            if (event.clientX < 10 && !sideNav.classList.contains('manual-toggle')) {
+                sideNav.style.left = '0';
+            }
+        });
+
+        document.getElementById('side-nav').addEventListener('mouseleave', function() {
+            const sideNav = document.getElementById('side-nav');
+            if (!sideNav.classList.contains('manual-toggle')) {
+                sideNav.style.left = '-250px';
+            }
+        });
+
+        document.addEventListener('click', function(event) {
+            const sideNav = document.getElementById('side-nav');
+            const navToggle = document.getElementById('nav-toggle');
+            if (!sideNav.contains(event.target) && !navToggle.contains(event.target) && sideNav.classList.contains('manual-toggle')) {
+                sideNav.classList.remove('manual-toggle');
+                adjustNavBar();
+            }
         });
     </script>
 
