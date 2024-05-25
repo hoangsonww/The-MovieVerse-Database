@@ -720,7 +720,12 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
         await getMovieCode2(),
         '58efe859',
         '60a09d79',
-        '956e468a'
+        '956e468a',
+        'bd55ada4',
+        'cbfc076',
+        'dc091ff2',
+        '6e367eef',
+        '2a2a3080'
     ];
 
     const baseURL = `https://${getMovieActor()}/?i=${imdbId}&${getMovieName()}`;
