@@ -298,72 +298,72 @@ function getMostCommonGenre() {
 
 document.addEventListener('DOMContentLoaded', rotateUserStats);
 
-    function handleSignInOut() {
+function handleSignInOut() {
     const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
 
     if (isSignedIn) {
-    localStorage.setItem('isSignedIn', JSON.stringify(false));
-    alert('You have been signed out.');
-}
+        localStorage.setItem('isSignedIn', JSON.stringify(false));
+        alert('You have been signed out.');
+    }
     else {
-    window.location.href = 'sign-in.html';
-    return;
-}
+        window.location.href = 'sign-in.html';
+        return;
+    }
 
     updateSignInButtonState();
 }
 
-    function updateSignInButtonState() {
+function updateSignInButtonState() {
     const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
     const signInText = document.getElementById('signInOutText');
     const signInIcon = document.getElementById('signInIcon');
     const signOutIcon = document.getElementById('signOutIcon');
 
     if (isSignedIn) {
-    signInText.textContent = 'Sign Out';
-    signInIcon.style.display = 'none';
-    signOutIcon.style.display = 'inline-block';
-}
+        signInText.textContent = 'Sign Out';
+        signInIcon.style.display = 'none';
+        signOutIcon.style.display = 'inline-block';
+    }
     else {
-    signInText.textContent = 'Sign In';
-    signInIcon.style.display = 'inline-block';
-    signOutIcon.style.display = 'none';
-}
+        signInText.textContent = 'Sign In';
+        signInIcon.style.display = 'inline-block';
+        signOutIcon.style.display = 'none';
+    }
 }
 
-    document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function() {
     updateSignInButtonState();
     document.getElementById('googleSignInBtn').addEventListener('click', handleSignInOut);
 });
 
-    document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
     const searchBar = document.getElementById('search');
     const searchButton = document.getElementById('button-search');
     const myHeading = document.getElementById('my-heading');
     const localTime = document.getElementById('local-time');
 
     function toggleVisibility() {
-    const query = searchBar.value.trim();
-    if (query) {
-    if (window.innerWidth > 800) {
-    myHeading.style.visibility = 'hidden';
-    myHeading.style.opacity = '0';
-    localTime.style.visibility = 'hidden';
-    localTime.style.opacity = '0';
-}
-}
-    else {
-    myHeading.style.visibility = 'visible';
-    myHeading.style.opacity = '1';
-    localTime.style.visibility = 'visible';
-    localTime.style.opacity = '1';
-}
-}
+        const query = searchBar.value.trim();
+        if (query) {
+            if (window.innerWidth > 800) {
+                myHeading.style.visibility = 'hidden';
+                myHeading.style.opacity = '0';
+                localTime.style.visibility = 'hidden';
+                localTime.style.opacity = '0';
+            }
+        }
+        else {
+            myHeading.style.visibility = 'visible';
+            myHeading.style.opacity = '1';
+            localTime.style.visibility = 'visible';
+            localTime.style.opacity = '1';
+        }
+    }
     searchBar.addEventListener('input', toggleVisibility);
     toggleVisibility();
 });
 
-    document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('search');
     const viewAllResultsBtn = document.getElementById('view-all-results');
     const clearSearchBtn = document.getElementById('clear-search');
@@ -373,36 +373,36 @@ document.addEventListener('DOMContentLoaded', rotateUserStats);
     const searchButton = document.getElementById('button-search');
 
     function toggleButtons() {
-    const query = searchInput.value.trim();
-    viewAllResultsBtn.style.display = query ? 'inline-block' : 'none';
-    clearSearchBtn.style.display = query ? 'inline-block' : 'none';
-}
+        const query = searchInput.value.trim();
+        viewAllResultsBtn.style.display = query ? 'inline-block' : 'none';
+        clearSearchBtn.style.display = query ? 'inline-block' : 'none';
+    }
 
     clearSearchBtn.addEventListener('click', function() {
-    searchInput.value = '';
-    searchResultsContainer.innerHTML = '';
-    toggleButtons();
-    searchInput.focus();
+        searchInput.value = '';
+        searchResultsContainer.innerHTML = '';
+        toggleButtons();
+        searchInput.focus();
 
-    myHeading.style.visibility = 'visible';
-    myHeading.style.opacity = '1';
-    localTime.style.visibility = 'visible';
-    localTime.style.opacity = '1';
-});
+        myHeading.style.visibility = 'visible';
+        myHeading.style.opacity = '1';
+        localTime.style.visibility = 'visible';
+        localTime.style.opacity = '1';
+    });
 
     toggleButtons();
     searchInput.addEventListener('input', toggleButtons);
 });
 
-    function showSpinner() {
+function showSpinner() {
     document.getElementById('myModal').classList.add('modal-visible');
 }
 
-    function hideSpinner() {
+function hideSpinner() {
     document.getElementById('myModal').classList.remove('modal-visible');
 }
 
-    document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('search').addEventListener('input', function(e) {
         showSpinner();
         const viewAllResultsBtn = document.getElementById('view-all-results');
@@ -459,96 +459,96 @@ document.addEventListener('DOMContentLoaded', rotateUserStats);
     });
 
     function displaySearchResults(results) {
-    showSpinner();
-    const resultsContainer = document.getElementById('search-results');
-    resultsContainer.innerHTML = '';
+        showSpinner();
+        const resultsContainer = document.getElementById('search-results');
+        resultsContainer.innerHTML = '';
 
-    results.forEach(item => {
-    const card = document.createElement('div');
-    card.className = 'search-result-card';
-    card.style.cursor = 'pointer';
+        results.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'search-result-card';
+            card.style.cursor = 'pointer';
 
-    const imagePath = item.poster_path || item.profile_path ? `https://image.tmdb.org/t/p/w500${item.poster_path || item.profile_path}` : null;
+            const imagePath = item.poster_path || item.profile_path ? `https://image.tmdb.org/t/p/w500${item.poster_path || item.profile_path}` : null;
 
-    if (imagePath) {
-    const image = document.createElement('img');
-    image.src = imagePath;
-    image.className = 'result-image';
-    card.appendChild(image);
-}
-    else {
-    const placeholder = document.createElement('div');
-    placeholder.className = 'result-image-placeholder';
-    placeholder.textContent = 'Image Not Available';
-    placeholder.style.textAlign = 'center';
-    placeholder.style.padding = '10px';
-    card.appendChild(placeholder);
-}
+            if (imagePath) {
+                const image = document.createElement('img');
+                image.src = imagePath;
+                image.className = 'result-image';
+                card.appendChild(image);
+            }
+            else {
+                const placeholder = document.createElement('div');
+                placeholder.className = 'result-image-placeholder';
+                placeholder.textContent = 'Image Not Available';
+                placeholder.style.textAlign = 'center';
+                placeholder.style.padding = '10px';
+                card.appendChild(placeholder);
+            }
 
-    const details = document.createElement('div');
-    details.className = 'result-details';
+            const details = document.createElement('div');
+            details.className = 'result-details';
 
-    const name = document.createElement('div');
-    name.className = 'result-name';
-    name.textContent = item.title || item.name;
-    details.appendChild(name);
+            const name = document.createElement('div');
+            name.className = 'result-name';
+            name.textContent = item.title || item.name;
+            details.appendChild(name);
 
-    const type = document.createElement('div');
-    type.className = 'result-type';
-    type.textContent = item.media_type === 'movie' ? 'Movie' : item.media_type === 'tv' ? 'TV Series' : 'Person';
-    details.appendChild(type);
+            const type = document.createElement('div');
+            type.className = 'result-type';
+            type.textContent = item.media_type === 'movie' ? 'Movie' : item.media_type === 'tv' ? 'TV Series' : 'Person';
+            details.appendChild(type);
 
-    card.appendChild(details);
-    resultsContainer.appendChild(card);
+            card.appendChild(details);
+            resultsContainer.appendChild(card);
 
-    card.addEventListener('click', () => handleResultClick(item));
-});
+            card.addEventListener('click', () => handleResultClick(item));
+        });
 
-    hideSpinner();
-}
+        hideSpinner();
+    }
 
     async function handleResultClick(item) {
-    console.log('Clicked item:', item.media_type, item.id);
+        console.log('Clicked item:', item.media_type, item.id);
 
-    if (!item.media_type) {
-    console.log('Media type is undefined');
-    return;
-}
+        if (!item.media_type) {
+            console.log('Media type is undefined');
+            return;
+        }
 
-    if (item.media_type === 'movie') {
-    localStorage.setItem('selectedMovieId', item.id);
-    window.location.href = 'movie-details.html';
-}
-    else if (item.media_type === 'tv') {
-    localStorage.setItem('selectedTvSeriesId', item.id);
-    window.location.href = 'tv-details.html';
-}
-    else if (item.media_type === 'person') {
-    try {
-    const personDetailsUrl = `https://${getMovieVerseData()}/3/person/${item.id}?${generateMovieNames()}${getMovieCode()}`;
-    const response = await fetch(personDetailsUrl);
-    const personDetails = await response.json();
+        if (item.media_type === 'movie') {
+            localStorage.setItem('selectedMovieId', item.id);
+            window.location.href = 'movie-details.html';
+        }
+        else if (item.media_type === 'tv') {
+            localStorage.setItem('selectedTvSeriesId', item.id);
+            window.location.href = 'tv-details.html';
+        }
+        else if (item.media_type === 'person') {
+            try {
+                const personDetailsUrl = `https://${getMovieVerseData()}/3/person/${item.id}?${generateMovieNames()}${getMovieCode()}`;
+                const response = await fetch(personDetailsUrl);
+                const personDetails = await response.json();
 
-    if (personDetails.known_for_department === 'Directing') {
-    localStorage.setItem('selectedDirectorId', item.id);
-    window.location.href = 'director-details.html?' + item.id;
-}
-    else {
-    localStorage.setItem('selectedActorId', item.id);
-    window.location.href = 'actor-details.html?' + item.id;
-}
-}
-    catch (error) {
-    console.log('Error fetching person details:', error);
-}
-}
-    else {
-    console.log('Unknown media type:', item.media_type);
-}
-}
+                if (personDetails.known_for_department === 'Directing') {
+                    localStorage.setItem('selectedDirectorId', item.id);
+                    window.location.href = 'director-details.html?' + item.id;
+                }
+                else {
+                    localStorage.setItem('selectedActorId', item.id);
+                    window.location.href = 'actor-details.html?' + item.id;
+                }
+            }
+            catch (error) {
+                console.log('Error fetching person details:', error);
+            }
+        }
+        else {
+            console.log('Unknown media type:', item.media_type);
+        }
+    }
 });
 
-    document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('search');
     const viewAllResultsBtn = document.getElementById('view-all-results');
     const clearSearchBtn = document.getElementById('clear-search');
@@ -556,269 +556,252 @@ document.addEventListener('DOMContentLoaded', rotateUserStats);
     let selectedIndex = -1;
 
     function clearSelection() {
-    const results = searchResultsContainer.getElementsByClassName('search-result-card');
-    if (selectedIndex >= 0 && selectedIndex < results.length) {
-    results[selectedIndex].style.backgroundColor = '';
-}
-    else if (selectedIndex === results.length) {
-    viewAllResultsBtn.style.backgroundColor = '';
-}
-    else if (selectedIndex === results.length + 1) {
-    clearSearchBtn.style.backgroundColor = '';
-}
-}
+        const results = searchResultsContainer.getElementsByClassName('search-result-card');
+        if (selectedIndex >= 0 && selectedIndex < results.length) {
+            results[selectedIndex].style.backgroundColor = '';
+        }
+            else if (selectedIndex === results.length) {
+            viewAllResultsBtn.style.backgroundColor = '';
+        }
+            else if (selectedIndex === results.length + 1) {
+            clearSearchBtn.style.backgroundColor = '';
+        }
+    }
 
     function moveSelection(direction) {
-    const results = searchResultsContainer.getElementsByClassName('search-result-card');
-    const totalElements = results.length + 2;
-    clearSelection();
+        const results = searchResultsContainer.getElementsByClassName('search-result-card');
+        const totalElements = results.length + 2;
+        clearSelection();
 
-    if (direction === 'down') {
-    selectedIndex = (selectedIndex + 1) % totalElements;
-}
-    else if (direction === 'up') {
-    selectedIndex = (selectedIndex - 1 + totalElements) % totalElements;
-}
+        if (direction === 'down') {
+            selectedIndex = (selectedIndex + 1) % totalElements;
+        }
+        else if (direction === 'up') {
+            selectedIndex = (selectedIndex - 1 + totalElements) % totalElements;
+        }
 
-    if (selectedIndex < results.length) {
-    results[selectedIndex].style.backgroundColor = '#ff8623';
-    results[selectedIndex].scrollIntoView({ block: "nearest" });
-}
-    else if (selectedIndex === results.length) {
-    viewAllResultsBtn.style.backgroundColor = '#ff8623';
-    viewAllResultsBtn.scrollIntoView({ block: "nearest" });
-}
-    else if (selectedIndex === results.length + 1) {
-    clearSearchBtn.style.backgroundColor = '#ff8623';
-    clearSearchBtn.scrollIntoView({ block: "nearest" });
-}
-}
+        if (selectedIndex < results.length) {
+            results[selectedIndex].style.backgroundColor = '#ff8623';
+            results[selectedIndex].scrollIntoView({ block: "nearest" });
+        }
+        else if (selectedIndex === results.length) {
+            viewAllResultsBtn.style.backgroundColor = '#ff8623';
+            viewAllResultsBtn.scrollIntoView({ block: "nearest" });
+        }
+        else if (selectedIndex === results.length + 1) {
+            clearSearchBtn.style.backgroundColor = '#ff8623';
+            clearSearchBtn.scrollIntoView({ block: "nearest" });
+        }
+    }
 
     searchInput.addEventListener('keydown', function(e) {
-    if (e.key === 'ArrowDown' || (e.key === 'Tab' && !e.shiftKey)) {
-    e.preventDefault();
-    moveSelection('down');
-}
-    else if (e.key === 'ArrowUp' || (e.key === 'Tab' && e.shiftKey)) {
-    e.preventDefault();
-    moveSelection('up');
-}
-    else if (e.key === 'Enter') {
-    e.preventDefault();
-    if (selectedIndex >= 0 && selectedIndex < searchResultsContainer.getElementsByClassName('search-result-card').length) {
-    searchResultsContainer.getElementsByClassName('search-result-card')[selectedIndex].click();
-}
-    else if (selectedIndex === searchResultsContainer.getElementsByClassName('search-result-card').length) {
-    viewAllResultsBtn.click();
-}
-    else if (selectedIndex === searchResultsContainer.getElementsByClassName('search-result-card').length + 1) {
-    clearSearchBtn.click();
-}
-    else {
-    const query = searchInput.value.trim();
-    localStorage.setItem('searchQuery', query);
-    window.location.href = 'search.html';
-}
-}
-});
+        if (e.key === 'ArrowDown' || (e.key === 'Tab' && !e.shiftKey)) {
+            e.preventDefault();
+            moveSelection('down');
+        }
+        else if (e.key === 'ArrowUp' || (e.key === 'Tab' && e.shiftKey)) {
+            e.preventDefault();
+            moveSelection('up');
+        }
+        else if (e.key === 'Enter') {
+            e.preventDefault();
+            if (selectedIndex >= 0 && selectedIndex < searchResultsContainer.getElementsByClassName('search-result-card').length) {
+                searchResultsContainer.getElementsByClassName('search-result-card')[selectedIndex].click();
+            }
+            else if (selectedIndex === searchResultsContainer.getElementsByClassName('search-result-card').length) {
+                viewAllResultsBtn.click();
+            }
+            else if (selectedIndex === searchResultsContainer.getElementsByClassName('search-result-card').length + 1) {
+                clearSearchBtn.click();
+            }
+            else {
+                const query = searchInput.value.trim();
+                localStorage.setItem('searchQuery', query);
+                window.location.href = 'search.html';
+            }
+        }
+    });
 
     searchInput.addEventListener('blur', clearSelection);
 });
 
-    const movieCode = {
-    part1: 'YzVhMjBjODY=',
-    part2: 'MWFjZjdiYjg=',
-    part3: 'ZDllOTg3ZGNjN2YxYjU1OA=='
-};
-
-    function getMovieVerseData(input) {
-    return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
-}
-
-    function generateMovieNames(input) {
-    return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
-}
-
-    function getMovieCode() {
-    return atob(movieCode.part1) + atob(movieCode.part2) + atob(movieCode.part3);
-}
-
-    document.getElementById('settings-btn').addEventListener('click', () => {
+document.getElementById('settings-btn').addEventListener('click', () => {
     window.location.href = 'settings.html';
 });
 
-    document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
     applySettings();
 
     function applySettings() {
-    const defaultBg = '../../images/universe-1.webp';
-    const savedBg = localStorage.getItem('backgroundImage') || defaultBg;
-    const savedTextColor = localStorage.getItem('textColor');
-    const savedFontSize = localStorage.getItem('fontSize');
-    document.body.style.backgroundImage = `url('${savedBg}')`;
+        const defaultBg = '../../images/universe-1.webp';
+        const savedBg = localStorage.getItem('backgroundImage') || defaultBg;
+        const savedTextColor = localStorage.getItem('textColor');
+        const savedFontSize = localStorage.getItem('fontSize');
+        document.body.style.backgroundImage = `url('${savedBg}')`;
 
-    if (savedTextColor) {
-    document.querySelectorAll('h1, h2, h3, p, a, span, div, button, input, select, textarea, label, li').forEach(element => {
-    element.style.color = savedTextColor;
+        if (savedTextColor) {
+            document.querySelectorAll('h1, h2, h3, p, a, span, div, button, input, select, textarea, label, li').forEach(element => {
+                element.style.color = savedTextColor;
+            });
+        }
+
+        if (savedFontSize) {
+            const size = savedFontSize === 'small' ? '12px' : savedFontSize === 'medium' ? '16px' : '20px';
+            document.body.style.fontSize = size;
+        }
+    }
 });
-}
 
-    if (savedFontSize) {
-    const size = savedFontSize === 'small' ? '12px' : savedFontSize === 'medium' ? '16px' : '20px';
-    document.body.style.fontSize = size;
-}
-}
-});
-
-    const movieCode = {
+const movieCode = {
     part1: 'YzVhMjBjODY=',
     part2: 'MWFjZjdiYjg=',
     part3: 'ZDllOTg3ZGNjN2YxYjU1OA=='
 };
 
-    function getMovieVerseData(input) {
+function getMovieVerseData(input) {
     return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
 }
 
-    function getMovieCode() {
+function getMovieCode() {
     return atob(movieCode.part1) + atob(movieCode.part2) + atob(movieCode.part3);
 }
 
-    function generateMovieNames(input) {
+function generateMovieNames(input) {
     return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
 }
 
-    async function showMovieOfTheDay() {
+async function showMovieOfTheDay() {
     const year = new Date().getFullYear();
     const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
 
     try {
-    const response = await fetch(url);
-    const data = await response.json();
-    const movies = data.results;
+        const response = await fetch(url);
+        const data = await response.json();
+        const movies = data.results;
 
-    if (movies.length > 0) {
-    const randomMovie = movies[Math.floor(Math.random() * movies.length)];
-    localStorage.setItem('selectedMovieId', randomMovie.id);
-    window.location.href = 'movie-details.html';
-}
-    else {
-    fallbackMovieSelection();
-}
-}
+        if (movies.length > 0) {
+            const randomMovie = movies[Math.floor(Math.random() * movies.length)];
+            localStorage.setItem('selectedMovieId', randomMovie.id);
+            window.location.href = 'movie-details.html';
+        }
+        else {
+            fallbackMovieSelection();
+        }
+    }
     catch (error) {
-    console.log('Error fetching movie:', error);
-    fallbackMovieSelection();
-}
+        console.log('Error fetching movie:', error);
+        fallbackMovieSelection();
+    }
 }
 
-    const form = document.getElementById('form1');
+const form = document.getElementById('form1');
 
-    form.addEventListener('submit', (e) => {
+form.addEventListener('submit', (e) => {
     e.preventDefault();
     const searchQuery = document.getElementById('search').value;
     localStorage.setItem('searchQuery', searchQuery);
     window.location.href = 'search.html';
 });
 
-    function handleSearch() {
+function handleSearch() {
     const searchQuery = document.getElementById('search').value;
     localStorage.setItem('searchQuery', searchQuery);
     window.location.href = 'search.html';
 }
 
-    window.addEventListener('load', function() {
+window.addEventListener('load', function() {
     adjustAnchorHeights();
 });
 
-    window.addEventListener('resize', adjustAnchorHeights);
+window.addEventListener('resize', adjustAnchorHeights);
 
-    function adjustAnchorHeights() {
+function adjustAnchorHeights() {
     const bottomBarAnchors = document.querySelectorAll('.mobile-bottom-bar a');
     let maxHeight = 0;
 
     bottomBarAnchors.forEach(anchor => {
-    anchor.style.height = 'auto';
-    const anchorHeight = anchor.getBoundingClientRect().height;
-    maxHeight = Math.max(maxHeight, anchorHeight);
-});
+        anchor.style.height = 'auto';
+        const anchorHeight = anchor.getBoundingClientRect().height;
+        maxHeight = Math.max(maxHeight, anchorHeight);
+    });
 
     bottomBarAnchors.forEach(anchor => {
-    anchor.style.height = `${maxHeight}px`;
-});
+        anchor.style.height = `${maxHeight}px`;
+    });
 }
 
-    let lastScrollY = window.scrollY;
+let lastScrollY = window.scrollY;
 
-    window.addEventListener('scroll', () => {
+window.addEventListener('scroll', () => {
     const currentScrollY = window.scrollY;
 
     if (currentScrollY > lastScrollY && currentScrollY > 0) {
-    document.querySelector('.mobile-bottom-bar').classList.add('hide-bar');
-}
+        document.querySelector('.mobile-bottom-bar').classList.add('hide-bar');
+    }
     else {
-    document.querySelector('.mobile-bottom-bar').classList.remove('hide-bar');
-}
+        document.querySelector('.mobile-bottom-bar').classList.remove('hide-bar');
+    }
 
     lastScrollY = currentScrollY;
 });
 
-    let isAnimating = false;
+let isAnimating = false;
 
-    document.getElementById('menu-btn').addEventListener('click', () => {
+document.getElementById('menu-btn').addEventListener('click', () => {
     if (isAnimating) return;
 
     isAnimating = true;
 
     const buttonIds = [
-    'chat-button',
-    'settings-btn',
-    'movie-of-the-day-btn',
-    'movie-match-btn3',
-    'movie-timeline-btn',
-    'discussions-btn',
-    'trivia-btn',
+        'chat-button',
+        'settings-btn',
+        'movie-of-the-day-btn',
+        'movie-match-btn3',
+        'movie-timeline-btn',
+        'discussions-btn',
+        'trivia-btn',
     ];
 
     buttonIds.forEach((id, index) => {
-    const button = document.getElementById(id);
-    if (button.style.display === 'none' || !button.style.display) {
-    button.style.display = 'block';
-    setTimeout(() => {
-    button.style.opacity = '1';
-    button.style.transform = 'translateY(0)';
-}, 50 * index);
-} else {
-    button.style.opacity = '0';
-    button.style.transform = 'translateY(20px)';
-}
+        const button = document.getElementById(id);
+        if (button.style.display === 'none' || !button.style.display) {
+            button.style.display = 'block';
+            setTimeout(() => {
+                button.style.opacity = '1';
+                button.style.transform = 'translateY(0)';
+            }, 50 * index);
+        }
+        else {
+            button.style.opacity = '0';
+            button.style.transform = 'translateY(20px)';
+        }
 
-    setTimeout(() => {
-    button.style.display = button.style.opacity === '1' ? 'block' : 'none';
-    if (index === buttonIds.length - 1) {
-    isAnimating = false;
-}
-}, 500 + 50 * index);
-});
+        setTimeout(() => {
+            button.style.display = button.style.opacity === '1' ? 'block' : 'none';
+            if (index === buttonIds.length - 1) {
+                isAnimating = false;
+            }
+        }, 500 + 50 * index);
+    });
 });
 
-    window.addEventListener('resize', () => {
+window.addEventListener('resize', () => {
     if (window.innerWidth < 767) {
-    const buttonIds = [
-    'chat-button',
-    'settings-btn',
-    'movie-of-the-day-btn',
-    'movie-match-btn3',
-    'movie-timeline-btn',
-    'discussions-btn',
-    'trivia-btn',
-    ];
+        const buttonIds = [
+            'chat-button',
+            'settings-btn',
+            'movie-of-the-day-btn',
+            'movie-match-btn3',
+            'movie-timeline-btn',
+            'discussions-btn',
+            'trivia-btn',
+            ];
 
-    buttonIds.forEach(id => {
-    const button = document.getElementById(id);
-    button.style.display = 'none';
-    button.style.opacity = '0';
-    button.style.transform = 'translateY(20px)';
-});
-}
+        buttonIds.forEach(id => {
+            const button = document.getElementById(id);
+            button.style.display = 'none';
+            button.style.opacity = '0';
+            button.style.transform = 'translateY(20px)';
+        });
+    }
 });
