@@ -275,6 +275,9 @@
             <span id="profileText">Profile</span>
             <i class="fas fa-user" id="profileIcon"></i>
         </button>
+        <button id="nav-toggle" class="nav-toggle notranslate" title="Toggle side navbar" onclick="toggleNav()">
+            <i class="fas fa-bars"></i>
+        </button>
         <button id="googleSignInBtn" class="nav-btn notranslate" onclick="handleSignInOut()" title="Sign In/Out">
             <span id="signInOutText">Sign In</span>
             <i class="fas fa-sign-in-alt" id="signInIcon"></i>
@@ -300,28 +303,55 @@
         <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 90px; right: 10px" title="Test your movie knowledge">MovieVerse Trivia</button>
     </header>
 
+    <nav id="side-nav" class="side-nav" style="z-index: 1000000">
+        <a id="heading-href" style="cursor: pointer" href="../../index.html" title="Click to go back to the home page">
+            <div id="my-heading1" style="margin-bottom: 15px; margin-left: 0; margin-top: 15px; font-size: 2.1em; font-weight: bold;">
+                The Mo<span class="highlight2">vieV</span>erse Menu
+            </div>
+        </a>
+
+        <div id="button-container">
+            <button id="button-remove" title="Close the navbar" onclick="removeNavBar()">Close</button>
+        </div>
+
+        <ul style="overflow-y: auto">
+            <li><a href="analytics.html">MovieVerse Analytics</a></li>
+            <li><a href="#introduction">Introduction</a></li>
+            <li><a href="#consent">Consent</a></li>
+            <li><a href="#subheading2">Information We Collect</a></li>
+            <li><a href="#subheading">How We Use Your Information</a></li>
+            <li><a href="#subheading3">Log Files</a></li>
+            <li><a href="#subheading4">Cookies and Web Beacons</a></li>
+            <li><a href="terms-of-service.html">Terms of Service</a></li>
+            <li><a href="sign-in.html">Sign In</a></li>
+            <li><a href="user-profile.html">Profile</a></li>
+            <li><a href="feedback.html">Submit Feedback</a></li>
+            <li><a href="support.html">Contact Support</a></li>
+        </ul>
+    </nav>
+
     <main class="content-area" style="text-align: center">
         <div style="text-align: center; width: 90%; margin-top: 25px">
             <div style="font-weight: bold; font-size: 30px" id="privacy-header">Privacy Policy</div>
         </div>
 
-        <div style="text-align: center; width: 90%   ">
+        <div id="introduction" style="text-align: center; width: 90%; cursor: pointer">
             <h2 style="color: white">Introduction</h2>
             <p>At The MovieVerse, accessible from <a id="linkWeb" href="https://movie-verse.com">https://movie-verse.com</a>, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by The MovieVerse and how we use it.</p>
         </div>
 
-        <div style="text-align: center; width: 90%">
+        <div id="consent" style="text-align: center; width: 90%; cursor: pointer">
             <h2 style="color: white">Consent</h2>
             <p>By using our website, you hereby consent to our Privacy Policy and agree to its terms. For our Terms and Conditions, please visit the <a id="linkWeb" href="https://movie-verse.com/MovieVerse-Frontend/html/terms-of-service.html">Terms and Conditions</a> page.</p>
         </div>
 
-        <div style="text-align: center; width: 90%">
+        <div style="text-align: center; width: 90%; cursor: pointer" id="subheading2">
             <h2 style="color: white">Information we collect</h2>
             <p>The personal information that you are asked to provide, and the reasons why you are asked to provide it, will be made clear to you at the point we ask you to provide your personal information.</p>
             <p>If you contact us directly, we may receive additional information about you such as your name, email address, the contents of the message and/or attachments you may send us, and any other information you may choose to provide.</p>
         </div>
 
-        <div style="text-align: center; width: 90%">
+        <div style="text-align: center; width: 90%; cursor: pointer" id="subheading">
             <h2 style="color: #ffffff">How we use your information</h2>
             <p>We use the information we collect in various ways, including to:</p>
             <ul style="color: white; list-style: none; width: 90%">
@@ -336,7 +366,7 @@
             </ul>
         </div>
 
-        <div style="text-align: center; width: 90%">
+        <div style="text-align: center; width: 90%; cursor: pointer" id="subheading3">
             <h2 style="color: white">Log Files</h2>
             <p>The MovieVerse follows a standard procedure of using log files.</p>
             <p>These files log visitors when they visit websites. All hosting companies do this and a part of hosting services' analytics.</p>
@@ -344,7 +374,7 @@
             <p>The purpose of the information is for analyzing trends, administering the site, tracking users' movement on the website, and gathering demographic information.</p>
         </div>
 
-        <div style="text-align: center; margin-bottom: 300px; width: 90%">
+        <div style="text-align: center; margin-bottom: 300px; width: 90%; cursor: pointer" id="subheading4">
             <h2 style="color: white">Cookies and Web Beacons</h2>
             <p>Like any other website, The MovieVerse uses 'cookies'. These cookies are used to store information including visitors' preferences, and the pages on the website that the visitor accessed or visited.</p>
             <p>The information is used to optimize the users' experience by customizing our web page content based on visitors' browser type and/or other information.</p>
@@ -358,6 +388,90 @@
     </div>
 
     <script>
+        function toggleNav() {
+            const sideNav = document.getElementById('side-nav');
+            sideNav.classList.toggle('manual-toggle');
+            adjustNavBar();
+        }
+
+        function removeNavBar() {
+            const sideNav = document.getElementById('side-nav');
+            if (sideNav.classList.contains('manual-toggle')) {
+                sideNav.classList.remove('manual-toggle');
+            }
+
+            adjustNavBar();
+        }
+
+        function adjustNavBar() {
+            const sideNav = document.getElementById('side-nav');
+            if (sideNav.classList.contains('manual-toggle')) {
+                sideNav.style.left = '0px';
+            }
+            else {
+                sideNav.style.left = '-250px';
+            }
+        }
+
+        document.addEventListener('mousemove', function(event) {
+            const sideNav = document.getElementById('side-nav');
+            if (event.clientX < 10 && !sideNav.classList.contains('manual-toggle')) {
+                sideNav.style.left = '0';
+            }
+        });
+
+        document.getElementById('side-nav').addEventListener('mouseleave', function() {
+            const sideNav = document.getElementById('side-nav');
+            if (!sideNav.classList.contains('manual-toggle')) {
+                sideNav.style.left = '-250px';
+            }
+        });
+
+        document.addEventListener('click', function(event) {
+            const sideNav = document.getElementById('side-nav');
+            const navToggle = document.getElementById('nav-toggle');
+            if (!sideNav.contains(event.target) && !navToggle.contains(event.target) && sideNav.classList.contains('manual-toggle')) {
+                sideNav.classList.remove('manual-toggle');
+                adjustNavBar();
+            }
+        });
+
+        document.getElementById('introduction').addEventListener('click', function(e) {
+            e.preventDefault();
+
+            document.getElementById('introduction').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        document.getElementById('consent').addEventListener('click', function(e) {
+            e.preventDefault();
+
+            document.getElementById('consent').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        document.getElementById('subheading2').addEventListener('click', function(e) {
+            e.preventDefault();
+
+            document.getElementById('subheading2').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        document.getElementById('subheading').addEventListener('click', function(e) {
+            e.preventDefault();
+
+            document.getElementById('subheading').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        document.getElementById('subheading3').addEventListener('click', function(e) {
+            e.preventDefault();
+
+            document.getElementById('subheading3').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        document.getElementById('subheading4').addEventListener('click', function(e) {
+            e.preventDefault();
+
+            document.getElementById('subheading4').scrollIntoView({ behavior: 'smooth' });
+        });
+
         async function ensureGenreMapIsAvailable() {
             if (!localStorage.getItem('genreMap')) {
                 await fetchGenreMap();
