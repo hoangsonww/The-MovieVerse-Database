@@ -203,6 +203,8 @@ async function performSearch(searchText) {
 }
 
 document.getElementById('container1').addEventListener('click', async () => {
+    showSpinner();
+
     const userEmail = localStorage.getItem('currentlyViewingProfile');
 
     if (!userEmail) {
@@ -227,9 +229,13 @@ document.getElementById('container1').addEventListener('click', async () => {
     catch (error) {
         console.error('Error updating progress circles:', error);
     }
+
+    hideSpinner();
 });
 
 document.getElementById('container2').addEventListener('click', async () => {
+    showSpinner();
+
     const userEmail = localStorage.getItem('currentlyViewingProfile');
 
     if (!userEmail) {
@@ -254,6 +260,8 @@ document.getElementById('container2').addEventListener('click', async () => {
     catch (error) {
         console.error('Error updating progress circles:', error);
     }
+
+    hideSpinner();
 });
 
 async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMovieVerseUser')) {
