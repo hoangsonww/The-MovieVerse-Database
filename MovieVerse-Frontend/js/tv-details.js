@@ -782,7 +782,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
 
             const castMemberRole = document.createElement('p');
             castMemberRole.classList.add('cast-member-role');
-            castMemberRole.textContent = castMember.character ? `(${castMember.character})` : '';
+            castMemberRole.textContent = castMember.character ? `(as ${castMember.character})` : '';
             castMemberRole.style.fontStyle = 'italic';
             castMemberDetails.appendChild(castMemberRole);
 

@@ -1150,7 +1150,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
             actorName.textContent = actor.name;
             actorDetails.appendChild(actorName);
 
-            const character = actor.character ? ` (${actor.character})` : '';
+            const character = actor.character ? ` (as ${actor.character})` : '';
             const actorRole = document.createElement('p');
             actorRole.classList.add('actor-role');
             actorRole.textContent = character;
