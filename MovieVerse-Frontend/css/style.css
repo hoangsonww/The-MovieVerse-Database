@@ -95,6 +95,10 @@ body {
     text-align: center;
 }
 
+.actor-role {
+    font-style: italic;
+}
+
 .director-section {
     display: flex;
     align-items: center;
