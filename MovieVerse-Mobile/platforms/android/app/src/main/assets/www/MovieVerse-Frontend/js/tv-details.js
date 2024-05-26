@@ -782,7 +782,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
 
             const castMemberRole = document.createElement('p');
             castMemberRole.classList.add('cast-member-role');
-            castMemberRole.textContent = castMember.character ? `(${castMember.character})` : '';
+            castMemberRole.textContent = castMember.character ? `(as ${castMember.character})` : '';
             castMemberRole.style.fontStyle = 'italic';
             castMemberDetails.appendChild(castMemberRole);
 
@@ -831,8 +831,9 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
                 similarTvImage.alt = `${similarTv.name} Poster`;
             } else {
                 similarTvImage.alt = 'Image Not Available';
-                similarTvImage.src = '../../images/tv-default.png';
+                similarTvImage.src = '../../images/movie-default.jpg';
                 similarTvImage.style.filter = 'grayscale(100%)';
+                similarTvImage.style.objectFit = 'cover';
             }
 
             similarTvItem.appendChild(similarTvImage);

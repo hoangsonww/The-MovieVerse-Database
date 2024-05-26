@@ -705,6 +705,7 @@ function displayCompanyMovies(movies) {
             movieImage.alt = 'Image Not Available';
             movieImage.src = '../../images/movie-default.png';
             movieImage.style.filter = 'grayscale(100%)';
+            movieImage.style.objectFit = 'cover';
         }
 
         movieItem.appendChild(movieImage);

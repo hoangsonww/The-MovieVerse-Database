@@ -1133,8 +1133,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
             if (actor.profile_path) {
                 actorImage.src = IMGPATH + actor.profile_path;
                 actorImage.alt = `${actor.name} Profile Picture`;
-            }
-            else {
+            } else {
                 actorImage.alt = 'Image Not Available';
                 actorImage.src = '../../images/user-default.png';
                 actorImage.style.filter = 'grayscale(100%)';
@@ -1149,16 +1148,12 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
             const actorName = document.createElement('p');
             actorName.classList.add('actor-name');
             actorName.textContent = actor.name;
-            actorName.style.wordWrap = 'break-word';
             actorDetails.appendChild(actorName);
 
-            const character = actor.character ? ` (${actor.character})` : '';
+            const character = actor.character ? ` (as ${actor.character})` : '';
             const actorRole = document.createElement('p');
             actorRole.classList.add('actor-role');
-            actorRole.style.fontSize = '11px';
             actorRole.textContent = character;
-            actorRole.style.fontStyle = 'italic';
-            actorRole.style.wordWrap = 'break-word';
             actorDetails.appendChild(actorRole);
 
             castItem.appendChild(actorDetails);
@@ -1167,8 +1162,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         });
 
         castSection.appendChild(castList);
-    }
-    else {
+    } else {
         castSection.appendChild(document.createTextNode('None available.'));
     }
 
