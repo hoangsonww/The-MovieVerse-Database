@@ -97,8 +97,6 @@ document.addEventListener('DOMContentLoaded', () => {
     else {
         fetchActorDetails(2037);
     }
-
-    document.getElementById('clear-search-btn').style.display = 'none';
 });
 
 async function fetchActorDetails(actorId) {
@@ -193,15 +191,45 @@ async function populateActorDetails(actor, credits) {
 
     const movieList = document.createElement('div');
     movieList.classList.add('movie-list');
+    movieList.style.display = 'flex';
+    movieList.style.flexWrap = 'wrap';
+    movieList.style.justifyContent = 'center';
+    movieList.style.gap = '10px';
 
     credits.cast.forEach((movie, index) => {
-        const movieLink = document.createElement('span');
-        movieLink.textContent = movie.title;
+        const movieLink = document.createElement('a');
         movieLink.classList.add('movie-link');
-        movieLink.addEventListener('click', () => {
-            localStorage.setItem('selectedMovieId', movie.id);
-            window.location.href = 'movie-details.html';
-        });
+        movieLink.href = 'javascript:void(0);';
+        movieLink.setAttribute('onclick', `selectMovieId(${movie.id});`);
+
+        const movieItem = document.createElement('div');
+        movieItem.classList.add('movie-item');
+
+        const movieImage = document.createElement('img');
+        movieImage.classList.add('movie-image');
+
+        if (movie.poster_path) {
+            movieImage.src = IMGPATH + movie.poster_path;
+            movieImage.alt = `${movie.title} Poster`;
+        } else {
+            movieImage.alt = 'Image Not Available';
+            movieImage.src = '../../images/movie-default.jpg';
+            movieImage.style.filter = 'grayscale(100%)';
+            movieImage.style.objectFit = 'cover';
+        }
+
+        movieItem.appendChild(movieImage);
+
+        const movieDetails = document.createElement('div');
+        movieDetails.classList.add('movie-details');
+
+        const movieTitle = document.createElement('p');
+        movieTitle.classList.add('movie-title');
+        movieTitle.textContent = movie.title;
+        movieDetails.appendChild(movieTitle);
+
+        movieItem.appendChild(movieDetails);
+        movieLink.appendChild(movieItem);
         movieList.appendChild(movieLink);
 
         if (index < credits.cast.length - 1) {
@@ -355,6 +383,11 @@ async function populateActorDetails(actor, credits) {
     }
 
     applySettings();
+}
+
+function selectMovieId(movieId) {
+    localStorage.setItem('selectedMovieId', movieId);
+    window.location.href = 'movie-details.html';
 }
 
 function calculateAge(birthday, deathday = null) {

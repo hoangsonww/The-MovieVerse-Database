@@ -2,6 +2,10 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 @font-face {
     font-family: 'Poppins';
     src: url('/fonts/Poppins-Light.ttf') format('truetype');
@@ -38,6 +42,7 @@ body {
     overflow-x: hidden;
     min-height: 100vh;
     overflow-y: auto;
+    scroll-behavior: smooth;
 }
 
 #heading-href {
@@ -3567,6 +3572,7 @@ body {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    padding: 10px;
 }
 
 #company-movies-list span {

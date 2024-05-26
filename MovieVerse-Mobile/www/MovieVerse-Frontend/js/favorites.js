@@ -1330,6 +1330,8 @@ async function loadWatchLists() {
                 displaySection.innerHTML = '<p style="text-align: center">No watch lists found. Click on "Create Watch Lists" to start adding movies.</p>';
             }
             else {
+                displaySection.innerHTML = '';
+                displaySection.innerHTML += '<p style="text-align: center; margin-top: 20px; color: white"><strong>Your Watch Lists</strong></p>';
                 watchlists.sort((a, b) => a.order - b.order);
                 watchlists.sort((a, b) => (b.pinned === a.pinned) ? 0 : b.pinned ? 1 : -1);
                 for (const watchlist of watchlists) {
@@ -1348,6 +1350,8 @@ async function loadWatchLists() {
                 displaySection.innerHTML = '<p style="text-align: center">No watch lists found. Start by adding movies to your watchlist.</p>';
             }
             else {
+                displaySection.innerHTML = '';
+                displaySection.innerHTML += '<p style="text-align: center; margin-top: 20px; color: white"><strong>Your Watch Lists</strong></p>';
                 localWatchlists.sort((a, b) => (b.pinned === a.pinned) ? 0 : b.pinned ? 1 : -1);
                 for (const watchlist of localWatchlists) {
                     const watchlistDiv = await createWatchListDiv(watchlist);
@@ -1465,6 +1469,8 @@ async function loadWatchLists() {
                 displaySection.innerHTML = '<p style="text-align: center">No watch lists found. Start by adding movies to your watchlist.</p>';
             }
             else {
+                displaySection.innerHTML = '';
+                displaySection.innerHTML += '<p style="text-align: center; margin-top: 20px; color: white"><strong>Your Watch Lists</strong></p>';
                 localWatchlists.sort((a, b) => (b.pinned === a.pinned) ? 0 : b.pinned ? 1 : -1);
                 for (const watchlist of localWatchlists) {
                     const watchlistDiv = await createWatchListDiv(watchlist);

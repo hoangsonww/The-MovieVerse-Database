@@ -179,6 +179,51 @@
         #actor-details-container {
             margin-top: 25px;
         }
+
+        .movie-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            overflow: hidden !important;
+            margin-top: 7px;
+            padding-top: 5px;
+        }
+
+        .movie-item {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 115px;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .movie-image {
+            width: 100%;
+            height: 155px;
+            object-fit: fill;
+            border-radius: 5px;
+            margin-bottom: 5px;
+        }
+
+        .movie-item:hover {
+            transform: scale(1.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+        }
+
+        .movie-details {
+            width: 100%;
+        }
+
+        .movie-title {
+            font-size: 12px;
+            margin: 0;
+            word-break: break-word;
+        }
     </style>
 </head>
 
@@ -258,11 +303,6 @@
             </div>
         </form>
     </header>
-
-    <div class="genres" style="margin-left: 25px">
-        <h2 id="search-title"></h2>
-        <button id="clear-search-btn" style="display: none;">Clear Search Results</button>
-    </div>
 
     <main id="main" style="margin-left: 25px; height: 0"></main>
 

@@ -1209,6 +1209,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
                 similarMovieImage.alt = 'Image Not Available';
                 similarMovieImage.src = '../../images/movie-default.jpg';
                 similarMovieImage.style.filter = 'grayscale(100%)';
+                similarMovieImage.style.objectFit = 'cover';
             }
 
             similarMovieItem.appendChild(similarMovieImage);
