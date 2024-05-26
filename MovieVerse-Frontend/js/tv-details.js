@@ -833,6 +833,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
                 similarTvImage.alt = 'Image Not Available';
                 similarTvImage.src = '../../images/movie-default.jpg';
                 similarTvImage.style.filter = 'grayscale(100%)';
+                similarTvImage.style.objectFit = 'cover';
             }
 
             similarTvItem.appendChild(similarTvImage);
