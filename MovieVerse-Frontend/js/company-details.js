@@ -729,7 +729,6 @@ function displayCompanyMovies(movies) {
     });
 }
 
-// Define the selectMovieId function
 function selectMovieId(movieId) {
     localStorage.setItem('selectedMovieId', movieId);
     window.location.href = 'movie-details.html';
