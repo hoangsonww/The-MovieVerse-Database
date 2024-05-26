@@ -831,7 +831,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
                 similarTvImage.alt = `${similarTv.name} Poster`;
             } else {
                 similarTvImage.alt = 'Image Not Available';
-                similarTvImage.src = '../../images/tv-default.png';
+                similarTvImage.src = '../../images/movie-default.jpg';
                 similarTvImage.style.filter = 'grayscale(100%)';
             }
 
