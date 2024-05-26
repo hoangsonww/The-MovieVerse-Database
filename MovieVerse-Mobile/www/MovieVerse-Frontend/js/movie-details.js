@@ -990,7 +990,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     document.title = movie.title + " - Movie Details";
 
     const movieDescription = document.getElementById('movie-description');
-    const metascoreElement = metascore ? `<p><strong>Metascore:</strong> <a id="metacritics" href="${metaCriticsLink}" title="Click to search/view on Metacritics" target="_blank">${metascore}</a></p>` : '';
+    const metascoreElement = metascore ? `<p style="margin-bottom: 0"><strong>Metascore:</strong> <a id="metacritics" href="${metaCriticsLink}" title="Click to search/view on Metacritics" target="_blank">${metascore}</a></p>` : '';
     const awardsElement = awards ? `<p><strong>Awards:</strong> ${awards}</p>` : '';
 
     const overview = movie.overview ? movie.overview : 'No overview available';
@@ -1052,9 +1052,13 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
             directorSection.classList.add('director-section');
             directorSection.style.textAlign = 'center';
 
-            const directorTitle = document.createElement('span');
-            directorTitle.innerHTML = '<strong>Director:</strong> ';
+            const directorTitle = document.createElement('p');
+            directorTitle.innerHTML = '<strong>Director:</strong>';
+            directorTitle.style.padding = '0';
             directorSection.appendChild(directorTitle);
+
+            const directorList = document.createElement('div');
+            directorList.classList.add('director-list');
 
             directors.forEach(director => {
                 const directorLink = document.createElement('a');
@@ -1091,9 +1095,10 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
 
                 directorItem.appendChild(directorDetails);
                 directorLink.appendChild(directorItem);
-                directorSection.appendChild(directorLink);
+                directorList.appendChild(directorLink);
             });
 
+            directorSection.appendChild(directorList);
             document.getElementById('movie-description').appendChild(directorSection);
         } else {
             const noDirectorsElement = document.createElement('p');
