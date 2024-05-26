@@ -703,7 +703,7 @@ function displayCompanyMovies(movies) {
             movieImage.alt = `${movie.title} Poster`;
         } else {
             movieImage.alt = 'Image Not Available';
-            movieImage.src = '../../images/movie-default.png';
+            movieImage.src = '../../images/movie-default.jpg';
             movieImage.style.filter = 'grayscale(100%)';
             movieImage.style.objectFit = 'cover';
         }
