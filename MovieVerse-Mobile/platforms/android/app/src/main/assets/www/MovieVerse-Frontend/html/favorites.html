@@ -502,13 +502,14 @@
         (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
 
-    <button id="chat-button" onclick="window.location.href='chat.html'" style="bottom: 300px; right: 10px; z-index: 1001" title="Chat with fellow MovieVerse users!">Chat</button>
-    <button id="settings-btn" onclick="window.location.href='settings.html'" style="position: fixed; bottom: 265px; right: 10px; z-index: 10012">Settings</button>
-    <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 230px; right: 10px; z-index: 10012">Surprise Me!</button>
-    <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 195px; right: 10px; z-index: 10012">Movie Match</button>
-    <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 160px; right: 10px; z-index: 10012">Movie Timeline</button>
-    <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="bottom: 125px; right: 10px; z-index: 10012" title="Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
-    <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 90px; right: 10px; z-index: 10012" title="Test your movie knowledge">MovieVerse Trivia</button>
+    <button id="chat-button" onclick="window.location.href='chat.html'" style="bottom: 335px; right: 10px; z-index: 1001" title="Chat with fellow MovieVerse users!">Chat</button>
+    <button id="settings-btn" onclick="window.location.href='settings.html'" style="position: fixed; bottom: 300px; right: 10px; z-index: 10012">Settings</button>
+    <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 265px; right: 10px; z-index: 10012">Surprise Me!</button>
+    <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 230px; right: 10px; z-index: 10012">Movie Match</button>
+    <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 195px; right: 10px; z-index: 10012">Movie Timeline</button>
+    <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="bottom: 160px; right: 10px; z-index: 10012" title="Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
+    <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 125px; right: 10px; z-index: 10012" title="Test your movie knowledge">MovieVerse Trivia</button>
+    <button id="back-to-top-btn" title="Go to top" style="bottom: 90px; right: 10px; z-index: 10012" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">Back to Top</button>
 
     <script src="../js/movie-details.js"></script>
 
@@ -546,6 +547,10 @@
         <a href="trivia.html" class="bottom-bar-item">
             <i class="fas fa-question-circle"></i>
             <span>Trivia</span>
+        </a>
+        <a href="#" class="bottom-bar-item" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
+            <i class="fas fa-arrow-up"></i>
+            <span>Top</span>
         </a>
     </div>
 
@@ -806,6 +811,7 @@
                 'movie-timeline-btn',
                 'discussions-btn',
                 'trivia-btn',
+                'back-to-top-btn'
             ];
 
             buttonIds.forEach((id, index) => {
@@ -840,6 +846,7 @@
                     'movie-timeline-btn',
                     'discussions-btn',
                     'trivia-btn',
+                    'back-to-top-btn'
                 ];
 
                 buttonIds.forEach(id => {
