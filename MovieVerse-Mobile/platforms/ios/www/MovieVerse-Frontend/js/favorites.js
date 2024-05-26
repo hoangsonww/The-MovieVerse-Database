@@ -1331,7 +1331,11 @@ async function loadWatchLists() {
             }
             else {
                 displaySection.innerHTML = '';
-                displaySection.innerHTML += '<p style="text-align: center; margin-top: 20px; color: white"><strong>Your Watch Lists</strong></p>';
+                displaySection.innerHTML += '<p id="watchlist-header" style="text-align: center; font-size: 20px; margin-top: 20px; color: #ff8623; cursor: pointer"><strong>Your Watch Lists</strong></p>';
+                displaySection.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    displaySection.scrollIntoView({behavior: 'smooth'});
+                });
                 watchlists.sort((a, b) => a.order - b.order);
                 watchlists.sort((a, b) => (b.pinned === a.pinned) ? 0 : b.pinned ? 1 : -1);
                 for (const watchlist of watchlists) {
