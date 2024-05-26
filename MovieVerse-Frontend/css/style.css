@@ -44,6 +44,124 @@ body {
     text-decoration: none;
 }
 
+.cast-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    overflow: hidden !important;
+}
+
+.cast-item {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 115px;
+    margin: 5px;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.cast-image {
+    width: 100%;
+    height: 155px;
+    object-fit: fill;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+.cast-item:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
+
+.cast-details {
+    width: 100%;
+}
+
+.actor-name, .actor-role {
+    font-size: 12px;
+    margin: 0;
+}
+
+.director-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.director-link {
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.director-link .cast-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.director-link .cast-image {
+    width: 100%;
+    height: 155px;
+    margin-bottom: 5px;
+}
+
+.director-link .actor-name {
+    font-size: 12px;
+}
+
+.creators-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    overflow: hidden !important;
+}
+
+.creator-item {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 115px;
+    margin: 5px;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.creator-image {
+    width: 100%;
+    height: 155px;
+    object-fit: fill;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+.creator-item:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
+
+.creator-details {
+    width: 100%;
+}
+
+.creator-name {
+    font-size: 12px;
+    margin: 0;
+    word-break: break-word;
+}
+
 #movie-match-btn {
     position: fixed;
     bottom: 220px;

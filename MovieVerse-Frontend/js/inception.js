@@ -167,6 +167,7 @@ async function rotateUserStats() {
         clearInterval(statRotationInterval);
         updateStatDisplay();
         statRotationInterval = setInterval(updateStatDisplay, 3000);
+        localTimeDiv.scrollIntoView({ behavior: 'smooth' });
     });
 }
 

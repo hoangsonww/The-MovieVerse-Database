@@ -654,6 +654,7 @@ async function rotateUserStats() {
         clearInterval(statRotationInterval);
         updateStatDisplay();
         statRotationInterval = setInterval(updateStatDisplay, 3000);
+        localTimeDiv.scrollIntoView({ behavior: 'smooth' });
     });
 }
 
@@ -756,3 +757,75 @@ function handleSearch() {
     localStorage.setItem('searchQuery', searchQuery);
     window.location.href = 'search.html';
 }
+
+document.getElementById('chart-title1').addEventListener('click' , function(e) {
+    e.preventDefault();
+
+    document.getElementById('chart-title1').scrollIntoView({ behavior: 'smooth' });
+});
+
+document.getElementById('chart-title2').addEventListener('click' , function(e) {
+    e.preventDefault();
+
+    document.getElementById('chart-title2').scrollIntoView({ behavior: 'smooth' });
+});
+
+document.getElementById('chart-title3').addEventListener('click' , function(e) {
+    e.preventDefault();
+
+    document.getElementById('chart-title3').scrollIntoView({ behavior: 'smooth' });
+});
+
+document.getElementById('chart-title4').addEventListener('click' , function(e) {
+    e.preventDefault();
+
+    document.getElementById('chart-title4').scrollIntoView({ behavior: 'smooth' });
+});
+
+document.getElementById('chart-title5').addEventListener('click' , function(e) {
+    e.preventDefault();
+
+    document.getElementById('chart-title5').scrollIntoView({ behavior: 'smooth' });
+});
+
+document.getElementById('chart-title6').addEventListener('click' , function(e) {
+    e.preventDefault();
+
+    document.getElementById('chart-title6').scrollIntoView({ behavior: 'smooth' });
+});
+
+document.getElementById('chart-title7').addEventListener('click' , function(e) {
+    e.preventDefault();
+
+    document.getElementById('chart-title7').scrollIntoView({ behavior: 'smooth' });
+});
+
+document.getElementById('chart-title8').addEventListener('click' , function(e) {
+    e.preventDefault();
+
+    document.getElementById('chart-title8').scrollIntoView({ behavior: 'smooth' });
+});
+
+document.getElementById('chart-title9').addEventListener('click' , function(e) {
+    e.preventDefault();
+
+    document.getElementById('chart-title9').scrollIntoView({ behavior: 'smooth' });
+});
+
+document.getElementById('chart-title11').addEventListener('click' , function(e) {
+    e.preventDefault();
+
+    document.getElementById('chart-title11').scrollIntoView({ behavior: 'smooth' });
+});
+
+document.getElementById('chart-title10').addEventListener('click' , function(e) {
+    e.preventDefault();
+
+    document.getElementById('chart-title10').scrollIntoView({ behavior: 'smooth' });
+});
+
+document.getElementById('chart-title12').addEventListener('click' , function(e) {
+    e.preventDefault();
+
+    document.getElementById('chart-title12').scrollIntoView({ behavior: 'smooth' });
+});

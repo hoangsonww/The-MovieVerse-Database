@@ -4,8 +4,6 @@ const movieCode = {
     part3: 'ZDllOTg3ZGNjN2YxYjU1OA=='
 };
 
-let globalTrailerKey = '';
-
 function getMovieCode() {
     return atob(movieCode.part1) + atob(movieCode.part2) + atob(movieCode.part3);
 }
@@ -165,6 +163,7 @@ async function rotateUserStats() {
         clearInterval(statRotationInterval);
         updateStatDisplay();
         statRotationInterval = setInterval(updateStatDisplay, 3000);
+        localTimeDiv.scrollIntoView({ behavior: 'smooth' });
     });
 }
 
@@ -550,13 +549,6 @@ async function fetchTvDetails(tvSeriesId) {
 
         populateTvSeriesDetails(tvSeriesDetails, imdbRating);
         updateBrowserURL(tvSeriesDetails.name);
-
-        const trailer = tvSeriesDetails.videos.results.find(video => video.type === 'Trailer' && video.site === 'YouTube');
-        if (trailer) {
-            document.getElementById('trailerButton').style.display = 'block';
-            globalTrailerKey = trailer.key;
-        }
-
         hideSpinner();
     }
     catch (error) {
@@ -681,25 +673,189 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
     const productionCountries = tvSeries.production_countries && tvSeries.production_countries.length > 0 ? tvSeries.production_countries.map(country => getCountryName(country.iso_3166_1)).join(', ') : 'Information not available';
     detailsHTML += `<p><strong>Production Countries:</strong> ${productionCountries}</p>`;
 
-    if (tvSeries.created_by && tvSeries.created_by.length) {
-        const creatorsLinks = tvSeries.created_by.map(creator =>
-            `<a id="director-link" href="javascript:void(0);" onclick="handleCreatorClick(${creator.id}, '${creator.name.replace(/'/g, "\\'")}');">${creator.name}</a>`
-        ).join(', ');
-        detailsHTML += `<p><strong>Directors:</strong> ${creatorsLinks}</p>`;
-    }
-    else {
-        detailsHTML += `<p><strong>Directors:</strong> Information not available</p>`;
+    if (tvSeries.created_by && tvSeries.created_by.length > 0) {
+        const creatorsSection = document.createElement('div');
+        creatorsSection.classList.add('creators-section');
+
+        const creatorsTitle = document.createElement('p');
+        creatorsTitle.innerHTML = '<strong>Creators:</strong>';
+        creatorsSection.appendChild(creatorsTitle);
+
+        const creatorsList = document.createElement('div');
+        creatorsList.classList.add('creators-list');
+        creatorsList.style.display = 'flex';
+        creatorsList.style.flexWrap = 'wrap';
+        creatorsList.style.justifyContent = 'center';
+        creatorsList.style.gap = '10px';
+
+        tvSeries.created_by.forEach(creator => {
+            const creatorLink = document.createElement('a');
+            creatorLink.classList.add('creator-link');
+            creatorLink.href = 'javascript:void(0);';
+            creatorLink.setAttribute('onclick', `handleCreatorClick(${creator.id}, '${creator.name.replace(/'/g, "\\'")}');`);
+
+            const creatorItem = document.createElement('div');
+            creatorItem.classList.add('creator-item');
+
+            const creatorImage = document.createElement('img');
+            creatorImage.classList.add('creator-image');
+
+            if (creator.profile_path) {
+                creatorImage.src = IMGPATH + creator.profile_path;
+                creatorImage.alt = `${creator.name} Profile Picture`;
+            } else {
+                creatorImage.alt = 'Image Not Available';
+                creatorImage.style.objectFit = 'cover';
+                creatorImage.src = '../../images/user-default.png';
+                creatorImage.style.filter = 'grayscale(100%)';
+            }
+
+            creatorItem.appendChild(creatorImage);
+
+            const creatorDetails = document.createElement('div');
+            creatorDetails.classList.add('creator-details');
+
+            const creatorName = document.createElement('p');
+            creatorName.classList.add('creator-name');
+            creatorName.textContent = creator.name;
+            creatorDetails.appendChild(creatorName);
+
+            creatorItem.appendChild(creatorDetails);
+            creatorLink.appendChild(creatorItem);
+            creatorsList.appendChild(creatorLink);
+        });
+
+        creatorsSection.appendChild(creatorsList);
+        detailsHTML += creatorsSection.outerHTML;
+    } else {
+        const noCreatorsElement = document.createElement('p');
+        noCreatorsElement.innerHTML = `<strong>Creators:</strong> Information not available`;
+        detailsHTML += noCreatorsElement.outerHTML;
     }
 
-    if (tvSeries.credits && tvSeries.credits.cast && tvSeries.credits.cast.length) {
-        let castHTML = tvSeries.credits.cast.slice(0, 100).map(castMember => {
-            const escapedName = castMember.name.replace(/'/g, "\\'");
-            return `<a id="cast-info" href="javascript:void(0);" onclick="selectActorId(${castMember.id}, '${escapedName}');">${castMember.name}</a>`;
-        }).join(', ');
-        detailsHTML += `<p><strong>Cast:</strong> ${castHTML}</p>`;
+    if (tvSeries.credits && tvSeries.credits.cast && tvSeries.credits.cast.length > 0) {
+        const castSection = document.createElement('div');
+        castSection.classList.add('cast-section');
+
+        const castTitle = document.createElement('p');
+        castTitle.innerHTML = '<strong>Cast:</strong>';
+        castSection.appendChild(castTitle);
+
+        const castList = document.createElement('div');
+        castList.classList.add('cast-list');
+        castList.style.display = 'flex';
+        castList.style.flexWrap = 'wrap';
+        castList.style.justifyContent = 'center';
+        castList.style.gap = '10px';
+
+        tvSeries.credits.cast.slice(0, 10).forEach(castMember => {
+            const castMemberLink = document.createElement('a');
+            castMemberLink.classList.add('cast-member-link');
+            castMemberLink.href = 'javascript:void(0);';
+            castMemberLink.setAttribute('onclick', `selectActorId(${castMember.id}, '${castMember.name.replace(/'/g, "\\'")}');`);
+
+            const castMemberItem = document.createElement('div');
+            castMemberItem.classList.add('cast-member-item');
+
+            const castMemberImage = document.createElement('img');
+            castMemberImage.classList.add('cast-member-image');
+
+            if (castMember.profile_path) {
+                castMemberImage.src = IMGPATH + castMember.profile_path;
+                castMemberImage.alt = `${castMember.name} Profile Picture`;
+            } else {
+                castMemberImage.alt = 'Image Not Available';
+                castMemberImage.style.objectFit = 'cover';
+                castMemberImage.src = '../../images/user-default.png';
+                castMemberImage.style.filter = 'grayscale(100%)';
+            }
+
+            castMemberItem.appendChild(castMemberImage);
+
+            const castMemberDetails = document.createElement('div');
+            castMemberDetails.classList.add('cast-member-details');
+
+            const castMemberName = document.createElement('p');
+            castMemberName.classList.add('cast-member-name');
+            castMemberName.textContent = castMember.name;
+            castMemberDetails.appendChild(castMemberName);
+
+            const castMemberRole = document.createElement('p');
+            castMemberRole.classList.add('cast-member-role');
+            castMemberRole.textContent = castMember.character ? `(${castMember.character})` : '';
+            castMemberRole.style.fontStyle = 'italic';
+            castMemberDetails.appendChild(castMemberRole);
+
+            castMemberItem.appendChild(castMemberDetails);
+            castMemberLink.appendChild(castMemberItem);
+            castList.appendChild(castMemberLink);
+        });
+
+        castSection.appendChild(castList);
+        detailsHTML += castSection.outerHTML;
+    } else {
+        const noCastElement = document.createElement('p');
+        noCastElement.innerHTML = `<strong>Cast:</strong> Information not available`;
+        detailsHTML += noCastElement.outerHTML;
     }
-    else {
-        detailsHTML += `<p><strong>Cast:</strong> Information not available</p>`;
+
+    if (tvSeries.similar && tvSeries.similar.results && tvSeries.similar.results.length > 0) {
+        const similarTvSeriesSection = document.createElement('div');
+        similarTvSeriesSection.classList.add('similar-tv-series-section');
+
+        const similarTvSeriesTitle = document.createElement('p');
+        similarTvSeriesTitle.innerHTML = '<strong>Similar TV Series:</strong>';
+        similarTvSeriesSection.appendChild(similarTvSeriesTitle);
+
+        const similarTvSeriesList = document.createElement('div');
+        similarTvSeriesList.classList.add('similar-tv-series-list');
+        similarTvSeriesList.style.display = 'flex';
+        similarTvSeriesList.style.flexWrap = 'wrap';
+        similarTvSeriesList.style.justifyContent = 'center';
+        similarTvSeriesList.style.gap = '10px';
+
+        tvSeries.similar.results.slice(0, 5).forEach(similarTv => {
+            const similarTvLink = document.createElement('a');
+            similarTvLink.classList.add('similar-tv-link');
+            similarTvLink.href = 'javascript:void(0);';
+            similarTvLink.setAttribute('onclick', `selectTvSeriesId(${similarTv.id});`);
+
+            const similarTvItem = document.createElement('div');
+            similarTvItem.classList.add('similar-tv-item');
+
+            const similarTvImage = document.createElement('img');
+            similarTvImage.classList.add('similar-tv-image');
+
+            if (similarTv.poster_path) {
+                similarTvImage.src = IMGPATH + similarTv.poster_path;
+                similarTvImage.alt = `${similarTv.name} Poster`;
+            } else {
+                similarTvImage.alt = 'Image Not Available';
+                similarTvImage.src = '../../images/tv-default.png';
+                similarTvImage.style.filter = 'grayscale(100%)';
+            }
+
+            similarTvItem.appendChild(similarTvImage);
+
+            const similarTvDetails = document.createElement('div');
+            similarTvDetails.classList.add('similar-tv-details');
+
+            const similarTvName = document.createElement('p');
+            similarTvName.classList.add('similar-tv-name');
+            similarTvName.textContent = similarTv.name;
+            similarTvDetails.appendChild(similarTvName);
+
+            similarTvItem.appendChild(similarTvDetails);
+            similarTvLink.appendChild(similarTvItem);
+            similarTvSeriesList.appendChild(similarTvLink);
+        });
+
+        similarTvSeriesSection.appendChild(similarTvSeriesList);
+        detailsHTML += similarTvSeriesSection.outerHTML;
+    } else {
+        const noSimilarTvSeriesElement = document.createElement('p');
+        noSimilarTvSeriesElement.innerHTML = `<strong>Similar TV Series:</strong> Information not available`;
+        detailsHTML += noSimilarTvSeriesElement.outerHTML;
     }
 
     if (tvSeries.production_companies && tvSeries.production_companies.length) {
@@ -710,16 +866,6 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
     }
     else {
         detailsHTML += `<p><strong>Production Companies:</strong> Information not available</p>`;
-    }
-
-    if (tvSeries.similar && tvSeries.similar.results && tvSeries.similar.results.length) {
-        let similarTVHTML = tvSeries.similar.results.slice(0, 5).map(similarTv => {
-            return `<a id="similar-tv" href="javascript:void(0);" onclick="selectTvSeriesId(${similarTv.id})">${similarTv.name}</a>`;
-        }).join(', ');
-        detailsHTML += `<p><strong>Similar TV Series:</strong> ${similarTVHTML}</p>`;
-    }
-    else {
-        detailsHTML += `<p><strong>Similar TV Series:</strong> Information not available</p>`;
     }
 
     if (tvSeries.last_episode_to_air) {
@@ -1034,24 +1180,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const savedRatings = JSON.parse(localStorage.getItem('tvSeriesRatings')) || {};
     const movieRating = savedRatings[tvSeriesId] || 0;
     setStarRating(movieRating);
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('trailerButton').addEventListener('click', () => {
-        const trailerContainer = document.getElementById('trailerContainer');
-        const isOpen = trailerContainer.style.maxHeight !== '0px';
-
-        if (isOpen) {
-            trailerContainer.style.maxHeight = '0';
-        }
-        else {
-            const trailerIframe = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${globalTrailerKey}" frameborder="0" allowfullscreen></iframe>`;
-            trailerContainer.innerHTML = trailerIframe;
-            trailerContainer.style.maxWidth = '400px';
-            trailerContainer.style.maxHeight = '315px';
-            trailerContainer.style.borderRadius = '8px';
-        }
-    });
 });
 
 async function showMovieOfTheDay() {

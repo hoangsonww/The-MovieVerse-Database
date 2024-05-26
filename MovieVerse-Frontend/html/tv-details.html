@@ -244,6 +244,100 @@
                 margin-top: -60px;
             }
         }
+
+        .cast-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            overflow: hidden !important;
+        }
+
+        .cast-member-item {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 115px;
+            margin: 5px;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .cast-member-image {
+            width: 100%;
+            height: 155px;
+            object-fit: fill;
+            border-radius: 5px;
+            margin-bottom: 5px;
+        }
+
+        .cast-member-item:hover {
+            transform: scale(1.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+        }
+
+        .cast-member-details {
+            width: 100%;
+        }
+
+        .cast-member-name {
+            font-size: 12px;
+            margin: 0;
+            word-break: break-word;
+        }
+
+        .cast-member-role {
+            font-size: 11px;
+            margin: 0;
+            word-break: break-word;
+        }
+
+        .similar-tv-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            overflow: hidden !important;
+        }
+
+        .similar-tv-item {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 115px;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .similar-tv-item:hover {
+            transform: scale(1.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+        }
+
+        .similar-tv-image {
+            width: 100%;
+            height: 155px;
+            object-fit: fill;
+            border-radius: 5px;
+            margin-bottom: 5px;
+        }
+
+        .similar-tv-name {
+            font-size: 12px;
+            margin: 0;
+            word-break: break-word;
+        }
+
+        .similar-tv-link {
+            text-decoration: none;
+            color: #333;
+        }
     </style>
 </head>
 
@@ -359,17 +453,7 @@
                 <span class="star" data-value="4" title="Good to know that this is a decent movie to watch">&#9733;</span>
                 <span class="star" data-value="5" title="Great to see that you're enjoying this movie! It'll be added to your favorites list">&#9733;</span>
             </div>
-            <span id="rating-value" style="margin-top: 10px"><strong>0.0/5.0</strong></span>
-        </div>
-
-        <!-- Right side for Description and Rating -->
-        <div class="movie-right" style="margin-top: -35px">
-            <p id="movie-description" class="movie-description"></p>
-            <h2 id="movie-rating" class="movie-rating"></h2>
-
-            <button id="trailerButton" class="trailer-button" style="display:none; font: inherit; margin-top: 50px">Watch Trailer</button>
-            <div id="trailerContainer" style="overflow: hidden; max-height: 0; transition: max-height 0.5s ease-in-out;"></div>
-
+            <span id="rating-value" style="margin-top: 10px">0.0/5.0</span>
             <div id="comments-section">
                 <h3>TV Show Comments</h3>
                 <div id="comments-container"></div>
@@ -398,6 +482,15 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <!-- Right side for Description and Rating -->
+        <div class="movie-right" style=" overflow: hidden">
+            <p id="movie-description" class="movie-description" style="margin-bottom: 190px; margin-top: -180px;"></p>
+            <h2 id="movie-rating" class="movie-rating"></h2>
+
+            <button id="trailerButton" class="trailer-button" style="display:none; font: inherit; margin-top: 50px">Watch Trailer</button>
+            <div id="trailerContainer" style="overflow: hidden; max-height: 0; transition: max-height 0.5s ease-in-out;"></div>
         </div>
     </div>
 
