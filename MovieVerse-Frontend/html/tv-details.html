@@ -314,6 +314,16 @@
             text-decoration: none;
             color: #333;
         }
+
+        #movie-details-container {
+            margin-top: 20px;
+        }
+
+        @media (max-width: 767px) {
+            #movie-details-container {
+                margin-top: 0;
+            }
+        }
     </style>
 </head>
 
@@ -411,7 +421,7 @@
 
     </main>
 
-    <div class="details-container" id="movie-details-container" style="margin-bottom: 100px; margin-top: 0">
+    <div class="details-container" id="movie-details-container" style="margin-bottom: 100px;">
         <!-- Left side for Title and Image -->
         <div class="movie-left">
             <!-- Container for Title and Favorites Button -->
