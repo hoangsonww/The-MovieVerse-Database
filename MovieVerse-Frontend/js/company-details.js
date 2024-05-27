@@ -723,7 +723,7 @@ function displayCompanyMovies(movies) {
         moviesList.appendChild(movieLink);
 
         if (index < movies.length - 1) {
-            const separator = document.createTextNode(', ');
+            const separator = document.createTextNode(' ');
             moviesList.appendChild(separator);
         }
     });

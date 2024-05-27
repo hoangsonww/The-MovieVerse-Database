@@ -1025,7 +1025,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     const tmdbRating = movie.vote_average.toFixed(1);
 
     document.getElementById('movie-description').innerHTML += `
-        <p id="descriptionP"><strong>Description: </strong>${overview}</p>
+        <p><strong>Description: </strong>${overview}</p>
         ${originalTitle}
         <p><strong>Tagline:</strong> ${tagline}</p>
         <p><strong>Genres:</strong> ${genres}</p>

@@ -1133,8 +1133,8 @@ header h1 {
     overflow-y: auto;
     margin-bottom: 50px;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: flex-start;
     height: 100%;
 }
 
@@ -1151,13 +1151,14 @@ header h1 {
     padding: 10px;
     box-sizing: border-box;
     overflow-y: auto;
-    margin-top: 110px;
+    margin-top: 40px;
 }
 
 .movie-link {
     cursor: pointer;
     color: white;
     text-decoration: underline;
+    margin-right: 5px;
 }
 
 .movie-link:hover {
@@ -1236,7 +1237,6 @@ header h1 {
 .movie-description {
     font-size: 1rem;
     color: white;
-    transform: translateY(10%);
 }
 
 .actor-description {
@@ -2038,6 +2038,7 @@ strong {
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     font: inherit;
     font-size: 14px;
+    z-index: 1000000002 !important;
 }
 
 #menu-btn i {
