@@ -233,7 +233,7 @@ async function populateActorDetails(actor, credits) {
         movieList.appendChild(movieLink);
 
         if (index < credits.cast.length - 1) {
-            movieList.appendChild(document.createTextNode(', '));
+            movieList.appendChild(document.createTextNode(''));
         }
     });
 

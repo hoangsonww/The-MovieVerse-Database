@@ -115,16 +115,6 @@
             color: #ff8623;
         }
 
-        @media (max-width: 800px) {
-            .movie-description {
-                margin-top: -75px;
-            }
-            
-            #movie-details-container {
-                margin-top: -50px;
-            }
-        }
-
         header {
             margin-top: 9px;
         }
@@ -232,16 +222,6 @@
 
             #translate_control {
                 bottom: 70px;
-            }
-        }
-
-        #movie-description {
-            margin-top: -129px;
-        }
-
-        @media (min-width: 767px) {
-            #movie-description {
-                margin-top: -60px;
             }
         }
 
@@ -481,12 +461,9 @@
         </div>
 
         <!-- Right side for Description and Rating -->
-        <div class="movie-right" style=" overflow: hidden">
-            <p id="movie-description" class="movie-description" style="margin-bottom: 190px; margin-top: -180px;"></p>
+        <div class="movie-right" style="position: relative; overflow: hidden">
+            <p id="movie-description" class="movie-description"></p>
             <h2 id="movie-rating" class="movie-rating"></h2>
-
-            <button id="trailerButton" class="trailer-button" style="display:none; font: inherit; margin-top: 50px">Watch Trailer</button>
-            <div id="trailerContainer" style="overflow: hidden; max-height: 0; transition: max-height 0.5s ease-in-out;"></div>
         </div>
     </div>
 
