@@ -359,6 +359,7 @@
             }, { passive: true });
         })
     </script>
+
     <header style="margin-bottom: -60px">
         <h1 id="my-heading" style="margin-bottom: -10px" class="notranslate">
             <a id="indexLink" href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer">
@@ -852,7 +853,7 @@
 
         document.getElementById('movie-image').addEventListener('click', function() {
             let imageUrl = this.src.replace('w780', 'w1280');
-            const modalHtml = `<div id="image-modal" style="z-index: 10002; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
+            const modalHtml = `<div id="image-modal" style="z-index: 10000002; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
                                     <img src="${imageUrl}" style="max-width: 80%; max-height: 80%; border-radius: 10px;" alt="TV Series Poster" />
                                     <span style="position: absolute; top: 10px; right: 25px; font-size: 40px; cursor: pointer" id="removeBtn" onclick="document.getElementById('image-modal').remove();">&times;</span>
                                </div>`;
