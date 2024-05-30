@@ -635,7 +635,8 @@ async function movieVerseResponse(message) {
         for await (const chunk of fetchGeminiResponse(message)) {
             if (chunk === null) {
                 return "An error occurred while generating the response.";
-            } else {
+            }
+            else {
                 fullGeminiResponse += chunk;
             }
         }
@@ -644,9 +645,8 @@ async function movieVerseResponse(message) {
 }
 
 async function* fetchGeminiResponse(query) {
-    const API_KEY = 'AIzaSyCThQeEvcToMdkCjZS7Q3q76A5Ce65r1ok';
-
-    const genAI = new GoogleGenerativeAI(API_KEY);
+    const gen = 'AIzaSyCThQeEvcToMdkCjZS7Q3q76A5Ce65r1ok';
+    const genAI = new GoogleGenerativeAI(gen);
     const safetySettings = [
         {
             category: HarmCategory.HARM_CATEGORY_HARASSMENT,
