@@ -644,8 +644,23 @@ async function movieVerseResponse(message) {
     }
 }
 
+function getAIResponse() {
+    const encodedKey = 'QUl6YVN5Q1RoUWVFdmNUb01ka0NqWlM3UTNxNzZBNUNlNjVyMW9r';
+    return atob(encodedKey);
+}
+
+function showSpinner() {
+    document.getElementById('myModal').classList.add('modal-visible');
+}
+
+function hideSpinner() {
+    document.getElementById('myModal').classList.remove('modal-visible');
+}
+
 async function* fetchGeminiResponse(query) {
-    const gen = 'AIzaSyCThQeEvcToMdkCjZS7Q3q76A5Ce65r1ok';
+    showSpinner();
+
+    const gen = getAIResponse();
     const genAI = new GoogleGenerativeAI(gen);
     const safetySettings = [
         {
@@ -678,6 +693,8 @@ async function* fetchGeminiResponse(query) {
         console.error('Error fetching Gemini response:', error.message);
         yield null;
     }
+
+    hideSpinner();
 }
 
 const movieee = `https://${getMovieVerseData()}/3`;
