@@ -631,15 +631,17 @@ async function movieVerseResponse(message) {
         return "Goodbye! Thank you for using MovieVerse Assistant and have a nice day!";
     }
     else {
+        showSpinner();
         let fullGeminiResponse = '';
         for await (const chunk of fetchGeminiResponse(message)) {
             if (chunk === null) {
-                return "An error occurred while generating the response.";
+                return "An error occurred while generating the response due to high traffic. Please try again later.";
             }
             else {
                 fullGeminiResponse += chunk;
             }
         }
+        hideSpinner();
         return fullGeminiResponse;
     }
 }
