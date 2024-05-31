@@ -613,6 +613,9 @@ async function movieVerseResponse(message) {
     else if (lowerMessage.includes("bye") || lowerMessage.includes("goodbye")) {
         return "Goodbye! Thank you for using MovieVerse Assistant and have a nice day!";
     }
+    else if (lowerMessage.includes("who r u") || lowerMessage.includes("who are you") || lowerMessage.includes("what is your name") || lowerMessage.includes("what's your name") || lowerMessage.includes("what are you") || lowerMessage.includes("what r u") || lowerMessage.includes("what can u do") || lowerMessage.includes("what can you do") || lowerMessage.includes("introduce yourself")) {
+        return "I am MovieVerse Assistant, here to help you with all your movie-related or any other general queries. I am trained and powered by MovieVerse AI to provide you with the best assistance!";
+    }
     else {
         showSpinner();
         let fullGeminiResponse = '';
