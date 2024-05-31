@@ -593,11 +593,16 @@ async function fetchCompanyDetails(companyName) {
 async function movieVerseResponse(message) {
     const lowerMessage = message.toLowerCase();
 
-    if (lowerMessage.startsWith("do you know about ") || lowerMessage.startsWith("tell me about ") || lowerMessage.startsWith("what is ")) {
+    if (lowerMessage.startsWith("do you know about ") ||
+        lowerMessage.startsWith("tell me about ") ||
+        lowerMessage.startsWith("what is ")) {
         const movieName = lowerMessage.replace(/^(do you know about|show me|tell me about|what is) /, '');
         return await fetchMovieDetailsFromTMDB(movieName);
     }
-    if (lowerMessage.startsWith("show me details about ") || lowerMessage.startsWith("i want to know more about ") || lowerMessage.startsWith("details about ") || lowerMessage.startsWith("search for ")) {
+    if (lowerMessage.startsWith("show me details about ") ||
+        lowerMessage.startsWith("i want to know more about ") ||
+        lowerMessage.startsWith("details about ") ||
+        lowerMessage.startsWith("search for ")) {
         const movieName = lowerMessage.replace("show me details about ", "").replace("i want to know more about ", "");
         fetchAndRedirectToMovieDetails(movieName);
         return `Searching for details about "${movieName}". Please wait...`;
@@ -607,13 +612,13 @@ async function movieVerseResponse(message) {
         fetchMovieTrailer(movieName);
         return `Searching for the trailer of "${movieName}". Please wait...`;
     }
-    if (lowerMessage.includes("hello") || lowerMessage.includes("hi") || lowerMessage.includes("hey")) {
+    if (lowerMessage.startsWith("hello") || lowerMessage.startsWith("hi") || lowerMessage.startsWith("hey")) {
         return "Hello! How can I assist you with MovieVerse today?";
     }
-    else if (lowerMessage.includes("bye") || lowerMessage.includes("goodbye")) {
+    else if (lowerMessage.startsWith("bye") || lowerMessage.startsWith("goodbye")) {
         return "Goodbye! Thank you for using MovieVerse Assistant and have a nice day!";
     }
-    else if (lowerMessage.includes("who r u") || lowerMessage.includes("who are you") || lowerMessage.includes("what is your name") || lowerMessage.includes("what's your name") || lowerMessage.includes("what are you") || lowerMessage.includes("what r u") || lowerMessage.includes("what can u do") || lowerMessage.includes("what can you do") || lowerMessage.includes("introduce yourself")) {
+    else if (lowerMessage.startsWith("who r u") || lowerMessage.startsWith("who are you") || lowerMessage.startsWith("what is your name") || lowerMessage.startsWith("what's your name") || lowerMessage.startsWith("what are you") || lowerMessage.startsWith("what r u") || lowerMessage.startsWith("what can u do") || lowerMessage.startsWith("what can you do") || lowerMessage.startsWith("introduce yourself")) {
         return "I am MovieVerse Assistant, here to help you with all your movie-related or any other general queries. I am trained and powered by MovieVerse AI to provide you with the best assistance!";
     }
     else {
