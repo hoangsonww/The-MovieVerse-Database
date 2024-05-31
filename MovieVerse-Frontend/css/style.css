@@ -1343,7 +1343,7 @@ header h1 {
 }
 
 .modal-visible {
-    display: flex;
+    display: flex !important;
 }
 
 .pin-btn {
