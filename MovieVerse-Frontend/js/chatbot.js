@@ -13,7 +13,6 @@ const movieCode = {
 
 function getMovieCode() {
     return atob(movieCode.part1) + atob(movieCode.part2) + atob(movieCode.part3);
-    return atob(movieCode.part1) + atob(movieCode.part2) + atob(movieCode.part3);
 }
 
 function generateMovieNames(input) {

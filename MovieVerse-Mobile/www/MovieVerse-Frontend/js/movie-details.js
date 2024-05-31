@@ -28,6 +28,7 @@ const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&${generateMov
 
 const main = document.getElementById("main");
 const IMGPATH = "https://image.tmdb.org/t/p/w780";
+const IMGPATH2 = "https://image.tmdb.org/t/p/w185";
 const favoriteButton = document.getElementById("favorite-btn");
 const searchTitle = document.getElementById("search-title");
 
@@ -1074,9 +1075,10 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
                 directorImage.classList.add('cast-image');
 
                 if (director.profile_path) {
-                    directorImage.src = IMGPATH + director.profile_path;
+                    directorImage.src = IMGPATH2 + director.profile_path;
                     directorImage.alt = `${director.name} Profile Picture`;
-                } else {
+                }
+                else {
                     directorImage.alt = 'Image Not Available';
                     directorImage.src = '../../images/user-default.png';
                     directorImage.style.filter = 'grayscale(100%)';
@@ -1136,7 +1138,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
             actorImage.classList.add('cast-image');
 
             if (actor.profile_path) {
-                actorImage.src = IMGPATH + actor.profile_path;
+                actorImage.src = IMGPATH2 + actor.profile_path;
                 actorImage.alt = `${actor.name} Profile Picture`;
             } else {
                 actorImage.alt = 'Image Not Available';
@@ -1202,7 +1204,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
             similarMovieImage.classList.add('cast-image');
 
             if (similarMovie.poster_path) {
-                similarMovieImage.src = IMGPATH + similarMovie.poster_path;
+                similarMovieImage.src = IMGPATH2 + similarMovie.poster_path;
                 similarMovieImage.alt = `${similarMovie.title} Poster`;
             } else {
                 similarMovieImage.alt = 'Image Not Available';

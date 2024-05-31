@@ -3,6 +3,7 @@ const searchButton = document.getElementById("button-search");
 const form = document.getElementById("form1");
 const main = document.getElementById("main");
 const IMGPATH = "https://image.tmdb.org/t/p/w1280";
+const IMGPATH2 = "https://image.tmdb.org/t/p/w185";
 const searchTitle = document.getElementById("search-title");
 
 function showSpinner() {
@@ -209,7 +210,7 @@ async function populateActorDetails(actor, credits) {
         movieImage.classList.add('movie-image');
 
         if (movie.poster_path) {
-            movieImage.src = IMGPATH + movie.poster_path;
+            movieImage.src = IMGPATH2 + movie.poster_path;
             movieImage.alt = `${movie.title} Poster`;
         } else {
             movieImage.alt = 'Image Not Available';
