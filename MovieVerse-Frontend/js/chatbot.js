@@ -2,6 +2,7 @@ import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory } from "@google/ge
 
 const chatbotInput = document.getElementById("chatbotInput");
 const chatbotBody = document.getElementById("chatbotBody");
+const movieee = `https://${getMovieVerseData()}/3`;
 let initialMainContent;
 
 const movieCode = {
@@ -402,11 +403,8 @@ function sendInitialInstructions() {
         <ul style="text-align: left; margin-bottom: 10px; color: #fff;">
             <li>To find details about a movie, type "Show me details about [movie name]".</li>
             <li>To watch a movie trailer, type "Show trailer for [movie name]".</li>
-            <li>To get information about a director, type "Details about director [director's name]".</li>
-            <li>To learn about an actor, type "Details about actor [actor's name]".</li>
-            <li>To find information on a production company, type "Details about company [company name]".</li>
             <li>Or, if you just want quick information about a movie, type "Tell me about [movie name]" or "Do you know about [movie name]".</li>
-            <li>You can also ask about genres, top-rated movies, latest movies, get a recommended movie, and many more!</li>
+            <li>You can also ask about genres, top-rated movies, latest movies, get a recommended movie, and any general questions!</li>
         </ul>
         <div style="text-align: left; color: #fff;">How may I assist you today?</div>
     `;
@@ -541,7 +539,7 @@ async function getTrailerUrl(movieId) {
 function createTrailerButton(trailerUrl, movieTitle) {
     const buttonId = "trailerButton";
     chatbotBody.innerHTML += `
-        <button id="trailerButton" style="margin-top: 10px;">Watch Trailer for ${movieTitle}</button>
+        <button id="trailerButton">Watch Trailer for ${movieTitle}</button>
     `;
     chatbotBody.addEventListener('click', function(event) {
         if (event.target && event.target.id === buttonId) {
@@ -609,21 +607,6 @@ async function movieVerseResponse(message) {
         fetchMovieTrailer(movieName);
         return `Searching for the trailer of "${movieName}". Please wait...`;
     }
-    if (lowerMessage.startsWith("details about director ")) {
-        const directorName = lowerMessage.replace("details about director ", "");
-        fetchPersonDetails(directorName, 'director');
-        return `Searching for details about director "${directorName}". Please wait...`;
-    }
-    if (lowerMessage.startsWith("details about actor ")) {
-        const actorName = lowerMessage.replace("details about actor ", "");
-        fetchPersonDetails(actorName, 'actor');
-        return `Searching for details about actor "${actorName}". Please wait...`;
-    }
-    if (lowerMessage.startsWith("details about company ")) {
-        const companyName = lowerMessage.replace("details about company ", "");
-        fetchCompanyDetails(companyName);
-        return `Searching for details about company "${companyName}". Please wait...`;
-    }
     if (lowerMessage.includes("hello") || lowerMessage.includes("hi") || lowerMessage.includes("hey")) {
         return "Hello! How can I assist you with MovieVerse today?";
     }
@@ -641,9 +624,18 @@ async function movieVerseResponse(message) {
                 fullGeminiResponse += chunk;
             }
         }
+        fullGeminiResponse = removeMarkdown(fullGeminiResponse);
         hideSpinner();
         return fullGeminiResponse;
     }
+}
+
+function removeMarkdown(text) {
+    const converter = new showdown.Converter();
+    const html = converter.makeHtml(text);
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = html;
+    return tempDiv.textContent || tempDiv.innerText || '';
 }
 
 function getAIResponse() {
@@ -699,8 +691,6 @@ async function* fetchGeminiResponse(query) {
     hideSpinner();
 }
 
-const movieee = `https://${getMovieVerseData()}/3`;
-
 async function fetchMovieDetailsFromTMDB(movieName) {
     const url = `${movieee}/search/movie?${generateMovieNames()}${getMovieCode()}&query=${encodeURIComponent(movieName)}`;
 
@@ -712,7 +702,7 @@ async function fetchMovieDetailsFromTMDB(movieName) {
             const movie = data.results[0];
             localStorage.setItem('selectedMovieId', movie.id);
 
-            const movieDetails = `Yes, I do! The title of the movie is ${movie.title}. Its overview is: ${movie.overview}. Its release date is ${movie.release_date}, and rating is ${movie.vote_average.toFixed(1)}. You can find more info about it if you wish <a href="../html/movie-details.html" class='movie-details-link' style='color: #ff8623; cursor: pointer; text-decoration: underline;' data-movie-id='${movie.id}'>here</a>.`;
+            const movieDetails = `The title of the movie is ${movie.title}. Its overview is: ${movie.overview}. Its release date is ${movie.release_date}, and rating is ${movie.vote_average.toFixed(1)}. You can find more info about it if you wish <a href="../html/movie-details.html" class='movie-details-link' style='color: #ff8623; cursor: pointer; text-decoration: underline;' data-movie-id='${movie.id}'>here</a>.`;
 
             return movieDetails;
         }
