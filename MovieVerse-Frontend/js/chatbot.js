@@ -626,6 +626,7 @@ async function movieVerseResponse(message) {
         let fullGeminiResponse = '';
         for await (const chunk of fetchGeminiResponse(message)) {
             if (chunk === null) {
+                hideSpinner();
                 return "An error occurred while generating the response due to high traffic on our site. We apologize for the inconvenience. Please try again later.";
             }
             else {
@@ -664,16 +665,7 @@ async function* fetchGeminiResponse(query) {
 
     const gen = getAIResponse();
     const genAI = new GoogleGenerativeAI(gen);
-    const safetySettings = [
-        {
-            category: HarmCategory.HARM_CATEGORY_HARASSMENT,
-            threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH,
-        },
-        {
-            category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
-            threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
-        },
-    ];
+    const safetySettings = [];
 
     const model = genAI.getGenerativeModel({
         model: "gemini-1.5-flash",
