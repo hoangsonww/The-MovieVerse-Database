@@ -618,7 +618,7 @@ async function movieVerseResponse(message) {
         let fullGeminiResponse = '';
         for await (const chunk of fetchGeminiResponse(message)) {
             if (chunk === null) {
-                return "An error occurred while generating the response due to high traffic. Please try again later.";
+                return "An error occurred while generating the response due to high traffic on our site. We apologize for the inconvenience. Please try again later.";
             }
             else {
                 fullGeminiResponse += chunk;
