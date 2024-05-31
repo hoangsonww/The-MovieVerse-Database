@@ -1,5 +1,8 @@
+import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory } from "@google/generative-ai";
+
 const chatbotInput = document.getElementById("chatbotInput");
 const chatbotBody = document.getElementById("chatbotBody");
+const movieee = `https://${getMovieVerseData()}/3`;
 let initialMainContent;
 
 const movieCode = {
@@ -400,11 +403,8 @@ function sendInitialInstructions() {
         <ul style="text-align: left; margin-bottom: 10px; color: #fff;">
             <li>To find details about a movie, type "Show me details about [movie name]".</li>
             <li>To watch a movie trailer, type "Show trailer for [movie name]".</li>
-            <li>To get information about a director, type "Details about director [director's name]".</li>
-            <li>To learn about an actor, type "Details about actor [actor's name]".</li>
-            <li>To find information on a production company, type "Details about company [company name]".</li>
             <li>Or, if you just want quick information about a movie, type "Tell me about [movie name]" or "Do you know about [movie name]".</li>
-            <li>You can also ask about genres, top-rated movies, latest movies, get a recommended movie, and many more!</li>
+            <li>You can also ask about genres, top-rated movies, latest movies, get a recommended movie, and any general questions!</li>
         </ul>
         <div style="text-align: left; color: #fff;">How may I assist you today?</div>
     `;
@@ -539,7 +539,7 @@ async function getTrailerUrl(movieId) {
 function createTrailerButton(trailerUrl, movieTitle) {
     const buttonId = "trailerButton";
     chatbotBody.innerHTML += `
-        <button id="trailerButton" style="margin-top: 10px;">Watch Trailer for ${movieTitle}</button>
+        <button id="trailerButton">Watch Trailer for ${movieTitle}</button>
     `;
     chatbotBody.addEventListener('click', function(event) {
         if (event.target && event.target.id === buttonId) {
@@ -607,280 +607,89 @@ async function movieVerseResponse(message) {
         fetchMovieTrailer(movieName);
         return `Searching for the trailer of "${movieName}". Please wait...`;
     }
-    if (lowerMessage.startsWith("details about director ")) {
-        const directorName = lowerMessage.replace("details about director ", "");
-        fetchPersonDetails(directorName, 'director');
-        return `Searching for details about director "${directorName}". Please wait...`;
-    }
-    if (lowerMessage.startsWith("details about actor ")) {
-        const actorName = lowerMessage.replace("details about actor ", "");
-        fetchPersonDetails(actorName, 'actor');
-        return `Searching for details about actor "${actorName}". Please wait...`;
-    }
-    if (lowerMessage.startsWith("details about company ")) {
-        const companyName = lowerMessage.replace("details about company ", "");
-        fetchCompanyDetails(companyName);
-        return `Searching for details about company "${companyName}". Please wait...`;
-    }
     if (lowerMessage.includes("hello") || lowerMessage.includes("hi") || lowerMessage.includes("hey")) {
         return "Hello! How can I assist you with MovieVerse today?";
     }
     else if (lowerMessage.includes("bye") || lowerMessage.includes("goodbye")) {
         return "Goodbye! Thank you for using MovieVerse Assistant and have a nice day!";
     }
-    else if (lowerMessage.includes("how are you")) {
-        return "I'm your digital MovieVerse assistant, ready to help! How can I assist you with movie info?";
-    }
-    else if (lowerMessage.includes("search movie")) {
-        return "To find information about a movie, please provide its name or keyword related to it.";
-    }
-    else if (lowerMessage.includes("imdb rating")) {
-        return "You can search for a movie, and I'll provide its IMDb rating among other details. Please provide the movie name!";
-    }
-    else if (lowerMessage.includes("movie description") || lowerMessage.includes("tell me about")) {
-        return "Sure, please provide the movie name you want to learn about, and I'll fetch its description for you!";
-    }
-    else if (lowerMessage.includes("how many movies")) {
-        return "MovieVerse has a vast MovieVerse-Databases of millions of movies. You can search for any movie, and I'll try to fetch details for you!";
-    }
-    else if (lowerMessage.includes("latest movies")) {
-        return "I can provide information on recent movie releases. However, for the most up-to-date releases, consider checking the 'Latest Movies' section of MovieVerse!";
-    }
-    else if (lowerMessage.includes("recommend a movie") || lowerMessage.includes("suggestion")) {
-        return "Certainly! How about watching 'Inception'? It's a critically acclaimed movie with a captivating plot!";
-    }
-    else if (lowerMessage.includes("how does this work") || lowerMessage.includes("how to use")) {
-        return "Simply type in your query related to a movie, and I'll provide details from our MovieVerse MovieVerse-Databases. You can ask about IMDb ratings, descriptions, and more!";
-    }
-    else if (lowerMessage.includes("who created this") || lowerMessage.includes("developer")) {
-        return "MovieVerse is the result of the hard work of dedicated developers passionate about movies. We hope you find it helpful!";
-    }
-    else if (lowerMessage.includes("top rated movies")) {
-        return "Our top-rated movies include 'The Shawshank Redemption', 'The Godfather', and 'The Dark Knight'. Would you like a detailed list?";
-    }
-    else if (lowerMessage.includes("genre")) {
-        return "We have movies spanning various genres: Action, Drama, Comedy, Romance, Thriller, and more! Which genre are you interested in?";
-    }
-    else if (lowerMessage.includes("actor") || lowerMessage.includes("actress")) {
-        return "Sure, which actor or actress are you interested in? Provide a name, and I'll fetch the movies they've starred in!";
-    }
-    else if (lowerMessage.includes("director")) {
-        return "Great! Which director's filmography are you interested in?";
-    }
-    else if (lowerMessage.includes("animated movies")) {
-        return "We have a wide collection of animated movies! Some popular ones include 'Toy Story', 'Frozen', and 'Spirited Away'.";
-    }
-    else if (lowerMessage.includes("thank you") || lowerMessage.includes("thanks")) {
-        return "You're welcome! If you have any more questions, feel free to ask. Enjoy your movie experience!";
-    }
-    else if (lowerMessage.includes("subscription") || lowerMessage.includes("membership")) {
-        return "MovieVerse offers different subscription tiers. For detailed information, you might want to check our 'Subscription' section.";
-    }
-    else if (lowerMessage.includes("watch movie")) {
-        return "While MovieVerse provides detailed information on movies, to watch them, you might need to visit specific streaming platforms or theaters!";
-    }
-    else if (lowerMessage.includes("are you a bot")) {
-        return "Yes, I'm the MovieVerse digital assistant. How can I help you further?";
-    }
-    else if (lowerMessage.includes("documentary")) {
-        return "We have an extensive collection of documentaries. From nature to history and science, what topic interests you?";
-    }
-    else if (lowerMessage.includes("foreign films")) {
-        return "MovieVerse has films from all around the world. Looking for any specific region or language?";
-    }
-    else if (lowerMessage.includes("classic movies")) {
-        return "Ah, classics! Some all-time favorites include 'Casablanca', 'Gone with the Wind', and 'Citizen Kane'. Would you like more recommendations?";
-    }
-    else if (lowerMessage.includes("family movies")) {
-        return "We have plenty of family-friendly movies. 'The Lion King', 'Finding Nemo', and 'Toy Story' are a few favorites. Looking for anything specific?";
-    }
-    else if (lowerMessage.includes("comedy")) {
-        return "In need of a good laugh? We've got comedies like 'Dumb and Dumber', 'Bridesmaids', and 'Anchorman' to name a few!";
-    }
-    else if (lowerMessage.includes("action movies")) {
-        return "For adrenaline junkies, we've got action-packed movies like 'Die Hard', 'Mad Max: Fury Road', and 'The Dark Knight'. Ready to dive in?";
-    }
-    else if (lowerMessage.includes("horror")) {
-        return "Looking for a scare? Consider watching 'The Exorcist', 'Psycho', or 'Get Out'. Don't forget to keep the lights on!";
-    }
-    else if (lowerMessage.includes("romance")) {
-        return "Feeling romantic? Check out 'The Notebook', 'Pride and Prejudice', or 'Before Sunrise'. Love is in the air!";
-    }
-    else if (lowerMessage.includes("sci-fi")) {
-        return "For sci-fi enthusiasts, we recommend 'Blade Runner', 'Star Wars', or 'Interstellar'. Ready to travel through space and time?";
-    }
-    else if (lowerMessage.includes("trailers")) {
-        return "Want to see what's coming up? Our 'Trailers' section has the latest teasers and previews of upcoming films!";
-    }
-    else if (lowerMessage.includes("membership benefits")) {
-        return "Members get exclusive access to early releases, high-definition streaming, and ad-free experience. Interested in upgrading?";
-    }
-    else if (lowerMessage.includes("create an account")) {
-        return "Creating an account is easy! Just head to the 'Sign Up' section on our website and follow the steps.";
-    }
-    else if (lowerMessage.includes("forgot password")) {
-        return "No worries! Just click on the 'Forgot Password' link on the login page, and we'll guide you through the reset process.";
-    }
-    else if (lowerMessage.includes("movie ratings")) {
-        return "Our ratings are sourced from critics and viewers like you. They provide a combined score to help you pick the best movies!";
-    }
-    else if (lowerMessage.includes("how do you work")) {
-        return "I'm here to answer your questions about MovieVerse and movies in general. Just ask away!";
-    }
-    else if (lowerMessage.includes("are you real")) {
-        return "I'm a virtual assistant powered by code. While I'm not real, I'm here to help!";
-    }
-    else if (lowerMessage.includes("oscar winners")) {
-        return "Looking for Oscar winners? We have a dedicated section for 'Academy Award Winners'. Check it out for a list of acclaimed films!";
-    }
-    else if (lowerMessage.includes("in theaters now")) {
-        return "Our 'Now Showing' section provides a list of movies currently playing in theaters. Planning a movie outing?";
-    }
-    else if (lowerMessage.includes("coming soon")) {
-        return "Anticipating new releases? Head over to our 'Coming Soon' tab to check out movies hitting the theaters soon!";
-    }
-    else if (lowerMessage.includes("movie runtime")) {
-        return "Please specify the movie you're inquiring about, and I'll fetch its runtime for you!";
-    }
-    else if (lowerMessage.includes("indie films")) {
-        return "Indie films offer unique storytelling. Some of our favorites include 'Moonlight', 'Lady Bird', and 'Whiplash'. Would you like to explore more indie titles?";
-    }
-    else if (lowerMessage.includes("film festivals")) {
-        return "We have a collection of movies that have made waves in film festivals. From Cannes to Sundance, which festival's winners are you interested in?";
-    }
-    else if (lowerMessage.includes("animation studios")) {
-        return "From Pixar to Studio Ghibli, we have movies from renowned animation studios. Any particular studio you're fond of?";
-    }
-    else if (lowerMessage.includes("musicals")) {
-        return "Sing your heart out! 'La La Land', 'The Greatest Showman', or classics like 'The Sound of Music' are all available. Ready for a song and dance?";
-    }
-    else if (lowerMessage.includes("kid movies")) {
-        return "For the little ones, we have 'Despicable Me', 'Frozen', and many more. Anything in particular they enjoy?";
-    }
-    else if (lowerMessage.includes("adaptations")) {
-        return "Books turned movies? We have 'Harry Potter', 'The Hunger Games', and classics like 'To Kill a Mockingbird'. Interested in a specific adaptation?";
-    }
-    else if (lowerMessage.includes("based on true stories")) {
-        return "The truth can be stranger than fiction! Check out 'The Imitation Game', 'Schindler's List', or 'Catch Me If You Can'. Any specific era or event you're interested in?";
-    }
-    else if (lowerMessage.includes("customer support")) {
-        return "Having issues? Our customer support team is here to help. You can reach out via the 'Support' section on our website.";
-    }
-    else if (lowerMessage.includes("subscription cancel")) {
-        return "We're sad to see you go. To cancel your subscription, please go to the 'Account Settings' section.";
-    }
-    else if (lowerMessage.includes("refunds")) {
-        return "For refund queries, please get in touch with our customer support. They'll guide you through the process.";
-    }
-    else if (lowerMessage.includes("device compatibility")) {
-        return "MovieVerse is compatible with a range of devices, from smartphones and tablets to desktops and smart TVs. Any specific device you're asking about?";
-    }
-    else if (lowerMessage.includes("movie suggestions based on mood")) {
-        return "Of course! Let me know your mood, and I'll suggest a movie accordingly!";
-    }
-    else if (lowerMessage.includes("movie for date night")) {
-        return "How about a romantic comedy? 'Pride & Prejudice' or something light-hearted like '500 Days of Summer'?";
-    }
-    else if (lowerMessage.includes("is there a series section")) {
-        return "Yes, apart from movies, we also have a collection of TV series. From 'Breaking Bad' to 'Stranger Things', binge away!";
-    }
-    else if (lowerMessage.includes("award-winning movies")) {
-        return "Looking for critically acclaimed cinema? Check our 'Award Winners' section for movies that have received major accolades!";
-    }
-    else if (lowerMessage.includes("do you have classics from the 80s")) {
-        return "Absolutely! The 80s were iconic. Dive into classics like 'E.T.', 'The Breakfast Club', or 'Back to the Future'. Ready for some nostalgia?";
-    }
-    else if (lowerMessage.includes("movie suggestions based on genre")) {
-        return "Sure! Let me know your favorite genre, and I'll suggest some movies accordingly!";
-    }
-    else if (lowerMessage.includes("movie suggestions based on actor")) {
-        return "Of course! Let me know your favorite actor, and I'll suggest some movies accordingly!";
-    }
-    else if (lowerMessage.includes("movie suggestions based on director")) {
-        return "Of course! Let me know your favorite director, and I'll suggest some movies accordingly!";
-    }
-    else if (lowerMessage.includes("movie suggestions based on year")) {
-        return "Of course! Let me know your favorite year, and I'll suggest some movies accordingly!";
-    }
-    else if (lowerMessage.includes("movie") || lowerMessage.includes("movies")) {
-        return "You can search for a movie using the search field above!";
-    }
-    else if (lowerMessage.includes("1900s")) {
-        return "Movies in the 1900s include: A Trip to the Moon, The Great Train Robbery, etc.";
-    }
-    else if (lowerMessage.includes("1910s")) {
-        return "Movies in the 1910s include: The Birth of a Nation, Intolerance, etc.";
-    }
-    else if (lowerMessage.includes("1920s")) {
-        return "Movies in the 1920s include: The Kid, The Gold Rush, etc.";
-    }
-    else if (lowerMessage.includes("1930s")) {
-        return "Movies in the 1930s include: King Kong, Snow White and the Seven Dwarfs, etc.";
-    }
-    else if (lowerMessage.includes("1940s")) {
-        return "Movies in the 1940s include: Citizen Kane, Casablanca, etc.";
-    }
-    else if (lowerMessage.includes("1950s")) {
-        return "Movies in the 1950s include: Sunset Boulevard, Singin' in the Rain, etc.";
-    }
-    else if (lowerMessage.includes("1960s")) {
-        return "Movies in the 1960s include: Psycho, The Apartment, etc.";
-    }
-    else if (lowerMessage.includes("1970s")) {
-        return "Movies in the 1970s include: The Godfather, Star Wars, etc.";
-    }
-    else if (lowerMessage.includes("1980s")) {
-        return "Movies in the 1980s include: Back to the Future, The Shining, etc.";
-    }
-    else if (lowerMessage.includes("1990s")) {
-        return "Movies in the 1990s include: The Silence of the Lambs, Titanic, etc.";
-    }
-    else if (lowerMessage.includes("2000s")) {
-        return "Movies in the 2000s include: The Lord of the Rings: The Return of the King, The Dark Knight, etc.";
-    }
-    else if (lowerMessage.includes("2010s")) {
-        return "Movies in the 2010s include: Inception, The Avengers, etc.";
-    }
-    else if (lowerMessage.includes("2020s")) {
-        return "Movies in the 2020s include: Tenet, Soul, etc.";
-    }
-    else if (lowerMessage.includes("2022")) {
-        return "Movies in 2022 include: Thor: Love and Thunder, Doctor Strange in the Multiverse of Madness, etc.";
-    }
-    else if (lowerMessage.includes("2023")) {
-        return "Movies in 2023 include: The Flash, Black Panther: Wakanda Forever, etc.";
-    }
-    else if (lowerMessage.includes("2024")) {
-        return "Movies in 2024 include: Indiana Jones 5, The Batman, etc.";
-    }
-    else if (lowerMessage.includes("movieverse analytics") || lowerMessage.includes("movieverse stats") || lowerMessage.includes("movieverse insights")) {
-        return "MovieVerse Analytics provides insights into user activity, popular movies, and more. You can access it by pressing the About button on the top right, then selecting MovieVerse Analytics at the bottom of the page.";
-    }
-    else if (lowerMessage.includes("most visited director")) {
-        return `The most visited director is ${getMostVisitedDirector()}.`;
-    }
-    else if (lowerMessage.includes("trivia accuracy")) {
-        return `Your trivia accuracy is ${getTriviaAccuracy()}.`;
-    }
-    else if (lowerMessage.includes("most common genre") || lowerMessage.includes("favorite genre")) {
-        return `Your most common genre is ${getMostCommonGenre()}.`;
-    }
-    else if (lowerMessage.includes("movie of the day")) {
-        showMovieOfTheDay();
-        return "Searching for the movie of the day. Please wait...";
-    }
-    else if (lowerMessage.includes("sign in") || lowerMessage.includes("sign out")) {
-        return "Please click the Sign In/Out button at the top to sign in or out.";
-    }
-    else if (lowerMessage.includes("sign up")) {
-        return "Please click the Sign In button at the top to create an account.";
-    }
     else {
-        return "Sorry, I didn't catch that or find any movies with that name in our databases. Can you rephrase, check your spelling, or ask another question?";
+        showSpinner();
+        let fullGeminiResponse = '';
+        for await (const chunk of fetchGeminiResponse(message)) {
+            if (chunk === null) {
+                return "An error occurred while generating the response due to high traffic. Please try again later.";
+            }
+            else {
+                fullGeminiResponse += chunk;
+            }
+        }
+        fullGeminiResponse = removeMarkdown(fullGeminiResponse);
+        hideSpinner();
+        return fullGeminiResponse;
     }
 }
 
-const movieee = `https://${getMovieVerseData()}/3`;
+function removeMarkdown(text) {
+    const converter = new showdown.Converter();
+    const html = converter.makeHtml(text);
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = html;
+    return tempDiv.textContent || tempDiv.innerText || '';
+}
+
+function getAIResponse() {
+    const encodedKey = 'QUl6YVN5Q1RoUWVFdmNUb01ka0NqWlM3UTNxNzZBNUNlNjVyMW9r';
+    return atob(encodedKey);
+}
+
+function showSpinner() {
+    document.getElementById('myModal').classList.add('modal-visible');
+}
+
+function hideSpinner() {
+    document.getElementById('myModal').classList.remove('modal-visible');
+}
+
+async function* fetchGeminiResponse(query) {
+    showSpinner();
+
+    const gen = getAIResponse();
+    const genAI = new GoogleGenerativeAI(gen);
+    const safetySettings = [
+        {
+            category: HarmCategory.HARM_CATEGORY_HARASSMENT,
+            threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH,
+        },
+        {
+            category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
+            threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
+        },
+    ];
+
+    const model = genAI.getGenerativeModel({
+        model: "gemini-1.5-flash",
+        safetySettings: safetySettings
+    });
+
+    try {
+        const result = await model.generateContentStream(query);
+
+        for await (const chunk of result.stream) {
+            const chunkText = chunk.text();
+
+            if (chunkText.trim()) {
+                yield chunkText;
+            }
+        }
+    }
+    catch (error) {
+        console.error('Error fetching Gemini response:', error.message);
+        yield null;
+    }
+
+    hideSpinner();
+}
 
 async function fetchMovieDetailsFromTMDB(movieName) {
     const url = `${movieee}/search/movie?${generateMovieNames()}${getMovieCode()}&query=${encodeURIComponent(movieName)}`;
@@ -893,7 +702,7 @@ async function fetchMovieDetailsFromTMDB(movieName) {
             const movie = data.results[0];
             localStorage.setItem('selectedMovieId', movie.id);
 
-            const movieDetails = `Yes, I do! The title of the movie is ${movie.title}. Its overview is: ${movie.overview}. Its release date is ${movie.release_date}, and rating is ${movie.vote_average.toFixed(1)}. You can find more info about it if you wish <a href="../html/movie-details.html" class='movie-details-link' style='color: #ff8623; cursor: pointer; text-decoration: underline;' data-movie-id='${movie.id}'>here</a>.`;
+            const movieDetails = `The title of the movie is ${movie.title}. Its overview is: ${movie.overview}. Its release date is ${movie.release_date}, and rating is ${movie.vote_average.toFixed(1)}. You can find more info about it if you wish <a href="../html/movie-details.html" class='movie-details-link' style='color: #ff8623; cursor: pointer; text-decoration: underline;' data-movie-id='${movie.id}'>here</a>.`;
 
             return movieDetails;
         }

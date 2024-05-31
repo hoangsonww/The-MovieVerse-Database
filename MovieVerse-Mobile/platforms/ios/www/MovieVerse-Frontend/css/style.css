@@ -1871,6 +1871,21 @@ strong {
     transition: 0.1s linear;
 }
 
+#trailerButton {
+    color: #fff;
+    background-color: #7378c5;
+    font: inherit;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+#trailerButton:hover {
+    background-color: #ff8623;
+    transition: 0.1s linear;
+}
+
 .trailer-button {
     display: block;
     background-color: #7378c5;
