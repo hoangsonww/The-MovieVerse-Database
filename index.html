@@ -1261,7 +1261,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            checkApiStatusWithRetry(3);
+            checkApiStatusWithRetry(5);
         });
         function checkApiStatusWithRetry(retries, delay = 1000) {
             const url = `https://${getMovieVerseData()}/3/configuration?${generateMovieNames()}${getMovieCode()}`;

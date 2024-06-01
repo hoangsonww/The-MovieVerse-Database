@@ -1206,6 +1206,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
             if (similarMovie.poster_path) {
                 similarMovieImage.src = IMGPATH2 + similarMovie.poster_path;
                 similarMovieImage.alt = `${similarMovie.title} Poster`;
+                similarMovieImage.style.objectFit = 'fill';
             } else {
                 similarMovieImage.alt = 'Image Not Available';
                 similarMovieImage.src = '../../images/movie-default.jpg';

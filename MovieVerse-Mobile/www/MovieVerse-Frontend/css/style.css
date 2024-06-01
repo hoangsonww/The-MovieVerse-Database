@@ -71,7 +71,7 @@ body {
 .cast-image {
     width: 100%;
     height: 155px;
-    object-fit: fill;
+    object-fit: cover;
     border-radius: 5px;
     margin-bottom: 5px;
 }
@@ -160,7 +160,7 @@ body {
 .creator-image {
     width: 100%;
     height: 155px;
-    object-fit: fill;
+    object-fit: cover !important;
     border-radius: 5px;
     margin-bottom: 5px;
 }
