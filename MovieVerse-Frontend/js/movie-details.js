@@ -1411,18 +1411,27 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     }
 
     const movieImage = document.getElementById('movie-image');
+
     if (movie.poster_path) {
         movieImage.src = IMGPATH + movie.poster_path;
         movieImage.alt = movie.title;
         movieImage.loading = 'lazy';
     }
     else {
-        movieImage.style.display = 'none';
+        const noImageContainer = document.createElement('div');
+        noImageContainer.id = 'no-image-container';
+        noImageContainer.style.textAlign = 'center';
+
         const noImageText = document.createElement('h2');
         noImageText.textContent = 'Movie Image Not Available';
-        noImageText.style.textAlign = 'center';
-        noImageText.style.height = '800px';
-        document.querySelector('.movie-left').appendChild(noImageText);
+        noImageContainer.appendChild(noImageText);
+
+        if (movieImage.parentNode) {
+            movieImage.parentNode.replaceChild(noImageContainer, movieImage);
+        }
+        else {
+            document.body.appendChild(noImageContainer);
+        }
     }
 
     const movieId = movie.id;
