@@ -156,4 +156,4 @@ d. Nothing in this Public License constitutes or may be interpreted as a limitat
 
 To view a copy of this license, visit [Creative Commons Attribution-NonCommercial 4.0 International Public License](https://creativecommons.org/licenses/by-nc/4.0/).
 
-This license is based on the Creative Commons Attribution-NonCommercial 4.0 International Public License.
+This license is based on the [Creative Commons Attribution-NonCommercial 4.0 International Public License](https://creativecommons.org/licenses/by-nc/4.0/).
