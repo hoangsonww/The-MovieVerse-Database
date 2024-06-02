@@ -624,6 +624,7 @@ async function movieVerseResponse(message) {
     else {
         showSpinner();
         animateLoadingDots();
+
         let fullResponse = '';
 
         try {
@@ -667,10 +668,10 @@ async function animateLoadingDots() {
     const loadingTextElement = document.querySelector('#myModal p');
     let dots = ".";
 
-    while (document.getElementById('myModal').classList.contains('modal-visible')) { //check if spinner is visible
+    while (document.getElementById('myModal').classList.contains('modal-visible')) {
         loadingTextElement.textContent = `Loading response${dots}`;
         dots = (dots.length < 3) ? dots + "." : ".";
-        await new Promise(resolve => setTimeout(resolve, 500)); // Wait 500ms
+        await new Promise(resolve => setTimeout(resolve, 500));
     }
 }
 
