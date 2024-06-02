@@ -636,7 +636,7 @@ async function movieVerseResponse(message) {
                     temperature: 1,
                     topP: 0.95,
                     topK: 64,
-                    maxOutputTokens: 512,
+                    maxOutputTokens: 8192,
                     responseMimeType: "text/plain"
                 },
                 safetySettings: [
