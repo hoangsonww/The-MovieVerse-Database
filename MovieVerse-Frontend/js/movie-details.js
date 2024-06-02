@@ -1253,7 +1253,9 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         companiesList.style.justifyContent = 'center';
         companiesList.style.gap = '10px';
 
-        movie.production_companies.forEach(company => {
+        let productionCompanies = movie.production_companies.slice(0, 6);
+
+        productionCompanies.forEach(company => {
             const companyLink = document.createElement('a');
             companyLink.classList.add('company-link');
             companyLink.href = 'javascript:void(0);';
