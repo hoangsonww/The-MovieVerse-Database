@@ -1239,15 +1239,64 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     }
 
     if (movie.production_companies && movie.production_companies.length > 0) {
-        let companiesHTML = movie.production_companies.map(company => {
-            return `<a id="prod-companies" class="company-link" href="javascript:void(0);" onclick="handleCompanyClick(${company.id}, '${company.name.replace(/'/g, "\\'")}')" title="Click to view company details">${company.name}</a>`;
-        }).join(', ');
+        const companiesSection = document.createElement('div');
+        companiesSection.classList.add('companies-section');
 
-        const productionCompaniesElement = document.createElement('p');
-        productionCompaniesElement.innerHTML = `<strong>Production Companies:</strong> ${companiesHTML}`;
-        document.getElementById('movie-description').appendChild(productionCompaniesElement);
-    }
-    else {
+        const companiesTitle = document.createElement('p');
+        companiesTitle.innerHTML = '<strong>Production Companies:</strong>';
+        companiesSection.appendChild(companiesTitle);
+
+        const companiesList = document.createElement('div');
+        companiesList.classList.add('companies-list');
+        companiesList.style.display = 'flex';
+        companiesList.style.flexWrap = 'wrap';
+        companiesList.style.justifyContent = 'center';
+        companiesList.style.gap = '10px';
+
+        movie.production_companies.forEach(company => {
+            const companyLink = document.createElement('a');
+            companyLink.classList.add('company-link');
+            companyLink.href = 'javascript:void(0);';
+            companyLink.setAttribute('onclick', `handleCompanyClick(${company.id}, '${company.name.replace(/'/g, "\\'")}');`);
+
+            const companyItem = document.createElement('div');
+            companyItem.classList.add('company-item');
+
+            const companyLogo = document.createElement('img');
+            companyLogo.classList.add('company-logo');
+
+            const IMGPATH3 = 'https://image.tmdb.org/t/p/w300';
+
+            if (company.logo_path) {
+                companyLogo.src = IMGPATH3 + company.logo_path;
+                companyLogo.alt = `${company.name} Logo`;
+                companyLogo.style.backgroundColor = 'white';
+            }
+            else {
+                companyLogo.alt = 'Logo Not Available';
+                companyLogo.src = '../../images/company-default.png';
+                companyLogo.style.filter = 'grayscale(100%)';
+                companyLogo.style.objectFit = 'cover';
+            }
+
+            companyItem.appendChild(companyLogo);
+
+            const companyDetails = document.createElement('div');
+            companyDetails.classList.add('company-details');
+
+            const companyName = document.createElement('p');
+            companyName.classList.add('company-name');
+            companyName.textContent = company.name;
+            companyDetails.appendChild(companyName);
+
+            companyItem.appendChild(companyDetails);
+            companyLink.appendChild(companyItem);
+            companiesList.appendChild(companyLink);
+        });
+
+        companiesSection.appendChild(companiesList);
+        document.getElementById('movie-description').appendChild(companiesSection);
+    } else {
         const noCompaniesElement = document.createElement('p');
         noCompaniesElement.innerHTML = `<strong>Production Companies:</strong> Information not available`;
         document.getElementById('movie-description').appendChild(noCompaniesElement);
