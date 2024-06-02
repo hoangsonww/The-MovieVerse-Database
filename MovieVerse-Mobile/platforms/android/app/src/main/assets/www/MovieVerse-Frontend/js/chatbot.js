@@ -626,7 +626,7 @@ async function movieVerseResponse(message) {
         for await (const chunk of fetchGeminiResponse(message)) {
             if (chunk === null) {
                 hideSpinner();
-                return "An error occurred while generating the response due to high traffic on our site. We apologize for the inconvenience. Please try again later.";
+                return "An error occurred while generating the response due to high traffic on our site or due to safety concerns as I am tuned to provide safe and appropriate responses. Please try again with a different query. I apologize for the inconvenience.";
             }
             else {
                 fullGeminiResponse += chunk;
@@ -664,11 +664,9 @@ async function* fetchGeminiResponse(query) {
 
     const gen = getAIResponse();
     const genAI = new GoogleGenerativeAI(gen);
-    const safetySettings = [];
 
     const model = genAI.getGenerativeModel({
         model: "gemini-1.5-flash",
-        safetySettings: safetySettings
     });
 
     try {
