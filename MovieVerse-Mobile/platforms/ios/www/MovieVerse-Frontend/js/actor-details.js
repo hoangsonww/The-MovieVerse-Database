@@ -150,7 +150,6 @@ async function populateActorDetails(actor, credits) {
         const noImageText = document.createElement('h2');
         noImageText.textContent = 'Image Not Available';
         noImageText.style.textAlign = 'center';
-        noImageText.style.height = '800px';
         document.querySelector('.actor-left').appendChild(noImageText);
     }
 

@@ -706,9 +706,25 @@ async function fetchMovieDetailsFromTMDB(movieName) {
             const movie = data.results[0];
             localStorage.setItem('selectedMovieId', movie.id);
 
-            const movieDetails = `The title of the movie is ${movie.title}. Its overview is: ${movie.overview}. Its release date is ${movie.release_date}, and rating is ${movie.vote_average.toFixed(1)}. You can find more info about it if you wish <a href="../html/movie-details.html" class='movie-details-link' style='color: #ff8623; cursor: pointer; text-decoration: underline;' data-movie-id='${movie.id}'>here</a>.`;
+            let movieOverview = movie.overview;
+            if (movieOverview.length > 500) {
+                movieOverview = movieOverview.substring(0, 500) + '...';
+            }
+            if (movieOverview === '' || movieOverview === null || !movieOverview) {
+                movieOverview = 'N/A';
+            }
 
-            return movieDetails;
+            let movieReleaseDate = movie.release_date;
+            if (movieReleaseDate === '' || movieReleaseDate === null || !movieReleaseDate) {
+                movieReleaseDate = 'N/A';
+            }
+
+            let movieVoteAverage = movie.vote_average.toFixed(1);
+            if (movieVoteAverage === '' || movieVoteAverage === null || !movieVoteAverage) {
+                movieVoteAverage = 'N/A';
+            }
+
+            return `The title of the movie is ${movie.title}. Its overview is: ${movieOverview}. Its release date is ${movieReleaseDate}, and rating is ${movieVoteAverage}. You can find more info about it if you wish <a href="../html/movie-details.html" class='movie-details-link' style='color: #ff8623; cursor: pointer; text-decoration: underline;' data-movie-id='${movie.id}'>here</a>.`;
         }
         else {
             return "I couldn't find any movie with that name. Please try another movie name.";

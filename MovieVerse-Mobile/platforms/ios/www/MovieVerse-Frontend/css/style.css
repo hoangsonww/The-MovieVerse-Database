@@ -1237,6 +1237,7 @@ header h1 {
 .movie-description {
     font-size: 1rem;
     color: white;
+    width: 100%;
 }
 
 .actor-description {

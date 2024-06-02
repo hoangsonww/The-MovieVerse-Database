@@ -147,7 +147,6 @@ async function populateDirectorDetails(director, credits) {
         const noImageText = document.createElement('h2');
         noImageText.textContent = 'Image Not Available';
         noImageText.style.textAlign = 'center';
-        noImageText.style.height = '800px';
         document.querySelector('.director-left').appendChild(noImageText);
     }
 

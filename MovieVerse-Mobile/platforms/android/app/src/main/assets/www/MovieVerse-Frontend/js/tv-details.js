@@ -574,7 +574,6 @@ async function fetchTVRatings(imdbId) {
             return data;
         }
         catch (error) {
-            console.log(`Fetching error with API Key ${apiKey}: ${error.message}`);
             return null;
         }
     }
@@ -617,8 +616,16 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
     document.title = tvSeries.name + " - TV Series Details";
 
     const posterPath = tvSeries.poster_path ? `https://image.tmdb.org/t/p/w780${tvSeries.poster_path}` : 'path/to/default/poster.jpg';
-    document.getElementById('movie-image').src = posterPath;
-    document.getElementById('movie-image').alt = `Poster of ${title}`;
+    if (tvSeries.poster_path) {
+        document.getElementById('movie-image').src = posterPath;
+        document.getElementById('movie-image').alt = `Poster of ${title}`;
+    }
+    else {
+        const noImageTitle = document.createElement('h2');
+        noImageTitle.textContent = 'TV Show Image Not Available';
+        noImageTitle.style.textAlign = 'center';
+        document.getElementById('movie-image').replaceWith(noImageTitle);
+    }
 
     let detailsHTML = `<p><strong>Overview:</strong> ${tvSeries.overview || 'Overview not available.'}</p>`;
 
