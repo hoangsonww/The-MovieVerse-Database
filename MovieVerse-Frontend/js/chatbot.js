@@ -626,7 +626,6 @@ async function movieVerseResponse(message) {
         animateLoadingDots();
 
         let fullResponse = '';
-
         try {
             const genAI = new GoogleGenerativeAI(getAIResponse());
             const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });

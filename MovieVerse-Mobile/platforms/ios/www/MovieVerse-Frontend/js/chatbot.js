@@ -623,8 +623,9 @@ async function movieVerseResponse(message) {
     }
     else {
         showSpinner();
-        let fullResponse = '';
+        animateLoadingDots();
 
+        let fullResponse = '';
         try {
             const genAI = new GoogleGenerativeAI(getAIResponse());
             const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
@@ -636,7 +637,7 @@ async function movieVerseResponse(message) {
                     temperature: 1,
                     topP: 0.95,
                     topK: 64,
-                    maxOutputTokens: 512,
+                    maxOutputTokens: 8192,
                     responseMimeType: "text/plain"
                 },
                 safetySettings: [
@@ -659,6 +660,17 @@ async function movieVerseResponse(message) {
 
         hideSpinner();
         return removeMarkdown(fullResponse);
+    }
+}
+
+async function animateLoadingDots() {
+    const loadingTextElement = document.querySelector('#myModal p');
+    let dots = ".";
+
+    while (document.getElementById('myModal').classList.contains('modal-visible')) {
+        loadingTextElement.textContent = `Loading response${dots}`;
+        dots = (dots.length < 3) ? dots + "." : ".";
+        await new Promise(resolve => setTimeout(resolve, 500));
     }
 }
 
