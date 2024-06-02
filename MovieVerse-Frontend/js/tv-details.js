@@ -545,7 +545,9 @@ async function fetchTvDetails(tvSeriesId) {
         const response = await fetch(urlWithAppend);
         const tvSeriesDetails = await response.json();
         const imdbId = tvSeriesDetails.external_ids.imdb_id;
-        const imdbRating = await fetchTVRatings(imdbId);
+
+        const imdbRatingPromise = fetchTVRatings(imdbId);
+        const imdbRating = await imdbRatingPromise;
 
         populateTvSeriesDetails(tvSeriesDetails, imdbRating);
         updateBrowserURL(tvSeriesDetails.name);
@@ -562,6 +564,22 @@ async function fetchTvDetails(tvSeriesId) {
 }
 
 async function fetchTVRatings(imdbId) {
+    if (!imdbId) {
+        return 'IMDb data unavailable but you can check it out by clicking here';
+    }
+
+    const apiKeys = [
+        await getMovieCode2(),
+        '58efe859',
+        '60a09d79',
+        '956e468a',
+        'bd55ada4',
+        'cbfc076',
+        'dc091ff2',
+        '6e367eef',
+        '2a2a3080'
+    ];
+
     const baseURL = `https://${getMovieActor()}/?i=${imdbId}&${getMovieName()}`;
 
     async function tryFetch(apiKey) {
@@ -577,18 +595,6 @@ async function fetchTVRatings(imdbId) {
             return null;
         }
     }
-
-    const apiKeys = [
-        await getMovieCode2(),
-        '58efe859',
-        '60a09d79',
-        '956e468a',
-        'bd55ada4',
-        'cbfc076',
-        'dc091ff2',
-        '6e367eef',
-        '2a2a3080'
-    ];
 
     for (const key of apiKeys) {
         const data = await tryFetch(key);

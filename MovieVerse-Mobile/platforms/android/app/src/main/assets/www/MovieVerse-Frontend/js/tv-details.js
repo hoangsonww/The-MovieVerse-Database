@@ -545,7 +545,9 @@ async function fetchTvDetails(tvSeriesId) {
         const response = await fetch(urlWithAppend);
         const tvSeriesDetails = await response.json();
         const imdbId = tvSeriesDetails.external_ids.imdb_id;
-        const imdbRating = await fetchTVRatings(imdbId);
+
+        const imdbRatingPromise = fetchTVRatings(imdbId);
+        const imdbRating = await imdbRatingPromise;
 
         populateTvSeriesDetails(tvSeriesDetails, imdbRating);
         updateBrowserURL(tvSeriesDetails.name);
@@ -562,6 +564,22 @@ async function fetchTvDetails(tvSeriesId) {
 }
 
 async function fetchTVRatings(imdbId) {
+    if (!imdbId) {
+        return 'IMDb data unavailable but you can check it out by clicking here';
+    }
+
+    const apiKeys = [
+        await getMovieCode2(),
+        '58efe859',
+        '60a09d79',
+        '956e468a',
+        'bd55ada4',
+        'cbfc076',
+        'dc091ff2',
+        '6e367eef',
+        '2a2a3080'
+    ];
+
     const baseURL = `https://${getMovieActor()}/?i=${imdbId}&${getMovieName()}`;
 
     async function tryFetch(apiKey) {
@@ -577,18 +595,6 @@ async function fetchTVRatings(imdbId) {
             return null;
         }
     }
-
-    const apiKeys = [
-        await getMovieCode2(),
-        '58efe859',
-        '60a09d79',
-        '956e468a',
-        'bd55ada4',
-        'cbfc076',
-        'dc091ff2',
-        '6e367eef',
-        '2a2a3080'
-    ];
 
     for (const key of apiKeys) {
         const data = await tryFetch(key);
@@ -867,13 +873,65 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
     }
 
     if (tvSeries.production_companies && tvSeries.production_companies.length) {
-        let companiesHTML = tvSeries.production_companies.map(company => {
-            return `<a id="prod-companies" href="javascript:void(0);" onclick="selectCompanyId(${company.id})">${company.name}</a>`;
-        }).join(', ');
-        detailsHTML += `<p><strong>Production Companies:</strong> ${companiesHTML}</p>`;
-    }
-    else {
-        detailsHTML += `<p><strong>Production Companies:</strong> Information not available</p>`;
+        const companiesSection = document.createElement('div');
+        companiesSection.classList.add('companies-section');
+
+        const companiesTitle = document.createElement('p');
+        companiesTitle.innerHTML = '<strong>Production Companies:</strong>';
+        companiesSection.appendChild(companiesTitle);
+
+        const companiesList = document.createElement('div');
+        companiesList.classList.add('companies-list');
+        companiesList.style.display = 'flex';
+        companiesList.style.flexWrap = 'wrap';
+        companiesList.style.justifyContent = 'center';
+        companiesList.style.gap = '10px';
+
+        let productionCompanies = tvSeries.production_companies.slice(0, 6);
+
+        productionCompanies.forEach(company => {
+            const companyLink = document.createElement('a');
+            companyLink.classList.add('company-link');
+            companyLink.href = 'javascript:void(0);';
+            companyLink.setAttribute('onclick', `selectCompanyId(${company.id});`);
+
+            const companyItem = document.createElement('div');
+            companyItem.classList.add('company-item');
+
+            const companyLogo = document.createElement('img');
+            companyLogo.classList.add('company-logo');
+
+            if (company.logo_path) {
+                companyLogo.src = IMGPATH + company.logo_path;
+                companyLogo.alt = `${company.name} Logo`;
+                companyLogo.style.backgroundColor = 'white';
+            } else {
+                companyLogo.alt = 'Logo Not Available';
+                companyLogo.src = '../../images/company-default.png';
+                companyLogo.style.filter = 'grayscale(100%)';
+            }
+
+            companyItem.appendChild(companyLogo);
+
+            const companyDetails = document.createElement('div');
+            companyDetails.classList.add('company-details');
+
+            const companyName = document.createElement('p');
+            companyName.classList.add('company-name');
+            companyName.textContent = company.name;
+            companyDetails.appendChild(companyName);
+
+            companyItem.appendChild(companyDetails);
+            companyLink.appendChild(companyItem);
+            companiesList.appendChild(companyLink);
+        });
+
+        companiesSection.appendChild(companiesList);
+        detailsHTML += companiesSection.outerHTML;
+    } else {
+        const noCompaniesElement = document.createElement('p');
+        noCompaniesElement.innerHTML = `<strong>Production Companies:</strong> Information not available`;
+        detailsHTML += noCompaniesElement.outerHTML;
     }
 
     if (tvSeries.last_episode_to_air) {
