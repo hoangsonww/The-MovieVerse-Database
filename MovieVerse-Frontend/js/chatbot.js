@@ -405,6 +405,7 @@ function sendInitialInstructions() {
             <li>To watch a movie trailer, type "Show trailer for [movie name]".</li>
             <li>Or, if you just want quick information about a movie, type "Tell me about [movie name]" or "Do you know about [movie name]".</li>
             <li>You can also ask about genres, top-rated movies, latest movies, get a recommended movie, and any general questions!</li>
+            <li>💡<b>Tip:</b> To get the best results, try to avoid phrasing requests like the first three pre-defined functionalities above, as they might trigger those specific functions instead of a broader search.</li> 
         </ul>
         <div style="text-align: left; color: #fff;">How may I assist you today?</div>
     `;
