@@ -4,6 +4,7 @@ const chatbotInput = document.getElementById("chatbotInput");
 const chatbotBody = document.getElementById("chatbotBody");
 const movieee = `https://${getMovieVerseData()}/3`;
 let initialMainContent;
+let conversationHistory = [];
 
 const movieCode = {
     part1: 'YzVhMjBjODY=',
@@ -622,19 +623,42 @@ async function movieVerseResponse(message) {
     }
     else {
         showSpinner();
-        let fullGeminiResponse = '';
-        for await (const chunk of fetchGeminiResponse(message)) {
-            if (chunk === null) {
-                hideSpinner();
-                return "An error occurred while generating the response due to high traffic on our site or due to safety concerns as I am tuned to provide safe and appropriate responses. Please try again with a different query. I apologize for the inconvenience.";
-            }
-            else {
-                fullGeminiResponse += chunk;
-            }
+        let fullResponse = '';
+
+        try {
+            const genAI = new GoogleGenerativeAI(getAIResponse());
+            const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+            conversationHistory.push({ role: "user", parts: [{ text: message }] });
+
+            const chatSession = model.startChat({
+                generationConfig: {
+                    temperature: 1,
+                    topP: 0.95,
+                    topK: 64,
+                    maxOutputTokens: 512,
+                    responseMimeType: "text/plain"
+                },
+                safetySettings: [
+                    { category: HarmCategory.HARM_CATEGORY_HARASSMENT, threshold: HarmBlockThreshold.BLOCK_NONE },
+                    { category: HarmCategory.HARM_CATEGORY_HATE_SPEECH, threshold: HarmBlockThreshold.BLOCK_NONE },
+                    { category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT, threshold: HarmBlockThreshold.BLOCK_NONE },
+                    { category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, threshold: HarmBlockThreshold.BLOCK_NONE }
+                ],
+                history: conversationHistory
+            });
+
+            const result = await chatSession.sendMessage(message);
+            fullResponse = result.response.text();
+            conversationHistory.push({ role: "model", parts: [{ text: fullResponse }] });
         }
-        fullGeminiResponse = removeMarkdown(fullGeminiResponse);
+        catch (error) {
+            console.error('Error fetching response:', error.message);
+            fullResponse = "An error occurred while generating the response, possibly due to high traffic or safety concerns. Please understand that I am trained by MovieVerse to provide safe and helpful responses within my limitations. I apologize for any inconvenience caused. Please try again with a different query or contact MovieVerse support for further assistance.";
+        }
+
         hideSpinner();
-        return fullGeminiResponse;
+        return removeMarkdown(fullResponse);
     }
 }
 
@@ -657,35 +681,6 @@ function showSpinner() {
 
 function hideSpinner() {
     document.getElementById('myModal').classList.remove('modal-visible');
-}
-
-async function* fetchGeminiResponse(query) {
-    showSpinner();
-
-    const gen = getAIResponse();
-    const genAI = new GoogleGenerativeAI(gen);
-
-    const model = genAI.getGenerativeModel({
-        model: "gemini-1.5-flash",
-    });
-
-    try {
-        const result = await model.generateContentStream(query);
-
-        for await (const chunk of result.stream) {
-            const chunkText = chunk.text();
-
-            if (chunkText.trim()) {
-                yield chunkText;
-            }
-        }
-    }
-    catch (error) {
-        console.error('Error fetching Gemini response:', error.message);
-        yield null;
-    }
-
-    hideSpinner();
 }
 
 async function fetchMovieDetailsFromTMDB(movieName) {
