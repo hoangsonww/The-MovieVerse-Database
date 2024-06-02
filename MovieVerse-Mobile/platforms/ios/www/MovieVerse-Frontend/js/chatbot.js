@@ -665,7 +665,7 @@ async function movieVerseResponse(message) {
 
 async function animateLoadingDots() {
     const loadingTextElement = document.querySelector('#myModal p');
-    let dots = ".";
+    let dots = "";
 
     while (document.getElementById('myModal').classList.contains('modal-visible')) {
         loadingTextElement.textContent = `Loading response${dots}`;
