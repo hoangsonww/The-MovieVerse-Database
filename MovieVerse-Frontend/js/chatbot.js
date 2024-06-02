@@ -623,6 +623,7 @@ async function movieVerseResponse(message) {
     }
     else {
         showSpinner();
+        animateLoadingDots();
         let fullResponse = '';
 
         try {
@@ -659,6 +660,17 @@ async function movieVerseResponse(message) {
 
         hideSpinner();
         return removeMarkdown(fullResponse);
+    }
+}
+
+async function animateLoadingDots() {
+    const loadingTextElement = document.querySelector('#myModal p');
+    let dots = ".";
+
+    while (document.getElementById('myModal').classList.contains('modal-visible')) { //check if spinner is visible
+        loadingTextElement.textContent = `Loading response${dots}`;
+        dots = (dots.length < 3) ? dots + "." : ".";
+        await new Promise(resolve => setTimeout(resolve, 500)); // Wait 500ms
     }
 }
 
