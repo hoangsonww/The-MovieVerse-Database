@@ -621,6 +621,8 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
     document.getElementById('movie-title').textContent = title;
     document.title = tvSeries.name + " - TV Series Details";
 
+    console.log(tvSeries)
+
     const posterPath = `https://image.tmdb.org/t/p/w780${tvSeries.poster_path}`;
     if (tvSeries.poster_path) {
         document.getElementById('movie-image').src = posterPath;
@@ -1164,6 +1166,73 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
             }
         });
     });
+
+    if (tvSeries.videos.results.find(video => video.type === 'Trailer')?.key) {
+        const trailerKey = tvSeries.videos.results.find(video => video.type === 'Trailer')?.key;
+        const trailerUrl = trailerKey ? `https://www.youtube.com/embed/${trailerKey}` : null;
+
+        const trailerButton = document.createElement('button');
+        trailerButton.textContent = 'Watch Trailer';
+        trailerButton.id = 'trailer-button';
+        trailerButton.style = `
+            background-color: #7378c5;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px; 
+            font: inherit;
+          `;
+
+        const iframeContainer = document.createElement('div');
+        iframeContainer.id = 'trailer-iframe-container';
+        iframeContainer.style = `
+            display: none; 
+            overflow: hidden;
+            margin-top: 10px;
+            max-height: 0; /* Initial height 0 */
+            transition: max-height 0.5s ease-in-out; /* Smooth transition */
+            border: none;
+            border-radius: 8px;
+          `;
+
+        trailerButton.addEventListener('click', () => {
+            if (iframeContainer.style.display === 'none') {
+                if (trailerUrl) {
+                    const iframe = document.createElement('iframe');
+                    iframe.src = trailerUrl;
+                    iframe.title = 'YouTube video player';
+                    iframe.frameborder = '0';
+                    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+                    iframe.allowFullscreen = true;
+                    iframeContainer.appendChild(iframe);
+                    iframe.style.borderRadius = '16px';
+                    iframe.style.border = 'none';
+                    iframe.style.width = '400px';
+                    iframe.style.height = '315px';
+                    trailerButton.textContent = 'Close Trailer';
+                } else {
+                    iframeContainer.innerHTML = '<p>Trailer not available.</p>';
+                }
+                iframeContainer.style.display = 'block';
+                setTimeout(() => {
+                    iframeContainer.style.maxHeight = '350px';
+                }, 10);
+            }
+            else {
+                iframeContainer.style.maxHeight = '0';
+                setTimeout(() => {
+                    iframeContainer.style.display = 'none';
+                    iframeContainer.innerHTML = '';
+                    trailerButton.textContent = 'Watch Trailer';
+                }, 500);
+            }
+        });
+
+        document.getElementById('movie-description').appendChild(trailerButton);
+        document.getElementById('movie-description').appendChild(iframeContainer);
+    }
 }
 
 async function fetchTvSeriesStreamingLinks(tvSeriesId) {
