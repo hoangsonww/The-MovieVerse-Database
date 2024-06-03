@@ -621,8 +621,6 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
     document.getElementById('movie-title').textContent = title;
     document.title = tvSeries.name + " - TV Series Details";
 
-    console.log(tvSeries)
-
     const posterPath = `https://image.tmdb.org/t/p/w780${tvSeries.poster_path}`;
     if (tvSeries.poster_path) {
         document.getElementById('movie-image').src = posterPath;
@@ -649,6 +647,9 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
     detailsHTML += `<p><strong>Last Air Date:</strong> ${tvSeries.last_air_date || 'Not available'}</p>`;
 
     detailsHTML += `<p><strong>Status:</strong> ${tvSeries.status || 'Not available'}</p>`;
+
+    const type = tvSeries.type || 'Not available';
+    detailsHTML += `<p><strong>Type:</strong> ${type}</p>`;
 
     const networks = tvSeries.networks && tvSeries.networks.length ? tvSeries.networks.map(network => network.name).join(', ') : 'Information not available';
     detailsHTML += `<p><strong>Networks:</strong> ${networks}</p>`;
