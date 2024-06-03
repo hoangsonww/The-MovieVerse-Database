@@ -621,6 +621,8 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
     document.getElementById('movie-title').textContent = title;
     document.title = tvSeries.name + " - TV Series Details";
 
+    console.log(tvSeries)
+
     const posterPath = `https://image.tmdb.org/t/p/w780${tvSeries.poster_path}`;
     if (tvSeries.poster_path) {
         document.getElementById('movie-image').src = posterPath;
@@ -671,6 +673,10 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
     detailsHTML += `<p><strong>Homepage:</strong> ${homepage}</p>`;
 
     detailsHTML += `<p><strong>Seasons:</strong> ${tvSeries.number_of_seasons || 0}, <strong>Episodes:</strong> ${tvSeries.number_of_episodes || 0}</p>`;
+
+    if (tvSeries.last_episode_to_air) {
+        detailsHTML += `<p><strong>Last Episode:</strong> ${tvSeries.last_episode_to_air.name || 'Title not available'} - "${tvSeries.last_episode_to_air.overview || 'Overview not available.'}"</p>`;
+    }
 
     if (tvSeries.origin_country && tvSeries.origin_country.length > 0) {
         const countryNames = tvSeries.origin_country.map(code => getCountryName(code)).join(', ');
@@ -827,7 +833,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
         similarTvSeriesList.style.justifyContent = 'center';
         similarTvSeriesList.style.gap = '10px';
 
-        tvSeries.similar.results.slice(0, 5).forEach(similarTv => {
+        tvSeries.similar.results.slice(0, 10).forEach(similarTv => {
             const similarTvLink = document.createElement('a');
             similarTvLink.classList.add('similar-tv-link');
             similarTvLink.href = 'javascript:void(0);';
@@ -932,10 +938,6 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
         const noCompaniesElement = document.createElement('p');
         noCompaniesElement.innerHTML = `<strong>Production Companies:</strong> Information not available`;
         detailsHTML += noCompaniesElement.outerHTML;
-    }
-
-    if (tvSeries.last_episode_to_air) {
-        detailsHTML += `<p><strong>Last Episode:</strong> ${tvSeries.last_episode_to_air.name || 'Title not available'} - "${tvSeries.last_episode_to_air.overview || 'Overview not available.'}"</p>`;
     }
 
     const tvSeriesTitleEncoded = encodeURIComponent(title);
