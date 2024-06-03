@@ -1269,9 +1269,9 @@ header h1 {
 }
 
 .company-logo {
-    max-width: 100px; /* Set the maximum width */
-    max-height: 75px; /* Set the maximum height */
-    height: auto;    /* Maintain aspect ratio */
+    max-width: 100px;
+    max-height: 75px;
+    height: auto;
     border-radius: 5px;
     margin-bottom: 5px;
 }
