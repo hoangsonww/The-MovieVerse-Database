@@ -648,6 +648,9 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
 
     detailsHTML += `<p><strong>Status:</strong> ${tvSeries.status || 'Not available'}</p>`;
 
+    const type = tvSeries.type || 'Not available';
+    detailsHTML += `<p><strong>Type:</strong> ${type}</p>`;
+
     const networks = tvSeries.networks && tvSeries.networks.length ? tvSeries.networks.map(network => network.name).join(', ') : 'Information not available';
     detailsHTML += `<p><strong>Networks:</strong> ${networks}</p>`;
 
@@ -670,6 +673,20 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
     const homepage = tvSeries.homepage ? `<a id="homepage" href="${tvSeries.homepage}" target="_blank">Visit homepage</a>` : 'Not available';
     detailsHTML += `<p><strong>Homepage:</strong> ${homepage}</p>`;
 
+    if (tvSeries.origin_country && tvSeries.origin_country.length > 0) {
+        const countryNames = tvSeries.origin_country.map(code => getCountryName(code)).join(', ');
+        detailsHTML += `<p><strong>Country of Origin:</strong> ${countryNames}</p>`;
+    }
+    else {
+        detailsHTML += `<p><strong>Country of Origin:</strong> Information not available</p>`;
+    }
+
+    const languageName = getLanguageName(tvSeries.original_language);
+    detailsHTML += `<p><strong>Original Language:</strong> ${languageName}</p>`;
+
+    const productionCountries = tvSeries.production_countries && tvSeries.production_countries.length > 0 ? tvSeries.production_countries.map(country => getCountryName(country.iso_3166_1)).join(', ') : 'Information not available';
+    detailsHTML += `<p><strong>Production Countries:</strong> ${productionCountries}</p>`;
+
     detailsHTML += `<p><strong>Seasons:</strong> ${tvSeries.number_of_seasons || 0}, <strong>Episodes:</strong> ${tvSeries.number_of_episodes || 0}</p>`;
 
     if (tvSeries.last_episode_to_air) {
@@ -685,20 +702,6 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
                             </div>`;
         }
     }
-
-    if (tvSeries.origin_country && tvSeries.origin_country.length > 0) {
-        const countryNames = tvSeries.origin_country.map(code => getCountryName(code)).join(', ');
-        detailsHTML += `<p><strong>Country of Origin:</strong> ${countryNames}</p>`;
-    }
-    else {
-        detailsHTML += `<p><strong>Country of Origin:</strong> Information not available</p>`;
-    }
-
-    const languageName = getLanguageName(tvSeries.original_language);
-    detailsHTML += `<p><strong>Original Language:</strong> ${languageName}</p>`;
-
-    const productionCountries = tvSeries.production_countries && tvSeries.production_countries.length > 0 ? tvSeries.production_countries.map(country => getCountryName(country.iso_3166_1)).join(', ') : 'Information not available';
-    detailsHTML += `<p><strong>Production Countries:</strong> ${productionCountries}</p>`;
 
     if (tvSeries.created_by && tvSeries.created_by.length > 0) {
         const creatorsSection = document.createElement('div');
@@ -1119,7 +1122,8 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
         currentIndex += direction;
         if (currentIndex < 0) {
             currentIndex = images.length - 1;
-        } else if (currentIndex >= images.length) {
+        }
+        else if (currentIndex >= images.length) {
             currentIndex = 0;
         }
         imgElement.style.opacity = '0';
@@ -1164,6 +1168,74 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
             }
         });
     });
+
+    if (tvSeries.videos.results.find(video => video.type === 'Trailer')?.key) {
+        const trailerKey = tvSeries.videos.results.find(video => video.type === 'Trailer')?.key;
+        const trailerUrl = trailerKey ? `https://www.youtube.com/embed/${trailerKey}` : null;
+
+        const trailerButton = document.createElement('button');
+        trailerButton.textContent = 'Watch Trailer';
+        trailerButton.id = 'trailer-button';
+        trailerButton.style = `
+            background-color: #7378c5;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px; 
+            font: inherit;
+          `;
+
+        const iframeContainer = document.createElement('div');
+        iframeContainer.id = 'trailer-iframe-container';
+        iframeContainer.style = `
+            display: none; 
+            overflow: hidden;
+            margin-top: 10px;
+            max-height: 0; 
+            transition: max-height 0.5s ease-in-out; 
+            border: none;
+            border-radius: 8px;
+          `;
+
+        trailerButton.addEventListener('click', () => {
+            if (iframeContainer.style.display === 'none') {
+                if (trailerUrl) {
+                    const iframe = document.createElement('iframe');
+                    iframe.src = trailerUrl;
+                    iframe.title = 'YouTube video player';
+                    iframe.frameborder = '0';
+                    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+                    iframe.allowFullscreen = true;
+                    iframeContainer.appendChild(iframe);
+                    iframe.style.borderRadius = '16px';
+                    iframe.style.border = 'none';
+                    iframe.style.width = '400px';
+                    iframe.style.height = '315px';
+                    trailerButton.textContent = 'Close Trailer';
+                }
+                else {
+                    iframeContainer.innerHTML = '<p>Trailer not available.</p>';
+                }
+                iframeContainer.style.display = 'block';
+                setTimeout(() => {
+                    iframeContainer.style.maxHeight = '350px';
+                }, 10);
+            }
+            else {
+                iframeContainer.style.maxHeight = '0';
+                setTimeout(() => {
+                    iframeContainer.style.display = 'none';
+                    iframeContainer.innerHTML = '';
+                    trailerButton.textContent = 'Watch Trailer';
+                }, 500);
+            }
+        });
+
+        document.getElementById('movie-description').appendChild(trailerButton);
+        document.getElementById('movie-description').appendChild(iframeContainer);
+    }
 }
 
 async function fetchTvSeriesStreamingLinks(tvSeriesId) {

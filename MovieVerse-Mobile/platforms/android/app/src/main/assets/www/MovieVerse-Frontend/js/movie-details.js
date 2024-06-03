@@ -932,7 +932,6 @@ async function fetchStreamingLinks(movieId) {
     }
     catch (error) {
         console.error('Error fetching streaming links:', error);
-        return [];
     }
 }
 
@@ -996,7 +995,38 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
 
     const overview = movie.overview ? movie.overview : 'No overview available';
     const genres = movie.genres.map(genre => genre.name).join(', ');
-    const releaseDate = movie.release_date ? movie.release_date : 'Release date not available';
+
+    const releaseDate = movie.release_date || 'Release date not available';
+    const releaseDateObj = new Date(releaseDate);
+    const currentDate = new Date();
+
+    let timeAgoString = "";
+    if (releaseDateObj > currentDate) {
+        timeAgoString = "0 months";
+    }
+    else {
+        const timeDiff = currentDate - releaseDateObj;
+
+        let years = Math.floor(timeDiff / (1000 * 60 * 60 * 24 * 365.25));
+        let remainingMonths = Math.round((timeDiff % (1000 * 60 * 60 * 24 * 365.25)) / (1000 * 60 * 60 * 24 * 30.44));
+
+        if (remainingMonths >= 12) {
+            years += 1;
+            remainingMonths -= 12;
+        }
+
+        if (years > 0) {
+            timeAgoString += `${years} year${years > 1 ? 's' : ''}`;
+            if (remainingMonths > 0) {
+                timeAgoString += ` and `;
+            }
+        }
+        if (remainingMonths > 0 || years === 0) {
+            timeAgoString += `${remainingMonths} month${remainingMonths > 1 ? 's' : ''}`;
+        }
+    }
+
+    const releaseDateWithTimeAgo = `${releaseDate} (${timeAgoString} ago)`;
 
     const budget = movie.budget === 0 ? 'Information Not Available' : `$${movie.budget.toLocaleString()}`;
     const revenue = movie.revenue <= 1000 ? 'Information Not Available' : `$${movie.revenue.toLocaleString()}`;
@@ -1032,7 +1062,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         <p><strong>Genres:</strong> ${genres}</p>
         ${ratedElement}
         ${movieStatus}
-        <p><strong>Release Date:</strong> ${releaseDate}</p>
+        <p><strong>Release Date:</strong> ${releaseDateWithTimeAgo}</p>
         <p><strong>Runtime:</strong> ${runtime}</p>
         <p><strong>Budget:</strong> ${budget}</p>
         <p><strong>Revenue:</strong> ${revenue}</p>
@@ -1501,8 +1531,6 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
             detailsContainer.appendChild(trailerButton);
         }
         updateBrowserURL(movie.title);
-
-        console.log(movie2)
     }
     catch (error) {
         document.getElementById('movie-details-container').innerHTML = `
