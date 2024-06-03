@@ -1257,7 +1257,6 @@ header h1 {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    width: auto;
     margin: 5px;
     overflow: hidden;
     border-radius: 8px;
@@ -1265,24 +1264,20 @@ header h1 {
 
 @media (max-width: 768px) {
     .company-item {
-        width: 125px;
-    }
-
-    .company-logo {
-        object-fit: cover !important;
+        max-width: 125px;
     }
 }
 
 .company-logo {
-    width: 100%;
-    height: 75px;
-    object-fit: fill;
+    max-width: 100px;
+    max-height: 75px;
+    height: auto;
     border-radius: 5px;
     margin-bottom: 5px;
 }
 
 .company-item:hover {
-    transform: scale(1.05);
+    transform: scale(1.07);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
     cursor: pointer;
@@ -1312,6 +1307,24 @@ header h1 {
     transform: translateY(10%);
 }
 
+.streaming-logo {
+    display: inline-flex;
+    align-items: flex-end;
+    vertical-align: bottom;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.streaming-logo img {
+    width: 50px;
+    margin-left: 10px;
+    transition: transform 0.3s ease;
+}
+
+.streaming-logo:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
 .movie-rating {
     margin-top: 100px;
     text-align: center;
@@ -1320,6 +1333,15 @@ header h1 {
     font-weight: bold;
     color: #ffeb3b;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+#user-ratings {
+    color: inherit;
+}
+
+#user-ratings:hover {
+    color: #ff8623;
+    transition: 0.1s ease-in;
 }
 
 #userRatings {

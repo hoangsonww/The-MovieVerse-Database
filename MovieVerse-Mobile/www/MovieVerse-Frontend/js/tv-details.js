@@ -653,7 +653,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
 
     const voteAverage = tvSeries.vote_average ? tvSeries.vote_average.toFixed(1) : 'N/A';
     const voteCount = tvSeries.vote_count ? tvSeries.vote_count.toLocaleString() : 'N/A';
-    detailsHTML += `<p title="Your rating also counts - it might take a while for us to update!"><strong>MovieVerse User Rating:</strong> <strong>${(voteAverage / 2).toFixed(1)}/5.0</strong> (based on <strong>${voteCount}</strong> votes)</p>`;
+    detailsHTML += `<p title="Your rating also counts - it might take a while for us to update!"><strong>MovieVerse User Rating:</strong> <strong id="user-ratings">${(voteAverage / 2).toFixed(1)}/5.0</strong> (based on <strong id="user-ratings">${voteCount}</strong> votes)</p>`;
 
     if (tvSeries.external_ids && tvSeries.external_ids.imdb_id) {
         const imdbId = tvSeries.external_ids.imdb_id;
@@ -969,10 +969,10 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
                 break;
         }
 
-        return `<a href="${providerLink}" target="_blank" title="Watch on ${provider.provider_name}" style="display: inline-flex; align-items: flex-end; vertical-align: bottom;">
+        return `<a href="${providerLink}" target="_blank" title="Watch on ${provider.provider_name}" style="display: inline-flex; align-items: flex-end; vertical-align: bottom;" class="streaming-logo">
         <img src="https://image.tmdb.org/t/p/original${provider.logo_path}" alt="${provider.provider_name}" style="width: 50px; margin-left: 10px;">
     </a>`;
-    }).join('') + `<a href="https://www.justwatch.com/us/search?q=${tvSeriesTitleEncoded}" target="_blank" title="View more streaming options on JustWatch" style="display: inline-flex; align-items: center; vertical-align: bottom; margin-left: 10px;">
+    }).join('') + `<a href="https://www.justwatch.com/us/search?q=${tvSeriesTitleEncoded}" target="_blank" title="View more streaming options on JustWatch" class="streaming-logo" style="display: inline-flex; align-items: center; vertical-align: bottom">
         <img src="../../images/justwatchlogo.webp" alt="JustWatch" style="width: 50px;">
     </a>` : 'No streaming options available.';
 
