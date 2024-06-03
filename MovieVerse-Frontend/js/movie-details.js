@@ -1501,8 +1501,6 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
             detailsContainer.appendChild(trailerButton);
         }
         updateBrowserURL(movie.title);
-
-        console.log(movie2)
     }
     catch (error) {
         document.getElementById('movie-details-container').innerHTML = `
