@@ -675,7 +675,17 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
     detailsHTML += `<p><strong>Seasons:</strong> ${tvSeries.number_of_seasons || 0}, <strong>Episodes:</strong> ${tvSeries.number_of_episodes || 0}</p>`;
 
     if (tvSeries.last_episode_to_air) {
-        detailsHTML += `<p><strong>Last Episode:</strong> ${tvSeries.last_episode_to_air.name || 'Title not available'} - "${tvSeries.last_episode_to_air.overview || 'Overview not available.'}"</p>`;
+        const lastEpisode = tvSeries.last_episode_to_air;
+
+        detailsHTML += `<div class="last-episode">
+                            <strong>Last Episode:</strong> <em>${lastEpisode.name || 'Title not available'}</em> - ${lastEpisode.overview || 'Overview not available.'}
+                        </div>`;
+
+        if (lastEpisode.still_path) {
+            detailsHTML += `<div class="last-episode-image-container" id="last-episode-image-container">
+                                <img src="${IMGPATH + lastEpisode.still_path}" alt="${lastEpisode.name} Still Image" class="last-episode-image" id="last-episode-image">
+                            </div>`;
+        }
     }
 
     if (tvSeries.origin_country && tvSeries.origin_country.length > 0) {
@@ -757,7 +767,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
         castSection.classList.add('cast-section');
 
         const castTitle = document.createElement('p');
-        castTitle.innerHTML = '<strong>Cast:</strong>';
+        castTitle.innerHTML = '<strong>Notable Cast:</strong>';
         castSection.appendChild(castTitle);
 
         const castList = document.createElement('div');
@@ -1132,6 +1142,30 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
     document.getElementById('movie-description').innerHTML = detailsHTML;
     document.getElementById('movie-description').appendChild(mediaTitle);
     document.getElementById('movie-description').appendChild(mediaContainer);
+
+    document.getElementById('last-episode-image').addEventListener('click', function() {
+        let imageUrl = this.src.replace('w780', 'w1280');
+
+        const modalHtml = `
+            <div id="image-modal" style="z-index: 100022222; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
+                <img src="${imageUrl}" style="max-width: 80%; max-height: 80%; border-radius: 10px; cursor: default;" onclick="event.stopPropagation();" alt="Media Image"/>
+                <span style="position: absolute; top: 10px; right: 25px; font-size: 40px; cursor: pointer" id="removeBtn">&times;</span>
+            </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
+        const modal = document.getElementById('image-modal');
+        const closeModalBtn = document.getElementById('removeBtn');
+
+        closeModalBtn.onclick = function() {
+            modal.remove();
+        }
+
+        modal.addEventListener('click', function(event) {
+            if (event.target === this) {
+                this.remove();
+            }
+        });
+    });
 }
 
 async function fetchTvSeriesStreamingLinks(tvSeriesId) {

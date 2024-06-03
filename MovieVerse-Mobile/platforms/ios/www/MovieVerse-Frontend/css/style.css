@@ -99,6 +99,36 @@ body {
     font-style: italic;
 }
 
+.last-episode {
+    flex-direction: column;
+    align-items: center;
+    display: inline-block;
+}
+
+.last-episode strong {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.last-episode-image-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.last-episode-image {
+    max-width: 220px;
+    height: auto;
+    border-radius: 5px;
+}
+
+.last-episode-image:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
+
 .director-section {
     display: flex;
     flex-direction: column;
