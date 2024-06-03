@@ -681,7 +681,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
 
         if (lastEpisode.still_path) {
             detailsHTML += `<div class="last-episode-image-container" id="last-episode-image-container">
-                                <img src="${IMGPATH + lastEpisode.still_path}" alt="${lastEpisode.name} Still Image" class="last-episode-image" id="last-episode-image">
+                                <img src="${IMGPATH + lastEpisode.still_path}" alt="${lastEpisode.name} Still Image" class="last-episode-image" id="last-episode-image" alt="Last Episode Image">
                             </div>`;
         }
     }
