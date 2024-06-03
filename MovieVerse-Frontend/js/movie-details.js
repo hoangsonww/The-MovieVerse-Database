@@ -932,7 +932,6 @@ async function fetchStreamingLinks(movieId) {
     }
     catch (error) {
         console.error('Error fetching streaming links:', error);
-        return [];
     }
 }
 
@@ -998,6 +997,25 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     const genres = movie.genres.map(genre => genre.name).join(', ');
     const releaseDate = movie.release_date ? movie.release_date : 'Release date not available';
 
+    const releaseDateObj = new Date(releaseDate);
+    const currentDate = new Date();
+    const timeDiff = currentDate - releaseDateObj;
+    const years = Math.floor(timeDiff / (1000 * 60 * 60 * 24 * 365.25)); // Accounting for leap years
+    const remainingMonths = Math.floor((timeDiff % (1000 * 60 * 60 * 24 * 365.25)) / (1000 * 60 * 60 * 24 * 30.44)); // Average month length
+
+    let timeAgoString = "";
+    if (years > 0) {
+        timeAgoString += `${years} year${years > 1 ? 's' : ''}`;
+        if (remainingMonths > 0) {
+            timeAgoString += ` and `;
+        }
+    }
+    if (remainingMonths > 0) {
+        timeAgoString += `${remainingMonths} month${remainingMonths > 1 ? 's' : ''}`;
+    }
+
+    const releaseDateWithTimeAgo = `${releaseDate} (${timeAgoString} ago)`;
+
     const budget = movie.budget === 0 ? 'Information Not Available' : `$${movie.budget.toLocaleString()}`;
     const revenue = movie.revenue <= 1000 ? 'Information Not Available' : `$${movie.revenue.toLocaleString()}`;
     const tagline = movie.tagline ? movie.tagline : 'No tagline found';
@@ -1032,7 +1050,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         <p><strong>Genres:</strong> ${genres}</p>
         ${ratedElement}
         ${movieStatus}
-        <p><strong>Release Date:</strong> ${releaseDate}</p>
+        <p><strong>Release Date:</strong> ${releaseDateWithTimeAgo}</p>
         <p><strong>Runtime:</strong> ${runtime}</p>
         <p><strong>Budget:</strong> ${budget}</p>
         <p><strong>Revenue:</strong> ${revenue}</p>
