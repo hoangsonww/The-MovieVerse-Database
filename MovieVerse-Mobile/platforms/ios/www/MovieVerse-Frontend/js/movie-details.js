@@ -1337,6 +1337,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         margin: 20px auto;
         overflow: hidden;
         box-sizing: border-box;
+        border-radius: 16px;
     `;
 
     const mediaTitle = document.createElement('p');
@@ -1369,6 +1370,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         opacity: 1;
         cursor: pointer;
         object-fit: contain;
+        border-radius: 16px;
     `;
     if (images.length > 0) {
         imageElement.src = `https://image.tmdb.org/t/p/w780${images[0].file_path}`;

@@ -4045,6 +4045,7 @@ footer {
     border-radius: 10px;
     padding: 20px;
     margin: 20px 0;
+    max-width: calc(100% - 20px);
 }
 
 @keyframes dropIn {
