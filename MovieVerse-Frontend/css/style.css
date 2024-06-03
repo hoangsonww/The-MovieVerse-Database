@@ -1307,6 +1307,25 @@ header h1 {
     transform: translateY(10%);
 }
 
+.streaming-logo {
+    display: inline-flex;
+    align-items: flex-end;
+    vertical-align: bottom;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.streaming-logo img {
+    width: 50px;
+    margin-left: 10px;
+    transition: transform 0.3s ease;
+}
+
+.streaming-logo:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
+
 .movie-rating {
     margin-top: 100px;
     text-align: center;
