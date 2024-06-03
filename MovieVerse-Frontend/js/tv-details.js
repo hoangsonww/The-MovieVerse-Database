@@ -621,8 +621,6 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
     document.getElementById('movie-title').textContent = title;
     document.title = tvSeries.name + " - TV Series Details";
 
-    console.log(tvSeries)
-
     const posterPath = `https://image.tmdb.org/t/p/w780${tvSeries.poster_path}`;
     if (tvSeries.poster_path) {
         document.getElementById('movie-image').src = posterPath;
