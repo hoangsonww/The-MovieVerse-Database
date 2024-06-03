@@ -672,6 +672,20 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
     const homepage = tvSeries.homepage ? `<a id="homepage" href="${tvSeries.homepage}" target="_blank">Visit homepage</a>` : 'Not available';
     detailsHTML += `<p><strong>Homepage:</strong> ${homepage}</p>`;
 
+    if (tvSeries.origin_country && tvSeries.origin_country.length > 0) {
+        const countryNames = tvSeries.origin_country.map(code => getCountryName(code)).join(', ');
+        detailsHTML += `<p><strong>Country of Origin:</strong> ${countryNames}</p>`;
+    }
+    else {
+        detailsHTML += `<p><strong>Country of Origin:</strong> Information not available</p>`;
+    }
+
+    const languageName = getLanguageName(tvSeries.original_language);
+    detailsHTML += `<p><strong>Original Language:</strong> ${languageName}</p>`;
+
+    const productionCountries = tvSeries.production_countries && tvSeries.production_countries.length > 0 ? tvSeries.production_countries.map(country => getCountryName(country.iso_3166_1)).join(', ') : 'Information not available';
+    detailsHTML += `<p><strong>Production Countries:</strong> ${productionCountries}</p>`;
+
     detailsHTML += `<p><strong>Seasons:</strong> ${tvSeries.number_of_seasons || 0}, <strong>Episodes:</strong> ${tvSeries.number_of_episodes || 0}</p>`;
 
     if (tvSeries.last_episode_to_air) {
@@ -687,20 +701,6 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
                             </div>`;
         }
     }
-
-    if (tvSeries.origin_country && tvSeries.origin_country.length > 0) {
-        const countryNames = tvSeries.origin_country.map(code => getCountryName(code)).join(', ');
-        detailsHTML += `<p><strong>Country of Origin:</strong> ${countryNames}</p>`;
-    }
-    else {
-        detailsHTML += `<p><strong>Country of Origin:</strong> Information not available</p>`;
-    }
-
-    const languageName = getLanguageName(tvSeries.original_language);
-    detailsHTML += `<p><strong>Original Language:</strong> ${languageName}</p>`;
-
-    const productionCountries = tvSeries.production_countries && tvSeries.production_countries.length > 0 ? tvSeries.production_countries.map(country => getCountryName(country.iso_3166_1)).join(', ') : 'Information not available';
-    detailsHTML += `<p><strong>Production Countries:</strong> ${productionCountries}</p>`;
 
     if (tvSeries.created_by && tvSeries.created_by.length > 0) {
         const creatorsSection = document.createElement('div');
