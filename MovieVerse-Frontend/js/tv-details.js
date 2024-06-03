@@ -1191,8 +1191,8 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
             display: none; 
             overflow: hidden;
             margin-top: 10px;
-            max-height: 0; /* Initial height 0 */
-            transition: max-height 0.5s ease-in-out; /* Smooth transition */
+            max-height: 0; 
+            transition: max-height 0.5s ease-in-out; 
             border: none;
             border-radius: 8px;
           `;
@@ -1212,7 +1212,8 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
                     iframe.style.width = '400px';
                     iframe.style.height = '315px';
                     trailerButton.textContent = 'Close Trailer';
-                } else {
+                }
+                else {
                     iframeContainer.innerHTML = '<p>Trailer not available.</p>';
                 }
                 iframeContainer.style.display = 'block';
