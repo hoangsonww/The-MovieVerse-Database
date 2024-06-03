@@ -1121,7 +1121,8 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
         currentIndex += direction;
         if (currentIndex < 0) {
             currentIndex = images.length - 1;
-        } else if (currentIndex >= images.length) {
+        }
+        else if (currentIndex >= images.length) {
             currentIndex = 0;
         }
         imgElement.style.opacity = '0';
