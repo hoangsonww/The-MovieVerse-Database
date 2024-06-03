@@ -995,23 +995,35 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
 
     const overview = movie.overview ? movie.overview : 'No overview available';
     const genres = movie.genres.map(genre => genre.name).join(', ');
-    const releaseDate = movie.release_date ? movie.release_date : 'Release date not available';
 
+    const releaseDate = movie.release_date || 'Release date not available';
     const releaseDateObj = new Date(releaseDate);
     const currentDate = new Date();
-    const timeDiff = currentDate - releaseDateObj;
-    const years = Math.floor(timeDiff / (1000 * 60 * 60 * 24 * 365.25)); // Accounting for leap years
-    const remainingMonths = Math.floor((timeDiff % (1000 * 60 * 60 * 24 * 365.25)) / (1000 * 60 * 60 * 24 * 30.44)); // Average month length
 
     let timeAgoString = "";
-    if (years > 0) {
-        timeAgoString += `${years} year${years > 1 ? 's' : ''}`;
-        if (remainingMonths > 0) {
-            timeAgoString += ` and `;
-        }
+    if (releaseDateObj > currentDate) {
+        timeAgoString = "0 months";
     }
-    if (remainingMonths > 0) {
-        timeAgoString += `${remainingMonths} month${remainingMonths > 1 ? 's' : ''}`;
+    else {
+        const timeDiff = currentDate - releaseDateObj;
+
+        let years = Math.floor(timeDiff / (1000 * 60 * 60 * 24 * 365.25));
+        let remainingMonths = Math.round((timeDiff % (1000 * 60 * 60 * 24 * 365.25)) / (1000 * 60 * 60 * 24 * 30.44));
+
+        if (remainingMonths >= 12) {
+            years += 1;
+            remainingMonths -= 12;
+        }
+
+        if (years > 0) {
+            timeAgoString += `${years} year${years > 1 ? 's' : ''}`;
+            if (remainingMonths > 0) {
+                timeAgoString += ` and `;
+            }
+        }
+        if (remainingMonths > 0 || years === 0) {
+            timeAgoString += `${remainingMonths} month${remainingMonths > 1 ? 's' : ''}`;
+        }
     }
 
     const releaseDateWithTimeAgo = `${releaseDate} (${timeAgoString} ago)`;
