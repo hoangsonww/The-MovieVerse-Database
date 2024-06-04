@@ -1411,28 +1411,66 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     imageWrapper.appendChild(imageElement);
     mediaContainer.appendChild(imageWrapper);
 
+    let currentIndex = sessionStorage.getItem('currentIndex') ? parseInt(sessionStorage.getItem('currentIndex')) : 0;
+
+    if (images.length > 0) {
+        imageElement.src = `https://image.tmdb.org/t/p/w780${images[currentIndex].file_path}`;
+    }
+
     imageElement.addEventListener('click', function() {
         let imageUrl = this.src.replace('w780', 'w1280');
+
         const modalHtml = `
-            <div id="image-modal" style="z-index: 100022222; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
-                <img src="${imageUrl}" style="max-width: 80%; max-height: 80%; border-radius: 16px; cursor: default;" onclick="event.stopPropagation();" loading="lazy" alt="Movie Image">
-                <span style="position: absolute; top: 10px; right: 25px; font-size: 40px; cursor: pointer" id="removeBtn">&times;</span>
-            </div>
-        `;
+        <div id="image-modal" style="z-index: 100022222; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
+            <button id="prevModalButton" style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); background-color: #7378c5; color: white; border-radius: 8px; height: 30px; width: 30px; border: none; cursor: pointer; z-index: 11;"><i class="fas fa-arrow-left"></i></button>
+            <img src="${imageUrl}" style="max-width: 80%; max-height: 80%; border-radius: 16px; cursor: default; transition: opacity 0.5s ease-in-out;" onclick="event.stopPropagation();" loading="lazy" alt="Movie Image">
+            <button id="nextModalButton" style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); background-color: #7378c5; color: white; border-radius: 8px; height: 30px; width: 30px; border: none; cursor: pointer; z-index: 11;"><i class="fas fa-arrow-right"></i></button>
+            <span style="position: absolute; top: 10px; right: 25px; font-size: 40px; cursor: pointer" id="removeBtn">&times;</span>
+        </div>
+    `;
         document.body.insertAdjacentHTML('beforeend', modalHtml);
         const modal = document.getElementById('image-modal');
+        const modalImage = modal.querySelector('img');
         const closeModalBtn = document.getElementById('removeBtn');
 
         closeModalBtn.onclick = function() {
             modal.remove();
+            imageElement.src = modalImage.src.replace('w1280', 'w780');
         };
 
         modal.addEventListener('click', function(event) {
             if (event.target === this) {
                 this.remove();
+                imageElement.src = modalImage.src.replace('w1280', 'w780');
             }
         });
+
+        const prevModalButton = document.getElementById('prevModalButton');
+        prevModalButton.onmouseover = () => prevModalButton.style.backgroundColor = '#ff8623';
+        prevModalButton.onmouseout = () => prevModalButton.style.backgroundColor = '#7378c5';
+        prevModalButton.onclick = () => navigateMediaAndModal(images, imageElement, modalImage, -1);
+
+        const nextModalButton = document.getElementById('nextModalButton');
+        nextModalButton.onmouseover = () => nextModalButton.style.backgroundColor = '#ff8623';
+        nextModalButton.onmouseout = () => nextModalButton.style.backgroundColor = '#7378c5';
+        nextModalButton.onclick = () => navigateMediaAndModal(images, imageElement, modalImage, 1);
     });
+
+
+
+    function navigateMediaAndModal(images, imgElement1, imgElement2, direction) {
+        imgElement1.style.opacity = '0';
+        imgElement2.style.opacity = '0';
+
+        setTimeout(() => {
+            currentIndex = (currentIndex + direction + images.length) % images.length;
+            imgElement1.src = `https://image.tmdb.org/t/p/w780${images[currentIndex].file_path}`;
+            imgElement2.src = `https://image.tmdb.org/t/p/w1280${images[currentIndex].file_path}`;
+            sessionStorage.setItem('currentIndex', currentIndex);
+            imgElement1.style.opacity = '1';
+            imgElement2.style.opacity = '1';
+        }, 500);
+    }
 
     const prevButton = document.createElement('button');
     prevButton.innerHTML = '<i class="fas fa-arrow-left"></i>';
@@ -1476,20 +1514,14 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     nextButton.onclick = () => navigateMedia(images, imageElement, 1);
     mediaContainer.appendChild(nextButton);
 
-    let currentIndex = 0;
     function navigateMedia(images, imgElement, direction) {
-        currentIndex += direction;
-        if (currentIndex < 0) {
-            currentIndex = images.length - 1;
-        }
-        else if (currentIndex >= images.length) {
-            currentIndex = 0;
-        }
+        currentIndex = (currentIndex + direction + images.length) % images.length;
         imgElement.style.opacity = '0';
         setTimeout(() => {
             imgElement.src = `https://image.tmdb.org/t/p/w780${images[currentIndex].file_path}`;
             imgElement.style.opacity = '1';
         }, 420);
+        sessionStorage.setItem('currentIndex', currentIndex);
     }
 
     if (images.length === 0) {
