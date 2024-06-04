@@ -778,7 +778,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
         castList.style.justifyContent = 'center';
         castList.style.gap = '10px';
 
-        tvSeries.credits.cast.slice(0, 10).forEach(castMember => {
+        tvSeries.credits.cast.slice(0, 12).forEach(castMember => {
             const castMemberLink = document.createElement('a');
             castMemberLink.classList.add('cast-member-link');
             castMemberLink.href = 'javascript:void(0);';
