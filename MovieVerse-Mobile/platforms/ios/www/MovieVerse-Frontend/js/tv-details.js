@@ -844,7 +844,10 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
         similarTvSeriesList.style.justifyContent = 'center';
         similarTvSeriesList.style.gap = '10px';
 
-        tvSeries.similar.results.slice(0, 10).forEach(similarTv => {
+        let similarTvSeries = tvSeries.similar.results.sort((a, b) => b.popularity - a.popularity);
+        similarTvSeries = similarTvSeries.slice(0, 18);
+
+        similarTvSeries.forEach(similarTv => {
             const similarTvLink = document.createElement('a');
             similarTvLink.classList.add('similar-tv-link');
             similarTvLink.href = 'javascript:void(0);';

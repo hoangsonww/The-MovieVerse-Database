@@ -1153,7 +1153,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         castList.style.flexWrap = 'wrap';
         castList.style.justifyContent = 'center';
         castList.style.gap = '10px';
-        const topTwelveCast = movie.credits.cast.slice(0, 10);
+        const topTwelveCast = movie.credits.cast.slice(0, 12);
 
         topTwelveCast.forEach(actor => {
             const castItemLink = document.createElement('a');
@@ -1199,7 +1199,8 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         });
 
         castSection.appendChild(castList);
-    } else {
+    }
+    else {
         castSection.appendChild(document.createTextNode('None available.'));
     }
 
@@ -1220,7 +1221,9 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         similarMoviesList.style.justifyContent = 'center';
         similarMoviesList.style.gap = '10px';
 
-        const topTenSimilarMovies = movie.similar.results.slice(0, 10);
+        let topTenSimilarMovies = movie.similar.results;
+        topTenSimilarMovies = topTenSimilarMovies.sort((a, b) => b.popularity - a.popularity);
+        topTenSimilarMovies = topTenSimilarMovies.slice(0, 18);
         topTenSimilarMovies.forEach(similarMovie => {
             const similarMovieLink = document.createElement('a');
             similarMovieLink.classList.add('similar-movie-link');

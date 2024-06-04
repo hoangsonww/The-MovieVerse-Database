@@ -196,7 +196,10 @@ async function populateActorDetails(actor, credits) {
     movieList.style.justifyContent = 'center';
     movieList.style.gap = '10px';
 
-    credits.cast.forEach((movie, index) => {
+    let filmsToDisplay = credits.cast;
+    filmsToDisplay = filmsToDisplay.sort((a, b) => b.popularity - a.popularity);
+
+    filmsToDisplay.forEach((movie, index) => {
         const movieLink = document.createElement('a');
         movieLink.classList.add('movie-link');
         movieLink.href = 'javascript:void(0);';

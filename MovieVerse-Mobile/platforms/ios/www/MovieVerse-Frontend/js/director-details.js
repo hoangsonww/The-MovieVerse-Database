@@ -184,7 +184,8 @@ async function populateDirectorDetails(director, credits) {
     movieList.style.justifyContent = 'center';
     movieList.style.gap = '10px';
 
-    const directedMovies = credits.crew.filter(movie => movie.job === "Director");
+    let directedMovies = credits.crew.filter(movie => movie.job === "Director");
+    directedMovies = directedMovies.sort((a, b) => b.popularity - a.popularity);
 
     directedMovies.forEach((movie, index) => {
         const movieLink = document.createElement('a');

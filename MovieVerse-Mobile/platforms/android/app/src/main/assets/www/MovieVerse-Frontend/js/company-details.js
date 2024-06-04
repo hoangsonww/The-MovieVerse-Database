@@ -687,7 +687,9 @@ function displayCompanyMovies(movies) {
     moviesList.style.justifyContent = 'center';
     moviesList.style.gap = '10px';
 
-    movies.forEach((movie, index) => {
+    let moviesToDisplay = movies.sort((a, b) => b.popularity - a.popularity);
+
+    moviesToDisplay.forEach((movie, index) => {
         const movieLink = document.createElement('a');
         movieLink.classList.add('movie-link');
         movieLink.href = 'javascript:void(0);';
