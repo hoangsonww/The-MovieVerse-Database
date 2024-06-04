@@ -343,7 +343,6 @@ async function populateActorDetails(actor, credits) {
     });
 
 
-// Combined navigation function
     function navigateMediaAndModal(images, imgElement1, imgElement2, direction) {
         imgElement1.style.opacity = '0';
         imgElement2.style.opacity = '0';
