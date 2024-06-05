@@ -1395,6 +1395,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         display: flex;
         justify-content: center;
         align-items: center;
+        position: relative;
     `;
 
     const imageElement = document.createElement('img');
@@ -1489,7 +1490,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     prevButton.onmouseover = () => prevButton.style.backgroundColor = '#ff8623';
     prevButton.onmouseout = () => prevButton.style.backgroundColor = '#7378c5';
     prevButton.onclick = () => navigateMedia(images, imageElement, -1);
-    mediaContainer.appendChild(prevButton);
+    imageWrapper.appendChild(prevButton);
 
     const nextButton = document.createElement('button');
     nextButton.innerHTML = '<i class="fas fa-arrow-right"></i>';
@@ -1510,7 +1511,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     nextButton.onmouseover = () => nextButton.style.backgroundColor = '#ff8623';
     nextButton.onmouseout = () => nextButton.style.backgroundColor = '#7378c5';
     nextButton.onclick = () => navigateMedia(images, imageElement, 1);
-    mediaContainer.appendChild(nextButton);
+    imageWrapper.appendChild(nextButton);
 
     function navigateMedia(images, imgElement, direction) {
         currentIndex = (currentIndex + direction + images.length) % images.length;
