@@ -274,6 +274,20 @@ async function populateDirectorDetails(director, credits) {
     detailsContainer.appendChild(mediaTitle);
     detailsContainer.appendChild(mediaContainer);
 
+    let imageWrapper = document.getElementById('image-wrapper');
+    if (!imageWrapper) {
+        imageWrapper = document.createElement('div');
+        imageWrapper.id = 'image-wrapper';
+        imageWrapper.style = `
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        `;
+        mediaContainer.appendChild(imageWrapper);
+    }
+
     let imageElement = document.getElementById('series-media-image');
     if (!imageElement) {
         imageElement = document.createElement('img');
@@ -286,7 +300,8 @@ async function populateDirectorDetails(director, credits) {
             border-radius: 16px;
             cursor: pointer;
         `;
-        mediaContainer.appendChild(imageElement);
+        imageElement.loading = 'lazy';
+        imageWrapper.appendChild(imageElement);
     }
 
     if (images.length === 0) {
@@ -294,20 +309,20 @@ async function populateDirectorDetails(director, credits) {
     }
 
     if (images.length > 0) {
-        imageElement.src = `https://image.tmdb.org/t/p/w1280${images[0].file_path}`;
+        imageElement.src = `https://image.tmdb.org/t/p/w780${images[0].file_path}`;
     }
 
     imageElement.addEventListener('click', function () {
         const imageUrl = this.src;
 
         const modalHtml = `
-        <div id="image-modal" style="z-index: 100022222; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
-            <button id="prevModalButton" style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); background-color: #7378c5; color: white; border-radius: 8px; height: 30px; width: 30px; border: none; cursor: pointer; z-index: 11;"><i class="fas fa-arrow-left"></i></button>
-            <img src="${imageUrl}" style="max-width: 80%; max-height: 80%; border-radius: 10px; cursor: default; transition: opacity 0.5s ease-in-out;" onclick="event.stopPropagation();" alt="Media Image"/>
-            <button id="nextModalButton" style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); background-color: #7378c5; color: white; border-radius: 8px; height: 30px; width: 30px; border: none; cursor: pointer; z-index: 11;"><i class="fas fa-arrow-right"></i></button>
-            <span style="position: absolute; top: 10px; right: 25px; font-size: 40px; cursor: pointer" id="removeBtn">&times;</span>
-        </div>
-    `;
+            <div id="image-modal" style="z-index: 100022222; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
+                <button id="prevModalButton" style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); background-color: #7378c5; color: white; border-radius: 8px; height: 30px; width: 30px; border: none; cursor: pointer; z-index: 11;"><i class="fas fa-arrow-left"></i></button>
+                <img src="${imageUrl}" style="max-width: 80%; max-height: 80%; border-radius: 10px; cursor: default; transition: opacity 0.5s ease-in-out;" onclick="event.stopPropagation();" alt="Media Image"/>
+                <button id="nextModalButton" style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); background-color: #7378c5; color: white; border-radius: 8px; height: 30px; width: 30px; border: none; cursor: pointer; z-index: 11;"><i class="fas fa-arrow-right"></i></button>
+                <span style="position: absolute; top: 10px; right: 25px; font-size: 40px; cursor: pointer" id="removeBtn">&times;</span>
+            </div>
+        `;
         document.body.insertAdjacentHTML('beforeend', modalHtml);
 
         const modal = document.getElementById('image-modal');
@@ -381,20 +396,21 @@ async function populateDirectorDetails(director, credits) {
         prevButton.style.left = '0';
         nextButton.style.right = '0';
 
-        mediaContainer.appendChild(prevButton);
-        mediaContainer.appendChild(nextButton);
+        imageWrapper.appendChild(prevButton);
+        imageWrapper.appendChild(nextButton);
     }
 
     prevButton.onclick = () => navigateMedia(images, imageElement, -1);
     nextButton.onclick = () => navigateMedia(images, imageElement, 1);
 
     function navigateMedia(images, imgElement, direction) {
-        currentIndex = (currentIndex + direction + images.length) % images.length;
         imgElement.style.opacity = '0';
+        currentIndex = (currentIndex + direction + images.length) % images.length;
         setTimeout(() => {
             imgElement.src = `https://image.tmdb.org/t/p/w780${images[currentIndex].file_path}`;
             imgElement.style.opacity = '1';
-        }, 420);
+        }, 500);
+
         sessionStorage.setItem('currentIndex', currentIndex);
         updateDots(currentIndex);
     }
