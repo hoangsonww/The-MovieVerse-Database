@@ -185,7 +185,7 @@ async function populateDirectorDetails(director, credits) {
     movieList.style.display = 'flex';
     movieList.style.flexWrap = 'wrap';
     movieList.style.justifyContent = 'center';
-    movieList.style.gap = '10px';
+    movieList.style.gap = '5px';
 
     let directedMovies = credits.crew.filter(movie => movie.job === "Director");
     directedMovies = directedMovies.sort((a, b) => b.popularity - a.popularity);

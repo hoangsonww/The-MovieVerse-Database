@@ -796,7 +796,8 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
             if (castMember.profile_path) {
                 castMemberImage.src = IMGPATH + castMember.profile_path;
                 castMemberImage.alt = `${castMember.name} Profile Picture`;
-            } else {
+            }
+            else {
                 castMemberImage.alt = 'Image Not Available';
                 castMemberImage.style.objectFit = 'cover';
                 castMemberImage.src = '../../images/user-default.png';
