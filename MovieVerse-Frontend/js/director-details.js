@@ -245,17 +245,17 @@ async function populateDirectorDetails(director, credits) {
         mediaContainer = document.createElement('div');
         mediaContainer.id = 'media-container';
         mediaContainer.style = `
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        width: 450px;
-        margin: 20px auto;
-        overflow: hidden;
-        max-width: 100%;
-        box-sizing: border-box;
-    `;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            width: 450px;
+            margin: 20px auto;
+            overflow: hidden;
+            max-width: 100%;
+            box-sizing: border-box;
+        `;
         detailsContainer.appendChild(mediaContainer);
     }
 
@@ -265,10 +265,10 @@ async function populateDirectorDetails(director, credits) {
         mediaTitle.id = 'media-title';
         mediaTitle.textContent = 'Media:';
         mediaTitle.style = `
-        font-weight: bold;
-        align-self: center;
-        margin-bottom: 5px;
-    `;
+            font-weight: bold;
+            align-self: center;
+            margin-bottom: 5px;
+        `;
     }
 
     detailsContainer.appendChild(mediaTitle);
@@ -279,12 +279,12 @@ async function populateDirectorDetails(director, credits) {
         imageWrapper = document.createElement('div');
         imageWrapper.id = 'image-wrapper';
         imageWrapper.style = `
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-    `;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        `;
         mediaContainer.appendChild(imageWrapper);
     }
 
@@ -293,13 +293,13 @@ async function populateDirectorDetails(director, credits) {
         imageElement = document.createElement('img');
         imageElement.id = 'series-media-image';
         imageElement.style = `
-        max-width: 100%;
-        max-height: 210px;
-        transition: opacity 0.5s ease-in-out;
-        opacity: 1;
-        border-radius: 16px;
-        cursor: pointer;
-    `;
+            max-width: 100%;
+            max-height: 210px;
+            transition: opacity 0.5s ease-in-out;
+            opacity: 1;
+            border-radius: 16px;
+            cursor: pointer;
+        `;
         imageElement.loading = 'lazy';
         imageWrapper.appendChild(imageElement);
     }
@@ -417,11 +417,11 @@ async function populateDirectorDetails(director, credits) {
 
     const indicatorContainer = document.createElement('div');
     indicatorContainer.style = `
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 15px;
-`;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 15px;
+    `;
 
     const maxDotsPerLine = 10;
     let currentLine = document.createElement('div');
@@ -431,14 +431,14 @@ async function populateDirectorDetails(director, credits) {
         const dot = document.createElement('div');
         dot.className = 'indicator';
         dot.style = `
-        width: 8px;
-        height: 8px;
-        margin: 0 5px;
-        background-color: ${index === currentIndex ? '#ff8623' : '#bbb'}; 
-        border-radius: 50%;
-        cursor: pointer;
-        margin-bottom: 5px;
-    `;
+            width: 8px;
+            height: 8px;
+            margin: 0 5px;
+            background-color: ${index === currentIndex ? '#ff8623' : '#bbb'}; 
+            border-radius: 50%;
+            cursor: pointer;
+            margin-bottom: 5px;
+        `;
         dot.addEventListener('click', () => {
             navigateMedia(images, imageElement, index - currentIndex);
             updateDots(index);

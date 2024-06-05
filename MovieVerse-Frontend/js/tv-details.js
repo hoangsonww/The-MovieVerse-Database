@@ -1017,17 +1017,17 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
         mediaContainer = document.createElement('div');
         mediaContainer.id = 'media-container';
         mediaContainer.style = `
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        width: 450px;
-        margin: 20px auto;
-        overflow: hidden;
-        max-width: 100%;
-        box-sizing: border-box;
-    `;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            width: 450px;
+            margin: 20px auto;
+            overflow: hidden;
+            max-width: 100%;
+            box-sizing: border-box;
+        `;
         detailsContainer.appendChild(mediaContainer);
     }
 
@@ -1037,10 +1037,10 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
         mediaTitle.id = 'media-title';
         mediaTitle.textContent = 'Media:';
         mediaTitle.style = `
-        font-weight: bold;
-        align-self: start;
-        margin-bottom: 5px;
-    `;
+            font-weight: bold;
+            align-self: start;
+            margin-bottom: 5px;
+        `;
     }
 
     let imageWrapper = document.getElementById('image-wrapper');
@@ -1048,12 +1048,12 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
         imageWrapper = document.createElement('div');
         imageWrapper.id = 'image-wrapper';
         imageWrapper.style = `
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-    `;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        `;
         mediaContainer.appendChild(imageWrapper);
     }
 
@@ -1062,13 +1062,13 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
         imageElement = document.createElement('img');
         imageElement.id = 'series-media-image';
         imageElement.style = `
-        max-width: 100%;
-        max-height: 210px;
-        transition: opacity 0.5s ease-in-out;
-        opacity: 1;
-        border-radius: 16px;
-        cursor: pointer;
-    `;
+            max-width: 100%;
+            max-height: 210px;
+            transition: opacity 0.5s ease-in-out;
+            opacity: 1;
+            border-radius: 16px;
+            cursor: pointer;
+        `;
         imageElement.loading = 'lazy';
         imageWrapper.appendChild(imageElement);
     }
@@ -1081,13 +1081,13 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
         let imageUrl = this.src.replace('w780', 'w1280');
 
         const modalHtml = `
-    <div id="image-modal" style="z-index: 100022222; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
-        <button id="prevModalButton" style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); background-color: #7378c5; color: white; border-radius: 8px; height: 30px; width: 30px; border: none; cursor: pointer; z-index: 11;"><i class="fas fa-arrow-left"></i></button>
-        <img src="${imageUrl}" style="max-width: 80%; max-height: 80%; border-radius: 10px; cursor: default; transition: opacity 0.5s ease-in-out;" onclick="event.stopPropagation();" alt="Media Image"/>
-        <button id="nextModalButton" style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); background-color: #7378c5; color: white; border-radius: 8px; height: 30px; width: 30px; border: none; cursor: pointer; z-index: 11;"><i class="fas fa-arrow-right"></i></button>
-        <span style="position: absolute; top: 10px; right: 25px; font-size: 40px; cursor: pointer" id="removeBtn">&times;</span>
-    </div>
-`;
+            <div id="image-modal" style="z-index: 100022222; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
+                <button id="prevModalButton" style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); background-color: #7378c5; color: white; border-radius: 8px; height: 30px; width: 30px; border: none; cursor: pointer; z-index: 11;"><i class="fas fa-arrow-left"></i></button>
+                <img src="${imageUrl}" style="max-width: 80%; max-height: 80%; border-radius: 10px; cursor: default; transition: opacity 0.5s ease-in-out;" onclick="event.stopPropagation();" alt="Media Image"/>
+                <button id="nextModalButton" style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); background-color: #7378c5; color: white; border-radius: 8px; height: 30px; width: 30px; border: none; cursor: pointer; z-index: 11;"><i class="fas fa-arrow-right"></i></button>
+                <span style="position: absolute; top: 10px; right: 25px; font-size: 40px; cursor: pointer" id="removeBtn">&times;</span>
+            </div>
+        `;
         document.body.insertAdjacentHTML('beforeend', modalHtml);
 
         const modal = document.getElementById('image-modal');
@@ -1184,11 +1184,11 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
 
     const indicatorContainer = document.createElement('div');
     indicatorContainer.style = `
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 15px;
-`;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 15px;
+    `;
 
     const maxDotsPerLine = 10;
     let currentLine = document.createElement('div');
@@ -1198,14 +1198,14 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
         const dot = document.createElement('div');
         dot.className = 'indicator';
         dot.style = `
-        width: 8px;
-        height: 8px;
-        margin: 0 5px;
-        background-color: ${index === currentIndex ? '#ff8623' : '#bbb'}; 
-        border-radius: 50%;
-        cursor: pointer;
-        margin-bottom: 5px;
-    `;
+            width: 8px;
+            height: 8px;
+            margin: 0 5px;
+            background-color: ${index === currentIndex ? '#ff8623' : '#bbb'}; 
+            border-radius: 50%;
+            cursor: pointer;
+            margin-bottom: 5px;
+        `;
         dot.addEventListener('click', () => {
             navigateMedia(images, imageElement, index - currentIndex);
             updateDots(index);
