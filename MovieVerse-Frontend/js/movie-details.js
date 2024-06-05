@@ -37,18 +37,6 @@ let trailerUrlGlobal;
 let initialMainContent;
 let trailerButton;
 
-function getClassByRate(vote){
-    if (vote >= 8) {
-        return 'green';
-    }
-    else if (vote >= 5) {
-        return 'orange';
-    }
-    else {
-        return 'red';
-    }
-}
-
 form.addEventListener('submit', (e) => {
     e.preventDefault();
     const searchQuery = document.getElementById('search').value;
