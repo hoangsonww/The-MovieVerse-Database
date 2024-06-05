@@ -1,5 +1,6 @@
 const search = document.getElementById("search");
 const searchButton = document.getElementById("button-search");
+let currentIndex = sessionStorage.getItem('currentIndex') ? parseInt(sessionStorage.getItem('currentIndex')) : 0;
 
 function showSpinner() {
     document.getElementById('myModal').classList.add('modal-visible');
@@ -319,6 +320,7 @@ function updateDirectorVisitCount(directorId, directorName) {
 document.addEventListener('DOMContentLoaded', () => {
     showSpinner();
     initialMainContent = document.getElementById('main').innerHTML;
+    currentIndex = 0;
 
     const movieId = localStorage.getItem('selectedMovieId');
     if (movieId) {
@@ -1405,16 +1407,12 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         object-fit: contain;
         border-radius: 16px;
     `;
-    if (images.length > 0) {
-        imageElement.src = `https://image.tmdb.org/t/p/w780${images[0].file_path}`;
-    }
+
     imageWrapper.appendChild(imageElement);
     mediaContainer.appendChild(imageWrapper);
 
-    let currentIndex = sessionStorage.getItem('currentIndex') ? parseInt(sessionStorage.getItem('currentIndex')) : 0;
-
     if (images.length > 0) {
-        imageElement.src = `https://image.tmdb.org/t/p/w780${images[currentIndex].file_path}`;
+        imageElement.src = `https://image.tmdb.org/t/p/w780${images[0].file_path}`;
     }
 
     imageElement.addEventListener('click', function() {
@@ -1456,8 +1454,6 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         nextModalButton.onclick = () => navigateMediaAndModal(images, imageElement, modalImage, 1);
     });
 
-
-
     function navigateMediaAndModal(images, imgElement1, imgElement2, direction) {
         imgElement1.style.opacity = '0';
         imgElement2.style.opacity = '0';
@@ -1470,6 +1466,8 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
             imgElement1.style.opacity = '1';
             imgElement2.style.opacity = '1';
         }, 500);
+
+        updateDots(currentIndex);
     }
 
     const prevButton = document.createElement('button');
@@ -1522,6 +1520,58 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
             imgElement.style.opacity = '1';
         }, 420);
         sessionStorage.setItem('currentIndex', currentIndex);
+        updateDots(currentIndex);
+    }
+
+    const indicatorContainer = document.createElement('div');
+    indicatorContainer.style = `
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 15px;
+    `;
+
+    const maxDotsPerLine = 10;
+    let currentLine = document.createElement('div');
+    currentLine.style.display = 'flex';
+
+    images.forEach((_, index) => {
+        const dot = document.createElement('div');
+        dot.className = 'indicator';
+        dot.style = `
+            width: 8px;
+            height: 8px;
+            margin: 0 5px;
+            background-color: ${index === currentIndex ? '#ff8623' : '#bbb'}; 
+            border-radius: 50%;
+            cursor: pointer;
+            margin-bottom: 5px;
+        `;
+        dot.addEventListener('click', () => {
+            navigateMedia(images, imageElement, index - currentIndex);
+            updateDots(index);
+        });
+
+        currentLine.appendChild(dot);
+
+        if ((index + 1) % maxDotsPerLine === 0 && index !== images.length - 1) {
+            indicatorContainer.appendChild(currentLine);
+            currentLine = document.createElement('div');
+            currentLine.style.display = 'flex';
+        }
+    });
+
+    if (currentLine.children.length > 0) {
+        indicatorContainer.appendChild(currentLine);
+    }
+
+    mediaContainer.appendChild(indicatorContainer);
+
+    function updateDots(newIndex) {
+        const dots = document.querySelectorAll('.indicator');
+        dots.forEach((dot, index) => {
+            dot.style.backgroundColor = index === newIndex ? '#ff8623' : '#bbb';
+        });
     }
 
     if (images.length === 0) {

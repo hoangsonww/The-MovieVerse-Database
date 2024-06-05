@@ -12,6 +12,8 @@ const movieCode = {
     part3: 'ZDllOTg3ZGNjN2YxYjU1OA=='
 };
 
+let currentIndex = sessionStorage.getItem('currentIndex') ? parseInt(sessionStorage.getItem('currentIndex')) : 0;
+
 function getMovieCode() {
     return atob(movieCode.part1) + atob(movieCode.part2) + atob(movieCode.part3);
 }
@@ -83,6 +85,7 @@ function updateSignInButtonState() {
 
 document.addEventListener("DOMContentLoaded", function() {
     updateSignInButtonState();
+    currentIndex = 0;
     document.getElementById('googleSignInBtn').addEventListener('click', handleSignInOut);
 });
 
@@ -290,8 +293,6 @@ async function populateDirectorDetails(director, credits) {
         mediaContainer.innerHTML = '<p>No media available</p>';
     }
 
-    let currentIndex = sessionStorage.getItem('currentIndex') ? parseInt(sessionStorage.getItem('currentIndex')) : 0;
-
     if (images.length > 0) {
         imageElement.src = `https://image.tmdb.org/t/p/w1280${images[0].file_path}`;
     }
@@ -337,15 +338,17 @@ async function populateDirectorDetails(director, credits) {
     function navigateMediaAndModal(images, imgElement1, imgElement2, direction) {
         imgElement1.style.opacity = '0';
         imgElement2.style.opacity = '0';
+        currentIndex = (currentIndex + direction + images.length) % images.length;
 
         setTimeout(() => {
-            currentIndex = (currentIndex + direction + images.length) % images.length;
-            imgElement1.src = `https://image.tmdb.org/t/p/w1280${images[currentIndex].file_path}`;
+            imgElement1.src = `https://image.tmdb.org/t/p/w780${images[currentIndex].file_path}`;
             imgElement2.src = `https://image.tmdb.org/t/p/w1280${images[currentIndex].file_path}`;
-            sessionStorage.setItem('currentIndex', currentIndex);
             imgElement1.style.opacity = '1';
             imgElement2.style.opacity = '1';
         }, 500);
+
+        sessionStorage.setItem('currentIndex', currentIndex);
+        updateDots(currentIndex);
     }
 
     let prevButton = document.getElementById('prev-media-button');
@@ -386,18 +389,65 @@ async function populateDirectorDetails(director, credits) {
     nextButton.onclick = () => navigateMedia(images, imageElement, 1);
 
     function navigateMedia(images, imgElement, direction) {
-        currentIndex += direction;
-        if (currentIndex < 0) {
-            currentIndex = images.length - 1;
-        }
-        else if (currentIndex >= images.length) {
-            currentIndex = 0;
-        }
+        currentIndex = (currentIndex + direction + images.length) % images.length;
         imgElement.style.opacity = '0';
         setTimeout(() => {
-            imgElement.src = `https://image.tmdb.org/t/p/w1280${images[currentIndex].file_path}`;
+            imgElement.src = `https://image.tmdb.org/t/p/w780${images[currentIndex].file_path}`;
             imgElement.style.opacity = '1';
         }, 420);
+        sessionStorage.setItem('currentIndex', currentIndex);
+        updateDots(currentIndex);
+    }
+
+    const indicatorContainer = document.createElement('div');
+    indicatorContainer.style = `
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 15px;
+    `;
+
+    const maxDotsPerLine = 10;
+    let currentLine = document.createElement('div');
+    currentLine.style.display = 'flex';
+
+    images.forEach((_, index) => {
+        const dot = document.createElement('div');
+        dot.className = 'indicator';
+        dot.style = `
+            width: 8px;
+            height: 8px;
+            margin: 0 5px;
+            background-color: ${index === currentIndex ? '#ff8623' : '#bbb'}; 
+            border-radius: 50%;
+            cursor: pointer;
+            margin-bottom: 5px;
+        `;
+        dot.addEventListener('click', () => {
+            navigateMedia(images, imageElement, index - currentIndex);
+            updateDots(index);
+        });
+
+        currentLine.appendChild(dot);
+
+        if ((index + 1) % maxDotsPerLine === 0 && index !== images.length - 1) {
+            indicatorContainer.appendChild(currentLine);
+            currentLine = document.createElement('div');
+            currentLine.style.display = 'flex';
+        }
+    });
+
+    if (currentLine.children.length > 0) {
+        indicatorContainer.appendChild(currentLine);
+    }
+
+    mediaContainer.appendChild(indicatorContainer);
+
+    function updateDots(newIndex) {
+        const dots = document.querySelectorAll('.indicator');
+        dots.forEach((dot, index) => {
+            dot.style.backgroundColor = index === newIndex ? '#ff8623' : '#bbb';
+        });
     }
 
     if (window.innerWidth <= 767) {
