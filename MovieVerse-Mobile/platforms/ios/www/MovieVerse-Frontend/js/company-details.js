@@ -685,7 +685,7 @@ function displayCompanyMovies(movies) {
     moviesList.style.display = 'flex';
     moviesList.style.flexWrap = 'wrap';
     moviesList.style.justifyContent = 'center';
-    moviesList.style.gap = '10px';
+    moviesList.style.gap = '5px';
 
     let moviesToDisplay = movies.sort((a, b) => b.popularity - a.popularity);
 

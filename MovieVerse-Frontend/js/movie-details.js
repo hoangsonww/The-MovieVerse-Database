@@ -1172,7 +1172,8 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
             if (actor.profile_path) {
                 actorImage.src = IMGPATH2 + actor.profile_path;
                 actorImage.alt = `${actor.name} Profile Picture`;
-            } else {
+            }
+            else {
                 actorImage.alt = 'Image Not Available';
                 actorImage.src = '../../images/user-default.png';
                 actorImage.style.filter = 'grayscale(100%)';

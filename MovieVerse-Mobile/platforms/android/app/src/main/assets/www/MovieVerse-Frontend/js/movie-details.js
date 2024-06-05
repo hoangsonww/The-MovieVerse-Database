@@ -1154,7 +1154,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         castList.style.display = 'flex';
         castList.style.flexWrap = 'wrap';
         castList.style.justifyContent = 'center';
-        castList.style.gap = '10px';
+        castList.style.gap = '3px';
         const topTwelveCast = movie.credits.cast.slice(0, 12);
 
         topTwelveCast.forEach(actor => {
@@ -1172,7 +1172,8 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
             if (actor.profile_path) {
                 actorImage.src = IMGPATH2 + actor.profile_path;
                 actorImage.alt = `${actor.name} Profile Picture`;
-            } else {
+            }
+            else {
                 actorImage.alt = 'Image Not Available';
                 actorImage.src = '../../images/user-default.png';
                 actorImage.style.filter = 'grayscale(100%)';
@@ -1221,7 +1222,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         similarMoviesList.style.display = 'flex';
         similarMoviesList.style.flexWrap = 'wrap';
         similarMoviesList.style.justifyContent = 'center';
-        similarMoviesList.style.gap = '10px';
+        similarMoviesList.style.gap = '3px';
 
         let topTenSimilarMovies = movie.similar.results;
         topTenSimilarMovies = topTenSimilarMovies.sort((a, b) => b.popularity - a.popularity);
@@ -1286,7 +1287,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         companiesList.style.display = 'flex';
         companiesList.style.flexWrap = 'wrap';
         companiesList.style.justifyContent = 'center';
-        companiesList.style.gap = '10px';
+        companiesList.style.gap = '5px';
 
         let productionCompanies = movie.production_companies.slice(0, 6);
 

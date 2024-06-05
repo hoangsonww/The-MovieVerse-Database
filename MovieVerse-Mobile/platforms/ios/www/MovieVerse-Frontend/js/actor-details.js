@@ -196,7 +196,7 @@ async function populateActorDetails(actor, credits) {
     movieList.style.display = 'flex';
     movieList.style.flexWrap = 'wrap';
     movieList.style.justifyContent = 'center';
-    movieList.style.gap = '10px';
+    movieList.style.gap = '5px';
 
     let filmsToDisplay = credits.cast;
     filmsToDisplay = filmsToDisplay.sort((a, b) => b.popularity - a.popularity);
