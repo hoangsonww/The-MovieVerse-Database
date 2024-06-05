@@ -256,17 +256,17 @@ async function populateActorDetails(actor, credits) {
         mediaContainer = document.createElement('div');
         mediaContainer.id = 'media-container';
         mediaContainer.style = `
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            width: 450px;
-            margin: 20px auto;
-            overflow: hidden;
-            max-width: 100%;
-            box-sizing: border-box;
-        `;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        width: 450px;
+        margin: 20px auto;
+        overflow: hidden;
+        max-width: 100%;
+        box-sizing: border-box;
+    `;
         detailsContainer.appendChild(mediaContainer);
     }
 
@@ -276,45 +276,60 @@ async function populateActorDetails(actor, credits) {
         mediaTitle.id = 'media-title';
         mediaTitle.textContent = 'Media:';
         mediaTitle.style = `
-            font-weight: bold;
-            align-self: center;
-            margin-bottom: 5px;
-        `;
+        font-weight: bold;
+        align-self: center;
+        margin-bottom: 5px;
+    `;
     }
 
     detailsContainer.appendChild(mediaTitle);
     detailsContainer.appendChild(mediaContainer);
+
+    let imageWrapper = document.getElementById('image-wrapper');
+    if (!imageWrapper) {
+        imageWrapper = document.createElement('div');
+        imageWrapper.id = 'image-wrapper';
+        imageWrapper.style = `
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+    `;
+        mediaContainer.appendChild(imageWrapper);
+    }
 
     let imageElement = document.getElementById('series-media-image');
     if (!imageElement) {
         imageElement = document.createElement('img');
         imageElement.id = 'series-media-image';
         imageElement.style = `
-            max-width: 100%;
-            max-height: 210px;
-            transition: opacity 0.5s ease-in-out;
-            opacity: 1;
-            border-radius: 16px;
-            cursor: pointer;
-        `;
-        mediaContainer.appendChild(imageElement);
+        max-width: 100%;
+        max-height: 210px;
+        transition: opacity 0.5s ease-in-out;
+        opacity: 1;
+        border-radius: 16px;
+        cursor: pointer;
+    `;
+        imageElement.loading = 'lazy';
+        imageWrapper.appendChild(imageElement);
     }
 
     if (images.length > 0) {
-        imageElement.src = `https://image.tmdb.org/t/p/w1280${images[currentIndex].file_path}`;
+        imageElement.src = `https://image.tmdb.org/t/p/w780${images[0].file_path}`;
     }
 
     imageElement.addEventListener('click', function () {
         const imageUrl = this.src;
 
         const modalHtml = `
-        <div id="image-modal" style="z-index: 100022222; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
-            <button id="prevModalButton" style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); background-color: #7378c5; color: white; border-radius: 8px; height: 30px; width: 30px; border: none; cursor: pointer; z-index: 11;"><i class="fas fa-arrow-left"></i></button>
-            <img src="${imageUrl}" style="max-width: 80%; max-height: 80%; border-radius: 10px; cursor: default; transition: opacity 0.5s ease-in-out;" onclick="event.stopPropagation();" alt="Media Image"/>
-            <button id="nextModalButton" style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); background-color: #7378c5; color: white; border-radius: 8px; height: 30px; width: 30px; border: none; cursor: pointer; z-index: 11;"><i class="fas fa-arrow-right"></i></button>
-            <span style="position: absolute; top: 10px; right: 25px; font-size: 40px; cursor: pointer" id="removeBtn">&times;</span>
-        </div>
-    `;
+    <div id="image-modal" style="z-index: 100022222; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
+        <button id="prevModalButton" style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); background-color: #7378c5; color: white; border-radius: 8px; height: 30px; width: 30px; border: none; cursor: pointer; z-index: 11;"><i class="fas fa-arrow-left"></i></button>
+        <img src="${imageUrl}" style="max-width: 80%; max-height: 80%; border-radius: 10px; cursor: default; transition: opacity 0.5s ease-in-out;" onclick="event.stopPropagation();" alt="Media Image"/>
+        <button id="nextModalButton" style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); background-color: #7378c5; color: white; border-radius: 8px; height: 30px; width: 30px; border: none; cursor: pointer; z-index: 11;"><i class="fas fa-arrow-right"></i></button>
+        <span style="position: absolute; top: 10px; right: 25px; font-size: 40px; cursor: pointer" id="removeBtn">&times;</span>
+    </div>
+`;
         document.body.insertAdjacentHTML('beforeend', modalHtml);
 
         const modal = document.getElementById('image-modal');
@@ -352,7 +367,7 @@ async function populateActorDetails(actor, credits) {
             imgElement2.src = `https://image.tmdb.org/t/p/w1280${images[currentIndex].file_path}`;
             imgElement1.style.opacity = '1';
             imgElement2.style.opacity = '1';
-        }, 550);
+        }, 500);
 
         sessionStorage.setItem('currentIndex', currentIndex);
         updateDots(currentIndex);
@@ -366,21 +381,21 @@ async function populateActorDetails(actor, credits) {
         prevButton.id = 'prev-media-button';
         nextButton.id = 'next-media-button';
         prevButton.innerHTML = '<i class="fas fa-arrow-left"></i>';
-        nextButton.innerHTML = '<i class="fas fa-arrow-right"></i>';
+        nextButton.innerHTML = '<i class "fas fa-arrow-right"></i>';
 
         [prevButton, nextButton].forEach(button => {
             button.style = `
-                position: absolute;
-                top: 50%;
-                transform: translateY(-50%);
-                background-color: #7378c5;
-                color: white;
-                border-radius: 8px;
-                height: 30px;
-                width: 30px;
-                border: none;
-                cursor: pointer;
-            `;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #7378c5;
+            color: white;
+            border-radius: 8px;
+            height: 30px;
+            width: 30px;
+            border: none;
+            cursor: pointer;
+        `;
             button.onmouseover = () => button.style.backgroundColor = '#ff8623';
             button.onmouseout = () => button.style.backgroundColor = '#7378c5';
         });
@@ -388,31 +403,32 @@ async function populateActorDetails(actor, credits) {
         prevButton.style.left = '0';
         nextButton.style.right = '0';
 
-        mediaContainer.appendChild(prevButton);
-        mediaContainer.appendChild(nextButton);
+        imageWrapper.appendChild(prevButton);
+        imageWrapper.appendChild(nextButton);
     }
 
     prevButton.onclick = () => navigateMedia(images, imageElement, -1);
     nextButton.onclick = () => navigateMedia(images, imageElement, 1);
 
     function navigateMedia(images, imgElement, direction) {
-        currentIndex = (currentIndex + direction + images.length) % images.length;
         imgElement.style.opacity = '0';
+        currentIndex = (currentIndex + direction + images.length) % images.length;
         setTimeout(() => {
             imgElement.src = `https://image.tmdb.org/t/p/w780${images[currentIndex].file_path}`;
             imgElement.style.opacity = '1';
         }, 500);
+
         sessionStorage.setItem('currentIndex', currentIndex);
         updateDots(currentIndex);
     }
 
     const indicatorContainer = document.createElement('div');
     indicatorContainer.style = `
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        margin-top: 15px;
-    `;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 15px;
+`;
 
     const maxDotsPerLine = 10;
     let currentLine = document.createElement('div');
@@ -422,14 +438,14 @@ async function populateActorDetails(actor, credits) {
         const dot = document.createElement('div');
         dot.className = 'indicator';
         dot.style = `
-            width: 8px;
-            height: 8px;
-            margin: 0 5px;
-            background-color: ${index === currentIndex ? '#ff8623' : '#bbb'}; 
-            border-radius: 50%;
-            cursor: pointer;
-            margin-bottom: 5px;
-        `;
+        width: 8px;
+        height: 8px;
+        margin: 0 5px;
+        background-color: ${index === currentIndex ? '#ff8623' : '#bbb'}; 
+        border-radius: 50%;
+        cursor: pointer;
+        margin-bottom: 5px;
+    `;
         dot.addEventListener('click', () => {
             navigateMedia(images, imageElement, index - currentIndex);
             updateDots(index);
