@@ -1457,16 +1457,16 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     function navigateMediaAndModal(images, imgElement1, imgElement2, direction) {
         imgElement1.style.opacity = '0';
         imgElement2.style.opacity = '0';
+        currentIndex = (currentIndex + direction + images.length) % images.length;
 
         setTimeout(() => {
-            currentIndex = (currentIndex + direction + images.length) % images.length;
             imgElement1.src = `https://image.tmdb.org/t/p/w780${images[currentIndex].file_path}`;
             imgElement2.src = `https://image.tmdb.org/t/p/w1280${images[currentIndex].file_path}`;
-            sessionStorage.setItem('currentIndex', currentIndex);
             imgElement1.style.opacity = '1';
             imgElement2.style.opacity = '1';
         }, 500);
 
+        sessionStorage.setItem('currentIndex', currentIndex);
         updateDots(currentIndex);
     }
 

@@ -352,7 +352,7 @@ async function populateActorDetails(actor, credits) {
             imgElement2.src = `https://image.tmdb.org/t/p/w1280${images[currentIndex].file_path}`;
             imgElement1.style.opacity = '1';
             imgElement2.style.opacity = '1';
-        }, 500);
+        }, 550);
 
         sessionStorage.setItem('currentIndex', currentIndex);
         updateDots(currentIndex);
@@ -401,7 +401,7 @@ async function populateActorDetails(actor, credits) {
         setTimeout(() => {
             imgElement.src = `https://image.tmdb.org/t/p/w780${images[currentIndex].file_path}`;
             imgElement.style.opacity = '1';
-        }, 420);
+        }, 500);
         sessionStorage.setItem('currentIndex', currentIndex);
         updateDots(currentIndex);
     }
