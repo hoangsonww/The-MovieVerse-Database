@@ -434,7 +434,7 @@ function showMovies(movies, mainElement) {
         movieEl.innerHTML = `
             ${movieImage}
             <div class="movie-info" style="display: flex; justify-content: space-between; align-items: start; cursor: pointer;">
-                <h3 style="text-align: left; margin-right: 5px; flex: 1;">${title}</h3>
+                <h3 style="text-align: left; margin-right: 10px; flex: 1;">${title}</h3>
                 <span class="${ratingClass}" style="white-space: nowrap;">${voteAvg}</span>
             </div>
             <div class="overview" style="cursor: pointer;">
