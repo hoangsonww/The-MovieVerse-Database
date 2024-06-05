@@ -381,7 +381,7 @@ async function populateActorDetails(actor, credits) {
         prevButton.id = 'prev-media-button';
         nextButton.id = 'next-media-button';
         prevButton.innerHTML = '<i class="fas fa-arrow-left"></i>';
-        nextButton.innerHTML = '<i class "fas fa-arrow-right"></i>';
+        nextButton.innerHTML = '<i class="fas fa-arrow-right"></i>';
 
         [prevButton, nextButton].forEach(button => {
             button.style = `
