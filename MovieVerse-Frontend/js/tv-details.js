@@ -719,7 +719,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
         creatorsList.style.display = 'flex';
         creatorsList.style.flexWrap = 'wrap';
         creatorsList.style.justifyContent = 'center';
-        creatorsList.style.gap = '10px';
+        creatorsList.style.gap = '5px';
 
         tvSeries.created_by.forEach(creator => {
             const creatorLink = document.createElement('a');
@@ -779,7 +779,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
         castList.style.display = 'flex';
         castList.style.flexWrap = 'wrap';
         castList.style.justifyContent = 'center';
-        castList.style.gap = '10px';
+        castList.style.gap = '5px';
 
         tvSeries.credits.cast.slice(0, 12).forEach(castMember => {
             const castMemberLink = document.createElement('a');
@@ -908,7 +908,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
         companiesList.style.display = 'flex';
         companiesList.style.flexWrap = 'wrap';
         companiesList.style.justifyContent = 'center';
-        companiesList.style.gap = '10px';
+        companiesList.style.gap = '5px';
 
         let productionCompanies = tvSeries.production_companies.slice(0, 6);
 
