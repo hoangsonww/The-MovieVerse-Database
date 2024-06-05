@@ -342,7 +342,12 @@ function showMovies(movies, mainElement, startYear, endYear, append) {
         header.style.marginBottom = "20px";
         header.style.color = "#ff8623";
         header.style.fontSize = '23px';
-        header.textContent = `Movies from ${startYear} to ${endYear}`;
+        if (startYear === endYear) {
+            header.textContent = `Movies released in ${startYear}`;
+        }
+        else {
+            header.textContent = `Movies released between ${startYear} and ${endYear}`;
+        }
         const centerContainer1 = document.getElementById('center-container1');
         centerContainer1.innerHTML = '';
         centerContainer1.appendChild(header);
@@ -370,7 +375,7 @@ function showMovies(movies, mainElement, startYear, endYear, append) {
         movieEl.innerHTML = `
             ${movieImage}
             <div class="movie-info" style="display: flex; justify-content: space-between; align-items: start; cursor: pointer;">
-                <h3 style="text-align: left; margin-right: 5px; flex: 1;">${title}</h3>
+                <h3 style="text-align: left; margin-right: 10px; flex: 1;">${title}</h3>
                 <span class="${ratingClass}" style="white-space: nowrap;">${voteAvg}</span>
             </div>
             <div class="overview" style="cursor: pointer;">

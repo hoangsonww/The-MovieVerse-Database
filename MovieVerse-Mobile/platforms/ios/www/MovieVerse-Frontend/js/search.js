@@ -813,7 +813,7 @@ function showMovies(items, container, category) {
         }
 
         movieContentHTML += `</div><div class="movie-info" style="display: flex; justify-content: space-between; align-items: start; cursor: pointer;">`;
-        movieContentHTML += `<h3 style="text-align: left; flex-grow: 1; margin: 0; margin-right: 5px">${title}</h3>`;
+        movieContentHTML += `<h3 style="text-align: left; flex-grow: 1; margin: 0; margin-right: 10px">${title}</h3>`;
 
         if ((isMovie || isTvSeries) && hasVoteAverage) {
             const voteAverage = item.vote_average.toFixed(1);

@@ -1267,7 +1267,7 @@ function createMovieCard(movie) {
     movieEl.innerHTML = `
                 <img src="${IMGPATH + movie.poster_path}" alt="${movie.title}" style="cursor: pointer">
                 <div class="movie-info" style="display: flex; justify-content: space-between; align-items: start; cursor: pointer;">
-                    <h3 style="text-align: left; margin-right: 5px; flex: 1;">${movieTitle}</h3>
+                    <h3 style="text-align: left; margin-right: 10px; flex: 1;">${movieTitle}</h3>
                     <span class="${ratingClass}" style="white-space: nowrap;">${voteAvg}</span>
                 </div>
                 <div class="overview" style="cursor: pointer;">
@@ -1611,7 +1611,7 @@ function createTVSeriesCard(movie) {
     movieEl.innerHTML = `
                 <img src="${IMGPATH + movie.poster_path}" alt="${movie.name}" style="cursor: pointer">
                 <div class="movie-info" style="display: flex; justify-content: space-between; align-items: start; cursor: pointer;">
-                    <h3 style="text-align: left; margin-right: 5px; flex: 1;">${movieTitle}</h3>
+                    <h3 style="text-align: left; margin-right: 10px; flex: 1;">${movieTitle}</h3>
                     <span class="${ratingClass}" style="white-space: nowrap;">${voteAvg}</span>
                 </div>
                 <div class="overview" style="cursor: pointer;">
