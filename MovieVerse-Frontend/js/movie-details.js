@@ -721,7 +721,8 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
             const response = await fetch(url);
             if (!response.ok) throw new Error('API limit reached or other error');
             return await response.json();
-        } catch (error) {
+        }
+        catch (error) {
             return null;
         }
     }
