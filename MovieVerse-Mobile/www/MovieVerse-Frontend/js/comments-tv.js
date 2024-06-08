@@ -48,7 +48,6 @@ window.onclick = function(event) {
     }
 }
 
-
 let currentPage = 1;
 const commentsPerPage = 3;
 let totalComments = 0;
@@ -74,7 +73,8 @@ async function fetchComments() {
             const noCommentsMsg = document.createElement("p");
             noCommentsMsg.textContent = "No comments for this TV series yet.";
             commentsContainer.appendChild(noCommentsMsg);
-        } else {
+        }
+        else {
             querySnapshot.forEach((doc) => {
                 if (index >= (currentPage - 1) * commentsPerPage && displayedComments < commentsPerPage) {
                     const comment = doc.data();
@@ -92,7 +92,7 @@ async function fetchComments() {
                     max-width: 100%;
                     word-wrap: break-word;
                     overflow-wrap: break-word;
-                    margin-bottom: 1rem; // Add some space between comments
+                    margin-bottom: 1rem;
                 `;
                     commentElement.style.cssText = commentStyle;
                     commentElement.innerHTML = `

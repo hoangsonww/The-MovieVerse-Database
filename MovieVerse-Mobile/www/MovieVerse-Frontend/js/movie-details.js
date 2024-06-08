@@ -575,7 +575,6 @@ async function fetchMovieDetails(movieId) {
 
         fetchMovieRatings(imdbId, movie);
         updateBrowserURL(movie.title);
-        hideSpinner();
     }
     catch (error) {
         document.getElementById('movie-details-container').innerHTML = `
@@ -583,6 +582,8 @@ async function fetchMovieDetails(movieId) {
                 <h2>Movie details not found - Try again with a different movie</h2>
             </div>`;
         console.log('Error fetching movie details:', error);
+    }
+    finally {
         hideSpinner();
     }
 }
@@ -720,7 +721,8 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
             const response = await fetch(url);
             if (!response.ok) throw new Error('API limit reached or other error');
             return await response.json();
-        } catch (error) {
+        }
+        catch (error) {
             return null;
         }
     }
@@ -742,8 +744,6 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
     const responses = await Promise.all(requests);
 
     const data = responses.find(response => response !== null);
-
-    hideSpinner();
 
     if (!data) {
         populateMovieDetails(tmdbMovieData, tmdbMovieData.vote_average, 'N/A', 'Metascore information unavailable, click to search on Metacritics', 'Awards information unavailable');
@@ -775,6 +775,7 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
     }
 
     populateMovieDetails(tmdbMovieData, imdbRating, rtRating, metascore, awards, rated);
+    hideSpinner();
 }
 
 function updateBrowserURL(title) {
@@ -979,11 +980,11 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         }
 
         return `<a href="${providerLink}" target="_blank" title="Watch on ${provider.provider_name}" style="display: inline-flex; align-items: flex-end; vertical-align: bottom;" class="streaming-logo">
-        <img src="https://image.tmdb.org/t/p/original${provider.logo_path}" alt="${provider.provider_name}" style="width: 50px; margin-left: 10px;" loading="lazy">
-    </a>`;
+                    <img src="https://image.tmdb.org/t/p/original${provider.logo_path}" alt="${provider.provider_name}" style="width: 50px; margin-left: 10px;" loading="lazy">
+                </a>`;
     }).join('') + `<a href="https://www.justwatch.com/us/search?q=${movieTitleEncoded}" target="_blank" title="View more streaming options on JustWatch" style="display: inline-flex; align-items: center; vertical-align: bottom;" class="streaming-logo">
-        <img src="../../images/justwatchlogo.webp" alt="JustWatch" style="width: 50px;" loading="lazy">
-    </a>` : 'No streaming options available.';
+                        <img src="../../images/justwatchlogo.webp" alt="JustWatch" style="width: 50px;" loading="lazy">
+                    </a>` : 'No streaming options available.';
 
     const metaCriticsLink = metascore !== 'N/A' ? `https://www.metacritic.com/search/${createMetacriticSlug(movie.title)}` : '#';
     const ratingDetails = getRatingDetails(rated);
@@ -1135,7 +1136,8 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
 
             directorSection.appendChild(directorList);
             document.getElementById('movie-description').appendChild(directorSection);
-        } else {
+        }
+        else {
             const noDirectorsElement = document.createElement('p');
             noDirectorsElement.innerHTML = `<strong>Director:</strong> Information not available`;
             document.getElementById('movie-description').appendChild(noDirectorsElement);
@@ -1335,7 +1337,8 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
 
         companiesSection.appendChild(companiesList);
         document.getElementById('movie-description').appendChild(companiesSection);
-    } else {
+    }
+    else {
         const noCompaniesElement = document.createElement('p');
         noCompaniesElement.innerHTML = `<strong>Production Companies:</strong> Information not available`;
         document.getElementById('movie-description').appendChild(noCompaniesElement);
