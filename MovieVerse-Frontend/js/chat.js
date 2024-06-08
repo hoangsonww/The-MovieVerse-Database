@@ -99,6 +99,7 @@ async function createUserElement(email) {
     const profileQuery = query(collection(db, 'profiles'), where('__name__', '==', email));
     const profileSnapshot = await getDocs(profileQuery);
     let imageUrl = '../../images/user-default.png';
+
     if (!profileSnapshot.empty) {
         const profileData = profileSnapshot.docs[0].data();
         imageUrl = profileData.profileImage || imageUrl;
