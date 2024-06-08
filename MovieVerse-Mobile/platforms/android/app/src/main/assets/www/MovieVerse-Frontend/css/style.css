@@ -3634,11 +3634,6 @@ body {
     font-size: 1rem;
 }
 
-#movie-match-form select:hover {
-    background-color: #ff8623;
-    transition: background-color 0.3s ease;
-}
-
 #movie-match-form input[type="submit"] {
     background-color: #7378c5;
     font: inherit;

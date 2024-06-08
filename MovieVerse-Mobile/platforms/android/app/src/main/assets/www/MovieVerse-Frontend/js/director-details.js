@@ -63,7 +63,6 @@ function handleSearch() {
     window.location.href = 'search.html';
 }
 
-
 function updateSignInButtonState() {
     const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
 

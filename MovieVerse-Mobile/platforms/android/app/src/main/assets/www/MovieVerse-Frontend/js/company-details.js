@@ -179,6 +179,7 @@ function updateMovieVisitCount(movieId, movieTitle) {
     if (!movieVisits[movieId]) {
         movieVisits[movieId] = { count: 0, title: movieTitle };
     }
+
     movieVisits[movieId].count += 1;
     localStorage.setItem('movieVisits', JSON.stringify(movieVisits));
 }
@@ -233,6 +234,7 @@ function getTriviaAccuracy() {
     if (triviaStats.totalAttempted === 0) {
         return 'No trivia attempted';
     }
+
     let accuracy = (triviaStats.totalCorrect / triviaStats.totalAttempted) * 100;
     return `${accuracy.toFixed(1)}% accuracy`;
 }
@@ -704,7 +706,8 @@ function displayCompanyMovies(movies) {
         if (movie.poster_path) {
             movieImage.src = IMGPATH2 + movie.poster_path;
             movieImage.alt = `${movie.title} Poster`;
-        } else {
+        }
+        else {
             movieImage.alt = 'Image Not Available';
             movieImage.src = 'https://movie-verse.com/images/movie-default.jpg';
             movieImage.style.filter = 'grayscale(100%)';
