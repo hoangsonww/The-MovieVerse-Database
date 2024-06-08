@@ -663,6 +663,7 @@ function updateMovieVisitCount(movieId, movieTitle) {
     if (!movieVisits[movieId]) {
         movieVisits[movieId] = { count: 0, title: movieTitle };
     }
+
     movieVisits[movieId].count += 1;
     localStorage.setItem('movieVisits', JSON.stringify(movieVisits));
 }
@@ -717,6 +718,7 @@ function getTriviaAccuracy() {
     if (triviaStats.totalAttempted === 0) {
         return 'No trivia attempted';
     }
+
     let accuracy = (triviaStats.totalCorrect / triviaStats.totalAttempted) * 100;
     return `${accuracy.toFixed(1)}% accuracy`;
 }
