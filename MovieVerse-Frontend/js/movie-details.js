@@ -568,6 +568,7 @@ async function fetchMovieDetails(movieId) {
     const url2 = `https://${getMovieVerseData()}/3/movie/${movieId}?${generateMovieNames()}${code}&append_to_response=videos`;
 
     try {
+        showSpinner();
         const response = await fetch(url);
         const movie = await response.json();
         const imdbId = movie.imdb_id;
@@ -697,6 +698,8 @@ function getRatingDetails(rating) {
 async function fetchMovieRatings(imdbId, tmdbMovieData) {
     showSpinner();
 
+    document.body.offsetHeight;
+
     const apiKeys = [
         await getMovieCode2(),
         '58efe859',
@@ -717,17 +720,30 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
             const response = await fetch(url);
             if (!response.ok) throw new Error('API limit reached or other error');
             return await response.json();
-        }
-        catch (error) {
+        } catch (error) {
             return null;
         }
     }
 
-    let data;
-    for (const key of apiKeys) {
-        data = await tryFetch(key);
-        if (data) break;
+    async function fetchWithTimeout(apiKey, timeout = 5000) {
+        return new Promise((resolve) => {
+            const timer = setTimeout(() => resolve(null), timeout);
+            tryFetch(apiKey).then((data) => {
+                clearTimeout(timer);
+                resolve(data);
+            }).catch(() => {
+                clearTimeout(timer);
+                resolve(null);
+            });
+        });
     }
+
+    const requests = apiKeys.map(key => fetchWithTimeout(key));
+    const responses = await Promise.all(requests);
+
+    const data = responses.find(response => response !== null);
+
+    hideSpinner();
 
     if (!data) {
         populateMovieDetails(tmdbMovieData, tmdbMovieData.vote_average, 'N/A', 'Metascore information unavailable, click to search on Metacritics', 'Awards information unavailable');
@@ -739,8 +755,7 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
         imdbRating = 'N/A';
     }
 
-    let rtRating =  'N/A';
-
+    let rtRating = 'N/A';
     let metascore = data.Metascore ? `${data.Metascore}/100` : 'N/A';
     let awards = data.Awards;
     let rated = data.Rated ? data.Rated : 'Rating information unavailable';
@@ -756,11 +771,10 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
 
     if (rtRating === 'N/A') {
         const imdbRatingValue = imdbRating !== 'N/A' ? parseFloat(imdbRating) : (tmdbMovieData.vote_average / 2);
-        rtRating = calculateFallbackRTRating(imdbRatingValue, tmdbMovieData.vote_average)
+        rtRating = calculateFallbackRTRating(imdbRatingValue, tmdbMovieData.vote_average);
     }
 
     populateMovieDetails(tmdbMovieData, imdbRating, rtRating, metascore, awards, rated);
-    hideSpinner();
 }
 
 function updateBrowserURL(title) {
@@ -1099,7 +1113,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
                 }
                 else {
                     directorImage.alt = 'Image Not Available';
-                    directorImage.src = '../../images/user-default.png';
+                    directorImage.src = 'https://movie-verse.com/images/user-default.png';
                     directorImage.style.filter = 'grayscale(100%)';
                     directorImage.style.objectFit = 'cover';
                 }
@@ -1162,7 +1176,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
             }
             else {
                 actorImage.alt = 'Image Not Available';
-                actorImage.src = '../../images/user-default.png';
+                actorImage.src = 'https://movie-verse.com/images/user-default.png';
                 actorImage.style.filter = 'grayscale(100%)';
                 actorImage.style.objectFit = 'cover';
             }
@@ -1232,7 +1246,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
                 similarMovieImage.style.objectFit = 'fill';
             } else {
                 similarMovieImage.alt = 'Image Not Available';
-                similarMovieImage.src = '../../images/movie-default.jpg';
+                similarMovieImage.src = 'https://movie-verse.com/images/movie-default.jpg';
                 similarMovieImage.style.filter = 'grayscale(100%)';
                 similarMovieImage.style.objectFit = 'cover';
             }
@@ -1299,7 +1313,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
             }
             else {
                 companyLogo.alt = 'Logo Not Available';
-                companyLogo.src = '../../images/company-default.png';
+                companyLogo.src = 'https://movie-verse.com/images/company-default.png';
                 companyLogo.style.filter = 'grayscale(100%)';
                 companyLogo.style.objectFit = 'cover';
             }

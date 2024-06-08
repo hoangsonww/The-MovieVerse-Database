@@ -1,17 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getFirestore, collection, addDoc, getDocs, query, orderBy, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-const firebaseConfig = {
-    apiKey: "AIzaSyDL6kQnSfUdD8Ut8HFrp9kuivqz1xdXm7k",
-    authDomain: "movieverse-app.firebaseapp.com",
-    projectId: "movieverse-app",
-    storageBucket: "movieverse-app.appspot.com",
-    messagingSenderId: "802943718871",
-    appId: "1:802943718871:web:48bc916cc99e2724212792"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+import { app, db } from './firebase.js';
 
 const commentForm = document.getElementById("comment-form");
 commentForm.addEventListener("submit", async (e) => {
@@ -36,9 +25,9 @@ commentForm.addEventListener("submit", async (e) => {
     }
 });
 
-var modal = document.getElementById("comment-modal");
-var btn = document.getElementById("toggle-comment-modal");
-var span = document.getElementsByClassName("close")[0];
+let modal = document.getElementById("comment-modal");
+let btn = document.getElementById("toggle-comment-modal");
+let span = document.getElementsByClassName("close")[0];
 
 btn.onclick = function() {
     modal.style.display = "block";

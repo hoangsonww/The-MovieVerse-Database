@@ -946,13 +946,7 @@
     </script>
 
     <script>
-        let isTrailerOpen = false;
-
         document.getElementById('movie-image').addEventListener('click', function() {
-            if (document.getElementById('trailerButton')) {
-                document.getElementById('trailerButton').scrollIntoView({ behavior: 'smooth' });
-            }
-
             let imageUrl = this.src.replace('w780', 'original');
             const modalHtml = `<div id="image-modal" style="z-index: 100020000; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
                                 <img src="${imageUrl}" style="max-width: 80%; max-height: 80%; border-radius: 10px;" alt="Movie Image" />
@@ -965,15 +959,6 @@
                     this.remove();
                 }
             });
-
-            if (!isTrailerOpen) {
-                document.getElementById('trailerButton').click();
-                isTrailerOpen = true;
-            }
-        });
-
-        document.getElementById('trailerButton').addEventListener('click', function() {
-            isTrailerOpen = !isTrailerOpen;
         });
     </script>
 

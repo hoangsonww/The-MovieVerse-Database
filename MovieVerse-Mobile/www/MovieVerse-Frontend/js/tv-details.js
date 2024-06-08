@@ -545,23 +545,30 @@ async function fetchTvDetails(tvSeriesId) {
     const urlWithAppend = `${baseUrl}?${generateMovieNames()}${tvCode}&append_to_response=credits,keywords,similar,videos,external_ids`;
 
     try {
-        const response = await fetch(urlWithAppend);
-        const tvSeriesDetails = await response.json();
+        const tvDetailsPromise = fetch(urlWithAppend).then(response => {
+            if (!response.ok) throw new Error('Failed to fetch TV series details');
+            return response.json();
+        });
+
+        const tvSeriesDetails = await tvDetailsPromise;
         const imdbId = tvSeriesDetails.external_ids.imdb_id;
 
-        const imdbRatingPromise = fetchTVRatings(imdbId);
-        const imdbRating = await imdbRatingPromise;
+        if (imdbId) {
+            const imdbRatingPromise = fetchTVRatings(imdbId);
+            const imdbRating = await imdbRatingPromise;
+            populateTvSeriesDetails(tvSeriesDetails, imdbRating);
+        } else {
+            populateTvSeriesDetails(tvSeriesDetails, 'IMDb data unavailable but you can check it out by clicking here');
+        }
 
-        populateTvSeriesDetails(tvSeriesDetails, imdbRating);
         updateBrowserURL(tvSeriesDetails.name);
-        hideSpinner();
-    }
-    catch (error) {
+    } catch (error) {
         document.getElementById('movie-details-container').innerHTML = `
             <div style="display: flex; justify-content: center; align-items: center; text-align: center; margin-top: 40px; width: 100vw; height: 800px">
                 <h2>TV series details not found - Try again with another TV series</h2>
             </div>`;
         console.log('Error fetching TV series details:', error);
+    } finally {
         hideSpinner();
     }
 }
@@ -585,28 +592,32 @@ async function fetchTVRatings(imdbId) {
 
     const baseURL = `https://${getMovieActor()}/?i=${imdbId}&${getMovieName()}`;
 
-    async function tryFetch(apiKey) {
+    async function tryFetch(apiKey, timeout = 5000) {
         const url = `${baseURL}${apiKey}`;
-        try {
-            const response = await fetch(url);
-            if (!response.ok) throw new Error('API limit reached or other error');
-            const data = await response.json();
-            if (!data || data.Error) throw new Error('Data fetch error');
-            return data;
-        }
-        catch (error) {
-            return null;
-        }
+        return new Promise((resolve) => {
+            const timer = setTimeout(() => resolve(null), timeout);
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) throw new Error('API limit reached or other error');
+                    return response.json();
+                })
+                .then(data => {
+                    clearTimeout(timer);
+                    if (!data || data.Error) throw new Error('Data fetch error');
+                    resolve(data);
+                })
+                .catch(() => {
+                    clearTimeout(timer);
+                    resolve(null);
+                });
+        });
     }
 
-    for (const key of apiKeys) {
-        const data = await tryFetch(key);
-        if (data) {
-            return data.imdbRating ? data.imdbRating : 'IMDb data unavailable but you can check it out by clicking here';
-        }
-    }
+    const requests = apiKeys.map(key => tryFetch(key));
+    const responses = await Promise.all(requests);
+    const data = responses.find(response => response !== null);
 
-    return 'IMDb data unavailable but you can check it out by clicking here';
+    return data && data.imdbRating ? data.imdbRating : 'IMDb data unavailable but you can check it out by clicking here';
 }
 
 function getLanguageName(code) {
@@ -670,8 +681,13 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
         detailsHTML += `<p title="Click to go to this TV series' IMDB page"><strong>IMDb Rating:</strong> <strong>IMDb rating not available</strong></p>`;
     }
 
-    const tmdbRating = tvSeries.vote_average ? tvSeries.vote_average.toFixed(1) : 'N/A';
-    detailsHTML += `<p><strong>TMDB Rating:</strong> <a href="https://www.themoviedb.org/tv/${tvSeries.id}" id="rating" target="_blank">${tmdbRating}/10.0</a></p>`;
+    let tmdbRating = tvSeries.vote_average ? tvSeries.vote_average.toFixed(1) : 'N/A';
+    if (tmdbRating === 'N/A') {
+        detailsHTML += `<p><strong>TMDB Rating:</strong> <a href="https://www.themoviedb.org/tv/${tvSeries.id}" id="rating" target="_blank">${tmdbRating}</a></p>`;
+    }
+    else {
+        detailsHTML += `<p><strong>TMDB Rating:</strong> <a href="https://www.themoviedb.org/tv/${tvSeries.id}" id="rating" target="_blank">${tmdbRating}/10.0</a></p>`;
+    }
 
     const homepage = tvSeries.homepage ? `<a id="homepage" href="${tvSeries.homepage}" target="_blank">Visit homepage</a>` : 'Not available';
     detailsHTML += `<p><strong>Homepage:</strong> ${homepage}</p>`;
@@ -739,7 +755,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
             } else {
                 creatorImage.alt = 'Image Not Available';
                 creatorImage.style.objectFit = 'cover';
-                creatorImage.src = '../../images/user-default.png';
+                creatorImage.src = 'https://movie-verse.com/images/user-default.png';
                 creatorImage.style.filter = 'grayscale(100%)';
             }
 
@@ -800,7 +816,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
             else {
                 castMemberImage.alt = 'Image Not Available';
                 castMemberImage.style.objectFit = 'cover';
-                castMemberImage.src = '../../images/user-default.png';
+                castMemberImage.src = 'https://movie-verse.com/images/user-default.png';
                 castMemberImage.style.filter = 'grayscale(100%)';
             }
 
@@ -868,7 +884,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
                 similarTvImage.alt = `${similarTv.name} Poster`;
             } else {
                 similarTvImage.alt = 'Image Not Available';
-                similarTvImage.src = '../../images/movie-default.jpg';
+                similarTvImage.src = 'https://movie-verse.com/images/movie-default.jpg';
                 similarTvImage.style.filter = 'grayscale(100%)';
                 similarTvImage.style.objectFit = 'cover';
             }
@@ -931,7 +947,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
                 companyLogo.style.backgroundColor = 'white';
             } else {
                 companyLogo.alt = 'Logo Not Available';
-                companyLogo.src = '../../images/company-default.png';
+                companyLogo.src = 'https://movie-verse.com/images/company-default.png';
                 companyLogo.style.filter = 'grayscale(100%)';
             }
 

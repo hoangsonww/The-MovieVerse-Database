@@ -21,22 +21,8 @@ async function fetchReleasesByCategory(elementId, startDate, endDate, isLastVisi
     list.innerHTML = '';
 
     let movies = await fetchMovies(startDate, endDate);
-    if (movies.length < 5 && !isLastVisit) {
-        const expandedStartDate = new Date(startDate.getFullYear(), startDate.getMonth() - 1, startDate.getDate());
-        movies = await fetchMovies(expandedStartDate, endDate);
-    }
 
-    if (movies.length === 0) {
-        if (isLastVisit) {
-            const noMoviesText = document.createElement('li');
-            noMoviesText.textContent = "No New Movies Released Since Your Last Visit";
-            list.appendChild(noMoviesText);
-        }
-        else {
-            const veryExpandedStartDate = new Date(startDate.getFullYear() - 1, startDate.getMonth(), startDate.getDate());
-            movies = await fetchMovies(veryExpandedStartDate, endDate);
-        }
-    }
+    movies = movies.sort((a, b) => new Date(b.release_date) - new Date(a.release_date));
 
     populateList(elementId, movies.slice(0, 5));
 }
@@ -45,15 +31,15 @@ async function fetchMovies(startDate, endDate) {
     const formattedStartDate = `${startDate.getFullYear()}-${(startDate.getMonth() + 1).toString().padStart(2, '0')}-${startDate.getDate().toString().padStart(2, '0')}`;
     const formattedEndDate = `${endDate.getFullYear()}-${(endDate.getMonth() + 1).toString().padStart(2, '0')}-${endDate.getDate().toString().padStart(2, '0')}`;
 
-    const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&release_date.gte=${formattedStartDate}&release_date.lte=${formattedEndDate}`;
+    const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&release_date.gte=${formattedStartDate}&release_date.lte=${formattedEndDate}`;
 
     try {
         const response = await fetch(url);
         const data = await response.json();
-        return data.results.filter(movie => movie.popularity > 0);
+        return data.results;
     }
     catch (error) {
-        console.error('Failed to fetch movies for', elementId + ':', error);
+        console.log('Failed to fetch movies for', elementId + ':', error);
         return [];
     }
 }
@@ -62,23 +48,42 @@ function generateMovieNames(input) {
     return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
 }
 
+async function getMostVisitedMovieGenre() {
+    const movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
+    let mostVisitedGenre = null;
+    let maxVisits = 0;
+    for (const movieId in movieVisits) {
+        const visits = movieVisits[movieId];
+        if (visits.count > maxVisits) {
+            maxVisits = visits.count;
+            mostVisitedGenre = await fetchGenreForMovie(movieId);
+        }
+    }
+    return mostVisitedGenre;
+}
+
+async function fetchGenreForMovie(movieId) {
+    const movieDetailsUrl = `https://${getMovieVerseData()}/3/movie/${movieId}?${generateMovieNames()}${getMovieCode()}`;
+    const response = await fetch(movieDetailsUrl);
+    const movieDetails = await response.json();
+    return movieDetails.genres[0] ? movieDetails.genres[0].id : null;
+}
+
 async function fetchRecommendedReleases() {
     let url;
 
+    const mostCommonGenre = getMostCommonGenre();
+    const mostVisitedMovieGenre = await getMostVisitedMovieGenre();
+
     try {
-        const favoriteGenres = localStorage.getItem('favoriteGenre');
-        if (!favoriteGenres) {
-            throw new Error('No favorite genres found in localStorage.');
-        }
-        const genresArray = JSON.parse(favoriteGenres);
-        const genreId = genresArray[0];
+        const genreId = mostVisitedMovieGenre || mostCommonGenre;
         if (!genreId) {
             throw new Error('Genre ID is not valid.');
         }
-        url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=${genreId}`;
+        url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=${genreId}`;
     }
     catch (error) {
-        console.error('Fetching recommended movies failed or data issues:', error);
+        console.log('Fetching recommended movies failed or data issues:', error);
         url = `https://${getMovieVerseData()}/3/movie/popular?${generateMovieNames()}${getMovieCode()}&language=en-US&page=1`;
     }
 
@@ -88,7 +93,7 @@ async function fetchRecommendedReleases() {
         populateList('recommendedReleases', data.results.slice(0, 5));
     }
     catch (error) {
-        console.error('Failed to fetch movies:', error);
+        console.log('Failed to fetch movies:', error);
     }
 }
 
@@ -107,7 +112,6 @@ function populateList(elementId, movies) {
         title.textContent = movie.title;
         title.style.color = 'black';
         li.appendChild(title);
-
         list.appendChild(li);
     });
 }
@@ -140,7 +144,6 @@ function populateActors() {
         const name = document.createElement('span');
         name.textContent = actor.name;
         li.appendChild(name);
-
         list.appendChild(li);
     });
 }
@@ -171,5 +174,4 @@ function populateDirectors() {
 
         list.appendChild(li);
     });
-
 }

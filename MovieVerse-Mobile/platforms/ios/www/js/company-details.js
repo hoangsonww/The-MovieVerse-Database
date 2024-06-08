@@ -91,7 +91,7 @@ async function rotateUserStats() {
         {
             label: "Favorite Movies",
             getValue: () => {
-                const favoritedMovies = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
+                const favoritedMovies = JSON.parse(localStorage.getItem('moviesFavorited')) || [];
                 return favoritedMovies.length;
             }
         },
@@ -99,11 +99,36 @@ async function rotateUserStats() {
             label: "Favorite Genre",
             getValue: () => {
                 const mostCommonGenreCode = getMostCommonGenre();
-                const genreArray = JSON.parse(localStorage.getItem('genreMap')) || [];
-                const genreObject = genreArray.reduce((acc, genre) => {
-                    acc[genre.id] = genre.name;
-                    return acc;
-                }, {});
+                const genreMapString = localStorage.getItem('genreMap');
+                if (!genreMapString) {
+                    console.log('No genre map found in localStorage.');
+                    return 'Not Available';
+                }
+
+                let genreMap;
+                try {
+                    genreMap = JSON.parse(genreMapString);
+                }
+                catch (e) {
+                    console.log('Error parsing genre map:', e);
+                    return 'Not Available';
+                }
+
+                let genreObject;
+                if (Array.isArray(genreMap)) {
+                    genreObject = genreMap.reduce((acc, genre) => {
+                        acc[genre.id] = genre.name;
+                        return acc;
+                    }, {});
+                }
+                else if (typeof genreMap === 'object' && genreMap !== null) {
+                    genreObject = genreMap;
+                }
+                else {
+                    console.log('genreMap is neither an array nor a proper object:', genreMap);
+                    return 'Not Available';
+                }
+
                 return genreObject[mostCommonGenreCode] || 'Not Available';
             }
         },
@@ -372,8 +397,8 @@ async function fetchCompanyDetails(companyId) {
     try {
         const response = await fetch(url);
         const company = await response.json();
-
         const logoImg = document.getElementById('company-logo');
+
         if (company.logo_path) {
             logoImg.src = `https://image.tmdb.org/t/p/w500${company.logo_path}`;
         }
@@ -386,9 +411,9 @@ async function fetchCompanyDetails(companyId) {
 
         const fullCountryName = twoLetterCountryCodes.find(country => country.code === company.origin_country)?.name;
 
-        document.getElementById('company-name').textContent = company.name || 'Name Not Available';
-        document.getElementById('company-headquarters').textContent = company.headquarters || 'Headquarters Not Available';
-        document.getElementById('company-country').textContent = fullCountryName || 'Country Not Available';
+        document.getElementById('company-name').textContent = company.name || 'Information Unavailable';
+        document.getElementById('company-headquarters').textContent = company.headquarters || 'Information Unavailable';
+        document.getElementById('company-country').textContent = fullCountryName || 'Information Unavailable';
         document.title = `${company.name} - Company Details`;
 
         const homepage = company.homepage || '#';
@@ -398,7 +423,7 @@ async function fetchCompanyDetails(companyId) {
             companyWebsite.textContent = homepage;
         }
         else {
-            companyWebsite.textContent = 'Website Not Available';
+            companyWebsite.textContent = 'Information Unavailable';
         }
 
         updateBrowserURL(company.name);

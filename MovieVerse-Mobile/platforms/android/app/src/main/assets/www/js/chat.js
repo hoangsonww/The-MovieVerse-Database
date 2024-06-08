@@ -21,7 +21,14 @@ document.addEventListener('DOMContentLoaded', () => {
         signInMessage.style.marginBottom = '20px';
         signInMessage.style.backgroundColor = 'rgba(0, 0, 0, 0.6)';
         document.getElementById('footer').style.display = 'none';
-        document.body.appendChild(signInMessage);
+
+        const adContainer2 = document.getElementById('ad-container2');
+        if (adContainer2) {
+            document.body.insertBefore(signInMessage, adContainer2);
+        }
+        else {
+            document.body.appendChild(signInMessage);
+        }
     }
     else {
         mainElement.style.display = '';
@@ -30,6 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loadUserList();
     setupSearchListeners();
 });
+
 
 const firebaseConfig = {
     apiKey: atob("QUl6YVN5REw2a1FuU2ZVZDhVdDhIRnJwS3VpdnF6MXhkWG03aw=="),
@@ -65,8 +73,15 @@ sendButton.addEventListener('click', async () => {
             messageInput.value = '';
 
             const userElement = document.querySelector(`.user[data-email="${selectedUserEmail}"]`);
-            if (userElement) {
+
+            if (!userElement) {
+                const newUserElement = await createUserElement(selectedUserEmail);
+                userListDiv.prepend(newUserElement);
+                selectUser(newUserElement);
+            }
+            else {
                 userListDiv.prepend(userElement);
+                selectUser(userElement);
             }
         }
         catch (error) {
@@ -74,6 +89,44 @@ sendButton.addEventListener('click', async () => {
         }
     }
 });
+
+async function createUserElement(email) {
+    const userElement = document.createElement('div');
+    userElement.classList.add('user');
+    userElement.setAttribute('data-email', email);
+    userElement.addEventListener('click', () => loadMessages(email));
+
+    const profileQuery = query(collection(db, 'profiles'), where('__name__', '==', email));
+    const profileSnapshot = await getDocs(profileQuery);
+    let imageUrl = '../../images/user-default.png';
+    if (!profileSnapshot.empty) {
+        const profileData = profileSnapshot.docs[0].data();
+        imageUrl = profileData.profileImage || imageUrl;
+    }
+
+    const img = document.createElement('img');
+    img.src = imageUrl;
+    img.style.width = '50px';
+    img.style.borderRadius = '25px';
+    img.style.marginRight = '10px';
+    userElement.appendChild(img);
+
+    const emailDiv = document.createElement('div');
+    emailDiv.textContent = email;
+    userElement.appendChild(emailDiv);
+
+    return userElement;
+}
+
+function selectUser(userElement) {
+    if (previouslySelectedUserElement) {
+        previouslySelectedUserElement.classList.remove('selected');
+        previouslySelectedUserElement.style.backgroundColor = '';
+    }
+    userElement.classList.add('selected');
+    userElement.style.backgroundColor = '#ff8623';
+    previouslySelectedUserElement = userElement;
+}
 
 document.getElementById('messageInput').addEventListener('keydown', function(event) {
     if (event.key === 'Enter' && !event.shiftKey) {
@@ -87,10 +140,10 @@ function formatMessage(message, isCurrentUser, timestamp) {
     messageElement.classList.add('message');
     messageElement.textContent = isCurrentUser ? `You: ${message}` : `${selectedUserEmail}: ${message}`;
 
-    // Ensure the timestamp is correctly handled
     if (timestamp && timestamp.toDate) {
         messageElement.dataset.timestamp = timestamp.toDate().toISOString();
-    } else {
+    }
+    else {
         console.log('Timestamp is not in the expected format:', timestamp);
         messageElement.dataset.timestamp = 'Unknown time';
     }
@@ -242,15 +295,23 @@ async function performSearch(searchText, isNewSearch = false) {
             lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
         }
 
-        querySnapshot.forEach((doc) => {
+        for (const doc of querySnapshot.docs) {
             const user = doc.data();
             const userDiv = document.createElement('div');
             userDiv.className = 'user-search-result';
             userDiv.style.cursor = 'pointer';
             userDiv.addEventListener('click', () => loadMessages(user.email));
 
+            const profileQuery = query(collection(db, 'profiles'), where('__name__', '==', user.email));
+            const profileSnapshot = await getDocs(profileQuery);
+            let imageUrl = '../../images/user-default.png';
+            if (!profileSnapshot.empty) {
+                const profileData = profileSnapshot.docs[0].data();
+                imageUrl = profileData.profileImage || imageUrl;
+            }
+
             const img = document.createElement('img');
-            img.src = user.profileImage || '../../images/user-default.png';
+            img.src = imageUrl;
             img.style.width = '33%';
             img.style.borderRadius = '8px';
             userDiv.appendChild(img);
@@ -262,7 +323,7 @@ async function performSearch(searchText, isNewSearch = false) {
             userDiv.appendChild(textDiv);
 
             searchUserResults.appendChild(userDiv);
-        });
+        }
 
         searchUserResults.style.display = 'block';
         hideSpinner();
@@ -271,6 +332,7 @@ async function performSearch(searchText, isNewSearch = false) {
             const loadMoreButton = document.createElement('button');
             loadMoreButton.textContent = 'Load More';
             loadMoreButton.id = 'loadMoreButton';
+            loadMoreButton.style.marginBottom = '20px';
             loadMoreButton.addEventListener('click', () => performSearch(searchText));
             searchUserResults.appendChild(loadMoreButton);
 
@@ -346,7 +408,7 @@ async function loadUserList() {
         users = users.slice(0, userLimit);
 
         userListDiv.innerHTML = '';
-        users.forEach(user => {
+        for (const user of users) {
             const userElement = document.createElement('div');
             userElement.classList.add('user');
             userElement.setAttribute('data-email', user.email);
@@ -363,8 +425,16 @@ async function loadUserList() {
                 previouslySelectedUserElement = userElement;
             };
 
+            const profileQuery = query(collection(db, 'profiles'), where('__name__', '==', user.email));
+            const profileSnapshot = await getDocs(profileQuery);
+            let imageUrl = '../../images/user-default.png';
+            if (!profileSnapshot.empty) {
+                const profileData = profileSnapshot.docs[0].data();
+                imageUrl = profileData.profileImage || imageUrl;
+            }
+
             const img = document.createElement('img');
-            img.src = user.profileImage || '../../images/user-default.png';
+            img.src = imageUrl;
             img.style.width = '50px';
             img.style.borderRadius = '25px';
             img.style.marginRight = '10px';
@@ -375,7 +445,7 @@ async function loadUserList() {
             userElement.appendChild(emailDiv);
 
             userListDiv.appendChild(userElement);
-        });
+        }
 
         hideSpinner();
     }
@@ -390,14 +460,6 @@ async function loadUserList() {
         }
     }
 }
-
-// onSnapshot(collection(db, "messages"), (snapshot) => {
-//     snapshot.docChanges().forEach((change) => {
-//         if (change.type === 'added') {
-//             loadUserList();
-//         }
-//     });
-// });
 
 function showSpinner() {
     document.getElementById('myModal').classList.add('modal-visible');

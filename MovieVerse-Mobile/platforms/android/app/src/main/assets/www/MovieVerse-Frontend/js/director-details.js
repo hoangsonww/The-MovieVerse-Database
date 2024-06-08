@@ -207,7 +207,7 @@ async function populateDirectorDetails(director, credits) {
             movieImage.alt = `${movie.title} Poster`;
         } else {
             movieImage.alt = 'Image Not Available';
-            movieImage.src = '../../images/movie-default.jpg';
+            movieImage.src = 'https://movie-verse.com/images/movie-default.jpg';
             movieImage.style.filter = 'grayscale(100%)';
             movieImage.style.objectFit = 'cover';
         }
