@@ -1443,7 +1443,7 @@ header h1 {
 .modal-overlay {
     display: none;
     position: fixed;
-    z-index: 9999;
+    z-index: 100000000002;
     left: 0;
     top: 0;
     width: 100%;

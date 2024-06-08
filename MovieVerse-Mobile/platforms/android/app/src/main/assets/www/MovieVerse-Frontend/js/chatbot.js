@@ -620,7 +620,7 @@ async function movieVerseResponse(message) {
         return "Goodbye! Thank you for using MovieVerse Assistant and have a nice day!";
     }
     else if (lowerMessage.startsWith("who r u") || lowerMessage.startsWith("who are you") || lowerMessage.startsWith("what is your name") || lowerMessage.startsWith("what's your name") || lowerMessage.startsWith("what are you") || lowerMessage.startsWith("what r u") || lowerMessage.startsWith("what can u do") || lowerMessage.startsWith("what can you do") || lowerMessage.startsWith("introduce yourself")) {
-        return "I am MovieVerse Assistant, here to help you with all your movie-related or any other general queries. I am trained and powered by MovieVerse AI to provide you with the best assistance!";
+        return "I am MovieVerse Assistant, here to help you with all your movie-related or any other general queries. I am trained and powered by MovieVerse AI and Google to provide you with the best assistance!";
     }
     else {
         showSpinner();

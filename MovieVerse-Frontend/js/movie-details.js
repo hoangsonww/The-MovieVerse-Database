@@ -575,7 +575,6 @@ async function fetchMovieDetails(movieId) {
 
         fetchMovieRatings(imdbId, movie);
         updateBrowserURL(movie.title);
-        hideSpinner();
     }
     catch (error) {
         document.getElementById('movie-details-container').innerHTML = `
@@ -583,6 +582,8 @@ async function fetchMovieDetails(movieId) {
                 <h2>Movie details not found - Try again with a different movie</h2>
             </div>`;
         console.log('Error fetching movie details:', error);
+    }
+    finally {
         hideSpinner();
     }
 }
@@ -743,8 +744,6 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
 
     const data = responses.find(response => response !== null);
 
-    hideSpinner();
-
     if (!data) {
         populateMovieDetails(tmdbMovieData, tmdbMovieData.vote_average, 'N/A', 'Metascore information unavailable, click to search on Metacritics', 'Awards information unavailable');
         return;
@@ -775,6 +774,7 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
     }
 
     populateMovieDetails(tmdbMovieData, imdbRating, rtRating, metascore, awards, rated);
+    hideSpinner();
 }
 
 function updateBrowserURL(title) {
