@@ -1336,7 +1336,8 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
 
         companiesSection.appendChild(companiesList);
         document.getElementById('movie-description').appendChild(companiesSection);
-    } else {
+    }
+    else {
         const noCompaniesElement = document.createElement('p');
         noCompaniesElement.innerHTML = `<strong>Production Companies:</strong> Information not available`;
         document.getElementById('movie-description').appendChild(noCompaniesElement);
