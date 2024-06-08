@@ -369,5 +369,6 @@ function resizeImage(file, maxSize, callback) {
     reader.onerror = function() {
         callback(null, new Error('Failed to read the image file.'));
     };
+
     reader.readAsDataURL(file);
 }

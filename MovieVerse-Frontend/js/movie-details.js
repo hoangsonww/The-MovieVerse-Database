@@ -980,11 +980,11 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         }
 
         return `<a href="${providerLink}" target="_blank" title="Watch on ${provider.provider_name}" style="display: inline-flex; align-items: flex-end; vertical-align: bottom;" class="streaming-logo">
-        <img src="https://image.tmdb.org/t/p/original${provider.logo_path}" alt="${provider.provider_name}" style="width: 50px; margin-left: 10px;" loading="lazy">
-    </a>`;
+                    <img src="https://image.tmdb.org/t/p/original${provider.logo_path}" alt="${provider.provider_name}" style="width: 50px; margin-left: 10px;" loading="lazy">
+                </a>`;
     }).join('') + `<a href="https://www.justwatch.com/us/search?q=${movieTitleEncoded}" target="_blank" title="View more streaming options on JustWatch" style="display: inline-flex; align-items: center; vertical-align: bottom;" class="streaming-logo">
-        <img src="../../images/justwatchlogo.webp" alt="JustWatch" style="width: 50px;" loading="lazy">
-    </a>` : 'No streaming options available.';
+                        <img src="../../images/justwatchlogo.webp" alt="JustWatch" style="width: 50px;" loading="lazy">
+                    </a>` : 'No streaming options available.';
 
     const metaCriticsLink = metascore !== 'N/A' ? `https://www.metacritic.com/search/${createMetacriticSlug(movie.title)}` : '#';
     const ratingDetails = getRatingDetails(rated);
@@ -1136,7 +1136,8 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
 
             directorSection.appendChild(directorList);
             document.getElementById('movie-description').appendChild(directorSection);
-        } else {
+        }
+        else {
             const noDirectorsElement = document.createElement('p');
             noDirectorsElement.innerHTML = `<strong>Director:</strong> Information not available`;
             document.getElementById('movie-description').appendChild(noDirectorsElement);

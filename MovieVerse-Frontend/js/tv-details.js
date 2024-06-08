@@ -562,13 +562,15 @@ async function fetchTvDetails(tvSeriesId) {
         }
 
         updateBrowserURL(tvSeriesDetails.name);
-    } catch (error) {
+    }
+    catch (error) {
         document.getElementById('movie-details-container').innerHTML = `
             <div style="display: flex; justify-content: center; align-items: center; text-align: center; margin-top: 40px; width: 100vw; height: 800px">
                 <h2>TV series details not found - Try again with another TV series</h2>
             </div>`;
         console.log('Error fetching TV series details:', error);
-    } finally {
+    }
+    finally {
         hideSpinner();
     }
 }
@@ -776,7 +778,8 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
 
         creatorsSection.appendChild(creatorsList);
         detailsHTML += creatorsSection.outerHTML;
-    } else {
+    }
+    else {
         const noCreatorsElement = document.createElement('p');
         noCreatorsElement.innerHTML = `<strong>Creators:</strong> Information not available`;
         detailsHTML += noCreatorsElement.outerHTML;
@@ -843,7 +846,8 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
 
         castSection.appendChild(castList);
         detailsHTML += castSection.outerHTML;
-    } else {
+    }
+    else {
         const noCastElement = document.createElement('p');
         noCastElement.innerHTML = `<strong>Cast:</strong> Information not available`;
         detailsHTML += noCastElement.outerHTML;
@@ -906,7 +910,8 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
 
         similarTvSeriesSection.appendChild(similarTvSeriesList);
         detailsHTML += similarTvSeriesSection.outerHTML;
-    } else {
+    }
+    else {
         const noSimilarTvSeriesElement = document.createElement('p');
         noSimilarTvSeriesElement.innerHTML = `<strong>Similar TV Series:</strong> Information not available`;
         detailsHTML += noSimilarTvSeriesElement.outerHTML;
@@ -968,7 +973,8 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
 
         companiesSection.appendChild(companiesList);
         detailsHTML += companiesSection.outerHTML;
-    } else {
+    }
+    else {
         const noCompaniesElement = document.createElement('p');
         noCompaniesElement.innerHTML = `<strong>Production Companies:</strong> Information not available`;
         detailsHTML += noCompaniesElement.outerHTML;
@@ -1249,7 +1255,6 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
             dot.style.backgroundColor = index === newIndex ? '#ff8623' : '#bbb';
         });
     }
-
 
     if (window.innerWidth <= 767) {
         mediaContainer.style.width = 'calc(100% - 40px)';

@@ -611,7 +611,8 @@ function sortResults(results, sortBy) {
 
         if (order === 'asc') {
             return propA > propB ? 1 : propA < propB ? -1 : 0;
-        } else {
+        }
+        else {
             return propA < propB ? 1 : propA > propB ? -1 : 0;
         }
     });
