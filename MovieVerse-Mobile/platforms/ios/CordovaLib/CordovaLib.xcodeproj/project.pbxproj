@@ -490,7 +490,6 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1010;
 				TargetAttributes = {
 					C0C01EB11E3911D50056E6CB = {
@@ -590,6 +589,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ENABLE_MODULE_VERIFIER = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PUBLIC_HEADERS_FOLDER_PATH = include/Cordova;
@@ -601,6 +601,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ENABLE_MODULE_VERIFIER = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PUBLIC_HEADERS_FOLDER_PATH = include/Cordova;
