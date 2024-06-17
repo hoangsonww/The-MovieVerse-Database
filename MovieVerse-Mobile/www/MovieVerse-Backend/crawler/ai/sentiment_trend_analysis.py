@@ -1,6 +1,7 @@
 import pandas as pd
 from datetime import datetime
 
+
 def analyze_sentiment_trend(sentiment_data):
     """
     Analyze sentiment trends over time from collected data.

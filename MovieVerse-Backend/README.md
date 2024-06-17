@@ -66,7 +66,7 @@ pip install -r requirements.txt
     ```
 2. Navigate to the repository: 
    ```bash
-   cd MovieVerse-Backend
+   cd mobile-backend
    ```
 3. Follow the specific installation instructions for each service below.
 

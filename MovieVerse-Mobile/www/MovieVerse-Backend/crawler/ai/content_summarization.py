@@ -2,6 +2,7 @@ from transformers import pipeline
 
 summarizer = pipeline("summarization")
 
+
 def summarize_content(content):
     """
     Summarize the content using a pre-trained summarization model.

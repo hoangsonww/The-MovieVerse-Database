@@ -2,7 +2,8 @@ from celery import shared_task
 from .scraper import fetch_movie_data
 from .parser import parse_movie_data
 from moviereviews.models import Movie
-from .models import MovieDetail
+from models import MovieDetail
+
 
 @shared_task
 def crawl_movie_data_and_store(url):
@@ -20,4 +21,3 @@ def crawl_movie_data_and_store(url):
         )
         return movie.title
     return None
-

@@ -1,5 +1,9 @@
+from bs4 import BeautifulSoup
+
+
 def clean_text(text):
     return ' '.join(text.split())
+
 
 def parse_movie_data(html_content):
     movie = {}

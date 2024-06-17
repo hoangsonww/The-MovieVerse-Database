@@ -1,6 +1,8 @@
 from PIL import Image
 import requests
 from torchvision import models, transforms
+import torch
+from io import BytesIO
 
 # Load a pretrained image classification model
 model = models.resnet50(pretrained=True)
@@ -13,6 +15,7 @@ transform = transforms.Compose([
     transforms.ToTensor(),
     transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
 ])
+
 
 def classify_image(image_url):
     try:
@@ -28,6 +31,7 @@ def classify_image(image_url):
         return predicted.item()
     except Exception as e:
         raise e
+
 
 def analyze_image(image_url):
     try:

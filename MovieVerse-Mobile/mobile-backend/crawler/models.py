@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class MovieDetail(models.Model):
     movie = models.OneToOneField('moviereviews.Movie', on_delete=models.CASCADE, related_name='details')
     description = models.TextField()
