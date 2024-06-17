@@ -70,7 +70,9 @@
     ]
   },
   "dependencies": {
+    "@elastic/elasticsearch": "^8.13.1",
     "@testing-library/dom": "^9.3.4",
+    "amqplib": "^0.10.4",
     "axios": "^1.6.5",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
@@ -83,7 +85,10 @@
     "jsonwebtoken": "^9.0.2",
     "kubernetes": "^1.0.0",
     "lodash": "^4.17.21",
+    "mongodb": "^6.7.0",
     "mongoose": "^8.0.3",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.10.1",
     "node": "^16.20.2",
     "prettier": "^3.1.1",
     "ramda": "^0.28.0",
@@ -92,6 +97,7 @@
     "react-redux": "^7.2.9",
     "react-router": "^6.0.0",
     "react-router-dom": "^6.21.2",
+    "redis": "^4.6.14",
     "redux": "^4.1.2",
     "redux-thunk": "^2.4.1",
     "single-spa": "^6.0.0",

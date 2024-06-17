@@ -150,8 +150,68 @@ This is the Django admin interface for the backend of MovieVerse. It allows you 
 </p>
 
 Note that these are only templates and do not represent the actual UI of the MovieVerse app. The actual UI is built using React.js and can be found in the [MovieVerse-Frontend](../MovieVerse-Frontend) directory.
+
+#### Database Services
+
+MovieVerse currently uses MongoDB, Redis, and MySQL as its primary databases. To run these databases, execute the following commands:
+
+1. Ensure that MongoDB, Redis, RabbitMQ, and MySQL are installed on your machine and are running. For example, on MacOS and if you are using `Homebrew`, you can run the following commands:
+
+    ```bash
+    brew services start mongodb
+    brew services start rabbitmq
+    brew services start mysql
+    redis-server
+    ```
+    Also, before you continue, ensure that the MySQL database `MovieVerse` is running and exists. If not, open the MySQL client using the following command:
+
+    ```bash
+    mysql -u root -p
+    ```
    
-#### Machine Learning Service:
+    Then, enter your password and run the following command to create the database:
+
+    ```sql
+    CREATE DATABASE MovieVerse;
+    LIST DATABASES;
+    ```
+   
+    You should see the `MovieVerse` database in the list of databases.
+   
+2. Run the scripts inside the `databases` directory to create the necessary databases and tables:
+
+    ```bash
+    cd databases
+    node app.js
+    ```
+   
+3. If the script runs successfully, you should see the following output in your terminal:
+
+    ```bash
+    node app.js
+    Server running on port 9090
+    Visit http://localhost:9090/ to test the connection.
+    Redis Connected
+    Connected to MongoDB
+    Connected to MySQL
+    Redis Test: Hello from Redis
+    RabbitMQ Connected
+    [*] Waiting for messages in task_queue. To exit press CTRL+C
+    ```
+   
+4. Test the RabbitMQ functionality by sending a message to the queue:
+
+    ```bash
+    node publish.js
+    ```
+   
+5. If the message is successfully sent, you should see the following output in your terminal:
+
+    ```bash
+    [x] Received Hello from RabbitMQ
+    ```
+
+#### Machine Learning Services
 
 This service contains several utilities for processing movie data using AI functionalities. To run each sub-service within `machine-learning`, follow the specific instructions provided in the respective directory.
 

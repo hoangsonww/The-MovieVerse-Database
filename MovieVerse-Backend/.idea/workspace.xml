@@ -5,98 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8bb29d63-e98d-4c08-9f32-16747d3aec75" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/django_backend/movieverse/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/django_backend/movieverse/admin.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/django_backend/movieverse/apps.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/django_backend/movieverse/migrations/0001_initial.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/django_backend/movieverse/migrations/0002_review.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/django_backend/movieverse/migrations/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/django_backend/movieverse/models.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/django_backend/movieverse/serializers.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/django_backend/movieverse/templates/movieverse/actor_detail.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/django_backend/movieverse/templates/movieverse/comment_item.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/django_backend/movieverse/templates/movieverse/director_detail.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/django_backend/movieverse/templates/movieverse/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/django_backend/movieverse/templates/movieverse/movie_detail.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/django_backend/movieverse/templates/movieverse/search.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/django_backend/movieverse/tests.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/django_backend/movieverse/urls.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/django_backend/movieverse/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/MovieVerse-Backend.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/MovieVerse-Backend.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/actors/actor-details.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/actors/models.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/admin.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/api.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/api_views.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend_django/.flake8" beforeDir="false" afterPath="$PROJECT_DIR$/django_backend/.flake8" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend_django/Pipfile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend_django/Pipfile.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend_django/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_backend/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend_django/asgi.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend_django/micro-services.py" beforeDir="false" afterPath="$PROJECT_DIR$/flask_backend/micro-services.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend_django/requirements.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend_django/serializers.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend_django/settings.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend_django/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_backend/django_backend/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend_django/wsgi.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_backend/django_backend/wsgi.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crawler/ai/adjust_crawling_strategy.py" beforeDir="false" afterPath="$PROJECT_DIR$/crawler/ai/adjust_crawling_strategy.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crawler/ai/content_summarization.py" beforeDir="false" afterPath="$PROJECT_DIR$/crawler/ai/content_summarization.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crawler/ai/image_analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/crawler/ai/image_analysis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crawler/ai/sentiment_trend_analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/crawler/ai/sentiment_trend_analysis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crawler/ai/text_analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/crawler/ai/text_analysis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crawler/crawler_orchestrator.py" beforeDir="false" afterPath="$PROJECT_DIR$/crawler/crawler_orchestrator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crawler/datasources.py" beforeDir="false" afterPath="$PROJECT_DIR$/crawler/datasources.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crawler/exceptions.py" beforeDir="false" afterPath="$PROJECT_DIR$/crawler/exceptions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crawler/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/crawler/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crawler/parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/crawler/parser.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crawler/scheduler.py" beforeDir="false" afterPath="$PROJECT_DIR$/crawler/scheduler.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crawler/scraper.py" beforeDir="false" afterPath="$PROJECT_DIR$/crawler/scraper.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crawler/tasks.py" beforeDir="false" afterPath="$PROJECT_DIR$/crawler/tasks.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crawler/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/crawler/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crawler/validators.py" beforeDir="false" afterPath="$PROJECT_DIR$/crawler/validators.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/db.sqlite3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_root/.flake8" beforeDir="false" afterPath="$PROJECT_DIR$/flask_backend/.flake8" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_root/Pipfile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_root/Pipfile.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_root/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_backend/django_backend/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_root/asgi.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_backend/django_backend/asgi.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_root/micro-services.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_root/requirements.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_root/serializers.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_root/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_backend/django_backend/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_root/urls.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_root/wsgi.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/flask_root/.flake8" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/flask_root/app.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/flask_root/flask.py" beforeDir="false" afterPath="$PROJECT_DIR$/flask_backend/flask.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flask_root/micro-services.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/flask_root/serializers.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine-learning/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/machine-learning/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine-learning/genre_classifier.py" beforeDir="false" afterPath="$PROJECT_DIR$/machine-learning/genre_classifier.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine-learning/micro-services.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine-learning/movie-recommendation.py" beforeDir="false" afterPath="$PROJECT_DIR$/machine-learning/movie-recommendation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine-learning/plot-summarizer.py" beforeDir="false" afterPath="$PROJECT_DIR$/machine-learning/plot-summarizer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/machine-learning/sentiment_analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/machine-learning/sentiment_analysis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/movies/models.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/movies/movie-details.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/movies/populate_movies.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/users/custom_user.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/users/models.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/users/user-management.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/caching.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_backend/movieverse/caching.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/decorators.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_backend/movieverse/decorators.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/exceptions.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_backend/movieverse/exceptions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_backend/movieverse/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/manage.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_backend/manage.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/notifications.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_backend/movieverse/notifications.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/settings.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/signals.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_backend/movieverse/signals.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/urls.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/views.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -132,31 +41,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Django Server.Django-Backend.executor": "Run",
-    "Django Server.MovieVerse-Backend.executor": "Run",
-    "Python.flask.executor": "Run",
-    "Python.genre_classifier.executor": "Run",
-    "Python.movie-recommendation.executor": "Run",
-    "Python.plot-summarizer.executor": "Run",
-    "Python.sentiment_analysis.executor": "Run",
-    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main-deployment-branch",
-    "last_opened_file_path": "/Users/davidnguyen/WebstormProjects/The-MovieVerse-Database/MovieVerse-Backend/django_backend/movieverse",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "reference.settings.ide.settings.new.ui",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Django Server.Django-Backend.executor&quot;: &quot;Run&quot;,
+    &quot;Django Server.MovieVerse-Backend.executor&quot;: &quot;Run&quot;,
+    &quot;Python.flask.executor&quot;: &quot;Run&quot;,
+    &quot;Python.genre_classifier.executor&quot;: &quot;Run&quot;,
+    &quot;Python.movie-recommendation.executor&quot;: &quot;Run&quot;,
+    &quot;Python.plot-summarizer.executor&quot;: &quot;Run&quot;,
+    &quot;Python.sentiment_analysis.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenDjangoStructureViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main-deployment-branch&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/davidnguyen/WebstormProjects/The-MovieVerse-Database/MovieVerse-Backend/django_backend/movieverse&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.ide.settings.new.ui&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/django_backend/movieverse" />
@@ -318,7 +227,8 @@
       <option name="presentableId" value="Default" />
       <updated>1718609335149</updated>
       <workItem from="1718609337226" duration="115000" />
-      <workItem from="1718609699588" duration="4243000" />
+      <workItem from="1718609699588" duration="4844000" />
+      <workItem from="1718614679612" duration="9000" />
     </task>
     <servers />
   </component>
