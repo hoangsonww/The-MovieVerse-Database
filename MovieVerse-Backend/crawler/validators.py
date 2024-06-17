@@ -1,5 +1,6 @@
 from django.core.exceptions import ValidationError
 
+
 def validate_movie_data(data):
     if not data.get('name') or not data.get('description'):
         raise ValidationError("Missing required movie fields")

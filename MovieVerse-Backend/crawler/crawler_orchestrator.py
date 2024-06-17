@@ -6,6 +6,7 @@ from .tasks import crawl_movie_data_and_store
 from .models import MovieDetail
 from django.core.exceptions import ObjectDoesNotExist
 
+
 def orchestrate_crawling(url):
     try:
         # Step 1: Fetch data
@@ -33,4 +34,3 @@ def orchestrate_crawling(url):
 
     except Exception as e:
         print(f"Error during the crawling process: {e}")
-
