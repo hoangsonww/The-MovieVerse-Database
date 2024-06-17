@@ -1,3 +1,6 @@
+import requests
+
+
 def adjust_crawling_strategy(sentiment_trend, crawling_params):
     """
     Adjust crawling parameters based on sentiment trend analysis.
@@ -13,6 +16,7 @@ def adjust_crawling_strategy(sentiment_trend, crawling_params):
         crawling_params['frequency'] *= 0.9  # Decrease frequency
     return crawling_params
 
+
 def fetch_movie_data(url):
     headers = {'User-Agent': 'Mozilla/5.0'}
     response = requests.get(url, headers=headers)
@@ -20,4 +24,3 @@ def fetch_movie_data(url):
         return response.text
     else:
         return None
-

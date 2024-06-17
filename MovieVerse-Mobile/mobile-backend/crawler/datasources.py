@@ -54,6 +54,7 @@ DATA_SOURCES = [
     'https://www.the-numbers.com/movie/source',
 ]
 
-def fetch_from_sources():
+
+def fetch_from_sources(crawl_movie_data_and_store=None):
     for source in DATA_SOURCES:
         crawl_movie_data_and_store.delay(source)

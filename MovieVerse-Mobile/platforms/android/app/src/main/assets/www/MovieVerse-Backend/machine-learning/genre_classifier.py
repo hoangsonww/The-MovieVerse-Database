@@ -5,6 +5,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
 
+
 class GenreClassifier:
     def __init__(self):
         self.pipeline = Pipeline([
@@ -25,6 +26,7 @@ class GenreClassifier:
 
     def predict_genres(self, descriptions: List[str]) -> List[str]:
         return self.pipeline.predict(descriptions)
+
 
 # Example usage
 if __name__ == "__main__":

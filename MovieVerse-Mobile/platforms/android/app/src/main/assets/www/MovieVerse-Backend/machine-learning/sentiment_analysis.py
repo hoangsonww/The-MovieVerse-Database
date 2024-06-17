@@ -6,6 +6,7 @@ from typing import List
 # Ensure you have the necessary NLTK components
 nltk.download('vader_lexicon')
 
+
 class SentimentAnalyzer:
     def __init__(self):
         self.analyzer = SentimentIntensityAnalyzer()
@@ -54,19 +55,6 @@ class SentimentAnalyzer:
         sentiment = self.predict_sentiment(review)
         return sentiment
 
-    def analyze_reviews(self, reviews: List[str]) -> pd.DataFrame:
-        results = {'Review': [], 'Sentiment': []}
-
-        for review in reviews:
-            sentiment = self.predict_sentiment(review)
-            results['Review'].append(review)
-            results['Sentiment'].append(sentiment)
-
-        return pd.DataFrame(results)
-
-    def analyze_review(self, review: str) -> str:
-        sentiment = self.predict_sentiment(review)
-        return sentiment
 
 if __name__ == "__main__":
     reviews = [

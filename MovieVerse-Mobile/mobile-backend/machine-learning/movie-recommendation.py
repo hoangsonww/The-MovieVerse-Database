@@ -6,7 +6,8 @@ from scipy.sparse.linalg import svds
 
 # Load movie data
 movies_df = pd.read_csv('movies.csv', usecols=['movieId', 'title'], dtype={'movieId': 'int32', 'title': 'str'})
-ratings_df = pd.read_csv('ratings.csv', usecols=['userId', 'movieId', 'rating'], dtype={'userId': 'int32', 'movieId': 'int32', 'rating': 'float32'})
+ratings_df = pd.read_csv('ratings.csv', usecols=['userId', 'movieId', 'rating'],
+                         dtype={'userId': 'int32', 'movieId': 'int32', 'rating': 'float32'})
 
 # Preprocessing
 # Create a user-movie matrix
@@ -23,6 +24,7 @@ sigma = np.diag(sigma)
 # Making Predictions
 all_user_predicted_ratings = np.dot(np.dot(U, sigma), Vt) + mean_user_rating.values.reshape(-1, 1)
 preds_df = pd.DataFrame(all_user_predicted_ratings, columns=user_movie_df.columns)
+
 
 # Recommend Movies
 def recommend_movies(predictions_df, userID, movies_df, original_ratings_df, num_recommendations=5):
@@ -44,6 +46,7 @@ def recommend_movies(predictions_df, userID, movies_df, original_ratings_df, num
                        )
 
     return user_full, recommendations
+
 
 # Test the recommendation system for a user
 user_id = 1
