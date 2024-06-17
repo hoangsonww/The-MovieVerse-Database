@@ -34,6 +34,14 @@
   ],
   "author": "Son Nguyen Hoang",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hoangsonww/The-MovieVerse-Database.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hoangsonww/The-MovieVerse-Database/issues"
+  },
+  "homepage": "https://movie-verse.com",
   "devDependencies": {
     "@babel/core": "^7.23.6",
     "@babel/preset-env": "^7.23.6",

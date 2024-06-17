@@ -5,27 +5,273 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cd254aab-fb0b-4629-92a6-766779c47463" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/platforms/ios/Podfile.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/platforms/ios/Pods/Manifest.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/platforms/ios/Pods/Pods.xcodeproj/project.pbxproj" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/platforms/ios/Pods/Pods.xcodeproj/xcuserdata/davidnguyen.xcuserdatad/xcschemes/Pods-MovieVerse.xcscheme" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/platforms/ios/Pods/Pods.xcodeproj/xcuserdata/davidnguyen.xcuserdatad/xcschemes/xcschememanagement.plist" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/platforms/ios/Pods/Target Support Files/Pods-MovieVerse/Pods-MovieVerse-acknowledgements.markdown" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/platforms/ios/Pods/Target Support Files/Pods-MovieVerse/Pods-MovieVerse-acknowledgements.plist" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/platforms/ios/Pods/Target Support Files/Pods-MovieVerse/Pods-MovieVerse-dummy.m" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/platforms/ios/Pods/Target Support Files/Pods-MovieVerse/Pods-MovieVerse.debug.xcconfig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/platforms/ios/Pods/Target Support Files/Pods-MovieVerse/Pods-MovieVerse.release.xcconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/platforms/ios/CordovaLib/CordovaLib.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/CordovaLib/CordovaLib.xcodeproj/project.pbxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/platforms/ios/CordovaLib/CordovaLib.xcodeproj/xcuserdata/davidnguyen.xcuserdatad/xcschemes/xcschememanagement.plist" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/CordovaLib/CordovaLib.xcodeproj/xcuserdata/davidnguyen.xcuserdatad/xcschemes/xcschememanagement.plist" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Backend/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Backend/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/.dockerignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/Dockerfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/config.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/css/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/css/index.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/css/navbar.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/css/profile.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/css/reset.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/css/style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/css/trivia.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/html/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/html/about.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/html/actor-details.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/html/analytics.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/html/api_fails.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/html/article.hbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/html/chat.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/html/chatbot.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/html/christopher-nolan.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/html/company-details.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/html/create-account.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/html/director-details.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/html/favorites.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/html/feedback.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/html/inception.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/html/index.ejs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/html/leonardo-dicaprio.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/html/movie-details.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/html/movie-match.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/html/movie-timeline.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/html/movies-list.hbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/html/notifications.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/html/offline.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/html/privacy-policy.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/html/profile.ejs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/html/reset-password.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/html/search.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/html/settings.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/html/sign-in.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/html/support.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/html/terms-of-service.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/html/trivia.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/html/tv-details.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/html/user-profile.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/index.ejs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/js/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/js/about.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/js/actor-details.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/js/add-to-favorites.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/js/add-to-tv-favorites.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/js/analytics.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/js/chat-auxiliary.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/js/chat.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/js/chatbot.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/js/christopher-nolan.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/js/comments-tv.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/js/comments.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/js/company-details.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/js/create-account.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/js/director-details.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/js/favorites.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/js/firebase.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/js/inception.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/js/index.ejs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/js/leonardo-dicarprio.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/js/movie-details.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/js/movie-match.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/js/movie-timeline.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/js/notifications.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/js/privacy-policy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/js/quiz.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/js/ratings-module.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/js/reset-password.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/js/root-config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/js/router.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/js/search.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/js/service-worker.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/js/settings.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/js/sign-in.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/js/single-spa-config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/js/systemjs-importmap.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/js/terms-of-service.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/js/triviaModule.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/js/tv-details.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/js/user-profile.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/react/FeaturedMoviesCarousel.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/react/GenreMovies.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/react/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/react/MovieDetails.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/react/MovieList.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/react/MovieRecommendations.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/react/MovieSearch.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/react/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/react/UserProfile.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/react/UserReviews.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/react/index.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/tests/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/tests/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/tests/apiTests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/tests/chatbotInteractionTests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/tests/eventListenerTests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/tests/favoritesPageTests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/tests/localStorageTests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/tests/movieDetailsRenderTests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/tests/movieDetailsUtilityTests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/tests/movieSearchTests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/tests/renderTests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/tests/uiTests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/tests/utilityTests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-APIs/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-APIs/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Backend/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Backend/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Databases/.dockerignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Databases/.flake8" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Databases/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Databases/Data-Analysis/DataAnalysis.R" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Databases/Data-Analysis/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Databases/Data-Analysis/MovieBudgetAndSuccessAnalysis.do" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Databases/Data-Analysis/MovieDataInsights.Rmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Databases/Data-Analysis/MovieDataVisualization.R" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Databases/Data-Analysis/MovieSentimentAnalysis.R" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Databases/Data-Analysis/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Databases/Data-Analysis/UserRatingAnalysisByGenre.do" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Databases/Dockerfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Databases/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Databases/Makefile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Databases/Pipfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Databases/Pipfile.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Databases/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Databases/config.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Databases/firebase.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Databases/firestore.indexes.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Databases/firestore.rules" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Databases/machine-learning/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Databases/machine-learning/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Databases/machine-learning/genre_classifier.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Databases/machine-learning/micro-services.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Databases/machine-learning/movie-recommendation.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Databases/machine-learning/movie-reviews.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Databases/machine-learning/plot-summarizer.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Databases/machine-learning/sentiment_analysis.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Databases/movie-user.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Databases/movieverse.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Databases/movieverse_chatbot.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Databases/movieverse_nosql_setup.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Databases/movieverse_schema.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Databases/movieverse_user_management.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Databases/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Databases/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Databases/requirements.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Databases/storage.rules" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Databases/test_api_db.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Middleware/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/MovieVerse-Middleware/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/platforms/ios/MovieVerse.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/MovieVerse.xcodeproj/project.pbxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/platforms/ios/MovieVerse.xcworkspace/contents.xcworkspacedata" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/MovieVerse.xcworkspace/contents.xcworkspacedata" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/platforms/ios/MovieVerse.xcworkspace/xcuserdata/davidnguyen.xcuserdatad/UserInterfaceState.xcuserstate" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/MovieVerse.xcworkspace/xcuserdata/davidnguyen.xcuserdatad/UserInterfaceState.xcuserstate" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/platforms/ios/pods-debug.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/pods-debug.xcconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/platforms/ios/pods-release.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/pods-release.xcconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-APIs/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-APIs/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Backend/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Backend/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Databases/.dockerignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Databases/.flake8" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Databases/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Databases/Data-Analysis/DataAnalysis.R" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Databases/Data-Analysis/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Databases/Data-Analysis/MovieBudgetAndSuccessAnalysis.do" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Databases/Data-Analysis/MovieDataInsights.Rmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Databases/Data-Analysis/MovieDataVisualization.R" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Databases/Data-Analysis/MovieSentimentAnalysis.R" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Databases/Data-Analysis/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Databases/Data-Analysis/UserRatingAnalysisByGenre.do" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Databases/Dockerfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Databases/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Databases/Makefile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Databases/Pipfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Databases/Pipfile.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Databases/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Databases/config.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Databases/firebase.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Databases/firestore.indexes.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Databases/firestore.rules" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Databases/machine-learning/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Databases/machine-learning/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Databases/machine-learning/genre_classifier.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Databases/machine-learning/micro-services.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Databases/machine-learning/movie-recommendation.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Databases/machine-learning/movie-reviews.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Databases/machine-learning/plot-summarizer.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Databases/machine-learning/sentiment_analysis.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Databases/movie-user.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Databases/movieverse.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Databases/movieverse_chatbot.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Databases/movieverse_nosql_setup.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Databases/movieverse_schema.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Databases/movieverse_user_management.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Databases/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Databases/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Databases/requirements.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Databases/storage.rules" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Databases/test_api_db.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Frontend/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Middleware/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/MovieVerse-Middleware/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platforms/ios/www/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/platforms/ios/www/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-APIs/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-APIs/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Backend/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Backend/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Databases/.dockerignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Databases/.flake8" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Databases/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Databases/Data-Analysis/DataAnalysis.R" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Databases/Data-Analysis/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Databases/Data-Analysis/MovieBudgetAndSuccessAnalysis.do" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Databases/Data-Analysis/MovieDataInsights.Rmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Databases/Data-Analysis/MovieDataVisualization.R" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Databases/Data-Analysis/MovieSentimentAnalysis.R" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Databases/Data-Analysis/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Databases/Data-Analysis/UserRatingAnalysisByGenre.do" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Databases/Dockerfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Databases/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Databases/Makefile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Databases/Pipfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Databases/Pipfile.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Databases/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Databases/config.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Databases/firebase.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Databases/firestore.indexes.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Databases/firestore.rules" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Databases/machine-learning/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Databases/machine-learning/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Databases/machine-learning/genre_classifier.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Databases/machine-learning/micro-services.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Databases/machine-learning/movie-recommendation.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Databases/machine-learning/movie-reviews.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Databases/machine-learning/plot-summarizer.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Databases/machine-learning/sentiment_analysis.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Databases/movie-user.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Databases/movieverse.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Databases/movieverse_chatbot.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Databases/movieverse_nosql_setup.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Databases/movieverse_schema.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Databases/movieverse_user_management.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Databases/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Databases/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Databases/requirements.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Databases/storage.rules" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Databases/test_api_db.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Frontend/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Frontend/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Middleware/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/MovieVerse-Middleware/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/www/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/www/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
