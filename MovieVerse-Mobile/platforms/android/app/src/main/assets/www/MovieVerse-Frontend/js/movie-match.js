@@ -165,6 +165,7 @@ async function rotateUserStats() {
         clearInterval(statRotationInterval);
         updateStatDisplay();
         statRotationInterval = setInterval(updateStatDisplay, 3000);
+        localTimeDiv.scrollIntoView({ behavior: 'smooth' });
     });
 }
 
@@ -173,6 +174,7 @@ function updateMovieVisitCount(movieId, movieTitle) {
     if (!movieVisits[movieId]) {
         movieVisits[movieId] = { count: 0, title: movieTitle };
     }
+
     movieVisits[movieId].count += 1;
     localStorage.setItem('movieVisits', JSON.stringify(movieVisits));
 }

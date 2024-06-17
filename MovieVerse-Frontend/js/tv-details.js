@@ -4,7 +4,7 @@ const movieCode = {
     part3: 'ZDllOTg3ZGNjN2YxYjU1OA=='
 };
 
-let globalTrailerKey = '';
+let currentIndex = sessionStorage.getItem('currentIndex') ? parseInt(sessionStorage.getItem('currentIndex')) : 0;
 
 function getMovieCode() {
     return atob(movieCode.part1) + atob(movieCode.part2) + atob(movieCode.part3);
@@ -20,7 +20,7 @@ const form = document.getElementById("form1");
 const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
 
 const main = document.getElementById("main");
-const IMGPATH = "https://image.tmdb.org/t/p/w1280";
+const IMGPATH = "https://image.tmdb.org/t/p/w780";
 const searchTitle = document.getElementById("search-title");
 let initialMainContent;
 
@@ -165,6 +165,7 @@ async function rotateUserStats() {
         clearInterval(statRotationInterval);
         updateStatDisplay();
         statRotationInterval = setInterval(updateStatDisplay, 3000);
+        localTimeDiv.scrollIntoView({ behavior: 'smooth' });
     });
 }
 
@@ -332,6 +333,7 @@ function updateSignInButtonState() {
 
 document.addEventListener("DOMContentLoaded", function() {
     updateSignInButtonState();
+    currentIndex = 0;
     document.getElementById('googleSignInBtn').addEventListener('click', handleSignInOut);
 });
 
@@ -543,21 +545,23 @@ async function fetchTvDetails(tvSeriesId) {
     const urlWithAppend = `${baseUrl}?${generateMovieNames()}${tvCode}&append_to_response=credits,keywords,similar,videos,external_ids`;
 
     try {
-        const response = await fetch(urlWithAppend);
-        const tvSeriesDetails = await response.json();
+        const tvDetailsPromise = fetch(urlWithAppend).then(response => {
+            if (!response.ok) throw new Error('Failed to fetch TV series details');
+            return response.json();
+        });
+
+        const tvSeriesDetails = await tvDetailsPromise;
         const imdbId = tvSeriesDetails.external_ids.imdb_id;
-        const imdbRating = await fetchTVRatings(imdbId);
 
-        populateTvSeriesDetails(tvSeriesDetails, imdbRating);
-        updateBrowserURL(tvSeriesDetails.name);
-
-        const trailer = tvSeriesDetails.videos.results.find(video => video.type === 'Trailer' && video.site === 'YouTube');
-        if (trailer) {
-            document.getElementById('trailerButton').style.display = 'block';
-            globalTrailerKey = trailer.key;
+        if (imdbId) {
+            const imdbRatingPromise = fetchTVRatings(imdbId);
+            const imdbRating = await imdbRatingPromise;
+            populateTvSeriesDetails(tvSeriesDetails, imdbRating);
+        } else {
+            populateTvSeriesDetails(tvSeriesDetails, 'IMDb data unavailable but you can check it out by clicking here');
         }
 
-        hideSpinner();
+        updateBrowserURL(tvSeriesDetails.name);
     }
     catch (error) {
         document.getElementById('movie-details-container').innerHTML = `
@@ -565,24 +569,57 @@ async function fetchTvDetails(tvSeriesId) {
                 <h2>TV series details not found - Try again with another TV series</h2>
             </div>`;
         console.log('Error fetching TV series details:', error);
+    }
+    finally {
         hideSpinner();
     }
 }
 
 async function fetchTVRatings(imdbId) {
-    const fff = `60a09d79`;
-    const link = `https://${getMovieActor()}/?i=${imdbId}&${getMovieName()}${fff}`;
-
-    try {
-        const response = await fetch(link);
-        const data = await response.json();
-
-        return imdbRating = data.imdbRating ? data.imdbRating : 'IMDb data unavailable but you can check it out by clicking here';
+    if (!imdbId) {
+        return 'IMDb data unavailable but you can check it out by clicking here';
     }
-    catch (error) {
-        console.log('Error fetching TV series ratings:', error);
-        return 'N/A';
+
+    const apiKeys = [
+        await getMovieCode2(),
+        '58efe859',
+        '60a09d79',
+        '956e468a',
+        'bd55ada4',
+        'cbfc076',
+        'dc091ff2',
+        '6e367eef',
+        '2a2a3080'
+    ];
+
+    const baseURL = `https://${getMovieActor()}/?i=${imdbId}&${getMovieName()}`;
+
+    async function tryFetch(apiKey, timeout = 5000) {
+        const url = `${baseURL}${apiKey}`;
+        return new Promise((resolve) => {
+            const timer = setTimeout(() => resolve(null), timeout);
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) throw new Error('API limit reached or other error');
+                    return response.json();
+                })
+                .then(data => {
+                    clearTimeout(timer);
+                    if (!data || data.Error) throw new Error('Data fetch error');
+                    resolve(data);
+                })
+                .catch(() => {
+                    clearTimeout(timer);
+                    resolve(null);
+                });
+        });
     }
+
+    const requests = apiKeys.map(key => tryFetch(key));
+    const responses = await Promise.all(requests);
+    const data = responses.find(response => response !== null);
+
+    return data && data.imdbRating ? data.imdbRating : 'IMDb data unavailable but you can check it out by clicking here';
 }
 
 function getLanguageName(code) {
@@ -600,9 +637,17 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
     document.getElementById('movie-title').textContent = title;
     document.title = tvSeries.name + " - TV Series Details";
 
-    const posterPath = tvSeries.poster_path ? `https://image.tmdb.org/t/p/w1280${tvSeries.poster_path}` : 'path/to/default/poster.jpg';
-    document.getElementById('movie-image').src = posterPath;
-    document.getElementById('movie-image').alt = `Poster of ${title}`;
+    const posterPath = `https://image.tmdb.org/t/p/w780${tvSeries.poster_path}`;
+    if (tvSeries.poster_path) {
+        document.getElementById('movie-image').src = posterPath;
+        document.getElementById('movie-image').alt = `Poster of ${title}`;
+    }
+    else {
+        const noImageTitle = document.createElement('h2');
+        noImageTitle.textContent = 'TV Show Image Not Available';
+        noImageTitle.style.textAlign = 'center';
+        document.getElementById('movie-image').replaceWith(noImageTitle);
+    }
 
     let detailsHTML = `<p><strong>Overview:</strong> ${tvSeries.overview || 'Overview not available.'}</p>`;
 
@@ -619,12 +664,15 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
 
     detailsHTML += `<p><strong>Status:</strong> ${tvSeries.status || 'Not available'}</p>`;
 
+    const type = tvSeries.type || 'Not available';
+    detailsHTML += `<p><strong>Type:</strong> ${type}</p>`;
+
     const networks = tvSeries.networks && tvSeries.networks.length ? tvSeries.networks.map(network => network.name).join(', ') : 'Information not available';
     detailsHTML += `<p><strong>Networks:</strong> ${networks}</p>`;
 
     const voteAverage = tvSeries.vote_average ? tvSeries.vote_average.toFixed(1) : 'N/A';
     const voteCount = tvSeries.vote_count ? tvSeries.vote_count.toLocaleString() : 'N/A';
-    detailsHTML += `<p title="Your rating also counts - it might take a while for us to update!"><strong>MovieVerse User Rating:</strong> <strong>${(voteAverage / 2).toFixed(1)}/5.0</strong> (based on <strong>${voteCount}</strong> votes)</p>`;
+    detailsHTML += `<p title="Your rating also counts - it might take a while for us to update!"><strong>MovieVerse User Rating:</strong> <strong id="user-ratings">${(voteAverage / 2).toFixed(1)}/5.0</strong> (based on <strong id="user-ratings">${voteCount}</strong> votes)</p>`;
 
     if (tvSeries.external_ids && tvSeries.external_ids.imdb_id) {
         const imdbId = tvSeries.external_ids.imdb_id;
@@ -635,13 +683,16 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
         detailsHTML += `<p title="Click to go to this TV series' IMDB page"><strong>IMDb Rating:</strong> <strong>IMDb rating not available</strong></p>`;
     }
 
-    const tmdbRating = tvSeries.vote_average ? tvSeries.vote_average.toFixed(1) : 'N/A';
-    detailsHTML += `<p><strong>TMDB Rating:</strong> <a href="https://www.themoviedb.org/tv/${tvSeries.id}" id="rating" target="_blank">${tmdbRating}/10.0</a></p>`;
+    let tmdbRating = tvSeries.vote_average ? tvSeries.vote_average.toFixed(1) : 'N/A';
+    if (tmdbRating === 'N/A') {
+        detailsHTML += `<p><strong>TMDB Rating:</strong> <a href="https://www.themoviedb.org/tv/${tvSeries.id}" id="rating" target="_blank">${tmdbRating}</a></p>`;
+    }
+    else {
+        detailsHTML += `<p><strong>TMDB Rating:</strong> <a href="https://www.themoviedb.org/tv/${tvSeries.id}" id="rating" target="_blank">${tmdbRating}/10.0</a></p>`;
+    }
 
     const homepage = tvSeries.homepage ? `<a id="homepage" href="${tvSeries.homepage}" target="_blank">Visit homepage</a>` : 'Not available';
     detailsHTML += `<p><strong>Homepage:</strong> ${homepage}</p>`;
-
-    detailsHTML += `<p><strong>Seasons:</strong> ${tvSeries.number_of_seasons || 0}, <strong>Episodes:</strong> ${tvSeries.number_of_episodes || 0}</p>`;
 
     if (tvSeries.origin_country && tvSeries.origin_country.length > 0) {
         const countryNames = tvSeries.origin_country.map(code => getCountryName(code)).join(', ');
@@ -657,49 +708,276 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
     const productionCountries = tvSeries.production_countries && tvSeries.production_countries.length > 0 ? tvSeries.production_countries.map(country => getCountryName(country.iso_3166_1)).join(', ') : 'Information not available';
     detailsHTML += `<p><strong>Production Countries:</strong> ${productionCountries}</p>`;
 
-    if (tvSeries.created_by && tvSeries.created_by.length) {
-        const creatorsLinks = tvSeries.created_by.map(creator =>
-            `<a id="director-link" href="javascript:void(0);" onclick="handleCreatorClick(${creator.id}, '${creator.name.replace(/'/g, "\\'")}');">${creator.name}</a>`
-        ).join(', ');
-        detailsHTML += `<p><strong>Directors:</strong> ${creatorsLinks}</p>`;
-    }
-    else {
-        detailsHTML += `<p><strong>Directors:</strong> Information not available</p>`;
+    detailsHTML += `<p><strong>Seasons:</strong> ${tvSeries.number_of_seasons || 0}, <strong>Episodes:</strong> ${tvSeries.number_of_episodes || 0}</p>`;
+
+    if (tvSeries.last_episode_to_air) {
+        const lastEpisode = tvSeries.last_episode_to_air;
+
+        detailsHTML += `<div class="last-episode">
+                            <strong>Last Episode:</strong> <em>${lastEpisode.name || 'Title not available'}</em> - ${lastEpisode.overview || 'Overview not available.'}
+                        </div>`;
+
+        if (lastEpisode.still_path) {
+            detailsHTML += `<div class="last-episode-image-container" id="last-episode-image-container">
+                                <img src="${IMGPATH + lastEpisode.still_path}" alt="${lastEpisode.name} Still Image" class="last-episode-image" id="last-episode-image" alt="Last Episode Image">
+                            </div>`;
+        }
     }
 
-    if (tvSeries.credits && tvSeries.credits.cast && tvSeries.credits.cast.length) {
-        let castHTML = tvSeries.credits.cast.slice(0, 100).map(castMember => {
-            const escapedName = castMember.name.replace(/'/g, "\\'");
-            return `<a id="cast-info" href="javascript:void(0);" onclick="selectActorId(${castMember.id}, '${escapedName}');">${castMember.name}</a>`;
-        }).join(', ');
-        detailsHTML += `<p><strong>Cast:</strong> ${castHTML}</p>`;
+    if (tvSeries.created_by && tvSeries.created_by.length > 0) {
+        const creatorsSection = document.createElement('div');
+        creatorsSection.classList.add('creators-section');
+
+        const creatorsTitle = document.createElement('p');
+        creatorsTitle.innerHTML = '<strong>Creators:</strong>';
+        creatorsSection.appendChild(creatorsTitle);
+
+        const creatorsList = document.createElement('div');
+        creatorsList.classList.add('creators-list');
+        creatorsList.style.display = 'flex';
+        creatorsList.style.flexWrap = 'wrap';
+        creatorsList.style.justifyContent = 'center';
+        creatorsList.style.gap = '2px';
+
+        tvSeries.created_by.forEach(creator => {
+            const creatorLink = document.createElement('a');
+            creatorLink.classList.add('creator-link');
+            creatorLink.href = 'javascript:void(0);';
+            creatorLink.setAttribute('onclick', `handleCreatorClick(${creator.id}, '${creator.name.replace(/'/g, "\\'")}');`);
+
+            const creatorItem = document.createElement('div');
+            creatorItem.classList.add('creator-item');
+
+            const creatorImage = document.createElement('img');
+            creatorImage.classList.add('creator-image');
+
+            if (creator.profile_path) {
+                creatorImage.src = IMGPATH + creator.profile_path;
+                creatorImage.alt = `${creator.name} Profile Picture`;
+            } else {
+                creatorImage.alt = 'Image Not Available';
+                creatorImage.style.objectFit = 'cover';
+                creatorImage.src = 'https://movie-verse.com/images/user-default.png';
+                creatorImage.style.filter = 'grayscale(100%)';
+            }
+
+            creatorItem.appendChild(creatorImage);
+
+            const creatorDetails = document.createElement('div');
+            creatorDetails.classList.add('creator-details');
+
+            const creatorName = document.createElement('p');
+            creatorName.classList.add('creator-name');
+            creatorName.textContent = creator.name;
+            creatorDetails.appendChild(creatorName);
+
+            creatorItem.appendChild(creatorDetails);
+            creatorLink.appendChild(creatorItem);
+            creatorsList.appendChild(creatorLink);
+        });
+
+        creatorsSection.appendChild(creatorsList);
+        detailsHTML += creatorsSection.outerHTML;
     }
     else {
-        detailsHTML += `<p><strong>Cast:</strong> Information not available</p>`;
+        const noCreatorsElement = document.createElement('p');
+        noCreatorsElement.innerHTML = `<strong>Creators:</strong> Information not available`;
+        detailsHTML += noCreatorsElement.outerHTML;
+    }
+
+    if (tvSeries.credits && tvSeries.credits.cast && tvSeries.credits.cast.length > 0) {
+        const castSection = document.createElement('div');
+        castSection.classList.add('cast-section');
+
+        const castTitle = document.createElement('p');
+        castTitle.innerHTML = '<strong>Notable Cast:</strong>';
+        castSection.appendChild(castTitle);
+
+        const castList = document.createElement('div');
+        castList.classList.add('cast-list');
+        castList.style.display = 'flex';
+        castList.style.flexWrap = 'wrap';
+        castList.style.justifyContent = 'center';
+        castList.style.gap = '2px';
+
+        tvSeries.credits.cast.slice(0, 12).forEach(castMember => {
+            const castMemberLink = document.createElement('a');
+            castMemberLink.classList.add('cast-member-link');
+            castMemberLink.href = 'javascript:void(0);';
+            castMemberLink.setAttribute('onclick', `selectActorId(${castMember.id}, '${castMember.name.replace(/'/g, "\\'")}');`);
+
+            const castMemberItem = document.createElement('div');
+            castMemberItem.classList.add('cast-member-item');
+
+            const castMemberImage = document.createElement('img');
+            castMemberImage.classList.add('cast-member-image');
+
+            if (castMember.profile_path) {
+                castMemberImage.src = IMGPATH + castMember.profile_path;
+                castMemberImage.alt = `${castMember.name} Profile Picture`;
+            }
+            else {
+                castMemberImage.alt = 'Image Not Available';
+                castMemberImage.style.objectFit = 'cover';
+                castMemberImage.src = 'https://movie-verse.com/images/user-default.png';
+                castMemberImage.style.filter = 'grayscale(100%)';
+            }
+
+            castMemberItem.appendChild(castMemberImage);
+
+            const castMemberDetails = document.createElement('div');
+            castMemberDetails.classList.add('cast-member-details');
+
+            const castMemberName = document.createElement('p');
+            castMemberName.classList.add('cast-member-name');
+            castMemberName.textContent = castMember.name;
+            castMemberDetails.appendChild(castMemberName);
+
+            const castMemberRole = document.createElement('p');
+            castMemberRole.classList.add('cast-member-role');
+            castMemberRole.textContent = castMember.character ? `(as ${castMember.character})` : '';
+            castMemberRole.style.fontStyle = 'italic';
+            castMemberDetails.appendChild(castMemberRole);
+
+            castMemberItem.appendChild(castMemberDetails);
+            castMemberLink.appendChild(castMemberItem);
+            castList.appendChild(castMemberLink);
+        });
+
+        castSection.appendChild(castList);
+        detailsHTML += castSection.outerHTML;
+    }
+    else {
+        const noCastElement = document.createElement('p');
+        noCastElement.innerHTML = `<strong>Cast:</strong> Information not available`;
+        detailsHTML += noCastElement.outerHTML;
+    }
+
+    if (tvSeries.similar && tvSeries.similar.results && tvSeries.similar.results.length > 0) {
+        const similarTvSeriesSection = document.createElement('div');
+        similarTvSeriesSection.classList.add('similar-tv-series-section');
+
+        const similarTvSeriesTitle = document.createElement('p');
+        similarTvSeriesTitle.innerHTML = '<strong>Similar TV Series:</strong>';
+        similarTvSeriesSection.appendChild(similarTvSeriesTitle);
+
+        const similarTvSeriesList = document.createElement('div');
+        similarTvSeriesList.classList.add('similar-tv-series-list');
+        similarTvSeriesList.style.display = 'flex';
+        similarTvSeriesList.style.flexWrap = 'wrap';
+        similarTvSeriesList.style.justifyContent = 'center';
+        similarTvSeriesList.style.gap = '10px';
+
+        let similarTvSeries = tvSeries.similar.results.sort((a, b) => b.popularity - a.popularity);
+        similarTvSeries = similarTvSeries.slice(0, 18);
+
+        similarTvSeries.forEach(similarTv => {
+            const similarTvLink = document.createElement('a');
+            similarTvLink.classList.add('similar-tv-link');
+            similarTvLink.href = 'javascript:void(0);';
+            similarTvLink.setAttribute('onclick', `selectTvSeriesId(${similarTv.id});`);
+
+            const similarTvItem = document.createElement('div');
+            similarTvItem.classList.add('similar-tv-item');
+
+            const similarTvImage = document.createElement('img');
+            similarTvImage.classList.add('similar-tv-image');
+
+            if (similarTv.poster_path) {
+                similarTvImage.src = IMGPATH + similarTv.poster_path;
+                similarTvImage.alt = `${similarTv.name} Poster`;
+            } else {
+                similarTvImage.alt = 'Image Not Available';
+                similarTvImage.src = 'https://movie-verse.com/images/movie-default.jpg';
+                similarTvImage.style.filter = 'grayscale(100%)';
+                similarTvImage.style.objectFit = 'cover';
+            }
+
+            similarTvItem.appendChild(similarTvImage);
+
+            const similarTvDetails = document.createElement('div');
+            similarTvDetails.classList.add('similar-tv-details');
+
+            const similarTvName = document.createElement('p');
+            similarTvName.classList.add('similar-tv-name');
+            similarTvName.textContent = similarTv.name;
+            similarTvDetails.appendChild(similarTvName);
+
+            similarTvItem.appendChild(similarTvDetails);
+            similarTvLink.appendChild(similarTvItem);
+            similarTvSeriesList.appendChild(similarTvLink);
+        });
+
+        similarTvSeriesSection.appendChild(similarTvSeriesList);
+        detailsHTML += similarTvSeriesSection.outerHTML;
+    }
+    else {
+        const noSimilarTvSeriesElement = document.createElement('p');
+        noSimilarTvSeriesElement.innerHTML = `<strong>Similar TV Series:</strong> Information not available`;
+        detailsHTML += noSimilarTvSeriesElement.outerHTML;
     }
 
     if (tvSeries.production_companies && tvSeries.production_companies.length) {
-        let companiesHTML = tvSeries.production_companies.map(company => {
-            return `<a id="prod-companies" href="javascript:void(0);" onclick="selectCompanyId(${company.id})">${company.name}</a>`;
-        }).join(', ');
-        detailsHTML += `<p><strong>Production Companies:</strong> ${companiesHTML}</p>`;
+        const companiesSection = document.createElement('div');
+        companiesSection.classList.add('companies-section');
+
+        const companiesTitle = document.createElement('p');
+        companiesTitle.innerHTML = '<strong>Production Companies:</strong>';
+        companiesSection.appendChild(companiesTitle);
+
+        const companiesList = document.createElement('div');
+        companiesList.classList.add('companies-list');
+        companiesList.style.display = 'flex';
+        companiesList.style.flexWrap = 'wrap';
+        companiesList.style.justifyContent = 'center';
+        companiesList.style.gap = '5px';
+
+        let productionCompanies = tvSeries.production_companies.slice(0, 6);
+
+        productionCompanies.forEach(company => {
+            const companyLink = document.createElement('a');
+            companyLink.classList.add('company-link');
+            companyLink.href = 'javascript:void(0);';
+            companyLink.setAttribute('onclick', `selectCompanyId(${company.id});`);
+
+            const companyItem = document.createElement('div');
+            companyItem.classList.add('company-item');
+
+            const companyLogo = document.createElement('img');
+            companyLogo.classList.add('company-logo');
+
+            if (company.logo_path) {
+                companyLogo.src = IMGPATH + company.logo_path;
+                companyLogo.alt = `${company.name} Logo`;
+                companyLogo.style.backgroundColor = 'white';
+            } else {
+                companyLogo.alt = 'Logo Not Available';
+                companyLogo.src = 'https://movie-verse.com/images/company-default.png';
+                companyLogo.style.filter = 'grayscale(100%)';
+            }
+
+            companyItem.appendChild(companyLogo);
+
+            const companyDetails = document.createElement('div');
+            companyDetails.classList.add('company-details');
+
+            const companyName = document.createElement('p');
+            companyName.classList.add('company-name');
+            companyName.textContent = company.name;
+            companyDetails.appendChild(companyName);
+
+            companyItem.appendChild(companyDetails);
+            companyLink.appendChild(companyItem);
+            companiesList.appendChild(companyLink);
+        });
+
+        companiesSection.appendChild(companiesList);
+        detailsHTML += companiesSection.outerHTML;
     }
     else {
-        detailsHTML += `<p><strong>Production Companies:</strong> Information not available</p>`;
-    }
-
-    if (tvSeries.similar && tvSeries.similar.results && tvSeries.similar.results.length) {
-        let similarTVHTML = tvSeries.similar.results.slice(0, 5).map(similarTv => {
-            return `<a id="similar-tv" href="javascript:void(0);" onclick="selectTvSeriesId(${similarTv.id})">${similarTv.name}</a>`;
-        }).join(', ');
-        detailsHTML += `<p><strong>Similar TV Series:</strong> ${similarTVHTML}</p>`;
-    }
-    else {
-        detailsHTML += `<p><strong>Similar TV Series:</strong> Information not available</p>`;
-    }
-
-    if (tvSeries.last_episode_to_air) {
-        detailsHTML += `<p><strong>Last Episode:</strong> ${tvSeries.last_episode_to_air.name || 'Title not available'} - "${tvSeries.last_episode_to_air.overview || 'Overview not available.'}"</p>`;
+        const noCompaniesElement = document.createElement('p');
+        noCompaniesElement.innerHTML = `<strong>Production Companies:</strong> Information not available`;
+        detailsHTML += noCompaniesElement.outerHTML;
     }
 
     const tvSeriesTitleEncoded = encodeURIComponent(title);
@@ -733,10 +1011,10 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
                 break;
         }
 
-        return `<a href="${providerLink}" target="_blank" title="Watch on ${provider.provider_name}" style="display: inline-flex; align-items: flex-end; vertical-align: bottom;">
+        return `<a href="${providerLink}" target="_blank" title="Watch on ${provider.provider_name}" style="display: inline-flex; align-items: flex-end; vertical-align: bottom;" class="streaming-logo">
         <img src="https://image.tmdb.org/t/p/original${provider.logo_path}" alt="${provider.provider_name}" style="width: 50px; margin-left: 10px;">
     </a>`;
-    }).join('') + `<a href="https://www.justwatch.com/us/search?q=${tvSeriesTitleEncoded}" target="_blank" title="View more streaming options on JustWatch" style="display: inline-flex; align-items: center; vertical-align: bottom; margin-left: 10px;">
+    }).join('') + `<a href="https://www.justwatch.com/us/search?q=${tvSeriesTitleEncoded}" target="_blank" title="View more streaming options on JustWatch" class="streaming-logo" style="display: inline-flex; align-items: center; vertical-align: bottom">
         <img src="../../images/justwatchlogo.webp" alt="JustWatch" style="width: 50px;">
     </a>` : 'No streaming options available.';
 
@@ -788,6 +1066,20 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
         `;
     }
 
+    let imageWrapper = document.getElementById('image-wrapper');
+    if (!imageWrapper) {
+        imageWrapper = document.createElement('div');
+        imageWrapper.id = 'image-wrapper';
+        imageWrapper.style = `
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        `;
+        mediaContainer.appendChild(imageWrapper);
+    }
+
     let imageElement = document.getElementById('series-media-image');
     if (!imageElement) {
         imageElement = document.createElement('img');
@@ -800,35 +1092,69 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
             border-radius: 16px;
             cursor: pointer;
         `;
-        mediaContainer.appendChild(imageElement);
+        imageElement.loading = 'lazy';
+        imageWrapper.appendChild(imageElement);
     }
 
     if (images.length > 0) {
-        imageElement.src = `https://image.tmdb.org/t/p/w1280${images[0].file_path}`;
+        imageElement.src = `https://image.tmdb.org/t/p/w780${images[currentIndex].file_path}`;
     }
 
-    imageElement.addEventListener('click', function() {
-        const imageUrl = this.src;
+    imageElement.addEventListener('click', function () {
+        let imageUrl = this.src.replace('w780', 'w1280');
+
         const modalHtml = `
-        <div id="image-modal" style="z-index: 100022222; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
-            <img src="${imageUrl}" style="max-width: 80%; max-height: 80%; border-radius: 10px; cursor: default;" onclick="event.stopPropagation();">
-            <span style="position: absolute; top: 10px; right: 25px; font-size: 40px; cursor: pointer" id="removeBtn">&times;</span>
-        </div>
-    `;
+            <div id="image-modal" style="z-index: 100022222; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
+                <button id="prevModalButton" style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); background-color: #7378c5; color: white; border-radius: 8px; height: 30px; width: 30px; border: none; cursor: pointer; z-index: 11;"><i class="fas fa-arrow-left"></i></button>
+                <img src="${imageUrl}" style="max-width: 80%; max-height: 80%; border-radius: 10px; cursor: default; transition: opacity 0.5s ease-in-out;" onclick="event.stopPropagation();" alt="Media Image"/>
+                <button id="nextModalButton" style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); background-color: #7378c5; color: white; border-radius: 8px; height: 30px; width: 30px; border: none; cursor: pointer; z-index: 11;"><i class="fas fa-arrow-right"></i></button>
+                <span style="position: absolute; top: 10px; right: 25px; font-size: 40px; cursor: pointer" id="removeBtn">&times;</span>
+            </div>
+        `;
         document.body.insertAdjacentHTML('beforeend', modalHtml);
+
         const modal = document.getElementById('image-modal');
+        const modalImage = modal.querySelector('img');
         const closeModalBtn = document.getElementById('removeBtn');
 
         closeModalBtn.onclick = function() {
             modal.remove();
+            imageElement.src = modalImage.src.replace('w1280', 'w780'); // Update the main image on modal close
         };
 
         modal.addEventListener('click', function(event) {
             if (event.target === this) {
                 this.remove();
+                imageElement.src = modalImage.src.replace('w1280', 'w780');
             }
         });
+
+        const prevModalButton = document.getElementById('prevModalButton');
+        prevModalButton.onmouseover = () => prevModalButton.style.backgroundColor = '#ff8623';
+        prevModalButton.onmouseout = () => prevModalButton.style.backgroundColor = '#7378c5';
+        prevModalButton.onclick = () => navigateMediaAndModal(images, imageElement, modalImage, -1);
+
+        const nextModalButton = document.getElementById('nextModalButton');
+        nextModalButton.onmouseover = () => nextModalButton.style.backgroundColor = '#ff8623';
+        nextModalButton.onmouseout = () => nextModalButton.style.backgroundColor = '#7378c5';
+        nextModalButton.onclick = () => navigateMediaAndModal(images, imageElement, modalImage, 1);
     });
+
+    function navigateMediaAndModal(images, imgElement1, imgElement2, direction) {
+        imgElement1.style.opacity = '0';
+        imgElement2.style.opacity = '0';
+        currentIndex = (currentIndex + direction + images.length) % images.length;
+
+        setTimeout(() => {
+            imgElement1.src = `https://image.tmdb.org/t/p/w780${images[currentIndex].file_path}`;
+            imgElement2.src = `https://image.tmdb.org/t/p/w1280${images[currentIndex].file_path}`;
+            imgElement1.style.opacity = '1';
+            imgElement2.style.opacity = '1';
+        }, 500);
+
+        sessionStorage.setItem('currentIndex', currentIndex);
+        updateDots(currentIndex);
+    }
 
     let prevButton = document.getElementById('prev-media-button');
     let nextButton = document.getElementById('next-media-button');
@@ -842,17 +1168,17 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
 
         [prevButton, nextButton].forEach(button => {
             button.style = `
-                position: absolute;
-                top: 50%;
-                transform: translateY(-50%);
-                background-color: #7378c5;
-                color: white;
-                border-radius: 8px;
-                height: 30px;
-                width: 30px;
-                border: none;
-                cursor: pointer;
-            `;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #7378c5;
+            color: white;
+            border-radius: 8px;
+            height: 30px;
+            width: 30px;
+            border: none;
+            cursor: pointer;
+        `;
             button.onmouseover = () => button.style.backgroundColor = '#ff8623';
             button.onmouseout = () => button.style.backgroundColor = '#7378c5';
         });
@@ -860,26 +1186,74 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
         prevButton.style.left = '0';
         nextButton.style.right = '0';
 
-        mediaContainer.appendChild(prevButton);
-        mediaContainer.appendChild(nextButton);
+        imageWrapper.appendChild(prevButton);
+        imageWrapper.appendChild(nextButton);
     }
 
-    let currentIndex = 0;
     prevButton.onclick = () => navigateMedia(images, imageElement, -1);
     nextButton.onclick = () => navigateMedia(images, imageElement, 1);
 
     function navigateMedia(images, imgElement, direction) {
-        currentIndex += direction;
-        if (currentIndex < 0) {
-            currentIndex = images.length - 1;
-        } else if (currentIndex >= images.length) {
-            currentIndex = 0;
-        }
         imgElement.style.opacity = '0';
+        currentIndex = (currentIndex + direction + images.length) % images.length;
         setTimeout(() => {
-            imgElement.src = `https://image.tmdb.org/t/p/w1280${images[currentIndex].file_path}`;
+            imgElement.src = `https://image.tmdb.org/t/p/w780${images[currentIndex].file_path}`;
             imgElement.style.opacity = '1';
-        }, 420);
+        }, 500);
+
+        sessionStorage.setItem('currentIndex', currentIndex);
+        updateDots(currentIndex);
+    }
+
+    const indicatorContainer = document.createElement('div');
+    indicatorContainer.style = `
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 15px;
+    `;
+
+    const maxDotsPerLine = 10;
+    let currentLine = document.createElement('div');
+    currentLine.style.display = 'flex';
+
+    images.forEach((_, index) => {
+        const dot = document.createElement('div');
+        dot.className = 'indicator';
+        dot.style = `
+            width: 8px;
+            height: 8px;
+            margin: 0 5px;
+            background-color: ${index === currentIndex ? '#ff8623' : '#bbb'}; 
+            border-radius: 50%;
+            cursor: pointer;
+            margin-bottom: 5px;
+        `;
+        dot.addEventListener('click', () => {
+            navigateMedia(images, imageElement, index - currentIndex);
+            updateDots(index);
+        });
+
+        currentLine.appendChild(dot);
+
+        if ((index + 1) % maxDotsPerLine === 0 && index !== images.length - 1) {
+            indicatorContainer.appendChild(currentLine);
+            currentLine = document.createElement('div');
+            currentLine.style.display = 'flex';
+        }
+    });
+
+    if (currentLine.children.length > 0) {
+        indicatorContainer.appendChild(currentLine);
+    }
+
+    mediaContainer.appendChild(indicatorContainer);
+
+    function updateDots(newIndex) {
+        const dots = document.querySelectorAll('.indicator');
+        dots.forEach((dot, index) => {
+            dot.style.backgroundColor = index === newIndex ? '#ff8623' : '#bbb';
+        });
     }
 
     if (window.innerWidth <= 767) {
@@ -893,6 +1267,98 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
     document.getElementById('movie-description').innerHTML = detailsHTML;
     document.getElementById('movie-description').appendChild(mediaTitle);
     document.getElementById('movie-description').appendChild(mediaContainer);
+
+    document.getElementById('last-episode-image').addEventListener('click', function() {
+        let imageUrl = this.src.replace('w780', 'w1280');
+
+        const modalHtml = `
+            <div id="image-modal" style="z-index: 100022222; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
+                <img src="${imageUrl}" style="max-width: 80%; max-height: 80%; border-radius: 10px; cursor: default;" onclick="event.stopPropagation();" alt="Media Image"/>
+                <span style="position: absolute; top: 10px; right: 25px; font-size: 40px; cursor: pointer" id="removeBtn">&times;</span>
+            </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
+        const modal = document.getElementById('image-modal');
+        const closeModalBtn = document.getElementById('removeBtn');
+
+        closeModalBtn.onclick = function() {
+            modal.remove();
+        }
+
+        modal.addEventListener('click', function(event) {
+            if (event.target === this) {
+                this.remove();
+            }
+        });
+    });
+
+    if (tvSeries.videos.results.find(video => video.type === 'Trailer')?.key) {
+        const trailerKey = tvSeries.videos.results.find(video => video.type === 'Trailer')?.key;
+        const trailerUrl = trailerKey ? `https://www.youtube.com/embed/${trailerKey}` : null;
+
+        const trailerButton = document.createElement('button');
+        trailerButton.textContent = 'Watch Trailer';
+        trailerButton.id = 'trailer-button';
+        trailerButton.style = `
+            background-color: #7378c5;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px; 
+            font: inherit;
+          `;
+
+        const iframeContainer = document.createElement('div');
+        iframeContainer.id = 'trailer-iframe-container';
+        iframeContainer.style = `
+            display: none; 
+            overflow: hidden;
+            margin-top: 10px;
+            max-height: 0; 
+            transition: max-height 0.5s ease-in-out; 
+            border: none;
+            border-radius: 8px;
+          `;
+
+        trailerButton.addEventListener('click', () => {
+            if (iframeContainer.style.display === 'none') {
+                if (trailerUrl) {
+                    const iframe = document.createElement('iframe');
+                    iframe.src = trailerUrl;
+                    iframe.title = 'YouTube video player';
+                    iframe.frameborder = '0';
+                    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+                    iframe.allowFullscreen = true;
+                    iframeContainer.appendChild(iframe);
+                    iframe.style.borderRadius = '16px';
+                    iframe.style.border = 'none';
+                    iframe.style.width = '400px';
+                    iframe.style.height = '315px';
+                    trailerButton.textContent = 'Close Trailer';
+                }
+                else {
+                    iframeContainer.innerHTML = '<p>Trailer not available.</p>';
+                }
+                iframeContainer.style.display = 'block';
+                setTimeout(() => {
+                    iframeContainer.style.maxHeight = '350px';
+                }, 10);
+            }
+            else {
+                iframeContainer.style.maxHeight = '0';
+                setTimeout(() => {
+                    iframeContainer.style.display = 'none';
+                    iframeContainer.innerHTML = '';
+                    trailerButton.textContent = 'Watch Trailer';
+                }, 500);
+            }
+        });
+
+        document.getElementById('movie-description').appendChild(trailerButton);
+        document.getElementById('movie-description').appendChild(iframeContainer);
+    }
 }
 
 async function fetchTvSeriesStreamingLinks(tvSeriesId) {
@@ -1009,24 +1475,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const savedRatings = JSON.parse(localStorage.getItem('tvSeriesRatings')) || {};
     const movieRating = savedRatings[tvSeriesId] || 0;
     setStarRating(movieRating);
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('trailerButton').addEventListener('click', () => {
-        const trailerContainer = document.getElementById('trailerContainer');
-        const isOpen = trailerContainer.style.maxHeight !== '0px';
-
-        if (isOpen) {
-            trailerContainer.style.maxHeight = '0';
-        }
-        else {
-            const trailerIframe = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${globalTrailerKey}" frameborder="0" allowfullscreen></iframe>`;
-            trailerContainer.innerHTML = trailerIframe;
-            trailerContainer.style.maxWidth = '400px';
-            trailerContainer.style.maxHeight = '315px';
-            trailerContainer.style.borderRadius = '8px';
-        }
-    });
 });
 
 async function showMovieOfTheDay() {

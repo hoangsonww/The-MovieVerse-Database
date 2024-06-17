@@ -255,6 +255,7 @@ async function rotateUserStats() {
         clearInterval(statRotationInterval);
         updateStatDisplay();
         statRotationInterval = setInterval(updateStatDisplay, 3000);
+        localTimeDiv.scrollIntoView({ behavior: 'smooth' });
     });
 }
 
@@ -404,7 +405,7 @@ function attachEventListeners() {
         movieFilters.style.display = 'none';
         tvFilters.style.display = 'none';
         peopleFilters.style.display = 'none';
-        toggleFiltersBtn.textContent = 'Filter Results';
+        toggleFiltersBtn.textContent = 'Filter & Sort Results';
     });
 
     tvBtn.addEventListener('click', () => {
@@ -414,7 +415,7 @@ function attachEventListeners() {
         movieFilters.style.display = 'none';
         tvFilters.style.display = 'none';
         peopleFilters.style.display = 'none';
-        toggleFiltersBtn.textContent = 'Filter Results';
+        toggleFiltersBtn.textContent = 'Filter & Sort Results';
     });
 
     peopleBtn.addEventListener('click', () => {
@@ -424,7 +425,7 @@ function attachEventListeners() {
         movieFilters.style.display = 'none';
         tvFilters.style.display = 'none';
         peopleFilters.style.display = 'none';
-        toggleFiltersBtn.textContent = 'Filter Results';
+        toggleFiltersBtn.textContent = 'Filter & Sort Results';
     });
 
     toggleFiltersBtn.addEventListener('click', () => {
@@ -529,9 +530,25 @@ document.addEventListener('DOMContentLoaded', function() {
             toggleFiltersBtn.textContent = 'Close Filters';
         }
         else {
-            toggleFiltersBtn.textContent = 'Filter Results';
+            toggleFiltersBtn.textContent = 'Filter & Sort Results';
         }
     });
+
+    document.getElementById('sort-movie').addEventListener('change', () => {
+        movieSortChanged = true;
+        showResults('movie');
+    });
+
+    document.getElementById('sort-tv').addEventListener('change', () => {
+        tvSortChanged = true;
+        showResults('tv');
+    });
+
+    document.getElementById('sort-people').addEventListener('change', () => {
+        peopleSortChanged = true;
+        showResults('person');
+    });
+
 
     document.querySelectorAll('.category-buttons button').forEach(button => {
         button.addEventListener('click', function() {
@@ -539,6 +556,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+let movieSortChanged = false;
+let tvSortChanged = false;
+let peopleSortChanged = false;
 
 function attachArrowKeyNavigation() {
     const categories = ['movie', 'tv', 'person'];
@@ -580,6 +601,24 @@ function getMovieVerseData(input) {
     return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
 }
 
+function sortResults(results, sortBy) {
+    if (!sortBy) return results;
+
+    const [property, order] = sortBy.split('.');
+    results.sort((a, b) => {
+        let propA = (property === 'release_date' || property === 'first_air_date') ? new Date(a[property]) : a[property];
+        let propB = (property === 'release_date' || property === 'first_air_date') ? new Date(b[property]) : b[property];
+
+        if (order === 'asc') {
+            return propA > propB ? 1 : propA < propB ? -1 : 0;
+        }
+        else {
+            return propA < propB ? 1 : propA > propB ? -1 : 0;
+        }
+    });
+    return results;
+}
+
 async function showResults(category) {
     showSpinner();
     localStorage.setItem('selectedCategory', category);
@@ -591,6 +630,17 @@ async function showResults(category) {
     const code = getMovieCode();
     const baseApiUrl = `https://${getMovieVerseData()}/3`;
     let url = `${baseApiUrl}/search/${category}?${generateMovieNames()}${code}&query=${encodeURIComponent(searchQuery)}`;
+    let sortValue = '';
+
+    if (category === 'movie') {
+        sortValue = document.getElementById('sort-movie').value;
+    }
+    else if (category === 'tv') {
+        sortValue = document.getElementById('sort-tv').value;
+    }
+    else if (category === 'person') {
+        sortValue = document.getElementById('sort-people').value;
+    }
 
     try {
         const response = await fetch(url);
@@ -650,6 +700,12 @@ async function showResults(category) {
                     (!rating || itemRating >= rating) &&
                     (!language || itemLanguage === language);
             });
+        }
+
+        if ((category === 'movie' && movieSortChanged) ||
+            (category === 'tv' && tvSortChanged) ||
+            (category === 'person' && peopleSortChanged)) {
+            data.results = sortResults(data.results, sortValue);
         }
 
         displayResults(data.results, category, searchQuery);
@@ -726,9 +782,20 @@ function showMovies(items, container, category) {
         const isMovie = item.title && hasVoteAverage;
         const isTvSeries = item.name && hasVoteAverage && category === 'tv';
 
-        const title = item.title || item.name || "N/A";
-        const overview = item.overview || 'No overview available.';
+        let title = item.title || item.name || "N/A";
+        const words = title.split(' ');
+
+        if (words.length >= 9) {
+            words[8] = '...';
+            title = words.slice(0, 9).join(' ');
+        }
+
+        let overview = item.overview || 'No overview available.';
         const biography = item.biography || 'Click to view the details of this person.';
+
+        if (overview === '') {
+            overview = 'No overview available.';
+        }
 
         const { id, profile_path, poster_path } = item;
         const imagePath = profile_path || poster_path ? IMGPATH + (profile_path || poster_path) : null;
@@ -747,7 +814,7 @@ function showMovies(items, container, category) {
         }
 
         movieContentHTML += `</div><div class="movie-info" style="display: flex; justify-content: space-between; align-items: start; cursor: pointer;">`;
-        movieContentHTML += `<h3 style="text-align: left; flex-grow: 1; margin: 0; margin-right: 5px">${title}</h3>`;
+        movieContentHTML += `<h3 style="text-align: left; flex-grow: 1; margin: 0; margin-right: 10px">${title}</h3>`;
 
         if ((isMovie || isTvSeries) && hasVoteAverage) {
             const voteAverage = item.vote_average.toFixed(1);
@@ -757,10 +824,14 @@ function showMovies(items, container, category) {
         movieContentHTML += `</div>`;
 
         if (isPerson) {
-            movieContentHTML += `<div class="overview" style="cursor: pointer;"><h4>Details: </h4>${biography}</div>`;
+            const roleOverview = item.known_for_department === 'Directing' ? 'Director Overview' : 'Actor Overview';
+            movieContentHTML += `<div class="overview" style="cursor: pointer;"><h4>${roleOverview}: </h4>${biography}</div>`;
+        }
+        else if (isTvSeries) {
+            movieContentHTML += `<div class="overview" style="cursor: pointer;"><h4>TV Series Overview: </h4>${overview}</div>`;
         }
         else {
-            movieContentHTML += `<div class="overview" style="cursor: pointer;"><h4>Overview: </h4>${overview}</div>`;
+            movieContentHTML += `<div class="overview" style="cursor: pointer;"><h4>Movie Overview: </h4>${overview}</div>`;
         }
 
         movieEl.innerHTML = movieContentHTML;
@@ -788,7 +859,6 @@ function showMovies(items, container, category) {
                         }
 
                         localStorage.setItem('directorVisits', JSON.stringify(directorVisits));
-
                         localStorage.setItem('selectedDirectorId', id);
                         window.location.href = 'director-details.html?' + id;
                     }
@@ -809,7 +879,6 @@ function showMovies(items, container, category) {
                         }
 
                         localStorage.setItem('actorVisits', JSON.stringify(actorVisits));
-
                         localStorage.setItem('selectedActorId', id);
                         window.location.href = 'actor-details.html?' + id;
                     }

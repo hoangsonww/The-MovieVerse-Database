@@ -74,7 +74,8 @@ export async function toggleFavoriteTVSeries() {
         if (querySnapshot.empty) {
             console.log('Signed-in user does not have a Firestore document.');
             return;
-        } else {
+        }
+        else {
             userDocRef = doc(db, "MovieVerseUsers", querySnapshot.docs[0].id);
         }
 
@@ -83,7 +84,8 @@ export async function toggleFavoriteTVSeries() {
 
         if (favoritesTVSeries.includes(tvSeriesId)) {
             favoritesTVSeries = favoritesTVSeries.filter(id => id !== tvSeriesId);
-        } else {
+        }
+        else {
             favoritesTVSeries.push(tvSeriesId);
         }
 

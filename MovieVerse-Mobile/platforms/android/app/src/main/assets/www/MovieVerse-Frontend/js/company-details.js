@@ -27,6 +27,7 @@ const form = document.getElementById("form1");
 const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
 const main = document.getElementById("main");
 const IMGPATH = "https://image.tmdb.org/t/p/w1280";
+const IMGPATH2 = "https://image.tmdb.org/t/p/w185";
 const searchTitle = document.getElementById("search-title");
 
 function getClassByRate(vote){
@@ -169,6 +170,7 @@ async function rotateUserStats() {
         clearInterval(statRotationInterval);
         updateStatDisplay();
         statRotationInterval = setInterval(updateStatDisplay, 3000);
+        localTimeDiv.scrollIntoView({ behavior: 'smooth' });
     });
 }
 
@@ -177,6 +179,7 @@ function updateMovieVisitCount(movieId, movieTitle) {
     if (!movieVisits[movieId]) {
         movieVisits[movieId] = { count: 0, title: movieTitle };
     }
+
     movieVisits[movieId].count += 1;
     localStorage.setItem('movieVisits', JSON.stringify(movieVisits));
 }
@@ -231,6 +234,7 @@ function getTriviaAccuracy() {
     if (triviaStats.totalAttempted === 0) {
         return 'No trivia attempted';
     }
+
     let accuracy = (triviaStats.totalCorrect / triviaStats.totalAttempted) * 100;
     return `${accuracy.toFixed(1)}% accuracy`;
 }
@@ -268,111 +272,6 @@ function handleSearch() {
     const searchQuery = document.getElementById('search').value;
     localStorage.setItem('searchQuery', searchQuery);
     window.location.href = 'search.html';
-}
-
-function calculateMoviesToDisplay() {
-    const screenWidth = window.innerWidth;
-    if (screenWidth <= 689.9) return 10;
-    if (screenWidth <= 1021.24) return 20;
-    if (screenWidth <= 1353.74) return 21;
-    if (screenWidth <= 1684.9) return 20;
-    if (screenWidth <= 2017.49) return 20;
-    if (screenWidth <= 2349.99) return 18;
-    if (screenWidth <= 2681.99) return 21;
-    if (screenWidth <= 3014.49) return 24;
-    if (screenWidth <= 3345.99) return 27;
-    if (screenWidth <= 3677.99) return 20;
-    if (screenWidth <= 4009.99) return 22;
-    if (screenWidth <= 4340.99) return 24;
-    if (screenWidth <= 4673.49) return 26;
-    if (screenWidth <= 5005.99) return 28;
-    if (screenWidth <= 5337.99) return 30;
-    if (screenWidth <= 5669.99) return 32;
-    if (screenWidth <= 6001.99) return 34;
-    if (screenWidth <= 6333.99) return 36;
-    if (screenWidth <= 6665.99) return 38;
-    if (screenWidth <= 6997.99) return 40;
-    if (screenWidth <= 7329.99) return 42;
-    if (screenWidth <= 7661.99) return 44;
-    if (screenWidth <= 7993.99) return 46;
-    if (screenWidth <= 8325.99) return 48;
-    return 20;
-}
-
-async function getMovies(url) {
-    clearMovieDetails();
-    const numberOfMovies = calculateMoviesToDisplay();
-    const pagesToFetch = numberOfMovies <= 20 ? 1 : 2;
-    let allMovies = [];
-
-    for (let page = 1; page <= pagesToFetch; page++) {
-        const response = await fetch(`${url}&page=${page}`);
-        const data = await response.json();
-        allMovies = allMovies.concat(data.results);
-    }
-
-    const popularityThreshold = 0.5;
-
-    allMovies.sort((a, b) => {
-        const popularityDifference = Math.abs(a.popularity - b.popularity);
-        if (popularityDifference < popularityThreshold) {
-            return b.vote_average - a.vote_average;
-        }
-        return b.popularity - a.popularity;
-    });
-
-    if (allMovies.length > 0) {
-        showMovies(allMovies.slice(0, numberOfMovies));
-        document.getElementById('clear-search-btn').style.display = 'block';
-    }
-    else {
-        main.innerHTML = `<p>No movie with the specified search term found. Please try again.</p>`;
-        document.getElementById('clear-search-btn').style.display = 'none';
-    }
-}
-
-document.getElementById('clear-search-btn').addEventListener('click', () => {
-    window.location.reload();
-});
-
-function clearMovieDetails() {
-    const companyDetailsContainer = document.getElementById('company-details-container');
-    if (companyDetailsContainer) {
-        companyDetailsContainer.innerHTML = '';
-    }
-}
-
-function showMovies(movies){
-    main.innerHTML = '';
-    movies.forEach((movie) => {
-        const { id, poster_path, title, vote_average, overview } = movie;
-        const movieE1 = document.createElement('div');
-        const voteAverage = vote_average.toFixed(1);
-        movieE1.classList.add('movie');
-
-        const movieImage = poster_path
-            ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
-            : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
-
-        movieE1.innerHTML = `
-            ${movieImage} 
-            <div class="movie-info" style="cursor: pointer;">
-                <h3>${title}</h3>
-                <span class="${getClassByRate(vote_average)}">${voteAverage}</span>
-            </div>
-            <div class="overview" style="cursor: pointer;">
-                <h4>Movie Overview: </h4>
-                ${overview}
-            </div>`;
-
-        movieE1.addEventListener('click', () => {
-            localStorage.setItem('selectedMovieId', id);
-            window.location.href = 'movie-details.html';
-            updateMovieVisitCount(id, title);
-        });
-
-        main.appendChild(movieE1);
-    });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -785,32 +684,60 @@ function fallbackMovieSelection() {
 
 function displayCompanyMovies(movies) {
     const moviesList = document.getElementById('company-movies-list');
-    movies.forEach((movie, index) => {
-        const movieContainer = document.createElement('span');
+    moviesList.style.display = 'flex';
+    moviesList.style.flexWrap = 'wrap';
+    moviesList.style.justifyContent = 'center';
+    moviesList.style.gap = '5px';
 
-        const movieLink = document.createElement('span');
-        movieLink.textContent = movie.title;
-        movieLink.style.cursor = 'pointer';
-        movieLink.style.textDecoration = 'underline';
-        movieLink.addEventListener('mouseenter', () => {
-            movieLink.style.color = '#ff8623';
-        });
-        movieLink.addEventListener('mouseleave', () => {
-            movieLink.style.color = 'white';
-        });
-        movieLink.addEventListener('click', () => {
-            localStorage.setItem('selectedMovieId', movie.id);
-            window.location.href = 'movie-details.html';
-        });
+    let moviesToDisplay = movies.sort((a, b) => b.popularity - a.popularity);
 
-        movieContainer.appendChild(movieLink);
+    moviesToDisplay.forEach((movie, index) => {
+        const movieLink = document.createElement('a');
+        movieLink.classList.add('movie-link');
+        movieLink.href = 'javascript:void(0);';
+        movieLink.setAttribute('onclick', `selectMovieId(${movie.id});`);
 
-        if (index < movies.length - 1) {
-            movieContainer.appendChild(document.createTextNode(','));
+        const movieItem = document.createElement('div');
+        movieItem.classList.add('movie-item');
+
+        const movieImage = document.createElement('img');
+        movieImage.classList.add('movie-image');
+
+        if (movie.poster_path) {
+            movieImage.src = IMGPATH2 + movie.poster_path;
+            movieImage.alt = `${movie.title} Poster`;
+        }
+        else {
+            movieImage.alt = 'Image Not Available';
+            movieImage.src = 'https://movie-verse.com/images/movie-default.jpg';
+            movieImage.style.filter = 'grayscale(100%)';
+            movieImage.style.objectFit = 'cover';
         }
 
-        moviesList.appendChild(movieContainer);
+        movieItem.appendChild(movieImage);
+
+        const movieDetails = document.createElement('div');
+        movieDetails.classList.add('movie-details');
+
+        const movieTitle = document.createElement('p');
+        movieTitle.classList.add('movie-title');
+        movieTitle.textContent = movie.title;
+        movieDetails.appendChild(movieTitle);
+
+        movieItem.appendChild(movieDetails);
+        movieLink.appendChild(movieItem);
+        moviesList.appendChild(movieLink);
+
+        if (index < movies.length - 1) {
+            const separator = document.createTextNode(' ');
+            moviesList.appendChild(separator);
+        }
     });
+}
+
+function selectMovieId(movieId) {
+    localStorage.setItem('selectedMovieId', movieId);
+    window.location.href = 'movie-details.html';
 }
 
 function updateBrowserURL(title) {

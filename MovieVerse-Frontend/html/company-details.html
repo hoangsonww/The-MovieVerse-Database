@@ -178,6 +178,51 @@
                 margin-top: 0 !important;
             }
         }
+
+        .movie-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            overflow: hidden !important;
+            margin-top: 7px;
+            padding-top: 5px;
+        }
+
+        .movie-item {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 115px;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .movie-image {
+            width: 100%;
+            height: 155px;
+            object-fit: fill;
+            border-radius: 5px;
+            margin-bottom: 5px;
+        }
+
+        .movie-item:hover {
+            transform: scale(1.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+        }
+
+        .movie-details {
+            width: 100%;
+        }
+
+        .movie-title {
+            font-size: 12px;
+            margin: 0;
+            word-break: break-word;
+        }
     </style>
 </head>
 
@@ -223,13 +268,13 @@
             }, { passive: true });
         })
     </script>
-    <header style="margin-bottom: -60px; margin-top: -5px">
+    <header style="margin-bottom: -50px; margin-top: -5px">
         <h1 id="my-heading" style="margin-bottom: -23px" class="notranslate">
             <a id="indexLink" href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer">
                 The Mo<span class="highlight" id="highlight">vieV</span>erse
             </a>
         </h1>
-        <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
+        <div id="local-time" style="cursor: pointer; margin-left: 40px" title="Click to view more of your stats!">
             <p id="stats-label" class="clock" style="font-size: 16px;"></p>
             <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
         </div>
@@ -258,11 +303,6 @@
         </form>
     </header>
 
-    <div class="genres" style="margin-left: 25px; margin-top: 5px">
-        <h2 id="search-title"></h2>
-        <button id="clear-search-btn" style="display: none;">Clear Search Results</button>
-    </div>
-
     <div id="myModal" class="modal-overlay">
         <div class="spinner"></div>
     </div>
@@ -284,8 +324,8 @@
             <p><strong>Headquarters:</strong> <span id="company-headquarters"></span></p>
             <p><strong>Country:</strong> <span id="company-country"></span></p>
             <p><strong>Website:</strong> <a id="company-website" href="" target="_blank"></a></p>
-            <p><strong>Produced Movies:</strong></p>
-            <div id="company-movies-list" class="movies-list"></div>
+            <p style="text-align: center"><strong>Produced Movies:</strong></p>
+            <div style="text-align: center" id="company-movies-list" class="movies-list"></div>
         </div>
     </div>
 
@@ -305,9 +345,9 @@
 
     <button id="chat-button" onclick="window.location.href='chat.html'" style="bottom: 300px; right: 10px; z-index: 1001" title="Chat with fellow MovieVerse users!">Chat</button>
     <button id="settings-btn" style="position: fixed; bottom: 265px; right: 10px">Settings</button>
-    <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 230px; right: 10px">Movie Match</button>
-    <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 195px; right: 10px">Movie Timeline</button>
-    <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 160px; right: 10px">Surprise Me!</button>
+    <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 230px; right: 10px">Surprise Me!</button>
+    <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 195px; right: 10px">Movie Match</button>
+    <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 160px; right: 10px">Movie Timeline</button>
     <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="bottom: 125px; right: 10px" title="Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
     <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 90px; right: 10px" title="Test your movie knowledge">MovieVerse Trivia</button>
 
@@ -396,9 +436,9 @@
             const buttonIds = [
                 'chat-button',
                 'settings-btn',
+                'movie-of-the-day-btn',
                 'movie-match-btn3',
                 'movie-timeline-btn',
-                'movie-of-the-day-btn',
                 'discussions-btn',
                 'trivia-btn',
             ];
@@ -430,9 +470,9 @@
                 const buttonIds = [
                     'chat-button',
                     'settings-btn',
+                    'movie-of-the-day-btn',
                     'movie-match-btn3',
                     'movie-timeline-btn',
-                    'movie-of-the-day-btn',
                     'discussions-btn',
                     'trivia-btn',
                 ];
@@ -476,7 +516,7 @@
         });
 
         document.getElementById('company-logo').addEventListener('click', function() {
-            const imageUrl = this.src;
+            const imageUrl = this.src.replace('w500', 'original');
             const modalHtml = `<div id="image-modal" style="z-index: 10002; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
                                 <img src="${imageUrl}" style="max-width: 80%; max-height: 80%; border-radius: 10px; background-color: white">
                                 <span style="position: absolute; top: 10px; right: 25px; font-size: 40px; cursor: pointer" id="removeBtn" onclick="document.getElementById('image-modal').remove();">&times;</span>
@@ -797,5 +837,4 @@
     </script>
 
 </body>
-
 </html>

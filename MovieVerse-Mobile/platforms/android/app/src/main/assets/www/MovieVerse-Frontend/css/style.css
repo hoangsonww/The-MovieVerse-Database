@@ -2,6 +2,10 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 @font-face {
     font-family: 'Poppins';
     src: url('/fonts/Poppins-Light.ttf') format('truetype');
@@ -38,10 +42,174 @@ body {
     overflow-x: hidden;
     min-height: 100vh;
     overflow-y: auto;
+    scroll-behavior: smooth;
 }
 
 #heading-href {
     text-decoration: none;
+}
+
+.cast-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    overflow: hidden !important;
+}
+
+.cast-item {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 115px;
+    margin: 5px;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.cast-image {
+    width: 100%;
+    height: 155px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+.cast-item:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
+
+.cast-details {
+    width: 100%;
+}
+
+.actor-name, .actor-role {
+    font-size: 12px;
+    margin: 0;
+    word-break: break-word;
+    white-space: normal;
+    text-align: center;
+}
+
+.actor-role {
+    font-style: italic;
+}
+
+.last-episode {
+    flex-direction: column;
+    align-items: center;
+    display: inline-block;
+}
+
+.last-episode strong {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.last-episode-image-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.last-episode-image {
+    max-width: 220px;
+    height: auto;
+    border-radius: 5px;
+}
+
+.last-episode-image:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
+
+.director-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.director-list {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.director-link {
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.director-link .cast-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.director-link .cast-image {
+    width: 100%;
+    height: 155px;
+    margin-bottom: 5px;
+}
+
+.director-link .actor-name {
+    font-size: 12px;
+}
+
+.creators-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    overflow: hidden !important;
+}
+
+.creator-item {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 115px;
+    margin: 5px;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.creator-image {
+    width: 100%;
+    height: 155px;
+    object-fit: cover !important;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+.creator-item:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
+
+.creator-details {
+    width: 100%;
+}
+
+.creator-name {
+    font-size: 12px;
+    margin: 0;
+    word-break: break-word;
 }
 
 #movie-match-btn {
@@ -456,6 +624,14 @@ header h1 {
     color: #ff8623;
 }
 
+.highlight2 {
+    color: orange;
+}
+
+.highlight2:hover {
+    color: #ff8623;
+}
+
 .search:focus {
     outline: none;
     background-color: #22254b;
@@ -519,11 +695,6 @@ header h1 {
     height: 225px;
     background-size: cover;
     background-position: center;
-}
-
-.movie-info {
-    padding: 20px;
-    flex-grow: 1;
 }
 
 .tvSeries-info {
@@ -651,10 +822,6 @@ header h1 {
     visibility: hidden;
 }
 
-.movie-info h3 {
-    margin: 0;
-}
-
 .tvSeries-info h3 {
     margin: 0;
 }
@@ -775,6 +942,45 @@ header h1 {
     text-align: center;
     background-color: transparent;
     margin-left: 40px;
+}
+
+#my-heading1 {
+    color: #ff8623;
+    padding: 10px;
+    font-size: 36px;
+    text-align: center;
+    background-color: transparent;
+    margin-left: 40px;
+}
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#my-heading {
+    margin-bottom: -25px;
+    opacity: 0;
+    animation: fadeInUp 1s ease forwards;
+}
+
+#my-heading a {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.highlight {
+    display: inline-block;
+    opacity: 0;
+    animation: fadeInUp 1s ease forwards 0.5s;
 }
 
 #trivia-btn {
@@ -957,8 +1163,8 @@ header h1 {
     overflow-y: auto;
     margin-bottom: 50px;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: flex-start;
     height: 100%;
 }
 
@@ -975,13 +1181,14 @@ header h1 {
     padding: 10px;
     box-sizing: border-box;
     overflow-y: auto;
-    margin-top: 110px;
+    margin-top: 40px;
 }
 
 .movie-link {
     cursor: pointer;
     color: white;
     text-decoration: underline;
+    margin-right: 5px;
 }
 
 .movie-link:hover {
@@ -1060,7 +1267,62 @@ header h1 {
 .movie-description {
     font-size: 1rem;
     color: white;
-    transform: translateY(10%);
+    width: 100%;
+}
+
+.companies-section {
+    margin-top: 20px;
+}
+
+.companies-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    overflow: hidden !important;
+}
+
+.company-item {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin: 5px;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+    .company-item {
+        max-width: 125px;
+    }
+}
+
+.company-logo {
+    max-width: 100px;
+    max-height: 75px;
+    height: auto;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+.company-item:hover {
+    transform: scale(1.07);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
+
+.company-details {
+    width: 100%;
+}
+
+.company-name {
+    font-size: 12px;
+    margin: 0;
+    word-break: break-word;
+    white-space: normal;
+    text-align: center;
 }
 
 .actor-description {
@@ -1075,6 +1337,24 @@ header h1 {
     transform: translateY(10%);
 }
 
+.streaming-logo {
+    display: inline-flex;
+    align-items: flex-end;
+    vertical-align: bottom;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.streaming-logo img {
+    width: 50px;
+    margin-left: 10px;
+    transition: transform 0.3s ease;
+}
+
+.streaming-logo:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
 .movie-rating {
     margin-top: 100px;
     text-align: center;
@@ -1083,6 +1363,15 @@ header h1 {
     font-weight: bold;
     color: #ffeb3b;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+#user-ratings {
+    color: inherit;
+}
+
+#user-ratings:hover {
+    color: #ff8623;
+    transition: 0.1s ease-in;
 }
 
 #userRatings {
@@ -1154,7 +1443,7 @@ header h1 {
 .modal-overlay {
     display: none;
     position: fixed;
-    z-index: 9999;
+    z-index: 100000000002;
     left: 0;
     top: 0;
     width: 100%;
@@ -1167,7 +1456,7 @@ header h1 {
 }
 
 .modal-visible {
-    display: flex;
+    display: flex !important;
 }
 
 .pin-btn {
@@ -1695,6 +1984,21 @@ strong {
     transition: 0.1s linear;
 }
 
+#trailerButton {
+    color: #fff;
+    background-color: #7378c5;
+    font: inherit;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+#trailerButton:hover {
+    background-color: #ff8623;
+    transition: 0.1s linear;
+}
+
 .trailer-button {
     display: block;
     background-color: #7378c5;
@@ -1862,6 +2166,7 @@ strong {
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     font: inherit;
     font-size: 14px;
+    z-index: 1000000002 !important;
 }
 
 #menu-btn i {
@@ -3022,6 +3327,7 @@ canvas {
     padding: 0.5rem 1rem 1rem;
     letter-spacing: 0.5px;
     padding-top: 14px;
+    flex-grow: 1;
 }
 
 .tvSeries-info {
@@ -3328,11 +3634,6 @@ body {
     font-size: 1rem;
 }
 
-#movie-match-form select:hover {
-    background-color: #ff8623;
-    transition: background-color 0.3s ease;
-}
-
 #movie-match-form input[type="submit"] {
     background-color: #7378c5;
     font: inherit;
@@ -3410,6 +3711,7 @@ body {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    padding: 10px;
 }
 
 #company-movies-list span {
@@ -3579,7 +3881,6 @@ body {
     padding: 10px;
     border-radius: 8px;
     background-color: #7378c5;
-    margin: 0;
     margin-bottom: 2px;
     margin-top: 5px;
     width: 300px;
@@ -3735,7 +4036,6 @@ footer {
         right: 12.5px;
     }
 
-
     .notification-btn {
         right: 12.5px;
     }
@@ -3770,4 +4070,48 @@ footer {
     border-radius: 10px;
     padding: 20px;
     margin: 20px 0;
+    max-width: calc(100% - 20px);
+}
+
+@keyframes dropIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#my-heading {
+    margin-bottom: -25px;
+    opacity: 0;
+    animation: dropIn 1s ease forwards;
+}
+
+#my-heading a {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.highlight {
+    display: inline-block;
+    opacity: 0;
+    animation: dropIn 1s ease forwards 1s;
+}
+
+#local-time {
+    cursor: pointer;
+    opacity: 0;
+    animation: dropIn 1s ease forwards 1.5s;
+}
+
+#local-time p,
+#local-time div {
+    opacity: 0;
+    animation: dropIn 1s ease forwards 2s;
 }

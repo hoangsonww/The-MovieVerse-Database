@@ -27,12 +27,13 @@ const form = document.getElementById("form1");
 const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
 
 const main = document.getElementById("main");
-const IMGPATH = "https://image.tmdb.org/t/p/w1280";
+const IMGPATH = "https://image.tmdb.org/t/p/w780";
 const favoriteButton = document.getElementById("favorite-btn");
 const searchTitle = document.getElementById("search-title");
 
 let trailerUrlGlobal;
 let initialMainContent;
+let trailerButton;
 
 function getClassByRate(vote){
     if (vote >= 8) {
@@ -59,108 +60,6 @@ function handleSearch() {
     window.location.href = 'search.html';
 }
 
-function calculateMoviesToDisplay() {
-    const screenWidth = window.innerWidth;
-    if (screenWidth <= 689.9) return 10;
-    if (screenWidth <= 1021.24) return 20;
-    if (screenWidth <= 1353.74) return 21;
-    if (screenWidth <= 1684.9) return 20;
-    if (screenWidth <= 2017.49) return 20;
-    if (screenWidth <= 2349.99) return 18;
-    if (screenWidth <= 2681.99) return 21;
-    if (screenWidth <= 3014.49) return 24;
-    if (screenWidth <= 3345.99) return 27;
-    if (screenWidth <= 3677.99) return 20;
-    if (screenWidth <= 4009.99) return 22;
-    if (screenWidth <= 4340.99) return 24;
-    if (screenWidth <= 4673.49) return 26;
-    if (screenWidth <= 5005.99) return 28;
-    if (screenWidth <= 5337.99) return 30;
-    if (screenWidth <= 5669.99) return 32;
-    if (screenWidth <= 6001.99) return 34;
-    if (screenWidth <= 6333.99) return 36;
-    if (screenWidth <= 6665.99) return 38;
-    if (screenWidth <= 6997.99) return 40;
-    if (screenWidth <= 7329.99) return 42;
-    if (screenWidth <= 7661.99) return 44;
-    if (screenWidth <= 7993.99) return 46;
-    if (screenWidth <= 8325.99) return 48;
-    return 20;
-}
-
-async function getMovies(url) {
-    clearMovieDetails();
-    const numberOfMovies = calculateMoviesToDisplay();
-    const pagesToFetch = numberOfMovies <= 20 ? 1 : 2;
-    let allMovies = [];
-
-    for (let page = 1; page <= pagesToFetch; page++) {
-        const response = await fetch(`${url}&page=${page}`);
-        const data = await response.json();
-        allMovies = allMovies.concat(data.results);
-    }
-
-    const popularityThreshold = 0.5;
-
-    allMovies.sort((a, b) => {
-        const popularityDifference = Math.abs(a.popularity - b.popularity);
-        if (popularityDifference < popularityThreshold) {
-            return b.vote_average - a.vote_average;
-        }
-        return b.popularity - a.popularity;
-    });
-
-    if (allMovies.length > 0) {
-        showMovies(allMovies.slice(0, numberOfMovies));
-        document.getElementById('clear-search-btn').style.display = 'block';
-    }
-    else {
-        main.innerHTML = `<p>No movie with the specified search term found. Please try again.</p>`;
-        document.getElementById('clear-search-btn').style.display = 'none';
-    }
-}
-
-function clearMovieDetails() {
-    const movieDetailsContainer = document.getElementById('movie-details-container');
-    if (movieDetailsContainer) {
-        movieDetailsContainer.innerHTML = '';
-    }
-}
-
-function showMovies(movies){
-    main.innerHTML = '';
-    movies.forEach((movie) => {
-        const { id, poster_path, title, vote_average, overview } = movie;
-        const movieE1 = document.createElement('div');
-        const voteAverage = vote_average.toFixed(1);
-        movieE1.classList.add('movie');
-
-        const movieImage = poster_path
-            ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
-            : `<div class="no-image" style="text-align: center; padding: 20px;">Movie Image Not Available</div>`;
-
-        movieE1.innerHTML = `
-            ${movieImage} 
-            <div class="movie-info" style="cursor: pointer;">
-                <h3>${title}</h3>
-                <span class="${getClassByRate(vote_average)}">${voteAverage}</span>
-            </div>
-            <div class="overview" style="cursor: pointer;">
-                <h4>Movie Overview: </h4>
-                ${overview}
-            </div>`;
-
-        movieE1.addEventListener('click', () => {
-            localStorage.setItem('selectedMovieId', id);
-            window.location.href = 'movie-details.html';
-            updateMovieVisitCount(id, title);
-        });
-
-        main.appendChild(movieE1);
-    });
-    applySettings();
-}
-
 async function ensureGenreMapIsAvailable() {
     if (!localStorage.getItem('genreMap')) {
         await fetchGenreMap();
@@ -177,6 +76,7 @@ async function fetchGenreMap() {
             return map;
         }, {});
         localStorage.setItem('genreMap', JSON.stringify(genreMap));
+        console.log(genreMap)
     }
     catch (error) {
         console.log('Error fetching genre map:', error);
@@ -211,7 +111,7 @@ async function rotateUserStats() {
         {
             label: "Favorite Movies",
             getValue: () => {
-                const favoritedMovies = JSON.parse(localStorage.getItem('favoritesMovies')) || [];
+                const favoritedMovies = JSON.parse(localStorage.getItem('moviesFavorited')) || [];
                 return favoritedMovies.length;
             }
         },
@@ -219,11 +119,36 @@ async function rotateUserStats() {
             label: "Favorite Genre",
             getValue: () => {
                 const mostCommonGenreCode = getMostCommonGenre();
-                const genreArray = JSON.parse(localStorage.getItem('genreMap')) || [];
-                const genreObject = genreArray.reduce((acc, genre) => {
-                    acc[genre.id] = genre.name;
-                    return acc;
-                }, {});
+                const genreMapString = localStorage.getItem('genreMap');
+                if (!genreMapString) {
+                    console.log('No genre map found in localStorage.');
+                    return 'Not Available';
+                }
+
+                let genreMap;
+                try {
+                    genreMap = JSON.parse(genreMapString);
+                }
+                catch (e) {
+                    console.log('Error parsing genre map:', e);
+                    return 'Not Available';
+                }
+
+                let genreObject;
+                if (Array.isArray(genreMap)) {
+                    genreObject = genreMap.reduce((acc, genre) => {
+                        acc[genre.id] = genre.name;
+                        return acc;
+                    }, {});
+                }
+                else if (typeof genreMap === 'object' && genreMap !== null) {
+                    genreObject = genreMap;
+                }
+                else {
+                    console.log('genreMap is neither an array nor a proper object:', genreMap);
+                    return 'Not Available';
+                }
+
                 return genreObject[mostCommonGenreCode] || 'Not Available';
             }
         },
@@ -269,12 +194,19 @@ async function rotateUserStats() {
 
 function updateMovieVisitCount(movieId, movieTitle) {
     let movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
+    let uniqueMoviesViewed = JSON.parse(localStorage.getItem('uniqueMoviesViewed')) || [];
 
     if (!movieVisits[movieId]) {
         movieVisits[movieId] = { count: 0, title: movieTitle };
     }
     movieVisits[movieId].count += 1;
+
+    if (!uniqueMoviesViewed.includes(movieId)) {
+        uniqueMoviesViewed.push(movieId);
+    }
+
     localStorage.setItem('movieVisits', JSON.stringify(movieVisits));
+    localStorage.setItem('uniqueMoviesViewed', JSON.stringify(uniqueMoviesViewed));
 }
 
 function getMostVisitedDirector() {
@@ -354,39 +286,6 @@ function getMostCommonGenre() {
 
 document.addEventListener('DOMContentLoaded', rotateUserStats);
 
-function setStarRating(rating) {
-    const stars = document.querySelectorAll('.rating .star');
-    stars.forEach(star => {
-        star.style.color = star.dataset.value > rating ? 'white' : 'gold';
-    });
-
-    document.getElementById('rating-value').textContent = `${rating}.0/5.0`;
-}
-
-document.querySelectorAll('.rating .star').forEach(star => {
-    star.addEventListener('mouseover', (e) => {
-        setStarRating(e.target.dataset.value);
-    });
-
-    star.addEventListener('mouseout', () => {
-        const movieId = localStorage.getItem('selectedMovieId');
-        const savedRatings = JSON.parse(localStorage.getItem('movieRatings')) || {};
-        const movieRating = savedRatings[movieId] || 0;
-        setStarRating(movieRating);
-    });
-
-    star.addEventListener('click', (e) => {
-        const movieId = localStorage.getItem('selectedMovieId');
-        const rating = e.target.dataset.value;
-        const savedRatings = JSON.parse(localStorage.getItem('movieRatings')) || {};
-        savedRatings[movieId] = rating;
-        localStorage.setItem('movieRatings', JSON.stringify(savedRatings));
-        setStarRating(rating);
-        updateAverageMovieRating(movieId, rating);
-        window.location.reload();
-    });
-});
-
 function updateUniqueDirectorsViewed(directorId) {
     let viewedDirectors = JSON.parse(localStorage.getItem('uniqueDirectorsViewed')) || [];
     if (!viewedDirectors.includes(directorId)) {
@@ -416,6 +315,7 @@ function updateDirectorVisitCount(directorId, directorName) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    showSpinner();
     initialMainContent = document.getElementById('main').innerHTML;
 
     const movieId = localStorage.getItem('selectedMovieId');
@@ -426,15 +326,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fetchMovieDetails(1011985)
     }
 
-    document.getElementById('clear-search-btn').style.display = 'none';
-
-    const savedRatings = JSON.parse(localStorage.getItem('movieRatings')) || {};
-    const movieRating = savedRatings[movieId] || 0;
-    setStarRating(movieRating);
-});
-
-document.getElementById('clear-search-btn').addEventListener('click', () => {
-    location.reload();
+    hideSpinner();
 });
 
 function handleSignInOut() {
@@ -472,8 +364,10 @@ function updateSignInButtonState() {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
+    showSpinner();
     updateSignInButtonState();
     document.getElementById('googleSignInBtn').addEventListener('click', handleSignInOut);
+    hideSpinner();
 });
 
 const twoLetterLangCodes = [
@@ -681,7 +575,6 @@ async function fetchMovieDetails(movieId) {
     const code = `${getMovieCode()}`;
     const url = `https://${getMovieVerseData()}/3/movie/${movieId}?${generateMovieNames()}${code}&append_to_response=credits,keywords,similar`;
     const url2 = `https://${getMovieVerseData()}/3/movie/${movieId}?${generateMovieNames()}${code}&append_to_response=videos`;
-    const imdbUrl = `https://${getMovieVerseData()}/3/movie/${movieId}?${generateMovieNames()}${code}&append_to_response=external_ids`;
 
     try {
         const response = await fetch(url);
@@ -821,45 +714,67 @@ function getRatingDetails(rating) {
 }
 
 async function fetchMovieRatings(imdbId, tmdbMovieData) {
-    const omdbCode = `${getMovieCode2()}`;
-    const omdb = `https://${getMovieActor()}/?i=${imdbId}&${getMovieName()}${omdbCode}`;
+    showSpinner();
 
-    try {
-        const response = await fetch(omdb);
-        const data = await response.json();
+    const apiKeys = [
+        await getMovieCode2(),
+        '58efe859',
+        '60a09d79',
+        '956e468a'
+    ];
 
-        let imdbRating = data.imdbRating ? data.imdbRating : 'N/A';
+    const baseURL = `https://${getMovieActor()}/?i=${imdbId}&${getMovieName()}`;
 
-        if (imdbRating === 'N/A' && tmdbMovieData.vote_average) {
-            imdbRating = (tmdbMovieData.vote_average / 2).toFixed(1) * 2;
+    async function tryFetch(apiKey) {
+        const url = `${baseURL}${apiKey}`;
+        try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error('API limit reached or other error');
+            return await response.json();
         }
-
-        const rtRatingObj = data.Ratings.find(rating => rating.Source === "Rotten Tomatoes");
-        let rtRating = rtRatingObj ? rtRatingObj.Value : 'N/A';
-
-        let metascore = data.Metascore ? `${data.Metascore}/100` : 'N/A';
-        let awards = data.Awards;
-        let rated = data.Rated ? data.Rated : 'Rating information unavailable';
-
-        if (awards === 'N/A') {
-            awards = 'No awards information available';
+        catch (error) {
+            return null;
         }
-
-        if (metascore === 'N/A/100') {
-            const metacriticsRatingValue = imdbRating !== 'N/A' ? parseFloat(imdbRating) : (tmdbMovieData.vote_average / 2);
-            metascore = calculateFallbackMetacriticsRating(metacriticsRatingValue, tmdbMovieData.vote_average) + '/100';
-        }
-
-        if (rtRating === 'N/A') {
-            const imdbRatingValue = imdbRating !== 'N/A' ? parseFloat(imdbRating) : (tmdbMovieData.vote_average / 2);
-            rtRating = calculateFallbackRTRating(imdbRatingValue, tmdbMovieData.vote_average)
-        }
-        populateMovieDetails(tmdbMovieData, imdbRating, rtRating, metascore, awards, rated);
     }
-    catch (error) {
-        const fallbackImdbRating = (tmdbMovieData.vote_average / 2).toFixed(1) * 2;
-        populateMovieDetails(tmdbMovieData, fallbackImdbRating, 'N/A', 'No metascore information available', 'No awards information available');
+
+    let data;
+    for (const key of apiKeys) {
+        data = await tryFetch(key);
+        if (data) break;
     }
+
+    if (!data) {
+        populateMovieDetails(tmdbMovieData, tmdbMovieData.vote_average, 'N/A', 'Metascore information unavailable, click to search on Metacritics', 'Awards information unavailable');
+        return;
+    }
+
+    let imdbRating = data.imdbRating ? data.imdbRating : 'N/A';
+    if (imdbRating === 'N/A' || imdbRating === '0.0') {
+        imdbRating = 'N/A';
+    }
+
+    let rtRating =  'N/A';
+
+    let metascore = data.Metascore ? `${data.Metascore}/100` : 'N/A';
+    let awards = data.Awards;
+    let rated = data.Rated ? data.Rated : 'Rating information unavailable';
+
+    if (awards === 'N/A') {
+        awards = 'Awards information unavailable';
+    }
+
+    if (metascore === 'N/A/100') {
+        const metacriticsRatingValue = imdbRating !== 'N/A' ? parseFloat(imdbRating) : (tmdbMovieData.vote_average / 2);
+        metascore = calculateFallbackMetacriticsRating(metacriticsRatingValue, tmdbMovieData.vote_average) + '/100';
+    }
+
+    if (rtRating === 'N/A') {
+        const imdbRatingValue = imdbRating !== 'N/A' ? parseFloat(imdbRating) : (tmdbMovieData.vote_average / 2);
+        rtRating = calculateFallbackRTRating(imdbRatingValue, tmdbMovieData.vote_average)
+    }
+
+    populateMovieDetails(tmdbMovieData, imdbRating, rtRating, metascore, awards, rated);
+    hideSpinner();
 }
 
 function updateBrowserURL(title) {
@@ -935,8 +850,12 @@ function getYouTubeVideoId(url) {
 }
 
 function positionTrailerButton() {
-    if (!trailerButton)
+    showSpinner();
+    if (!trailerButton) {
+        document.getElementById('movie-description').style.marginTop = '-20px';
         return;
+    }
+    document.getElementById('movie-description').style.marginTop = '-60px';
 
     if (window.innerWidth <= 900) {
         const movieDescription = document.getElementById('movie-description');
@@ -946,6 +865,7 @@ function positionTrailerButton() {
         const movieRating = document.getElementById('movie-rating');
         movieRating.parentNode.insertBefore(trailerButton, movieRating.nextSibling);
     }
+    hideSpinner();
 }
 
 document.addEventListener('DOMContentLoaded', positionTrailerButton);
@@ -1003,7 +923,6 @@ function createMetacriticSlug(title) {
 async function fetchStreamingLinks(movieId) {
     const url = `https://${getMovieVerseData()}/3/movie/${movieId}/watch/providers?${generateMovieNames()}${getMovieCode()}`;
 
-    console.log(url)
     try {
         const response = await fetch(url);
         const data = await response.json();
@@ -1027,12 +946,10 @@ async function fetchStreamingLinks(movieId) {
 }
 
 async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awards, rated) {
-    document.getElementById('movie-image').src = `https://image.tmdb.org/t/p/w1280${movie.poster_path}`;
+    showSpinner();
     document.getElementById('movie-title').textContent = movie.title;
 
-    const movieRating = movie.vote_average.toFixed(1);
     const imdbLink = `https://www.imdb.com/title/${movie.imdb_id}`;
-
     const streamingProviders = await fetchStreamingLinks(movie.id);
     const movieTitleEncoded = encodeURIComponent(movie.title);
 
@@ -1069,42 +986,23 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         }
 
         return `<a href="${providerLink}" target="_blank" title="Watch on ${provider.provider_name}" style="display: inline-flex; align-items: flex-end; vertical-align: bottom;">
-            <img src="https://image.tmdb.org/t/p/original${provider.logo_path}" alt="${provider.provider_name}" style="width: 50px; margin-left: 10px;">
-        </a>`;
-    }).join('') : 'No streaming options available.';
+        <img src="https://image.tmdb.org/t/p/original${provider.logo_path}" alt="${provider.provider_name}" style="width: 50px; margin-left: 10px;" loading="lazy">
+    </a>`;
+    }).join('') + `<a href="https://www.justwatch.com/us/search?q=${movieTitleEncoded}" target="_blank" title="View more streaming options on JustWatch" style="display: inline-flex; align-items: center; vertical-align: bottom; margin-left: 10px;">
+        <img src="../../images/justwatchlogo.webp" alt="JustWatch" style="width: 50px;" loading="lazy">
+    </a>` : 'No streaming options available.';
 
-    const rtLink = rtRating !== 'N/A' ? `https://www.rottentomatoes.com/m/${getRtSlug(movie.title)}` : '#';
-    const metaCriticsLink = metascore !== 'N/A' ? `https://www.metacritic.com/movie/${createMetacriticSlug(movie.title)}` : '#';
-
+    const metaCriticsLink = metascore !== 'N/A' ? `https://www.metacritic.com/search/${createMetacriticSlug(movie.title)}` : '#';
     const ratingDetails = getRatingDetails(rated);
     const ratedElement = rated ? `<p id="movie-rated-element"><strong>Rated:</strong> <span style="color: ${ratingDetails.color};"><strong>${ratingDetails.text}</strong>${ratingDetails.description}</span></p>` : '';
 
-    document.getElementById('movie-rating').innerHTML = `
-        <a id="imdbRatingLink" href="${imdbLink}" target="_blank" title="Click to go to this movie's IMDb page!" style="text-decoration: none; color: inherit">IMDB Rating: ${imdbRating}</a>
-    `;
-    document.getElementById('movie-rating').style.marginTop = '129px';
+    document.getElementById('movie-rating').innerHTML = ``;
     document.title = movie.title + " - Movie Details";
 
-    const movieImage = document.getElementById('movie-image');
     const movieDescription = document.getElementById('movie-description');
-
-    const metascoreElement = metascore ? `<p><strong>Metascore:</strong> <a id="metacritics" href="${metaCriticsLink}">${metascore}</a></p>` : '';
+    const metascoreElement = metascore ? `<p><strong>Metascore:</strong> <a id="metacritics" href="${metaCriticsLink}" title="Click to search/view on Metacritics" target="_blank">${metascore}</a></p>` : '';
     const awardsElement = awards ? `<p><strong>Awards:</strong> ${awards}</p>` : '';
 
-    if (movie.poster_path) {
-        movieImage.src = IMGPATH + movie.poster_path;
-        movieImage.alt = movie.title;
-    }
-    else {
-        movieImage.style.display = 'none';
-        const noImageText = document.createElement('h2');
-        noImageText.textContent = 'Movie Image Not Available';
-        noImageText.style.textAlign = 'center';
-        noImageText.style.height = '800px';
-        document.querySelector('.movie-left').appendChild(noImageText);
-    }
-
-    const fullLanguage = twoLetterLangCodes.find(lang => lang.code === movie.original_language).name;
     const overview = movie.overview ? movie.overview : 'No overview available';
     const genres = movie.genres.map(genre => genre.name).join(', ');
     const releaseDate = movie.release_date ? movie.release_date : 'Release date not available';
@@ -1115,35 +1013,30 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     const languages = movie.spoken_languages.map(lang => lang.name).join(', ');
 
     const countries = movie.production_countries.map(country => country.name).join(', ');
-    const originalLanguage = fullLanguage ? fullLanguage : 'Language Info Not Available';
     const popularityScore = movie.popularity.toFixed(0);
-    const status = movie.status ? movie.status : 'Status Info Not Available';
 
-    const voteCount = movie.vote_count.toLocaleString();
     let keywords = movie.keywords ? movie.keywords.keywords.map(kw => kw.name).join(', ') : 'None Available';
-    const similarTitles = movie.similar ? movie.similar.results.map(m => m.title).join(', ') : 'None Available';
     const scaledRating = (movie.vote_average / 2).toFixed(1);
 
     if (keywords.length === 0) {
-        keywords = 'None Available';
+        keywords = 'No keywords have been added';
     }
 
     const popularityThreshold = 80;
     const isPopular = movie.popularity >= popularityThreshold;
     const popularityText = isPopular ? `${popularityScore} (This movie is <strong>popular</strong>)` : `${popularityScore} (This movie is <strong>unpopular</strong>)`;
 
-    const adultContentIndicator = movie.adult
-        ? `<span class="adult-indicator">Adult Content</span>`
-        : `<span class="general-indicator">General Audience</span>`;
-
     const movieStatus = `<p><strong>Status:</strong> ${movie.status}</p>`;
-
     const runtime = movie.runtime > 0
         ? movie.runtime + ' minutes'
         : 'Runtime Info Not Available';
 
+    const originalTitle = movie.original_title !== movie.title ? `<p><strong>Original Title:</strong> ${movie.original_title}</p>` : `<p><strong>Original Title:</strong> ${movie.title}</p>`;
+    const tmdbRating = movie.vote_average.toFixed(1);
+
     document.getElementById('movie-description').innerHTML += `
         <p id="descriptionP"><strong>Description: </strong>${overview}</p>
+        ${originalTitle}
         <p><strong>Tagline:</strong> ${tagline}</p>
         <p><strong>Genres:</strong> ${genres}</p>
         ${ratedElement}
@@ -1155,10 +1048,10 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         <p><strong>Languages:</strong> ${languages}</p>
         <p><strong>Countries of Production:</strong> ${countries}</p>
         <p><strong>Popularity Score:</strong> <span class="${isPopular ? 'popular' : ''}">${popularityText}</span></p>
-        <p style="cursor: pointer" title="Your rating also counts - it might take a while for us to update!"><strong>MovieVerse User Ratings:</strong> <span style="cursor: pointer">${scaledRating}/5.0 (based on <strong>${movie.vote_count}</strong> votes)</span></p>
+        <p title="Your rating also counts - it might take a while for us to update!"><strong>MovieVerse User Rating:</strong> <span><strong>${scaledRating}/5.0</strong> (based on <strong>${movie.vote_count}</strong> votes)</span></p>
         ${awardsElement}
+        <p><strong>TMDb Rating:</strong> <a href="https://www.themoviedb.org/movie/${movie.id}" id="rating" target="_blank">${tmdbRating}/10.0</a></p>
         ${metascoreElement}
-        <p><strong>Rotten Tomatoes:</strong> <a href="${rtLink}" id="rating">${rtRating}</a></p>
     `;
 
     if (movie.credits && movie.credits.crew) {
@@ -1188,7 +1081,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         const topTenCast = movie.credits.cast.slice(0, 10);
         topTenCast.forEach((actor, index) => {
             const actorLink = document.createElement('a');
-            actorLink.innerHTML = `<a class="actor-link" href="javascript:void(0);" onclick="selectActorId(${actor.id})">${actor.name}</a>`;
+            actorLink.innerHTML = `<a class="actor-link" href="javascript:void(0);" onclick="selectActorId(${actor.id}, '${actor.name.replace(/'/g, "\\'")}');">${actor.name}</a>`;
             castHeading.appendChild(actorLink);
             if (index < topTenCast.length - 1) {
                 castHeading.appendChild(document.createTextNode(', '));
@@ -1232,13 +1125,239 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     document.getElementById('movie-description').innerHTML += `
         <p><strong>Streaming Options:</strong> ${streamingHTML}</p>`;
 
+    const homepage = document.createElement('p');
+    homepage.innerHTML = movie.homepage ? `<strong>Homepage:</strong> <a id="rating-link" href="${movie.homepage}" target="_blank">Visit homepage</a>` : `<strong>Homepage:</strong> Information unavailable`;
+    movieDescription.appendChild(homepage);
+
     const keywordsElement = document.createElement('p');
     keywordsElement.innerHTML = `<strong>Keywords:</strong> ${keywords}`;
-
     movieDescription.appendChild(keywordsElement);
 
-    updateMoviesFavorited(movie.id);
-    applySettings();
+    createImdbRatingCircle(imdbRating, imdbLink);
+
+    const mediaUrl = `https://${getMovieVerseData()}/3/movie/${movie.id}/images?${generateMovieNames()}${getMovieCode()}`;
+    const mediaResponse = await fetch(mediaUrl);
+    const mediaData = await mediaResponse.json();
+    const images = mediaData.backdrops;
+
+    const detailsContainer = document.getElementById('movie-description');
+
+    const mediaContainer = document.createElement('div');
+    mediaContainer.id = 'media-container';
+    mediaContainer.style = `
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        width: 90vw; 
+        max-width: 450px;
+        margin: 20px auto;
+        overflow: hidden;
+        box-sizing: border-box;
+    `;
+
+    const mediaTitle = document.createElement('p');
+    mediaTitle.textContent = 'Media:';
+    mediaTitle.style = `
+        font-weight: bold;
+        align-self: start;
+        margin-bottom: 5px;
+    `;
+
+    detailsContainer.appendChild(mediaTitle);
+    detailsContainer.appendChild(mediaContainer);
+
+    const imageWrapper = document.createElement('div');
+    imageWrapper.style = `
+        width: 100%;
+        max-height: 210px; 
+        border-radius: 16px;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    `;
+
+    const imageElement = document.createElement('img');
+    imageElement.style = `
+        width: 100%;
+        height: auto;
+        transition: opacity 0.5s ease-in-out;
+        opacity: 1;
+        cursor: pointer;
+        object-fit: contain;
+    `;
+    if (images.length > 0) {
+        imageElement.src = `https://image.tmdb.org/t/p/w780${images[0].file_path}`;
+    }
+    imageWrapper.appendChild(imageElement);
+    mediaContainer.appendChild(imageWrapper);
+
+    imageElement.addEventListener('click', function() {
+        let imageUrl = this.src.replace('w780', 'w1280');
+        const modalHtml = `
+            <div id="image-modal" style="z-index: 100022222; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
+                <img src="${imageUrl}" style="max-width: 80%; max-height: 80%; border-radius: 16px; cursor: default;" onclick="event.stopPropagation();" loading="lazy" alt="Movie Image">
+                <span style="position: absolute; top: 10px; right: 25px; font-size: 40px; cursor: pointer" id="removeBtn">&times;</span>
+            </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
+        const modal = document.getElementById('image-modal');
+        const closeModalBtn = document.getElementById('removeBtn');
+
+        closeModalBtn.onclick = function() {
+            modal.remove();
+        };
+
+        modal.addEventListener('click', function(event) {
+            if (event.target === this) {
+                this.remove();
+            }
+        });
+    });
+
+    const prevButton = document.createElement('button');
+    prevButton.innerHTML = '<i class="fas fa-arrow-left"></i>';
+    prevButton.style = `
+        position: absolute;
+        left: 5px; 
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: #7378c5;
+        color: white;
+        border-radius: 8px;
+        height: 30px;
+        width: 30px;
+        border: none;
+        cursor: pointer;
+        z-index: 10;
+    `;
+    prevButton.onmouseover = () => prevButton.style.backgroundColor = '#ff8623';
+    prevButton.onmouseout = () => prevButton.style.backgroundColor = '#7378c5';
+    prevButton.onclick = () => navigateMedia(images, imageElement, -1);
+    mediaContainer.appendChild(prevButton);
+
+    const nextButton = document.createElement('button');
+    nextButton.innerHTML = '<i class="fas fa-arrow-right"></i>';
+    nextButton.style = `
+        position: absolute;
+        right: 5px; 
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: #7378c5;
+        color: white;
+        border-radius: 8px;
+        height: 30px;
+        width: 30px;
+        border: none;
+        cursor: pointer;
+        z-index: 10;
+    `;
+    nextButton.onmouseover = () => nextButton.style.backgroundColor = '#ff8623';
+    nextButton.onmouseout = () => nextButton.style.backgroundColor = '#7378c5';
+    nextButton.onclick = () => navigateMedia(images, imageElement, 1);
+    mediaContainer.appendChild(nextButton);
+
+    let currentIndex = 0;
+    function navigateMedia(images, imgElement, direction) {
+        currentIndex += direction;
+        if (currentIndex < 0) {
+            currentIndex = images.length - 1;
+        }
+        else if (currentIndex >= images.length) {
+            currentIndex = 0;
+        }
+        imgElement.style.opacity = '0';
+        setTimeout(() => {
+            imgElement.src = `https://image.tmdb.org/t/p/w780${images[currentIndex].file_path}`;
+            imgElement.style.opacity = '1';
+        }, 420);
+    }
+
+    if (images.length === 0) {
+        mediaContainer.innerHTML = '<p>No media available</p>';
+    }
+
+    const movieImage = document.getElementById('movie-image');
+    if (movie.poster_path) {
+        movieImage.src = IMGPATH + movie.poster_path;
+        movieImage.alt = movie.title;
+        movieImage.loading = 'lazy';
+    }
+    else {
+        movieImage.style.display = 'none';
+        const noImageText = document.createElement('h2');
+        noImageText.textContent = 'Movie Image Not Available';
+        noImageText.style.textAlign = 'center';
+        noImageText.style.height = '800px';
+        document.querySelector('.movie-left').appendChild(noImageText);
+    }
+
+    hideSpinner();
+}
+
+function createImdbRatingCircle(imdbRating, imdbId) {
+    if (imdbRating === 'N/A' || imdbRating === null || imdbRating === undefined) {
+        imdbRating = 'N/A';
+    }
+
+    let circleContainer = document.getElementById('imdbRatingCircleContainer');
+    if (!circleContainer) {
+        circleContainer = document.createElement('div');
+        circleContainer.id = 'imdbRatingCircleContainer';
+        circleContainer.className = 'progress-container';
+        const imdbLink = `${imdbId}`;
+        circleContainer.innerHTML = `
+            <a href="${imdbLink}" target="_blank" style="text-decoration: none; color: inherit;">
+                <div style="margin-top: 0; font-size: 2.2rem; font-weight: bold" id="rating-header" class="rating-header" title="Click to view on IMDb">IMDb Rating</div>
+            </a>
+            <svg class="progress-ring" width="100" height="100" onclick="retriggerAnimation(${imdbRating})" style="cursor: pointer">
+                <circle class="progress-ring__circle" stroke="white" stroke-width="10" fill="transparent" r="40" cx="50" cy="50" />
+                <circle class="progress-ring__progress" r="40" cx="50" cy="50" />
+                <text id="imdbRatingText" class="circle-text" x="50" y="52" text-anchor="middle" fill="yellow" style="font-weight: bold; font-size: 25px">${imdbRating}</text>
+            </svg>
+        `;
+
+        if (imdbRating === 'N/A') {
+            circleContainer.innerHTML += `<p style="color: white; margin-top: 10px;">Rating information currently unavailable</p>`;
+        }
+
+        document.getElementById('movie-description').appendChild(circleContainer);
+    }
+    else {
+        const text = document.getElementById('imdbRatingText');
+        text.textContent = `${imdbRating}`;
+    }
+
+    const circle = circleContainer.querySelector('.progress-ring__progress');
+    const text = document.getElementById('imdbRatingText');
+    setProgress(circle, text, imdbRating);
+}
+
+function setProgress(circle, text, rating) {
+    const radius = circle.r.baseVal.value;
+    const circumference = radius * 2 * Math.PI;
+
+    circle.style.transition = 'none';
+    circle.style.strokeDasharray = `${circumference} ${circumference}`;
+    circle.style.strokeDashoffset = circumference;
+
+    circle.getBoundingClientRect();
+
+    setTimeout(() => {
+        const offset = circumference - (rating / 10) * circumference;
+        circle.style.transition = 'stroke-dashoffset 0.6s ease-out, stroke 0.6s ease';
+        circle.style.strokeDashoffset = offset;
+        circle.style.setProperty('--progress-color', rating <= 5 ? '#FF0000' : (rating >= 7.5 ? '#4CAF50' : '#2196F3'));
+        text.textContent = `${rating}`;
+    }, 10);
+}
+
+function retriggerAnimation(imdbRating) {
+    const circle = document.querySelector('.progress-ring__progress');
+    const text = document.getElementById('imdbRatingText');
+    setProgress(circle, text, imdbRating);
 }
 
 function getSavedTextColor() {
@@ -1248,14 +1367,31 @@ function getSavedTextColor() {
 function handleDirectorClick(directorId, directorName) {
     localStorage.setItem('selectedDirectorId', directorId);
     document.title = `${directorName} - Director's Details`;
-    window.location.href = 'director-details.html';
     updateUniqueDirectorsViewed(directorId);
     updateDirectorVisitCount(directorId, directorName);
+    window.location.href = 'director-details.html';
 }
 
-function selectActorId(actorId) {
+function selectActorId(actorId, actorName) {
+    const actorVisits = JSON.parse(localStorage.getItem('actorVisits')) || {};
+    const uniqueActorsViewed = JSON.parse(localStorage.getItem('uniqueActorsViewed')) || [];
+
+    if (!uniqueActorsViewed.includes(actorId)) {
+        uniqueActorsViewed.push(actorId);
+        localStorage.setItem('uniqueActorsViewed', JSON.stringify(uniqueActorsViewed));
+    }
+
+    if (actorVisits[actorId]) {
+        actorVisits[actorId].count++;
+    }
+    else {
+        actorVisits[actorId] = { count: 1, name: actorName };
+    }
+
+    localStorage.setItem('actorVisits', JSON.stringify(actorVisits));
+
     localStorage.setItem('selectedActorId', actorId);
-    window.location.href = 'actor-details.html'
+    window.location.href = 'actor-details.html';
 }
 
 function handleCompanyClick(companyId, companyName) {

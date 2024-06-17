@@ -1,3 +1,5 @@
+import { updateTriviaStats } from './triviaModule.js';
+
 const questionBank = [
     { question: "What movie won the Academy Award for Best Picture in 2020?", options: ["Joker", "1917", "Parasite"], answer: "Parasite" },
     { question: "Who directed the movie 'The Godfather'?", options: ["Steven Spielberg", "Francis Ford Coppola", "Martin Scorsese"], answer: "Francis Ford Coppola" },
@@ -71,6 +73,61 @@ const questionBank = [
     { question: "Which movie did Leonardo DiCaprio win his first Oscar for Best Actor?", options: ["The Revenant", "The Wolf of Wall Street", "Inception"], answer: "The Revenant" },
     { question: "In which film does the character Maximus Decimus Meridius appear?", options: ["300", "Gladiator", "Troy"], answer: "Gladiator" },
     { question: "What is the name of the fictional British spy in the film series created by Ian Fleming?", options: ["James Bond", "Jason Bourne", "Jack Ryan"], answer: "James Bond" },
+    { question: "Which movie won the Academy Award for Best Animated Feature in 2021?", options: ["Onward", "Soul", "Wolfwalkers"], answer: "Soul" },
+    { question: "Who played the role of Michael Corleone in 'The Godfather'?", options: ["Al Pacino", "Robert De Niro", "Marlon Brando"], answer: "Al Pacino" },
+    { question: "What 2009 film is known for pioneering modern 3D cinema technology?", options: ["Inception", "Avatar", "The Hurt Locker"], answer: "Avatar" },
+    { question: "Which 2012 film features a protagonist who survives a shipwreck with a tiger?", options: ["Life of Pi", "Cast Away", "The Revenant"], answer: "Life of Pi" },
+    { question: "What is the main theme of the movie 'Inception'?", options: ["Time travel", "Dream manipulation", "Space exploration"], answer: "Dream manipulation" },
+    { question: "Which film features the character Sarah Connor, who is central to the plot?", options: ["The Terminator", "Aliens", "Jurassic Park"], answer: "The Terminator" },
+    { question: "What 1999 movie is famous for the quote, 'I see dead people'?", options: ["The Sixth Sense", "Ghost", "The Others"], answer: "The Sixth Sense" },
+    { question: "Who directed 'Titanic', which won the Academy Award for Best Picture in 1997?", options: ["James Cameron", "Steven Spielberg", "Martin Scorsese"], answer: "James Cameron" },
+    { question: "Which film did NOT feature Leonardo DiCaprio?", options: ["Titanic", "The Great Gatsby", "The Prestige"], answer: "The Prestige" },
+    { question: "In which movie do characters compete in the 'Hunger Games'?", options: ["Catching Fire", "The Hunger Games", "Battle Royale"], answer: "The Hunger Games" },
+    { question: "What film, released in 1982, features a character named E.T.?", options: ["Star Wars", "Close Encounters of the Third Kind", "E.T. the Extra-Terrestrial"], answer: "E.T. the Extra-Terrestrial" },
+    { question: "Who starred as the lead in the 2018 film 'Black Panther'?", options: ["Chadwick Boseman", "Michael B. Jordan", "Denzel Washington"], answer: "Chadwick Boseman" },
+    { question: "What iconic 1980s movie features the quote, 'Say hello to my little friend!'?", options: ["Scarface", "The Godfather", "Goodfellas"], answer: "Scarface" },
+    { question: "Which film features a unique spinning top in its final scene?", options: ["Inception", "Minority Report", "The Matrix"], answer: "Inception" },
+    { question: "What movie, featuring a journey to Mordor, won the Academy Award for Best Picture in 2003?", options: ["The Lord of the Rings: The Two Towers", "The Lord of the Rings: The Return of the King", "The Lord of the Rings: The Fellowship of the Ring"], answer: "The Lord of the Rings: The Return of the King" },
+    { question: "Which movie features a giant monster known as Godzilla?", options: ["Pacific Rim", "Godzilla", "Cloverfield"], answer: "Godzilla" },
+    { question: "What classic film was remade in 2005 starring Naomi Watts and Jack Black?", options: ["King Kong", "Godzilla", "Planet of the Apes"], answer: "King Kong" },
+    { question: "Who directed the 1994 crime film 'Pulp Fiction'?", options: ["Quentin Tarantino", "Steven Spielberg", "Martin Scorsese"], answer: "Quentin Tarantino" },
+    { question: "Which movie includes a character named Norman Bates?", options: ["Psycho", "Rebecca", "The Birds"], answer: "Psycho" },
+    { question: "What is the name of the fictional theme park in 'Jurassic Park'?", options: ["Dinosaur Land", "Jurassic World", "Isla Nublar"], answer: "Isla Nublar" },
+    { question: "Who played the role of Clarice Starling in the film 'The Silence of the Lambs'?", options: ["Jodie Foster", "Julianne Moore", "Sigourney Weaver"], answer: "Jodie Foster" },
+    { question: "Which film is famous for the line, 'May the Force be with you'?", options: ["Star Trek", "Star Wars", "Guardians of the Galaxy"], answer: "Star Wars" },
+    { question: "What 1975 thriller is known for its menacing shark and famous soundtrack?", options: ["Deep Blue Sea", "Jaws", "Sharknado"], answer: "Jaws" },
+    { question: "Which film did Tom Hanks win his first Academy Award for Best Actor?", options: ["Big", "Philadelphia", "Forrest Gump"], answer: "Philadelphia" },
+    { question: "What is the name of the ring in 'The Lord of the Rings'?", options: ["The Ring of Power", "The One Ring", "The Master Ring"], answer: "The One Ring" },
+    { question: "Who directed 'Avatar', the groundbreaking sci-fi movie released in 2009?", options: ["James Cameron", "George Lucas", "Steven Spielberg"], answer: "James Cameron" },
+    { question: "Which 1988 animated film features a dystopian future and psychic powers?", options: ["Ghost in the Shell", "Akira", "Blade Runner"], answer: "Akira" },
+    { question: "Who played the role of Hermione Granger in the Harry Potter films?", options: ["Emma Watson", "Emma Stone", "Emily Blunt"], answer: "Emma Watson" },
+    { question: "Which film features a group of friends who use a map to find a pirate's treasure?", options: ["The Goonies", "Treasure Island", "Pirates of the Caribbean"], answer: "The Goonies" },
+    { question: "What was the first animated film to receive a Best Picture nomination at the Oscars?", options: ["Beauty and the Beast", "The Lion King", "Up"], answer: "Beauty and the Beast" },
+    { question: "What is the fictional sport played in the 'Harry Potter' series?", options: ["Quidditch", "Bludgers", "Snitchball"], answer: "Quidditch" },
+    { question: "Who composed the iconic score for 'Star Wars'?", options: ["Hans Zimmer", "John Williams", "Danny Elfman"], answer: "John Williams" },
+    { question: "What 2000 film, directed by Ridley Scott, features a Roman general turned gladiator?", options: ["Spartacus", "Gladiator", "Ben-Hur"], answer: "Gladiator" },
+    { question: "Which movie's plot centers around a unique wooden board game?", options: ["Clue", "Jumanji", "Zathura"], answer: "Jumanji" },
+    { question: "Who directed the 1980 horror film 'The Shining'?", options: ["Stanley Kubrick", "Alfred Hitchcock", "Stephen King"], answer: "Stanley Kubrick" },
+    { question: "What 1993 science fiction film directed by Steven Spielberg features dinosaurs brought back to life through cloning?", options: ["Jurassic Park", "The Lost World", "Dinosaur"], answer: "Jurassic Park" },
+    { question: "Who voiced the character of Woody in the 'Toy Story' movies?", options: ["Tom Hanks", "Tim Allen", "Billy Crystal"], answer: "Tom Hanks" },
+    { question: "Which 2010 film directed by Christopher Nolan explores dream-sharing technology?", options: ["Inception", "Interstellar", "Memento"], answer: "Inception" },
+    { question: "What film series features a secret British spy agency known as Kingsman?", options: ["James Bond", "Kingsman", "Johnny English"], answer: "Kingsman" },
+    { question: "Who played the role of Jack Sparrow in the 'Pirates of the Caribbean' film series?", options: ["Johnny Depp", "Orlando Bloom", "Keira Knightley"], answer: "Johnny Depp" },
+    { question: "Which 2001 film, based on a J.R.R. Tolkien novel, follows a hobbit's quest to destroy a powerful ring?", options: ["The Hobbit", "The Lord of the Rings: The Fellowship of the Ring", "The Lord of the Rings: The Two Towers"], answer: "The Lord of the Rings: The Fellowship of the Ring" },
+    { question: "What 2003 animated film features a fish named Nemo?", options: ["Shark Tale", "Finding Nemo", "The Little Mermaid"], answer: "Finding Nemo" },
+    { question: "Which 2017 film is based on a DC Comics character and set during World War I?", options: ["Wonder Woman", "Captain America: The First Avenger", "Justice League"], answer: "Wonder Woman" },
+    { question: "Who directed the 1994 film 'Pulp Fiction'?", options: ["Quentin Tarantino", "Martin Scorsese", "Ridley Scott"], answer: "Quentin Tarantino" },
+    { question: "What movie introduced the character of Hannibal Lecter?", options: ["Silence of the Lambs", "Hannibal", "Manhunter"], answer: "Manhunter" },
+    { question: "Which 2016 film tells the story of a group of rebels who plan to steal plans for the Death Star?", options: ["Star Wars: The Force Awakens", "Rogue One: A Star Wars Story", "Star Wars: The Last Jedi"], answer: "Rogue One: A Star Wars Story" },
+    { question: "What is the name of the fictional African kingdom in 'Coming to America'?", options: ["Wakanda", "Zamunda", "Genovia"], answer: "Zamunda" },
+    { question: "Who directed the 2017 movie 'Get Out'?", options: ["Jordan Peele", "Spike Lee", "John Singleton"], answer: "Jordan Peele" },
+    { question: "Which movie features an AI character named HAL 9000?", options: ["Blade Runner", "Ex Machina", "2001: A Space Odyssey"], answer: "2001: A Space Odyssey" },
+    { question: "What 1980s movie is known for the quote 'Nobody puts Baby in a corner'?", options: ["Dirty Dancing", "Footloose", "Flashdance"], answer: "Dirty Dancing" },
+    { question: "What 1995 film directed by Michael Mann stars Robert De Niro and Al Pacino?", options: ["Heat", "The Godfather", "Scarface"], answer: "Heat" },
+    { question: "Who starred as the titular character in the 2014 film 'Maleficent'?", options: ["Angelina Jolie", "Charlize Theron", "Nicole Kidman"], answer: "Angelina Jolie" },
+    { question: "Which film is about a board game that becomes real for the players?", options: ["Zathura", "Jumanji", "The Game"], answer: "Jumanji" },
+    { question: "In which movie does a group of archaeologists find a frozen prehistoric man?", options: ["Encino Man", "Ice Age", "The Thing"], answer: "Encino Man" },
+    { question: "What movie features a theme park filled with cloned dinosaurs?", options: ["Jurassic Park", "Westworld", "Prehistoric Park"], answer: "Jurassic Park" }
 ];
 
 const movieCode = {
@@ -87,25 +144,6 @@ function generateMovieNames(input) {
     return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
 }
 
-const IMGPATH = "https://image.tmdb.org/t/p/w1280";
-const main = document.getElementById("main");
-const search = document.getElementById("search");
-const searchButton = document.getElementById("button-search");
-const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
-const searchTitle = document.getElementById("trivia-label");
-
-function getClassByRate(vote){
-    if (vote >= 8) {
-        return 'green';
-    }
-    else if (vote >= 5) {
-        return 'orange';
-    }
-    else {
-        return 'red';
-    }
-}
-
 const form = document.getElementById("form");
 
 form.addEventListener('submit', (e) => {
@@ -120,118 +158,6 @@ function handleSearch() {
     localStorage.setItem('searchQuery', searchQuery);
     window.location.href = 'search.html';
 }
-
-async function getMovies(url) {
-    clearMovieDetails();
-    const numberOfMovies = calculateMoviesToDisplay();
-    const pagesToFetch = numberOfMovies <= 20 ? 1 : 2;
-    let allMovies = [];
-
-    for (let page = 1; page <= pagesToFetch; page++) {
-        const response = await fetch(`${url}&page=${page}`);
-        const data = await response.json();
-        allMovies = allMovies.concat(data.results);
-    }
-
-    const popularityThreshold = 0.5;
-
-    allMovies.sort((a, b) => {
-        const popularityDifference = Math.abs(a.popularity - b.popularity);
-        if (popularityDifference < popularityThreshold) {
-            return b.vote_average - a.vote_average;
-        }
-        return b.popularity - a.popularity;
-    });
-
-    document.getElementById('clear-search-btn').style.display = 'block';
-
-    if (allMovies.length > 0) {
-        showMovies(allMovies.slice(0, numberOfMovies));
-    }
-    else {
-        main.innerHTML = `<p>No movie with the specified search term found. Please try again.</p>`;
-        document.getElementById('clear-search-btn').style.display = 'none';
-    }
-}
-
-document.getElementById('clear-search-btn').addEventListener('click', () => {
-    location.reload();
-});
-
-function clearMovieDetails() {
-    const movieDetailsContainer = document.getElementById('quiz-container');
-    if (movieDetailsContainer) {
-        movieDetailsContainer.innerHTML = '';
-    }
-    document.getElementById('regenerate-questions').style.display = 'none';
-    document.getElementById('submit').style.display = 'none';
-}
-
-function showMovies(movies){
-    main.innerHTML = '';
-    movies.forEach((movie) => {
-        const { id, poster_path, title, vote_average, overview } = movie;
-        const movieE1 = document.createElement('div');
-        const voteAverage = vote_average.toFixed(1);
-        movieE1.classList.add('movie');
-
-        const movieImage = poster_path
-            ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
-            : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
-
-        movieE1.innerHTML = `
-            ${movieImage} 
-            <div class="movie-info" style="cursor: pointer;">
-                <h3>${title}</h3>
-                <span class="${getClassByRate(vote_average)}">${voteAverage}</span>
-            </div>
-            <div class="overview" style="cursor: pointer;">
-                <h4>Movie Overview: </h4>
-                ${overview}
-            </div>`;
-
-        movieE1.addEventListener('click', () => {
-            localStorage.setItem('selectedMovieId', id);
-            window.location.href = 'movie-details.html';
-            updateMovieVisitCount(id, title);
-        });
-
-        main.appendChild(movieE1);
-    });
-}
-
-function calculateMoviesToDisplay() {
-    const screenWidth = window.innerWidth;
-    if (screenWidth <= 689.9) return 10;
-    if (screenWidth <= 1021.24) return 20;
-    if (screenWidth <= 1353.74) return 21;
-    if (screenWidth <= 1684.9) return 20;
-    if (screenWidth <= 2017.49) return 20;
-    if (screenWidth <= 2349.99) return 18;
-    if (screenWidth <= 2681.99) return 21;
-    if (screenWidth <= 3014.49) return 24;
-    if (screenWidth <= 3345.99) return 27;
-    if (screenWidth <= 3677.99) return 20;
-    if (screenWidth <= 4009.99) return 22;
-    if (screenWidth <= 4340.99) return 24;
-    if (screenWidth <= 4673.49) return 26;
-    if (screenWidth <= 5005.99) return 28;
-    if (screenWidth <= 5337.99) return 30;
-    if (screenWidth <= 5669.99) return 32;
-    if (screenWidth <= 6001.99) return 34;
-    if (screenWidth <= 6333.99) return 36;
-    if (screenWidth <= 6665.99) return 38;
-    if (screenWidth <= 6997.99) return 40;
-    if (screenWidth <= 7329.99) return 42;
-    if (screenWidth <= 7661.99) return 44;
-    if (screenWidth <= 7993.99) return 46;
-    if (screenWidth <= 8325.99) return 48;
-    return 20;
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('clear-search-btn').style.display = 'none';
-});
 
 function generateRandomQuestions() {
     const questionsToDisplay = 10;
@@ -262,24 +188,6 @@ function generateRandomQuestions() {
     });
 }
 
-function updateTriviaStats(correctAnswers, totalQuestions) {
-    let triviaStats = JSON.parse(localStorage.getItem('triviaStats')) || { totalCorrect: 0, totalAttempted: 0 };
-
-    triviaStats.totalCorrect += correctAnswers;
-    triviaStats.totalAttempted += totalQuestions;
-
-    localStorage.setItem('triviaStats', JSON.stringify(triviaStats));
-}
-
-function getTriviaAccuracy() {
-    let triviaStats = JSON.parse(localStorage.getItem('triviaStats')) || { totalCorrect: 0, totalAttempted: 0 };
-    if (triviaStats.totalAttempted === 0) {
-        return 'No trivia attempted';
-    }
-    let accuracy = (triviaStats.totalCorrect / triviaStats.totalAttempted) * 100;
-    return `${accuracy.toFixed(1)}% accuracy`;
-}
-
 document.getElementById('regenerate-questions').addEventListener('click', generateRandomQuestions);
 generateRandomQuestions();
 
@@ -302,7 +210,7 @@ async function showMovieOfTheDay() {
         }
     }
     catch (error) {
-        console.error('Error fetching movie:', error);
+        console.log('Error fetching movie:', error);
         fallbackMovieSelection();
     }
 }
@@ -389,7 +297,9 @@ function calculateAndDisplayResults() {
         }
     });
 
-    updateTriviaStats(score, totalQuestions);
+    const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser') || null;
+
+    updateTriviaStats(currentUserEmail, score, totalQuestions);
 
     displayResults(score);
 }

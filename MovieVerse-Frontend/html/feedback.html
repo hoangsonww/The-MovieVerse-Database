@@ -299,6 +299,7 @@
                 clearInterval(statRotationInterval);
                 updateStatDisplay();
                 statRotationInterval = setInterval(updateStatDisplay, 3000);
+                localTimeDiv.scrollIntoView({ behavior: 'smooth' });
             });
         }
 
@@ -550,7 +551,7 @@
             </a>
         </h1>
 
-        <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
+        <div id="local-time" style="cursor: pointer; margin-left: 40px" title="Click to view more of your stats!">
             <p id="stats-label" class="clock" style="font-size: 16px;"></p>
             <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
         </div>
@@ -581,9 +582,9 @@
 
         <button id="chat-button" onclick="window.location.href='chat.html'" style="bottom: 300px; right: 10px; z-index: 1001" title="Chat with fellow MovieVerse users!">Chat</button>
         <button id="settings-btn" style="position: fixed; bottom: 265px; right: 10px">Settings</button>
-        <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 230px; right: 10px">Movie Match</button>
-        <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 195px; right: 10px">Movie Timeline</button>
-        <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 160px; right: 10px">Surprise Me!</button>
+        <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 230px; right: 10px">Surprise Me!</button>
+        <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 195px; right: 10px">Movie Match</button>
+        <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 160px; right: 10px">Movie Timeline</button>
         <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="bottom: 125px; right: 10px" title="Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
         <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 90px; right: 10px" title="Test your movie knowledge">MovieVerse Trivia</button>
     </header>
@@ -1095,9 +1096,9 @@
             const buttonIds = [
                 'chat-button',
                 'settings-btn',
+                'movie-of-the-day-btn',
                 'movie-match-btn3',
                 'movie-timeline-btn',
-                'movie-of-the-day-btn',
                 'discussions-btn',
                 'trivia-btn',
             ];
@@ -1129,9 +1130,9 @@
                 const buttonIds = [
                     'chat-button',
                     'settings-btn',
+                    'movie-of-the-day-btn',
                     'movie-match-btn3',
                     'movie-timeline-btn',
-                    'movie-of-the-day-btn',
                     'discussions-btn',
                     'trivia-btn',
                 ];

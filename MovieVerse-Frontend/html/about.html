@@ -169,6 +169,23 @@
                 bottom: 70px;
             }
         }
+
+        #my-heading1 {
+            color: #ff8623;
+            padding: 10px;
+            font-size: 36px;
+            text-align: center;
+            background-color: transparent;
+            margin-left: 40px;
+        }
+
+        .highlight2 {
+            color: orange;
+        }
+
+        .highlight2:hover {
+            color: #ff8623;
+        }
     </style>
 </head>
 
@@ -221,7 +238,7 @@
             </a>
         </h1>
 
-        <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
+        <div id="local-time" style="cursor: pointer; margin-left: 40px" title="Click to view more of your stats!">
             <p id="stats-label" class="clock" style="font-size: 16px;"></p>
             <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
         </div>
@@ -257,17 +274,17 @@
 
         <button id="chat-button" onclick="window.location.href='chat.html'" style="bottom: 300px; right: 10px; z-index: 1001" title="Chat with fellow MovieVerse users!">Chat</button>
         <button id="settings-btn" style="position: fixed; bottom: 265px; right: 10px">Settings</button>
-        <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 230px; right: 10px">Movie Match</button>
-        <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 195px; right: 10px">Movie Timeline</button>
-        <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 160px; right: 10px">Surprise Me!</button>
+        <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 230px; right: 10px">Surprise Me!</button>
+        <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 195px; right: 10px">Movie Match</button>
+        <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 160px; right: 10px">Movie Timeline</button>
         <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="bottom: 125px; right: 10px" title="Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
         <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 90px; right: 10px" title="Test your movie knowledge">MovieVerse Trivia</button>
     </header>
 
-    <nav id="side-nav" class="side-nav" style="z-index: 1002;">
+    <nav id="side-nav" class="side-nav" style="z-index: 1000000">
         <a id="heading-href" style="cursor: pointer" href="../../index.html" title="Click to go back to the home page">
-            <div id="my-heading" style="margin-bottom: 15px; margin-left: 0; margin-top: 15px; font-size: 2.1em; font-weight: bold;">
-                The Mo<span class="highlight">vieV</span>erse Menu
+            <div id="my-heading1" style="margin-bottom: 15px; margin-left: 0; margin-top: 15px; font-size: 2.1em; font-weight: bold;">
+                The Mo<span class="highlight2">vieV</span>erse Menu
             </div>
         </a>
 
@@ -285,40 +302,42 @@
             <li><a href="#subheading4">Useful Links</a></li>
             <li><a href="terms-of-service.html">Terms of Service</a></li>
             <li><a href="privacy-policy.html">Privacy Policy</a></li>
-            <li><a href="feedback.html">Submit Feedback</a></li>
-            <li><a href="support.html">Contact Support</a></li>
             <li><a href="sign-in.html">Sign In</a></li>
             <li><a href="user-profile.html">Profile</a></li>
+            <li><a href="feedback.html">Submit Feedback</a></li>
+            <li><a href="support.html">Contact Support</a></li>
         </ul>
     </nav>
 
     <main id="main2" style="margin: 0 auto">
         <h2 id="aboutHeader" style="align-self: center; cursor: pointer">About The MovieVerse</h2>
 
-        <p style="color: white; text-align: center">Welcome to The MovieVerse, your ultimate database for exploring the magic of movies. Created by <strong><a id="profileLink" href="http://github.com/hoangsonww">Son Nguyen</a></strong> in 2023 with a vision to celebrate cinematic art, MovieVerse offers a unique but comprehensive platform for more than <strong>150,000</strong> movie lovers worldwide to discover, engage, and immerse themselves in the world of film.</p>
+        <p style="color: white; text-align: center">Welcome to The MovieVerse, your ultimate database for exploring the magic of movies. Created by <strong><a id="profileLink" href="http://github.com/hoangsonww">Son Nguyen</a></strong> in 2023 with a vision to celebrate cinematic art, MovieVerse offers a unique but comprehensive platform for more than <strong>290,000</strong> movie lovers worldwide to discover, engage, and immerse themselves in the world of film.</p>
 
         <div style="width: 100%">
             <img id="logo" src="../../images/uwu.webp" alt="The MovieVerse" style="width: 200px; max-width: 800px; margin: 20px auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2)">
         </div>
 
-        <p style="color: white; text-align: center; width: 100%;">Thank you for visiting MovieVerse today!</p>
+        <p style="color: white; text-align: center; width: 100%;">Thank you for visiting MovieVerse today!  🎬🍿</p>
 
         <h3 id="subheading1" style="cursor: pointer">Core Features:</h3>
 
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
         <ul style="align-content: center; color: white">
-            <li><strong>Curated Movie Collections:</strong> Explore an array of movies categorized by genre, director, language, and era, including specialized sections like Director's Spotlight and award-winning films.</li>
-            <li><strong>Director’s Spotlight:</strong> Discover the masterpieces of legendary directors, updated hourly, highlighting their contribution to cinema.</li>
-            <li><strong>Interactive Discussions and Trivia:</strong> Participate in movie discussions and trivia games, enhancing community engagement and knowledge sharing.</li>
-            <li><strong>Real-Time Movie Trends:</strong> Stay updated with real-time trends in the movie industry, featuring trending movies and up-to-date ratings.
-            <li><strong>Movie Timeline:</strong> Select a period and explore a curated list of movies from that era, offering a unique way to experience the evolution of film over time.</li>
-            <li><strong>Movie Match/Recommendation:</strong> Find or get recommended a movie that matches your mood, genre, and time period, ensuring you always find the perfect movie to watch.</li>
-            <li><strong>Detailed Filmography Insights:</strong> Delve into the careers of your favorite <a style="text-decoration: underline" id="githubLink1" href="director-details.html">directors</a>, <a style="text-decoration: underline" id="githubLink1" href="actor-details.html">actors</a>, and <a style="text-decoration: underline" id="githubLink1" href="company-details.html"> companies</a> with dedicated pages detailing their filmography and impact on cinema.</li>
-            <li><strong>Sign In/Sign Out:</strong> Sign in to your account to access your personalized movie recommendations, <a style="text-decoration: underline" id="githubLink1" href="favorites.html">watch lists</a>, <a style="text-decoration: underline" id="githubLink1" href="user-profile.html">profile</a>, and more.</li>
-            <li><strong>Watch Lists:</strong> Save movies to your watch lists and share your them with your loved ones, ensuring you never miss out on a movie you want to watch. If you're signed in, your watch lists are <a style="text-decoration: underline" id="githubLink1" href="favorites.html">accessible</a> across all your devices!</li>
-            <li><strong>Chat Functionality:</strong> Engage with fellow movie enthusiasts through our secure <a style="text-decoration: underline" id="githubLink1" href="chat.html">chat</a> feature, where you can discuss and connect with like-minded MovieVerse individuals!</li>
-            <li><strong>Search Functionality:</strong> Use our extensive <a style="text-decoration: underline" id="githubLink1" href="search.html">search</a> functionality to find movies, actors, directors, and TV series, ensuring you always find what you're looking for.</li>
-            <li><strong>User Ratings and Reviews:</strong> <a style="text-decoration: underline" id="githubLink1" href="movie-details.html">Rate</a> movies on a scale of 1 to 10, with your ratings contributing to the overall rating of each movie in our database & share your thoughts and opinions with the MovieVerse community.</li>
-            <li><strong>IMDb, Metacritics, and Rotten Tomatoes Ratings:</strong> Aside from ratings from our users, you can also view IMDb, Metacritics, and RT ratings for each movie directly <a style="text-decoration: underline" id="githubLink1" href="movie-details.html">within our app</a>.</li>
+            <li><i style="margin-right: 3px" class="fas fa-film"></i> <strong>Curated Movie Collections:</strong> Explore an array of movies categorized by genre, director, language, and era, including specialized sections like Director's Spotlight and award-winning films.</li>
+            <li><i style="margin-right: 3px" class="fas fa-user-tie"></i> <strong>Director’s Spotlight:</strong> Discover the masterpieces of legendary directors, updated hourly, highlighting their contribution to cinema.</li>
+            <li><i style="margin-right: 3px" class="fas fa-comments"></i> <strong>Interactive Discussions and Trivia:</strong> Participate in movie discussions and trivia games, enhancing community engagement and knowledge sharing.</li>
+            <li><i style="margin-right: 3px" class="fas fa-fire"></i> <strong>Real-Time Movie Trends:</strong> Stay updated with real-time trends in the movie industry, featuring trending movies and up-to-date ratings.</li>
+            <li><i style="margin-right: 3px" class="fas fa-clock"></i> <strong>Movie Timeline:</strong> Select a period and explore a curated list of movies from that era, offering a unique way to experience the evolution of film over time.</li>
+            <li><i style="margin-right: 3px" class="fas fa-heart"></i> <strong>Movie Match/Recommendation:</strong> Find or get recommended a movie that matches your mood, genre, and time period, ensuring you always find the perfect movie to watch.</li>
+            <li><i style="margin-right: 3px" class="fas fa-info-circle"></i> <strong>Detailed Filmography Insights:</strong> Delve into the careers of your favorite <a id="githubLink1" href="director-details.html">directors</a>, <a id="githubLink1" href="actor-details.html">actors</a>, and <a id="githubLink1" href="company-details.html">companies</a> with dedicated pages detailing their filmography and impact on cinema.</li>
+            <li><i style="margin-right: 3px" class="fas fa-sign-in-alt"></i> <strong>Sign In/Sign Out:</strong> Sign in to your account to access your personalized movie recommendations, <a id="githubLink1" href="favorites.html">watch lists</a>, <a id="githubLink1" href="user-profile.html">profile</a>, and more.</li>
+            <li><i style="margin-right: 3px" class="fas fa-list-ul"></i> <strong>Watch Lists:</strong> Save movies to your watch lists and share them with your loved ones, ensuring you never miss out on a movie you want to watch. If you're signed in, your watch lists are <a id="githubLink1" href="favorites.html">accessible</a> across all your devices!</li>
+            <li><i style="margin-right: 3px" class="fas fa-comment-dots"></i> <strong>Chat Functionality:</strong> Engage with fellow movie enthusiasts through our secure <a id="githubLink1" href="chat.html">chat</a> feature, where you can discuss and connect with like-minded MovieVerse individuals!</li>
+            <li><i style="margin-right: 3px" class="fas fa-search"></i> <strong>Search Functionality:</strong> Use our extensive <a id="githubLink1" href="search.html">search</a> functionality to find movies, actors, directors, and TV series, ensuring you always find what you're looking for.</li>
+            <li><i style="margin-right: 3px" class="fas fa-star"></i> <strong>User Ratings and Reviews:</strong> <a id="githubLink1" href="movie-details.html">Rate</a> movies on a scale of 1 to 10, with your ratings contributing to the overall rating of each movie in our database & share your thoughts and opinions with the MovieVerse community.</li>
+            <li><i style="margin-right: 3px" class="fas fa-star-half-alt"></i> <strong>IMDb, Metacritics, and Rotten Tomatoes Ratings:</strong> Aside from ratings from our users, you can also view IMDb, Metacritics, and RT ratings for each movie directly <a id="githubLink1" href="movie-details.html">within our app</a>.</li>
         </ul>
 
         <h3 id="subheading2" style="cursor: pointer">Explore Our Other Apps:</h3>
@@ -360,12 +379,18 @@
         <br/>
         <p style="color: white; text-align: center">Become a part of The MovieVerse community today. Your engagement and feedback are invaluable to us. Together, let's celebrate the wonder of movies!</p>
         <br/>
-        <p style="color: white; text-align: center"><em>Thank you for being a part of The MovieVerse. For more insights and updates, connect with us on our <a style="text-decoration: underline" id="githubLink" href="https://github.com/hoangsonww/The-MovieVerse-Database">GitHub page</a>.</em></p>
+        <p style="color: white; text-align: center">
+            <em>Thank you for being a part of The MovieVerse. For more insights and updates, connect with us on our <strong><a style="color: #ff8623" href="https://github.com/hoangsonww/The-MovieVerse-Database">GitHub page</a></strong>.
+                <i style="margin-left: 3px" class="fab fa-github"></i>
+            </em>
+        </p>
 
         <h3 id="subheading4" style="cursor: pointer">Useful Links:</h3>
         <p style="color: white; text-align: center">Here are some links that you might find useful: You can explore the <a href="analytics.html" style="text-decoration: underline" id="githubLink">analytics page</a> of our database, read our <a style="text-decoration: underline" id="githubLink" href="terms-of-service.html">terms of service</a>, and review our <a style="text-decoration: underline" id="githubLink" href="privacy-policy.html">privacy policy</a>. Feel free to <a style="text-decoration: underline" id="githubLink" href="support.html">reach out</a> to us or <a style="text-decoration: underline" id="githubLink" href="feedback.html">submit feedback</a> if you have any questions or concerns!</p>
         <br/>
         <p style="color: white; text-align: center">You're also encouraged to <a style="text-decoration: underline" id="githubLink" href="create-account.html">create an account</a> and join our <a style="text-decoration: underline" id="githubLink" href="sign-in.html">community</a> to enjoy personalized movie recommendations, create/share watch lists, and more. We look forward to having you on board!</p>
+        <br/>
+        <p style="color: white; text-align: center">If you are also interested in the website's creator and developer, feel free to visit my <a style="text-decoration: underline" id="githubLink" href="https://www.linkedin.com/in/hoangsonw/">LinkedIn profile</a>!
 
         <button onclick="window.location.href='analytics.html'" style="border: none; margin-top: 40px" class="app-btn">MovieVerse Analytics</button>
         <button onclick="window.location.href='terms-of-service.html'" style="border: none; margin-top: 40px" class="app-btn">Terms of Service</button>
@@ -470,9 +495,9 @@
             const buttonIds = [
                 'chat-button',
                 'settings-btn',
+                'movie-of-the-day-btn',
                 'movie-match-btn3',
                 'movie-timeline-btn',
-                'movie-of-the-day-btn',
                 'discussions-btn',
                 'trivia-btn',
             ];
@@ -505,9 +530,9 @@
                 const buttonIds = [
                     'chat-button',
                     'settings-btn',
+                    'movie-of-the-day-btn',
                     'movie-match-btn3',
                     'movie-timeline-btn',
-                    'movie-of-the-day-btn',
                     'discussions-btn',
                     'trivia-btn',
                 ];
@@ -835,6 +860,7 @@
                 clearInterval(statRotationInterval);
                 updateStatDisplay();
                 statRotationInterval = setInterval(updateStatDisplay, 3000);
+                localTimeDiv.scrollIntoView({ behavior: 'smooth' });
             });
         }
 

@@ -25,9 +25,9 @@ commentForm.addEventListener("submit", async (e) => {
     }
 });
 
-var modal = document.getElementById("comment-modal");
-var btn = document.getElementById("toggle-comment-modal");
-var span = document.getElementsByClassName("close")[0];
+let modal = document.getElementById("comment-modal");
+let btn = document.getElementById("toggle-comment-modal");
+let span = document.getElementsByClassName("close")[0];
 
 btn.onclick = function() {
     modal.style.display = "block";
@@ -47,7 +47,6 @@ window.onclick = function(event) {
         modal.style.display = "none";
     }
 }
-
 
 let currentPage = 1;
 const commentsPerPage = 3;
@@ -72,9 +71,10 @@ async function fetchComments() {
 
         if (querySnapshot.empty) {
             const noCommentsMsg = document.createElement("p");
-            noCommentsMsg.textContent = "No comments for this movie/TV show yet.";
+            noCommentsMsg.textContent = "No comments for this movie yet.";
             commentsContainer.appendChild(noCommentsMsg);
-        } else {
+        }
+        else {
             querySnapshot.forEach((doc) => {
                 if (index >= (currentPage - 1) * commentsPerPage && displayedComments < commentsPerPage) {
                     const comment = doc.data();
@@ -92,7 +92,7 @@ async function fetchComments() {
                     max-width: 100%;
                     word-wrap: break-word;
                     overflow-wrap: break-word;
-                    margin-bottom: 1rem; // Add some space between comments
+                    margin-bottom: 1rem;
                 `;
                     commentElement.style.cssText = commentStyle;
                     commentElement.innerHTML = `

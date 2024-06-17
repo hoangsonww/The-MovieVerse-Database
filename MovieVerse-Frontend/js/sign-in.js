@@ -58,7 +58,7 @@ document.getElementById('signInForm').addEventListener('submit', async function(
             alert('Successfully signed in!');
             localStorage.setItem('isSignedIn', JSON.stringify(true));
             localStorage.setItem('currentlySignedInMovieVerseUser', email);
-            window.location.href = '../../index.html';
+            window.location.href = '../../../../Downloads/The-MovieVerse-Database-ee3ec4ea5610d37178bc008fd505fd99c5f83070/index.html';
         } else {
             alert('Invalid email or password. Ensure that you have entered a correct combination of email and password - one that we have on file.');
         }

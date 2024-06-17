@@ -219,6 +219,7 @@ async function rotateUserStats() {
         clearInterval(statRotationInterval);
         updateStatDisplay();
         statRotationInterval = setInterval(updateStatDisplay, 3000);
+        localTimeDiv.scrollIntoView({ behavior: 'smooth' });
     });
 }
 
@@ -559,18 +560,35 @@ async function populateCreateModalWithFavorites() {
 }
 
 document.getElementById('create-watchlist-form').addEventListener('submit', async function(e) {
-    try {
-        showSpinner();
-        e.preventDefault();
+    e.preventDefault();
+    showSpinner();
 
-        const name = document.getElementById('new-watchlist-name').value;
-        const description = document.getElementById('new-watchlist-description').value;
-        const selectedMovies = Array.from(document.querySelectorAll('#movies-container input:checked')).map(checkbox => checkbox.value);
-        const selectedTVSeries = Array.from(document.querySelectorAll('#tvseries-container input:checked')).map(checkbox => checkbox.value);
-        const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
-        const q = query(collection(db, "watchlists"), where("userEmail", "==", currentUserEmail));
-        const querySnapshot = await getDocs(q);
-        let maxOrder = querySnapshot.docs.reduce((max, docSnapshot) => Math.max(max, docSnapshot.data().order || 0), 0);
+    const name = document.getElementById('new-watchlist-name').value.trim();
+    const description = document.getElementById('new-watchlist-description').value;
+    const selectedMovies = Array.from(document.querySelectorAll('#movies-container input:checked')).map(checkbox => checkbox.value);
+    const selectedTVSeries = Array.from(document.querySelectorAll('#tvseries-container input:checked')).map(checkbox => checkbox.value);
+    const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
+
+    let isDuplicate = false;
+    let maxOrder = 0;
+    let localWatchlists = JSON.parse(localStorage.getItem('localWatchlists')) || [];
+
+    try {
+        if (currentUserEmail) {
+            const q = query(collection(db, "watchlists"), where("userEmail", "==", currentUserEmail));
+            const querySnapshot = await getDocs(q);
+            maxOrder = querySnapshot.docs.reduce((max, docSnapshot) => Math.max(max, docSnapshot.data().order || 0), 0);
+            isDuplicate = querySnapshot.docs.some(doc => doc.data().name.toLowerCase() === name.toLowerCase());
+        }
+        else {
+            isDuplicate = localWatchlists.some(watchlist => watchlist.name.toLowerCase() === name.toLowerCase());
+        }
+
+        if (isDuplicate) {
+            alert('A watchlist with this name already exists. Please choose a different name.');
+            hideSpinner();
+            return;
+        }
 
         if (currentUserEmail) {
             const newWatchlistRef = doc(collection(db, 'watchlists'));
@@ -586,7 +604,6 @@ document.getElementById('create-watchlist-form').addEventListener('submit', asyn
             });
         }
         else {
-            const localWatchlists = JSON.parse(localStorage.getItem('localWatchlists')) || [];
             localWatchlists.push({
                 id: `local-${new Date().getTime()}`,
                 userEmail: "",
@@ -599,20 +616,10 @@ document.getElementById('create-watchlist-form').addEventListener('submit', asyn
             });
             localStorage.setItem('localWatchlists', JSON.stringify(localWatchlists));
         }
-
-        closeModal('create-watchlist-modal');
-        loadWatchLists();
-        hideSpinner();
-        window.location.reload();
     }
     catch (error) {
         if (error.code === 'resource-exhausted') {
             console.log('Firebase quota exceeded. Using localStorage for watchlists.');
-            const name = document.getElementById('new-watchlist-name').value;
-            const description = document.getElementById('new-watchlist-description').value;
-            const selectedMovies = Array.from(document.querySelectorAll('#movies-container input:checked')).map(checkbox => checkbox.value);
-            const selectedTVSeries = Array.from(document.querySelectorAll('#tvseries-container input:checked')).map(checkbox => checkbox.value);
-            const localWatchlists = JSON.parse(localStorage.getItem('localWatchlists')) || [];
             localWatchlists.push({
                 id: `local-${new Date().getTime()}`,
                 userEmail: "",
@@ -624,12 +631,17 @@ document.getElementById('create-watchlist-form').addEventListener('submit', asyn
                 createdAt: new Date().toISOString()
             });
             localStorage.setItem('localWatchlists', JSON.stringify(localWatchlists));
-            closeModal('create-watchlist-modal');
-            loadWatchLists();
-            hideSpinner();
-            window.location.reload();
+        }
+        else {
+            console.error('An error occurred while creating a watchlist:', error);
+            alert('Failed to create the watchlist due to an error.');
         }
     }
+
+    closeModal('create-watchlist-modal');
+    loadWatchLists();
+    hideSpinner();
+    window.location.reload();
 });
 
 async function getTVSeriesTitle(seriesId) {
@@ -1235,21 +1247,40 @@ function createMovieCard(movie) {
     const movieEl = document.createElement('div');
     movieEl.classList.add('movie');
     movieEl.style.cursor = 'pointer';
+    movieEl.style.zIndex = '1000';
+
+    let movieTitle = movie.title;
+    const words = movieTitle.split(' ');
+    if (words.length >= 9) {
+        words[8] = '...';
+        movieTitle = words.slice(0, 9).join(' ');
+    }
+
+    const ratingClass = movie.vote_count === 0 ? "unrated" : getClassByRate(movie.vote_average);
+    const voteAvg = movie.vote_count === 0 ? "Unrated" : movie.vote_average.toFixed(1);
+
+    let overview = movie.overview;
+    if (overview === "") {
+        overview = "No overview available.";
+    }
 
     movieEl.innerHTML = `
                 <img src="${IMGPATH + movie.poster_path}" alt="${movie.title}" style="cursor: pointer">
-                <div class="movie-info" style="cursor: pointer">
-                    <h3>${movie.title}</h3>
-                    <span class="${getClassByRate(movie.vote_average.toFixed(1))}">${movie.vote_average.toFixed(1)}</span>
+                <div class="movie-info" style="display: flex; justify-content: space-between; align-items: start; cursor: pointer;">
+                    <h3 style="text-align: left; margin-right: 10px; flex: 1;">${movieTitle}</h3>
+                    <span class="${ratingClass}" style="white-space: nowrap;">${voteAvg}</span>
                 </div>
-                <div class="overview">
-                    <h4>Movie Overview:</h4>
-                    ${movie.overview}
+                <div class="overview" style="cursor: pointer;">
+                    <h4>Movie Overview: </h4>
+                    ${overview}
                 </div>`;
+
     movieEl.addEventListener('click', () => {
         localStorage.setItem('selectedMovieId', movie.id);
-        window.location.href = 'movie-details.html';
+        updateUniqueMoviesViewed(movie.id);
+        updateFavoriteGenre(movie.genre_ids);
         updateMovieVisitCount(movie.id, movie.title);
+        window.location.href = 'movie-details.html';
     });
 
     return movieEl;
@@ -1282,97 +1313,6 @@ function handleSearch() {
     window.location.href = 'search.html';
 }
 
-async function getMovies(url) {
-    const numberOfMovies = calculateMoviesToDisplay();
-    const pagesToFetch = numberOfMovies <= 20 ? 1 : 2;
-    let allMovies = [];
-
-    for (let page = 1; page <= pagesToFetch; page++) {
-        const response = await fetch(`${url}&page=${page}`);
-        const data = await response.json();
-        allMovies = allMovies.concat(data.results);
-    }
-
-    const popularityThreshold = 0.5;
-
-    allMovies.sort((a, b) => {
-        const popularityDifference = Math.abs(a.popularity - b.popularity);
-        if (popularityDifference < popularityThreshold) {
-            return b.vote_average - a.vote_average;
-        }
-        return b.popularity - a.popularity;
-    });
-
-    if (allMovies.length > 0) {
-        showMovies(allMovies.slice(0, numberOfMovies));
-    }
-    else {
-        searchResultsMain.innerHTML = `<p>No movie with the specified search term found. Please try again.</p>`;
-    }
-}
-
-function showMovies(movies){
-    searchResultsMain.innerHTML = '';
-    movies.forEach((movie) => {
-        const { id, poster_path, title, vote_average, overview } = movie;
-        const movieE1 = document.createElement('div');
-        const voteAverage = vote_average.toFixed(1);
-        movieE1.classList.add('movie');
-
-        const movieImage = poster_path
-            ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
-            : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
-
-        movieE1.innerHTML = `
-            ${movieImage}
-            <div class="movie-info" style="cursor: pointer;">
-                <h3>${title}</h3>
-                <span class="${getClassByRate(vote_average)}">${voteAverage}</span>
-            </div>
-            <div class="overview" style="cursor: pointer;">
-                <h4>Movie Overview: </h4>
-                ${overview}
-            </div>`;
-
-        movieE1.addEventListener('click', () => {
-            localStorage.setItem('selectedMovieId', id);
-            window.location.href = 'movie-details.html';
-            updateMovieVisitCount(id, title);
-        });
-
-        searchResultsMain.appendChild(movieE1);
-    });
-}
-
-function calculateMoviesToDisplay() {
-    const screenWidth = window.innerWidth;
-    if (screenWidth <= 689.9) return 10;
-    if (screenWidth <= 1021.24) return 20;
-    if (screenWidth <= 1353.74) return 21;
-    if (screenWidth <= 1684.9) return 20;
-    if (screenWidth <= 2017.49) return 20;
-    if (screenWidth <= 2349.99) return 18;
-    if (screenWidth <= 2681.99) return 21;
-    if (screenWidth <= 3014.49) return 24;
-    if (screenWidth <= 3345.99) return 27;
-    if (screenWidth <= 3677.99) return 20;
-    if (screenWidth <= 4009.99) return 22;
-    if (screenWidth <= 4340.99) return 24;
-    if (screenWidth <= 4673.49) return 26;
-    if (screenWidth <= 5005.99) return 28;
-    if (screenWidth <= 5337.99) return 30;
-    if (screenWidth <= 5669.99) return 32;
-    if (screenWidth <= 6001.99) return 34;
-    if (screenWidth <= 6333.99) return 36;
-    if (screenWidth <= 6665.99) return 38;
-    if (screenWidth <= 6997.99) return 40;
-    if (screenWidth <= 7329.99) return 42;
-    if (screenWidth <= 7661.99) return 44;
-    if (screenWidth <= 7993.99) return 46;
-    if (screenWidth <= 8325.99) return 48;
-    return 20;
-}
-
 async function loadWatchLists() {
     const displaySection = document.getElementById('watchlists-display-section');
 
@@ -1390,6 +1330,12 @@ async function loadWatchLists() {
                 displaySection.innerHTML = '<p style="text-align: center">No watch lists found. Click on "Create Watch Lists" to start adding movies.</p>';
             }
             else {
+                displaySection.innerHTML = '';
+                displaySection.innerHTML += '<p id="watchlist-header" style="text-align: center; font-size: 20px; margin-top: 20px; color: #ff8623; cursor: pointer"><strong>Your Watch Lists</strong></p>';
+                document.getElementById("watchlist-header").addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.getElementById("watchlist-header").scrollIntoView({behavior: 'smooth'});
+                });
                 watchlists.sort((a, b) => a.order - b.order);
                 watchlists.sort((a, b) => (b.pinned === a.pinned) ? 0 : b.pinned ? 1 : -1);
                 for (const watchlist of watchlists) {
@@ -1408,6 +1354,8 @@ async function loadWatchLists() {
                 displaySection.innerHTML = '<p style="text-align: center">No watch lists found. Start by adding movies to your watchlist.</p>';
             }
             else {
+                displaySection.innerHTML = '';
+                displaySection.innerHTML += '<p style="text-align: center; margin-top: 20px; color: white"><strong>Your Watch Lists</strong></p>';
                 localWatchlists.sort((a, b) => (b.pinned === a.pinned) ? 0 : b.pinned ? 1 : -1);
                 for (const watchlist of localWatchlists) {
                     const watchlistDiv = await createWatchListDiv(watchlist);
@@ -1440,11 +1388,15 @@ async function loadWatchLists() {
         if (favorites.length > 0) {
             const favoritesDiv = document.createElement('div');
             favoritesDiv.className = 'watchlist';
-            favoritesDiv.id = 'favorites-watchlist';
+            favoritesDiv.id = 'favorite-movies';
 
             const title = document.createElement('h3');
             title.textContent = "Favorite Movies";
             title.className = 'watchlist-title';
+            title.style.cursor = 'pointer';
+            title.addEventListener('click', () => {
+                favoritesDiv.scrollIntoView({behavior: 'smooth'});
+            });
 
             const description = document.createElement('p');
             description.textContent = "A collection of your favorite movies.";
@@ -1467,7 +1419,7 @@ async function loadWatchLists() {
         else {
             const favoritesDiv = document.createElement('div');
             favoritesDiv.className = 'watchlist';
-            favoritesDiv.id = 'favorites-watchlist';
+            favoritesDiv.id = 'favorite-movies';
             favoritesDiv.innerHTML = '<div style="text-align: center"><h3 style="text-align: center; font-size: 24px; color: #ff8623">Favorite Movies</h3><p style="text-align: center">No favorite movies added yet.</p></div>';
             displaySection.appendChild(favoritesDiv);
         }
@@ -1475,11 +1427,15 @@ async function loadWatchLists() {
         if (favoritesTVSeries.length > 0) {
             const favoritesDiv = document.createElement('div');
             favoritesDiv.className = 'watchlist';
-            favoritesDiv.id = 'favorites-tvseries-watchlist';
+            favoritesDiv.id = 'favorite-tv-series';
 
             const title = document.createElement('h3');
             title.textContent = "Favorite TV Series";
             title.className = 'watchlist-title';
+            title.style.cursor = 'pointer';
+            title.addEventListener('click', () => {
+                favoritesDiv.scrollIntoView({behavior: 'smooth'});
+            });
 
             const description = document.createElement('p');
             description.textContent = "A collection of your favorite TV series.";
@@ -1502,7 +1458,7 @@ async function loadWatchLists() {
         else {
             const favoritesDiv = document.createElement('div');
             favoritesDiv.className = 'watchlist';
-            favoritesDiv.id = 'favorites-tvseries-watchlist';
+            favoritesDiv.id = 'favorite-tv-series';
             favoritesDiv.innerHTML = '<div style="text-align: center"><h3 style="text-align: center; font-size: 24px; color: #ff8623">Favorite TV Series</h3><p style="text-align: center">No favorite TV series added yet.</p></div>';
             displaySection.appendChild(favoritesDiv);
         }
@@ -1517,6 +1473,8 @@ async function loadWatchLists() {
                 displaySection.innerHTML = '<p style="text-align: center">No watch lists found. Start by adding movies to your watchlist.</p>';
             }
             else {
+                displaySection.innerHTML = '';
+                displaySection.innerHTML += '<p style="text-align: center; margin-top: 20px; color: white"><strong>Your Watch Lists</strong></p>';
                 localWatchlists.sort((a, b) => (b.pinned === a.pinned) ? 0 : b.pinned ? 1 : -1);
                 for (const watchlist of localWatchlists) {
                     const watchlistDiv = await createWatchListDiv(watchlist);
@@ -1536,7 +1494,7 @@ async function loadWatchLists() {
             if (favorites.length > 0) {
                 const favoritesDiv = document.createElement('div');
                 favoritesDiv.className = 'watchlist';
-                favoritesDiv.id = 'favorites-watchlist';
+                favoritesDiv.id = 'favorite-movies';
 
                 const title = document.createElement('h3');
                 title.textContent = "Favorite Movies";
@@ -1563,7 +1521,7 @@ async function loadWatchLists() {
             else {
                 const favoritesDiv = document.createElement('div');
                 favoritesDiv.className = 'watchlist';
-                favoritesDiv.id = 'favorites-watchlist';
+                favoritesDiv.id = 'favorite-movies';
                 favoritesDiv.innerHTML = '<div style="text-align: center"><h3 style="text-align: center; font-size: 24px; color: #ff8623">Favorite Movies</h3><p style="text-align: center">No favorite movies added yet.</p></div>';
                 displaySection.appendChild(favoritesDiv);
             }
@@ -1571,7 +1529,7 @@ async function loadWatchLists() {
             if (favoritesTVSeries.length > 0) {
                 const favoritesDiv = document.createElement('div');
                 favoritesDiv.className = 'watchlist';
-                favoritesDiv.id = 'favorites-tvseries-watchlist';
+                favoritesDiv.id = 'favorite-tv-series';
 
                 const title = document.createElement('h3');
                 title.textContent = "Favorite TV Series";
@@ -1593,6 +1551,14 @@ async function loadWatchLists() {
                 }
 
                 favoritesDiv.appendChild(moviesContainer);
+                displaySection.appendChild(favoritesDiv);
+                hideSpinner();
+            }
+            else {
+                const favoritesDiv = document.createElement('div');
+                favoritesDiv.className = 'watchlist';
+                favoritesDiv.id = 'favorite-tv-series';
+                favoritesDiv.innerHTML = '<div style="text-align: center"><h3 style="text-align: center; font-size: 24px; color: #ff8623">Favorite TV Series</h3><p style="text-align: center">No favorite TV series added yet.</p></div>';
                 displaySection.appendChild(favoritesDiv);
                 hideSpinner();
             }
@@ -1625,24 +1591,60 @@ function createTVSeriesCard(movie) {
     const movieEl = document.createElement('div');
     movieEl.classList.add('movie');
     movieEl.style.cursor = 'pointer';
+    movieEl.style.zIndex = '1000';
+
+    let movieTitle = movie.name;
+    const words = movieTitle.split(' ');
+    if (words.length >= 9) {
+        words[8] = '...';
+        movieTitle = words.slice(0, 9).join(' ');
+    }
+
+    const ratingClass = movie.vote_count === 0 ? "unrated" : getClassByRate(movie.vote_average);
+    const voteAvg = movie.vote_count === 0 ? "Unrated" : movie.vote_average.toFixed(1);
+
+    let overview = movie.overview;
+    if (overview === "") {
+        overview = "No overview available.";
+    }
 
     movieEl.innerHTML = `
-                <img src="${IMGPATH + movie.poster_path}" alt="${movie.title}" style="cursor: pointer">
-                <div class="movie-info" style="cursor: pointer">
-                    <h3>${movie.name}</h3>
-                    <span class="${getClassByRate(movie.vote_average.toFixed(1))}">${movie.vote_average.toFixed(1)}</span>
+                <img src="${IMGPATH + movie.poster_path}" alt="${movie.name}" style="cursor: pointer">
+                <div class="movie-info" style="display: flex; justify-content: space-between; align-items: start; cursor: pointer;">
+                    <h3 style="text-align: left; margin-right: 10px; flex: 1;">${movieTitle}</h3>
+                    <span class="${ratingClass}" style="white-space: nowrap;">${voteAvg}</span>
                 </div>
-                <div class="overview">
-                    <h4>Movie Overview:</h4>
-                    ${movie.overview}
+                <div class="overview" style="cursor: pointer;">
+                    <h4>TV Series Overview: </h4>
+                    ${overview}
                 </div>`;
+
     movieEl.addEventListener('click', () => {
         localStorage.setItem('selectedTvSeriesId', movie.id);
+        updateMovieVisitCount(movie.id, movie.name);
+        updateUniqueMoviesViewed(movie.id);
+        updateFavoriteGenre(movie.genres_ids);
         window.location.href = 'tv-details.html';
-        updateMovieVisitCount(movie.id, movie.title);
     });
 
     return movieEl;
+}
+
+function updateFavoriteGenre(genre_ids) {
+    if (genre_ids && genre_ids.length > 0) {
+        const favoriteGenres = JSON.parse(localStorage.getItem('favoriteGenres')) || [];
+        favoriteGenres.push(genre_ids[0]);
+        localStorage.setItem('favoriteGenres', JSON.stringify(favoriteGenres));
+    }
+}
+
+function updateUniqueMoviesViewed(movieId) {
+    let viewedMovies = JSON.parse(localStorage.getItem('uniqueMoviesViewed')) || [];
+
+    if (!viewedMovies.includes(movieId)) {
+        viewedMovies.push(movieId);
+        localStorage.setItem('uniqueMoviesViewed', JSON.stringify(viewedMovies));
+    }
 }
 
 function showSpinner() {
@@ -1779,6 +1781,10 @@ function createWatchListDiv(watchlist) {
     const title = document.createElement('h3');
     title.textContent = watchlist.name;
     title.className = 'watchlist-title';
+    title.style.cursor = 'pointer';
+    title.addEventListener('click', () => {
+        watchlistDiv.scrollIntoView({ behavior: 'smooth' })
+    });
 
     const description = document.createElement('p');
     description.textContent = watchlist.description;

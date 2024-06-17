@@ -5,35 +5,24 @@ document.addEventListener('DOMContentLoaded', function() {
     const localTime = document.getElementById('local-time');
 
     function toggleVisibility() {
-        const query = searchBar.value.trim();
-        if (query) {
-            if (window.innerWidth > 800) {
-                myHeading.style.position = 'fixed';
-                myHeading.style.top = '28px';
-                localTime.style.display = 'none';
-                myHeading.style.zIndex = '0.05';
-                searchBar.style.marginTop = '16px';
-                searchButton.style.marginTop = '16px';
-            }
-        }
-        else {
-            myHeading.style.position = '';
-            myHeading.style.top = '';
-            myHeading.style.zIndex = '';
-            localTime.style.display = '';
-            searchBar.style.marginTop = '';
-            searchButton.style.marginTop = '';
+    const query = searchBar.value.trim();
+    if (query) {
+        if (window.innerWidth > 800) {
+        myHeading.style.visibility = 'hidden';
+        myHeading.style.opacity = '0';
+        localTime.style.visibility = 'hidden';
+        localTime.style.opacity = '0';
         }
     }
-
+    else {
+        myHeading.style.visibility = 'visible';
+        myHeading.style.opacity = '1';
+        localTime.style.visibility = 'visible';
+        localTime.style.opacity = '1';
+    }
+}
     searchBar.addEventListener('input', toggleVisibility);
     toggleVisibility();
-
-    const clearSearchBtn = document.getElementById('clear-search');
-    clearSearchBtn.addEventListener('click', function() {
-        searchBar.value = '';
-        toggleVisibility();
-    });
 });
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -41,6 +30,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const viewAllResultsBtn = document.getElementById('view-all-results');
     const clearSearchBtn = document.getElementById('clear-search');
     const searchResultsContainer = document.getElementById('search-results');
+    const myHeading = document.getElementById('my-heading');
+    const localTime = document.getElementById('local-time');
+    const searchButton = document.getElementById('button-search');
 
     function toggleButtons() {
         const query = searchInput.value.trim();
@@ -51,9 +43,13 @@ document.addEventListener('DOMContentLoaded', function() {
     clearSearchBtn.addEventListener('click', function() {
         searchInput.value = '';
         searchResultsContainer.innerHTML = '';
-        document.getElementById('local-time').style.display = '';
         toggleButtons();
         searchInput.focus();
+
+        myHeading.style.visibility = 'visible';
+        myHeading.style.opacity = '1';
+        localTime.style.visibility = 'visible';
+        localTime.style.opacity = '1';
     });
 
     toggleButtons();

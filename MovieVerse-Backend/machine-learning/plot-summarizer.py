@@ -1,4 +1,3 @@
-import torch
 import logging
 from transformers import BartTokenizer, BartForConditionalGeneration
 import streamlit as st
@@ -6,6 +5,7 @@ import streamlit as st
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
 
 class MoviePlotSummarizer:
     def __init__(self, model_name='facebook/bart-large-cnn'):
@@ -24,12 +24,15 @@ class MoviePlotSummarizer:
                 min_length //= 2
 
             # Tokenize and generate summary
-            inputs = self.tokenizer.encode("summarize: " + plot_text, return_tensors="pt", max_length=1024, truncation=True)
-            summary_ids = self.model.generate(inputs, max_length=max_length, min_length=min_length, length_penalty=2.0, num_beams=4, early_stopping=True)
+            inputs = self.tokenizer.encode("summarize: " + plot_text, return_tensors="pt", max_length=1024,
+                                           truncation=True)
+            summary_ids = self.model.generate(inputs, max_length=max_length, min_length=min_length, length_penalty=2.0,
+                                              num_beams=4, early_stopping=True)
             return self.tokenizer.decode(summary_ids[0], skip_special_tokens=True)
         except Exception as e:
             logger.error(f"Error in summarizing plot: {e}")
             return "Error in summarization process."
+
 
 # Streamlit UI
 def main():
@@ -49,17 +52,17 @@ def main():
 
     if st.button("About"):
         st.subheader("About")
-        st.write("This is a simple movie plot summarizer built using the HuggingFace Transformers library. It uses the BART model to generate the summaries.")
-        st.write("The model was trained on the CNN/Daily Mail dataset, which contains news articles and their summaries. The model was fine-tuned on the XSUM dataset, which contains summaries of BBC articles.")
-        st.write("The model was fine-tuned on the XSUM dataset, which contains summaries of BBC articles.")
-        st.write("The model was fine-tuned on the XSUM dataset, which contains summaries of BBC articles.")
-        st.write("The model was fine-tuned on the XSUM dataset, which contains summaries of BBC articles.")
-        st.write("The model was fine-tuned on the XSUM dataset, which contains summaries of BBC articles.")
-        st.write("The model was fine-tuned on the XSUM dataset, which contains summaries of BBC articles.")
-        st.write("The model was fine-tuned on the XSUM dataset, which contains summaries of BBC articles.")
-        st.write("The model was fine-tuned on the XSUM dataset, which contains summaries of BBC articles.")
-        st.write("The model was fine-tuned on the XSUM dataset, which contains summaries of BBC articles.")
-        st.write("The model was fine-tuned on the XSUM dataset, which contains summaries of BBC articles.")
+        st.write(
+            "This is a simple movie plot summarizer built using the HuggingFace Transformers library. It uses the "
+            "BART model to generate the summaries.")
+        st.write(
+            "The model was trained on the CNN/Daily Mail dataset, which contains news articles and their summaries. "
+            "The model was fine-tuned on the XSUM dataset, which contains summaries of BBC articles.")
+        st.write("You can adjust the length of the summary and the style of summarization (default, verbose, concise).")
+        st.write("The model may not always provide accurate summaries, especially for longer or complex plots.")
+        st.write("Feel free to experiment with different movie plots and summarization settings! Enjoy!")
+        st.write("Note: The model might take a few seconds to generate the summary, so please be patient.")
+
 
 if __name__ == "__main__":
     main()

@@ -1,4 +1,4 @@
-const { showMovies } = require('../../index.js');
+const { showMovies } = require('../../../../Downloads/The-MovieVerse-Database-ee3ec4ea5610d37178bc008fd505fd99c5f83070');
 const { screen } = require('@testing-library/dom');
 const { describe, it} = require("node:test");
 const expect = require("expect");

@@ -351,10 +351,14 @@
             </h1>
         </div>
 
-        <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
+        <div id="local-time" style="cursor: pointer; margin-left: 40px" title="Click to view more of your stats!">
             <p id="stats-label" class="clock" style="font-size: 16px;"></p>
             <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
         </div>
+
+        <button id="nav-toggle" class="nav-toggle notranslate" title="Toggle side navbar" onclick="toggleNav()" style="z-index: 1000000">
+            <i class="fas fa-bars"></i>
+        </button>
 
         <button class="back-btn notranslate" onclick="window.location.href='../../index.html'">Home</button>
         <button class="about notranslate" onclick="window.location.href='about.html'">About</button>
@@ -383,6 +387,26 @@
             </div>
         </form>
     </header>
+
+    <nav id="side-nav" class="side-nav" style="z-index: 1000000">
+        <a id="heading-href" style="cursor: pointer; text-decoration: none" href="../../index.html" title="Click to go back to the home page">
+            <div id="my-heading1" style="margin-bottom: 15px; margin-left: 0; margin-top: 15px; font-size: 2.1em; font-weight: bold;">
+                The Mo<span class="highlight2">vieV</span>erse Menu
+            </div>
+        </a>
+
+        <div id="button-container">
+            <button id="button-remove" title="Close the navbar" onclick="removeNavBar()">Close</button>
+        </div>
+
+        <ul id="watchlist-links" style="overflow-y: auto">
+            <li><a href="sign-in.html">Sign In</a></li>
+            <li><a href="user-profile.html">Profile</a></li>
+            <li><a href="analytics.html">MovieVerse Analytics</a></li>
+            <li><a href="feedback.html">Submit Feedback</a></li>
+            <li><a href="support.html">Contact Support</a></li>
+        </ul>
+    </nav>
 
     <div class="watchlist-buttons-container">
         <button id="create-watchlist-btn">Create Watch Lists</button>
@@ -448,7 +472,7 @@
         <p>Editing a watchlist allows you to modify its name, description, and contents. Select the watchlist to edit from the dropdown menu, make your changes, and save them to update your watchlist.</p>
         <p>For seamless access across devices, sign in to your MovieVerse account. This ensures your favorites and watchlists are stored in our database and can be accessed anytime, anywhere. Without signing in, your data is stored locally and will sync upon your next sign-in.</p>
         <p><em>Note: if you sign in for the first time without any previously signed-in account, any locally stored favorites and watchlists will be replaced by your account data. To avoid losing data, consider backing it up or noting it down before signing in.</em></p>
-        <p style="font-weight: bold; margin-top: 30px">Enjoy using MovieVerse Watchlists!</p>
+        <p style="font-weight: bold; margin-top: 30px">Enjoy using MovieVerse Watchlists! 🍿🎬</p>
     </div>
 
     <div id="ad-container1" style="text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px)" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
@@ -478,13 +502,14 @@
         (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
 
-    <button id="chat-button" onclick="window.location.href='chat.html'" style="bottom: 300px; right: 10px; z-index: 1001" title="Chat with fellow MovieVerse users!">Chat</button>
-    <button id="settings-btn" onclick="window.location.href='settings.html'" style="position: fixed; bottom: 265px; right: 10px; z-index: 10012">Settings</button>
+    <button id="chat-button" onclick="window.location.href='chat.html'" style="bottom: 335px; right: 10px; z-index: 1001" title="Chat with fellow MovieVerse users!">Chat</button>
+    <button id="settings-btn" onclick="window.location.href='settings.html'" style="position: fixed; bottom: 300px; right: 10px; z-index: 10012">Settings</button>
+    <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 265px; right: 10px; z-index: 10012">Surprise Me!</button>
     <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 230px; right: 10px; z-index: 10012">Movie Match</button>
     <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 195px; right: 10px; z-index: 10012">Movie Timeline</button>
-    <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 160px; right: 10px; z-index: 10012">Surprise Me!</button>
-    <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="bottom: 125px; right: 10px; z-index: 10012" title="Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
-    <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 90px; right: 10px; z-index: 10012" title="Test your movie knowledge">MovieVerse Trivia</button>
+    <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="bottom: 160px; right: 10px; z-index: 10012" title="Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
+    <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 125px; right: 10px; z-index: 10012" title="Test your movie knowledge">MovieVerse Trivia</button>
+    <button id="back-to-top-btn" title="Go to top" style="bottom: 90px; right: 10px; z-index: 10012" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">Back to Top</button>
 
     <script src="../js/movie-details.js"></script>
 
@@ -523,6 +548,10 @@
             <i class="fas fa-question-circle"></i>
             <span>Trivia</span>
         </a>
+        <a href="#" class="bottom-bar-item" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
+            <i class="fas fa-arrow-up"></i>
+            <span>Top</span>
+        </a>
     </div>
 
     <button id="menu-btn" style="position: fixed; bottom: 10px; right: 10px; z-index: 1001" title="Toggle Menu Buttons">
@@ -530,7 +559,168 @@
         <span>Menu</span>
     </button>
 
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js';
+        import { getFirestore, doc, setDoc, collection, updateDoc, getDocs, getDoc, query, where, orderBy, writeBatch, deleteDoc } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js';
+
+        let initialMoviesSelection = [];
+        let initialTVSeriesSelection = [];
+
+        function translateFBC(value) {
+            return atob(value);
+        }
+
+        function getFBConfig1() {
+            const fbConfig1 = "QUl6YVN5REw2a1FuU2ZVZDhVdDhIRnJwS3VpdnF6MXhkWG03aw==";
+            return translateFBC(fbConfig1);
+        }
+
+        function getFBConfig2() {
+            const fbConfig2 = "bW92aWV2ZXJzZS1hcHAuZmlyZWJhc2VhcHAuY29t";
+            return translateFBC(fbConfig2);
+        }
+
+        function getFBConfig3() {
+            const fbConfig3 = "bW92aWV2ZXJzZS1hcHAuYXBwc3BvdC5jb20=";
+            return translateFBC(fbConfig3);
+        }
+
+        function getFBConfig4() {
+            const fbConfig4 = "ODAyOTQzNzE4ODcx";
+            return translateFBC(fbConfig4);
+        }
+
+        function getFBConfig5() {
+            const fbConfig5 = "MTo4MDI5NDM3MTg4NzE6d2ViOjQ4YmM5MTZjYzk5ZTI3MjQyMTI3OTI=";
+            return translateFBC(fbConfig5);
+        }
+
+        const firebaseConfig = {
+            apiKey: getFBConfig1(),
+            authDomain: getFBConfig2(),
+            projectId: "movieverse-app",
+            storageBucket: getFBConfig3(),
+            messagingSenderId: getFBConfig4(),
+            appId: getFBConfig5()
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        async function loadNavWatchlistLinks() {
+            const navList = document.getElementById('watchlist-links');
+            const firstStaticItem = navList.querySelector('li');
+
+            try {
+                showSpinner();
+
+                const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
+                let watchlists = [];
+
+                if (currentUserEmail) {
+                    const q = query(collection(db, "watchlists"), where("userEmail", "==", currentUserEmail));
+                    const querySnapshot = await getDocs(q);
+                    watchlists = querySnapshot.docs.map(doc => ({ id: doc.id, name: doc.data().name }));
+                }
+                else {
+                    watchlists = JSON.parse(localStorage.getItem('localWatchlists')) || [];
+                }
+
+                watchlists.push({ name: "Favorite Movies", id: "favorites-watchlist" });
+                watchlists.push({ name: "Favorite TV Series", id: "favorites-tvseries-watchlist" });
+
+                navList.querySelectorAll('li.dynamic').forEach(li => li.remove());
+
+                let counter = 1;
+
+                watchlists.forEach(watchlist => {
+                    const listItem = document.createElement('li');
+                    listItem.className = 'dynamic';
+                    const link = document.createElement('a');
+                    link.href = `#${watchlist.name.replace(/\s+/g, '-').toLowerCase()}`;
+
+                    if (watchlist.name !== "Favorite Movies" && watchlist.name !== "Favorite TV Series") {
+                        link.textContent = `Watchlist ${counter}: ${watchlist.name}`;
+                        counter++;
+                    }
+                    else {
+                        link.textContent = watchlist.name;
+                    }
+
+                    listItem.appendChild(link);
+                    navList.insertBefore(listItem, firstStaticItem);
+                });
+
+                hideSpinner();
+                assignIdsToWatchlists();
+            }
+            catch (error) {
+                console.error('Error loading watchlists for navigation:', error);
+                hideSpinner();
+            }
+        }
+
+        function assignIdsToWatchlists() {
+            document.querySelectorAll('.watchlist').forEach(watchlist => {
+                const title = watchlist.querySelector('.watchlist-title').textContent.trim();
+                if (!watchlist.id) {
+                    watchlist.id = title.replace(/\s+/g, '-').toLowerCase();
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', loadNavWatchlistLinks);
+    </script>
+
     <script>
+        function toggleNav() {
+            const sideNav = document.getElementById('side-nav');
+            sideNav.classList.toggle('manual-toggle');
+            adjustNavBar();
+        }
+
+        function removeNavBar() {
+            const sideNav = document.getElementById('side-nav');
+            if (sideNav.classList.contains('manual-toggle')) {
+                sideNav.classList.remove('manual-toggle');
+            }
+
+            adjustNavBar();
+        }
+
+        function adjustNavBar() {
+            const sideNav = document.getElementById('side-nav');
+            if (sideNav.classList.contains('manual-toggle')) {
+                sideNav.style.left = '0px';
+            }
+            else {
+                sideNav.style.left = '-250px';
+            }
+        }
+
+        document.addEventListener('mousemove', function(event) {
+            const sideNav = document.getElementById('side-nav');
+            if (event.clientX < 10 && !sideNav.classList.contains('manual-toggle')) {
+                sideNav.style.left = '0';
+            }
+        });
+
+        document.getElementById('side-nav').addEventListener('mouseleave', function() {
+            const sideNav = document.getElementById('side-nav');
+            if (!sideNav.classList.contains('manual-toggle')) {
+                sideNav.style.left = '-250px';
+            }
+        });
+
+        document.addEventListener('click', function(event) {
+            const sideNav = document.getElementById('side-nav');
+            const navToggle = document.getElementById('nav-toggle');
+            if (!sideNav.contains(event.target) && !navToggle.contains(event.target) && sideNav.classList.contains('manual-toggle')) {
+                sideNav.classList.remove('manual-toggle');
+                adjustNavBar();
+            }
+        });
+
         function handleSignInOut() {
             const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
 
@@ -616,11 +806,12 @@
             const buttonIds = [
                 'chat-button',
                 'settings-btn',
+                'movie-of-the-day-btn',
                 'movie-match-btn3',
                 'movie-timeline-btn',
-                'movie-of-the-day-btn',
                 'discussions-btn',
                 'trivia-btn',
+                'back-to-top-btn'
             ];
 
             buttonIds.forEach((id, index) => {
@@ -650,11 +841,12 @@
                 const buttonIds = [
                     'chat-button',
                     'settings-btn',
+                    'movie-of-the-day-btn',
                     'movie-match-btn3',
                     'movie-timeline-btn',
-                    'movie-of-the-day-btn',
                     'discussions-btn',
                     'trivia-btn',
+                    'back-to-top-btn'
                 ];
 
                 buttonIds.forEach(id => {

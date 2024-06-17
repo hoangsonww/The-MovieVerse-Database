@@ -117,9 +117,7 @@
                 margin-right: 0;
             }
         }
-    </style>
 
-    <style>
         #translate_control {
             position: fixed;
             left: 10px;
@@ -277,7 +275,7 @@
             </a>
         </h1>
 
-        <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
+        <div id="local-time" style="cursor: pointer; margin-left: 40px" title="Click to view more of your stats!">
             <p id="stats-label" class="clock" style="font-size: 16px;"></p>
             <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
         </div>
@@ -316,7 +314,6 @@
 
     <div class="genres" id="genresDiv" style="margin-left: 25px; margin-top: 25px; display: none; height: 0">
         <h2 id="search-title"></h2>
-        <button id="clear-search-btn" style="display: none;">Clear Search Results</button>
     </div>
 
     <main id="main" style="margin-left: 35px; height: 0"></main>
@@ -335,7 +332,7 @@
                     ❤️
                 </button>
             </div>
-            <img id="movie-image" alt="Loading Movie Details..." style="width: 25vw; border-radius: 8px; z-index: 100002"/>
+            <img id="movie-image" alt="Loading Movie Details..." style="width: 25vw; border-radius: 8px; z-index: 100002">
             <h3>Your Rating:</h3>
             <div class="rating" title="Click on a star to rate this movie!">
                 <span class="star" data-value="1" title="Oops, sorry to hear that this movie is disappointing to you">&#9733;</span>
@@ -344,13 +341,7 @@
                 <span class="star" data-value="4" title="Good to know that this is a decent movie to watch">&#9733;</span>
                 <span class="star" data-value="5" title="Great to see that you're enjoying this movie! It'll be added to your favorites list">&#9733;</span>
             </div>
-            <span id="rating-value" style="margin-top: 10px"><strong>0.0/5.0</strong></span>
-        </div>
-
-        <!-- Right side for Description and Rating -->
-        <div class="movie-right" style="margin-top: -50px">
-            <p id="movie-description" class="movie-description"></p>
-            <h2 id="movie-rating" class="movie-rating"></h2>
+            <span id="rating-value" style="margin-top: 10px">0.0/5.0</span>
             <div id="comments-section">
                 <h3>Movie Comments</h3>
                 <div id="comments-container"></div>
@@ -361,7 +352,7 @@
                     <button id="next-page" title="Next Page"  disabled> &gt; </button>
                 </div>
                 <!-- Comment Modal -->
-                <div id="comment-modal" class="modal">
+                <div id="comment-modal" class="modal" style="z-index: 100005">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h3>Add a Comment for This Movie</h3>
@@ -380,9 +371,15 @@
                 </div>
             </div>
         </div>
+
+        <!-- Right side for Description and Rating -->
+        <div class="movie-right" style="position: relative; overflow: hidden">
+            <p id="movie-description" class="movie-description"></p>
+            <h2 id="movie-rating" class="movie-rating"></h2>
+        </div>
     </div>
 
-    <div id="ad-container" style="text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px); margin-top: 50px" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
+    <div id="ad-container" style="text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px); margin-top: -20px" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
         <p style="margin: 0;">Advertisement</p>
         <ins class="adsbygoogle"
              style="display: block; width: 100%;"
@@ -411,9 +408,9 @@
 
     <button id="chat-button" onclick="window.location.href='chat.html'" style="bottom: 300px; right: 10px; z-index: 1001" title="Chat with fellow MovieVerse users!">Chat</button>
     <button id="settings-btn" style="position: fixed; bottom: 265px; right: 10px">Settings</button>
-    <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 230px; right: 10px">Movie Match</button>
-    <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 195px; right: 10px">Movie Timeline</button>
-    <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 160px; right: 10px">Surprise Me!</button>
+    <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 230px; right: 10px">Surprise Me!</button>
+    <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 195px; right: 10px">Movie Match</button>
+    <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 160px; right: 10px">Movie Timeline</button>
     <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="bottom: 125px; right: 10px" title="Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
     <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 90px; right: 10px" title="Test your movie knowledge">MovieVerse Trivia</button>
 
@@ -868,9 +865,9 @@
             const buttonIds = [
                 'chat-button',
                 'settings-btn',
+                'movie-of-the-day-btn',
                 'movie-match-btn3',
                 'movie-timeline-btn',
-                'movie-of-the-day-btn',
                 'discussions-btn',
                 'trivia-btn',
             ];
@@ -902,9 +899,9 @@
                 const buttonIds = [
                     'chat-button',
                     'settings-btn',
+                    'movie-of-the-day-btn',
                     'movie-match-btn3',
                     'movie-timeline-btn',
-                    'movie-of-the-day-btn',
                     'discussions-btn',
                     'trivia-btn',
                 ];
@@ -949,14 +946,10 @@
     </script>
 
     <script>
-        let isTrailerOpen = false;
-
         document.getElementById('movie-image').addEventListener('click', function() {
-            document.getElementById('trailerButton').scrollIntoView({ behavior: 'smooth' });
-
-            const imageUrl = this.src;
-            const modalHtml = `<div id="image-modal" style="z-index: 10002; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
-                                <img src="${imageUrl}" style="max-width: 80%; max-height: 80%; border-radius: 10px;">
+            let imageUrl = this.src.replace('w780', 'original');
+            const modalHtml = `<div id="image-modal" style="z-index: 100020000; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
+                                <img src="${imageUrl}" style="max-width: 80%; max-height: 80%; border-radius: 10px;" alt="Movie Image" />
                                 <span style="position: absolute; top: 10px; right: 25px; font-size: 40px; cursor: pointer" id="removeBtn" onclick="document.getElementById('image-modal').remove();">&times;</span>
                             </div>`;
             document.body.insertAdjacentHTML('beforeend', modalHtml);
@@ -966,15 +959,6 @@
                     this.remove();
                 }
             });
-
-            if (!isTrailerOpen) {
-                document.getElementById('trailerButton').click();
-                isTrailerOpen = true;
-            }
-        });
-
-        document.getElementById('trailerButton').addEventListener('click', function() {
-            isTrailerOpen = !isTrailerOpen;
         });
     </script>
 

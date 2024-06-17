@@ -12,6 +12,8 @@ const movieCode = {
     part3: 'ZDllOTg3ZGNjN2YxYjU1OA=='
 };
 
+let currentIndex = sessionStorage.getItem('currentIndex') ? parseInt(sessionStorage.getItem('currentIndex')) : 0;
+
 function getMovieCode() {
     return atob(movieCode.part1) + atob(movieCode.part2) + atob(movieCode.part3);
 }
@@ -26,6 +28,7 @@ const form = document.getElementById("form1");
 const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
 const main = document.getElementById("main");
 const IMGPATH = "https://image.tmdb.org/t/p/w1280";
+const IMGPATH2 = "https://image.tmdb.org/t/p/w185";
 const searchTitle = document.getElementById("search-title");
 
 function handleSignInOut() {
@@ -60,7 +63,6 @@ function handleSearch() {
     window.location.href = 'search.html';
 }
 
-
 function updateSignInButtonState() {
     const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
 
@@ -82,6 +84,7 @@ function updateSignInButtonState() {
 
 document.addEventListener("DOMContentLoaded", function() {
     updateSignInButtonState();
+    currentIndex = 0;
     document.getElementById('googleSignInBtn').addEventListener('click', handleSignInOut);
 });
 
@@ -146,7 +149,6 @@ async function populateDirectorDetails(director, credits) {
         const noImageText = document.createElement('h2');
         noImageText.textContent = 'Image Not Available';
         noImageText.style.textAlign = 'center';
-        noImageText.style.height = '800px';
         document.querySelector('.director-left').appendChild(noImageText);
     }
 
@@ -179,21 +181,52 @@ async function populateDirectorDetails(director, credits) {
 
     const movieList = document.createElement('div');
     movieList.classList.add('movie-list');
+    movieList.style.display = 'flex';
+    movieList.style.flexWrap = 'wrap';
+    movieList.style.justifyContent = 'center';
+    movieList.style.gap = '5px';
 
-    const directedMovies = credits.crew.filter(movie => movie.job === "Director");
+    let directedMovies = credits.crew.filter(movie => movie.job === "Director");
+    directedMovies = directedMovies.sort((a, b) => b.popularity - a.popularity);
 
     directedMovies.forEach((movie, index) => {
-        const movieLink = document.createElement('span');
-        movieLink.textContent = movie.title;
+        const movieLink = document.createElement('a');
         movieLink.classList.add('movie-link');
-        movieLink.addEventListener('click', () => {
-            localStorage.setItem('selectedMovieId', movie.id);
-            window.location.href = 'movie-details.html';
-        });
+        movieLink.href = 'javascript:void(0);';
+        movieLink.setAttribute('onclick', `selectMovieId(${movie.id});`);
+
+        const movieItem = document.createElement('div');
+        movieItem.classList.add('movie-item');
+
+        const movieImage = document.createElement('img');
+        movieImage.classList.add('movie-image');
+
+        if (movie.poster_path) {
+            movieImage.src = IMGPATH2 + movie.poster_path;
+            movieImage.alt = `${movie.title} Poster`;
+        } else {
+            movieImage.alt = 'Image Not Available';
+            movieImage.src = 'https://movie-verse.com/images/movie-default.jpg';
+            movieImage.style.filter = 'grayscale(100%)';
+            movieImage.style.objectFit = 'cover';
+        }
+
+        movieItem.appendChild(movieImage);
+
+        const movieDetails = document.createElement('div');
+        movieDetails.classList.add('movie-details');
+
+        const movieTitle = document.createElement('p');
+        movieTitle.classList.add('movie-title');
+        movieTitle.textContent = movie.title;
+        movieDetails.appendChild(movieTitle);
+
+        movieItem.appendChild(movieDetails);
+        movieLink.appendChild(movieItem);
         movieList.appendChild(movieLink);
 
         if (index < directedMovies.length - 1) {
-            movieList.appendChild(document.createTextNode(', '));
+            movieList.appendChild(document.createTextNode(''));
         }
     });
 
@@ -240,6 +273,20 @@ async function populateDirectorDetails(director, credits) {
     detailsContainer.appendChild(mediaTitle);
     detailsContainer.appendChild(mediaContainer);
 
+    let imageWrapper = document.getElementById('image-wrapper');
+    if (!imageWrapper) {
+        imageWrapper = document.createElement('div');
+        imageWrapper.id = 'image-wrapper';
+        imageWrapper.style = `
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        `;
+        mediaContainer.appendChild(imageWrapper);
+    }
+
     let imageElement = document.getElementById('series-media-image');
     if (!imageElement) {
         imageElement = document.createElement('img');
@@ -252,27 +299,33 @@ async function populateDirectorDetails(director, credits) {
             border-radius: 16px;
             cursor: pointer;
         `;
-        mediaContainer.appendChild(imageElement);
-    }
-
-    if (images.length > 0) {
-        imageElement.src = `https://image.tmdb.org/t/p/w1280${images[0].file_path}`;
+        imageElement.loading = 'lazy';
+        imageWrapper.appendChild(imageElement);
     }
 
     if (images.length === 0) {
         mediaContainer.innerHTML = '<p>No media available</p>';
     }
 
-    imageElement.addEventListener('click', function() {
+    if (images.length > 0) {
+        imageElement.src = `https://image.tmdb.org/t/p/w780${images[0].file_path}`;
+    }
+
+    imageElement.addEventListener('click', function () {
         const imageUrl = this.src;
+
         const modalHtml = `
-        <div id="image-modal" style="z-index: 100022222; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
-            <img src="${imageUrl}" style="max-width: 80%; max-height: 80%; border-radius: 10px; cursor: default;" onclick="event.stopPropagation();">
-            <span style="position: absolute; top: 10px; right: 25px; font-size: 40px; cursor: pointer" id="removeBtn">&times;</span>
-        </div>
-    `;
+            <div id="image-modal" style="z-index: 100022222; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
+                <button id="prevModalButton" style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); background-color: #7378c5; color: white; border-radius: 8px; height: 30px; width: 30px; border: none; cursor: pointer; z-index: 11;"><i class="fas fa-arrow-left"></i></button>
+                <img src="${imageUrl}" style="max-width: 80%; max-height: 80%; border-radius: 10px; cursor: default; transition: opacity 0.5s ease-in-out;" onclick="event.stopPropagation();" alt="Media Image"/>
+                <button id="nextModalButton" style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); background-color: #7378c5; color: white; border-radius: 8px; height: 30px; width: 30px; border: none; cursor: pointer; z-index: 11;"><i class="fas fa-arrow-right"></i></button>
+                <span style="position: absolute; top: 10px; right: 25px; font-size: 40px; cursor: pointer" id="removeBtn">&times;</span>
+            </div>
+        `;
         document.body.insertAdjacentHTML('beforeend', modalHtml);
+
         const modal = document.getElementById('image-modal');
+        const modalImage = modal.querySelector('img');
         const closeModalBtn = document.getElementById('removeBtn');
 
         closeModalBtn.onclick = function() {
@@ -284,7 +337,33 @@ async function populateDirectorDetails(director, credits) {
                 this.remove();
             }
         });
+
+        const prevModalButton = document.getElementById('prevModalButton');
+        prevModalButton.onmouseover = () => prevModalButton.style.backgroundColor = '#ff8623';
+        prevModalButton.onmouseout = () => prevModalButton.style.backgroundColor = '#7378c5';
+        prevModalButton.onclick = () => navigateMediaAndModal(images, imageElement, modalImage, -1);
+
+        const nextModalButton = document.getElementById('nextModalButton');
+        nextModalButton.onmouseover = () => nextModalButton.style.backgroundColor = '#ff8623';
+        nextModalButton.onmouseout = () => nextModalButton.style.backgroundColor = '#7378c5';
+        nextModalButton.onclick = () => navigateMediaAndModal(images, imageElement, modalImage, 1);
     });
+
+    function navigateMediaAndModal(images, imgElement1, imgElement2, direction) {
+        imgElement1.style.opacity = '0';
+        imgElement2.style.opacity = '0';
+        currentIndex = (currentIndex + direction + images.length) % images.length;
+
+        setTimeout(() => {
+            imgElement1.src = `https://image.tmdb.org/t/p/w780${images[currentIndex].file_path}`;
+            imgElement2.src = `https://image.tmdb.org/t/p/w1280${images[currentIndex].file_path}`;
+            imgElement1.style.opacity = '1';
+            imgElement2.style.opacity = '1';
+        }, 500);
+
+        sessionStorage.setItem('currentIndex', currentIndex);
+        updateDots(currentIndex);
+    }
 
     let prevButton = document.getElementById('prev-media-button');
     let nextButton = document.getElementById('next-media-button');
@@ -316,27 +395,74 @@ async function populateDirectorDetails(director, credits) {
         prevButton.style.left = '0';
         nextButton.style.right = '0';
 
-        mediaContainer.appendChild(prevButton);
-        mediaContainer.appendChild(nextButton);
+        imageWrapper.appendChild(prevButton);
+        imageWrapper.appendChild(nextButton);
     }
 
-    let currentIndex = 0;
     prevButton.onclick = () => navigateMedia(images, imageElement, -1);
     nextButton.onclick = () => navigateMedia(images, imageElement, 1);
 
     function navigateMedia(images, imgElement, direction) {
-        currentIndex += direction;
-        if (currentIndex < 0) {
-            currentIndex = images.length - 1;
-        }
-        else if (currentIndex >= images.length) {
-            currentIndex = 0;
-        }
         imgElement.style.opacity = '0';
+        currentIndex = (currentIndex + direction + images.length) % images.length;
         setTimeout(() => {
-            imgElement.src = `https://image.tmdb.org/t/p/w1280${images[currentIndex].file_path}`;
+            imgElement.src = `https://image.tmdb.org/t/p/w780${images[currentIndex].file_path}`;
             imgElement.style.opacity = '1';
-        }, 420);
+        }, 500);
+
+        sessionStorage.setItem('currentIndex', currentIndex);
+        updateDots(currentIndex);
+    }
+
+    const indicatorContainer = document.createElement('div');
+    indicatorContainer.style = `
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 15px;
+    `;
+
+    const maxDotsPerLine = 10;
+    let currentLine = document.createElement('div');
+    currentLine.style.display = 'flex';
+
+    images.forEach((_, index) => {
+        const dot = document.createElement('div');
+        dot.className = 'indicator';
+        dot.style = `
+            width: 8px;
+            height: 8px;
+            margin: 0 5px;
+            background-color: ${index === currentIndex ? '#ff8623' : '#bbb'}; 
+            border-radius: 50%;
+            cursor: pointer;
+            margin-bottom: 5px;
+        `;
+        dot.addEventListener('click', () => {
+            navigateMedia(images, imageElement, index - currentIndex);
+            updateDots(index);
+        });
+
+        currentLine.appendChild(dot);
+
+        if ((index + 1) % maxDotsPerLine === 0 && index !== images.length - 1) {
+            indicatorContainer.appendChild(currentLine);
+            currentLine = document.createElement('div');
+            currentLine.style.display = 'flex';
+        }
+    });
+
+    if (currentLine.children.length > 0) {
+        indicatorContainer.appendChild(currentLine);
+    }
+
+    mediaContainer.appendChild(indicatorContainer);
+
+    function updateDots(newIndex) {
+        const dots = document.querySelectorAll('.indicator');
+        dots.forEach((dot, index) => {
+            dot.style.backgroundColor = index === newIndex ? '#ff8623' : '#bbb';
+        });
     }
 
     if (window.innerWidth <= 767) {
@@ -358,6 +484,11 @@ async function ensureGenreMapIsAvailable() {
     if (!localStorage.getItem('genreMap')) {
         await fetchGenreMap();
     }
+}
+
+function selectMovieId(movieId) {
+    localStorage.setItem('selectedMovieId', movieId);
+    window.location.href = 'movie-details.html';
 }
 
 async function fetchGenreMap() {
@@ -482,6 +613,7 @@ async function rotateUserStats() {
         clearInterval(statRotationInterval);
         updateStatDisplay();
         statRotationInterval = setInterval(updateStatDisplay, 3000);
+        localTimeDiv.scrollIntoView({ behavior: 'smooth' });
     });
 }
 

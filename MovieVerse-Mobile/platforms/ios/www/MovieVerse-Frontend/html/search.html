@@ -86,6 +86,10 @@
                 background-position: top center;
             }
         }
+
+        #ad-container {
+            display: block !important;
+        }
     </style>
     <style>
         #translate_control {
@@ -213,7 +217,7 @@
                 The Mo<span class="highlight" id="highlight">vieV</span>erse
             </a>
         </h1>
-        <div id="local-time" style="cursor: pointer" title="Click to view more of your stats!">
+        <div id="local-time" style="cursor: pointer; margin-left: 40px" title="Click to view more of your stats!">
             <p id="stats-label" class="clock" style="font-size: 16px;"></p>
             <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
         </div>
@@ -255,9 +259,9 @@
             <button data-category="person" onclick="showResults('person')">People</button>
         </div>
 
-        <button id="toggle-filters-btn">Filter Results</button>
+        <button id="toggle-filters-btn">Filter & Sort Results</button>
 
-        <!-- Filters for Movies and TV Series -->
+        <!-- Filters for Movies -->
         <div id="movie-tv-filters" style="display: none;">
             <p style="font-weight: bold">Filters Search Results</p>
             <label for="genre-filter">Genre:</label>
@@ -275,10 +279,23 @@
             <input type="number" id="year-filter" placeholder="Year of Publishing" style="color: white" min="1900" max="2024" />
 
             <label style="vertical-align: center" for="rating-filter">Rating:</label>
-            <input type="range" id="rating-filter" min="0" max="10" step="0.1" value="5" title="Rating" />
+            <input type="range" id="rating-filter" min="0" max="10" step="0.1" value="0" title="Rating" />
             <span id="rating-value" style="color: white; font: inherit"></span>
 
             <button id="reset-filters">Reset Filters</button>
+
+            <div style="border-top: 1px solid white; margin-top: 20px; padding-top: 10px"></div>
+
+            <label for="sort-movie"><strong>Sort by:</strong></label>
+            <select id="sort-movie" style="max-width: 300px">
+                <option value="">Default</option>
+                <option value="release_date.asc">Sort by release date (oldest to latest)</option>
+                <option value="release_date.desc">Sort by release date (latest to oldest)</option>
+                <option value="popularity.desc">Sort by popularity (highest to lowest)</option>
+                <option value="popularity.asc">Sort by popularity (lowest to highest)</option>
+                <option value="vote_average.desc">Sort by vote average (highest to lowest)</option>
+                <option value="vote_average.asc">Sort by vote average (lowest to highest)</option>
+            </select>
         </div>
 
         <!-- Filters for TV Series -->
@@ -299,10 +316,23 @@
             <input type="number" id="year-tv-filter" placeholder="Year of Publishing" style="color: white" min="1900" max="2024" />
 
             <label style="vertical-align: center" for="rating-tv-filter">Rating:</label>
-            <input type="range" id="rating-tv-filter" min="0" max="10" step="0.1" value="5" title="Rating" />
+            <input type="range" id="rating-tv-filter" min="0" max="10" step="0.1" value="0" title="Rating" />
             <span id="rating-tv-value" style="color: white; font: inherit"></span>
 
             <button id="reset-filters">Reset Filters</button>
+
+            <div style="border-top: 1px solid white; margin-top: 20px; padding-top: 10px"></div>
+
+            <label for="sort-tv"><strong>Sort by:</strong></label>
+            <select id="sort-tv" style="max-width: 300px">
+                <option value="">Default</option>
+                <option value="first_air_date.asc">Sort by release date (oldest to latest)</option>
+                <option value="first_air_date.desc">Sort by release date (latest to oldest)</option>
+                <option value="popularity.desc">Sort by popularity (highest to lowest)</option>
+                <option value="popularity.asc">Sort by popularity (lowest to highest)</option>
+                <option value="vote_average.desc">Sort by vote average (highest to lowest)</option>
+                <option value="vote_average.asc">Sort by vote average (lowest to highest)</option>
+            </select>
         </div>
 
         <!-- Filters for People -->
@@ -324,10 +354,19 @@
             </select>
 
             <label for="popularity-filter">Popularity Score:</label>
-            <input type="range" id="popularity-filter" min="0" max="100" step="1" value="20" title="Popularity" />
+            <input type="range" id="popularity-filter" min="0" max="100" step="1" value="5" title="Popularity" />
 
             <span id="popularity-value" style="color: white; font: inherit"></span>
             <button id="reset-filters">Reset Filters</button>
+
+            <div style="border-top: 1px solid white; margin-top: 20px; padding-top: 10px"></div>
+
+            <label for="sort-people"><strong>Sort by:</strong></label>
+            <select id="sort-people" style="max-width: 300px">
+                <option value="">Default</option>
+                <option value="popularity.asc">Sort by popularity (lowest to highest)</option>
+                <option value="popularity.desc">Sort by popularity (highest to lowest)</option>
+            </select>
         </div>
 
         <div id="movie-match-container1" class="movie-match-container1">
@@ -362,13 +401,60 @@
         (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
 
-    <button id="chat-button" onclick="window.location.href='chat.html'" style="bottom: 300px; right: 10px; z-index: 1001" title="Chat with fellow MovieVerse users!">Chat</button>
-    <button id="settings-btn" onclick="window.location.href='settings.html'" style="position: fixed; bottom: 265px; right: 10px; z-index: 10012">Settings</button>
+    <button id="chat-button" onclick="window.location.href='chat.html'" style="bottom: 335px; right: 10px; z-index: 1001" title="Chat with fellow MovieVerse users!">Chat</button>
+    <button id="settings-btn" onclick="window.location.href='settings.html'" style="position: fixed; bottom: 300px; right: 10px; z-index: 10012">Settings</button>
+    <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 265px; right: 10px; z-index: 10012">Surprise Me!</button>
     <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 230px; right: 10px; z-index: 10012">Movie Match</button>
     <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 195px; right: 10px; z-index: 10012">Movie Timeline</button>
-    <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 160px; right: 10px; z-index: 10012">Surprise Me!</button>
-    <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="bottom: 125px; right: 10px; z-index: 10012" title="Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
-    <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 90px; right: 10px; z-index: 10012" title="Test your movie knowledge">MovieVerse Trivia</button>
+    <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="bottom: 160px; right: 10px; z-index: 10012" title="Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
+    <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 125px; right: 10px; z-index: 10012" title="Test your movie knowledge">MovieVerse Trivia</button>
+    <button id="back-to-top-btn" style="bottom: 90px; right: 10px; z-index: 10012" title="Back to top">Back to Top</button>
+
+    <footer>
+        <a href="../../index.html" style="cursor: pointer; text-decoration: none">
+            <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
+        </a>
+    </footer>
+
+    <div id="mobile-bottom-bar" class="mobile-bottom-bar">
+        <a href="chat.html" class="bottom-bar-item">
+            <i class="fas fa-comments"></i>
+            <span>Chat</span>
+        </a>
+        <a href="settings.html" class="bottom-bar-item">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+        </a>
+        <a href="#" class="bottom-bar-item" onclick="showMovieOfTheDay()">
+            <i class="fas fa-surprise"></i>
+            <span>Surprise Me</span>
+        </a>
+        <a href="movie-match.html" class="bottom-bar-item">
+            <i class="fas fa-film"></i>
+            <span>Match</span>
+        </a>
+        <a href="movie-timeline.html" class="bottom-bar-item">
+            <i class="fas fa-clock"></i>
+            <span>Timeline</span>
+        </a>
+        <a href="chatbot.html" class="bottom-bar-item">
+            <i class="fas fa-robot"></i>
+            <span>Chatbot</span>
+        </a>
+        <a href="trivia.html" class="bottom-bar-item">
+            <i class="fas fa-question-circle"></i>
+            <span>Trivia</span>
+        </a>
+        <a href="#" class="bottom-bar-item">
+            <i class="fas fa-arrow-up"></i>
+            <span>Top</span>
+        </a>
+    </div>
+
+    <button id="menu-btn" style="position: fixed; bottom: 10px; right: 10px; z-index: 10012" title="Toggle Menu Buttons">
+        <i class="fas fa-ellipsis-h"></i><br>
+        <span>Menu</span>
+    </button>
 
     <script>
         function handleSignInOut() {
@@ -787,48 +873,6 @@
         });
     </script>
 
-    <footer>
-        <a href="../../index.html" style="cursor: pointer; text-decoration: none">
-            <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
-        </a>
-    </footer>
-
-    <div id="mobile-bottom-bar" class="mobile-bottom-bar">
-        <a href="chat.html" class="bottom-bar-item">
-            <i class="fas fa-comments"></i>
-            <span>Chat</span>
-        </a>
-        <a href="settings.html" class="bottom-bar-item">
-            <i class="fas fa-cog"></i>
-            <span>Settings</span>
-        </a>
-        <a href="#" class="bottom-bar-item" onclick="showMovieOfTheDay()">
-            <i class="fas fa-surprise"></i>
-            <span>Surprise Me</span>
-        </a>
-        <a href="movie-match.html" class="bottom-bar-item">
-            <i class="fas fa-film"></i>
-            <span>Match</span>
-        </a>
-        <a href="movie-timeline.html" class="bottom-bar-item">
-            <i class="fas fa-clock"></i>
-            <span>Timeline</span>
-        </a>
-        <a href="chatbot.html" class="bottom-bar-item">
-            <i class="fas fa-robot"></i>
-            <span>Chatbot</span>
-        </a>
-        <a href="trivia.html" class="bottom-bar-item">
-            <i class="fas fa-question-circle"></i>
-            <span>Movie Trivia</span>
-        </a>
-    </div>
-
-    <button id="menu-btn" style="position: fixed; bottom: 10px; right: 10px; z-index: 10012" title="Toggle Menu Buttons">
-        <i class="fas fa-ellipsis-h"></i><br>
-        <span>Menu</span>
-    </button>
-
     <script>
         window.addEventListener('load', function() {
             adjustAnchorHeights();
@@ -876,11 +920,12 @@
             const buttonIds = [
                 'chat-button',
                 'settings-btn',
+                'movie-of-the-day-btn',
                 'movie-match-btn3',
                 'movie-timeline-btn',
-                'movie-of-the-day-btn',
                 'discussions-btn',
                 'trivia-btn',
+                'back-to-top-btn'
             ];
 
             buttonIds.forEach((id, index) => {
@@ -910,11 +955,12 @@
                 const buttonIds = [
                     'chat-button',
                     'settings-btn',
+                    'movie-of-the-day-btn',
                     'movie-match-btn3',
                     'movie-timeline-btn',
-                    'movie-of-the-day-btn',
                     'discussions-btn',
                     'trivia-btn',
+                    'back-to-top-btn'
                 ];
 
                 buttonIds.forEach(id => {
@@ -926,6 +972,5 @@
             }
         });
     </script>
-
 </body>
 </html>

@@ -22,7 +22,6 @@ document.getElementById('end-year').addEventListener('keydown', function(event) 
     }
 });
 
-
 const movieCode = {
     part1: 'YzVhMjBjODY=',
     part2: 'MWFjZjdiYjg=',
@@ -172,6 +171,7 @@ async function rotateUserStats() {
         clearInterval(statRotationInterval);
         updateStatDisplay();
         statRotationInterval = setInterval(updateStatDisplay, 3000);
+        localTimeDiv.scrollIntoView({ behavior: 'smooth' });
     });
 }
 
@@ -331,8 +331,29 @@ function updateMovies() {
     }
 }
 
-function showMovies(movies, mainElement) {
-    mainElement.innerHTML = '';
+function showMovies(movies, mainElement, startYear, endYear, append) {
+    showSpinner();
+
+    if (!append) {
+        mainElement.innerHTML = '';
+        const header = document.createElement('h2');
+        header.style.textAlign = "center";
+        header.style.marginTop = "20px";
+        header.style.marginBottom = "20px";
+        header.style.color = "#ff8623";
+        header.style.fontSize = '23px';
+        if (startYear === endYear) {
+            header.textContent = `Movies released in ${startYear}`;
+        }
+        else {
+            header.textContent = `Movies released between ${startYear} and ${endYear}`;
+        }
+        const centerContainer1 = document.getElementById('center-container1');
+        centerContainer1.innerHTML = '';
+        centerContainer1.appendChild(header);
+        centerContainer1.appendChild(mainElement);
+    }
+
     movies.forEach(movie => {
         const movieEl = document.createElement('div');
         movieEl.classList.add('movie');
@@ -341,15 +362,25 @@ function showMovies(movies, mainElement) {
             : `<div class="no-image" style="margin-top: 20px; margin-bottom: 20px">Image Not Available</div>`;
         const voteAvg = movie.vote_average.toFixed(1);
         const ratingClass = getClassByRate(movie.vote_average);
+        let title = movie.title;
+        const words = title.split(' ');
+        if (words.length >= 9) {
+            words[8] = '...';
+            title = words.slice(0, 9).join(' ');
+        }
+        let overview = movie.overview;
+        if (overview === '') {
+            overview = 'No overview available.';
+        }
         movieEl.innerHTML = `
             ${movieImage}
             <div class="movie-info" style="display: flex; justify-content: space-between; align-items: start; cursor: pointer;">
-                <h3 style="text-align: left; margin-right: 5px; flex: 1;">${movie.title}</h3>
+                <h3 style="text-align: left; margin-right: 10px; flex: 1;">${title}</h3>
                 <span class="${ratingClass}" style="white-space: nowrap;">${voteAvg}</span>
             </div>
             <div class="overview" style="cursor: pointer;">
                 <h4>Overview: </h4>
-                ${movie.overview}
+                ${overview}
             </div>`;
         movieEl.addEventListener('click', () => {
             localStorage.setItem('selectedMovieId', movie.id);
@@ -359,19 +390,54 @@ function showMovies(movies, mainElement) {
         movieEl.style.cursor = 'pointer';
         mainElement.appendChild(movieEl);
     });
+    const centerContainer1 = document.getElementById('center-container1');
+    centerContainer1.appendChild(mainElement);
+
+    createLoadMoreButton(startYear, endYear, mainElement);
+    hideSpinner();
 }
 
-document.getElementById('clear-search-btn').addEventListener('click', () => {
-    location.reload();
-});
+function createLoadMoreButton(startYear, endYear, mainElement) {
+    const existingButtonDiv = mainElement.querySelector('.load-more-container');
+    if (existingButtonDiv) {
+        mainElement.removeChild(existingButtonDiv);
+    }
 
-async function fetchMoviesByTimePeriod(startYear, endYear) {
-    const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&primary_release_date.gte=${startYear}-01-01&primary_release_date.lte=${endYear}-12-31`;
+    const buttonContainer = document.createElement('div');
+    buttonContainer.className = 'load-more-container';
+    buttonContainer.style.width = '100%';
+    buttonContainer.style.textAlign = 'center';
+    buttonContainer.style.marginTop = '20px';
+
+    const moreButton = document.createElement('button');
+    moreButton.textContent = "Get More Movies in this Period";
+    moreButton.style.margin = '10px auto';
+
+    moreButton.addEventListener('click', function() {
+        currentPage++;
+        fetchMoviesByTimePeriod(startYear, endYear, true);
+    });
+
+    buttonContainer.appendChild(moreButton);
+    mainElement.appendChild(buttonContainer);
+}
+
+let currentPage = 1;
+
+async function fetchMoviesByTimePeriod(startYear, endYear, append = false) {
+    showSpinner();
+    const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&primary_release_date.gte=${startYear}-01-01&primary_release_date.lte=${endYear}-12-31&page=${currentPage}`;
     const response = await fetch(url);
     const data = await response.json();
-    const numberOfMovies = calculateMoviesToDisplay();
-    const moviesToShow = data.results.slice(0, numberOfMovies);
-    showMovies(moviesToShow, document.getElementById('results'));
+    const moviesToShow = data.results;
+
+    if (append) {
+        showMovies(moviesToShow, document.getElementById('results'), startYear, endYear, true);
+    }
+    else {
+        showMovies(moviesToShow, document.getElementById('results'), startYear, endYear, false);
+    }
+    hideSpinner();
 }
 
 document.getElementById('load-movies').addEventListener('click', () => {
