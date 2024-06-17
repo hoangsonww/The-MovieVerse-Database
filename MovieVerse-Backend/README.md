@@ -209,6 +209,8 @@ MovieVerse currently uses MongoDB, Redis, and MySQL as its primary databases. To
     ```bash
     [x] Received Hello from RabbitMQ
     ```
+   
+Note that these servers are for your local development environment only. For our production environment, our databases might look different (in fact, they do!).
 
 #### Machine Learning Services
 
