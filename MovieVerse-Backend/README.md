@@ -42,20 +42,15 @@ The microservices architecture of MovieVerse is designed to segregate the applic
 ### Installation
 
 1. Clone the repository: `git clone https://github.com/hoangsonww/The-MovieVerse-Database.git`
-2. Navigate to the repository: `cd backend_microservices`
+2. Navigate to the repository: `cd MovieVerse-Backend`
 3. Follow the specific installation instructions for each service below.
-
-### Configuration
-
-- Execute `setupMicroservices.sh` to configure the environment for all services.
-- Each service has detailed configuration instructions to tailor the environment to your needs.
 
 ### Running the Services
 
 To run a specific service:
 
 1. Navigate to the service directory: `cd service_name`
-2. Install dependencies: `npm install` (For Django-based services like the Crawler Service, use `pip install -r requirements.txt`)
+2. Install dependencies: `npm install` (For Django-based services like the Crawler Service or `backend_django`, use `pip install -r requirements.txt`)
 3. Start the service: `npm start` (For Django-based services, use `python manage.py runserver`)
 
 For the Crawler Service, additional steps might include setting up Celery workers and scheduling periodic tasks:
