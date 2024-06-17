@@ -44,7 +44,6 @@ The microservices architecture of MovieVerse is designed to segregate the applic
 - Express.js
 - MongoDB
 - MySQL
-- PostgreSQL
 - Flask
 - Django
 - Flake8 for Python linting
