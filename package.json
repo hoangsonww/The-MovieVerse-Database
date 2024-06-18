@@ -6,10 +6,10 @@
   "main": "index.js",
   "scripts": {
     "install-deps": "npm install",
-    "start": "http-server dist -o",
+    "start": "http-server -o",
     "build": "npm run start",
-    "test": "ECHO \"No tests specified yet\"",
-    "serve": "http-server dist -o",
+    "test": "http-server -o",
+    "serve": "http-server -o",
     "dev:android": "cd MovieVerse-Mobile cordova run android",
     "dev:ios": "cd MovieVerse-Mobile cordova run ios",
     "build:android": "cd MovieVerse-Mobile cordova build android",
