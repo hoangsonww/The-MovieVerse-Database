@@ -12,7 +12,8 @@
     - [Crawler Service](#crawler-service)
     - [Flask Service](#flask-service)
     - [Django Service](#django-service)
-    - [Machine Learning Service](#machine-learning-service)
+    - [Database Services](#database-services)
+    - [Machine Learning Services](#machine-learning-services)
 - [Contributing](#contributing)
 - [License](#license)
 
