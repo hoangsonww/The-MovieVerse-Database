@@ -71,6 +71,7 @@ pip install -r requirements.txt
    ```bash
    cd mobile-backend
    ```
+   
 3. Create a Virtual Environment (optional but recommended):
     ```bash
     python3 -m venv venv
@@ -86,6 +87,7 @@ pip install -r requirements.txt
     ```bash
     cd crawler
     ```
+   
 2. Run the Crawler Service:
     ```bash
     python main.py
