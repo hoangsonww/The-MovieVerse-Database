@@ -221,6 +221,8 @@ MovieVerse currently uses MongoDB, Redis, PostgreSQL, and MySQL as its primary d
     Connected to MongoDB
     ```
    
+    This output confirms that you have successfully connected to all the databases required for the backend services of MovieVerse. Now you can start developing and testing the services!
+   
 4. Test the RabbitMQ functionality by sending a message to the queue:
 
     ```bash
@@ -233,7 +235,7 @@ MovieVerse currently uses MongoDB, Redis, PostgreSQL, and MySQL as its primary d
     [x] Received Hello from RabbitMQ
     ```
    
-Note that these servers are for your local development environment only, in order for you to see how our backend services interact with each other.
+**Disclaimer**: These servers are for your local development environment only, in order for you to see how our backend services interact with each other.
 
 In our production environment, we use cloud-based services like AWS, Azure, and Google Cloud to host our databases and services. This thus will look different from what you might see on your end.
 
