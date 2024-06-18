@@ -26,7 +26,7 @@ mysqlConnection.connect((err) => {
 });
 
 const mongoURIs = [
-    { uri: config.MONGO_URI1, name: "MovieVerse" },  // Add database names here
+    { uri: config.MONGO_URI1, name: "MovieVerse" },
     { uri: config.MONGO_URI2, name: "MovieVerse_movies" },
     { uri: config.MONGO_URI3, name: "MovieVerse_users" },
     { uri: config.MONGO_URI4, name: "MovieVerse_reviews" },
@@ -34,16 +34,13 @@ const mongoURIs = [
     { uri: config.MONGO_URI6, name: "MovieVerse_genres" }
 ];
 
-// Connect to each MongoDB URI
-mongoURIs.forEach(async ({ uri, name }, index) => { // Destructure uri and name
+// Connect to each MongoDB database
+mongoURIs.forEach(async ({ uri, name }, index) => {
     try {
-        await mongoose.createConnection(uri, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
-        });
-        console.log(`Connected to MongoDB database ${index + 1}: ${name}`); // Log the name
+        await mongoose.createConnection(uri, { });
+        console.log(`Connected to MongoDB database ${index + 1}: ${name}`);
     } catch (err) {
-        console.error(`MongoDB Connection Error ${index + 1} (${name}):`, err); // Log the name in the error too
+        console.error(`MongoDB Connection Error ${index + 1} (${name}):`, err);
     }
 });
 
