@@ -56,6 +56,7 @@ const pgPool = new Pool({
     port: config.POSTGRES_PORT,
 });
 
+// Connect to PostgreSQL
 pgPool.on('connect', () => {
     console.log('Connected to PostgreSQL');
 });
