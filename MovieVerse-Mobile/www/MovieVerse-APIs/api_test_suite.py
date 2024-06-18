@@ -4,6 +4,7 @@ import requests
 BASE_URL = "http://localhost:8000"
 AUTH_TOKEN = "123xyz"
 
+
 # Helper Functions
 def get_headers(auth=False, json_content=True):
     headers = {}
@@ -13,11 +14,13 @@ def get_headers(auth=False, json_content=True):
         headers["Content-Type"] = "application/json"
     return headers
 
+
 def login():
     url = f"{BASE_URL}/api/auth/login/"
     data = {"username": "user", "password": "password"}
     response = requests.post(url, json=data, headers=get_headers())
     return response.json().get("token")
+
 
 # Test Cases
 def test_list_movies():
@@ -26,16 +29,19 @@ def test_list_movies():
     assert response.status_code == 200
     print("Test List Movies: Passed")
 
+
 def test_get_movie_details():
     url = f"{BASE_URL}/api/movies/1/"
     response = requests.get(url, headers=get_headers())
     assert response.status_code == 200
     print("Test Get Movie Details: Passed")
 
+
 def test_user_login():
     token = login()
     assert token is not None
     print("Test User Login: Passed")
+
 
 def test_user_registration():
     url = f"{BASE_URL}/api/auth/register/"
@@ -48,6 +54,7 @@ def test_user_registration():
     assert response.status_code == 201
     print("Test User Registration: Passed")
 
+
 def test_add_movie_review():
     url = f"{BASE_URL}/api/reviews/"
     data = {
@@ -59,6 +66,7 @@ def test_add_movie_review():
     assert response.status_code == 201
     print("Test Add Movie Review: Passed")
 
+
 def test_update_movie_review():
     url = f"{BASE_URL}/api/reviews/1/"
     data = {
@@ -69,11 +77,13 @@ def test_update_movie_review():
     assert response.status_code == 200
     print("Test Update Movie Review: Passed")
 
+
 def test_delete_movie_review():
     url = f"{BASE_URL}/api/reviews/1/"
     response = requests.delete(url, headers=get_headers(auth=True))
     assert response.status_code == 204
     print("Test Delete Movie Review: Passed")
+
 
 # Main Execution
 if __name__ == "__main__":

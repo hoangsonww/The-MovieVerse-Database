@@ -434,7 +434,7 @@ function showMovies(movies, mainElement) {
         movieEl.innerHTML = `
             ${movieImage}
             <div class="movie-info" style="display: flex; justify-content: space-between; align-items: start; cursor: pointer;">
-                <h3 style="text-align: left; margin-right: 5px; flex: 1;">${title}</h3>
+                <h3 style="text-align: left; margin-right: 10px; flex: 1;">${title}</h3>
                 <span class="${ratingClass}" style="white-space: nowrap;">${voteAvg}</span>
             </div>
             <div class="overview" style="cursor: pointer;">
@@ -755,7 +755,7 @@ function fallbackMovieSelection() {
 
 function calculateMoviesToDisplay() {
     const screenWidth = window.innerWidth;
-    if (screenWidth <= 689.9) return 5; // 1 movie per row (mobile)
+    if (screenWidth <= 689.9) return 6; // 1 movie per row (mobile only)
     if (screenWidth <= 1021.24) return 20; // 2 movies per row
     if (screenWidth <= 1353.74) return 21; // 3 movies per row
     if (screenWidth <= 1684.9) return 20; // 4 movies per row
