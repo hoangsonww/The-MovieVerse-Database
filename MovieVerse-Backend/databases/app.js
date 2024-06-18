@@ -71,7 +71,8 @@ pgPool.on('error', (err) => {
         const result = await client.query('SELECT NOW()');
         console.log('PostgreSQL Test:', result.rows[0].now);
         client.release();
-    } catch (err) {
+    }
+    catch (err) {
         console.error('PostgreSQL Test Error:', err);
     }
 })();
