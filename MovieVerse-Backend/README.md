@@ -240,6 +240,14 @@ MovieVerse currently uses MongoDB, Redis, PostgreSQL, and MySQL as its primary d
     [x] Received Hello from RabbitMQ
     ```
    
+6. You can also go to `http://localhost:9090/` in your browser to test the connection to the databases. If the connection is successful, you should see the following output:
+
+    ```
+    Congratulations! MovieVerse server is running! MongoDB, MySQL, PostgreSQL, and Redis connections have been established.
+    ```
+
+    This confirms that you have successfully connected to all the databases required for the backend services of MovieVerse.
+   
 **Disclaimer**: These servers are for your local development environment only, in order for you to see how our backend services interact with each other.
 In our production environment, we use cloud-based services like AWS, Azure, and Google Cloud to host our databases and services. This thus will look different from what you might see on your end.
 
