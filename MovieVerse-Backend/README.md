@@ -154,7 +154,7 @@ This is the Django admin interface for the backend of MovieVerse. It allows you 
     <img src="../images/Homepage-UI.png" alt="The MovieVerse Backend Interface" style="border-radius: 10px" width="100%"/>
 </p>
 
-Note that these are only templates and do not represent the actual UI of the MovieVerse app. The actual UI is built using React.js and can be found in the [MovieVerse-Frontend](../MovieVerse-Frontend) directory.
+Note that these are only templates and do not represent the actual UI of the MovieVerse app. The actual UI is built using React and Vue and can be found in the [MovieVerse-Frontend](../MovieVerse-Frontend) directory.
 
 #### Database Services
 
