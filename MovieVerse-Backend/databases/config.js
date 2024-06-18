@@ -14,5 +14,10 @@ module.exports = {
     MYSQL_HOST: 'localhost:3306',
     MYSQL_USER: 'root',
     MYSQL_PASSWORD: '09112004',
-    MYSQL_DB: 'MovieVerse'
+    MYSQL_DB: 'MovieVerse',
+    POSTGRES_USER: 'root',
+    POSTGRES_PASSWORD: '09112004',
+    POSTGRES_DB: 'MovieVerse',
+    POSTGRES_HOST: 'localhost',
+    POSTGRES_PORT: 5432,
 }

@@ -83,7 +83,7 @@ The MovieVerse is a full-stack application with a robust backend and a user-frie
 2. `MovieVerse-Frontend`: The [frontend directory](../MovieVerse-Frontend) contains the client-side code, including the user interface, user experience, and client configuration.
 3. `MovieVerse-Mobile`: The [mobile app directory](../MovieVerse-Mobile) contains the mobile application code, built using Apache Cordova, including the mobile user interface, user experience, and mobile client configuration.
 
-There are also additional directories and files for project configuration, testing, and other utilities. The project is built using a variety of technologies, including `.github`, `MovieVerse-Utilities`, `MovieVerse-Config`, `MovieVerse-APIs`, `MovieVerse-Databases`, `MovieVerse-Middleware`, `MovieVerse-Design`, `images`, and more. Each directory serves a specific purpose in the development, deployment, and maintenance of The MovieVerse application.
+There are also additional directories and files for project configuration, testing, and other utilities. The project is built using a variety of technologies, including `.github`, `MovieVerse-Utilities`, `MovieVerse-Config`, `MovieVerse-APIs`, `MovieVerse-Middleware`, `MovieVerse-Design`, `images`, and more. Each directory serves a specific purpose in the development, deployment, and maintenance of The MovieVerse application.
 
 ## Deployment
 
@@ -98,12 +98,11 @@ The app is using `Netlify` for the frontend deployment and `Heroku` for the back
 | [React](https://reactjs.org/)                                   | [Node.js](https://nodejs.org/en/)                               | [MongoDB](https://www.mongodb.com/)             | [Apache Cordova](https://cordova.apache.org/)                     | [Webpack](https://webpack.js.org/)                              |
 | [Vue](https://vuejs.org/)                                       | [Express](https://expressjs.com/)                               | [MySQL](https://www.mysql.com/)                 | [React Native](https://reactnative.dev/)                          | [Babel](https://babeljs.io/)                                    |
 | [HTML5](https://html.com/)                                      | [Django](https://www.djangoproject.com/)                        | [Google Firebase](https://firebase.google.com/) | [Swift (for iOS development)](https://developer.apple.com/swift/) | [Docker](https://www.docker.com/)                               |
-| [CSS3](https://www.w3.org/Style/CSS/Overview.en.html)           | [Django REST Framework](https://www.django-rest-framework.org/) |                                                 | [Kotlin (for Android)](https://kotlinlang.org/)                   | [Emscripten](https://emscripten.org/)                           |
+| [CSS3](https://www.w3.org/Style/CSS/Overview.en.html)           | [Django REST Framework](https://www.django-rest-framework.org/) | [PostgreSQL](http://www.postgresql.org)         | [Kotlin (for Android)](https://kotlinlang.org/)                   | [Emscripten](https://emscripten.org/)                           |
 | [JavaScript (Vanilla JS)](http://vanilla-js.com/)               | [Flask](https://flask.palletsprojects.com/en/1.1.x/)            |                                                 | [Java (for Android)](https://www.java.com/en/)                    | [WebAssembly](https://webassembly.org/)                         |
 | [TypeScript](https://www.typescriptlang.org/)                   | [Python](https://www.python.org/)                               |                                                 |                                                                   | [Google Analytics](https://analytics.google.com/analytics/web/) |
 | [FontAwesome Icons](https://react-icons.github.io/react-icons/) | [C (Emscripten, WebAssembly)](https://emscripten.org/)          |                                                 |                                                                   | [ESLint](https://eslint.org/)                                   |
 | [SASS](https://sass-lang.com/)                                  | [JavaScript](https://www.javascript.com/)                       |                                                 |                                                                   | [TensorFlow](https://www.tensorflow.org/)                       |
-| [Single Spa](https://single-spa.js.org/)                        |                                                                 |                                                 |                                                                   |                                                                 |
 
 ## Contributing
 
@@ -119,10 +118,7 @@ If you have a suggestion that would make this better, please fork the repo and c
     ```bash
     npm install
     ```
-6. Start the backend server:
-    ```bash
-    npm start
-    ```
+6. Start the backend servers and services (refer to the [README.md](../MovieVerse-Backend/README.md) file in the `MovieVerse-Backend` directory for more information).
 7. Visit the frontend directory (root) and install the dependencies (if any):
     ```bash
     npm install
@@ -134,13 +130,13 @@ If you have a suggestion that would make this better, please fork the repo and c
 9. Visit the mobile app directory and install the dependencies (if any):
     ```bash
     npm install
-    cordova platform add swift
+    cordova platform add ios
     cordova platform add android
     ```
 10. Start the mobile app using Cordova (visit the `MovieVerse-Mobile` directory for more information):
     ```bash
     cordova build
-    cordova emulate swift
+    cordova emulate ios
     cordova emulate android
     ```
 11. Commit your Changes (Don't forget to create a branch for your feature):
@@ -190,7 +186,7 @@ Email: [Official MovieVerse Email](mailto:info@movie-verse.com)
 
 Please also note that the **MovieVerse** is an ever-evolving platform, and more updates are underway. I am continually enhancing the user experience and adding new features to help you navigate the vast sea of cinema with ease and excitement!
 
-Additionally, I'd like to express special gratitude to [The Movie Database (TMDb)](https://www.themoviedb.org/) for providing additional movie data that greatly enriches The MovieVerse experience!
+Additionally, I'd also like to express special gratitude to [The Movie Database (TMDb)](https://www.themoviedb.org/) for providing additional movie data that greatly enriches The MovieVerse experience!
 
 Thank you for your understanding and support! 🎬🍿
 
