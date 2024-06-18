@@ -26,10 +26,24 @@ mysqlConnection.connect((err) => {
 });
 
 // Connect to MongoDB
-mongoose
-    .connect(config.MONGO_URI1, { })
-    .then(() => console.log('Connected to MongoDB'))
-    .catch(err => console.error('MongoDB Connection Error:', err));
+const mongoURIs = [
+    config.MONGO_URI1,
+    config.MONGO_URI2,
+    config.MONGO_URI3,
+    config.MONGO_URI4,
+    config.MONGO_URI5,
+    config.MONGO_URI6
+];
+
+// Connect to each MongoDB URI
+mongoURIs.forEach(async (uri, index) => {
+    try {
+        await mongoose.createConnection(uri, { });
+        console.log(`Connected to MongoDB database ${index + 1}`);
+    } catch (err) {
+        console.error(`MongoDB Connection Error ${index + 1}:`, err);
+    }
+});
 
 // Connect to Redis
 const redisClient = redis.createClient({

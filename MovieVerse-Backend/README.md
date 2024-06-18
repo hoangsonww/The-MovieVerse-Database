@@ -213,17 +213,21 @@ MovieVerse currently uses MongoDB, Redis, PostgreSQL, and MySQL as its primary d
 3. If the script runs successfully, you should see the following output in your terminal:
 
     ```bash
-    node app.js
     Server running on port 9090
     Visit http://localhost:9090/ to test the connection.
+    Connected to MongoDB database 1
+    Connected to MongoDB database 2
+    Connected to MongoDB database 3
+    Connected to MongoDB database 4
+    Connected to MongoDB database 5
+    Connected to MongoDB database 6
     Redis Connected
+    Connected to PostgreSQL
     Connected to MySQL
     Redis Test: Hello from Redis
-    Connected to PostgreSQL
-    PostgreSQL Test: 2024-06-18T16:25:52.361Z
+    PostgreSQL Test: 2024-06-18T16:52:14.250Z
     RabbitMQ Connected
     [*] Waiting for messages in task_queue. To exit press CTRL+C
-    Connected to MongoDB
     ```
    
     This output confirms that you have successfully connected to all the databases required for the backend services of MovieVerse. Now you can start developing and testing the services!
