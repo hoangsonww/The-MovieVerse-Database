@@ -5,15 +5,16 @@ const redis = require('redis');
 const amqp = require('amqplib');
 const { MongoClient, ObjectId } = require('mongodb');
 const config = require('./config');
+const { Pool } = require('pg');
 
 const app = express();
 
 // Connect to MySQL
 const mysqlConnection = mysql.createConnection({
-    host: '127.0.0.1',      // Change to localhost
-    user: config.MYSQL_USER,  // Make sure it's 'root' if you're using that
-    password: config.MYSQL_PASSWORD, // Correct password if you're using one
-    database: config.MYSQL_DB // Ensure the database exists
+    host: '127.0.0.1',
+    user: config.MYSQL_USER,
+    password: config.MYSQL_PASSWORD,
+    database: config.MYSQL_DB
 });
 
 mysqlConnection.connect((err) => {
@@ -45,6 +46,35 @@ redisClient
     .then(() => redisClient.get('testKey'))
     .then(value => console.log(`Redis Test: ${value}`))
     .catch(err => console.error('Redis Connection Error:', err));
+
+// PostgreSQL Connection Pool
+const pgPool = new Pool({
+    user: config.POSTGRES_USER,
+    host: config.POSTGRES_HOST,
+    database: config.POSTGRES_DB,
+    password: config.POSTGRES_PASSWORD,
+    port: config.POSTGRES_PORT,
+});
+
+pgPool.on('connect', () => {
+    console.log('Connected to PostgreSQL');
+});
+
+pgPool.on('error', (err) => {
+    console.error('PostgreSQL Connection Error:', err);
+});
+
+// Test PostgreSQL Connection
+(async () => {
+    try {
+        const client = await pgPool.connect();
+        const result = await client.query('SELECT NOW()');
+        console.log('PostgreSQL Test:', result.rows[0].now);
+        client.release();
+    } catch (err) {
+        console.error('PostgreSQL Test Error:', err);
+    }
+})();
 
 app.get('/', (req, res) => {
     const message = 'Congratulations! MovieVerse server is running! MongoDB, MySQL, and Redis connections have been established.';

@@ -44,6 +44,7 @@ The microservices architecture of MovieVerse is designed to segregate the applic
 - Express.js
 - MongoDB
 - MySQL
+- PostgreSQL
 - Flask
 - Django
 - Flake8 for Python linting
@@ -130,7 +131,6 @@ Debug = True
 If your installation and run are successful, you should see the following output in your terminal:
 
 ```bash
-python manage.py runserver
 Watching for file changes with StatReloader
 Performing system checks...
 
@@ -158,14 +158,15 @@ Note that these are only templates and do not represent the actual UI of the Mov
 
 #### Database Services
 
-MovieVerse currently uses MongoDB, Redis, and MySQL as its primary databases. To run these databases, execute the following commands:
+MovieVerse currently uses MongoDB, Redis, PostgreSQL, and MySQL as its primary databases. To run these databases, execute the following commands:
 
-1. Ensure that MongoDB, Redis, RabbitMQ, and MySQL are installed on your machine and are running. For example, on MacOS and if you are using `Homebrew`, you can run the following commands:
+1. Ensure that MongoDB, Redis, RabbitMQ, PostgreSQL, and MySQL are installed on your machine and are running. For example, on MacOS and if you are using `Homebrew`, you can run the following commands:
 
     ```bash
     brew services start mongodb
     brew services start rabbitmq
     brew services start mysql
+    brew services start postgresql
     redis-server
     ```
     Also, before you continue, ensure that the MySQL database `MovieVerse` is running and exists. If not, open the MySQL client using the following command:
@@ -182,6 +183,20 @@ MovieVerse currently uses MongoDB, Redis, and MySQL as its primary databases. To
     ```
    
     You should see the `MovieVerse` database in the list of databases.
+
+    Also, for your PostgreSQL database, ensure that the database `MovieVerse` is running and exists. If not, open the PostgreSQL client using the following command:
+
+    ```bash
+    psql -U root -d <your_database_name>
+    ```
+   
+    Replace `<your_database_name>` with the name of your database - the one you created when you installed PostgreSQL.
+   
+    Then, run the following command to create the database:
+
+    ```sql
+    CREATE DATABASE MovieVerse;
+    ```
    
 2. Run the scripts inside the `databases` directory to create the necessary databases and tables:
 
@@ -197,11 +212,13 @@ MovieVerse currently uses MongoDB, Redis, and MySQL as its primary databases. To
     Server running on port 9090
     Visit http://localhost:9090/ to test the connection.
     Redis Connected
-    Connected to MongoDB
     Connected to MySQL
     Redis Test: Hello from Redis
+    Connected to PostgreSQL
+    PostgreSQL Test: 2024-06-18T16:25:52.361Z
     RabbitMQ Connected
     [*] Waiting for messages in task_queue. To exit press CTRL+C
+    Connected to MongoDB
     ```
    
 4. Test the RabbitMQ functionality by sending a message to the queue:
