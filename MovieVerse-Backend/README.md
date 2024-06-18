@@ -66,6 +66,7 @@ pip install -r requirements.txt
     ```bash
     git clone https://github.com/hoangsonww/The-MovieVerse-Database.git
     ```
+   
 2. Navigate to the repository: 
    ```bash
    cd mobile-backend
