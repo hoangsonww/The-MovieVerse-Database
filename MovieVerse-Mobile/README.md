@@ -93,7 +93,7 @@ MovieVerse also offers a launch screen that welcomes users with a sleek and enga
 8. **Enjoy coding!**
 
 **Important**: If you make any changes to the source code of the mobile app, you will need to update the iOS build process by removing iOS and adding it again using the following commands:
-   
+
 ```bash
 cordova platform rm ios
 cordova platform add ios

@@ -1,4 +1,4 @@
-const { getClassByRate, calculateMoviesToDisplay } = require('../../index.js');
+const { getClassByRate, calculateMoviesToDisplay } = require('../../../../Downloads/The-MovieVerse-Database-ee3ec4ea5610d37178bc008fd505fd99c5f83070');
 const { it, describe} = require("node:test");
 const expect = require("expect");
 

@@ -10,7 +10,6 @@
         David Nguyen
     </author>
     <content src="launch-screen.html" />
-    <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <icon density="xxxhdpi" src="www/icons/AndroidIcon.png" />
     <preference name="loglevel" value="DEBUG" />
