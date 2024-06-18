@@ -73,7 +73,7 @@ MovieVerse also offers a launch screen that welcomes users with a sleek and enga
     ```
 3. **Add iOS Platform**: Add the iOS platform to the project using the following command:
     ```bash
-    cordova platform add ios
+    cordova platform add swift
     ```
 4. **Add Android Platform**: Add the Android platform to the project using the following command:
     ```bash
@@ -81,12 +81,12 @@ MovieVerse also offers a launch screen that welcomes users with a sleek and enga
     ```
 5. **Build the Project**: Build the project using the following command:
     ```bash
-    cordova build ios
+    cordova build swift
     cordova build android
     ```
 6. **Run the Project**: Run the project using the following command:
     ```bash
-    cordova emulate ios
+    cordova emulate swift
     cordova emulate android
     ```
 7. **Open the Project**: Open the project in Xcode and/or Android Studio to view the source code and test the app within the simulator.
@@ -95,8 +95,8 @@ MovieVerse also offers a launch screen that welcomes users with a sleek and enga
 **Important**: If you make any changes to the source code of the mobile app, you will need to update the iOS build process by removing iOS and adding it again using the following commands:
 
 ```bash
-cordova platform rm ios
-cordova platform add ios
+cordova platform rm swift
+cordova platform add swift
 ```
 
 The Android app, however, will build and run automatically as expected without any additional steps.
