@@ -134,13 +134,13 @@ If you have a suggestion that would make this better, please fork the repo and c
 9. Visit the mobile app directory and install the dependencies (if any):
     ```bash
     npm install
-    cordova platform add ios
+    cordova platform add swift
     cordova platform add android
     ```
 10. Start the mobile app using Cordova (visit the `MovieVerse-Mobile` directory for more information):
     ```bash
     cordova build
-    cordova emulate ios
+    cordova emulate swift
     cordova emulate android
     ```
 11. Commit your Changes (Don't forget to create a branch for your feature):

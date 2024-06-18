@@ -61,6 +61,10 @@ MovieVerse also offers a launch screen that welcomes users with a sleek and enga
 - [Apache Cordova](https://cordova.apache.org/) 10.0.0 or later
 - [Node.js](https://nodejs.org/en/) 14.17.0 or later
 - [npm](https://www.npmjs.com/) 6.14.13 or later
+- [Swift](https://developer.apple.com/swift/) 5.4.2 or later
+- [Java](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html) 11.0.11 or later
+- [Gradle](https://gradle.org/) 7.0.2 or later
+- [Git](https://git-scm.com/) 2.32.0 or later
 
 ### Instructions
 1. **Clone the Repository**: Clone the repository to your local machine using the following command:
@@ -92,14 +96,21 @@ MovieVerse also offers a launch screen that welcomes users with a sleek and enga
 7. **Open the Project**: Open the project in Xcode and/or Android Studio to view the source code and test the app within the simulator.
 8. **Enjoy coding!**
 
-**Important**: If you make any changes to the source code of the mobile app, you will need to update the iOS build process by removing iOS and adding it again using the following commands:
+**Important**: If you make any changes to the source code of the **iOS** mobile app, you will need to update the iOS build process by removing iOS and adding it again using the following commands:
 
 ```bash
 cordova platform rm ios
 cordova platform add ios
 ```
 
-The Android app, however, will build and run automatically as expected without any additional steps.
+Then, go to Xcode and re-build & re-run the app.
+
+The **Android** app, however, will build and run automatically as expected without any additional steps. You will just have to re-build and re-run the app:
+
+```bash
+cordova build android
+cordova emulate android
+```
 
 ## Usage
 
