@@ -215,17 +215,17 @@ MovieVerse currently uses MongoDB, Redis, PostgreSQL, and MySQL as its primary d
     ```bash
     Server running on port 9090
     Visit http://localhost:9090/ to test the connection.
-    Connected to MongoDB database 1
-    Connected to MongoDB database 2
-    Connected to MongoDB database 3
-    Connected to MongoDB database 4
-    Connected to MongoDB database 5
-    Connected to MongoDB database 6
+    Connected to MongoDB database 1: MovieVerse
+    Connected to MongoDB database 2: MovieVerse_movies
+    Connected to MongoDB database 3: MovieVerse_users
+    Connected to MongoDB database 4: MovieVerse_reviews
+    Connected to MongoDB database 5: MovieVerse_people
+    Connected to MongoDB database 6: MovieVerse_genres
     Redis Connected
     Connected to PostgreSQL
     Connected to MySQL
     Redis Test: Hello from Redis
-    PostgreSQL Test: 2024-06-18T16:52:14.250Z
+    PostgreSQL Test: 2024-06-18T16:53:56.494Z
     RabbitMQ Connected
     [*] Waiting for messages in task_queue. To exit press CTRL+C
     ```
