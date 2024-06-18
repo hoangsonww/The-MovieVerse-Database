@@ -77,6 +77,7 @@ pip install -r requirements.txt
     python3 -m venv venv
     source venv/bin/activate
     ```
+   
 4. Follow the specific installation instructions for each service below.
 
 ### Running the Services
