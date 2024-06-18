@@ -51,6 +51,7 @@ The microservices architecture of MovieVerse is designed to segregate the applic
 - Redis or RabbitMQ as a broker for Celery
 - BeautifulSoup4 and Requests for web scraping in the Crawler Service
 - Transformers and PyTorch for AI functionalities within the Crawler Service
+- Python 3.8 or higher (and an IDE that supports Python and can run Python scripts)
 
 To satisfy these prerequisites, simply run the following command:
 
@@ -68,7 +69,12 @@ pip install -r requirements.txt
    ```bash
    cd mobile-backend
    ```
-3. Follow the specific installation instructions for each service below.
+3. Create a Virtual Environment (optional but recommended):
+    ```bash
+    python3 -m venv venv
+    source venv/bin/activate
+    ```
+4. Follow the specific installation instructions for each service below.
 
 ### Running the Services
 
@@ -210,7 +216,9 @@ MovieVerse currently uses MongoDB, Redis, and MySQL as its primary databases. To
     [x] Received Hello from RabbitMQ
     ```
    
-Note that these servers are for your local development environment only. For our production environment, our databases might look different (in fact, they do!).
+Note that these servers are for your local development environment only, in order for you to see how our backend services interact with each other.
+
+In our production environment, we use cloud-based services like AWS, Azure, and Google Cloud to host our databases and services. This thus will look different from what you might see on your end.
 
 #### Machine Learning Services
 

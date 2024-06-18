@@ -5,8 +5,61 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8bb29d63-e98d-4c08-9f32-16747d3aec75" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/crawler/ai/adjust_crawling_strategy.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/crawler/ai/content_summarization.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/crawler/ai/image_analysis.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/crawler/ai/sentiment_trend_analysis.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/crawler/ai/text_analysis.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/crawler/crawler_orchestrator.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/crawler/datasources.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/crawler/exceptions.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/crawler/models.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/crawler/parser.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/crawler/scheduler.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/crawler/scraper.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/crawler/tasks.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/crawler/utils.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/crawler/validators.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/databases/app.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/databases/config.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/databases/publish.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/django_backend/.flake8" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/django_backend/db.sqlite3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/django_backend/django_backend/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/django_backend/django_backend/asgi.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/django_backend/django_backend/settings.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/django_backend/django_backend/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/django_backend/django_backend/wsgi.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/django_backend/manage.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/django_backend/movieverse/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/django_backend/movieverse/admin.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/django_backend/movieverse/apps.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/django_backend/movieverse/caching.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/django_backend/movieverse/decorators.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/django_backend/movieverse/exceptions.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/django_backend/movieverse/forms.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/django_backend/movieverse/migrations/0001_initial.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/django_backend/movieverse/migrations/0002_review.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/django_backend/movieverse/migrations/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/django_backend/movieverse/models.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/django_backend/movieverse/notifications.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/django_backend/movieverse/serializers.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/django_backend/movieverse/signals.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/django_backend/movieverse/templates/movieverse/actor_detail.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/django_backend/movieverse/templates/movieverse/comment_item.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/django_backend/movieverse/templates/movieverse/director_detail.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/django_backend/movieverse/templates/movieverse/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/django_backend/movieverse/templates/movieverse/movie_detail.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/django_backend/movieverse/templates/movieverse/search.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/django_backend/movieverse/tests.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/django_backend/movieverse/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/django_backend/movieverse/views.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/flask_backend/.flake8" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/flask_backend/flask.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/flask_backend/micro-services.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/micro-services.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/app/python/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -225,6 +278,7 @@
       <workItem from="1718609699588" duration="4844000" />
       <workItem from="1718614679612" duration="9000" />
       <workItem from="1718622325214" duration="126000" />
+      <workItem from="1718683787183" duration="139000" />
     </task>
     <servers />
   </component>
