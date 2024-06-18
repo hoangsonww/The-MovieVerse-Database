@@ -1,4 +1,4 @@
-// Platform: cordova-swift
+// Platform: cordova-ios
 // cordova-js 6.1.0
 /*
  Licensed to the Apache Software Foundation (ASF) under one
@@ -1240,16 +1240,16 @@ module.exports = {
     id: 'ios',
     bootstrap: function () {
         // Attach the console polyfill that is iOS-only to window.console
-        // see the file under plugin/swift/console.js
-        require('cordova/modulemapper').clobbers('cordova/plugin/swift/console', 'window.console');
+        // see the file under plugin/ios/console.js
+        require('cordova/modulemapper').clobbers('cordova/plugin/ios/console', 'window.console');
 
         // Attach the wkwebkit utility to window.WkWebView
-        // see the file under plugin/swift/wkwebkit.js
-        require('cordova/modulemapper').clobbers('cordova/plugin/swift/wkwebkit', 'window.WkWebView');
+        // see the file under plugin/ios/wkwebkit.js
+        require('cordova/modulemapper').clobbers('cordova/plugin/ios/wkwebkit', 'window.WkWebView');
 
         // Attach the splashscreen utility to window.navigator.splashscreen
-        // see the file under plugin/swift/launchscreen.js
-        require('cordova/modulemapper').clobbers('cordova/plugin/swift/launchscreen', 'navigator.splashscreen');
+        // see the file under plugin/ios/launchscreen.js
+        require('cordova/modulemapper').clobbers('cordova/plugin/ios/launchscreen', 'navigator.splashscreen');
 
         require('cordova/channel').onNativeReady.fire();
     }
@@ -1257,12 +1257,12 @@ module.exports = {
 
 });
 
-// file: ../../cordova-js-src/plugin/swift/console.js
-define("cordova/plugin/swift/console", function(require, exports, module) {
+// file: ../../cordova-js-src/plugin/ios/console.js
+define("cordova/plugin/ios/console", function(require, exports, module) {
 
 // ------------------------------------------------------------------------------
 
-var logger = require('cordova/plugin/swift/logger');
+var logger = require('cordova/plugin/ios/logger');
 
 // ------------------------------------------------------------------------------
 // object that we're exporting
@@ -1428,8 +1428,8 @@ for (var key in console) {
 
 });
 
-// file: ../../cordova-js-src/plugin/swift/launchscreen.js
-define("cordova/plugin/swift/launchscreen", function(require, exports, module) {
+// file: ../../cordova-js-src/plugin/ios/launchscreen.js
+define("cordova/plugin/ios/launchscreen", function(require, exports, module) {
 
 var exec = require('cordova/exec');
 
@@ -1446,8 +1446,8 @@ module.exports = launchscreen;
 
 });
 
-// file: ../../cordova-js-src/plugin/swift/logger.js
-define("cordova/plugin/swift/logger", function(require, exports, module) {
+// file: ../../cordova-js-src/plugin/ios/logger.js
+define("cordova/plugin/ios/logger", function(require, exports, module) {
 
 // ------------------------------------------------------------------------------
 // The logger module exports the following properties/functions:
@@ -1779,8 +1779,8 @@ document.addEventListener('deviceready', logger.__onDeviceReady, false);
 
 });
 
-// file: ../../cordova-js-src/plugin/swift/wkwebkit.js
-define("cordova/plugin/swift/wkwebkit", function(require, exports, module) {
+// file: ../../cordova-js-src/plugin/ios/wkwebkit.js
+define("cordova/plugin/ios/wkwebkit", function(require, exports, module) {
 
 var exec = require('cordova/exec');
 
