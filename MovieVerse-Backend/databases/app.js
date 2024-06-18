@@ -79,7 +79,7 @@ pgPool.on('error', (err) => {
 })();
 
 app.get('/', (req, res) => {
-    const message = 'Congratulations! MovieVerse server is running! MongoDB, MySQL, and Redis connections have been established.';
+    const message = 'Congratulations! MovieVerse server is running! MongoDB, MySQL, PostgreSQL, and Redis connections have been established.';
     console.log(message);
     res.send(message);
 });
