@@ -113,7 +113,7 @@ If you have a suggestion that would make this better, please fork the repo and c
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Install Emscripten and compile the C code to WebAssembly (refer to the README.md file in the `utilities` directory [here](../utilities/README.md).)
+3. Install Emscripten and compile the C code to WebAssembly (refer to the README.md file in the `utilities` directory [here](../MovieVerse-Utilities/README.md).)
 4. Take a look at the project configuration directory (project-config) and make sure that the paths are correct.
 5. Visit the backend directory and install the dependencies (if any):
     ```bash

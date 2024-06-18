@@ -26,7 +26,7 @@ events:
       ld: library 'System' not found
       clang: error: linker command failed with exit code 1 (use -v to see invocation)
       
-      
+
   -
     kind: "message-v1"
     backtrace:
@@ -48,7 +48,7 @@ events:
       
       The C compiler identification is AppleClang, found in:
         /Users/davidnguyen/WebstormProjects/The-MovieVerse-Database/utilities/cmake-build-debug/CMakeFiles/3.28.1/CompilerIdC/CMakeCCompilerId.o
-      
+
   -
     kind: "try_compile-v1"
     backtrace:
@@ -58,8 +58,8 @@ events:
     checks:
       - "Detecting C compiler ABI info"
     directories:
-      source: "/Users/davidnguyen/WebstormProjects/The-MovieVerse-Database/utilities/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-ZC1kyi"
-      binary: "/Users/davidnguyen/WebstormProjects/The-MovieVerse-Database/utilities/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-ZC1kyi"
+      source: "/Users/davidnguyen/WebstormProjects/The-MovieVerse-Database/MovieVerse-Utilities/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-ZC1kyi"
+      binary: "/Users/davidnguyen/WebstormProjects/The-MovieVerse-Database/MovieVerse-Utilities/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-ZC1kyi"
     cmakeVariables:
       CMAKE_C_FLAGS: ""
       CMAKE_C_FLAGS_DEBUG: "-g"
@@ -108,7 +108,7 @@ events:
         	/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk/usr/lib/swift
         Framework search paths:
         	/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk/System/Library/Frameworks
-        
+
       exitCode: 0
   -
     kind: "message-v1"
@@ -129,7 +129,7 @@ events:
         collapse include dir [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include] ==> [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include]
         implicit include dirs: [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/15.0.0/include;/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk/usr/include;/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include]
       
-      
+
   -
     kind: "message-v1"
     backtrace:
@@ -198,5 +198,5 @@ events:
         implicit dirs: [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk/usr/lib;/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk/usr/lib/swift]
         implicit fwks: [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk/System/Library/Frameworks]
       
-      
+
 ...
