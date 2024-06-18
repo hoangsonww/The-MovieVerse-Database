@@ -1,4 +1,4 @@
-# Setting up Emscripten and Compiling C Code to WebAssembly - the `utils` directory
+# Setting up Emscripten and Compiling C Code to WebAssembly - the `MovieVerse-Utilities` directory
 
 ## Prerequisites
 
