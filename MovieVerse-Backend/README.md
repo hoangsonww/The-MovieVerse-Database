@@ -213,17 +213,21 @@ MovieVerse currently uses MongoDB, Redis, PostgreSQL, and MySQL as its primary d
 3. If the script runs successfully, you should see the following output in your terminal:
 
     ```bash
-    node app.js
     Server running on port 9090
     Visit http://localhost:9090/ to test the connection.
+    Connected to MongoDB database 1: MovieVerse
+    Connected to MongoDB database 2: MovieVerse_movies
+    Connected to MongoDB database 3: MovieVerse_users
+    Connected to MongoDB database 4: MovieVerse_reviews
+    Connected to MongoDB database 5: MovieVerse_people
+    Connected to MongoDB database 6: MovieVerse_genres
     Redis Connected
+    Connected to PostgreSQL
     Connected to MySQL
     Redis Test: Hello from Redis
-    Connected to PostgreSQL
-    PostgreSQL Test: 2024-06-18T16:25:52.361Z
+    PostgreSQL Test: 2024-06-18T16:53:56.494Z
     RabbitMQ Connected
     [*] Waiting for messages in task_queue. To exit press CTRL+C
-    Connected to MongoDB
     ```
    
     This output confirms that you have successfully connected to all the databases required for the backend services of MovieVerse. Now you can start developing and testing the services!
@@ -239,6 +243,14 @@ MovieVerse currently uses MongoDB, Redis, PostgreSQL, and MySQL as its primary d
     ```bash
     [x] Received Hello from RabbitMQ
     ```
+   
+6. You can also go to `http://localhost:9090/` in your browser to test the connection to the databases. If the connection is successful, you should see the following output:
+
+    ```
+    Congratulations! MovieVerse server is running! MongoDB, MySQL, PostgreSQL, and Redis connections have been established.
+    ```
+
+    This confirms that you have successfully connected to all the databases required for the backend services of MovieVerse.
    
 **Disclaimer**: These servers are for your local development environment only, in order for you to see how our backend services interact with each other.
 In our production environment, we use cloud-based services like AWS, Azure, and Google Cloud to host our databases and services. This thus will look different from what you might see on your end.
