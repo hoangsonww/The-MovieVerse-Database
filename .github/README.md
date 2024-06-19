@@ -113,7 +113,7 @@ If you have a suggestion that would make this better, please fork the repo and c
 
 ## Getting Started
 
-
+To get started with The MovieVerse, follow these _very simple_ steps:
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
