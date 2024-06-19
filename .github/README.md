@@ -105,12 +105,6 @@ The app is using `Netlify` for the frontend deployment and `Heroku` for the back
 | [FontAwesome Icons](https://react-icons.github.io/react-icons/) | [JavaScript](https://www.javascript.com/)                       |                                                 |                                                                   | [ESLint](https://eslint.org/)                                   |
 | [SASS](https://sass-lang.com/)                                  | [RabbitMQ](https://www.rabbitmq.com/)                           |                                                 |                                                                   | [TensorFlow](https://www.tensorflow.org/)                       |
 
-## Contributing
-
-Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-
 ## Getting Started
 
 To get started with The MovieVerse, follow these _very simple_ steps:
@@ -169,6 +163,12 @@ The MovieVerse is committed to protecting your privacy. Our Privacy Policy page 
 ## Terms of Service
 
 By accessing or using The MovieVerse, you agree to be bound by our [Terms of Service](https://movie-verse.com/src/html/terms-of-service).
+
+## Contributing
+
+Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
 
 ## License
 
