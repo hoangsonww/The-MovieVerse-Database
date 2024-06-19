@@ -1,7 +1,5 @@
 # The MovieVerse - `MovieVerse-Backend` Directory
 
----
-
 ## Table of Contents
 - [Overview](#overview)
 - [Architecture](#architecture)
@@ -223,7 +221,7 @@ Quit the server with CONTROL-C.
 [17/Jun/2024 08:39:00] "GET /search/?search=g HTTP/1.1" 200 2693
 ```
 
-If you go to `http://127.0.0.1:8000/` in your browser, you should see te following TEMPLATE for the backend of MovieVerse:
+If you go to `http://127.0.0.1:8000/` in your browser, you should see te following admin interface for the backend of MovieVerse:
 
 <p align="center" style="cursor: pointer">
     <img src="../images/Administration-UI.png" alt="The MovieVerse Backend Admin Interface" width="100%" height="auto" style="border-radius: 10px"/>
@@ -231,11 +229,7 @@ If you go to `http://127.0.0.1:8000/` in your browser, you should see te followi
 
 This is the Django admin interface for the backend of MovieVerse. It allows you to manage users, movies, reviews, and more.
 
-<p align="center" style="cursor: pointer">
-    <img src="../images/Homepage-UI.png" alt="The MovieVerse Backend Interface" style="border-radius: 10px" width="100%"/>
-</p>
-
-Note that these are only templates and do not represent the actual UI of the MovieVerse app. The actual UI is built using React and Vue and can be found in the [MovieVerse-Frontend](../MovieVerse-Frontend) directory.
+Note that the UI that you see is only a template and does not represent the actual UI of the MovieVerse app. The actual UI is built using React and Vue and can be found in the [MovieVerse-Frontend](../MovieVerse-Frontend) directory.
 
 #### Flask Service
 
