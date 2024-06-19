@@ -98,7 +98,7 @@ To access the APIs, you have the following options:
 curl http://127.0.0.1:8000/api/movies/ 
 
 # Get a specific movie (e.g., with ID 5):
-curl http://127.0.0.1:8000/api/movies/5/
+curl http://127.0.0.1:8000/api/movies/929590/
 
 # Get all genres:
 curl http://127.0.0.1:8000/api/genres/

@@ -29,12 +29,12 @@ class MovieVerseApiTestSuite(unittest.TestCase):
     def test_get_all_reviews(self):
         response = requests.get(f"{self.base_url}/reviews/")
         self.assertEqual(response.status_code, 200)
-        self.assertIsInstance(response.json(), list)
+        self.assertIsInstance(response.json(), list)  # Expect a list of reviews
 
     def test_get_all_users(self):
         response = requests.get(f"{self.base_url}/users/")
         self.assertEqual(response.status_code, 200)
-        self.assertIsInstance(response.json(), list)
+        self.assertIsInstance(response.json(), list)  # Expect a list of users
 
 
 if __name__ == '__main__':
