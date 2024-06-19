@@ -60,7 +60,7 @@ class Person(models.Model):
 
 
 class Review(mysql_models.Model):
-    id = mysql_models.AutoField(primary_key=True)  # Auto-incrementing ID
+    id = mysql_models.AutoField(primary_key=True)
     userId = mysql_models.IntegerField()  # Foreign key to user (integer in your MySQL schema)
     movieId = mysql_models.IntegerField()  # Foreign key to movie
     rating = mysql_models.IntegerField()
