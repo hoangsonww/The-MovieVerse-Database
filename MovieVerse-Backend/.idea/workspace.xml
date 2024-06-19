@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8bb29d63-e98d-4c08-9f32-16747d3aec75" name="Changes" comment="Fix: Updated Backend" />
+    <list default="true" id="8bb29d63-e98d-4c08-9f32-16747d3aec75" name="Changes" comment="Fix: Updated Backend">
+      <change afterPath="$PROJECT_DIR$/../MovieVerse-Middleware/middleware.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Middleware/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Middleware/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Middleware/app-middleware.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Middleware/extra-middleware.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Middleware/middleware.js" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -33,34 +39,34 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Django Server.Django-Backend.executor": "Run",
-    "Django Server.MovieVerse-Backend.executor": "Run",
-    "OpenAPI/Swagger Code Generator.movieverse-openapi.yaml.executor": "Run",
-    "Python tests.Python tests in api_test_suite.py.executor": "Run",
-    "Python.flask.executor": "Run",
-    "Python.genre_classifier.executor": "Run",
-    "Python.movie-recommendation.executor": "Run",
-    "Python.plot-summarizer.executor": "Run",
-    "Python.python manage.py runserver.executor": "Run",
-    "Python.sentiment_analysis.executor": "Run",
-    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main-deployment-branch",
-    "last_opened_file_path": "/Users/davidnguyen/WebstormProjects/The-MovieVerse-Database/MovieVerse-Backend/django_backend/movieverse",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "reference.settings.ide.settings.new.ui",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Django Server.Django-Backend.executor&quot;: &quot;Run&quot;,
+    &quot;Django Server.MovieVerse-Backend.executor&quot;: &quot;Run&quot;,
+    &quot;OpenAPI/Swagger Code Generator.movieverse-openapi.yaml.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in api_test_suite.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python.flask.executor&quot;: &quot;Run&quot;,
+    &quot;Python.genre_classifier.executor&quot;: &quot;Run&quot;,
+    &quot;Python.movie-recommendation.executor&quot;: &quot;Run&quot;,
+    &quot;Python.plot-summarizer.executor&quot;: &quot;Run&quot;,
+    &quot;Python.python manage.py runserver.executor&quot;: &quot;Run&quot;,
+    &quot;Python.sentiment_analysis.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenDjangoStructureViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main-deployment-branch&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/davidnguyen/WebstormProjects/The-MovieVerse-Database/MovieVerse-Backend/django_backend/movieverse&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.ide.settings.new.ui&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/django_backend/movieverse" />
@@ -247,6 +253,7 @@
       <workItem from="1718683945994" duration="655000" />
       <workItem from="1718768720434" duration="12950000" />
       <workItem from="1718784375563" duration="1993000" />
+      <workItem from="1718791863338" duration="24000" />
     </task>
     <task id="LOCAL-00001" summary="Enhanced Backend">
       <option name="closed" value="true" />
