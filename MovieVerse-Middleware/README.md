@@ -30,26 +30,52 @@ To use this middleware in your Node.js application, include it in your server fi
 
 ### middleware.py
 
-This Python file is created with Flask, a micro web framework. It includes custom middleware implementations suitable for a Flask application.
+This Python file contains custom middleware classes designed to be used within a Django project.  Middleware components act as intermediaries between incoming requests and outgoing responses, allowing you to modify or enhance the behavior of your web application.
 
 #### Key Features:
 
-- **Logger Middleware**: A custom middleware that logs details about each request and its response time.
-- **Custom Request Processing Middleware**: Inspects incoming requests, logging method, path, content length, type, body, and headers.
-- **Custom Response Modification Middleware**: Processes responses after they are generated, providing information about the response status, headers, body, and processing time.
-- **Error and Exception Handling Middleware**: Handles specific HTTP errors (e.g., 404 not found) and general exceptions, returning JSON responses.
-- **Authentication Middleware**: Demonstrates how to handle routes with POST and GET methods, including a placeholder for authentication logic.
+*   **Request Timing Middleware (`RequestTimingMiddleware`)**: 
+    *   Calculates and logs the processing time (in milliseconds) for each request. This is useful for monitoring and optimizing your application's performance.
 
-#### Usage:
+*   **URL-Based Rate Limiting Middleware (`URLBasedRateLimitingMiddleware`)**:
+    *   Implements rate limiting based on the requested URL path and the client's IP address. It helps prevent abuse by limiting the number of requests a user or IP can make within a defined time window.
+    *   Uses Redis (or a similar cache) to store the rate limit counters.
 
-To integrate this middleware into a Flask application, include it in your Flask server file. The middleware will automatically apply to all routes defined in the Flask app.
+*   **Content Security Policy Middleware (`ContentSecurityPolicyMiddleware`)**:
+    *   Enhances security by adding a Content-Security-Policy (CSP) header to the HTTP response.
+    *   This CSP can define strict rules about what resources (scripts, images, etc.) are allowed to be loaded by the browser, helping to mitigate cross-site scripting (XSS) and other attacks.
 
-## Getting Started
+*   **Exception Logging Middleware (`ExceptionLoggingMiddleware`)**:
+    *   Logs any exceptions that occur during the processing of a request.
+    *   This provides valuable information for debugging errors and understanding how your application behaves in unexpected situations.
 
-1. **Clone the Repository**: Ensure you have the MovieVerse project repository cloned.
-2. **Navigate to the Middleware Directory**: Change your working directory to the Middleware directory within the project.
-3. **Install Dependencies**: Install necessary dependencies for Node.js (`npm install`) and Flask (`pip install flask`).
-4. **Integrate with Your Application**: Import these middleware modules into your main application server file and apply them as needed.
+*   **Blacklisting Middleware (`BlacklistingMiddleware`)**:
+    *   Prevents access to your application from specified IP addresses. 
+    *   Blacklisted IPs are configured in your Django settings file (`settings.py`).
+
+#### How to Use:
+
+1.  **Place in App Directory:** Save this `middleware.py` file within one of your Django app directories (e.g., `your_app/middleware.py`).
+
+2.  **Update Settings (`settings.py`)**: Add the middleware classes to your Django project's `MIDDLEWARE` setting:
+
+    ```python
+    MIDDLEWARE = [
+        # ... other middleware ...
+        'your_app.middleware.RequestTimingMiddleware',  
+        'your_app.middleware.URLBasedRateLimitingMiddleware',
+        'your_app.middleware.ContentSecurityPolicyMiddleware',
+        'your_app.middleware.ExceptionLoggingMiddleware',
+        'your_app.middleware.BlacklistingMiddleware'
+    ]
+    ```
+    (Replace `your_app` with the actual name of the app where you placed the middleware file.)
+
+3.  **Additional Configuration:**
+    *   Configure logging (e.g., in your `settings.py`) to view the messages from `LoggingMiddleware` and `ExceptionLoggingMiddleware`.
+    *   Set up and configure Redis if you plan to use the rate-limiting feature.
+    *   Adjust the CSP directives in `ContentSecurityPolicyMiddleware` to match your specific security requirements.
+    *   Add blacklisted IP addresses to your `settings.py` file as a list under `BLACKLISTED_IPS` if you want to block access. 
 
 ## Contribution
 
