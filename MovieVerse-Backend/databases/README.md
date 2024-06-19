@@ -38,35 +38,71 @@ The backend leverages multiple databases to optimize data storage and retrieval,
     * **Storage:** User profile data, such as bio, profile picture, etc.
     * **Reasoning:** Firebase's real-time database capabilities are well-suited for storing user profile data that needs to be updated frequently.
 
+7. **RabbitMQ (for message queuing):**
+    * **Usage:** For handling asynchronous tasks like sending emails, processing background jobs, etc.
+    * **Reasoning:** RabbitMQ's message queuing system ensures reliable delivery of messages and helps decouple the application components.
+
 ### Data Flow Illustration
 
-```
-+----------+        +----------------+      +------------+       +---------+
-|          |        |                |      |            |       |         |
-| Frontend | <-->   | Django Backend | <--> |    MySQL   | <-->  | MongoDB |
-|          |        |                |      |            |       |         |
-+----------+        +----------------+      +------------+       +---------+
-     |                            ^                                ^      ^
-     |                           /                                /        \
-     |                          /                                /          \
-     v                         v                                /            \
-+--------+                +------------+             +------------+        +------------+
-|        |                |            |             |            |        |            |
-| Redis  | <--------------| PostgreSQL | <---------- |  TMDB API  |        | User-Added |
-|        |                |            |             | (external) |        |    Data    |
-+--------+                +------------+             +------------+        +------------+
-                                ^
-                               /
-                              /
-                             v
-                        +----------+
-                        |          |
-                        | Firebase |
-                        |          |
-                        +----------+
+```       
+                                                                 +------------+          +------------+
+                                                                 |            |          |            |
+                                                                 | PostgreSQL |          |  Firebase  |
+                                                                 |            |          |            |
+                                                                 +------------+          +------------+
+                                                                       ^                       ^
+                                                                       |                       |
+                                                                       |                       |
+                                                                       v                       v
++----------+        +----------------+      +------------+       +-----------+           +-----------+   
+|          |        |                |      |            |       |           |           |           | 
+| Frontend | <----> | Django Backend | <--> |  RabbitMQ  | <---> |   Redis   | <-------> |  MongoDB  | 
+|          |        |                |      |            |       |           |           |           |
++----------+        +----------------+      +------------+       +-----------+           +-----------+
+                                                                       ^                    ^     ^
+                                                                       |                   /       \
+                                                                       |                  /         \
+                                                                       v                 /           \
+                                                                 +------------+   +------------+   +------------+
+                                                                 |            |   |            |   |            |
+                                                                 |    MySQL   |   |  TMDB API  |   | User-Added |
+                                                                 |            |   | (external) |   |    Data    |
+                                                                 +------------+   +------------+   +------------+
 ```
 
-### Redis' Role in Load Reduction
+### REST APIs
+
+MovieVerse offers free-to-read APIs for developers to access movie data using the Django REST Framework. The APIs include:
+- `/api/movies/`: Access to movie data.
+- `/api/genres/`: Access to genre data.
+- `/api/people/`: Access to person data.
+- `/api/reviews/`: Access to review data.
+- `/api/users/`: Access to user data.
+
+To access the APIs, you have the following options:
+
+**Option 1**: Use the Django REST Framework's browsable API interface by visiting the respective URLs in your browser. For example, `http://127.0.0.1:8000/api/movies/` or `http://127.0.0.1:8000/api/genres/`.
+
+**Option 2**: Use a tool like Postman to make API requests. For example, you can send a GET request to `http://127.0.0.1:8000/api/movies/` to retrieve movie data. 
+
+**Option 3**: Integrate the APIs into your own applications by sending HTTP requests to the respective endpoints, such as `http://127.0.0.1:8000/api/movies/`.
+
+**Option 4**: Use CURL commands to interact with the APIs. For example:
+
+```bash
+# Get all movies:
+curl http://127.0.0.1:8000/api/movies/ 
+
+# Get a specific movie (e.g., with ID 5):
+curl http://127.0.0.1:8000/api/movies/5/
+
+# Get all genres:
+curl http://127.0.0.1:8000/api/genres/
+```
+
+Note that you do not have to be authenticated to access the APIs since they are read-only and free-to-read.
+
+## Redis' Role in Load Reduction
 
 Redis acts as a cache layer, storing frequently accessed data like:
 
@@ -95,6 +131,8 @@ Redis acts as a cache layer, storing frequently accessed data like:
     ```bash
     python manage.py runserver
     ```
+   
+The above steps are crucial and must be executed before using the APIs and starting the Django backend.
 
 ### Key Points
 

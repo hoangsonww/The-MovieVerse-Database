@@ -16,8 +16,8 @@ def index(request):
 class MovieViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.using('movies_db').all()
     serializer_class = MovieSerializer
-    permission_classes = [permissions.IsAuthenticated]  # Requires authentication for all actions
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly] # Allow read-only access to unauthenticated users
     search_fields = ['title', 'overview', 'releaseDate']
     ordering_fields = ['title', 'releaseDate', 'voteAverage']
 
@@ -54,7 +54,7 @@ class ReviewViewSet(viewsets.ModelViewSet):
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.using('users_db').all()
     serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly] # Allow read-only access to unauthenticated users
 
     def get_object(self):
         queryset = self.filter_queryset(self.get_queryset())
