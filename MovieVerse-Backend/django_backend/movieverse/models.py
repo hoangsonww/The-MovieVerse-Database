@@ -65,8 +65,8 @@ class Review(mysql_models.Model):
     movieId = mysql_models.IntegerField()
     rating = mysql_models.IntegerField()
     reviewText = mysql_models.TextField(null=True, blank=True)
-    createdAt = mysql_models.DateTimeField(auto_now_add=True)  # Auto-populated
-    updatedAt = mysql_models.DateTimeField(auto_now=True)  # Auto-populated
+    createdAt = mysql_models.DateTimeField(auto_now_add=True)
+    updatedAt = mysql_models.DateTimeField(auto_now=True)
 
     class Meta:
         managed = False
