@@ -20,6 +20,8 @@
   - [Viewing Movie Details](#viewing-movie-details)
   - [Adding to Favorites](#adding-to-favorites)
   - [Accessing Favorites](#accessing-favorites)
+- [Support](#support)
+- [Updates and Feedback](#updates-and-feedback)
 
 ## Overview
 
