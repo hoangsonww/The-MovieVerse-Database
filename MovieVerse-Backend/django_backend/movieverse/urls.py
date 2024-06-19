@@ -1,8 +1,6 @@
 from django.urls import path, include
 from django.contrib import admin
 from rest_framework.routers import DefaultRouter
-
-# Directly import from the current directory
 from . import views
 
 router = DefaultRouter()
