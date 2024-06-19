@@ -26,7 +26,7 @@ class Movie(models.Model):
     genres = models.ArrayField(
         model_container=Genre
     )
-    productionCountries = models.JSONField(null=True, blank=True)  # Store as JSON
+    productionCountries = models.JSONField(null=True, blank=True)
     spokenLanguages = models.JSONField(null=True, blank=True)
     posterPath = models.CharField(max_length=255, null=True, blank=True)
     backdropPath = models.CharField(max_length=255, null=True, blank=True)
@@ -42,7 +42,7 @@ class Movie(models.Model):
 
 
 class Person(models.Model):
-    _id = models.ObjectIdField()  # MongoDB's ObjectId
+    _id = models.ObjectIdField()
     personId = models.IntegerField(unique=True)
     name = models.CharField(max_length=255)
     biography = models.TextField(null=True, blank=True)
@@ -77,7 +77,7 @@ class Review(mysql_models.Model):
 
 
 class User(postgresql_models.Model):
-    id = postgresql_models.AutoField(primary_key=True)  # Auto-incrementing ID
+    id = postgresql_models.AutoField(primary_key=True)
     username = postgresql_models.CharField(max_length=255, unique=True)
     email = postgresql_models.EmailField(unique=True)
     passwordHash = postgresql_models.CharField(max_length=255, db_column='passwordhash')
