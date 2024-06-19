@@ -5,10 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8bb29d63-e98d-4c08-9f32-16747d3aec75" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/django_backend/movieverse/static/images/favicon.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/databases/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/databases/firebase.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/databases/mongo-redis.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/databases/mysql.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/databases/postgresql.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/dataSources/0c6f8acf-80af-44b7-8471-3140f2e683f5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/dataSources/0c6f8acf-80af-44b7-8471-3140f2e683f5.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/dataSources/788cafbf-6cb6-424e-a1bc-51d30fb43a11.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/dataSources/788cafbf-6cb6-424e-a1bc-51d30fb43a11.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/dataSources/79c6fab5-e5a6-4c9a-a761-b571eac26217.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/dataSources/79c6fab5-e5a6-4c9a-a761-b571eac26217.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/sqldialects.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/databases/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/databases/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/databases/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/databases/config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/django_backend/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/django_backend/db.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/django_backend/django_backend/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_backend/django_backend/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flask_backend/micro-services.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/js/sign-in.js" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Frontend/js/sign-in.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,32 +54,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Django Server.Django-Backend.executor": "Run",
-    "Django Server.MovieVerse-Backend.executor": "Run",
-    "Python.flask.executor": "Run",
-    "Python.genre_classifier.executor": "Run",
-    "Python.movie-recommendation.executor": "Run",
-    "Python.plot-summarizer.executor": "Run",
-    "Python.python manage.py runserver.executor": "Run",
-    "Python.sentiment_analysis.executor": "Run",
-    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main-deployment-branch",
-    "last_opened_file_path": "/Users/davidnguyen/WebstormProjects/The-MovieVerse-Database/MovieVerse-Backend/django_backend/movieverse",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "reference.settings.ide.settings.new.ui",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Django Server.Django-Backend.executor&quot;: &quot;Run&quot;,
+    &quot;Django Server.MovieVerse-Backend.executor&quot;: &quot;Run&quot;,
+    &quot;Python.flask.executor&quot;: &quot;Run&quot;,
+    &quot;Python.genre_classifier.executor&quot;: &quot;Run&quot;,
+    &quot;Python.movie-recommendation.executor&quot;: &quot;Run&quot;,
+    &quot;Python.plot-summarizer.executor&quot;: &quot;Run&quot;,
+    &quot;Python.python manage.py runserver.executor&quot;: &quot;Run&quot;,
+    &quot;Python.sentiment_analysis.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenDjangoStructureViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main-deployment-branch&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/davidnguyen/WebstormProjects/The-MovieVerse-Database/MovieVerse-Backend/django_backend/movieverse&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.ide.settings.new.ui&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/django_backend/movieverse" />
@@ -255,6 +271,7 @@
       <workItem from="1718622325214" duration="126000" />
       <workItem from="1718683787183" duration="139000" />
       <workItem from="1718683945994" duration="655000" />
+      <workItem from="1718768720434" duration="6174000" />
     </task>
     <servers />
   </component>

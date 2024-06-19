@@ -21,6 +21,8 @@
 
 The backend of MovieVerse is built using a microservices architecture. This architecture allows for independent scalability and enhanced flexibility in the development of different functionalities of the app, such as authentication, user management, movie data processing, and more.
 
+Be sure to read this file and the [README.md](databases/README.md) file in the `databases` directory for more information on the backend services of MovieVerse before you start developing.
+
 ## Architecture
 
 The microservices architecture of MovieVerse is designed to segregate the application into small, loosely coupled services. Each service is focused on a single business capability and can be developed, deployed, and scaled independently.
@@ -251,6 +253,8 @@ MovieVerse currently uses MongoDB, Redis, PostgreSQL, and MySQL as its primary d
     ```
 
     This confirms that you have successfully connected to all the databases required for the backend services of MovieVerse.
+
+7. For the next steps, refer to the [README.md](databases/README.md) file in the `databases` directory for more information on the database services.
    
 **Disclaimer**: These servers are for your local development environment only, in order for you to see how our backend services interact with each other.
 In our production environment, we use cloud-based services like AWS, Azure, and Google Cloud to host our databases and services. This thus will look different from what you might see on your end.
