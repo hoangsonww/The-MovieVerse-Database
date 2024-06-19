@@ -5,7 +5,6 @@ from .models import Movie, Genre, Person, Review, User
 admin.site.site_header = "MovieVerse Application - Backend Administration"
 
 
-# Model Admins for MongoDB Models
 class MovieAdmin(admin.ModelAdmin):
     using = 'movies_db'
 
@@ -48,7 +47,6 @@ class PersonAdmin(admin.ModelAdmin):
         obj.save(using=self.using)
 
 
-# Model Admins for MySQL and PostgreSQL Models
 class ReviewAdmin(admin.ModelAdmin):
     using = 'reviews_db'
 
@@ -64,7 +62,7 @@ class ReviewAdmin(admin.ModelAdmin):
 
 
 class UserAdmin(admin.ModelAdmin):
-    using = 'users_db'  # Specify the PostgreSQL database
+    using = 'users_db'
 
     list_display = ('username', 'email', 'firstName', 'lastName')
     search_fields = ('username', 'email')
