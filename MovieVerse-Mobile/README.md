@@ -1,5 +1,20 @@
 # The MovieVerse - `MovieVerse-Mobile` Directory
 
+## Table of Contents
+- [Overview](#overview)
+- [User Interface (iOS)](#user-interface-ios)
+- [User Interface (Android)](#user-interface-android)
+- [Features](#features)
+  - [Easy Navigation](#easy-navigation)
+  - [Rich Movie Catalog](#rich-movie-catalog)
+  - [Interactive Elements](#interactive-elements)
+  - [And all other features from the web app!](#and-all-other-features-from-the-web-app)
+  - [Launch Screen](#launch-screen)
+- [Development](#development)
+  - [Prerequisites](#prerequisites)
+  - [Instructions](#instructions)
+  - [Special Notes](#special-notes)
+
 ## Overview
 
 MovieVerse is a dynamic, user-friendly mobile application that offers an extensive library of movies across various genres. Designed for movie enthusiasts, it provides a seamless browsing experience on iOS devices, including iPhones and iPads. Explore popular, award-winning, and hidden gems, or dive into categories like action, horror, romance, and more. MovieVerse is your ultimate mobile destination for movie discovery and entertainment.
