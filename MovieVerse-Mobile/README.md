@@ -51,6 +51,8 @@ MovieVerse also offers a launch screen that welcomes users with a sleek and enga
   </a>
 </p>
 
+The launch scree
+
 ## Development
 
 ### Prerequisites
