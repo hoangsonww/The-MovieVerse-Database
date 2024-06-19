@@ -1,6 +1,7 @@
 from django.http import HttpResponseForbidden
 from .models import Movie
 
+
 def user_is_movie_creator(function):
     def wrap(request, *args, **kwargs):
         if kwargs['movie_id'] and request.user.is_authenticated:
@@ -11,4 +12,5 @@ def user_is_movie_creator(function):
                 return function(request, *args, **kwargs)
         else:
             return HttpResponseForbidden("You need to be logged in to perform this action.")
+
     return wrap
