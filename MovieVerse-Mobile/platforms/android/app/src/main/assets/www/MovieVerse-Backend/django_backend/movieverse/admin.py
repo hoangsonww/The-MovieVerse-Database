@@ -1,44 +1,84 @@
 from django.contrib import admin
-from .models import Movie, Actor, Director, Genre
+from django.db import connections
+from .models import Movie, Genre, Person, Review, User
 
 admin.site.site_header = "MovieVerse Application - Backend Administration"
 
 
+# Model Admins for MongoDB Models
 class MovieAdmin(admin.ModelAdmin):
-    list_display = ('title', 'overview', 'poster_path', 'vote_average', 'release_date')
-    search_fields = ('title', 'overview', 'poster_path', 'vote_average', 'release_date')
-    list_filter = ('title', 'release_date')
-    ordering = ('title',)
+    using = 'movies_db'  # Specify the MongoDB database
 
+    list_display = ('title', 'releaseDate', 'voteAverage')
+    search_fields = ('title', 'overview', 'releaseDate')
+    list_filter = ('releaseDate', 'genres')
+    ordering = ('title', 'releaseDate')
 
-admin.site.register(Movie, MovieAdmin)
+    # This is necessary for Django to work with MongoDB models
+    def get_queryset(self, request):
+        return super().get_queryset(request).using(self.using)
 
-
-class ActorAdmin(admin.ModelAdmin):
-    list_display = ('name', 'date_of_birth', 'profile_path', 'biography')
-    search_fields = ('name', 'date_of_birth', 'profile_path', 'biography')
-    list_filter = ('name', 'date_of_birth')
-    ordering = ('name',)
-
-
-admin.site.register(Actor, ActorAdmin)
-
-
-class DirectorAdmin(admin.ModelAdmin):
-    list_display = ('name', 'date_of_birth', 'profile_path', 'biography')
-    search_fields = ('name', 'date_of_birth', 'profile_path', 'biography')
-    list_filter = ('name', 'date_of_birth')
-    ordering = ('name',)
-
-
-admin.site.register(Director, DirectorAdmin)
+    def save_model(self, request, obj, form, change):
+        obj.save(using=self.using)  # Save to MongoDB
 
 
 class GenreAdmin(admin.ModelAdmin):
+    using = 'genres_db'
+
     list_display = ('name',)
     search_fields = ('name',)
-    list_filter = ('name',)
-    ordering = ('name',)
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).using(self.using)
+
+    def save_model(self, request, obj, form, change):
+        obj.save(using=self.using)
 
 
+class PersonAdmin(admin.ModelAdmin):
+    using = 'people_db'
+
+    list_display = ('name', 'knownForDepartment')
+    search_fields = ('name',)
+    list_filter = ('knownForDepartment',)
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).using(self.using)
+
+    def save_model(self, request, obj, form, change):
+        obj.save(using=self.using)
+
+
+# Model Admins for MySQL and PostgreSQL Models
+class ReviewAdmin(admin.ModelAdmin):
+    using = 'reviews_db'
+
+    list_display = ('id', 'userId', 'movieId', 'rating', 'createdAt', 'reviewText')
+    search_fields = ('reviewText',)
+    list_filter = ('rating', 'createdAt')
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).using(self.using)
+
+    def save_model(self, request, obj, form, change):
+        obj.save(using=self.using)
+
+
+class UserAdmin(admin.ModelAdmin):
+    using = 'users_db'  # Specify the PostgreSQL database
+
+    list_display = ('username', 'email', 'firstName', 'lastName')
+    search_fields = ('username', 'email')
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).using(self.using)
+
+    def save_model(self, request, obj, form, change):
+        obj.save(using=self.using)
+
+
+admin.site.register(Movie, MovieAdmin)
 admin.site.register(Genre, GenreAdmin)
+admin.site.register(Person, PersonAdmin)
+admin.site.register(Review, ReviewAdmin)
+admin.site.register(User, UserAdmin)
