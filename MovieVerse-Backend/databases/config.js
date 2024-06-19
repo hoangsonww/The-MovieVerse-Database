@@ -3,8 +3,8 @@
 module.exports = {
     MONGO_URI1: 'mongodb://localhost:27017/MovieVerse', // Store general application data
     MONGO_URI2: 'mongodb://localhost:27017/MovieVerse_movies',
-    // MONGO_URI3: 'mongodb://localhost:27017/MovieVerse_users', -- TO BE HANDLED BY POSTGRESQL
-    // MONGO_URI4: 'mongodb://localhost:27017/MovieVerse_reviews', -- TO BE HANDLED BY MYSQL
+    MONGO_URI3: 'mongodb://localhost:27017/MovieVerse_users',  // Redundant -- TO BE HANDLED BY POSTGRESQL
+    MONGO_URI4: 'mongodb://localhost:27017/MovieVerse_reviews', // Redundant -- TO BE HANDLED BY MYSQL
     MONGO_URI5: 'mongodb://localhost:27017/MovieVerse_people',
     MONGO_URI6: 'mongodb://localhost:27017/MovieVerse_genres',
     redisHost: '127.0.0.1',

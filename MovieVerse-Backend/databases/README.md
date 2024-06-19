@@ -121,7 +121,6 @@ Redis acts as a cache layer, storing frequently accessed data like:
 
 4. **Seed the Databases:**
     * Run the provided `mongo-redis.js`, `mysql.js`, `postgresql.js` scripts (adjust as needed for your data sources) to populate the databases with initial data.
-    * Consider using an external API like TMDB for rich movie metadata.
     * Be sure to replace the API key in `config.js` with your own.
     * Be sure to run these files only ONCE.
 
