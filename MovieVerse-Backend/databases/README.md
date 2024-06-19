@@ -81,7 +81,11 @@ MovieVerse offers free-to-read APIs for developers to access movie data using th
 
 To access the APIs, you have the following options:
 
-**Option 1**: Use the Django REST Framework's browsable API interface by visiting the respective URLs in your browser. For example, `http://127.0.0.1:8000/api/movies/` or `http://127.0.0.1:8000/api/genres/`.
+**Option 1**: Use the Django REST Framework's browsable API interface by visiting the respective URLs in your browser. For example, `http://127.0.0.1:8000/api/movies/` or `http://127.0.0.1:8000/api/genres/`. You should see something similar to this:
+
+<p align="center" style="cursor: pointer">
+    <img src="../../images/api-test.png" alt="The MovieVerse Backend Admin Interface" width="100%" height="auto" style="border-radius: 10px"/>
+</p>
 
 **Option 2**: Use a tool like Postman to make API requests. For example, you can send a GET request to `http://127.0.0.1:8000/api/movies/` to retrieve movie data. 
 

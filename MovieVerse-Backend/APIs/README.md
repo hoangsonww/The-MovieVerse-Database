@@ -1,6 +1,6 @@
 # The MovieVerse - `APIs` Directory
 
-Welcome to the `MovieVerse-APIs` directory of the MovieVerse App! This directory is an essential part of the application, containing various files that define and interact with the web APIs. Below is a detailed overview of each file and its role in the project.
+Welcome to the `MovieVerse-APIs` directory of the MovieVerse App! This directory is an essential part of the application, containing various files that define and interact with our APIs for testing purposes and ensuring that the API endpoints are functioning as expected.
 
 ---
 

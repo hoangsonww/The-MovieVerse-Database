@@ -1,63 +1,141 @@
 openapi: 3.0.0
 info:
   title: MovieVerse API
+  description: A RESTful API for accessing movie-related data.
   version: 1.0.0
-  description: API for MovieVerse, a platform for exploring and reviewing movies.
 servers:
-  - url: http://localhost:8000/api
-    description: Development server
+  - url: http://127.0.0.1:8000/api/
+    description: Local development server
 
 paths:
-  /movies:
+  /movies/:
     get:
-      summary: List all movies
+      summary: Get a list of all movies
       responses:
         '200':
-          description: A list of movies
-#          content:
-#            application/json:
-#              schema:
-#                type: array
-#                items:
-#                  $ref: '#/components/schemas/Movie'
+          description: A list of movie objects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Movie'
+    parameters:
+      - in: query
+        name: search
+        schema:
+          type: string
+        description: Search query to filter movies by title
 
-  /movies/{id}:
+  /movies/{movie_id}/:
     get:
-      summary: Get a movie by its ID
+      summary: Get details of a specific movie
       parameters:
         - in: path
-          name: id
-          required: true
+          name: movie_id
           schema:
             type: integer
+          required: true
+          description: ID of the movie
       responses:
         '200':
-          description: Details of a movie
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/Movie'
-        '404':
-          description: Movie not found
+          description: A movie object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+
+  /genres/:
+    get:
+      summary: Get a list of all genres
+      responses:
+        '200':
+          description: A list of genre objects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Genre'
+
+  /people/:
+    get:
+      summary: Get a list of all people (cast and crew)
+      responses:
+        '200':
+          description: A list of person objects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Person'
+
+  /people/{person_id}/:
+    get:
+      summary: Get details of a specific person
+      parameters:
+        - in: path
+          name: person_id
+          schema:
+            type: integer
+          required: true
+          description: ID of the person
+      responses:
+        '200':
+          description: A person object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+
+  # Add similar paths for reviews and users if applicable
 
 components:
   schemas:
-    Movie:
+    Movie:  # Adjust properties based on your actual Movie model
       type: object
       properties:
         id:
           type: integer
+          readOnly: true
         title:
-          type: string
-        overview:
           type: string
         releaseDate:
           type: string
           format: date
-        rating:
+        voteAverage:
           type: number
-          format: float
         genres:
-          type: array
-          items:
-            type: string
+            type: array
+            items:
+                $ref: '#/components/schemas/Genre'
+        cast:
+            type: array
+            items:
+                $ref: '#/components/schemas/Person'
+        crew:
+            type: array
+            items:
+                $ref: '#/components/schemas/Person'
+
+    Genre:  # Adjust properties based on your actual Genre model
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+
+    Person:  # Adjust properties based on your actual Person model
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+        knownForDepartment:
+          type: string
+

@@ -5,18 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8bb29d63-e98d-4c08-9f32-16747d3aec75" name="Changes" comment="Fix: Updated Backend">
-      <change beforePath="$PROJECT_DIR$/../MovieVerse-APIs/.flake8" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MovieVerse-APIs/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/APIs/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MovieVerse-APIs/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MovieVerse-APIs/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/APIs/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MovieVerse-APIs/api.http" beforeDir="false" afterPath="$PROJECT_DIR$/APIs/api.http" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MovieVerse-APIs/api_test_suite.py" beforeDir="false" afterPath="$PROJECT_DIR$/APIs/api_test_suite.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MovieVerse-APIs/config.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MovieVerse-APIs/http-client.env.json" beforeDir="false" afterPath="$PROJECT_DIR$/APIs/http-client.env.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MovieVerse-APIs/http-client.private.env.json" beforeDir="false" afterPath="$PROJECT_DIR$/APIs/http-client.private.env.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MovieVerse-APIs/movieverse-openapi.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/APIs/movieverse-openapi.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MovieVerse-APIs/sample_initial_api_response.json" beforeDir="false" afterPath="$PROJECT_DIR$/APIs/sample_initial_api_response.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../images/api-test.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/APIs/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/APIs/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/APIs/movieverse-openapi.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/APIs/movieverse-openapi.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/databases/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/databases/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -53,6 +44,7 @@
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Django Server.Django-Backend.executor": "Run",
     "Django Server.MovieVerse-Backend.executor": "Run",
+    "OpenAPI/Swagger Code Generator.movieverse-openapi.yaml.executor": "Run",
     "Python tests.Python tests in api_test_suite.py.executor": "Run",
     "Python.flask.executor": "Run",
     "Python.genre_classifier.executor": "Run",
@@ -83,7 +75,7 @@
       <recent name="$PROJECT_DIR$/django_backend/movieverse/templates/movieverse" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests in api_test_suite.py">
+  <component name="RunManager" selected="OpenAPI/Swagger Code Generator.movieverse-openapi.yaml">
     <configuration name="flask" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="MovieVerse-Backend" />
       <option name="ENV_FILES" value="" />
@@ -99,29 +91,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/flask_root/flask.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="genre_classifier" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="MovieVerse-Backend" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/machine-learning" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/machine-learning/genre_classifier.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -202,6 +171,29 @@
       <option name="customRunCommand" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="movieverse-openapi.yaml" type="SwaggerCodegen" editBeforeRun="true" temporary="true" show_console_on_std_err="false" show_console_on_std_out="false">
+      <option name="allowRunningInParallel" value="false" />
+      <option name="customTemplatesPath" value="" />
+      <option name="envs">
+        <map />
+      </option>
+      <option name="generateToPath" value="$USER_HOME$/gen" />
+      <option name="generationParameters">
+        <list />
+      </option>
+      <option name="generatorType" value="OPENAPI_GENERATOR_V6" />
+      <option name="jdkPath" value="$APPLICATION_HOME_DIR$/jbr/Contents/Home/bin/java" />
+      <option name="language" value="python" />
+      <option name="passParentEnvs" value="true" />
+      <option name="programParameters" />
+      <option name="projectPathOnTarget" />
+      <option name="selectedOptions">
+        <list />
+      </option>
+      <option name="specificationPath" value="$PROJECT_DIR$/APIs/movieverse-openapi.yaml" />
+      <option name="workingDirectory" value="$PROJECT_DIR$/APIs" />
+      <method v="2" />
+    </configuration>
     <configuration name="Python tests in api_test_suite.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="MovieVerse-Backend" />
       <option name="ENV_FILES" value="" />
@@ -220,19 +212,19 @@
     </configuration>
     <list>
       <item itemvalue="Django Server.Django-Backend" />
+      <item itemvalue="OpenAPI/Swagger Code Generator.movieverse-openapi.yaml" />
       <item itemvalue="Python.python manage.py runserver" />
       <item itemvalue="Python.flask" />
       <item itemvalue="Python.sentiment_analysis" />
-      <item itemvalue="Python.genre_classifier" />
       <item itemvalue="Python tests.Python tests in api_test_suite.py" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="OpenAPI/Swagger Code Generator.movieverse-openapi.yaml" />
         <item itemvalue="Python tests.Python tests in api_test_suite.py" />
         <item itemvalue="Python.python manage.py runserver" />
         <item itemvalue="Python.flask" />
         <item itemvalue="Python.sentiment_analysis" />
-        <item itemvalue="Python.genre_classifier" />
       </list>
     </recent_temporary>
   </component>
@@ -259,7 +251,7 @@
       <workItem from="1718683787183" duration="139000" />
       <workItem from="1718683945994" duration="655000" />
       <workItem from="1718768720434" duration="12950000" />
-      <workItem from="1718784375563" duration="315000" />
+      <workItem from="1718784375563" duration="1176000" />
     </task>
     <task id="LOCAL-00001" summary="Enhanced Backend">
       <option name="closed" value="true" />
@@ -293,7 +285,15 @@
       <option name="project" value="LOCAL" />
       <updated>1718782557937</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Fix: Updated Backend">
+      <option name="closed" value="true" />
+      <created>1718784789651</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1718784789651</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -312,5 +312,6 @@
     <SUITE FILE_PATH="coverage/MovieVerse_Backend$python_manage_py_runserver.coverage" NAME="python manage.py runserver Coverage Results" MODIFIED="1718684111390" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MovieVerse_Backend$movie_recommendation.coverage" NAME="movie-recommendation Coverage Results" MODIFIED="1718612421906" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/machine-learning" />
     <SUITE FILE_PATH="coverage/MovieVerse_Backend$flask.coverage" NAME="flask Coverage Results" MODIFIED="1718612625935" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/flask_root" />
+    <SUITE FILE_PATH="coverage/MovieVerse_Backend$.coverage" NAME=" Coverage Results" MODIFIED="1718784742776" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/APIs" />
   </component>
 </project>
