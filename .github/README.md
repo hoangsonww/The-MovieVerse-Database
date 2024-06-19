@@ -132,6 +132,7 @@ Or, for your convenience, you may simply run the following command, provided tha
     ```bash
     npm start
     ```
+   This will start the deployment server, including the frontend, so you can start developing and testing your changes right away. If you make any changes, be sure to reload the web page to see the updates.
 9. **If you would also like to develop the mobile app versions:** Visit the mobile app directory and install the dependencies (if any):
     ```bash
     cd MovieVerse-Mobile
