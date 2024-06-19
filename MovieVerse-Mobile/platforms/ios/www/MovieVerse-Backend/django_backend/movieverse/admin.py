@@ -3,23 +3,23 @@ from django.db import connections
 from .models import Movie, Genre, Person, Review, User
 
 admin.site.site_header = "MovieVerse Application - Backend Administration"
+admin.site.index_title = "MovieVerse Administration"
+admin.site.site_title = "MovieVerse Administration"
 
 
-# Model Admins for MongoDB Models
 class MovieAdmin(admin.ModelAdmin):
-    using = 'movies_db'  # Specify the MongoDB database
+    using = 'movies_db'
 
     list_display = ('title', 'releaseDate', 'voteAverage')
     search_fields = ('title', 'overview', 'releaseDate')
     list_filter = ('releaseDate', 'genres')
     ordering = ('title', 'releaseDate')
 
-    # This is necessary for Django to work with MongoDB models
     def get_queryset(self, request):
         return super().get_queryset(request).using(self.using)
 
     def save_model(self, request, obj, form, change):
-        obj.save(using=self.using)  # Save to MongoDB
+        obj.save(using=self.using)
 
 
 class GenreAdmin(admin.ModelAdmin):
@@ -49,7 +49,6 @@ class PersonAdmin(admin.ModelAdmin):
         obj.save(using=self.using)
 
 
-# Model Admins for MySQL and PostgreSQL Models
 class ReviewAdmin(admin.ModelAdmin):
     using = 'reviews_db'
 
@@ -65,7 +64,7 @@ class ReviewAdmin(admin.ModelAdmin):
 
 
 class UserAdmin(admin.ModelAdmin):
-    using = 'users_db'  # Specify the PostgreSQL database
+    using = 'users_db'
 
     list_display = ('username', 'email', 'firstName', 'lastName')
     search_fields = ('username', 'email')
