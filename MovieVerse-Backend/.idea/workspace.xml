@@ -4,27 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8bb29d63-e98d-4c08-9f32-16747d3aec75" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/databases/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/databases/firebase.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/databases/mongo-redis.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/databases/mysql.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/databases/postgresql.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/dataSources/0c6f8acf-80af-44b7-8471-3140f2e683f5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/dataSources/0c6f8acf-80af-44b7-8471-3140f2e683f5.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/dataSources/788cafbf-6cb6-424e-a1bc-51d30fb43a11.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/dataSources/788cafbf-6cb6-424e-a1bc-51d30fb43a11.xml" afterDir="false" />
+    <list default="true" id="8bb29d63-e98d-4c08-9f32-16747d3aec75" name="Changes" comment="Enhanced Backend">
+      <change afterPath="$PROJECT_DIR$/django_backend/movieverse/migrations/0003_auto_20240619_0611.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django_backend/movieverse/migrations/0004_auto_20240619_0615.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django_backend/movieverse/migrations/0005_auto_20240619_0651.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django_backend/movieverse/migrations/0006_alter_genre_table.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../.idea/dataSources/79c6fab5-e5a6-4c9a-a761-b571eac26217.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/dataSources/79c6fab5-e5a6-4c9a-a761-b571eac26217.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/sqldialects.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/dataSources/79c6fab5-e5a6-4c9a-a761-b571eac26217/storage_v2/_src_/database/MovieVerse.BSRBCQ/schema/information_schema.FNRwLQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/dataSources/79c6fab5-e5a6-4c9a-a761-b571eac26217/storage_v2/_src_/database/MovieVerse.BSRBCQ/schema/information_schema.FNRwLQ.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/dataSources/79c6fab5-e5a6-4c9a-a761-b571eac26217/storage_v2/_src_/database/MovieVerse.BSRBCQ/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/dataSources/79c6fab5-e5a6-4c9a-a761-b571eac26217/storage_v2/_src_/database/MovieVerse.BSRBCQ/schema/pg_catalog.0S1ZNQ.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/dataSources/79c6fab5-e5a6-4c9a-a761-b571eac26217/storage_v2/_src_/database/MovieVerse.BSRBCQ/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/dataSources/79c6fab5-e5a6-4c9a-a761-b571eac26217/storage_v2/_src_/database/MovieVerse.BSRBCQ/schema/public.abK9xQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/databases/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/databases/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/databases/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/databases/config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_backend/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/django_backend/db.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/django_backend/django_backend/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_backend/django_backend/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MovieVerse-Frontend/js/sign-in.js" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Frontend/js/sign-in.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/django_backend/movieverse/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_backend/movieverse/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/django_backend/movieverse/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_backend/movieverse/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/django_backend/movieverse/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_backend/movieverse/serializers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/django_backend/movieverse/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_backend/movieverse/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/django_backend/movieverse/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_backend/movieverse/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -271,8 +266,17 @@
       <workItem from="1718622325214" duration="126000" />
       <workItem from="1718683787183" duration="139000" />
       <workItem from="1718683945994" duration="655000" />
-      <workItem from="1718768720434" duration="6174000" />
+      <workItem from="1718768720434" duration="10722000" />
     </task>
+    <task id="LOCAL-00001" summary="Enhanced Backend">
+      <option name="closed" value="true" />
+      <created>1718776032924</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1718776032924</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -280,6 +284,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="Enhanced Backend" />
+    <option name="LAST_COMMIT_MESSAGE" value="Enhanced Backend" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/MovieVerse_Backend$genre_classifier.coverage" NAME="genre_classifier Coverage Results" MODIFIED="1718612381334" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/machine-learning" />

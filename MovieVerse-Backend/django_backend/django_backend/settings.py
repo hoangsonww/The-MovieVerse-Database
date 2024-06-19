@@ -76,8 +76,40 @@ WSGI_APPLICATION = 'django_backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'djongo',
+        'NAME': 'MovieVerse',
+        'ENFORCE_SCHEMA': False,
+    },
+    'movies_db': {
+        'ENGINE': 'djongo',
+        'NAME': 'MovieVerse_movies',
+        'ENFORCE_SCHEMA': False,
+    },
+    'people_db': {
+        'ENGINE': 'djongo',
+        'NAME': 'MovieVerse_people',
+        'ENFORCE_SCHEMA': False,
+    },
+    'genres_db': {
+        'ENGINE': 'djongo',
+        'NAME': 'MovieVerse_genres',
+        'ENFORCE_SCHEMA': False,
+    },
+    'reviews_db': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'MovieVerse',
+        'USER': 'root',
+        'PASSWORD': '09112004',
+        'HOST': 'localhost',
+        'PORT': '3306',
+    },
+    'users_db': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'MovieVerse',
+        'USER': 'root',
+        'PASSWORD': '09112004',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
