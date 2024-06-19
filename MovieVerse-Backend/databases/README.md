@@ -114,7 +114,7 @@ curl http://127.0.0.1:8000/api/movies/929590/
 curl http://127.0.0.1:8000/api/genres/
 ```
 
-Note that you do not have to be authenticated to access the APIs since they are read-only and free-to-read.
+Note that you do not have to be authenticated to access the APIs since they are read-only and free-to-read. If you use CURL, be sure to check your terminal's output for the API response.
 
 ## Redis' Role in Load Reduction
 
