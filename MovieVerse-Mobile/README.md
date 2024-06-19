@@ -98,6 +98,8 @@ The launch screen will be displayed when the app is launched, providing a brief 
 7. **Open the Project**: Open the project in Xcode and/or Android Studio to view the source code and test the app within the simulator.
 8. **Enjoy coding!**
 
+### Special Notes
+
 **Important**: If you make any changes to the source code of the **iOS** mobile app, you will need to update the iOS build process by removing iOS and adding it again using the following commands:
 
 ```bash
