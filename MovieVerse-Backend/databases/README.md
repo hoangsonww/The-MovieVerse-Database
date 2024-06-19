@@ -1,4 +1,4 @@
-## The MovieVerse Database Backend
+## The MovieVerse - `database` Directory
 
 ### Project Overview
 
