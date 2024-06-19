@@ -61,8 +61,8 @@ class Person(models.Model):
 
 class Review(mysql_models.Model):
     id = mysql_models.AutoField(primary_key=True)
-    userId = mysql_models.IntegerField()  # Foreign key to user (integer in your MySQL schema)
-    movieId = mysql_models.IntegerField()  # Foreign key to movie
+    userId = mysql_models.IntegerField()
+    movieId = mysql_models.IntegerField()
     rating = mysql_models.IntegerField()
     reviewText = mysql_models.TextField(null=True, blank=True)
     createdAt = mysql_models.DateTimeField(auto_now_add=True)  # Auto-populated
