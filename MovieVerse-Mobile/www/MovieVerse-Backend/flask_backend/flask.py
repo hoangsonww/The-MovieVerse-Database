@@ -1,12 +1,10 @@
 import hashlib
 
 
-# Utility Functions
 def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
 
 
-# User model
 class User:
     def __init__(self, username, password):
         self.username = username
@@ -23,7 +21,6 @@ class User:
         self.password = hash_password(new_password)
 
 
-# Backend service
 class BackendService:
     def __init__(self):
         self.users = {}
@@ -74,7 +71,6 @@ class BackendService:
         return ", ".join(self.users.keys()) if self.users else "No users found."
 
 
-# Admin Panel for user management
 class AdminPanel:
     def __init__(self, service):
         self.service = service
@@ -98,7 +94,6 @@ class AdminPanel:
                 print("Invalid choice.")
 
 
-# Main function to run the service
 def main():
     service = BackendService()
     admin_panel = AdminPanel(service)

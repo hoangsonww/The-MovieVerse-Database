@@ -1,3 +1,4 @@
+// app.js - Set up & verify connections to databases
 const express = require('express');
 const mongoose = require('mongoose');
 const mysql = require('mysql2');
@@ -5,15 +6,16 @@ const redis = require('redis');
 const amqp = require('amqplib');
 const { MongoClient, ObjectId } = require('mongodb');
 const config = require('./config');
+const { Pool } = require('pg');
 
 const app = express();
 
 // Connect to MySQL
 const mysqlConnection = mysql.createConnection({
-    host: '127.0.0.1',      // Change to localhost
-    user: config.MYSQL_USER,  // Make sure it's 'root' if you're using that
-    password: config.MYSQL_PASSWORD, // Correct password if you're using one
-    database: config.MYSQL_DB // Ensure the database exists
+    host: '127.0.0.1',
+    user: config.MYSQL_USER,
+    password: config.MYSQL_PASSWORD,
+    database: config.MYSQL_DB
 });
 
 mysqlConnection.connect((err) => {
@@ -24,11 +26,25 @@ mysqlConnection.connect((err) => {
     console.log('Connected to MySQL');
 });
 
-// Connect to MongoDB
-mongoose
-    .connect(config.MONGO_URI1, { })
-    .then(() => console.log('Connected to MongoDB'))
-    .catch(err => console.error('MongoDB Connection Error:', err));
+const mongoURIs = [
+    { uri: config.MONGO_URI1, name: "MovieVerse" },
+    { uri: config.MONGO_URI2, name: "MovieVerse_movies" },
+    { uri: config.MONGO_URI3, name: "MovieVerse_users" },
+    { uri: config.MONGO_URI4, name: "MovieVerse_reviews" },
+    { uri: config.MONGO_URI5, name: "MovieVerse_people" },
+    { uri: config.MONGO_URI6, name: "MovieVerse_genres" }
+];
+
+// Connect to each MongoDB database
+mongoURIs.forEach(async ({ uri, name }, index) => {
+    try {
+        await mongoose.createConnection(uri, { });
+        console.log(`Connected to MongoDB database ${index + 1}: ${name}`);
+    }
+    catch (err) {
+        console.error(`MongoDB Connection Error ${index + 1} (${name}):`, err);
+    }
+});
 
 // Connect to Redis
 const redisClient = redis.createClient({
@@ -46,8 +62,39 @@ redisClient
     .then(value => console.log(`Redis Test: ${value}`))
     .catch(err => console.error('Redis Connection Error:', err));
 
+// PostgreSQL Connection Pool
+const pgPool = new Pool({
+    user: config.POSTGRES_USER,
+    host: config.POSTGRES_HOST,
+    database: config.POSTGRES_DB,
+    password: config.POSTGRES_PASSWORD,
+    port: config.POSTGRES_PORT,
+});
+
+// Connect to PostgreSQL
+pgPool.on('connect', () => {
+    console.log('Connected to PostgreSQL');
+});
+
+pgPool.on('error', (err) => {
+    console.error('PostgreSQL Connection Error:', err);
+});
+
+// Test PostgreSQL Connection
+(async () => {
+    try {
+        const client = await pgPool.connect();
+        const result = await client.query('SELECT NOW()');
+        console.log('PostgreSQL Test:', result.rows[0].now);
+        client.release();
+    }
+    catch (err) {
+        console.error('PostgreSQL Test Error:', err);
+    }
+})();
+
 app.get('/', (req, res) => {
-    const message = 'Congratulations! MovieVerse server is running! MongoDB, MySQL, and Redis connections have been established.';
+    const message = 'Congratulations! MovieVerse server is running! MongoDB, MySQL, PostgreSQL, and Redis connections have been established.';
     console.log(message);
     res.send(message);
 });

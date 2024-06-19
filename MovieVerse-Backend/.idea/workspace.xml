@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8bb29d63-e98d-4c08-9f32-16747d3aec75" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/django_backend/movieverse/static/images/favicon.ico" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_backend/django_backend/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_backend/django_backend/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flask_backend/micro-services.py" beforeDir="false" />
-    </list>
+    <list default="true" id="8bb29d63-e98d-4c08-9f32-16747d3aec75" name="Changes" comment="Fix: Updated Backend (#196)" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -44,6 +39,9 @@
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Django Server.Django-Backend.executor": "Run",
     "Django Server.MovieVerse-Backend.executor": "Run",
+    "Django tests.Test: movieverse.tests.executor": "Run",
+    "OpenAPI/Swagger Code Generator.movieverse-openapi.yaml.executor": "Run",
+    "Python tests.Python tests in api_test_suite.py.executor": "Run",
     "Python.flask.executor": "Run",
     "Python.genre_classifier.executor": "Run",
     "Python.movie-recommendation.executor": "Run",
@@ -74,6 +72,27 @@
     </key>
   </component>
   <component name="RunManager" selected="Django Server.Django-Backend">
+    <configuration name="Test: movieverse.tests" type="DjangoTestsConfigurationType" temporary="true">
+      <module name="MovieVerse-Backend" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="TARGET" value="movieverse.tests" />
+      <option name="SETTINGS_FILE" value="" />
+      <option name="CUSTOM_SETTINGS" value="false" />
+      <option name="USE_OPTIONS" value="false" />
+      <option name="OPTIONS" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="flask" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="MovieVerse-Backend" />
       <option name="ENV_FILES" value="" />
@@ -89,52 +108,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/flask_root/flask.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="genre_classifier" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="MovieVerse-Backend" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/machine-learning" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/machine-learning/genre_classifier.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="plot-summarizer" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="MovieVerse-Backend" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/machine-learning" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/machine-learning/plot-summarizer.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -159,29 +132,6 @@
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="manage.py" />
       <option name="PARAMETERS" value="runserver" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="sentiment_analysis" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="MovieVerse-Backend" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/machine-learning" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/machine-learning/sentiment_analysis.py" />
-      <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -215,21 +165,60 @@
       <option name="customRunCommand" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="movieverse-openapi.yaml" type="SwaggerCodegen" editBeforeRun="true" temporary="true" show_console_on_std_err="false" show_console_on_std_out="false">
+      <option name="allowRunningInParallel" value="false" />
+      <option name="customTemplatesPath" value="" />
+      <option name="envs">
+        <map />
+      </option>
+      <option name="generateToPath" value="$USER_HOME$/gen" />
+      <option name="generationParameters">
+        <list />
+      </option>
+      <option name="generatorType" value="OPENAPI_GENERATOR_V6" />
+      <option name="jdkPath" value="$APPLICATION_HOME_DIR$/jbr/Contents/Home/bin/java" />
+      <option name="language" value="python" />
+      <option name="passParentEnvs" value="true" />
+      <option name="programParameters" />
+      <option name="projectPathOnTarget" />
+      <option name="selectedOptions">
+        <list />
+      </option>
+      <option name="specificationPath" value="$PROJECT_DIR$/APIs/movieverse-openapi.yaml" />
+      <option name="workingDirectory" value="$PROJECT_DIR$/APIs" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests in api_test_suite.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="MovieVerse-Backend" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/APIs" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/APIs/api_test_suite.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Django Server.Django-Backend" />
+      <item itemvalue="Django tests.Test: movieverse.tests" />
+      <item itemvalue="OpenAPI/Swagger Code Generator.movieverse-openapi.yaml" />
       <item itemvalue="Python.python manage.py runserver" />
       <item itemvalue="Python.flask" />
-      <item itemvalue="Python.sentiment_analysis" />
-      <item itemvalue="Python.genre_classifier" />
-      <item itemvalue="Python.plot-summarizer" />
+      <item itemvalue="Python tests.Python tests in api_test_suite.py" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Django tests.Test: movieverse.tests" />
+        <item itemvalue="OpenAPI/Swagger Code Generator.movieverse-openapi.yaml" />
+        <item itemvalue="Python tests.Python tests in api_test_suite.py" />
         <item itemvalue="Python.python manage.py runserver" />
         <item itemvalue="Python.flask" />
-        <item itemvalue="Python.sentiment_analysis" />
-        <item itemvalue="Python.genre_classifier" />
-        <item itemvalue="Python.plot-summarizer" />
       </list>
     </recent_temporary>
   </component>
@@ -255,7 +244,205 @@
       <workItem from="1718622325214" duration="126000" />
       <workItem from="1718683787183" duration="139000" />
       <workItem from="1718683945994" duration="655000" />
+      <workItem from="1718768720434" duration="12950000" />
+      <workItem from="1718784375563" duration="1993000" />
+      <workItem from="1718791863338" duration="24000" />
+      <workItem from="1718810462591" duration="144000" />
+      <workItem from="1718810717600" duration="2702000" />
     </task>
+    <task id="LOCAL-00001" summary="Enhanced Backend">
+      <option name="closed" value="true" />
+      <created>1718776032924</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1718776032924</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Enhanced Backend">
+      <option name="closed" value="true" />
+      <created>1718780415504</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1718780415504</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Fix: Updated Backend">
+      <option name="closed" value="true" />
+      <created>1718780674171</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1718780674171</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Fix: Updated Backend">
+      <option name="closed" value="true" />
+      <created>1718782557937</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1718782557937</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Fix: Updated Backend">
+      <option name="closed" value="true" />
+      <created>1718784789651</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1718784789651</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Fix: Updated Backend">
+      <option name="closed" value="true" />
+      <created>1718785840616</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1718785840616</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Fix: Updated Backend">
+      <option name="closed" value="true" />
+      <created>1718788022210</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1718788022210</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Fix: Updated Backend">
+      <option name="closed" value="true" />
+      <created>1718812647631</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1718812647631</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Fix: Updated Backend">
+      <option name="closed" value="true" />
+      <created>1718812774676</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1718812774676</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Fix: Updated Backend">
+      <option name="closed" value="true" />
+      <created>1718812797843</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1718812797843</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Fix: Updated Backend">
+      <option name="closed" value="true" />
+      <created>1718812816150</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1718812816150</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Fix: Updated Backend">
+      <option name="closed" value="true" />
+      <created>1718812837266</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1718812837266</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Fix: Updated Backend">
+      <option name="closed" value="true" />
+      <created>1718812896473</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1718812896473</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Fix: Updated Backend">
+      <option name="closed" value="true" />
+      <created>1718812918758</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1718812918758</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Fix: Updated Backend">
+      <option name="closed" value="true" />
+      <created>1718812944564</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1718812944564</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Fix: Updated Backend">
+      <option name="closed" value="true" />
+      <created>1718812950157</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1718812950157</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Fix: Updated Backend">
+      <option name="closed" value="true" />
+      <created>1718812956843</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1718812956843</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Fix: Updated Backend">
+      <option name="closed" value="true" />
+      <created>1718812972867</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1718812972867</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Fix: Updated Backend">
+      <option name="closed" value="true" />
+      <created>1718812979659</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1718812979659</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Fix: Updated Backend">
+      <option name="closed" value="true" />
+      <created>1718812999965</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1718812999965</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Fix: Updated Backend">
+      <option name="closed" value="true" />
+      <created>1718813058821</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1718813058821</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Fix: Updated Backend">
+      <option name="closed" value="true" />
+      <created>1718813094540</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1718813094540</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Fix: Updated Backend">
+      <option name="closed" value="true" />
+      <created>1718813247816</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1718813247816</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Fix: Updated Backend (#196)">
+      <option name="closed" value="true" />
+      <created>1718813369344</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1718813369344</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -263,13 +450,19 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="Enhanced Backend" />
+    <MESSAGE value="Fix: Updated Backend" />
+    <MESSAGE value="Fix: Updated Backend (#196)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix: Updated Backend (#196)" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/MovieVerse_Backend$genre_classifier.coverage" NAME="genre_classifier Coverage Results" MODIFIED="1718612381334" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/machine-learning" />
     <SUITE FILE_PATH="coverage/MovieVerse_Backend$sentiment_analysis.coverage" NAME="sentiment_analysis Coverage Results" MODIFIED="1718612534384" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/machine-learning" />
     <SUITE FILE_PATH="coverage/MovieVerse_Backend$plot_summarizer.coverage" NAME="plot-summarizer Coverage Results" MODIFIED="1718612264260" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/machine-learning" />
     <SUITE FILE_PATH="coverage/MovieVerse_Backend$python_manage_py_runserver.coverage" NAME="python manage.py runserver Coverage Results" MODIFIED="1718684111390" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/MovieVerse_Backend$Test__movieverse_tests.coverage" NAME="Test: movieverse.tests Coverage Results" MODIFIED="1718813338682" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/MovieVerse_Backend$movie_recommendation.coverage" NAME="movie-recommendation Coverage Results" MODIFIED="1718612421906" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/machine-learning" />
     <SUITE FILE_PATH="coverage/MovieVerse_Backend$flask.coverage" NAME="flask Coverage Results" MODIFIED="1718612625935" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/flask_root" />
+    <SUITE FILE_PATH="coverage/MovieVerse_Backend$.coverage" NAME=" Coverage Results" MODIFIED="1718784742776" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/APIs" />
   </component>
 </project>

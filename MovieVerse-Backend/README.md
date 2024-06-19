@@ -1,7 +1,5 @@
 # The MovieVerse - `MovieVerse-Backend` Directory
 
----
-
 ## Table of Contents
 - [Overview](#overview)
 - [Architecture](#architecture)
@@ -9,17 +7,19 @@
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
   - [Running the Services](#running-the-services)
-    - [Crawler Service](#crawler-service)
-    - [Flask Service](#flask-service)
-    - [Django Service](#django-service)
     - [Database Services](#database-services)
+    - [Django Service](#django-service)
+    - [Flask Service](#flask-service)
     - [Machine Learning Services](#machine-learning-services)
+    - [Crawler Service](#crawler-service)
 - [Contributing](#contributing)
 - [License](#license)
 
 ## Overview
 
 The backend of MovieVerse is built using a microservices architecture. This architecture allows for independent scalability and enhanced flexibility in the development of different functionalities of the app, such as authentication, user management, movie data processing, and more.
+
+**Important**: Be sure to read this file and the [README.md](databases/README.md) file in the `databases` directory for more information on the backend services of MovieVerse before you start developing.
 
 ## Architecture
 
@@ -49,7 +49,7 @@ The microservices architecture of MovieVerse is designed to segregate the applic
 - Flask
 - Django
 - Flake8 for Python linting
-- Celery for asynchronous task queue
+- Celery for asynchronous task queue (for the crawlers)
 - Redis or RabbitMQ as a broker for Celery
 - BeautifulSoup4 and Requests for web scraping in the Crawler Service
 - Transformers and PyTorch for AI functionalities within the Crawler Service
@@ -83,87 +83,11 @@ pip install -r requirements.txt
 
 ### Running the Services
 
-#### Crawler Service
-
-1. Navigate to the `crawler` directory:
-    ```bash
-    cd crawler
-    ```
-   
-2. Run the Crawler Service:
-    ```bash
-    python main.py
-    ```
-
-Note: For security reasons, we have disabled the file `main.py` as it contains sensitive information. Please [contact me](mailto:info@movie-verse.com) for access to the full code.
-
-#### Flask Service
-
-1. Navigate to the `flask_backend` directory:
-    ```bash
-    cd flask_backend
-    ```
-   
-2. Run the Flask Service:
-    ```bash
-    python flask.py
-    ```
-   
-#### Django Service
-
-1. Navigate to the `django_backend` directory:
-    ```bash
-    cd django_backend
-    ```
-   
-2. Make the necessary migrations:
-    ```bash
-    python manage.py makemigrations
-    python manage.py migrate
-    ```
-   
-3. Run the Django Service:
-    ```bash
-    python manage.py runserver
-    ```
-NOTE: Before running the Django server, be sure to set the `DEBUG` variable to `True` in the `settings.py` file. This is crucial for running the server locally. Additionally, you are also required to obtain a Django secret key and set it in the `settings.py` file. For security reasons, we have hidden the secret key in the `.env` file. Please [contact me](mailto:info@movie-verse.com) for access to the secret key.
-
-```python
-SECRET_KEY = 'your_secret_key'
-Debug = True
-```
-
-If your installation and run are successful, you should see the following output in your terminal:
-
-```bash
-Watching for file changes with StatReloader
-Performing system checks...
-
-System check identified no issues (0 silenced).
-June 17, 2024 - 08:31:47
-Django version 3.2, using settings 'django_backend.settings'
-Starting development server at http://127.0.0.1:8000/
-Quit the server with CONTROL-C.
-[17/Jun/2024 08:39:00] "GET /search/?search=g HTTP/1.1" 200 2693
-```
-
-If you go to `http://127.0.0.1:8000/` in your browser, you should see te following TEMPLATE for the backend of MovieVerse:
-
-<p align="center" style="cursor: pointer">
-    <img src="../images/Administration-UI.png" alt="The MovieVerse Backend Admin Interface" width="100%" height="auto" style="border-radius: 10px"/>
-</p>
-
-This is the Django admin interface for the backend of MovieVerse. It allows you to manage users, movies, reviews, and more.
-
-<p align="center" style="cursor: pointer">
-    <img src="../images/Homepage-UI.png" alt="The MovieVerse Backend Interface" style="border-radius: 10px" width="100%"/>
-</p>
-
-Note that these are only templates and do not represent the actual UI of the MovieVerse app. The actual UI is built using React and Vue and can be found in the [MovieVerse-Frontend](../MovieVerse-Frontend) directory.
+To run the MovieVerse's backend services, follow these steps **in order**:
 
 #### Database Services
 
-MovieVerse currently uses MongoDB, Redis, PostgreSQL, and MySQL as its primary databases. To run these databases, execute the following commands:
+MovieVerse currently uses MongoDB, Redis, PostgreSQL, and MySQL as its primary databases, as well as RabbitMQ as its primary message broker. To run these databases, execute the following commands:
 
 1. Ensure that MongoDB, Redis, RabbitMQ, PostgreSQL, and MySQL are installed on your machine and are running. For example, on MacOS and if you are using `Homebrew`, you can run the following commands:
 
@@ -251,15 +175,95 @@ MovieVerse currently uses MongoDB, Redis, PostgreSQL, and MySQL as its primary d
     ```
 
     This confirms that you have successfully connected to all the databases required for the backend services of MovieVerse.
+
+7. For the next steps, refer to the [README.md](databases/README.md) file in the `databases` directory for more information on the database services.
    
 **Disclaimer**: These servers are for your local development environment only, in order for you to see how our backend services interact with each other.
 In our production environment, we use cloud-based services like AWS, Azure, and Google Cloud to host our databases and services. This thus will look different from what you might see on your end.
+   
+#### Django Service
+
+The Django service is responsible for handling the majority of backend functionalities of MovieVerse, such as API endpoints, movies management, database interactions, user management, and more. To run the Django service, follow these steps:
+
+1. Navigate to the `django_backend` directory:
+    ```bash
+    cd django_backend
+    ```
+   
+2. Make the necessary migrations:
+    ```bash
+    python manage.py makemigrations
+    python manage.py migrate
+    ```
+   
+3. Run the Django Service:
+    ```bash
+    python manage.py runserver
+    ```
+NOTE: Before running the Django server, be sure to set the `DEBUG` variable to `True` in the `settings.py` file. This is crucial for running the server locally. Additionally, you are also required to obtain a Django secret key and set it in the `settings.py` file. For security reasons, we have hidden the secret key in the `.env` file. Please [contact me](mailto:info@movie-verse.com) for access to the secret key.
+
+```python
+SECRET_KEY = 'your_secret_key'
+Debug = True
+```
+
+If your installation and run are successful, you should see the following output in your terminal:
+
+```bash
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+June 17, 2024 - 08:31:47
+Django version 3.2, using settings 'django_backend.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+[17/Jun/2024 08:39:00] "GET /search/?search=g HTTP/1.1" 200 2693
+```
+
+If you go to `http://127.0.0.1:8000/admin/` in your browser, you should see te following admin interface for the backend of MovieVerse:
+
+<p align="center" style="cursor: pointer">
+    <img src="../images/Administration-UI.png" alt="The MovieVerse Backend Admin Interface" width="100%" height="auto" style="border-radius: 10px"/>
+</p>
+
+This is the Django admin interface for the backend of MovieVerse. It allows you to manage users, movies, reviews, and more.
+
+Note that the UI that you see when you go to `http://127.0.0.1:8000/` in your browser is only a template and does not represent the actual UI of the MovieVerse app. The actual UI is built using React and Vue and can be found in the [MovieVerse-Frontend](../MovieVerse-Frontend) directory.
+
+#### Flask Service
+
+The Flask service is responsible for handling basic backend functionalities of MovieVerse. To run the Flask service, follow these steps:
+
+1. Navigate to the `flask_backend` directory:
+    ```bash
+    cd flask_backend
+    ```
+
+2. Run the Flask Service:
+    ```bash
+    python flask.py
+    ```
 
 #### Machine Learning Services
 
 This service contains several utilities for processing movie data using AI functionalities. To run each sub-service within `machine-learning`, follow the specific instructions provided in the respective directory.
 
 For more details about running these sub-services, go to the [Machine Learning Service Directory](machine-learning/README.md).
+
+#### Crawler Service
+
+1. Navigate to the `crawler` directory:
+    ```bash
+    cd crawler
+    ```
+
+2. Run the Crawler Service:
+    ```bash
+    python main.py
+    ```
+
+Note: For security reasons, we have disabled the file `main.py` as it contains sensitive information. Please [contact me](mailto:info@movie-verse.com) for access to the full code.
 
 ## Contributing
 

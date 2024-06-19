@@ -1,3 +1,4 @@
+// app.js - Set up & verify connections to databases
 const express = require('express');
 const mongoose = require('mongoose');
 const mysql = require('mysql2');
@@ -39,7 +40,8 @@ mongoURIs.forEach(async ({ uri, name }, index) => {
     try {
         await mongoose.createConnection(uri, { });
         console.log(`Connected to MongoDB database ${index + 1}: ${name}`);
-    } catch (err) {
+    }
+    catch (err) {
         console.error(`MongoDB Connection Error ${index + 1} (${name}):`, err);
     }
 });

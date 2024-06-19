@@ -2,6 +2,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from .models import Review, Movie
 
+
 @receiver(post_save, sender=Review)
 def update_movie_rating(sender, instance, **kwargs):
     movie = instance.movie

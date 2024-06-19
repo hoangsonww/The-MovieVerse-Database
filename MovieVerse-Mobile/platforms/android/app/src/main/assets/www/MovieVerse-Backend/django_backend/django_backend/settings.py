@@ -11,20 +11,20 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = '/static/'
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-
-# SECURITY WARNING: don't run with debug turned on in production!
-
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'movie-verse.com', 'www.movie-verse.com']
 
 # Application definition
 
@@ -48,6 +48,13 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly'
+    ]
+}
 
 ROOT_URLCONF = 'django_backend.urls'
 
@@ -75,8 +82,40 @@ WSGI_APPLICATION = 'django_backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'djongo',
+        'NAME': 'MovieVerse',
+        'ENFORCE_SCHEMA': False,
+    },
+    'movies_db': {
+        'ENGINE': 'djongo',
+        'NAME': 'MovieVerse_movies',
+        'ENFORCE_SCHEMA': False,
+    },
+    'people_db': {
+        'ENGINE': 'djongo',
+        'NAME': 'MovieVerse_people',
+        'ENFORCE_SCHEMA': False,
+    },
+    'genres_db': {
+        'ENGINE': 'djongo',
+        'NAME': 'MovieVerse_genres',
+        'ENFORCE_SCHEMA': False,
+    },
+    'reviews_db': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'MovieVerse',
+        'USER': 'root',
+        'PASSWORD': '09112004',
+        'HOST': 'localhost',
+        'PORT': '3306',
+    },
+    'users_db': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'MovieVerse',
+        'USER': 'root',
+        'PASSWORD': '09112004',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
@@ -115,7 +154,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
