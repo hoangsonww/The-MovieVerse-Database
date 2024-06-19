@@ -20,9 +20,10 @@ Welcome to **The MovieVerse** - your digital compass to the cinematic universe. 
 - [Project Structure](#project-structure)
 - [Deployment](#deployment)
 - [Technology Stack](#technology-stack)
-- [Contributing](#contributing)
+- [Getting Started](#getting-started)
 - [Privacy Policy](#privacy-policy)
 - [Terms of Service](#terms-of-service)
+- [Contributing](#contributing)
 - [License](#license)
 - [Code of Conduct](#code-of-conduct)
 - [Security Policy](#security-policy)
@@ -109,6 +110,10 @@ The app is using `Netlify` for the frontend deployment and `Heroku` for the back
 Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
 If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+
+## Getting Started
+
+
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
