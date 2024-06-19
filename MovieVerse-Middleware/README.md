@@ -8,25 +8,34 @@ Welcome to the `MovieVerse-Middleware` directory of the MovieVerse project! This
 
 The Middleware directory consists of two primary files:
 
-1. **middleware.js**
-2. **app-middleware.py**
+1. **cors.py**
+2. **middleware.py**
 
-### middleware.js
+### cors.py
 
-This JavaScript file is built on the Node.js platform using the Express framework. It includes several middleware functions essential for the backend operations of the MovieVerse application.
+This Python file demonstrates the implementation of Cross-Origin Resource Sharing (CORS) middleware within our Flask backend. CORS is a browser security mechanism that restricts web pages from making requests to a different domain than the one that served the web page. This middleware is designed to relax those restrictions under controlled conditions, enabling your Flask API to be accessed by frontend applications running on different domains.
 
 #### Key Features:
 
-- **Logger Middleware**: Logs every request to the server, including the request method, URL, and timestamp.
-- **Authentication Middleware**: Verifies JWT tokens in request headers to authenticate users.
-- **Movie Fetcher Middleware**: Retrieves movie details based on the provided movie ID.
-- **Error Handling Middleware**: Catches and handles errors occurring during request processing.
-- **Movie Data Validation Middleware**: Ensures that all required movie data fields are present in the request.
-- **Route-specific Middleware Application**: Demonstrates how to apply middleware to specific routes, such as the route for adding new movies.
+*   **CORS Header Injection:** The middleware injects the necessary CORS headers into HTTP responses, allowing cross-origin requests from any origin (`Access-Control-Allow-Origin: *`).
 
-#### Usage:
+*   **Preflight Request Handling:** It correctly handles preflight OPTIONS requests, which are sent by browsers before certain types of cross-origin requests (e.g., those with custom headers).
 
-To use this middleware in your Node.js application, include it in your server file and apply it to your Express app instance as shown in the file.
+*   **Customizable Headers:** The middleware can be easily configured to include additional allowed headers or methods based on your specific requirements.
+
+#### How to Use:
+
+1.  **Place in App Directory:** Save this `cors.py` file within your Flask project directory.
+
+2.  **Wrap Your WSGI App:** Apply the `CorsMiddleware` to your Flask app's WSGI application:
+
+    ```python
+    app.wsgi_app = CorsMiddleware(app.wsgi_app)
+    ```
+
+3.  **Customization:**
+    *   If you want to restrict access to specific origins, modify the `Access-Control-Allow-Origin` header to include the allowed domains.
+    *   To support additional HTTP methods or headers, add them to the `Access-Control-Allow-Methods` and `Access-Control-Allow-Headers` headers, respectively.
 
 ### middleware.py
 
