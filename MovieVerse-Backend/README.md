@@ -49,7 +49,7 @@ The microservices architecture of MovieVerse is designed to segregate the applic
 - Flask
 - Django
 - Flake8 for Python linting
-- Celery for asynchronous task queue
+- Celery for asynchronous task queue (for the crawlers)
 - Redis or RabbitMQ as a broker for Celery
 - BeautifulSoup4 and Requests for web scraping in the Crawler Service
 - Transformers and PyTorch for AI functionalities within the Crawler Service
@@ -221,7 +221,7 @@ Quit the server with CONTROL-C.
 [17/Jun/2024 08:39:00] "GET /search/?search=g HTTP/1.1" 200 2693
 ```
 
-If you go to `http://127.0.0.1:8000/` in your browser, you should see te following admin interface for the backend of MovieVerse:
+If you go to `http://127.0.0.1:8000/admin/` in your browser, you should see te following admin interface for the backend of MovieVerse:
 
 <p align="center" style="cursor: pointer">
     <img src="../images/Administration-UI.png" alt="The MovieVerse Backend Admin Interface" width="100%" height="auto" style="border-radius: 10px"/>
@@ -229,7 +229,7 @@ If you go to `http://127.0.0.1:8000/` in your browser, you should see te followi
 
 This is the Django admin interface for the backend of MovieVerse. It allows you to manage users, movies, reviews, and more.
 
-Note that the UI that you see is only a template and does not represent the actual UI of the MovieVerse app. The actual UI is built using React and Vue and can be found in the [MovieVerse-Frontend](../MovieVerse-Frontend) directory.
+Note that the UI that you see when you go to `http://127.0.0.1:8000/` in your browser is only a template and does not represent the actual UI of the MovieVerse app. The actual UI is built using React and Vue and can be found in the [MovieVerse-Frontend](../MovieVerse-Frontend) directory.
 
 #### Flask Service
 
