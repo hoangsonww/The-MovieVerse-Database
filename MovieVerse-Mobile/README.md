@@ -1,5 +1,28 @@
 # The MovieVerse - `MovieVerse-Mobile` Directory
 
+## Table of Contents
+- [Overview](#overview)
+- [User Interface (iOS)](#user-interface-ios)
+- [User Interface (Android)](#user-interface-android)
+- [Features](#features)
+  - [Easy Navigation](#easy-navigation)
+  - [Rich Movie Catalog](#rich-movie-catalog)
+  - [Interactive Elements](#interactive-elements)
+  - [And all other features from the web app!](#and-all-other-features-from-the-web-app)
+  - [Launch Screen](#launch-screen)
+- [Development](#development)
+  - [Prerequisites](#prerequisites)
+  - [Instructions](#instructions)
+  - [Special Notes](#special-notes)
+- [Usage](#usage)
+  - [Browsing Movies](#browsing-movies)
+  - [Searching for Movies](#searching-for-movies)
+  - [Viewing Movie Details](#viewing-movie-details)
+  - [Adding to Favorites](#adding-to-favorites)
+  - [Accessing Favorites](#accessing-favorites)
+- [Support](#support)
+- [Updates and Feedback](#updates-and-feedback)
+
 ## Overview
 
 MovieVerse is a dynamic, user-friendly mobile application that offers an extensive library of movies across various genres. Designed for movie enthusiasts, it provides a seamless browsing experience on iOS devices, including iPhones and iPads. Explore popular, award-winning, and hidden gems, or dive into categories like action, horror, romance, and more. MovieVerse is your ultimate mobile destination for movie discovery and entertainment.
@@ -51,6 +74,8 @@ MovieVerse also offers a launch screen that welcomes users with a sleek and enga
   </a>
 </p>
 
+The launch screen will be displayed when the app is launched, providing a brief introduction to the app's theme and design before transitioning to the main interface. It stay for roughly 2-3 seconds before transitioning to the main app interface.
+
 ## Development
 
 ### Prerequisites
@@ -95,6 +120,8 @@ MovieVerse also offers a launch screen that welcomes users with a sleek and enga
     ```
 7. **Open the Project**: Open the project in Xcode and/or Android Studio to view the source code and test the app within the simulator.
 8. **Enjoy coding!**
+
+### Special Notes
 
 **Important**: If you make any changes to the source code of the **iOS** mobile app, you will need to update the iOS build process by removing iOS and adding it again using the following commands:
 

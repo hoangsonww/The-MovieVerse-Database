@@ -20,9 +20,10 @@ Welcome to **The MovieVerse** - your digital compass to the cinematic universe. 
 - [Project Structure](#project-structure)
 - [Deployment](#deployment)
 - [Technology Stack](#technology-stack)
-- [Contributing](#contributing)
+- [Getting Started](#getting-started)
 - [Privacy Policy](#privacy-policy)
 - [Terms of Service](#terms-of-service)
+- [Contributing](#contributing)
 - [License](#license)
 - [Code of Conduct](#code-of-conduct)
 - [Security Policy](#security-policy)
@@ -83,7 +84,7 @@ The MovieVerse is a full-stack application with a robust backend and a user-frie
 2. `MovieVerse-Frontend`: The [frontend directory](../MovieVerse-Frontend) contains the client-side code, including the user interface, user experience, and client configuration.
 3. `MovieVerse-Mobile`: The [mobile app directory](../MovieVerse-Mobile) contains the mobile application code, built using Apache Cordova, including the mobile user interface, user experience, and mobile client configuration.
 
-There are also additional directories and files for project configuration, testing, and other utilities. The project is built using a variety of technologies, including `.github`, `MovieVerse-Utilities`, `MovieVerse-Config`, `MovieVerse-Middleware`, `MovieVerse-Design`, `images`, and more. Each directory serves a specific purpose in the development, deployment, and maintenance of The MovieVerse application.
+There are also additional directories and files for project configuration, testing, and other utilities. The project is built using a variety of directories, including `.github`, `MovieVerse-Utilities`, `MovieVerse-Config`, `MovieVerse-Middleware`, `MovieVerse-Design`, `images`, and more. Each directory serves a specific purpose in the development, deployment, and maintenance of The MovieVerse application.
 
 ## Deployment
 
@@ -100,15 +101,13 @@ The app is using `Netlify` for the frontend deployment and `Heroku` for the back
 | [HTML5](https://html.com/)                                      | [Django](https://www.djangoproject.com/)                        | [Google Firebase](https://firebase.google.com/) | [Swift (for iOS development)](https://developer.apple.com/swift/) | [Docker](https://www.docker.com/)                               |
 | [CSS3](https://www.w3.org/Style/CSS/Overview.en.html)           | [Django REST Framework](https://www.django-rest-framework.org/) | [PostgreSQL](http://www.postgresql.org)         | [Kotlin (for Android)](https://kotlinlang.org/)                   | [Emscripten](https://emscripten.org/)                           |
 | [JavaScript](https://www.javascript.com/)                       | [Flask](https://flask.palletsprojects.com/en/1.1.x/)            | [Redis](https://redis.io/)                      | [Java (for Android)](https://www.java.com/en/)                    | [WebAssembly](https://webassembly.org/)                         |
-| [TypeScript](https://www.typescriptlang.org/)                   | [Python](https://www.python.org/)                               |                                                 |                                                                   | [Google Analytics](https://analytics.google.com/analytics/web/) |
-| [FontAwesome Icons](https://react-icons.github.io/react-icons/) | [JavaScript](https://www.javascript.com/)                       |                                                 |                                                                   | [ESLint](https://eslint.org/)                                   |
+| [TypeScript](https://www.typescriptlang.org/)                   | [Python](https://www.python.org/)                               |                                                 | [Android Studio](https://developer.android.com/studio)            | [Google Analytics](https://analytics.google.com/analytics/web/) |
+| [FontAwesome Icons](https://react-icons.github.io/react-icons/) | [JavaScript](https://www.javascript.com/)                       |                                                 | [XCode](https://developer.apple.com/xcode/)                       | [ESLint](https://eslint.org/)                                   |
 | [SASS](https://sass-lang.com/)                                  | [RabbitMQ](https://www.rabbitmq.com/)                           |                                                 |                                                                   | [TensorFlow](https://www.tensorflow.org/)                       |
 
-## Contributing
+## Getting Started
 
-Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+To get started with The MovieVerse, follow these _very simple_ steps:
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
@@ -165,6 +164,12 @@ The MovieVerse is committed to protecting your privacy. Our Privacy Policy page 
 
 By accessing or using The MovieVerse, you agree to be bound by our [Terms of Service](https://movie-verse.com/src/html/terms-of-service).
 
+## Contributing
+
+Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+
 ## License
 
 Distributed under the **Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)**. See [LICENSE.md](LICENSE.md) for more information.
@@ -195,7 +200,7 @@ Please also note that the **MovieVerse** is an ever-evolving platform, and more 
 
 Additionally, I'd also like to express special gratitude to [The Movie Database (TMDb)](https://www.themoviedb.org/) for providing additional movie data that greatly enriches The MovieVerse experience!
 
-Thank you for your understanding and support! 🎬🍿
+Thank you for your understanding and support~ 🎬🍿
 
 ---
 

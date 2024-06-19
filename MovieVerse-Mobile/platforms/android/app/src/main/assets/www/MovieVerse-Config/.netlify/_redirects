@@ -1,0 +1,11 @@
+# Redirect default site to www
+http://movie-verse.com/* http://www.movie-verse.com/:splat 301!
+
+# Redirect from old blog post to new blog post
+/old-blog-post /new-blog-post 301
+
+# Redirect with placeholders
+/blog/:year/:month/:day/:slug /posts/:slug 301
+
+# Catch-all redirect
+/* /index.html 404
