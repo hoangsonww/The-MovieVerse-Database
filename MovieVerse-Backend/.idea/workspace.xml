@@ -70,7 +70,28 @@
       <recent name="$PROJECT_DIR$/django_backend/movieverse/templates/movieverse" />
     </key>
   </component>
-  <component name="RunManager" selected="OpenAPI/Swagger Code Generator.movieverse-openapi.yaml">
+  <component name="RunManager" selected="Django tests.Test: movieverse.tests">
+    <configuration name="Test: movieverse.tests" type="DjangoTestsConfigurationType" temporary="true">
+      <module name="MovieVerse-Backend" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="TARGET" value="movieverse.tests" />
+      <option name="SETTINGS_FILE" value="" />
+      <option name="CUSTOM_SETTINGS" value="false" />
+      <option name="USE_OPTIONS" value="false" />
+      <option name="OPTIONS" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="flask" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="MovieVerse-Backend" />
       <option name="ENV_FILES" value="" />
@@ -110,29 +131,6 @@
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="manage.py" />
       <option name="PARAMETERS" value="runserver" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="sentiment_analysis" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="MovieVerse-Backend" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/machine-learning" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/machine-learning/sentiment_analysis.py" />
-      <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -207,19 +205,19 @@
     </configuration>
     <list>
       <item itemvalue="Django Server.Django-Backend" />
+      <item itemvalue="Django tests.Test: movieverse.tests" />
       <item itemvalue="OpenAPI/Swagger Code Generator.movieverse-openapi.yaml" />
       <item itemvalue="Python.python manage.py runserver" />
       <item itemvalue="Python.flask" />
-      <item itemvalue="Python.sentiment_analysis" />
       <item itemvalue="Python tests.Python tests in api_test_suite.py" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Django tests.Test: movieverse.tests" />
         <item itemvalue="OpenAPI/Swagger Code Generator.movieverse-openapi.yaml" />
         <item itemvalue="Python tests.Python tests in api_test_suite.py" />
         <item itemvalue="Python.python manage.py runserver" />
         <item itemvalue="Python.flask" />
-        <item itemvalue="Python.sentiment_analysis" />
       </list>
     </recent_temporary>
   </component>

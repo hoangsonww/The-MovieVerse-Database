@@ -1,6 +1,8 @@
+import unittest
 from django.test import TestCase, Client
 from django.urls import reverse
 from django.core.cache import cache
+from django.http import HttpResponseForbidden
 from models import Movie, Genre, Person, Review, User
 from rest_framework.test import APIClient
 
@@ -10,46 +12,85 @@ class MovieVerseBackendTests(TestCase):
         self.client = Client()
         self.api_client = APIClient()
 
-    # Django Model Tests
-    def test_create_movie(self):
-        movie = Movie.objects.create(title="Test Movie", releaseDate="2023-01-01")
-        self.assertEqual(movie.title, "Test Movie")
+        # Sample test data
+        self.genre = Genre.objects.create(name="Action")
+        self.person = Person.objects.create(name="Test Actor", knownForDepartment="Acting")
+        self.movie = Movie.objects.create(
+            title="Test Movie", releaseDate="2023-01-01", genres=[self.genre]
+        )
+        self.user = User.objects.create_user(username="testuser", password="testpassword")
+        self.review = Review.objects.create(
+            user=self.user, movie=self.movie, rating=5, review_text="Great movie!"
+        )
 
-    # Similar tests for Genre, Person, Review, User models
+    # Django Model Tests
+    def test_movie_model(self):
+        self.assertEqual(str(self.movie), "Test Movie")
+
+    def test_genre_model(self):
+        self.assertEqual(str(self.genre), "Action")
+
+    def test_person_model(self):
+        self.assertEqual(str(self.person), "Test Actor")
+
+    def test_review_model(self):
+        self.assertEqual(str(self.review), "Review for Test Movie by testuser")
+
+    def test_user_model(self):
+        self.assertEqual(str(self.user), "testuser")
 
     # API Endpoint Tests (Using DRF APIClient)
     def test_get_all_movies(self):
-        response = self.api_client.get(reverse("movie-list"))  # Use reverse for URL
+        response = self.api_client.get(reverse("movie-list"))
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.data), 1)
 
     def test_get_movie_detail(self):
-        movie = Movie.objects.create(title="Test Movie", releaseDate="2023-01-01")
-        response = self.api_client.get(reverse("movie-detail", args=[movie.id]))
+        response = self.api_client.get(
+            reverse("movie-detail", args=[self.movie.id])
+        )
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data["title"], "Test Movie")
 
-    # Similar tests for genres, people endpoints
+    def test_get_all_genres(self):
+        response = self.api_client.get(reverse("genre-list"))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.data), 1)
 
-    # Middleware Tests
-    def test_logging_middleware(self):
-        response = self.client.get(reverse("test_middleware"))  # Assuming you have this view
-        # Check for log messages in your Django logs
+    def test_get_all_people(self):
+        response = self.api_client.get(reverse("person-list"))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.data), 1)
 
-    def test_cache_middleware(self):
-        # Make a request that should be cached
-        response1 = self.client.get(reverse("movie-list"))
-        self.assertEqual(response1.status_code, 200)
-        # Make the same request again; should be served from cache
-        response2 = self.client.get(reverse("movie-list"))
-        self.assertEqual(response2.status_code, 200)
-        # Check Redis cache to verify it was used
-        # ...
+    def test_get_all_reviews(self):
+        response = self.api_client.get(reverse("review-list"))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.data), 1)
 
-    # Similar tests for rate limiting and other middleware
+    def test_get_all_users(self):
+        response = self.api_client.get(reverse("user-list"))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.data), 1)
 
-    # Database Interaction Tests (Example)
-    def test_movie_database_query(self):
-        Movie.objects.create(title="Test Movie", releaseDate="2023-01-01")
-        movie_count = Movie.objects.count()
-        self.assertEqual(movie_count, 1)
+    def test_create_review(self):
+        self.api_client.force_authenticate(user=self.user)
+        response = self.api_client.post(
+            reverse("review-list"),
+            {"movie": self.movie.id, "rating": 4, "review_text": "Good movie"},
+            format="json",
+        )
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(Review.objects.count(), 2)
 
-    # Similar tests for querying and interacting with other databases
+    def test_unauthenticated_create_review(self):
+        response = self.api_client.post(
+            reverse("review-list"),
+            {"movie": self.movie.id, "rating": 4, "review_text": "Good movie"},
+            format="json",
+        )
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(Review.objects.count(), 1)
+
+
+if __name__ == "__main__":
+    unittest.main()
