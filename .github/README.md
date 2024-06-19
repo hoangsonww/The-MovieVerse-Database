@@ -200,7 +200,7 @@ Please also note that the **MovieVerse** is an ever-evolving platform, and more 
 
 Additionally, I'd also like to express special gratitude to [The Movie Database (TMDb)](https://www.themoviedb.org/) for providing additional movie data that greatly enriches The MovieVerse experience!
 
-Thank you for your understanding and support! 🎬🍿
+Thank you for your understanding and support~ 🎬🍿
 
 ---
 
