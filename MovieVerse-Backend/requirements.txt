@@ -63,7 +63,7 @@ setuptools==70.1.0
 six==1.16.0
 smmap==5.0.1
 soupsieve==2.5
-sqlparse==0.2.4
+sqlparse==0.5.0
 streamlit==1.35.0
 sympy==1.12.1
 tenacity==8.4.1
