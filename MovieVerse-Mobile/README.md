@@ -14,6 +14,12 @@
   - [Prerequisites](#prerequisites)
   - [Instructions](#instructions)
   - [Special Notes](#special-notes)
+- [Usage](#usage)
+  - [Browsing Movies](#browsing-movies)
+  - [Searching for Movies](#searching-for-movies)
+  - [Viewing Movie Details](#viewing-movie-details)
+  - [Adding to Favorites](#adding-to-favorites)
+  - [Accessing Favorites](#accessing-favorites)
 
 ## Overview
 
