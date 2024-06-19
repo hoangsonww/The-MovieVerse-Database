@@ -39,7 +39,7 @@ This Python file demonstrates the implementation of Cross-Origin Resource Sharin
 
 ### middleware.py
 
-This Python file contains custom middleware classes designed to be used within a Django project.  Middleware components act as intermediaries between incoming requests and outgoing responses, allowing you to modify or enhance the behavior of your web application.
+This Python file contains custom middleware classes designed to be used within our Django backend. Middleware components act as intermediaries between incoming requests and outgoing responses, allowing you to modify or enhance the behavior of your web application.
 
 #### Key Features:
 
