@@ -33,7 +33,7 @@ Welcome to **The MovieVerse** - your digital compass to the cinematic universe. 
 
 <p align="center" style="cursor: pointer">
   <a href="https://movie-verse.com">
-    <img src="../images/MovieVerse-UI.png" alt="The MovieVerse App Interface" style="border-radius: 10px"/>
+    <img src="../images/MovieVerse-UI.png" alt="The MovieVerse App Interface" style="border-radius: 10px" width="100%"/>
   </a>
 </p>
 
@@ -83,7 +83,7 @@ The MovieVerse is a full-stack application with a robust backend and a user-frie
 2. `MovieVerse-Frontend`: The [frontend directory](../MovieVerse-Frontend) contains the client-side code, including the user interface, user experience, and client configuration.
 3. `MovieVerse-Mobile`: The [mobile app directory](../MovieVerse-Mobile) contains the mobile application code, built using Apache Cordova, including the mobile user interface, user experience, and mobile client configuration.
 
-There are also additional directories and files for project configuration, testing, and other utilities. The project is built using a variety of technologies, including `.github`, `MovieVerse-Utilities`, `MovieVerse-Config`, `MovieVerse-APIs`, `MovieVerse-Middleware`, `MovieVerse-Design`, `images`, and more. Each directory serves a specific purpose in the development, deployment, and maintenance of The MovieVerse application.
+There are also additional directories and files for project configuration, testing, and other utilities. The project is built using a variety of technologies, including `.github`, `MovieVerse-Utilities`, `MovieVerse-Config`, `MovieVerse-Middleware`, `MovieVerse-Design`, `images`, and more. Each directory serves a specific purpose in the development, deployment, and maintenance of The MovieVerse application.
 
 ## Deployment
 
@@ -99,10 +99,10 @@ The app is using `Netlify` for the frontend deployment and `Heroku` for the back
 | [Vue](https://vuejs.org/)                                       | [Express](https://expressjs.com/)                               | [MySQL](https://www.mysql.com/)                 | [React Native](https://reactnative.dev/)                          | [Babel](https://babeljs.io/)                                    |
 | [HTML5](https://html.com/)                                      | [Django](https://www.djangoproject.com/)                        | [Google Firebase](https://firebase.google.com/) | [Swift (for iOS development)](https://developer.apple.com/swift/) | [Docker](https://www.docker.com/)                               |
 | [CSS3](https://www.w3.org/Style/CSS/Overview.en.html)           | [Django REST Framework](https://www.django-rest-framework.org/) | [PostgreSQL](http://www.postgresql.org)         | [Kotlin (for Android)](https://kotlinlang.org/)                   | [Emscripten](https://emscripten.org/)                           |
-| [JavaScript (Vanilla JS)](http://vanilla-js.com/)               | [Flask](https://flask.palletsprojects.com/en/1.1.x/)            |                                                 | [Java (for Android)](https://www.java.com/en/)                    | [WebAssembly](https://webassembly.org/)                         |
+| [JavaScript](https://www.javascript.com/)                       | [Flask](https://flask.palletsprojects.com/en/1.1.x/)            | [Redis](https://redis.io/)                      | [Java (for Android)](https://www.java.com/en/)                    | [WebAssembly](https://webassembly.org/)                         |
 | [TypeScript](https://www.typescriptlang.org/)                   | [Python](https://www.python.org/)                               |                                                 |                                                                   | [Google Analytics](https://analytics.google.com/analytics/web/) |
-| [FontAwesome Icons](https://react-icons.github.io/react-icons/) | [C (Emscripten, WebAssembly)](https://emscripten.org/)          |                                                 |                                                                   | [ESLint](https://eslint.org/)                                   |
-| [SASS](https://sass-lang.com/)                                  | [JavaScript](https://www.javascript.com/)                       |                                                 |                                                                   | [TensorFlow](https://www.tensorflow.org/)                       |
+| [FontAwesome Icons](https://react-icons.github.io/react-icons/) | [JavaScript](https://www.javascript.com/)                       |                                                 |                                                                   | [ESLint](https://eslint.org/)                                   |
+| [SASS](https://sass-lang.com/)                                  | [RabbitMQ](https://www.rabbitmq.com/)                           |                                                 |                                                                   | [TensorFlow](https://www.tensorflow.org/)                       |
 
 ## Contributing
 
@@ -114,21 +114,27 @@ If you have a suggestion that would make this better, please fork the repo and c
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
 3. Install Emscripten and compile the C code to WebAssembly (refer to the README.md file in the `utilities` directory [here](../MovieVerse-Utilities/README.md).)
 4. Take a look at the project configuration directory (project-config) and make sure that the paths are correct.
-5. Visit the backend directory and install the dependencies (if any):
+5. Visit the root directory and install the dependencies (if any):
     ```bash
     npm install
     ```
-6. Start the backend servers and services (refer to the [README.md](../MovieVerse-Backend/README.md) file in the `MovieVerse-Backend` directory for more information).
-7. Visit the frontend directory (root) and install the dependencies (if any):
+6. Visit the backend directory and install the dependencies (if any):
     ```bash
-    npm install
+    cd MovieVerse-Backend
+    pip install -r requirements.txt
     ```
-8. Start the frontend server:
+7. Start the backend servers and services (refer to the [README.md](../MovieVerse-Backend/README.md) file in the `MovieVerse-Backend` directory for more information). 
+Or, for your convenience, you may simply run the following command, provided that you already have MySQL, PostgreSQL, Redis, MongoDB, and RabbitMQ running on your system:
+    ```bash
+    npm run backend
+    ```
+8. Return to the **root** directory and start the development server:
     ```bash
     npm start
     ```
-9. Visit the mobile app directory and install the dependencies (if any):
+9. **If you would also like to develop the mobile app versions:** Visit the mobile app directory and install the dependencies (if any):
     ```bash
+    cd MovieVerse-Mobile
     npm install
     cordova platform add ios
     cordova platform add android
@@ -139,15 +145,15 @@ If you have a suggestion that would make this better, please fork the repo and c
     cordova emulate ios
     cordova emulate android
     ```
-11. Commit your Changes (Don't forget to create a branch for your feature):
+11. As you develop, be sure to save & commit your changes (and don't forget to create a branch for your new feature):
     ```bash
     git commit -m 'Add some AmazingFeature'
     ```
-12. Push to your Branch:
+12. Push to your branch:
     ```bash
     git push origin feature/AmazingFeature
     ```
-13. Open a Pull Request (if you want to merge your changes to our official app)
+13. Open a Pull Request (if you want to merge your changes to our official app!)
 14. Enjoy coding and [let me know](https://github.com/hoangsonww/The-MovieVerse-Database/discussions) if you have any questions!
 
 ## Privacy Policy

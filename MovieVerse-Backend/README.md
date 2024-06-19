@@ -9,11 +9,11 @@
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
   - [Running the Services](#running-the-services)
-    - [Crawler Service](#crawler-service)
     - [Database Services](#database-services)
-    - [Flask Service](#flask-service)
     - [Django Service](#django-service)
+    - [Flask Service](#flask-service)
     - [Machine Learning Services](#machine-learning-services)
+    - [Crawler Service](#crawler-service)
 - [Contributing](#contributing)
 - [License](#license)
 
