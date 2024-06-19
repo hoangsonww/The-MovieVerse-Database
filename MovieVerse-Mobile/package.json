@@ -14,7 +14,8 @@
   "license": "MIT",
   "cordova": {
     "platforms": [
-      "android"
+      "android",
+      "ios"
     ],
     "plugins": {
       "cordova-plugin-statusbar": {}
