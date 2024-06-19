@@ -17,11 +17,11 @@ class Genre(models.Model):
 
 
 class Movie(models.Model):
-    _id = models.ObjectIdField()  # MongoDB's ObjectId for movies
+    _id = models.ObjectIdField()
     movieId = models.IntegerField(unique=True)
     title = models.CharField(max_length=255)
     overview = models.TextField(null=True, blank=True)
-    releaseDate = models.DateField(null=True, blank=True)  # Using correct field name
+    releaseDate = models.DateField(null=True, blank=True)
     runtime = models.IntegerField(null=True, blank=True)
     genres = models.ArrayField(
         model_container=Genre
