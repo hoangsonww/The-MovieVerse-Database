@@ -1,5 +1,5 @@
 // config.js - Configurations for the MovieVerse backend
-// Replace with your own configuration -- mine might be different
+// Be sure to replace them with your own configurations -- mine might be different
 module.exports = {
     MONGO_URI1: 'mongodb://localhost:27017/MovieVerse', // Store general application data
     MONGO_URI2: 'mongodb://localhost:27017/MovieVerse_movies',
@@ -20,5 +20,5 @@ module.exports = {
     POSTGRES_DB: 'MovieVerse',
     POSTGRES_HOST: 'localhost',
     POSTGRES_PORT: 5432,
-    TMDB_API_KEY: '6efe9a82cdbb2123814a866aee20c38f' // Replace with your own TMDB API key to get started
+    TMDB_API_KEY: 'your_API_key' // Replace with your own TMDB API key to get started
 }
