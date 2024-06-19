@@ -6,10 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="8bb29d63-e98d-4c08-9f32-16747d3aec75" name="Changes" comment="Fix: Updated Backend">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/databases/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/databases/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_backend/django_backend/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_backend/django_backend/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_backend/movieverse/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_backend/movieverse/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -256,7 +252,7 @@
       <workItem from="1718622325214" duration="126000" />
       <workItem from="1718683787183" duration="139000" />
       <workItem from="1718683945994" duration="655000" />
-      <workItem from="1718768720434" duration="12569000" />
+      <workItem from="1718768720434" duration="12950000" />
     </task>
     <task id="LOCAL-00001" summary="Enhanced Backend">
       <option name="closed" value="true" />
@@ -282,7 +278,15 @@
       <option name="project" value="LOCAL" />
       <updated>1718780674171</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Fix: Updated Backend">
+      <option name="closed" value="true" />
+      <created>1718782557937</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1718782557937</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

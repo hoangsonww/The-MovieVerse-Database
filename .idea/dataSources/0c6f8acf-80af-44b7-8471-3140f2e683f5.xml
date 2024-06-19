@@ -18,7 +18,7 @@
       <LastIntrospectionLocalTimestamp>2024-06-19.03:24:17</LastIntrospectionLocalTimestamp>
     </schema>
     <schema id="7" parent="1" name="MovieVerse_movies">
-      <LastIntrospectionLocalTimestamp>2024-06-19.03:07:30</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2024-06-19.07:36:34</LastIntrospectionLocalTimestamp>
     </schema>
     <schema id="8" parent="1" name="MovieVerse_people"/>
     <schema id="9" parent="1" name="NTOL">

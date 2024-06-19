@@ -17,12 +17,14 @@
       </schema-mapping>
     </data-source>
     <data-source name="Redis" uuid="ab0ff917-2222-4402-8348-203055f8ac56">
-      <database-info product="Redis Standalone" version="7.2.5" jdbc-version="4.2" driver-name="Redis JDBC Driver" driver-version="1.5" dbms="REDIS" exact-version="7.2.5" exact-driver-version="1.5" />
+      <database-info product="Redis Standalone" version="7.2.5" jdbc-version="4.2" driver-name="Redis JDBC Driver" driver-version="1.5" dbms="REDIS" exact-version="7.2.5" exact-driver-version="1.5">
+        <jdbc-catalog-is-schema>true</jdbc-catalog-is-schema>
+      </database-info>
       <case-sensitivity plain-identifiers="mixed" quoted-identifiers="mixed" />
       <secret-storage>master_key</secret-storage>
       <schema-mapping>
         <introspection-scope>
-          <node kind="schema" qname="@" />
+          <node kind="schema" negative="1" />
         </introspection-scope>
       </schema-mapping>
     </data-source>
