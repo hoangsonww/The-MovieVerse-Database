@@ -3,6 +3,8 @@ from django.db import connections
 from .models import Movie, Genre, Person, Review, User
 
 admin.site.site_header = "MovieVerse Application - Backend Administration"
+admin.site.index_title = "MovieVerse Administration"
+admin.site.site_title = "MovieVerse Administration"
 
 
 class MovieAdmin(admin.ModelAdmin):
