@@ -51,7 +51,7 @@ MovieVerse also offers a launch screen that welcomes users with a sleek and enga
   </a>
 </p>
 
-The launch screen will be displayed when the app is launched, providing a brief introduction to the app's theme and design before transitioning to the main interface. It w
+The launch screen will be displayed when the app is launched, providing a brief introduction to the app's theme and design before transitioning to the main interface. It stay for roughly 2-3 seconds before transitioning to the main app interface.
 
 ## Development
 
