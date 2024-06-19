@@ -1,7 +1,5 @@
 # The MovieVerse - `MovieVerse-Backend` Directory
 
----
-
 ## Table of Contents
 - [Overview](#overview)
 - [Architecture](#architecture)
