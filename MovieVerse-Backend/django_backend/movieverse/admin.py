@@ -7,19 +7,18 @@ admin.site.site_header = "MovieVerse Application - Backend Administration"
 
 # Model Admins for MongoDB Models
 class MovieAdmin(admin.ModelAdmin):
-    using = 'movies_db'  # Specify the MongoDB database
+    using = 'movies_db'
 
     list_display = ('title', 'releaseDate', 'voteAverage')
     search_fields = ('title', 'overview', 'releaseDate')
     list_filter = ('releaseDate', 'genres')
     ordering = ('title', 'releaseDate')
 
-    # This is necessary for Django to work with MongoDB models
     def get_queryset(self, request):
         return super().get_queryset(request).using(self.using)
 
     def save_model(self, request, obj, form, change):
-        obj.save(using=self.using)  # Save to MongoDB
+        obj.save(using=self.using)
 
 
 class GenreAdmin(admin.ModelAdmin):
