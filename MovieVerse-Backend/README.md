@@ -227,7 +227,7 @@ If you go to `http://127.0.0.1:8000/admin/` in your browser, you should see te f
     <img src="../images/Administration-UI.png" alt="The MovieVerse Backend Admin Interface" width="100%" height="auto" style="border-radius: 10px"/>
 </p>
 
-This is the Django admin interface for the backend of MovieVerse. It allows you to manage users, movies, reviews, and more.
+This is the Django admin interface for the backend of MovieVerse. It allows you (the admin and other authorized users) to manage users, movies, reviews, and more.
 
 Note that the UI that you see when you go to `http://127.0.0.1:8000/` in your browser is only a template and does not represent the actual UI of the MovieVerse app. The actual UI is built using React and Vue and can be found in the [MovieVerse-Frontend](../MovieVerse-Frontend) directory.
 
