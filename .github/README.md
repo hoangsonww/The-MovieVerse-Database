@@ -90,7 +90,7 @@ There are also additional directories and files for project configuration, testi
 
 The current deployment and production branch is `main-deployment-branch` and is being deployed to the official website at [movie-verse.com](https://movie-verse.com). The deployment process involves building the frontend, backend, and mobile app, configuring the server, and deploying the application to the server. The deployment process is automated using CI/CD pipelines and scripts to ensure a seamless deployment experience.
 
-The app is using `Netlify` for the frontend deployment and `Heroku` for the backend deployment. The deployment status is monitored regularly to ensure the application is up and running smoothly.
+The app is using [Netlify](https://www.netlify.com/) for the frontend deployment and [Heroku](https://www.heroku.com) for the backend deployment. The deployment status is monitored regularly to ensure the application is up and running smoothly.
 
 ## Technology Stack
 

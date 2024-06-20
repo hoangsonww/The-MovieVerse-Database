@@ -6,15 +6,15 @@
   "main": "index.js",
   "scripts": {
     "install-deps": "npm install",
-    "start": "http-server -o",
+    "start": "cd .. && http-server -o",
     "build": "npm run start",
-    "test": "http-server -o",
-    "serve": "http-server -o",
-    "dev:android": "cd MovieVerse-Mobile && cordova run android",
-    "dev:ios": "cd MovieVerse-Mobile && cordova run ios",
-    "build:android": "cd MovieVerse-Mobile && cordova build android",
-    "build:ios": "cd MovieVerse-Mobile && cordova build ios",
-    "backend": "cd MovieVerse-Backend/databases && node app.js && node mongo-redis.js && node mysql.js && node postgresql.js && node publish.js && cd ../django_backend && python manage.py runserver"
+    "test": "cd .. && http-server -o",
+    "serve": "cd .. && http-server -o",
+    "dev:android": "cd ../MovieVerse-Mobile && cordova run android",
+    "dev:ios": "cd ../MovieVerse-Mobile && cordova run ios",
+    "build:android": "cd ../MovieVerse-Mobile && cordova build android",
+    "build:ios": "cd ../MovieVerse-Mobile && cordova build ios",
+    "backend": "cd ../MovieVerse-Backend/databases && node app.js && node mongo-redis.js && node mysql.js && node postgresql.js && node publish.js && cd ../django_backend && python manage.py runserver"
   },
   "keywords": [
     "movie",
@@ -33,7 +33,7 @@
     "react",
     "movieverse"
   ],
-  "author": "Son Nguyen",
+  "author": "Son Nguyen Hoang",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -63,12 +63,6 @@
     "sass-loader": "^13.3.2",
     "webpack": "^5.89.0",
     "webpack-cli": "^5.1.4"
-  },
-  "cordova": {
-    "platforms": [
-      "android",
-      "ios"
-    ]
   },
   "dependencies": {
     "@elastic/elasticsearch": "^8.13.1",
