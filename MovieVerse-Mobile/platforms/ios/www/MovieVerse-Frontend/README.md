@@ -2,6 +2,22 @@
 
 Welcome to the MovieVerse app, your ultimate guide to the world of movies! This application is designed to help users explore and learn about their favorite movies, directors, actors, and more. Dive into an immersive experience with our comprehensive directory structure.
 
+## Table of Contents 
+- [Overview](#overview)
+- [Directory Structure](#directory-structure)
+  - [CSS Directory - `css`](#css-directory---css)
+  - [HTML Directory - `html`](#html-directory---html)
+  - [JS Directory - `js`](#js-directory---js)
+  - [React Directory - `react`](#react-directory---react)
+  - [Tests Directory - `tests`](#tests-directory---tests)
+- [Getting Started](#getting-started)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Overview
+
+The `MovieVerse-Frontend` directory contains the frontend codebase for the MovieVerse application. This directory includes all the necessary files, scripts, and stylesheets to create an interactive and engaging user experience. The frontend is built using a combination of HTML, CSS, Vue, JavaScript, and React components to provide a seamless browsing experience for users.
+
 ## Directory Structure
 
 The MovieVerse app's `MovieVerse-Frontend` directory is organized into four primary directories: `css`, `html`, `js`, and `react`. Each directory contains specific files that contribute to the functionality and appearance of the app. Here's a detailed overview:
@@ -108,13 +124,30 @@ The tests directory contains a collection of test scripts and suites for the `Mo
 
 To get started with MovieVerse:
 
-1. **Clone the repository**: Use Git to clone the app to your local machine.
-2. **Navigate to the app directory**: Change your directory to the MovieVerse folder.
-3. **Install dependencies**: If the app requires any dependencies, install them via your package manager.
-4. **Run the app**: Start the frontend app on your local server and navigate to the appropriate port to view it:
+1. **Clone the repository**: Use Git to clone the app to your local machine:
+    ```bash
+    git clone https://github.com/hoangsonww/The-MovieVerse-Database.git
+    ```
+2. **Navigate to the app directory**: Change your directory to the `MovieVerse-Frontend` folder:
+    ```bash
+    cd The-MovieVerse-Database/MovieVerse-Frontend
+    ```
+3. **Install dependencies**: Install the necessary dependencies for the app using npm:
+    ```bash
+    npm install
+    ```
+   Or using yarn:
+    ```bash
+    yarn install
+    ```
+4. **Run the app**: Start the frontend server on your local server and navigate to the appropriate port to view it:
     ```bash
     npm start
     ```
+    Or using yarn:
+     ```bash
+     yarn start
+     ```
 5. **Explore the app**: Interact with the app's features, pages, and functionalities to get a feel for how it works.
 
 ## Contributing
@@ -127,4 +160,4 @@ This project is licensed under MIT license. Refer to the `LICENSE` file in each 
 
 ---
 
-Enjoy exploring the MovieVerse and delve into the fascinating world of cinema!
+Enjoy exploring the MovieVerse and delve into the fascinating world of cinema! 🎬🍿
