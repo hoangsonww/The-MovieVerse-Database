@@ -143,4 +143,4 @@ This project is licensed under MIT license. Refer to the `LICENSE` file in each 
 
 ---
 
-Enjoy exploring the MovieVerse and delve into the fascinating world of cinema!
+Enjoy exploring the MovieVerse and delve into the fascinating world of cinema! 🎬🍿
