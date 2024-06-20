@@ -66,8 +66,9 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 def search(request):
-    query = request.GET.get('query')
-    movies = Movie.objects.filter(title__icontains=query) if query else Movie.objects.none()
+    query = request.GET.get('search', '')
+    print(query)
+    movies = Movie.objects.filter(title__icontains=query.lower()) if query else []
     return render(request, 'movieverse/search.html', {'movies': movies, 'query': query})
 
 

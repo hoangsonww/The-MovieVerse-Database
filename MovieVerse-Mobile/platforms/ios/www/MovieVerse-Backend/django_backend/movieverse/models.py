@@ -19,7 +19,7 @@ class Genre(models.Model):
 class Movie(models.Model):
     _id = models.ObjectIdField()
     movieId = models.IntegerField(unique=True)
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=255, db_column='title')
     overview = models.TextField(null=True, blank=True)
     releaseDate = models.DateField(null=True, blank=True)
     runtime = models.IntegerField(null=True, blank=True)
