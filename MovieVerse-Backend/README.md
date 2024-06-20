@@ -6,7 +6,7 @@
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
-  - [Running the Services](#running-the-services)
+  - [Running the Services](#running-the-services-recommended)
     - [Database Services](#database-services)
     - [Django Service](#django-service)
     - [Flask Service](#flask-service)
@@ -81,7 +81,19 @@ pip install -r requirements.txt
    
 4. Follow the specific installation instructions for each service below.
 
-### Running the Services
+### Quick Start
+
+To quickly start the backend services of MovieVerse, simply run:
+
+```bash
+npm start
+```
+
+This command will start most (but not all) of the services required for the backend of MovieVerse. Note that before running this command, you must have all the prerequisites installed on your machine.
+
+**Important**: Remember to set the `SECRET_KEY` and set `Debug` to `True` in the [settings.py](django_backend/django_backend/settings.py) file in the `django_backend` directory. This is crucial for running the Django server locally. Additionally, you are also required to obtain a Django secret key and set it in the `settings.py` file.
+
+### Running the Services (Recommended)
 
 To run the MovieVerse's backend services, follow these steps **in order**:
 
