@@ -10,6 +10,7 @@
   - [Running the Services (Recommended)](#running-the-services-recommended)
     - [Database Services](#database-services)
     - [Django Service](#django-service)
+    - [API Service](#api-service)
     - [Flask Service](#flask-service)
     - [Machine Learning Services](#machine-learning-services)
     - [Crawler Service](#crawler-service)
