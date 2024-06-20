@@ -6,6 +6,7 @@
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
+  - [Quick Start](#quick-start)
   - [Running the Services](#running-the-services-recommended)
     - [Database Services](#database-services)
     - [Django Service](#django-service)
