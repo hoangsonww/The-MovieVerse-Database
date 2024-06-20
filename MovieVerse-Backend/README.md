@@ -196,7 +196,7 @@ In our production environment, we use cloud-based services like AWS, Azure, and 
    
 #### Django Service
 
-The Django service is responsible for handling the majority of backend functionalities of MovieVerse, such as API endpoints, movies management, database interactions, user management, and more. To run the Django service, follow these steps:
+The Django service is responsible for handling the majority of backend functionalities of MovieVerse, such as API endpoints, movies management, database interactions, user management, and more. It was primarily designed using the **Model-View-Controller (MVC)** architecture. To run the Django service, follow these steps:
 
 1. Navigate to the `django_backend` directory:
     ```bash
