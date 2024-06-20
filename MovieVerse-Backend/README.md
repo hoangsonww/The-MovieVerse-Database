@@ -277,7 +277,7 @@ If the issue is still not fixed, contact me at [info@movie-verse.com](mailto:inf
 
 #### API Service
 
-The API service is responsible for handling API requests from the frontend of MovieVerse. To get started with the API service, follow the steps outlined in this [README.md](databases/README.md) file.
+The API service is responsible for handling API requests from the frontend of MovieVerse. To get started with the API service, follow the steps outlined in this [README.md](databases/README.md#rest-apis) file.
 
 #### Flask Service
 
