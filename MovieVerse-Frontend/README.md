@@ -124,8 +124,12 @@ The tests directory contains a collection of test scripts and suites for the `Mo
 
 To get started with MovieVerse:
 
-1. **Clone the repository**: Use Git to clone the app to your local machine.
-2. **Navigate to the app directory**: Change your directory to the MovieVerse folder.
+1. **Clone the repository**: Use Git to clone the app to your local machine:
+    ```bash
+    git clone https://github.com/hoangsonww/The-MovieVerse-Database.git
+    ```
+2. **Navigate to the app directory**: Change your directory to the `MovieVerse-Frontend` folder:
+3. 
 3. **Install dependencies**: If the app requires any dependencies, install them via your package manager.
 4. **Run the app**: Start the frontend server on your local server and navigate to the appropriate port to view it:
     ```bash
