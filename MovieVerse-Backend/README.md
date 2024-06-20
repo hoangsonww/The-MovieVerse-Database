@@ -70,7 +70,7 @@ pip install -r requirements.txt
    
 2. Navigate to the repository: 
    ```bash
-   cd mobile-backend
+   cd MovieVerse-Backend
    ```
    
 3. Create a Virtual Environment (optional but recommended):
