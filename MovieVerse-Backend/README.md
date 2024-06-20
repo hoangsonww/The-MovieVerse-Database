@@ -227,9 +227,17 @@ If you go to `http://127.0.0.1:8000/admin/` in your browser, you should see te f
     <img src="../images/Administration-UI.png" alt="The MovieVerse Backend Admin Interface" width="100%" height="auto" style="border-radius: 10px"/>
 </p>
 
-This is the Django admin interface for the backend of MovieVerse. It allows you (the admin and other authorized users) to manage users, movies, reviews, and more.
+This is the Django admin interface for the backend of MovieVerse. It allows you (the admin and other authorized users) to manage users, movies, reviews, and more in the databases.
 
 Note that the UI that you see when you go to `http://127.0.0.1:8000/` in your browser is only a template and does not represent the actual UI of the MovieVerse app. The actual UI is built using React and Vue and can be found in the [MovieVerse-Frontend](../MovieVerse-Frontend) directory.
+
+**Important**: There has been a known Django bug where the admin interface' CSS styles are not loaded properly. If you encounter this issue, you can fix it by running the following command:
+
+```bash
+python manage.py collectstatic
+```
+
+If the issue is still not fixed, contact me at [info@movie-verse.com](mailto:info@movie-verse.com) so I can take a look at your situation.
 
 #### Flask Service
 
