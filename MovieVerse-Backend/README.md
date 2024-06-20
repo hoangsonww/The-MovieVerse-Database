@@ -7,7 +7,7 @@
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
   - [Quick Start](#quick-start)
-  - [Running the Services](#running-the-services-recommended)
+  - [Running the Services (Recommended)](#running-the-services-recommended)
     - [Database Services](#database-services)
     - [Django Service](#django-service)
     - [Flask Service](#flask-service)
