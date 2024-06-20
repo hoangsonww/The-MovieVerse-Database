@@ -5,7 +5,11 @@
   "description": "An interactive movie database app that allows users to search for movies, view movie details, and save movies to their favorites list",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev:android": "cd ../MovieVerse-Mobile && cordova run android",
+    "dev:ios": "cd ../MovieVerse-Mobile && cordova run ios",
+    "build:android": "cd ../MovieVerse-Mobile && cordova build android",
+    "build:ios": "cd ../MovieVerse-Mobile && cordova build ios"
   },
   "keywords": [
     "ecosystem:cordova"
