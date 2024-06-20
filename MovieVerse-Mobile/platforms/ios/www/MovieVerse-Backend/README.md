@@ -6,9 +6,11 @@
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
-  - [Running the Services](#running-the-services)
+  - [Quick Start](#quick-start)
+  - [Running the Services (Recommended)](#running-the-services-recommended)
     - [Database Services](#database-services)
     - [Django Service](#django-service)
+    - [API Service](#api-service)
     - [Flask Service](#flask-service)
     - [Machine Learning Services](#machine-learning-services)
     - [Crawler Service](#crawler-service)
@@ -17,9 +19,9 @@
 
 ## Overview
 
-The backend of MovieVerse is built using a microservices architecture. This architecture allows for independent scalability and enhanced flexibility in the development of different functionalities of the app, such as authentication, user management, movie data processing, and more.
+The backend of MovieVerse is built using the **microservices architecture**. This architecture allows for independent scalability and enhanced flexibility in the development of different functionalities of the app, such as authentication, user management, movie data processing, and more.
 
-**Important**: Be sure to read this file and the [README.md](databases/README.md) file in the `databases` directory for more information on the backend services of MovieVerse before you start developing.
+**Important**: Be sure to carefully read this file and the [README.md](databases/README.md) file in the `databases` directory for more information on the backend services of MovieVerse before you start developing.
 
 ## Architecture
 
@@ -70,7 +72,7 @@ pip install -r requirements.txt
    
 2. Navigate to the repository: 
    ```bash
-   cd mobile-backend
+   cd MovieVerse-Backend
    ```
    
 3. Create a Virtual Environment (optional but recommended):
@@ -81,7 +83,19 @@ pip install -r requirements.txt
    
 4. Follow the specific installation instructions for each service below.
 
-### Running the Services
+### Quick Start
+
+To quickly start the backend services of MovieVerse, simply run:
+
+```bash
+npm start
+```
+
+This command will start most (but not all) of the services required for the backend of MovieVerse. Note that before running this command, you must have all the prerequisites installed on your machine.
+
+**Important**: Remember to set the `SECRET_KEY` and set `Debug` to `True` in the [settings.py](django_backend/django_backend/settings.py) file in the `django_backend` directory. This is crucial for running the Django server locally. Additionally, you are also required to obtain a Django secret key and set it in the `settings.py` file.
+
+### Running the Services (Recommended)
 
 To run the MovieVerse's backend services, follow these steps **in order**:
 
@@ -179,11 +193,11 @@ MovieVerse currently uses MongoDB, Redis, PostgreSQL, and MySQL as its primary d
 7. For the next steps, refer to the [README.md](databases/README.md) file in the `databases` directory for more information on the database services.
    
 **Disclaimer**: These servers are for your local development environment only, in order for you to see how our backend services interact with each other.
-In our production environment, we use cloud-based services like AWS, Azure, and Google Cloud to host our databases and services. This thus will look different from what you might see on your end.
+In our production environment, we use cloud-based services like AWS, Azure, and Google Cloud (in our case, **Heroku**) to host our databases and services. This thus will look different from what you might see on your end.
    
 #### Django Service
 
-The Django service is responsible for handling the majority of backend functionalities of MovieVerse, such as API endpoints, movies management, database interactions, user management, and more. To run the Django service, follow these steps:
+The Django service is responsible for handling the majority of backend functionalities of MovieVerse, such as API endpoints, movies management, database interactions, user management, and more. It was designed using the **Model-View-Controller (MVC)** architecture. To run the Django service, follow these steps:
 
 1. Navigate to the `django_backend` directory:
     ```bash
@@ -227,9 +241,43 @@ If you go to `http://127.0.0.1:8000/admin/` in your browser, you should see te f
     <img src="../images/Administration-UI.png" alt="The MovieVerse Backend Admin Interface" width="100%" height="auto" style="border-radius: 10px"/>
 </p>
 
-This is the Django admin interface for the backend of MovieVerse. It allows you to manage users, movies, reviews, and more.
+This is the Django admin interface for the backend of MovieVerse. It allows you (the admin and other authorized users) to manage users, movies, reviews, and more in the databases. 
+
+For example, if you click on `Movies`, you should see the following interface, which allows you to manage movies in the database:
+
+<p align="center" style="cursor: pointer">
+    <img src="../images/Movies-UI.png" alt="The MovieVerse Movies Interface" width="100%" height="auto" style="border-radius: 10px"/>
+</p>
 
 Note that the UI that you see when you go to `http://127.0.0.1:8000/` in your browser is only a template and does not represent the actual UI of the MovieVerse app. The actual UI is built using React and Vue and can be found in the [MovieVerse-Frontend](../MovieVerse-Frontend) directory.
+
+**Important**: There has been a known Django bug where the admin interface' CSS styles are not loaded properly. If you encounter this issue, you can fix it by:
+
+1. Set the `STATIC_ROOT` variable in the `settings.py` file to the path of the `static` directory in the `django_backend` directory:
+
+    ```python
+    import os
+    
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+    ```
+
+2. Set the `STATIC_URL` variable in the `settings.py` file to the path of the `static` directory in the `django_backend` directory:
+
+    ```python
+    STATIC_URL = '/static/'
+    ```
+   
+3. Run the following command to collect the static files:
+
+    ```bash
+    python manage.py collectstatic
+    ```
+
+If the issue is still not fixed, contact me at [info@movie-verse.com](mailto:info@movie-verse.com) so that I can take a look at your situation.
+
+#### API Service
+
+The API service is responsible for handling API requests from the frontend of MovieVerse. To get started with the API service, follow the steps outlined in this [README.md](databases/README.md#rest-apis) file.
 
 #### Flask Service
 
