@@ -129,12 +129,25 @@ To get started with MovieVerse:
     git clone https://github.com/hoangsonww/The-MovieVerse-Database.git
     ```
 2. **Navigate to the app directory**: Change your directory to the `MovieVerse-Frontend` folder:
-3. 
-3. **Install dependencies**: If the app requires any dependencies, install them via your package manager.
+    ```bash
+    cd The-MovieVerse-Database/MovieVerse-Frontend
+    ```
+3. **Install dependencies**: Install the necessary dependencies for the app using npm:
+    ```bash
+    npm install
+    ```
+   Or using yarn:
+    ```bash
+    yarn install
+    ```
 4. **Run the app**: Start the frontend server on your local server and navigate to the appropriate port to view it:
     ```bash
     npm start
     ```
+    Or using yarn:
+     ```bash
+     yarn start
+     ```
 5. **Explore the app**: Interact with the app's features, pages, and functionalities to get a feel for how it works.
 
 ## Contributing
