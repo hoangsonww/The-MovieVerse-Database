@@ -3,7 +3,16 @@
 Welcome to the MovieVerse app, your ultimate guide to the world of movies! This application is designed to help users explore and learn about their favorite movies, directors, actors, and more. Dive into an immersive experience with our comprehensive directory structure.
 
 ## Table of Contents 
-
+- [Overview](#overview)
+- [Directory Structure](#directory-structure)
+  - [CSS Directory - `css`](#css-directory---css)
+  - [HTML Directory - `html`](#html-directory---html)
+  - [JS Directory - `js`](#js-directory---js)
+  - [React Directory - `react`](#react-directory---react)
+  - [Tests Directory - `tests`](#tests-directory---tests)
+- [Getting Started](#getting-started)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## Overview
 
@@ -118,7 +127,7 @@ To get started with MovieVerse:
 1. **Clone the repository**: Use Git to clone the app to your local machine.
 2. **Navigate to the app directory**: Change your directory to the MovieVerse folder.
 3. **Install dependencies**: If the app requires any dependencies, install them via your package manager.
-4. **Run the app**: Start the frontend app on your local server and navigate to the appropriate port to view it:
+4. **Run the app**: Start the frontend server on your local server and navigate to the appropriate port to view it:
     ```bash
     npm start
     ```
