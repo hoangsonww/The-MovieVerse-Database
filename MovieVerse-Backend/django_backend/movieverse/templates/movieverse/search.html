@@ -86,22 +86,31 @@
         <p>Results for: {{ query }}</p>
 
         <div class="search">
-            <form action="/search/" method="GET">
-                <div class="search-bar">
-                    <input type="text" name="query" value="{{ query }}">
-                    <button type="submit">Search</button>
-                </div>
+            <form method="get" class="search-bar" action="/search/">
+                <input type="text" name="search" placeholder="Search for a movie">
+                <button type="submit" onclick="window.location.href='/search/'">Search</button>
             </form>
         </div>
     </header>
 
     <div class="search-results">
         {% for movie in movies %}
-            <div class="quote">
-                <h2>{{ movie.title }}</h2>
-                <p>{{ movie.year }}</p>
-                <img src="{{ movie.poster }}" alt="{{ movie.title }}">
-            </div>
+        <div class="quote">
+            <h2>{{ movie.title }}</h2>
+            {% if movie.releaseDate %}
+                <p>{{ movie.releaseDate|date:"Y" }}</p>
+            {% else %}
+                <p>Release date not available</p>
+            {% endif %}
+
+            {% if movie.posterPath %}
+                <img src="{{ movie.posterPath }}" alt="{{ movie.title }}">
+            {% else %}
+                <p>Poster not available</p>
+            {% endif %}
+        </div>
+        {% empty %}
+            <p>No movies found for your query.</p>
         {% endfor %}
     </div>
 </body>

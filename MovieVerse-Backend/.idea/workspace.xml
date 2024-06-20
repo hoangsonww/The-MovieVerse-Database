@@ -6,8 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="8bb29d63-e98d-4c08-9f32-16747d3aec75" name="Changes" comment="Fix: Updated Backend (#196)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_backend/movieverse/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_backend/movieverse/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_backend/movieverse/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_backend/movieverse/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/django_backend/movieverse/templates/movieverse/search.html" beforeDir="false" afterPath="$PROJECT_DIR$/django_backend/movieverse/templates/movieverse/search.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -254,7 +253,7 @@
       <workItem from="1718810462591" duration="144000" />
       <workItem from="1718810717600" duration="2702000" />
       <workItem from="1718851189339" duration="210000" />
-      <workItem from="1718851412206" duration="1104000" />
+      <workItem from="1718851412206" duration="1732000" />
     </task>
     <task id="LOCAL-00001" summary="Enhanced Backend">
       <option name="closed" value="true" />
@@ -448,7 +447,15 @@
       <option name="project" value="LOCAL" />
       <updated>1718813369344</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Fix: Updated Backend (#196)">
+      <option name="closed" value="true" />
+      <created>1718852665340</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1718852665340</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
