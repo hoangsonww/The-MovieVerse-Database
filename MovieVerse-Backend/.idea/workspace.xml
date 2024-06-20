@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8bb29d63-e98d-4c08-9f32-16747d3aec75" name="Changes" comment="Fix: Updated Backend (#196)">
-      <change beforePath="$PROJECT_DIR$/django_backend/django_backend/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_backend/django_backend/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -207,11 +207,11 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Django tests.Test: movieverse.tests" />
-      <item itemvalue="Python.flask" />
-      <item itemvalue="Python.python manage.py runserver" />
       <item itemvalue="Django Server.Django-Backend" />
+      <item itemvalue="Django tests.Test: movieverse.tests" />
       <item itemvalue="OpenAPI/Swagger Code Generator.movieverse-openapi.yaml" />
+      <item itemvalue="Python.python manage.py runserver" />
+      <item itemvalue="Python.flask" />
       <item itemvalue="Python tests.Python tests in api_test_suite.py" />
     </list>
     <recent_temporary>
@@ -252,6 +252,7 @@
       <workItem from="1718810462591" duration="144000" />
       <workItem from="1718810717600" duration="2702000" />
       <workItem from="1718851189339" duration="210000" />
+      <workItem from="1718851412206" duration="393000" />
     </task>
     <task id="LOCAL-00001" summary="Enhanced Backend">
       <option name="closed" value="true" />

@@ -252,13 +252,31 @@ Note that the UI that you see when you go to `http://127.0.0.1:8000/` in your br
 
 **Important**: There has been a known Django bug where the admin interface' CSS styles are not loaded properly. If you encounter this issue, you can fix it by:
 
-1. Set the 
+1. Set the `STATIC_ROOT` variable in the `settings.py` file to the path of the `static` directory in the `django_backend` directory:
 
-```bash
-python manage.py collectstatic
-```
+    ```python
+    import os
+    
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+    ```
 
-If the issue is still not fixed, contact me at [info@movie-verse.com](mailto:info@movie-verse.com) so I can take a look at your situation.
+2. Set the `STATIC_URL` variable in the `settings.py` file to the path of the `static` directory in the `django_backend` directory:
+
+    ```python
+    STATIC_URL = '/static/'
+    ```
+   
+3. Run the following command to collect the static files:
+
+    ```bash
+    python manage.py collectstatic
+    ```
+
+If the issue is still not fixed, contact me at [info@movie-verse.com](mailto:info@movie-verse.com) so that I can take a look at your situation.
+
+#### API Service
+
+The API service is responsible for handling API requests from the frontend of MovieVerse. To get started with the API service, follow the steps outlined in this [README.md](databases/README.md) file.
 
 #### Flask Service
 
