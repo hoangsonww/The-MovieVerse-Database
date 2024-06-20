@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8bb29d63-e98d-4c08-9f32-16747d3aec75" name="Changes" comment="Fix: Updated Backend (#196)">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_backend/movieverse/templates/movieverse/search.html" beforeDir="false" afterPath="$PROJECT_DIR$/django_backend/movieverse/templates/movieverse/search.html" afterDir="false" />
-    </list>
+    <list default="true" id="8bb29d63-e98d-4c08-9f32-16747d3aec75" name="Changes" comment="Fix: Updated Backend (#196)" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -253,7 +250,7 @@
       <workItem from="1718810462591" duration="144000" />
       <workItem from="1718810717600" duration="2702000" />
       <workItem from="1718851189339" duration="210000" />
-      <workItem from="1718851412206" duration="1732000" />
+      <workItem from="1718851412206" duration="1815000" />
     </task>
     <task id="LOCAL-00001" summary="Enhanced Backend">
       <option name="closed" value="true" />
@@ -455,7 +452,39 @@
       <option name="project" value="LOCAL" />
       <updated>1718852665340</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="Fix: Updated Backend (#196)">
+      <option name="closed" value="true" />
+      <created>1718853152128</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1718853152128</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Fix: Updated Backend (#196)">
+      <option name="closed" value="true" />
+      <created>1718853190045</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1718853190045</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Fix: Updated Backend (#196)">
+      <option name="closed" value="true" />
+      <created>1718853213239</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1718853213239</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Fix: Updated Backend (#196)">
+      <option name="closed" value="true" />
+      <created>1718853227483</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1718853227483</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
