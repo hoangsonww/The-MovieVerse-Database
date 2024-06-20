@@ -24,10 +24,6 @@ STATIC_URL = '/static/'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
-SECRET_KEY = 'django-insecure-x(7qujvlj+31$iw_)b#qch_rcnxbxqh&=s$^4nvs1dpi0#ot!w'
-
-DEBUG = True
-
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'movie-verse.com', 'www.movie-verse.com']
 
 # Application definition
