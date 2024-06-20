@@ -192,7 +192,7 @@ MovieVerse currently uses MongoDB, Redis, PostgreSQL, and MySQL as its primary d
 7. For the next steps, refer to the [README.md](databases/README.md) file in the `databases` directory for more information on the database services.
    
 **Disclaimer**: These servers are for your local development environment only, in order for you to see how our backend services interact with each other.
-In our production environment, we use cloud-based services like AWS, Azure, and Google Cloud to host our databases and services. This thus will look different from what you might see on your end.
+In our production environment, we use cloud-based services like AWS, Azure, and Google Cloud (in our case, **Heroku**) to host our databases and services. This thus will look different from what you might see on your end.
    
 #### Django Service
 
