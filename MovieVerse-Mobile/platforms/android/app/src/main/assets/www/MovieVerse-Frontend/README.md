@@ -111,7 +111,10 @@ To get started with MovieVerse:
 1. **Clone the repository**: Use Git to clone the app to your local machine.
 2. **Navigate to the app directory**: Change your directory to the MovieVerse folder.
 3. **Install dependencies**: If the app requires any dependencies, install them via your package manager.
-4. **Run the app**: Start the app on your local server and navigate to the appropriate port to view it.
+4. **Run the app**: Start the frontend app on your local server and navigate to the appropriate port to view it:
+    ```bash
+    npm start
+    ```
 5. **Explore the app**: Interact with the app's features, pages, and functionalities to get a feel for how it works.
 
 ## Contributing
