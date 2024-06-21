@@ -3,7 +3,7 @@
   "short_name": "The MovieVerse",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
+  "background_color": "#000000",
   "theme_color": "#7378c5",
   "author": "Son Nguyen Hoang",
   "description": "An interactive app that provides you with information about the latest movies and TV shows, and allows you to save your favorites, create watch lists, and more!",
