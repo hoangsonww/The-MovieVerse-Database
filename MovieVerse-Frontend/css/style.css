@@ -1587,61 +1587,31 @@ p {
 }
 
 #ad-container {
-    display: none;
+    display: block;
 }
 
 #ad-container1 {
-    display: none;
+    display: block;
 }
 
 #ad-container2 {
-    display: none;
+    display: block;
 }
 
 #ad-container3 {
-    display: none;
+    display: block;
 }
 
 #ad-container4 {
-    display: none;
+    display: block;
 }
 
 #ad-container5 {
-    display: none;
+    display: block;
 }
 
 #ad-container6 {
-    display: none;
-}
-
-@media (max-width: 700px) {
-    #ad-container {
-        display: block;
-    }
-
-    #ad-container1 {
-        display: block;
-    }
-
-    #ad-container2 {
-        display: block;
-    }
-
-    #ad-container3 {
-        display: block;
-    }
-
-    #ad-container4 {
-        display: block;
-    }
-
-    #ad-container5 {
-        display: block;
-    }
-
-    #ad-container6 {
-        display: block;
-    }
+    display: block;
 }
 
 #searchContainer {

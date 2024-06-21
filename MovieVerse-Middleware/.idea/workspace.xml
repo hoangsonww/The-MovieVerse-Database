@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="108b2c9f-3ff9-4992-a496-917b0d17ef09" name="Changes" comment="Update: Fixed app's middleware (#200)">
-      <change beforePath="$PROJECT_DIR$/../MovieVerse-Backend/django_backend/django_backend/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Backend/django_backend/django_backend/settings.py" afterDir="false" />
-    </list>
+    <list default="true" id="108b2c9f-3ff9-4992-a496-917b0d17ef09" name="Changes" comment="Update: Fixed app's middleware (#200)" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -15,6 +13,12 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://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@github.com/hoangsonww/The-MovieVerse-Database",
+    "accountId": "96738bbf-61cc-45b7-a456-2974fb587c71"
+  }
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
 }</component>
@@ -81,6 +85,7 @@
       <option name="presentableId" value="Default" />
       <updated>1718791887479</updated>
       <workItem from="1718791888523" duration="460000" />
+      <workItem from="1718859537476" duration="2000" />
     </task>
     <task id="LOCAL-00001" summary="Update: Fixed app's middleware (#200)">
       <option name="closed" value="true" />
