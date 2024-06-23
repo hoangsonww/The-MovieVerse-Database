@@ -614,6 +614,7 @@ async function movieVerseResponse(message) {
         fetchAndRedirectToMovieDetails(movieName);
         return `Searching for details about "${movieName}". Please wait...`;
     }
+
     if (lowerMessage.startsWith("show trailer for ")) {
         const movieName = lowerMessage.replace("show trailer for ", "");
         fetchMovieTrailer(movieName);
