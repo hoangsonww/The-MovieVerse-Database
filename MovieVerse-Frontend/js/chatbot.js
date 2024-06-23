@@ -178,6 +178,7 @@ function updateMovieVisitCount(movieId, movieTitle) {
     if (!movieVisits[movieId]) {
         movieVisits[movieId] = { count: 0, title: movieTitle };
     }
+
     movieVisits[movieId].count += 1;
 
     if (!uniqueMoviesViewed.includes(movieId)) {
