@@ -1640,7 +1640,9 @@ function createImdbRatingCircle(imdbRating, imdbId) {
         imdbRating = 'N/A';
     }
 
-    imdbRating = imdbRating.toFixed(1);
+    if (imdbRating === 'N/A') {
+        imdbRating = imdbRating.toFixed(1);
+    }
 
     let circleContainer = document.getElementById('imdbRatingCircleContainer');
     if (!circleContainer) {
