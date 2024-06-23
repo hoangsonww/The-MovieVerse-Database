@@ -619,6 +619,7 @@ async function movieVerseResponse(message) {
         fetchMovieTrailer(movieName);
         return `Searching for the trailer of "${movieName}". Please wait...`;
     }
+
     if (lowerMessage.startsWith("hello") || lowerMessage.startsWith("hi") || lowerMessage.startsWith("hey")) {
         return "Hello! How can I assist you with MovieVerse today?";
     }
