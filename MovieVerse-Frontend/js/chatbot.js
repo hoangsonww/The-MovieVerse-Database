@@ -425,6 +425,7 @@ async function getMovies(url, mainElement) {
     clearMovieDetails();
     const numberOfMovies = calculateMoviesToDisplay();
     const pagesToFetch = numberOfMovies <= 20 ? 1 : 2;
+
     let allMovies = [];
 
     for (let page = 1; page <= pagesToFetch; page++) {
