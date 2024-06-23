@@ -221,6 +221,7 @@ function getMostVisitedMovie() {
 
 function getMostVisitedActor() {
     const actorVisits = JSON.parse(localStorage.getItem('actorVisits')) || {};
+
     let mostVisitedActor = '';
     let maxVisits = 0;
 
