@@ -556,6 +556,7 @@ function createTrailerButton(trailerUrl, movieTitle) {
 
 async function fetchPersonDetails(name, type) {
     const searchUrl = `https://${getMovieVerseData()}/3/search/person?${generateMovieNames()}${getMovieCode()}&query=${encodeURIComponent(name)}`;
+
     try {
         const response = await fetch(searchUrl);
         const data = await response.json();
