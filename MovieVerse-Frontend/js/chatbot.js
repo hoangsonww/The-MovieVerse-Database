@@ -3,6 +3,7 @@ import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory } from "@google/ge
 const chatbotInput = document.getElementById("chatbotInput");
 const chatbotBody = document.getElementById("chatbotBody");
 const movieee = `https://${getMovieVerseData()}/3`;
+
 let initialMainContent;
 let conversationHistory = [];
 
