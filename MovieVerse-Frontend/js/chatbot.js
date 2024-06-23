@@ -606,6 +606,7 @@ async function movieVerseResponse(message) {
         const movieName = lowerMessage.replace(/^(do you know about|show me|tell me about|what is) /, '');
         return await fetchMovieDetailsFromTMDB(movieName);
     }
+
     if (lowerMessage.startsWith("show me details about ") ||
         lowerMessage.startsWith("i want to know more about ") ||
         lowerMessage.startsWith("details about ") ||
