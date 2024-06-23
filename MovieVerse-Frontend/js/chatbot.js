@@ -237,6 +237,7 @@ function getMostVisitedActor() {
 
 function getTriviaAccuracy() {
     let triviaStats = JSON.parse(localStorage.getItem('triviaStats')) || { totalCorrect: 0, totalAttempted: 0 };
+
     if (triviaStats.totalAttempted === 0) {
         return 'No trivia attempted';
     }
