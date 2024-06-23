@@ -3,6 +3,7 @@ import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory } from "@google/ge
 const chatbotInput = document.getElementById("chatbotInput");
 const chatbotBody = document.getElementById("chatbotBody");
 const movieee = `https://${getMovieVerseData()}/3`;
+
 let initialMainContent;
 let conversationHistory = [];
 
@@ -177,6 +178,7 @@ function updateMovieVisitCount(movieId, movieTitle) {
     if (!movieVisits[movieId]) {
         movieVisits[movieId] = { count: 0, title: movieTitle };
     }
+
     movieVisits[movieId].count += 1;
 
     if (!uniqueMoviesViewed.includes(movieId)) {
@@ -219,6 +221,7 @@ function getMostVisitedMovie() {
 
 function getMostVisitedActor() {
     const actorVisits = JSON.parse(localStorage.getItem('actorVisits')) || {};
+
     let mostVisitedActor = '';
     let maxVisits = 0;
 
@@ -234,6 +237,7 @@ function getMostVisitedActor() {
 
 function getTriviaAccuracy() {
     let triviaStats = JSON.parse(localStorage.getItem('triviaStats')) || { totalCorrect: 0, totalAttempted: 0 };
+
     if (triviaStats.totalAttempted === 0) {
         return 'No trivia attempted';
     }
@@ -421,6 +425,7 @@ async function getMovies(url, mainElement) {
     clearMovieDetails();
     const numberOfMovies = calculateMoviesToDisplay();
     const pagesToFetch = numberOfMovies <= 20 ? 1 : 2;
+
     let allMovies = [];
 
     for (let page = 1; page <= pagesToFetch; page++) {
@@ -551,6 +556,7 @@ function createTrailerButton(trailerUrl, movieTitle) {
 
 async function fetchPersonDetails(name, type) {
     const searchUrl = `https://${getMovieVerseData()}/3/search/person?${generateMovieNames()}${getMovieCode()}&query=${encodeURIComponent(name)}`;
+
     try {
         const response = await fetch(searchUrl);
         const data = await response.json();
@@ -600,6 +606,7 @@ async function movieVerseResponse(message) {
         const movieName = lowerMessage.replace(/^(do you know about|show me|tell me about|what is) /, '');
         return await fetchMovieDetailsFromTMDB(movieName);
     }
+
     if (lowerMessage.startsWith("show me details about ") ||
         lowerMessage.startsWith("i want to know more about ") ||
         lowerMessage.startsWith("details about ") ||
@@ -608,11 +615,13 @@ async function movieVerseResponse(message) {
         fetchAndRedirectToMovieDetails(movieName);
         return `Searching for details about "${movieName}". Please wait...`;
     }
+
     if (lowerMessage.startsWith("show trailer for ")) {
         const movieName = lowerMessage.replace("show trailer for ", "");
         fetchMovieTrailer(movieName);
         return `Searching for the trailer of "${movieName}". Please wait...`;
     }
+
     if (lowerMessage.startsWith("hello") || lowerMessage.startsWith("hi") || lowerMessage.startsWith("hey")) {
         return "Hello! How can I assist you with MovieVerse today?";
     }
@@ -629,7 +638,10 @@ async function movieVerseResponse(message) {
         let fullResponse = '';
         try {
             const genAI = new GoogleGenerativeAI(getAIResponse());
-            const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+            const model = genAI.getGenerativeModel({
+                model: "gemini-1.5-flash",
+                systemInstruction: "You are MovieVerse Assistant. You are here to help users with movie-related or any other general queries. You are trained and powered by MovieVerse AI and Google to provide the best assistance. You can also provide information about movies, actors, directors, genres, and companies.",
+            });
 
             conversationHistory.push({ role: "user", parts: [{ text: message }] });
 
@@ -764,6 +776,7 @@ async function showMovieOfTheDay() {
 function fallbackMovieSelection() {
     const fallbackMovies = [432413, 299534, 1726, 562, 118340, 455207, 493922, 447332, 22970, 530385, 27205, 264660, 120467, 603, 577922, 76341, 539, 419704, 515001, 118340, 424, 98];
     const randomFallbackMovie = fallbackMovies[Math.floor(Math.random() * fallbackMovies.length)];
+
     localStorage.setItem('selectedMovieId', randomFallbackMovie);
     window.location.href = 'movie-details.html';
 }
