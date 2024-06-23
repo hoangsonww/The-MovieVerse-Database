@@ -12,6 +12,7 @@ const movieCode = {
     part3: 'ZDllOTg3ZGNjN2YxYjU1OA=='
 };
 
+
 function getMovieCode() {
     return atob(movieCode.part1) + atob(movieCode.part2) + atob(movieCode.part3);
 }
