@@ -257,7 +257,6 @@
             <span id="profileText">Profile</span>
             <i class="fas fa-user" id="profileIcon"></i>
         </button>
-
         <form id="form1" style="margin-top: 20px">
             <div class="search-container">
                 <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!" />
@@ -270,13 +269,11 @@
             </div>
         </form>
     </header>
-
     <div id="bot-header">
         <h2 id="search-title">The <span class="highlight1">MovieVerse</span> Assistant</h2>
         <button id="clear-search-btn" style="display: none;">Clear Search Results</button>
         <h4 id="alt-title" style="font-weight: normal; font-size: 15px; color: #ff8623">Dive deep into the movie world with our expert assistant!</h4>
     </div>
-
     <main id="main" style="padding: 0; margin: 0 auto; justify-content: center; align-items: stretch; flex-wrap: wrap; margin-bottom: 400px">
         <div id="chatbotContainer">
             <div id="chatbotHeader">The MovieVerse Assistant</div>
@@ -285,7 +282,6 @@
             <button id="sendButton" title="Send this message">Send</button>
         </div>
     </main>
-
     <div id="ad-container2" style="text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px)" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
         <p style="margin: 0;">Advertisement</p>
         <ins class="adsbygoogle"
@@ -299,7 +295,6 @@
     <script>
         (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
-
     <button id="chat-button" onclick="window.location.href='chat.html'" style="bottom: 300px; right: 10px; z-index: 1001" title="Chat with fellow MovieVerse users!">Chat</button>
     <button id="settings-btn" style="position: fixed; bottom: 265px; right: 10px">Settings</button>
     <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 230px; right: 10px">Surprise Me!</button>
@@ -307,9 +302,7 @@
     <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 160px; right: 10px">Movie Timeline</button>
     <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="bottom: 125px; right: 10px" title="Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
     <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 90px; right: 10px" title="Test your movie knowledge">MovieVerse Trivia</button>
-
     <script src="../js/chatbot.js" type="module"></script>
-
     <div id="mobile-bottom-bar" class="mobile-bottom-bar">
         <a href="chat.html" class="bottom-bar-item">
             <i class="fas fa-comments"></i>
@@ -340,23 +333,19 @@
             <span>Trivia</span>
         </a>
     </div>
-
     <button id="menu-btn" style="position: fixed; bottom: 10px; right: 10px; z-index: 1001" title="Toggle Menu Buttons">
         <i class="fas fa-ellipsis-h"></i><br>
         <span>Menu</span>
     </button>
-
     <div id="myModal" class="modal-overlay">
         <div class="spinner"></div>
         <p style="color: white; margin-left: 10px">Loading response...</p>
     </div>
-
     <footer>
         <a href="../../index.html" style="cursor: pointer; text-decoration: none">
             <p style="cursor: pointer; color: white; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
         </a>
     </footer>
-
     <script>
         function handleSignInOut() {
             const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
@@ -396,7 +385,6 @@
             document.getElementById('googleSignInBtn').addEventListener('click', handleSignInOut);
         });
     </script>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const searchBar = document.getElementById('search');
@@ -425,7 +413,6 @@
             toggleVisibility();
         });
     </script>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const searchInput = document.getElementById('search');
@@ -458,7 +445,6 @@
             searchInput.addEventListener('input', toggleButtons);
         });
     </script>
-
     <script>
         const movieCode = {
             part1: 'YzVhMjBjODY=',
@@ -697,24 +683,6 @@
             searchInput.addEventListener('blur', clearSelection);
         });
 
-        // const movieCode = {
-        //     part1: 'YzVhMjBjODY=',
-        //     part2: 'MWFjZjdiYjg=',
-        //     part3: 'ZDllOTg3ZGNjN2YxYjU1OA=='
-        // };
-        //
-        // function getMovieVerseData(input) {
-        //     return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
-        // }
-        //
-        // function generateMovieNames(input) {
-        //     return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
-        // }
-        //
-        // function getMovieCode() {
-        //     return atob(movieCode.part1) + atob(movieCode.part2) + atob(movieCode.part3);
-        // }
-
         async function showMovieOfTheDay() {
             const year = new Date().getFullYear();
             const url = `https://api.themoviedb.org/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
@@ -875,5 +843,4 @@
         });
     </script>
 </body>
-
 </html>
