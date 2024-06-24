@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html" style="overflow-x: hidden">
-
 <head>
     <meta charset="UTF-8">
     <title>Search Results - The MovieVerse</title>
@@ -41,7 +40,6 @@
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-
         gtag('config', 'G-CQKJ67FXZ4');
     </script>
     <script src="../js/search.js"></script>
@@ -53,7 +51,6 @@
             font-style: normal;
             font-display: swap;
         }
-
         @font-face {
             font-family: 'Poppins';
             src: url('https://movie-verse.com/fonts/Poppins-Regular.ttf') format('truetype');
@@ -61,7 +58,6 @@
             font-style: normal;
             font-display: swap;
         }
-
         @font-face {
             font-family: 'Poppins';
             src: url('https://movie-verse.com/fonts/Poppins-SemiBold.ttf') format('truetype');
@@ -69,29 +65,23 @@
             font-style: normal;
             font-display: swap;
         }
-
         #local-time {
             margin-left: 5px;
         }
-
         body {
             background-image: url("../../images/universe-1.webp");
             background-repeat: repeat-y;
             background-size: 100% auto;
         }
-
         @media (max-width: 767px) {
             body {
                 background-size: auto;
                 background-position: top center;
             }
         }
-
         #ad-container {
             display: block !important;
         }
-    </style>
-    <style>
         #translate_control {
             position: fixed;
             left: 10px;
@@ -100,7 +90,6 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
             border-radius: 8px;
         }
-
         @media (max-width: 767px) {
             #translate_control {
                 display: block;
@@ -110,7 +99,6 @@
                 z-index: 1000000;
             }
         }
-
         .translate-trigger {
             background-color: #7378c5;
             color: white;
@@ -118,7 +106,6 @@
             border-radius: 8px;
             cursor: pointer;
         }
-
         .translate-trigger:hover {
             background-color: #ff8623;
             transition: 0.1s ease-in;
@@ -138,7 +125,6 @@
             font: inherit;
             color: white;
         }
-
         .goog-te-combo {
             background-color: #7378c5 !important;
             color: white !important;
@@ -147,21 +133,17 @@
             font-size: 15px !important;
             padding-left: 5px !important;
         }
-
         .skiptranslate {
             color: white !important;
         }
-
         .goog-te-banner-frame {
             opacity: 0.8 !important;
             background-color: #f4f4f4 !important;
         }
-
         @media (max-width: 767px) {
             #google_translate_element {
                 bottom: 120px;
             }
-
             #translate_control {
                 bottom: 70px;
             }
@@ -245,22 +227,17 @@
             </div>
         </form>
     </header>
-
     <div id="myModal" class="modal-overlay">
         <div class="spinner"></div>
     </div>
-
     <main id="movie-match-main" style="margin-top: 10px; margin-bottom: 150px">
         <h2 id="search-results-label">Search Results</h2>
-
         <div class="category-buttons">
             <button data-category="movie" onclick="showResults('movie')">Movies</button>
             <button data-category="tv" onclick="showResults('tv')">TV Series</button>
             <button data-category="person" onclick="showResults('person')">People</button>
         </div>
-
         <button id="toggle-filters-btn">Filter & Sort Results</button>
-
         <!-- Filters for Movies -->
         <div id="movie-tv-filters" style="display: none;">
             <p style="font-weight: bold">Filters Search Results</p>
@@ -269,23 +246,17 @@
                 <option value="">Select Genre</option>
                 <!-- Populated with genres -->
             </select>
-
             <label for="language-filter">Language:</label>
             <select id="language-filter">
                 <option value="">Select Language</option>
             </select>
-
             <label for="year-filter">Year:</label>
             <input type="number" id="year-filter" placeholder="Year of Publishing" style="color: white" min="1900" max="2024" />
-
             <label style="vertical-align: center" for="rating-filter">Rating:</label>
             <input type="range" id="rating-filter" min="0" max="10" step="0.1" value="0" title="Rating" />
             <span id="rating-value" style="color: white; font: inherit"></span>
-
             <button id="reset-filters">Reset Filters</button>
-
             <div style="border-top: 1px solid white; margin-top: 20px; padding-top: 10px"></div>
-
             <label for="sort-movie"><strong>Sort by:</strong></label>
             <select id="sort-movie" style="max-width: 300px">
                 <option value="">Default</option>
@@ -297,7 +268,6 @@
                 <option value="vote_average.asc">Sort by vote average (lowest to highest)</option>
             </select>
         </div>
-
         <!-- Filters for TV Series -->
         <div id="tv-filters" style="display: none;">
             <p style="font-weight: bold">Filters Search Results</p>
@@ -306,23 +276,17 @@
                 <option value="">Select Genre</option>
                 <!-- Populated with genres -->
             </select>
-
             <label for="language-tv-filter">Language:</label>
             <select id="language-tv-filter">
                 <option value="">Select Language</option>
             </select>
-
             <label for="year-tv-filter">Year:</label>
             <input type="number" id="year-tv-filter" placeholder="Year of Publishing" style="color: white" min="1900" max="2024" />
-
             <label style="vertical-align: center" for="rating-tv-filter">Rating:</label>
             <input type="range" id="rating-tv-filter" min="0" max="10" step="0.1" value="0" title="Rating" />
             <span id="rating-tv-value" style="color: white; font: inherit"></span>
-
             <button id="reset-filters">Reset Filters</button>
-
             <div style="border-top: 1px solid white; margin-top: 20px; padding-top: 10px"></div>
-
             <label for="sort-tv"><strong>Sort by:</strong></label>
             <select id="sort-tv" style="max-width: 300px">
                 <option value="">Default</option>
@@ -334,33 +298,26 @@
                 <option value="vote_average.asc">Sort by vote average (lowest to highest)</option>
             </select>
         </div>
-
         <!-- Filters for People -->
         <div id="people-filters" style="display:none;">
             <p style="font-weight: bold">Filters Search Results</p>
-
             <label for="profession-filter">Profession:</label>
             <select id="profession-filter">
                 <option value="">Select Profession</option>
                 <option value="Acting">Acting</option>
                 <option value="Directing">Directing</option>
             </select>
-
             <label for="gender-filter">Gender:</label>
             <select id="gender-filter">
                 <option value="">Select Gender</option>
                 <option value="2">Male</option>
                 <option value="1">Female</option>
             </select>
-
             <label for="popularity-filter">Popularity Score:</label>
             <input type="range" id="popularity-filter" min="0" max="100" step="1" value="5" title="Popularity" />
-
             <span id="popularity-value" style="color: white; font: inherit"></span>
             <button id="reset-filters">Reset Filters</button>
-
             <div style="border-top: 1px solid white; margin-top: 20px; padding-top: 10px"></div>
-
             <label for="sort-people"><strong>Sort by:</strong></label>
             <select id="sort-people" style="max-width: 300px">
                 <option value="">Default</option>
@@ -368,12 +325,10 @@
                 <option value="popularity.desc">Sort by popularity (highest to lowest)</option>
             </select>
         </div>
-
         <div id="movie-match-container1" class="movie-match-container1">
             <main id="results"></main>
         </div>
     </main>
-
     <div id="ad-container" style="text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px); margin-top: 50px" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
         <p style="margin: 0;">Advertisement</p>
         <ins class="adsbygoogle"
@@ -387,7 +342,6 @@
     <script>
         (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
-
     <div id="ad-container1" style="text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px);" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
         <p style="margin: 0;">Advertisement</p>
         <ins class="adsbygoogle"
@@ -400,7 +354,6 @@
     <script>
         (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
-
     <button id="chat-button" onclick="window.location.href='chat.html'" style="bottom: 335px; right: 10px; z-index: 1001" title="Chat with fellow MovieVerse users!">Chat</button>
     <button id="settings-btn" onclick="window.location.href='settings.html'" style="position: fixed; bottom: 300px; right: 10px; z-index: 10012">Settings</button>
     <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 265px; right: 10px; z-index: 10012">Surprise Me!</button>
@@ -409,13 +362,11 @@
     <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="bottom: 160px; right: 10px; z-index: 10012" title="Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
     <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 125px; right: 10px; z-index: 10012" title="Test your movie knowledge">MovieVerse Trivia</button>
     <button id="back-to-top-btn" style="bottom: 90px; right: 10px; z-index: 10012" title="Back to top">Back to Top</button>
-
     <footer>
         <a href="../../index.html" style="cursor: pointer; text-decoration: none">
             <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
         </a>
     </footer>
-
     <div id="mobile-bottom-bar" class="mobile-bottom-bar">
         <a href="chat.html" class="bottom-bar-item">
             <i class="fas fa-comments"></i>
@@ -450,12 +401,10 @@
             <span>Top</span>
         </a>
     </div>
-
     <button id="menu-btn" style="position: fixed; bottom: 10px; right: 10px; z-index: 10012" title="Toggle Menu Buttons">
         <i class="fas fa-ellipsis-h"></i><br>
         <span>Menu</span>
     </button>
-
     <script>
         function handleSignInOut() {
             const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
@@ -577,7 +526,6 @@
             }
         });
     </script>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const searchBar = document.getElementById('search');
@@ -606,7 +554,6 @@
             toggleVisibility();
         });
     </script>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const searchInput = document.getElementById('search');
@@ -639,7 +586,6 @@
             searchInput.addEventListener('input', toggleButtons);
         });
     </script>
-
     <script>
         function showSpinner() {
             document.getElementById('myModal').classList.add('modal-visible');
@@ -872,7 +818,6 @@
             searchInput.addEventListener('blur', clearSelection);
         });
     </script>
-
     <script>
         window.addEventListener('load', function() {
             adjustAnchorHeights();
