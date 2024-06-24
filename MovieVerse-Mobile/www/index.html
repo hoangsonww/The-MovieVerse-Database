@@ -1,9 +1,7 @@
-<!-- The MovieVerse App - Entry Point -->
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 
 <head>
-    <!-- Essential meta tags -->
     <meta charset="UTF-8">
     <title>The MovieVerse - Explore Movies, TV Series, and More</title>
 
@@ -375,20 +373,6 @@
             color: #ff8623 !important;
             transition: 0.1s ease-in;
         }
-        #githubLink17 {
-            color: white !important;
-        }
-        #githubLink17:hover {
-            color: #ff8623 !important;
-            transition: 0.1s ease-in;
-        }
-        #githubLink18 {
-            color: white !important;
-        }
-        #githubLink18:hover {
-            color: #ff8623 !important;
-            transition: 0.1s ease-in;
-        }
         #githubLink19 {
             color: white !important;
         }
@@ -456,12 +440,6 @@
             display: block;
         }
         #ad-container7 {
-            display: block;
-        }
-        #ad-container8 {
-            display: block;
-        }
-        #ad-container9 {
             display: block;
         }
         #my-heading {
@@ -832,19 +810,6 @@
     <div id="tv-series-pagination" class="pagination" style="text-align: center"></div>
     <main id="tv-series" ></main>
 
-    <div id="ad-container8" style="text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px)" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
-        <p style="margin: 0;">Advertisement</p>
-        <ins class="adsbygoogle"
-             style="display: block; width: 100%;"
-             data-ad-client="ca-pub-6608388491200814"
-             data-ad-slot="4832732030"
-             data-ad-format="auto"></ins>
-        <p style="margin: 0; font-size: 12px; margin-top: 5px">Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your <a style="text-decoration: underline" id="githubLink17" href="/MovieVerse-Frontend/html/feedback.html">feedback</a> if you find the ad inappropriate or irrelevant.</p>
-    </div>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-
     <div class="genres" id="hidden-gems-div">
         <h2 id="other" style="cursor: pointer">Hidden Treasures: Discover Gems in Cinema</h2>
     </div>
@@ -1043,7 +1008,6 @@
             }, { passive: true });
         })
     </script>
-
     <script>
         window.onload = function() {
             const bottomBarAnchors = document.querySelectorAll('.mobile-bottom-bar a');
@@ -1146,7 +1110,6 @@
             }
         });
     </script>
-
     <script>
         document.getElementById('settings-btn').addEventListener('click', () => {
             window.location.href = 'MovieVerse-Frontend/html/settings.html';
@@ -1201,7 +1164,6 @@
             });
         });
     </script>
-
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
@@ -1213,7 +1175,6 @@
             });
         }
     </script>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             checkApiStatusWithRetry(5);
@@ -1237,7 +1198,6 @@
                 });
         }
     </script>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const bellIcon = document.getElementById('bellIcon');
@@ -1247,7 +1207,6 @@
             }, 500);
         });
     </script>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const searchBar = document.getElementById('search');
@@ -1276,7 +1235,6 @@
             toggleVisibility();
         });
     </script>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const searchInput = document.getElementById('search');
@@ -1309,7 +1267,6 @@
             searchInput.addEventListener('input', toggleButtons);
         });
     </script>
-
     <script>
         function showSpinner() {
             document.getElementById('myModal').classList.add('modal-visible');
@@ -1524,7 +1481,5 @@
             searchInput.addEventListener('blur', clearSelection);
         });
     </script>
-
 </body>
-
 </html>
