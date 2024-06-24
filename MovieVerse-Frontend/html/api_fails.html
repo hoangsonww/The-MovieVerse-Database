@@ -37,7 +37,6 @@
             font-style: normal;
             font-display: swap;
         }
-
         @font-face {
             font-family: 'Poppins';
             src: url('https://movie-verse.com/fonts/Poppins-Regular.ttf') format('truetype');
@@ -45,7 +44,6 @@
             font-style: normal;
             font-display: swap;
         }
-
         @font-face {
             font-family: 'Poppins';
             src: url('https://movie-verse.com/fonts/Poppins-SemiBold.ttf') format('truetype');
@@ -53,11 +51,9 @@
             font-style: normal;
             font-display: swap;
         }
-
         body {
             font-family: 'Poppins', sans-serif;
         }
-
         .center-text {
             text-align: center;
         }
@@ -88,7 +84,6 @@
             background-repeat: repeat-y;
             background-size: 100% auto;
         }
-
         @media (max-width: 767px) {
             body {
                 background-size: auto;
@@ -101,15 +96,12 @@
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-
         gtag('config', 'G-CQKJ67FXZ4');
-
         async function ensureGenreMapIsAvailable() {
             if (!localStorage.getItem('genreMap')) {
                 await fetchGenreMap();
             }
         }
-
         async function fetchGenreMap() {
             const url = `https://${getMovieVerseData()}/3/genre/movie/list?${generateMovieNames()}${getMovieCode()}`;
             try {
@@ -125,10 +117,8 @@
                 console.log('Error fetching genre map:', error);
             }
         }
-
         async function rotateUserStats() {
             await ensureGenreMapIsAvailable();
-
             const stats = [
                 {
                     label: "Your Current Time",
@@ -354,7 +344,6 @@
 
             return mostCommonGenre || 'Not Available';
         }
-
         document.addEventListener('DOMContentLoaded', rotateUserStats);
     </script>
     <style>
@@ -366,7 +355,6 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
             border-radius: 8px;
         }
-
         @media (max-width: 767px) {
             #translate_control {
                 display: block;
@@ -376,7 +364,6 @@
                 z-index: 1000000;
             }
         }
-
         .translate-trigger {
             background-color: #7378c5;
             color: white;
@@ -384,12 +371,10 @@
             border-radius: 8px;
             cursor: pointer;
         }
-
         .translate-trigger:hover {
             background-color: #ff8623;
             transition: 0.1s ease-in;
         }
-
         #google_translate_element {
             display: none;
             position: fixed;
@@ -404,7 +389,6 @@
             font: inherit;
             color: white;
         }
-
         .goog-te-combo {
             background-color: #7378c5 !important;
             color: white !important;
@@ -413,34 +397,28 @@
             font-size: 15px !important;
             padding-left: 5px !important;
         }
-
         .skiptranslate {
             color: white !important;
         }
-
         .goog-te-banner-frame {
             opacity: 0.8 !important;
             background-color: #f4f4f4 !important;
         }
-
         @media (max-width: 767px) {
             #google_translate_element {
                 bottom: 120px;
             }
-
             #translate_control {
                 bottom: 70px;
             }
         }
     </style>
 </head>
-
 <body>
     <div id="google_translate_element"></div>
     <div id="translate_control">
         <div class="translate-trigger">Translate</div>
     </div>
-
     <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <script>
         function googleTranslateElementInit() {
@@ -450,12 +428,10 @@
                 autoDisplay: false
             }, 'google_translate_element');
         }
-
         document.querySelector('.translate-trigger').addEventListener('click', function() {
             const translateEl = document.getElementById('google_translate_element');
             translateEl.style.display = translateEl.style.display === 'block' ? 'none' : 'block';
         });
-
         document.addEventListener('DOMContentLoaded', function() {
             let lastScrollTop = window.scrollY;
             const translateControl = document.getElementById('translate_control');
@@ -483,12 +459,10 @@
                 The Mo<span class="highlight" id="highlight">vieV</span>erse
             </a>
         </h1>
-
         <div id="local-time" style="cursor: pointer; margin-left: 40px" title="Click to view more of your stats!">
             <p id="stats-label" class="clock" style="font-size: 16px;"></p>
             <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
         </div>
-
         <button class="back-btn notranslate" onclick="window.location.href='../../index.html'" title="Go back to homepage">Home</button>
         <button class="about notranslate" onclick="window.location.href='about.html'" title="About this wonderful app!">About</button>
         <button class="favorites-btn notranslate" onclick="window.location.href='favorites.html'" title="View your favorites & watchlists">Favorites</button>
@@ -512,7 +486,6 @@
                 <button type="button" id="clear-search" style="display: none">Clear</button>
             </div>
         </form>
-
         <button id="chat-button" onclick="window.location.href='chat.html'" style="bottom: 300px; right: 10px; z-index: 1001" title="Chat with fellow MovieVerse users!">Chat</button>
         <button id="settings-btn" style="position: fixed; bottom: 265px; right: 10px">Settings</button>
         <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 230px; right: 10px">Surprise Me!</button>
@@ -521,14 +494,12 @@
         <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="bottom: 125px; right: 10px" title="Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
         <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 90px; right: 10px" title="Test your movie knowledge">MovieVerse Trivia</button>
     </header>
-
     <div class="center-text" style="padding: 120px;">
         <div style="font-size: 50px; font-weight: bold; color: #ff8623; margin-top: 20px">MovieVerse is Offline</div>
         <p>We're sorry, our service is currently unavailable. This could be due to a temporary issue with our servers or your internet connection. Please try again.</p>
         <p>If you continue to experience issues, please contact our support team at <a id="link" href="support.html">our support page</a>.</p>
         <button class="center-button" onclick="window.location.href='../../index.html'">Try Again</button>
     </div>
-
     <script>
         async function showMovieOfTheDay() {
             const year = new Date().getFullYear();
@@ -603,13 +574,11 @@
             window.location.href = 'search.html';
         }
     </script>
-
     <footer style="margin-top: 500px">
         <a href="../../index.html" style="cursor: pointer; text-decoration: none">
             <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
         </a>
     </footer>
-
     <div id="mobile-bottom-bar" class="mobile-bottom-bar">
         <a href="chat.html" class="bottom-bar-item">
             <i class="fas fa-comments"></i>
@@ -640,12 +609,10 @@
             <span>Trivia</span>
         </a>
     </div>
-
     <button id="menu-btn" style="position: fixed; bottom: 10px; right: 10px; z-index: 1001" title="Toggle Menu Buttons">
         <i class="fas fa-ellipsis-h"></i><br>
         <span>Menu</span>
     </button>
-
     <script>
         window.addEventListener('load', function() {
             adjustAnchorHeights();
@@ -743,11 +710,9 @@
             }
         });
     </script>
-
     <div id="myModal" class="modal-overlay">
         <div class="spinner"></div>
     </div>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const searchBar = document.getElementById('search');
@@ -776,7 +741,6 @@
             toggleVisibility();
         });
     </script>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const searchInput = document.getElementById('search');
@@ -809,7 +773,6 @@
             searchInput.addEventListener('input', toggleButtons);
         });
     </script>
-
     <script>
         function showSpinner() {
             document.getElementById('myModal').classList.add('modal-visible');
@@ -1060,7 +1023,5 @@
             return atob(movieCode.part1) + atob(movieCode.part2) + atob(movieCode.part3);
         }
     </script>
-
 </body>
-
 </html>
