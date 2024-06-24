@@ -54,7 +54,6 @@
             font-style: normal;
             font-display: swap;
         }
-
         @font-face {
             font-family: 'Poppins';
             src: url('https://movie-verse.com/fonts/Poppins-Regular.ttf') format('truetype');
@@ -62,7 +61,6 @@
             font-style: normal;
             font-display: swap;
         }
-
         @font-face {
             font-family: 'Poppins';
             src: url('https://movie-verse.com/fonts/Poppins-SemiBold.ttf') format('truetype');
@@ -70,11 +68,9 @@
             font-style: normal;
             font-display: swap;
         }
-
         body {
             font-family: 'Poppins', sans-serif;
         }
-
         .user-search-result {
             background-color: #333;
             margin: 10px auto;
@@ -87,19 +83,16 @@
             flex-wrap: wrap;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
         }
-
         .user-search-result img {
             flex-shrink: 0;
             margin-right: 10px;
             border-radius: 8px;
         }
-
         .user-search-result > div {
             flex: 1;
             min-width: 120px;
             word-break: break-word;
         }
-
         .tooltip {
             position: absolute;
             background-color: #333;
@@ -110,33 +103,28 @@
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
             white-space: nowrap;
         }
-
         body {
             background-image: url("../../images/universe-1.webp");
             background-repeat: repeat-y;
             background-size: 100% auto;
         }
-
         @media (max-width: 767px) {
             body {
                 background-size: auto;
                 background-position: top center;
             }
         }
-
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
         }
-
         #main {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
             min-height: 80vh;
         }
-
         #userListContainer {
             flex-basis: 30%;
             background-color: rgba(0, 0, 0, 0.7);
@@ -145,7 +133,6 @@
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
             color: white;
         }
-
         #searchUserInput {
             width: 100%;
             padding: 10px;
@@ -155,24 +142,20 @@
             background-color: #333;
             color: white;
         }
-
         @media (min-width: 768px) {
             #searchUserInput {
                 min-width: 320px;
             }
         }
-
         .user:hover {
             background-color: #ff8623;
             color: white;
         }
-
         .user {
             border-radius: 8px;
             padding: 5px;
             cursor: pointer;
         }
-
         .user-item {
             display: flex;
             align-items: center;
@@ -184,30 +167,24 @@
             background-color: #333;
             color: white;
         }
-
         .user-item:hover {
             background-color: #ff8623;
         }
-
         .user-avatar {
             width: 50px;
             height: 50px;
             border-radius: 50%;
             margin-right: 10px;
         }
-
         .user-info {
             flex-grow: 1;
         }
-
         .user-email {
             font-weight: bold;
         }
-
         .user-bio {
             color: #ccc;
         }
-
         #chatSection {
             display: flex;
             flex-direction: column;
@@ -218,7 +195,6 @@
             color: white;
             min-height: 90vh;
         }
-
         #messages {
             flex-grow: 1;
             overflow-y: auto;
@@ -228,19 +204,16 @@
             flex-direction: column;
             border-radius: 8px;
         }
-
         #chatInput {
             padding: 10px;
             border-top: 1px solid #ccc;
         }
-
         #userEmailDisplay {
             background-color: #ff8623;
             color: white;
             border-radius: 10px;
             padding: 10px;
         }
-
         .message {
             margin: 5px 0;
             padding: 10px;
@@ -248,24 +221,20 @@
             max-width: 80%;
             word-wrap: break-word;
         }
-
         .my-message {
             align-self: flex-end;
             background-color: #ff8623;
             color: white;
         }
-
         .other-message {
             align-self: flex-start;
             background-color: #7378c5;
             color: white;
         }
-
         #chatInput {
             padding: 10px;
             border-top: 1px solid #ccc;
         }
-
         #messageInput {
             flex-grow: 1;
             padding: 10px;
@@ -275,7 +244,6 @@
             color: white;
             width: 100%;
         }
-
         #sendButton {
             padding: 10px 20px;
             border-radius: 5px;
@@ -285,11 +253,9 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
-
         #sendButton:hover {
             background-color: #7f4caf;
         }
-
         #main {
             display: flex;
             justify-content: space-between;
@@ -297,7 +263,6 @@
             min-height: 80vh;
             gap: 20px;
         }
-
         #userListContainer {
             flex: 1;
             background-color: rgba(0, 0, 0, 0.7);
@@ -306,7 +271,6 @@
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
             color: white;
         }
-
         #chatSection {
             flex: 2;
             display: flex;
@@ -317,7 +281,6 @@
             color: white;
             padding: 20px;
         }
-
         @media (max-width: 900px) {
             #main {
                 flex-direction: column;
@@ -325,7 +288,6 @@
                 width: 100%;
                 margin-left: 0;
             }
-
             #userListContainer, #chatSection {
                 width: 90% !important;
                 margin: 0 auto;
@@ -333,23 +295,19 @@
                 display: flex;
                 flex-direction: column;
             }
-
             #userList {
                 max-height: 300px;
                 overflow-y: auto;
             }
-
             #chatSection {
                 width: 100% !important;
                 flex-grow: 1;
             }
-
             #noUserSelected {
                 width: 90% !important;
                 flex-grow: 1;
             }
         }
-
         .selected-user {
             background-color: #ff8623;
         }
@@ -363,7 +321,6 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
             border-radius: 8px;
         }
-
         @media (max-width: 767px) {
             #translate_control {
                 display: block;
@@ -373,7 +330,6 @@
                 z-index: 1000000;
             }
         }
-
         .translate-trigger {
             background-color: #7378c5;
             color: white;
@@ -381,12 +337,10 @@
             border-radius: 8px;
             cursor: pointer;
         }
-
         .translate-trigger:hover {
             background-color: #ff8623;
             transition: 0.1s ease-in;
         }
-
         #google_translate_element {
             display: none;
             position: fixed;
@@ -401,7 +355,6 @@
             font: inherit;
             color: white;
         }
-
         .goog-te-combo {
             background-color: #7378c5 !important;
             color: white !important;
@@ -410,11 +363,9 @@
             font-size: 15px !important;
             padding-left: 5px !important;
         }
-
         .skiptranslate {
             color: white !important;
         }
-
         .goog-te-banner-frame {
             opacity: 0.8 !important;
             background-color: #f4f4f4 !important;
