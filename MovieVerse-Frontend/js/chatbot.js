@@ -640,7 +640,7 @@ async function movieVerseResponse(message) {
             const genAI = new GoogleGenerativeAI(getAIResponse());
             const model = genAI.getGenerativeModel({
                 model: "gemini-1.5-flash",
-                systemInstruction: "You are MovieVerse Assistant. You are here to help users with movie-related or any other general queries. You are trained and powered by MovieVerse AI and Google to provide the best assistance. You can also provide information about movies, actors, directors, genres, and companies.",
+                systemInstruction: "You are MovieVerse Assistant - an AI Chatbot of the MovieVerse App. You are here to help users with movie-related or any other general queries. You are trained and powered by MovieVerse AI and Google to provide the best assistance. You can also provide information about movies, actors, directors, genres, and companies, or recommend movies to users.",
             });
 
             conversationHistory.push({ role: "user", parts: [{ text: message }] });
