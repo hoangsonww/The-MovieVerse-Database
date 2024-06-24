@@ -41,7 +41,6 @@
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-
         gtag('config', 'G-CQKJ67FXZ4');
     </script>
     <style>
@@ -52,7 +51,6 @@
             font-style: normal;
             font-display: swap;
         }
-
         @font-face {
             font-family: 'Poppins';
             src: url('https://movie-verse.com/fonts/Poppins-Regular.ttf') format('truetype');
@@ -60,7 +58,6 @@
             font-style: normal;
             font-display: swap;
         }
-
         @font-face {
             font-family: 'Poppins';
             src: url('https://movie-verse.com/fonts/Poppins-SemiBold.ttf') format('truetype');
@@ -68,33 +65,27 @@
             font-style: normal;
             font-display: swap;
         }
-
         body {
             font-family: 'Poppins', sans-serif;
         }
-
         @media (min-width: 900px) {
             #form1 {
                 margin-right: 0;
             }
         }
-
         body {
             background-image: url("../../images/universe-1.webp");
             background-repeat: repeat-y;
             background-size: 100% auto;
         }
-
         #actor-details-container {
             margin-top: 0;
         }
-
         @media (max-width: 767px) {
             body {
                 background-size: auto;
                 background-position: top center;
             }
-
             #actor-details-container {
                 margin-top: 25px;
             }
@@ -109,7 +100,6 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
             border-radius: 8px;
         }
-
         @media (max-width: 767px) {
             #translate_control {
                 display: block;
@@ -119,7 +109,6 @@
                 z-index: 1000000;
             }
         }
-
         .translate-trigger {
             background-color: #7378c5;
             color: white;
@@ -127,12 +116,10 @@
             border-radius: 8px;
             cursor: pointer;
         }
-
         .translate-trigger:hover {
             background-color: #ff8623;
             transition: 0.1s ease-in;
         }
-
         #google_translate_element {
             display: none;
             position: fixed;
@@ -147,7 +134,6 @@
             font: inherit;
             color: white;
         }
-
         .goog-te-combo {
             background-color: #7378c5 !important;
             color: white !important;
@@ -156,16 +142,13 @@
             font-size: 15px !important;
             padding-left: 5px !important;
         }
-
         .skiptranslate {
             color: white !important;
         }
-
         .goog-te-banner-frame {
             opacity: 0.8 !important;
             background-color: #f4f4f4 !important;
         }
-
         @media (max-width: 767px) {
             #google_translate_element {
                 bottom: 120px;
@@ -175,11 +158,9 @@
                 bottom: 70px;
             }
         }
-
         #actor-details-container {
             margin-top: 25px;
         }
-
         .movie-list {
             display: flex;
             flex-wrap: wrap;
@@ -189,7 +170,6 @@
             margin-top: 7px;
             padding-top: 5px;
         }
-
         .movie-item {
             display: inline-flex;
             flex-direction: column;
@@ -199,7 +179,6 @@
             overflow: hidden;
             border-radius: 8px;
         }
-
         .movie-image {
             width: 100%;
             height: 155px;
@@ -207,18 +186,15 @@
             border-radius: 5px;
             margin-bottom: 5px;
         }
-
         .movie-item:hover {
             transform: scale(1.05);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
             cursor: pointer;
         }
-
         .movie-details {
             width: 100%;
         }
-
         .movie-title {
             font-size: 12px;
             margin: 0;
@@ -313,7 +289,6 @@
             <img id="actor-image" alt="Loading Actor Details..." style="width: 25vw; border-radius: 8px; z-index: 100002"/>
             <div style="height: 20px"></div>
         </div>
-
         <!-- Right side for Description and Info -->
         <div class="actor-right" id="actor-description">
             <!-- Actor details will be populated here -->
@@ -339,7 +314,6 @@
     </div>
 
     <script src="../js/actor-details.js"></script>
-
     <button id="chat-button" onclick="window.location.href='chat.html'" style="bottom: 300px; right: 10px; z-index: 1001" title="Chat with fellow MovieVerse users!">Chat</button>
     <button id="settings-btn" style="position: fixed; bottom: 265px; right: 10px">Settings</button>
     <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 230px; right: 10px">Surprise Me!</button>
@@ -830,7 +804,5 @@
             searchInput.addEventListener('blur', clearSelection);
         });
     </script>
-
 </body>
-
 </html>
