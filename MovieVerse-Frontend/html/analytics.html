@@ -42,7 +42,6 @@
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-
         gtag('config', 'G-CQKJ67FXZ4');
     </script>
     <style>
@@ -53,7 +52,6 @@
             font-style: normal;
             font-display: swap;
         }
-
         @font-face {
             font-family: 'Poppins';
             src: url('https://movie-verse.com/fonts/Poppins-Regular.ttf') format('truetype');
@@ -61,7 +59,6 @@
             font-style: normal;
             font-display: swap;
         }
-
         @font-face {
             font-family: 'Poppins';
             src: url('https://movie-verse.com/fonts/Poppins-SemiBold.ttf') format('truetype');
@@ -69,30 +66,25 @@
             font-style: normal;
             font-display: swap;
         }
-
         body {
             font-family: 'Poppins', sans-serif;
         }
-
         @media (min-width: 900px) {
             #form1 {
                 margin-right: 0;
             }
         }
-
         body {
             background-image: url("https://movie-verse.com/images/universe-1.webp");
             background-repeat: repeat-y;
             background-size: 100% auto;
         }
-
         @media (max-width: 767px) {
             body {
                 background-size: auto;
                 background-position: top center;
             }
         }
-
         @keyframes fadeInUp {
             0% {
                 opacity: 0;
@@ -103,27 +95,22 @@
                 transform: translateY(0);
             }
         }
-
         #my-heading {
             margin-bottom: -25px;
             opacity: 0;
             animation: fadeInUp 1s ease forwards;
         }
-
         #my-heading a {
             text-decoration: none;
             color: inherit;
             cursor: pointer;
             display: inline-block;
         }
-
         .highlight {
             display: inline-block;
             opacity: 0;
             animation: fadeInUp 1s ease forwards 0.5s;
         }
-    </style>
-    <style>
         #translate_control {
             position: fixed;
             left: 10px;
@@ -132,7 +119,6 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
             border-radius: 8px;
         }
-
         @media (max-width: 767px) {
             #translate_control {
                 display: block;
@@ -142,7 +128,6 @@
                 z-index: 1000000;
             }
         }
-
         .translate-trigger {
             background-color: #7378c5;
             color: white;
@@ -150,12 +135,10 @@
             border-radius: 8px;
             cursor: pointer;
         }
-
         .translate-trigger:hover {
             background-color: #ff8623;
             transition: 0.1s ease-in;
         }
-
         #google_translate_element {
             display: none;
             position: fixed;
@@ -170,7 +153,6 @@
             font: inherit;
             color: white;
         }
-
         .goog-te-combo {
             background-color: #7378c5 !important;
             color: white !important;
@@ -179,26 +161,21 @@
             font-size: 15px !important;
             padding-left: 5px !important;
         }
-
         .skiptranslate {
             color: white !important;
         }
-
         .goog-te-banner-frame {
             opacity: 0.8 !important;
             background-color: #f4f4f4 !important;
         }
-
         @media (max-width: 767px) {
             #google_translate_element {
                 bottom: 120px;
             }
-
             #translate_control {
                 bottom: 70px;
             }
         }
-
         @keyframes dropIn {
             0% {
                 opacity: 0;
@@ -209,38 +186,32 @@
                 transform: translateY(0);
             }
         }
-
         #my-heading {
             margin-bottom: -25px;
             opacity: 0;
             animation: dropIn 1s ease forwards;
         }
-
         #my-heading a {
             text-decoration: none;
             color: inherit;
             cursor: pointer;
             display: inline-block;
         }
-
         .highlight {
             display: inline-block;
             opacity: 0;
             animation: dropIn 1s ease forwards 1s;
         }
-
         #local-time {
             cursor: pointer;
             opacity: 0;
             animation: dropIn 1s ease forwards 1.5s;
         }
-
         #local-time p,
         #local-time div {
             opacity: 0;
             animation: dropIn 1s ease forwards 2s;
         }
-
         #my-heading1 {
             color: #ff8623;
             padding: 10px;
@@ -249,23 +220,19 @@
             background-color: transparent;
             margin-left: 40px;
         }
-
         .highlight2 {
             color: orange;
         }
-
         .highlight2:hover {
             color: #ff8623;
         }
     </style>
 </head>
-
 <body>
     <div id="google_translate_element"></div>
     <div id="translate_control">
         <div class="translate-trigger">Translate</div>
     </div>
-
     <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <script>
         function googleTranslateElementInit() {
@@ -308,12 +275,10 @@
                 The Mo<span class="highlight">vieV</span>erse
             </h1>
         </a>
-
         <div id="local-time" style="cursor: pointer; margin-left: 40px" title="Click to view more of your stats!">
             <p id="stats-label" class="clock" style="font-size: 16px;"></p>
             <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
         </div>
-
         <button class="back-btn nav-btn notranslate" onclick="window.location.href='../../index.html'" title="Go back to homepage">Home</button>
         <button class="about nav-btn notranslate" onclick="window.location.href='about.html'" title="About this wonderful app!">About</button>
         <button class="favorites-btn notranslate" onclick="window.location.href='favorites.html'" title="View your favorites & watchlists">Favorites</button>
@@ -322,7 +287,6 @@
             <i class="fas fa-sign-in-alt" id="signInIcon"></i>
             <i class="fas fa-sign-out-alt" id="signOutIcon" style="display: none;"></i>
         </button>
-
         <button id="profileBtn" class="nav-btn notranslate" onclick="window.location.href='user-profile.html'" title="Go to your profile">
             <span id="profileText">Profile</span>
             <i class="fas fa-user" id="profileIcon"></i>
@@ -341,7 +305,6 @@
         <button id="nav-toggle" class="nav-toggle" title="Toggle side navbar" onclick="toggleNav()">
             <i class="fas fa-bars"></i>
         </button>
-
         <button id="chat-button" onclick="window.location.href='chat.html'" style="bottom: 300px; right: 10px; z-index: 1001" title="Chat with fellow MovieVerse users!">Chat</button>
         <button id="settings-btn" style="position: fixed; bottom: 265px; right: 10px">Settings</button>
         <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 230px; right: 10px">Surprise Me!</button>
@@ -350,18 +313,15 @@
         <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="bottom: 125px; right: 10px" title="Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
         <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 90px; right: 10px" title="Test your movie knowledge">MovieVerse Trivia</button>
     </header>
-
     <nav id="side-nav" class="side-nav" style="z-index: 1000000">
         <a id="heading-href" style="cursor: pointer" href="../../index.html" title="Click to go back to the home page">
             <div id="my-heading1" style="margin-bottom: 15px; margin-left: 0; margin-top: 15px; font-size: 2.1em; font-weight: bold;">
                 The Mo<span class="highlight2">vieV</span>erse Menu
             </div>
         </a>
-
         <div id="button-container">
             <button id="button-remove" title="Close the navbar" onclick="removeNavBar()">Close</button>
         </div>
-
         <ul style="overflow-y: auto">
             <li><a href="#chart1">Annual Releases</a></li>
             <li><a href="#chart2">Genre Popularity</a></li>
@@ -379,12 +339,10 @@
             <li><a href="user-profile.html">Profile</a></li>
         </ul>
     </nav>
-
     <div>
         <div class="chart-title" style="font-size: 28px; font-weight: bold">The MovieVerse Analytics</div>
         <p class="chart-description">Take a look at how our database has evolved over the years to serve more than <strong>150,000</strong> monthly active users!</p>
     </div>
-
     <div id="myModal" class="modal-overlay">
         <div class="spinner"></div>
     </div>
