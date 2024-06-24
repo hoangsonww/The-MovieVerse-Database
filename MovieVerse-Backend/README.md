@@ -49,6 +49,7 @@ The microservices architecture of MovieVerse is designed to segregate the applic
 - MySQL
 - PostgreSQL
 - Flask
+- Redis
 - Django
 - RabbitMQ
 - Flake8 for Python linting
