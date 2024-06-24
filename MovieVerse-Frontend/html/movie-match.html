@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html" style="overflow-x: hidden">
-
 <head>
     <meta charset="UTF-8">
     <title>Movie Match - The MovieVerse</title>
@@ -41,7 +40,6 @@
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-
         gtag('config', 'G-CQKJ67FXZ4');
     </script>
     <style>
@@ -52,7 +50,6 @@
             font-style: normal;
             font-display: swap;
         }
-
         @font-face {
             font-family: 'Poppins';
             src: url('https://movie-verse.com/fonts/Poppins-Regular.ttf') format('truetype');
@@ -60,7 +57,6 @@
             font-style: normal;
             font-display: swap;
         }
-
         @font-face {
             font-family: 'Poppins';
             src: url('https://movie-verse.com/fonts/Poppins-SemiBold.ttf') format('truetype');
@@ -68,26 +64,20 @@
             font-style: normal;
             font-display: swap;
         }
-
         #search {
             margin-top: -1px;
         }
-
-
         body {
             background-image: url("../../images/universe-1.webp");
             background-repeat: repeat-y;
             background-size: 100% auto;
         }
-
         @media (max-width: 767px) {
             body {
                 background-size: auto;
                 background-position: top center;
             }
         }
-    </style>
-    <style>
         #translate_control {
             position: fixed;
             left: 10px;
@@ -96,7 +86,6 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
             border-radius: 8px;
         }
-
         @media (max-width: 767px) {
             #translate_control {
                 display: block;
@@ -106,7 +95,6 @@
                 z-index: 1000000;
             }
         }
-
         .translate-trigger {
             background-color: #7378c5;
             color: white;
@@ -114,12 +102,10 @@
             border-radius: 8px;
             cursor: pointer;
         }
-
         .translate-trigger:hover {
             background-color: #ff8623;
             transition: 0.1s ease-in;
         }
-
         #google_translate_element {
             display: none;
             position: fixed;
@@ -134,7 +120,6 @@
             font: inherit;
             color: white;
         }
-
         .goog-te-combo {
             background-color: #7378c5 !important;
             color: white !important;
@@ -143,34 +128,28 @@
             font-size: 15px !important;
             padding-left: 5px !important;
         }
-
         .skiptranslate {
             color: white !important;
         }
-
         .goog-te-banner-frame {
             opacity: 0.8 !important;
             background-color: #f4f4f4 !important;
         }
-
         @media (max-width: 767px) {
             #google_translate_element {
                 bottom: 120px;
             }
-
             #translate_control {
                 bottom: 70px;
             }
         }
     </style>
 </head>
-
 <body>
     <div id="google_translate_element"></div>
     <div id="translate_control">
         <div class="translate-trigger">Translate</div>
     </div>
-
     <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <script>
         function googleTranslateElementInit() {
@@ -241,7 +220,6 @@
             </div>
         </form>
     </header>
-
     <main id="movie-match-main" style="margin-bottom: 45vh">
         <div class="movie-match-container">
             <h2 id="search-title1">Find Your Movie Match</h2>
@@ -255,7 +233,6 @@
                     <option value="romantic">Romantic</option>
                     <option value="thoughtful">Thoughtful</option>
                 </select>
-
                 <label for="genre">Preferred Genre:</label>
                 <select id="genre">
                     <option value="action">Action</option>
@@ -264,7 +241,6 @@
                     <option value="sci-fi">Sci-Fi</option>
                     <option value="romance">Romance</option>
                 </select>
-
                 <label for="period">Time Period:</label>
                 <select id="period">
                     <option value="2020s">2020s</option>
@@ -273,12 +249,10 @@
                     <option value="90s">90s</option>
                     <option value="80s">80s</option>
                 </select>
-
                 <input type="submit" value="Get Matched Movie">
             </form>
         </div>
     </main>
-
     <div id="ad-container" style="text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px)" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
         <p style="margin: 0;">Advertisement</p>
         <ins class="adsbygoogle"
@@ -292,7 +266,6 @@
     <script>
         (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
-
     <div id="ad-container2" style="text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px)" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
         <p style="margin: 0;">Advertisement</p>
         <ins class="adsbygoogle"
@@ -305,15 +278,11 @@
     <script>
         (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
-
     <script src="../js/movie-match.js"></script>
-
     <script src="/MovieVerse-Frontend/js/settings.js" defer></script>
-
     <div id="myModal" class="modal-overlay">
         <div class="spinner"></div>
     </div>
-
     <script>
         function handleSignInOut() {
             const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
@@ -382,7 +351,6 @@
             toggleVisibility();
         });
     </script>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const searchInput = document.getElementById('search');
@@ -748,13 +716,11 @@
             }
         });
     </script>
-
     <footer style="margin-top: 0">
         <a href="../../index.html" style="cursor: pointer; text-decoration: none">
             <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
         </a>
     </footer>
-
     <div id="mobile-bottom-bar" class="mobile-bottom-bar">
         <a href="chat.html" class="bottom-bar-item">
             <i class="fas fa-comments"></i>
@@ -785,12 +751,10 @@
             <span>Trivia</span>
         </a>
     </div>
-
     <button id="menu-btn" style="position: fixed; bottom: 10px; right: 10px; z-index: 1001" title="Toggle Menu Buttons">
         <i class="fas fa-ellipsis-h"></i><br>
         <span>Menu</span>
     </button>
-
     <script>
         window.addEventListener('load', function() {
             adjustAnchorHeights();
@@ -888,6 +852,5 @@
             }
         });
     </script>
-
 </body>
 </html>
