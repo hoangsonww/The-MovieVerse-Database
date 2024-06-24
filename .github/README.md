@@ -145,16 +145,21 @@ Or, for your convenience, you may simply run the following command, provided tha
     cordova emulate ios
     cordova emulate android
     ```
-11. As you develop, be sure to save & commit your changes (and don't forget to create a branch for your new feature):
+11. If you'd also like to dockerize the application, you can run the following command:
+    ```bash
+    npm run docker
+    ```
+    This will create a Docker image of the application, which you can then deploy to a containerized environment.
+12. As you develop, be sure to save & commit your changes (and don't forget to create a branch for your new feature):
     ```bash
     git commit -m 'Add some AmazingFeature'
     ```
-12. Push to your branch:
+13. Push to your branch:
     ```bash
     git push origin feature/AmazingFeature
     ```
-13. Open a Pull Request (if you want to merge your changes to our official app!)
-14. Enjoy coding and [let me know](https://github.com/hoangsonww/The-MovieVerse-Database/discussions) if you have any questions!
+14. Open a Pull Request (if you want to merge your changes to our official app!)
+15. Enjoy coding and [let me know](https://github.com/hoangsonww/The-MovieVerse-Database/discussions) if you have any questions!
 
 ## Privacy Policy
 
