@@ -946,7 +946,6 @@
 
         async function rotateUserStats() {
             await ensureGenreMapIsAvailable();
-
             const stats = [
                 {
                     label: "Your Current Time",
@@ -1298,7 +1297,8 @@
                         button.style.opacity = '1';
                         button.style.transform = 'translateY(0)';
                     }, 50 * index);
-                } else {
+                }
+                else {
                     button.style.opacity = '0';
                     button.style.transform = 'translateY(20px)';
                 }
