@@ -60,7 +60,6 @@
             font-style: normal;
             font-display: swap;
         }
-
         @font-face {
             font-family: 'Poppins';
             src: url('https://movie-verse.com/fonts/Poppins-Regular.ttf') format('truetype');
@@ -68,7 +67,6 @@
             font-style: normal;
             font-display: swap;
         }
-
         @font-face {
             font-family: 'Poppins';
             src: url('https://movie-verse.com/fonts/Poppins-SemiBold.ttf') format('truetype');
@@ -76,65 +74,52 @@
             font-style: normal;
             font-display: swap;
         }
-
         body {
             font-family: 'Poppins', sans-serif;
         }
-
         #header {
             margin-top: 26px;
             padding-left: 25px;
         }
-
         #form {
             margin-top: -5px;
             margin-right: 55px;
         }
-
         @media (max-width: 800px){
             #header {
                 margin-top: 10px;
             }
-
             #form {
                 margin-top: -15px;
                 margin-right: 0;
             }
         }
-
         @media (min-width: 900px) {
             #header {
                 margin-top: 26px;
                 padding-left: 25px;
             }
-
             #form {
                 margin-top: 2px;
             }
-
             #my-heading {
                 margin-top: 17px !important;
             }
         }
-
         body {
             background-image: url("../../images/universe-1.webp");
             background-repeat: repeat-y;
             background-size: 100% auto;
         }
-
         @media (max-width: 767px) {
             body {
                 background-size: auto;
                 background-position: top center;
             }
-
             #my-heading {
                 margin-top: 9px !important;
             }
         }
-    </style>
-    <style>
         #translate_control {
             position: fixed;
             left: 10px;
@@ -143,7 +128,6 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
             border-radius: 8px;
         }
-
         @media (max-width: 767px) {
             #translate_control {
                 display: block;
@@ -153,7 +137,6 @@
                 z-index: 1000000;
             }
         }
-
         .translate-trigger {
             background-color: #7378c5;
             color: white;
@@ -161,12 +144,10 @@
             border-radius: 8px;
             cursor: pointer;
         }
-
         .translate-trigger:hover {
             background-color: #ff8623;
             transition: 0.1s ease-in;
         }
-
         #google_translate_element {
             display: none;
             position: fixed;
@@ -181,7 +162,6 @@
             font: inherit;
             color: white;
         }
-
         .goog-te-combo {
             background-color: #7378c5 !important;
             color: white !important;
@@ -190,29 +170,23 @@
             font-size: 15px !important;
             padding-left: 5px !important;
         }
-
         .skiptranslate {
             color: white !important;
         }
-
         .goog-te-banner-frame {
             opacity: 0.8 !important;
             background-color: #f4f4f4 !important;
         }
-
         #homepage-header {
             margin-top: -10px;
         }
-
         @media (max-width: 767px) {
             #google_translate_element {
                 bottom: 120px;
             }
-
             #translate_control {
                 bottom: 70px;
             }
-
             #homepage-header {
                 margin-top: 10px;
             }
@@ -225,7 +199,6 @@
     <div id="translate_control">
         <div class="translate-trigger">Translate</div>
     </div>
-
     <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <script>
         function googleTranslateElementInit() {
@@ -268,22 +241,18 @@
                 The Mo<span class="highlight" id="highlight">vieV</span>erse
             </a>
         </h1>
-
         <div id="local-time" style="cursor: pointer; margin-left: 40px" title="Click to view more of your stats!">
             <p id="stats-label" class="clock" style="font-size: 16px;"></p>
             <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
         </div>
-
         <button class="back-btn notranslate" onclick="window.location.href='../../index.html'">Home</button>
         <button class="about notranslate" onclick="window.location.href='about.html'">About</button>
         <button class="favorites-btn notranslate" onclick="window.location.href='favorites.html'" title="View your favorites & watchlists">Favorites</button>
-
         <button id="googleSignInBtn" class="nav-btn notranslate" onclick="handleSignInOut()" title="Sign In/Out">
             <span id="signInOutText">Sign In</span>
             <i class="fas fa-sign-in-alt" id="signInIcon"></i>
             <i class="fas fa-sign-out-alt" id="signOutIcon" style="display: none;"></i>
         </button>
-
         <button id="profileBtn" class="nav-btn notranslate" onclick="window.location.href='user-profile.html'" title="Go to your profile">
             <span id="profileText">Profile</span>
             <i class="fas fa-user" id="profileIcon"></i>
