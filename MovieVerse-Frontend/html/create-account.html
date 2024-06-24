@@ -179,7 +179,6 @@
             background-color: #ff8623;
             transition: 0.1s ease-in;
         }
-
         #google_translate_element {
             display: none;
             position: fixed;
@@ -194,7 +193,6 @@
             font: inherit;
             color: white;
         }
-
         .goog-te-combo {
             background-color: #7378c5 !important;
             color: white !important;
@@ -203,34 +201,28 @@
             font-size: 15px !important;
             padding-left: 5px !important;
         }
-
         .skiptranslate {
             color: white !important;
         }
-
         .goog-te-banner-frame {
             opacity: 0.8 !important;
             background-color: #f4f4f4 !important;
         }
-
         @media (max-width: 767px) {
             #google_translate_element {
                 bottom: 120px;
             }
-
             #translate_control {
                 bottom: 70px;
             }
         }
     </style>
 </head>
-
 <body>
     <div id="google_translate_element"></div>
     <div id="translate_control">
         <div class="translate-trigger">Translate</div>
     </div>
-
     <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <script>
         function googleTranslateElementInit() {
@@ -350,16 +342,13 @@
             <span>Trivia</span>
         </a>
     </div>
-
     <button id="menu-btn" style="position: fixed; bottom: 10px; right: 10px; z-index: 1001" title="Toggle Menu Buttons">
         <i class="fas fa-ellipsis-h"></i><br>
         <span>Menu</span>
     </button>
-
     <div id="myModal" class="modal-overlay">
         <div class="spinner"></div>
     </div>
-
     <script>
         document.getElementById('togglePassword').addEventListener('change', function() {
             const passwordInput = document.getElementById('newPassword');
@@ -375,7 +364,6 @@
             }
         });
     </script>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const searchBar = document.getElementById('search');
@@ -404,7 +392,6 @@
             toggleVisibility();
         });
     </script>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const searchInput = document.getElementById('search');
@@ -437,7 +424,6 @@
             searchInput.addEventListener('input', toggleButtons);
         });
     </script>
-
     <script>
         function showSpinner() {
             document.getElementById('myModal').classList.add('modal-visible');
@@ -670,7 +656,6 @@
             searchInput.addEventListener('blur', clearSelection);
         });
     </script>
-
     <script>
         window.addEventListener('load', function() {
             adjustAnchorHeights();
@@ -1056,15 +1041,12 @@
             return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
         }
     </script>
-
     <footer style="margin-top: 650px">
         <a href="../../index.html" style="cursor: pointer; text-decoration: none">
             <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
         </a>
     </footer>
-
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js"></script>
-
 </body>
 </html>
