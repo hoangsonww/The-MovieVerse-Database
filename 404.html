@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -105,7 +104,6 @@
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-
         gtag('config', 'G-CQKJ67FXZ4');
     </script>
     <script>
@@ -332,7 +330,6 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
             border-radius: 8px;
         }
-
         @media (max-width: 767px) {
             #translate_control {
                 display: block;
@@ -342,7 +339,6 @@
                 z-index: 1000000;
             }
         }
-
         .translate-trigger {
             background-color: #7378c5;
             color: white;
@@ -350,12 +346,10 @@
             border-radius: 8px;
             cursor: pointer;
         }
-
         .translate-trigger:hover {
             background-color: #ff8623;
             transition: 0.1s ease-in;
         }
-
         #google_translate_element {
             display: none;
             position: fixed;
@@ -370,7 +364,6 @@
             font: inherit;
             color: white;
         }
-
         .goog-te-combo {
             background-color: #7378c5 !important;
             color: white !important;
@@ -379,34 +372,28 @@
             font-size: 15px !important;
             padding-left: 5px !important;
         }
-
         .skiptranslate {
             color: white !important;
         }
-
         .goog-te-banner-frame {
             opacity: 0.8 !important;
             background-color: #f4f4f4 !important;
         }
-
         @media (max-width: 767px) {
             #google_translate_element {
                 bottom: 120px;
             }
-
             #translate_control {
                 bottom: 70px;
             }
         }
     </style>
 </head>
-
 <body class="movie-details-body">
     <div id="google_translate_element"></div>
     <div id="translate_control">
         <div class="translate-trigger">Translate</div>
     </div>
-
     <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <script>
         function googleTranslateElementInit() {
@@ -449,12 +436,10 @@
                 The Mo<span class="highlight" id="highlight">vieV</span>erse
             </a>
         </h1>
-
         <div id="local-time" style="cursor: pointer; margin-left: 40px" title="Click to view more of your stats!">
             <p id="stats-label" class="clock" style="font-size: 16px;"></p>
             <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
         </div>
-
         <button class="back-btn notranslate" onclick="window.location.href='https://movie-verse.com/index.html'" title="Go back to homepage">Home</button>
         <button class="about notranslate" onclick="window.location.href='https://movie-verse.com/MovieVerse-Frontend/html/about.html'" title="About this wonderful app!">About</button>
         <button class="favorites-btn notranslate" onclick="window.location.href='https://movie-verse.com/MovieVerse-Frontend/html/favorites.html'" title="View your favorites & watchlists">Favorites</button>
@@ -478,7 +463,6 @@
                 <button type="button" id="clear-search" style="display: none">Clear</button>
             </div>
         </form>
-
         <button id="chat-button" onclick="window.location.href='https://movie-verse.com/MovieVerse-Frontend/html/chat.html'" style="bottom: 325px; right: 10px; z-index: 1001" title="Chat with fellow MovieVerse users!">Chat</button>
         <button id="settings-btn" style="position: fixed; bottom: 290px; right: 10px; z-index: 1001">Settings</button>
         <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" style="bottom: 255px; right: 10px; z-index: 1001" title="Get a recommended movie to watch for today!">Surprise Me!</button>
@@ -488,7 +472,6 @@
         <button id="trivia-btn" onclick="window.location.href='https://movie-verse.com/MovieVerse-Frontend/html/trivia.html'" style="bottom: 115px; right: 10px; z-index: 1001" title="Play a quick trivia to test your knowledge about movies!">MovieVerse Trivia</button>
         <button id="back-to-top-btn" onclick="window.location.href='https://movie-verse.com/'" style="bottom: 80px; right: 10px; z-index: 1001">Back To Home</button>
     </header>
-
     <div id="mobile-bottom-bar" class="mobile-bottom-bar">
         <a href="MovieVerse-Frontend/html/chat.html" class="bottom-bar-item">
             <i class="fas fa-comments"></i>
@@ -523,12 +506,10 @@
             <span>Trivia</span>
         </a>
     </div>
-
     <button id="menu-btn" style="position: fixed; bottom: 10px; right: 10px; z-index: 1001" title="Toggle Menu Buttons">
         <i class="fas fa-ellipsis-h"></i><br>
         <span>Menu</span>
     </button>
-
     <script>
         window.addEventListener('load', function() {
             adjustAnchorHeights();
@@ -629,17 +610,14 @@
             }
         });
     </script>
-
     <div id="myModal" class="modal-overlay">
         <div class="spinner"></div>
     </div>
-
     <div class="center-text" style="padding: 150px;">
         <div style="font-weight: bold; font-size: 55px; color: #ff8623;">404</div>
         <p>Sorry, the page you are looking for cannot be found.</p>
         <button class="center-button" onclick="window.location.href='https://movie-verse.com/'">Back to Home</button>
     </div>
-
     <script>
         async function showMovieOfTheDay() {
             const year = new Date().getFullYear();
@@ -766,7 +744,6 @@
             window.location.href = 'https://movie-verse.com/MovieVerse-Frontend/html/search.html';
         }
     </script>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const searchBar = document.getElementById('search');
@@ -795,7 +772,6 @@
             toggleVisibility();
         });
     </script>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const searchInput = document.getElementById('search');
@@ -828,7 +804,6 @@
             searchInput.addEventListener('input', toggleButtons);
         });
     </script>
-
     <script>
         function showSpinner() {
             document.getElementById('myModal').classList.add('modal-visible');
@@ -1052,12 +1027,10 @@
             searchInput.addEventListener('blur', clearSelection);
         });
     </script>
-
     <footer style="margin-top: 400px">
         <a href="https://movie-verse.com/" style="cursor: pointer; text-decoration: none">
             <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
         </a>
     </footer>
-
 </body>
 </html>
