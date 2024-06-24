@@ -6,14 +6,3 @@ services:
       - "5000:5000"
     volumes:
       - .:/code
-    depends_on:
-      - db
-  db:
-    image: postgres:12
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_DB: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-
