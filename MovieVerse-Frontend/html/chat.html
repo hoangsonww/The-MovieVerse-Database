@@ -370,21 +370,17 @@
             opacity: 0.8 !important;
             background-color: #f4f4f4 !important;
         }
-
         @media (max-width: 767px) {
             #google_translate_element {
                 bottom: 120px;
             }
-
             #translate_control {
                 bottom: 70px;
             }
         }
-
         #my-heading {
             margin-top: 24px !important;
         }
-
         @media (min-width: 767px) {
             #my-heading {
                 margin-top: -5px !important;
@@ -392,13 +388,11 @@
         }
     </style>
 </head>
-
 <body>
     <div id="google_translate_element"></div>
     <div id="translate_control">
         <div class="translate-trigger">Translate</div>
     </div>
-
     <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <script>
         function googleTranslateElementInit() {
@@ -441,12 +435,10 @@
                 The Mo<span class="highlight" id="highlight">vieV</span>erse
             </a>
         </h1>
-
         <div id="local-time" style="cursor: pointer; margin-left: 40px" title="Click to view more of your stats!">
             <p id="stats-label" class="clock" style="font-size: 16px;"></p>
             <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
         </div>
-
         <button class="back-btn nav-btn notranslate" onclick="window.location.href='../../index.html'" title="Go back to homepage">Home</button>
         <button class="about nav-btn notranslate" onclick="window.location.href='about.html'" title="About this wonderful app!">About</button>
         <button class="favorites-btn nav-btn notranslate" onclick="window.location.href='favorites.html'" title="View your favorites & watchlists">Favorites</button>
@@ -471,7 +463,6 @@
             </div>
         </form>
     </header>
-
     <main id="main" style="margin-bottom: 20px">
         <div id="userListContainer">
             <div id="searchContainer">
@@ -493,7 +484,6 @@
             <p>Welcome to MovieVerse Chats! Select or find a user to begin chatting with your fellow movie enthusiasts!</p>
         </div>
     </main>
-
     <div id="ad-container2" style="text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px);" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
         <p style="margin: 0;">Advertisement</p>
         <ins class="adsbygoogle"
@@ -507,19 +497,14 @@
     <script>
         (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
-
     <div id="myModal" class="modal-overlay">
         <div class="spinner"></div>
     </div>
-
     <footer id="footer">
         <p>© 2024 The MovieVerse. All rights reserved.</p>
     </footer>
-
     <script type="module" src="../js/chat.js"></script>
-
     <script src="../js/chat-auxiliary.js"></script>
-
     <button id="chat-button" onclick="window.location.href='chat.html'" style="bottom: 300px; right: 10px; z-index: 1001" title="Chat with fellow MovieVerse users!">Chat</button>
     <button id="settings-btn" style="position: fixed; bottom: 265px; right: 10px">Settings</button>
     <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 230px; right: 10px">Surprise Me!</button>
@@ -527,7 +512,6 @@
     <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 160px; right: 10px">Movie Timeline</button>
     <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="bottom: 125px; right: 10px" title="Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
     <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 90px; right: 10px" title="Test your movie knowledge">MovieVerse Trivia</button>
-
     <div id="mobile-bottom-bar" class="mobile-bottom-bar">
         <a href="chat.html" class="bottom-bar-item">
             <i class="fas fa-comments"></i>
@@ -1034,6 +1018,5 @@
             document.getElementById('editProfileModal').style.display = 'none';
         }
     </script>
-
 </body>
 </html>
