@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
-
 <head>
     <meta charset="UTF-8">
     <title>Notifications - The MovieVerse</title>
@@ -44,7 +43,6 @@
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-
         gtag('config', 'G-CQKJ67FXZ4');
     </script>
     <style>
@@ -55,7 +53,6 @@
             font-style: normal;
             font-display: swap;
         }
-
         @font-face {
             font-family: 'Poppins';
             src: url('https://movie-verse.com/fonts/Poppins-Regular.ttf') format('truetype');
@@ -63,7 +60,6 @@
             font-style: normal;
             font-display: swap;
         }
-
         @font-face {
             font-family: 'Poppins';
             src: url('https://movie-verse.com/fonts/Poppins-SemiBold.ttf') format('truetype');
@@ -71,26 +67,22 @@
             font-style: normal;
             font-display: swap;
         }
-
         @media (min-width: 900px) {
             #search {
                 margin-top: 0 !important;
             }
         }
-
         body {
             background-image: url("../../images/universe-1.webp");
             background-repeat: repeat-y;
             background-size: 100% auto;
         }
-
         @media (max-width: 767px) {
             body {
                 background-size: auto;
                 background-position: top center;
             }
         }
-
         main {
             display: flex;
             flex-wrap: wrap;
@@ -99,7 +91,6 @@
             gap: 20px;
             padding: 20px;
         }
-
         section {
             flex: 1 1 calc(33% - 40px);
             background-color: #fff;
@@ -112,13 +103,11 @@
             text-align: center;
             width: 100%;
         }
-
         @media (max-width: 1200px) {
             section {
                 flex: 1 1 calc(50% - 40px);
             }
         }
-
         @media (max-width: 768px) {
             main {
                 flex-direction: column;
@@ -127,14 +116,12 @@
                 flex-basis: 100%;
             }
         }
-
         ul {
             width: 100%;
             padding: 0;
             margin: 0;
             list-style-type: none;
         }
-
         li {
             width: 100%;
             margin-top: 10px;
@@ -143,56 +130,45 @@
             border-left: 5px solid #2980b9;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-
         h2 {
             margin-bottom: 10px;
         }
-
         li:hover {
             background-color: #e1e3e4;
             cursor: pointer;
         }
-
         body {
             background-image: url("../../images/universe-1.webp");
             background-repeat: repeat-y;
             background-size: 100% auto;
         }
-
         @media (max-width: 767px) {
             body {
                 background-size: auto;
                 background-position: top center;
             }
         }
-
         #movie-link:hover {
             cursor: pointer;
             text-decoration: underline !important;
             color: #ff8623 !important;
         }
-
         #actor-link {
             color: black;
         }
-
         #director-link {
             color: black;
         }
-
         #actor-link:hover {
             cursor: pointer;
             text-decoration: underline !important;
             color: #ff8623 !important;
         }
-
         #director-link:hover {
             cursor: pointer;
             text-decoration: underline !important;
             color: #ff8623 !important;
         }
-    </style>
-    <style>
         #translate_control {
             position: fixed;
             left: 10px;
@@ -201,7 +177,6 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
             border-radius: 8px;
         }
-
         @media (max-width: 767px) {
             #translate_control {
                 display: block;
@@ -211,7 +186,6 @@
                 z-index: 1000000;
             }
         }
-
         .translate-trigger {
             background-color: #7378c5;
             color: white;
@@ -219,12 +193,10 @@
             border-radius: 8px;
             cursor: pointer;
         }
-
         .translate-trigger:hover {
             background-color: #ff8623;
             transition: 0.1s ease-in;
         }
-
         #google_translate_element {
             display: none;
             position: fixed;
@@ -239,7 +211,6 @@
             font: inherit;
             color: white;
         }
-
         .goog-te-combo {
             background-color: #7378c5 !important;
             color: white !important;
@@ -248,30 +219,24 @@
             font-size: 15px !important;
             padding-left: 5px !important;
         }
-
         .skiptranslate {
             color: white !important;
         }
-
         .goog-te-banner-frame {
             opacity: 0.8 !important;
             background-color: #f4f4f4 !important;
         }
-
         @media (max-width: 767px) {
             #google_translate_element {
                 bottom: 120px;
             }
-
             #translate_control {
                 bottom: 70px;
             }
         }
-
         #my-heading {
             margin-top: 24px !important;
         }
-
         @media (min-width: 767px) {
             #my-heading {
                 margin-top: 0 !important;
@@ -279,7 +244,6 @@
         }
     </style>
 </head>
-
 <body>
     <div id="google_translate_element"></div>
     <div id="translate_control">
@@ -328,12 +292,10 @@
                 The Mo<span class="highlight" id="highlight">vieV</span>erse
             </a>
         </h1>
-
         <div id="local-time" style="cursor: pointer; margin-left: 40px" title="Click to view more of your stats!">
             <p id="stats-label" class="clock" style="font-size: 16px;"></p>
             <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
         </div>
-
         <button class="back-btn nav-btn notranslate" onclick="window.location.href='../../index.html'" title="Go back to homepage">Home</button>
         <button class="about nav-btn notranslate" onclick="window.location.href='about.html'" title="About this wonderful app!">About</button>
         <button class="favorites-btn nav-btn notranslate" onclick="window.location.href='favorites.html'" title="View your favorites & watchlists">Favorites</button>
@@ -368,18 +330,15 @@
         <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="bottom: 125px; right: 10px" title="Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
         <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 90px; right: 10px" title="Test your movie knowledge">MovieVerse Trivia</button>
     </header>
-
     <nav id="side-nav" class="side-nav" style="z-index: 1000000">
         <a id="heading-href" style="cursor: pointer" href="../../index.html" title="Click to go back to the home page">
             <div id="my-heading1" style="margin-bottom: 15px; margin-left: 0; margin-top: 15px; font-size: 2.1em; font-weight: bold;">
                 The Mo<span class="highlight2">vieV</span>erse Menu
             </div>
         </a>
-
         <div id="button-container">
             <button id="button-remove" title="Close the navbar" onclick="removeNavBar()">Close</button>
         </div>
-
         <ul style="overflow-y: auto">
             <li style="background: none; border: none; box-shadow: none"><a href="analytics.html">MovieVerse Analytics</a></li>
             <li style="background: none; border: none; box-shadow: none"><a href="#newFeatures">New Features</a></li>
@@ -393,7 +352,6 @@
             <li style="background: none; border: none; box-shadow: none"><a href="support.html">Contact Support</a></li>
         </ul>
     </nav>
-
     <main>
         <section id="newFeatures">
             <h2 style="cursor: pointer">New Features</h2>
@@ -411,28 +369,21 @@
                 <em>Updated as of: <time class="updateDate" datetime=""></time></em>
             </p>
         </section>
-
         <section id="newReleases">
             <h2 style="cursor: pointer">New Releases</h2>
-
             <h3>Since Your Last Visit</h3>
             <ul id="releasesSinceLastVisit"></ul>
-
             <h3 style="margin-top: 35px">Since the Beginning of This Month</h3>
             <ul id="releasesThisMonth"></ul>
-
             <h3 style="margin-top: 35px">Since the Beginning of This Year</h3>
             <ul id="releasesThisYear"></ul>
-
             <h3 style="margin-top: 35px">More Recommended Movies For You</h3>
             <p style="color: black; margin-top: 0"> You can always view more recommended movies in your recommended list in <a id="githubLink1" href="../../index.html#recommendedDIV">your recommended movies section</a>.</p>
             <ul id="recommendedReleases"></ul>
-
             <p style="color: black; margin-top: 35px">
                 <em>Updated as of: <time class="updateDate" datetime=""></time></em>
             </p>
         </section>
-
         <section id="tipsTricks">
             <h2 style="cursor: pointer">Tips & Tricks</h2>
             <p style="color: black">Maximize your enjoyment of The MovieVerse with these handy tips:</p>
@@ -448,7 +399,6 @@
                 <em>Updated as of: <time class="updateDate" datetime=""></time></em>
             </p>
         </section>
-
         <section id="popularActors">
             <h2 style="cursor: pointer">Popular Actors</h2>
             <p style="color: black">Explore films featuring the actors our users can’t get enough of this month!</p>
@@ -457,7 +407,6 @@
                 <em>Updated as of: <time class="updateDate" datetime=""></time></em>
             </p>
         </section>
-
         <section id="popularDirectors">
             <h2 style="cursor: pointer">Popular Directors</h2>
             <p style="color: black">Discover the visionaries behind the camera who are currently shaping the world of cinema!</p>
@@ -467,13 +416,10 @@
             </p>
         </section>
     </main>
-
     <script src="../js/notifications.js"></script>
-
     <div id="myModal" class="modal-overlay">
         <div class="spinner"></div>
     </div>
-
     <div id="ad-container2" style="text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px); margin-top: 50px" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
         <p style="margin: 0;">Advertisement</p>
         <ins class="adsbygoogle"
@@ -487,7 +433,6 @@
     <script>
         (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
-
     <div id="ad-container" style="text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px)" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
         <p style="margin: 0;">Advertisement</p>
         <ins class="adsbygoogle"
@@ -1381,5 +1326,4 @@
         });
     </script>
 </body>
-
 </html>

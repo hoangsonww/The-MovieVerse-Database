@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
-
 <head>
     <meta charset="UTF-8">
     <title>Create Account - The MovieVerse</title>
@@ -45,7 +44,6 @@
             font-style: normal;
             font-display: swap;
         }
-
         @font-face {
             font-family: 'Poppins';
             src: url('https://movie-verse.com/fonts/Poppins-Regular.ttf') format('truetype');
@@ -53,7 +51,6 @@
             font-style: normal;
             font-display: swap;
         }
-
         @font-face {
             font-family: 'Poppins';
             src: url('https://movie-verse.com/fonts/Poppins-SemiBold.ttf') format('truetype');
@@ -61,11 +58,9 @@
             font-style: normal;
             font-display: swap;
         }
-
         body {
             font-family: 'Poppins', sans-serif;
         }
-
         .account-creation-form-container {
             max-width: 400px;
             margin: 100px auto;
@@ -76,7 +71,6 @@
             text-align: center;
             backdrop-filter: blur(5px);
         }
-
         .account-creation-form-container input[type="email"],
         .account-creation-form-container input[type="password"],
         .account-creation-form-container input[type="text"],
@@ -89,7 +83,6 @@
             box-sizing: border-box;
             font: inherit;
         }
-
         .account-creation-form-container button[type="submit"] {
             background-color: #7378c5;
             color: white;
@@ -97,33 +90,27 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
-
         #my-heading {
             margin-top: 24px !important;
         }
-
         @media (min-width: 767px) {
             #my-heading {
                 margin-top: -5px !important;
             }
         }
-
         .account-creation-form-container button:hover {
             background-color: #22254b;
             color: white;
         }
-
         .account-creation-form-container form {
             display: flex;
             flex-direction: column;
             align-items: center;
         }
-
         .account-creation-form-container h2 {
             color: black;
             margin-bottom: 20px;
         }
-
         #back-to-sign-in {
             background-color: #7378c5;
             color: white;
@@ -131,28 +118,23 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
-
         #back-to-sign-in:hover {
             background-color: #22254b;
             color: white;
         }
-
         @media (min-width: 900px) {
             #search {
                 margin-top: 0;
             }
         }
-
         #local-time {
             transform: translateX(12%);
         }
-
         body {
             background-image: url("../../images/universe-1.webp");
             background-repeat: repeat-y;
             background-size: 100% auto;
         }
-
         @media (max-width: 767px) {
             body {
                 background-size: auto;
@@ -177,7 +159,6 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
             border-radius: 8px;
         }
-
         @media (max-width: 767px) {
             #translate_control {
                 display: block;
@@ -187,7 +168,6 @@
                 z-index: 1000000;
             }
         }
-
         .translate-trigger {
             background-color: #7378c5;
             color: white;
@@ -195,12 +175,10 @@
             border-radius: 8px;
             cursor: pointer;
         }
-
         .translate-trigger:hover {
             background-color: #ff8623;
             transition: 0.1s ease-in;
         }
-
         #google_translate_element {
             display: none;
             position: fixed;
@@ -215,7 +193,6 @@
             font: inherit;
             color: white;
         }
-
         .goog-te-combo {
             background-color: #7378c5 !important;
             color: white !important;
@@ -224,34 +201,28 @@
             font-size: 15px !important;
             padding-left: 5px !important;
         }
-
         .skiptranslate {
             color: white !important;
         }
-
         .goog-te-banner-frame {
             opacity: 0.8 !important;
             background-color: #f4f4f4 !important;
         }
-
         @media (max-width: 767px) {
             #google_translate_element {
                 bottom: 120px;
             }
-
             #translate_control {
                 bottom: 70px;
             }
         }
     </style>
 </head>
-
 <body>
     <div id="google_translate_element"></div>
     <div id="translate_control">
         <div class="translate-trigger">Translate</div>
     </div>
-
     <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <script>
         function googleTranslateElementInit() {
@@ -371,16 +342,13 @@
             <span>Trivia</span>
         </a>
     </div>
-
     <button id="menu-btn" style="position: fixed; bottom: 10px; right: 10px; z-index: 1001" title="Toggle Menu Buttons">
         <i class="fas fa-ellipsis-h"></i><br>
         <span>Menu</span>
     </button>
-
     <div id="myModal" class="modal-overlay">
         <div class="spinner"></div>
     </div>
-
     <script>
         document.getElementById('togglePassword').addEventListener('change', function() {
             const passwordInput = document.getElementById('newPassword');
@@ -396,7 +364,6 @@
             }
         });
     </script>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const searchBar = document.getElementById('search');
@@ -425,7 +392,6 @@
             toggleVisibility();
         });
     </script>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const searchInput = document.getElementById('search');
@@ -458,7 +424,6 @@
             searchInput.addEventListener('input', toggleButtons);
         });
     </script>
-
     <script>
         function showSpinner() {
             document.getElementById('myModal').classList.add('modal-visible');
@@ -691,7 +656,6 @@
             searchInput.addEventListener('blur', clearSelection);
         });
     </script>
-
     <script>
         window.addEventListener('load', function() {
             adjustAnchorHeights();
@@ -1077,15 +1041,12 @@
             return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
         }
     </script>
-
     <footer style="margin-top: 650px">
         <a href="../../index.html" style="cursor: pointer; text-decoration: none">
             <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
         </a>
     </footer>
-
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js"></script>
-
 </body>
 </html>

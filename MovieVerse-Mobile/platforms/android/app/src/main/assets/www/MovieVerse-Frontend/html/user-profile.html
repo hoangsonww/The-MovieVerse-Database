@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
-
 <head>
     <meta charset="UTF-8">
     <title>User Profile - The MovieVerse</title>
@@ -44,7 +43,6 @@
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-
         gtag('config', 'G-CQKJ67FXZ4');
     </script>
     <style>
@@ -55,7 +53,6 @@
             font-style: normal;
             font-display: swap;
         }
-
         @font-face {
             font-family: 'Poppins';
             src: url('https://movie-verse.com/fonts/Poppins-Regular.ttf') format('truetype');
@@ -63,7 +60,6 @@
             font-style: normal;
             font-display: swap;
         }
-
         @font-face {
             font-family: 'Poppins';
             src: url('https://movie-verse.com/fonts/Poppins-SemiBold.ttf') format('truetype');
@@ -71,16 +67,13 @@
             font-style: normal;
             font-display: swap;
         }
-
         h1 {
             color: #ff8623;
         }
-
         h1:hover {
             color: #f509d9;
             transition: 0.1s ease;
         }
-
         .profile-container {
             max-width: 400px;
             margin: 100px auto;
@@ -91,7 +84,6 @@
             text-align: center;
             backdrop-filter: blur(5px);
         }
-
         .profile-container input[type="text"],
         .profile-container input[type="date"],
         .profile-container input[type="file"],
@@ -104,7 +96,6 @@
             box-sizing: border-box;
             font: inherit;
         }
-
         .profile-container button {
             background-color: #7378c5;
             color: white;
@@ -112,16 +103,13 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
-
         .profile-container button:hover {
             background-color: #ff8623;
             color: white;
         }
-
         .profile-container h2, .profile-container p {
             color: black;
         }
-
         .modal {
             display: none;
             position: fixed;
@@ -134,7 +122,6 @@
             background-color: rgba(0,0,0,0.4);
             padding-top: 60px;
         }
-
         .modal-content {
             background-color: #fefefe;
             margin: 5% auto;
@@ -146,37 +133,31 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             backdrop-filter: blur(5px);
         }
-
         .close {
             color: #aaa;
             float: right;
             font-size: 28px;
             font-weight: bold;
         }
-
         .close:hover,
         .close:focus {
             color: #ff8623;
             text-decoration: none;
             cursor: pointer;
         }
-
         #editProfileModal {
             z-index: 1000;
             width: 100vw !important;
         }
-
         #editProfileModal .modal-content {
             background-color: #373b69;
             width: 400px !important;
             box-shadow: 0 4px 8px rgba(0,0,0,0.5) !important;
         }
-
         #editProfileForm input {
             font: inherit;
             border-radius: 8px;
         }
-
         #editProfileForm button {
             background-color: #7378c5;
             color: white;
@@ -184,48 +165,39 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
-
         #editProfileForm button:hover {
             background-color: #ff8623;
             color: white;
         }
-
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-
         .modal-header h2 {
             margin: 0;
             flex-grow: 1;
         }
-
         .modal-content {
             padding-bottom: 20px;
         }
-
         .dob-container {
             display: flex;
             align-items: center;
             margin-bottom: 10px;
         }
-
         .dob-container label {
             margin-right: 10px;
             margin-top: 10px;
             color: black;
         }
-
         .dob-container input[type="date"] {
             flex-grow: 1;
         }
-
         .profile-image-container {
             position: relative;
             display: inline-block;
         }
-
         #removeProfileImage {
             position: absolute;
             top: 0;
@@ -239,23 +211,19 @@
             line-height: 1;
             margin: 0;
         }
-
         #removeProfileImage:hover {
             color: #ff8623;
         }
-
         #editProfileForm .modal-content h2 {
             color: #ff8623;
             text-align: center;
             margin-bottom: 20px;
         }
-
         #editProfileForm .modal-content label {
             color: #fff;
             margin-bottom: 10px;
             display: block;
         }
-
         #editProfileForm .modal-content input[type="text"],
         #editProfileForm .modal-content textarea {
             width: 100%;
@@ -266,7 +234,6 @@
             background-color: #22254b;
             color: #fff;
         }
-
         #editProfileForm .modal-content button {
             background-color: #7378c5;
             color: white;
@@ -279,7 +246,6 @@
             margin: 10px auto;
             transition: background-color 0.3s ease;
         }
-
         #editProfileForm .modal-content select {
             width: 100%;
             padding: 10px;
@@ -289,19 +255,16 @@
             background-color: #22254b;
             color: #fff;
         }
-
         @media (min-width: 900px) {
             #search {
                 margin-top: 0 !important;
             }
         }
-
         body {
             background-image: url("../../images/universe-1.webp");
             background-repeat: repeat-y;
             background-size: 100% auto;
         }
-
         @media (max-width: 767px) {
             body {
                 background-size: auto;
@@ -319,7 +282,6 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
             border-radius: 8px;
         }
-
         @media (max-width: 767px) {
             #translate_control {
                 display: block;
@@ -329,7 +291,6 @@
                 z-index: 1000000;
             }
         }
-
         .translate-trigger {
             background-color: #7378c5;
             color: white;
@@ -337,12 +298,10 @@
             border-radius: 8px;
             cursor: pointer;
         }
-
         .translate-trigger:hover {
             background-color: #ff8623;
             transition: 0.1s ease-in;
         }
-
         #google_translate_element {
             display: none;
             position: fixed;
@@ -357,7 +316,6 @@
             font: inherit;
             color: white;
         }
-
         .goog-te-combo {
             background-color: #7378c5 !important;
             color: white !important;
@@ -366,30 +324,24 @@
             font-size: 15px !important;
             padding-left: 5px !important;
         }
-
         .skiptranslate {
             color: white !important;
         }
-
         .goog-te-banner-frame {
             opacity: 0.8 !important;
             background-color: #f4f4f4 !important;
         }
-
         @media (max-width: 767px) {
             #google_translate_element {
                 bottom: 120px;
             }
-
             #translate_control {
                 bottom: 70px;
             }
         }
-
         #my-heading {
             margin-top: 24px !important;
         }
-
         @media (min-width: 767px) {
             #my-heading {
                 margin-top: -5px !important;
@@ -397,7 +349,6 @@
         }
     </style>
 </head>
-
 <body>
     <div id="google_translate_element"></div>
     <div id="translate_control">
@@ -446,12 +397,10 @@
                 The Mo<span class="highlight" id="highlight">vieV</span>erse
             </a>
         </h1>
-
         <div id="local-time" style="cursor: pointer; margin-left: 40px" title="Click to view more of your stats!">
             <p id="stats-label" class="clock" style="font-size: 16px;"></p>
             <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
         </div>
-
         <button class="back-btn nav-btn notranslate" onclick="window.location.href='../../index.html'" title="Go back to homepage">Home</button>
         <button class="about nav-btn notranslate" onclick="window.location.href='about.html'" title="About this wonderful app!">About</button>
         <button class="favorites-btn nav-btn notranslate" onclick="window.location.href='favorites.html'" title="View your favorites & watchlists">Favorites</button>
@@ -483,25 +432,20 @@
         <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="bottom: 125px; right: 10px" title="Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
         <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 90px; right: 10px" title="Test your movie knowledge">MovieVerse Trivia</button>
     </header>
-
     <div id="welcomeMessage" style="color: #ff8623; font-weight: bold; font-size: 30px; text-align: center; margin-top: 30px;"></div>
-
     <div class="search-users-container" id="search-users-container">
         <input type="text" id="searchUserInput" placeholder="Search For Any MovieVerse User..." title="Remember that this search is case-sensitive!" />
         <button id="searchUserBtn">Search</button>
     </div>
     <div id="searchUserResults" class="search-results-container"></div>
     <button id="viewMyProfileBtn" style="margin-top: 20px;">View My Profile</button>
-
     <div id="profileContainer" class="profile-container">
         <div class="profile-image-container">
             <img id="profileImage" style="cursor: pointer" title="Click to upload a new profile image" onclick="document.getElementById('imageUpload').click()" src="../../images/user-default.png" alt="Profile Image" />
             <button id="removeProfileImage" title="Click to remove the current profile image" style="display: none;">&times;</button>
         </div>
-
         <input type="file" id="imageUpload" accept="image/*" hidden />
         <button id="changeProfileImageBtn" onclick="document.getElementById('imageUpload').click()">Change Profile Image</button>
-
         <div class="profile-info">
             <div id="averageDisplays" style="display: flex; justify-content: center; gap: 20px; margin-top: 20px;">
                 <div class="progress-container" id="container1" style="cursor: pointer">
@@ -521,7 +465,6 @@
                     <p><strong>Average Movie Trivia Score</strong></p>
                 </div>
             </div>
-
             <p id="usernameDisplay">Username: <span></span></p>
             <p id="dobDisplay">Date of Birth: <span></span></p>
             <p id="bioDisplay">Bio: <span></span></p>
@@ -537,13 +480,10 @@
         </div>
         <button id="editProfileBtn">Edit Profile Details</button>
     </div>
-
     <div id="myModal" class="modal-overlay">
         <div class="spinner"></div>
     </div>
-
     <p id="signInPrompt" style="text-align: center; font-size: 24px; margin-top: 100px;"></p>
-
     <div id="editProfileModal" class="modal">
         <div class="modal-content">
             <div class="modal-header" style="margin-bottom: 20px">
@@ -596,7 +536,6 @@
             </form>
         </div>
     </div>
-
     <div id="ad-container2" style="text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px)" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
         <p style="margin: 0;">Advertisement</p>
         <ins class="adsbygoogle"
@@ -610,11 +549,9 @@
     <script>
         (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
-
     <div id="myModal" class="modal-overlay">
         <div class="spinner"></div>
     </div>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const searchBar = document.getElementById('search');
@@ -643,7 +580,6 @@
             toggleVisibility();
         });
     </script>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const searchInput = document.getElementById('search');
@@ -676,7 +612,6 @@
             searchInput.addEventListener('input', toggleButtons);
         });
     </script>
-
     <script>
         function showSpinner() {
             document.getElementById('myModal').classList.add('modal-visible');
@@ -909,7 +844,6 @@
             searchInput.addEventListener('blur', clearSelection);
         });
     </script>
-
     <script>
         const movieCodes = {
             part1: 'YzVhMjBjODY=',
@@ -1012,7 +946,6 @@
 
         async function rotateUserStats() {
             await ensureGenreMapIsAvailable();
-
             const stats = [
                 {
                     label: "Your Current Time",
@@ -1263,13 +1196,11 @@
             document.getElementById('editProfileModal').style.display = 'none';
         }
     </script>
-
     <footer style="margin-top: 800px">
         <a href="../../index.html" style="cursor: pointer; text-decoration: none">
             <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
         </a>
     </footer>
-
     <div id="mobile-bottom-bar" class="mobile-bottom-bar">
         <a href="chat.html" class="bottom-bar-item">
             <i class="fas fa-comments"></i>
@@ -1300,12 +1231,10 @@
             <span>Trivia</span>
         </a>
     </div>
-
     <button id="menu-btn" style="position: fixed; bottom: 10px; right: 10px; z-index: 1001" title="Toggle Menu Buttons">
         <i class="fas fa-ellipsis-h"></i><br>
         <span>Menu</span>
     </button>
-
     <script>
         window.addEventListener('load', function() {
             adjustAnchorHeights();
@@ -1368,7 +1297,8 @@
                         button.style.opacity = '1';
                         button.style.transform = 'translateY(0)';
                     }, 50 * index);
-                } else {
+                }
+                else {
                     button.style.opacity = '0';
                     button.style.transform = 'translateY(20px)';
                 }
@@ -1403,6 +1333,5 @@
             }
         });
     </script>
-
 </body>
 </html>

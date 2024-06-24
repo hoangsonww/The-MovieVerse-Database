@@ -54,7 +54,6 @@
             font-style: normal;
             font-display: swap;
         }
-
         @font-face {
             font-family: 'Poppins';
             src: url('https://movie-verse.com/fonts/Poppins-Regular.ttf') format('truetype');
@@ -62,7 +61,6 @@
             font-style: normal;
             font-display: swap;
         }
-
         @font-face {
             font-family: 'Poppins';
             src: url('https://movie-verse.com/fonts/Poppins-SemiBold.ttf') format('truetype');
@@ -70,11 +68,9 @@
             font-style: normal;
             font-display: swap;
         }
-
         body {
             font-family: 'Poppins', sans-serif;
         }
-
         .user-search-result {
             background-color: #333;
             margin: 10px auto;
@@ -87,19 +83,16 @@
             flex-wrap: wrap;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
         }
-
         .user-search-result img {
             flex-shrink: 0;
             margin-right: 10px;
             border-radius: 8px;
         }
-
         .user-search-result > div {
             flex: 1;
             min-width: 120px;
             word-break: break-word;
         }
-
         .tooltip {
             position: absolute;
             background-color: #333;
@@ -110,33 +103,28 @@
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
             white-space: nowrap;
         }
-
         body {
             background-image: url("../../images/universe-1.webp");
             background-repeat: repeat-y;
             background-size: 100% auto;
         }
-
         @media (max-width: 767px) {
             body {
                 background-size: auto;
                 background-position: top center;
             }
         }
-
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
         }
-
         #main {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
             min-height: 80vh;
         }
-
         #userListContainer {
             flex-basis: 30%;
             background-color: rgba(0, 0, 0, 0.7);
@@ -145,7 +133,6 @@
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
             color: white;
         }
-
         #searchUserInput {
             width: 100%;
             padding: 10px;
@@ -155,24 +142,20 @@
             background-color: #333;
             color: white;
         }
-
         @media (min-width: 768px) {
             #searchUserInput {
                 min-width: 320px;
             }
         }
-
         .user:hover {
             background-color: #ff8623;
             color: white;
         }
-
         .user {
             border-radius: 8px;
             padding: 5px;
             cursor: pointer;
         }
-
         .user-item {
             display: flex;
             align-items: center;
@@ -184,30 +167,24 @@
             background-color: #333;
             color: white;
         }
-
         .user-item:hover {
             background-color: #ff8623;
         }
-
         .user-avatar {
             width: 50px;
             height: 50px;
             border-radius: 50%;
             margin-right: 10px;
         }
-
         .user-info {
             flex-grow: 1;
         }
-
         .user-email {
             font-weight: bold;
         }
-
         .user-bio {
             color: #ccc;
         }
-
         #chatSection {
             display: flex;
             flex-direction: column;
@@ -218,7 +195,6 @@
             color: white;
             min-height: 90vh;
         }
-
         #messages {
             flex-grow: 1;
             overflow-y: auto;
@@ -228,19 +204,16 @@
             flex-direction: column;
             border-radius: 8px;
         }
-
         #chatInput {
             padding: 10px;
             border-top: 1px solid #ccc;
         }
-
         #userEmailDisplay {
             background-color: #ff8623;
             color: white;
             border-radius: 10px;
             padding: 10px;
         }
-
         .message {
             margin: 5px 0;
             padding: 10px;
@@ -248,24 +221,20 @@
             max-width: 80%;
             word-wrap: break-word;
         }
-
         .my-message {
             align-self: flex-end;
             background-color: #ff8623;
             color: white;
         }
-
         .other-message {
             align-self: flex-start;
             background-color: #7378c5;
             color: white;
         }
-
         #chatInput {
             padding: 10px;
             border-top: 1px solid #ccc;
         }
-
         #messageInput {
             flex-grow: 1;
             padding: 10px;
@@ -275,7 +244,6 @@
             color: white;
             width: 100%;
         }
-
         #sendButton {
             padding: 10px 20px;
             border-radius: 5px;
@@ -285,11 +253,9 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
-
         #sendButton:hover {
             background-color: #7f4caf;
         }
-
         #main {
             display: flex;
             justify-content: space-between;
@@ -297,7 +263,6 @@
             min-height: 80vh;
             gap: 20px;
         }
-
         #userListContainer {
             flex: 1;
             background-color: rgba(0, 0, 0, 0.7);
@@ -306,7 +271,6 @@
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
             color: white;
         }
-
         #chatSection {
             flex: 2;
             display: flex;
@@ -317,7 +281,6 @@
             color: white;
             padding: 20px;
         }
-
         @media (max-width: 900px) {
             #main {
                 flex-direction: column;
@@ -325,7 +288,6 @@
                 width: 100%;
                 margin-left: 0;
             }
-
             #userListContainer, #chatSection {
                 width: 90% !important;
                 margin: 0 auto;
@@ -333,23 +295,19 @@
                 display: flex;
                 flex-direction: column;
             }
-
             #userList {
                 max-height: 300px;
                 overflow-y: auto;
             }
-
             #chatSection {
                 width: 100% !important;
                 flex-grow: 1;
             }
-
             #noUserSelected {
                 width: 90% !important;
                 flex-grow: 1;
             }
         }
-
         .selected-user {
             background-color: #ff8623;
         }
@@ -363,7 +321,6 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
             border-radius: 8px;
         }
-
         @media (max-width: 767px) {
             #translate_control {
                 display: block;
@@ -373,7 +330,6 @@
                 z-index: 1000000;
             }
         }
-
         .translate-trigger {
             background-color: #7378c5;
             color: white;
@@ -381,12 +337,10 @@
             border-radius: 8px;
             cursor: pointer;
         }
-
         .translate-trigger:hover {
             background-color: #ff8623;
             transition: 0.1s ease-in;
         }
-
         #google_translate_element {
             display: none;
             position: fixed;
@@ -401,7 +355,6 @@
             font: inherit;
             color: white;
         }
-
         .goog-te-combo {
             background-color: #7378c5 !important;
             color: white !important;
@@ -410,30 +363,24 @@
             font-size: 15px !important;
             padding-left: 5px !important;
         }
-
         .skiptranslate {
             color: white !important;
         }
-
         .goog-te-banner-frame {
             opacity: 0.8 !important;
             background-color: #f4f4f4 !important;
         }
-
         @media (max-width: 767px) {
             #google_translate_element {
                 bottom: 120px;
             }
-
             #translate_control {
                 bottom: 70px;
             }
         }
-
         #my-heading {
             margin-top: 24px !important;
         }
-
         @media (min-width: 767px) {
             #my-heading {
                 margin-top: -5px !important;
@@ -441,13 +388,11 @@
         }
     </style>
 </head>
-
 <body>
     <div id="google_translate_element"></div>
     <div id="translate_control">
         <div class="translate-trigger">Translate</div>
     </div>
-
     <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <script>
         function googleTranslateElementInit() {
@@ -490,12 +435,10 @@
                 The Mo<span class="highlight" id="highlight">vieV</span>erse
             </a>
         </h1>
-
         <div id="local-time" style="cursor: pointer; margin-left: 40px" title="Click to view more of your stats!">
             <p id="stats-label" class="clock" style="font-size: 16px;"></p>
             <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
         </div>
-
         <button class="back-btn nav-btn notranslate" onclick="window.location.href='../../index.html'" title="Go back to homepage">Home</button>
         <button class="about nav-btn notranslate" onclick="window.location.href='about.html'" title="About this wonderful app!">About</button>
         <button class="favorites-btn nav-btn notranslate" onclick="window.location.href='favorites.html'" title="View your favorites & watchlists">Favorites</button>
@@ -520,7 +463,6 @@
             </div>
         </form>
     </header>
-
     <main id="main" style="margin-bottom: 20px">
         <div id="userListContainer">
             <div id="searchContainer">
@@ -542,7 +484,6 @@
             <p>Welcome to MovieVerse Chats! Select or find a user to begin chatting with your fellow movie enthusiasts!</p>
         </div>
     </main>
-
     <div id="ad-container2" style="text-align: center; cursor: pointer; background-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin: 20px auto; padding: 10px; border-radius: 8px; width: auto; max-width: calc(100% - 40px);" title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!">
         <p style="margin: 0;">Advertisement</p>
         <ins class="adsbygoogle"
@@ -556,19 +497,14 @@
     <script>
         (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
-
     <div id="myModal" class="modal-overlay">
         <div class="spinner"></div>
     </div>
-
     <footer id="footer">
         <p>© 2024 The MovieVerse. All rights reserved.</p>
     </footer>
-
     <script type="module" src="../js/chat.js"></script>
-
     <script src="../js/chat-auxiliary.js"></script>
-
     <button id="chat-button" onclick="window.location.href='chat.html'" style="bottom: 300px; right: 10px; z-index: 1001" title="Chat with fellow MovieVerse users!">Chat</button>
     <button id="settings-btn" style="position: fixed; bottom: 265px; right: 10px">Settings</button>
     <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 230px; right: 10px">Surprise Me!</button>
@@ -576,7 +512,6 @@
     <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 160px; right: 10px">Movie Timeline</button>
     <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="bottom: 125px; right: 10px" title="Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
     <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 90px; right: 10px" title="Test your movie knowledge">MovieVerse Trivia</button>
-
     <div id="mobile-bottom-bar" class="mobile-bottom-bar">
         <a href="chat.html" class="bottom-bar-item">
             <i class="fas fa-comments"></i>
@@ -1083,6 +1018,5 @@
             document.getElementById('editProfileModal').style.display = 'none';
         }
     </script>
-
 </body>
 </html>
