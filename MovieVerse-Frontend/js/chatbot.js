@@ -600,21 +600,21 @@ async function fetchCompanyDetails(companyName) {
 async function movieVerseResponse(message) {
     const lowerMessage = message.toLowerCase();
 
-    if (lowerMessage.startsWith("do you know about ") ||
-        lowerMessage.startsWith("tell me about ") ||
-        lowerMessage.startsWith("what is ")) {
-        const movieName = lowerMessage.replace(/^(do you know about|show me|tell me about|what is) /, '');
-        return await fetchMovieDetailsFromTMDB(movieName);
-    }
+    // if (lowerMessage.startsWith("do you know about ") ||
+    //     lowerMessage.startsWith("tell me about ") ||
+    //     lowerMessage.startsWith("what is ")) {
+    //     const movieName = lowerMessage.replace(/^(do you know about|show me|tell me about|what is) /, '');
+    //     return await fetchMovieDetailsFromTMDB(movieName);
+    // }
 
-    if (lowerMessage.startsWith("show me details about ") ||
-        lowerMessage.startsWith("i want to know more about ") ||
-        lowerMessage.startsWith("details about ") ||
-        lowerMessage.startsWith("search for ")) {
-        const movieName = lowerMessage.replace("show me details about ", "").replace("i want to know more about ", "");
-        fetchAndRedirectToMovieDetails(movieName);
-        return `Searching for details about "${movieName}". Please wait...`;
-    }
+    // if (lowerMessage.startsWith("show me details about ") ||
+    //     lowerMessage.startsWith("i want to know more about ") ||
+    //     lowerMessage.startsWith("details about ") ||
+    //     lowerMessage.startsWith("search for ")) {
+    //     const movieName = lowerMessage.replace("show me details about ", "").replace("i want to know more about ", "");
+    //     fetchAndRedirectToMovieDetails(movieName);
+    //     return `Searching for details about "${movieName}". Please wait...`;
+    // }
 
     if (lowerMessage.startsWith("show trailer for ")) {
         const movieName = lowerMessage.replace("show trailer for ", "");
