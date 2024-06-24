@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -37,7 +36,6 @@
             font-style: normal;
             font-display: swap;
         }
-
         @font-face {
             font-family: 'Poppins';
             src: url('https://movie-verse.com/fonts/Poppins-Regular.ttf') format('truetype');
@@ -45,7 +43,6 @@
             font-style: normal;
             font-display: swap;
         }
-
         @font-face {
             font-family: 'Poppins';
             src: url('https://movie-verse.com/fonts/Poppins-SemiBold.ttf') format('truetype');
@@ -53,7 +50,6 @@
             font-style: normal;
             font-display: swap;
         }
-
         .form-container {
             max-width: 400px;
             margin: 100px auto;
@@ -64,11 +60,9 @@
             text-align: center;
             backdrop-filter: blur(5px);
         }
-
         .form-container h1 {
             color: #ff8623;
         }
-
         .form-container input,
         .form-container textarea,
         .form-container button {
@@ -80,7 +74,6 @@
             box-sizing: border-box;
             font: inherit;
         }
-
         .form-container button[type="submit"] {
             background-color: #7378c5;
             color: white;
@@ -88,17 +81,14 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
-
         .form-container button[type="submit"]:hover {
             background-color: #ff8623;
         }
-
         .form-container form {
             display: flex;
             flex-direction: column;
             align-items: center;
         }
-
         #supportBtn {
             background-color: #7378c5;
             color: white;
@@ -107,16 +97,12 @@
             transition: background-color 0.3s ease;
             margin-top: 20px;
         }
-
         #supportBtn:hover {
             background-color: #ff8623;
         }
-    </style>
-    <style>
         .center-text {
             text-align: center;
         }
-
         .center-button {
             display: block;
             margin: 20px auto;
@@ -129,20 +115,16 @@
             margin-top: 40px;
             border-radius: 8px;
         }
-
         .center-button:hover {
             background-color: #ff8623;
             transition: background-color 0.3s;
         }
-
         #link {
             color: white;
         }
-
         #link:hover {
             color: #ff8623;
         }
-
         @media (min-width: 900px) {
             #my-heading {
                 margin-top: 15px !important;
@@ -154,7 +136,6 @@
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-
         gtag('config', 'G-CQKJ67FXZ4');
 
         async function ensureGenreMapIsAvailable() {
@@ -419,7 +400,6 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
             border-radius: 8px;
         }
-
         @media (max-width: 767px) {
             #translate_control {
                 display: block;
@@ -429,7 +409,6 @@
                 z-index: 1000000;
             }
         }
-
         .translate-trigger {
             background-color: #7378c5;
             color: white;
@@ -437,12 +416,10 @@
             border-radius: 8px;
             cursor: pointer;
         }
-
         .translate-trigger:hover {
             background-color: #ff8623;
             transition: 0.1s ease-in;
         }
-
         #google_translate_element {
             display: none;
             position: fixed;
@@ -457,7 +434,6 @@
             font: inherit;
             color: white;
         }
-
         .goog-te-combo {
             background-color: #7378c5 !important;
             color: white !important;
@@ -466,28 +442,23 @@
             font-size: 15px !important;
             padding-left: 5px !important;
         }
-
         .skiptranslate {
             color: white !important;
         }
-
         .goog-te-banner-frame {
             opacity: 0.8 !important;
             background-color: #f4f4f4 !important;
         }
-
         @media (max-width: 767px) {
             #google_translate_element {
                 bottom: 120px;
             }
-
             #translate_control {
                 bottom: 70px;
             }
         }
     </style>
 </head>
-
 <body class="movie-details-body">
     <div id="google_translate_element"></div>
     <div id="translate_control">
@@ -536,12 +507,10 @@
                 The Mo<span class="highlight" id="highlight">vieV</span>erse
             </a>
         </h1>
-
         <div id="local-time" style="cursor: pointer; margin-left: 40px" title="Click to view more of your stats!">
             <p id="stats-label" class="clock" style="font-size: 16px;"></p>
             <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
         </div>
-
         <button class="back-btn notranslate" onclick="window.location.href='../../index.html'" title="Go back to homepage">Home</button>
         <button class="about notranslate" onclick="window.location.href='about.html'" title="About this wonderful app!">About</button>
         <button class="favorites-btn notranslate" onclick="window.location.href='favorites.html'" title="View your favorites & watchlists">Favorites</button>
@@ -565,7 +534,6 @@
                 <button type="button" id="clear-search" style="display: none">Clear</button>
             </div>
         </form>
-
         <button id="chat-button" onclick="window.location.href='chat.html'" style="bottom: 300px; right: 10px; z-index: 1001" title="Chat with fellow MovieVerse users!">Chat</button>
         <button id="settings-btn" style="position: fixed; bottom: 265px; right: 10px">Settings</button>
         <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 230px; right: 10px">Surprise Me!</button>
@@ -574,7 +542,6 @@
         <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="bottom: 125px; right: 10px" title="Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
         <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 90px; right: 10px" title="Test your movie knowledge">MovieVerse Trivia</button>
     </header>
-
     <div class="form-container">
         <div style="font-weight: bold; font-size: 28px; margin-top: 10px">Contact Support</div>
         <p style="color: black">Have a question or need help? Contact us and we'll take a look at your request as soon as possible.</p>
@@ -587,11 +554,9 @@
         </form>
         <button id="supportBtn" onclick="window.location.href='feedback.html'" title="Submit a feedback">Submit Feedback</button>
     </div>
-
     <div id="myModal" class="modal-overlay">
         <div class="spinner"></div>
     </div>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const searchBar = document.getElementById('search');
@@ -620,7 +585,6 @@
             toggleVisibility();
         });
     </script>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const searchInput = document.getElementById('search');
@@ -1133,7 +1097,5 @@
             }
         });
     </script>
-
 </body>
-
 </html>
