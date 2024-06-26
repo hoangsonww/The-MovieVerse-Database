@@ -51,7 +51,7 @@ Through The MovieVerse, users can search for movies, view detailed information, 
 - **Movie Details Page**: View detailed information, including synopses, cast, crew, ratings, and reviews.
 - **Curated Lists**: Access collections of new releases, most popular, trending, genre-specific movies, and many more.
 
-**Interactive Features:**
+### User Interaction
 - **Interactive Database**: Rate movies, write reviews, and read opinions from other users.
 - **Movie Watch Lists**: Create and manage watch lists for different genres, time periods, or preferences. The watchlists are saved to your account for easy access on any device.
 - **Movie Matching**: Discover movies that align with your preferences and ratings.
