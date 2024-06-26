@@ -17,6 +17,11 @@ Welcome to **The MovieVerse** - your digital compass to the cinematic universe. 
 - [User Interface](#user-interface)
 - [Introduction](#introduction)
 - [Features & Usage](#features--usage)
+  - [Search & Discover](#search--discover)
+  - [User Interaction](#user-interaction)
+  - [Navigating the MovieVerse](#navigating-the-movieverse)
+  - [Enhanced User Experience](#enhanced-user-experience)
+  - [Additional Features](#additional-features)
 - [Project Structure](#project-structure)
 - [Deployment](#deployment)
 - [Technology Stack](#technology-stack)
@@ -46,31 +51,32 @@ Through The MovieVerse, users can search for movies, view detailed information, 
 
 ## Features & Usage
 
-**Search & Discover:**
+### Search & Discover
 - **Search Functionality**: Find movies or TV shows by title, actor, director, or genre in our comprehensive database with ease.
 - **Movie Details Page**: View detailed information, including synopses, cast, crew, ratings, and reviews.
 - **Curated Lists**: Access collections of new releases, most popular, trending, genre-specific movies, and many more.
+- **Cinematic Insights**: Explore movie trivia, behind-the-scenes facts, and other interesting tidbits about your favorite films.
 
-**Interactive Features:**
+### User Interaction
 - **Interactive Database**: Rate movies, write reviews, and read opinions from other users.
 - **Movie Watch Lists**: Create and manage watch lists for different genres, time periods, or preferences. The watchlists are saved to your account for easy access on any device.
 - **Movie Matching**: Discover movies that align with your preferences and ratings.
 - **Live Translation**: Translate movie information, reviews, and discussions into multiple languages for a global audience.
 
-**Navigating The MovieVerse:**
+### Navigating the MovieVerse
 - **MovieBot Chat**: Engage with our chatbot, MovieBot, for additional information about the application.
 - **User Sign On**: Create an account for a personalized experience with additional features like saving watchlists.
 - **Cinematic Timeline**: Explore cinema history by selecting specific time periods in the movie timeline.
 - **User Profile**: Customize your profile, manage your watch lists, and view your stats/information.
 
-**Enhanced User Experience:**
+### Enhanced User Experience
 - **Responsive Design**: Enjoy a seamless experience on various devices and screen sizes. The MovieVerse is optimized for all platforms, including desktop, tablet, and mobile.
 - **Movie Recommendations**: Receive suggestions based on your movie preferences and reviews with AI-powered recommendations.
 - **Statistics and Insights**: Access dynamically updating, ML-powered statistics for a tailored experience on both desktop and mobile.
 - **Community Engagement**: Connect with other users, create your profile, share your thoughts, rate movies, and engage in discussions about your favorite movies.
 - **Chat Feature**: Chat with other users, share your thoughts, and discuss movies in real-time.
 
-**Additional Information:**
+### Additional Features
 - **Continuous Improvements**: The platform is ever-evolving with regular updates and new features.
 - **Free to Use**: The MovieVerse is completely free to use, with absolutely no hidden costs or subscriptions.
 - **Privacy & Security**: The MovieVerse is committed to protecting your privacy and ensuring a secure platform.
@@ -80,6 +86,7 @@ Through The MovieVerse, users can search for movies, view detailed information, 
 ## Project Structure
 
 The MovieVerse is a full-stack application with a robust backend and a user-friendly frontend. The project is divided into the following **3 main** directories:
+
 1. `MovieVerse-Backend`: The [backend directory](../MovieVerse-Backend) contains the server-side code, including the API, database, and server configuration.
 2. `MovieVerse-Frontend`: The [frontend directory](../MovieVerse-Frontend) contains the client-side code, including the user interface, user experience, and client configuration.
 3. `MovieVerse-Mobile`: The [mobile app directory](../MovieVerse-Mobile) contains the mobile application code, built using Apache Cordova, including the mobile user interface, user experience, and mobile client configuration.
@@ -88,7 +95,7 @@ There are also additional directories and files for project configuration, testi
 
 ## Deployment
 
-The current deployment and production branch is `main-deployment-branch` and is being deployed to the official website at [movie-verse.com](https://movie-verse.com). The deployment process involves building the frontend, backend, and mobile app, configuring the server, and deploying the application to the server. The deployment process is automated using CI/CD pipelines and scripts to ensure a seamless deployment experience.
+The current deployment and production branch is the [main-deployment-branch](https://github.com/hoangsonww/The-MovieVerse-Database/tree/main-deployment-branch) and is being deployed to the official website at [movie-verse.com](https://movie-verse.com). The deployment process involves building the frontend, backend, and mobile app, configuring the server, and deploying the application to the server. The deployment process is automated using CI/CD pipelines and scripts to ensure a seamless deployment experience.
 
 The app is using [Netlify](https://www.netlify.com/) for the frontend deployment and [Heroku](https://www.heroku.com) for the backend deployment. The deployment status is monitored regularly to ensure the application is up and running smoothly.
 
