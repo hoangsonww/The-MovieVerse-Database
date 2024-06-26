@@ -401,17 +401,15 @@ function sendInitialInstructions() {
         <div style="text-align: left">
             <span style="color: #ff8623;">MovieVerse Assistant:</span>
             <span style="display: inline-block; text-align: left; color: #fff;">
-                Welcome to MovieVerse Assistant! Here's how to get started:
+                Welcome to MovieVerse Assistant 🍿! Here's how to get started:
             </span>
         </div>
         <ul style="text-align: left; margin-bottom: 10px; color: #fff;">
             <li>To find details about a movie, type "Show me details about [movie name]".</li>
-            <li>To watch a movie trailer, type "Show trailer for [movie name]".</li>
-            <li>Or, if you just want quick information about a movie, type "Tell me about [movie name]" or "Do you know about [movie name]".</li>
             <li>You can also ask about genres, top-rated movies, latest movies, get a recommended movie, and any general questions!</li>
-            <li>💡<b>Tip:</b> To get the best results, try to avoid phrasing requests like the first three pre-defined functionalities above, as they might trigger those specific functions instead of a broader search.</li> 
+            <li>💡<b>Tip:</b> To get the best results, try to avoid phrasing requests like "Show me details about ...", as they might trigger specific functions instead of a broader search.</li> 
         </ul>
-        <div style="text-align: left; color: #fff;">How may I assist you today?</div>
+        <div style="text-align: left; color: #fff;">How may I assist you today? 🎬🍿</div>
     `;
     chatbotBody.innerHTML += `<div>${initialMessage}</div>`;
     scrollToBottom();
@@ -600,21 +598,21 @@ async function fetchCompanyDetails(companyName) {
 async function movieVerseResponse(message) {
     const lowerMessage = message.toLowerCase();
 
-    if (lowerMessage.startsWith("do you know about ") ||
-        lowerMessage.startsWith("tell me about ") ||
-        lowerMessage.startsWith("what is ")) {
-        const movieName = lowerMessage.replace(/^(do you know about|show me|tell me about|what is) /, '');
-        return await fetchMovieDetailsFromTMDB(movieName);
-    }
+    // if (lowerMessage.startsWith("do you know about ") ||
+    //     lowerMessage.startsWith("tell me about ") ||
+    //     lowerMessage.startsWith("what is ")) {
+    //     const movieName = lowerMessage.replace(/^(do you know about|show me|tell me about|what is) /, '');
+    //     return await fetchMovieDetailsFromTMDB(movieName);
+    // }
 
-    if (lowerMessage.startsWith("show me details about ") ||
-        lowerMessage.startsWith("i want to know more about ") ||
-        lowerMessage.startsWith("details about ") ||
-        lowerMessage.startsWith("search for ")) {
-        const movieName = lowerMessage.replace("show me details about ", "").replace("i want to know more about ", "");
-        fetchAndRedirectToMovieDetails(movieName);
-        return `Searching for details about "${movieName}". Please wait...`;
-    }
+    // if (lowerMessage.startsWith("show me details about ") ||
+    //     lowerMessage.startsWith("i want to know more about ") ||
+    //     lowerMessage.startsWith("details about ") ||
+    //     lowerMessage.startsWith("search for ")) {
+    //     const movieName = lowerMessage.replace("show me details about ", "").replace("i want to know more about ", "");
+    //     fetchAndRedirectToMovieDetails(movieName);
+    //     return `Searching for details about "${movieName}". Please wait...`;
+    // }
 
     if (lowerMessage.startsWith("show trailer for ")) {
         const movieName = lowerMessage.replace("show trailer for ", "");
@@ -640,7 +638,7 @@ async function movieVerseResponse(message) {
             const genAI = new GoogleGenerativeAI(getAIResponse());
             const model = genAI.getGenerativeModel({
                 model: "gemini-1.5-flash",
-                systemInstruction: "You are MovieVerse Assistant. You are here to help users with movie-related or any other general queries. You are trained and powered by MovieVerse AI and Google to provide the best assistance. You can also provide information about movies, actors, directors, genres, and companies.",
+                systemInstruction: "You are MovieVerse Assistant - an AI Chatbot of the MovieVerse App. You are here to help users with movie-related or any other general queries. You are trained and powered by MovieVerse AI and Google to provide the best assistance. You can also provide information about movies, actors, directors, genres, and companies, or recommend movies to users.",
             });
 
             conversationHistory.push({ role: "user", parts: [{ text: message }] });
