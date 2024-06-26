@@ -70,7 +70,7 @@ Through The MovieVerse, users can search for movies, view detailed information, 
 - **Community Engagement**: Connect with other users, create your profile, share your thoughts, rate movies, and engage in discussions about your favorite movies.
 - **Chat Feature**: Chat with other users, share your thoughts, and discuss movies in real-time.
 
-**Additional Information:**
+### Additional Features
 - **Continuous Improvements**: The platform is ever-evolving with regular updates and new features.
 - **Free to Use**: The MovieVerse is completely free to use, with absolutely no hidden costs or subscriptions.
 - **Privacy & Security**: The MovieVerse is committed to protecting your privacy and ensuring a secure platform.
