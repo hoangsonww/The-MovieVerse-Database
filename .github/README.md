@@ -46,7 +46,7 @@ Through The MovieVerse, users can search for movies, view detailed information, 
 
 ## Features & Usage
 
-**Search & Discover:**
+### Search & Discover
 - **Search Functionality**: Find movies or TV shows by title, actor, director, or genre in our comprehensive database with ease.
 - **Movie Details Page**: View detailed information, including synopses, cast, crew, ratings, and reviews.
 - **Curated Lists**: Access collections of new releases, most popular, trending, genre-specific movies, and many more.
