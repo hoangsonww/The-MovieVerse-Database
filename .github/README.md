@@ -63,7 +63,7 @@ Through The MovieVerse, users can search for movies, view detailed information, 
 - **Cinematic Timeline**: Explore cinema history by selecting specific time periods in the movie timeline.
 - **User Profile**: Customize your profile, manage your watch lists, and view your stats/information.
 
-**Enhanced User Experience:**
+### Additional Features
 - **Responsive Design**: Enjoy a seamless experience on various devices and screen sizes. The MovieVerse is optimized for all platforms, including desktop, tablet, and mobile.
 - **Movie Recommendations**: Receive suggestions based on your movie preferences and reviews with AI-powered recommendations.
 - **Statistics and Insights**: Access dynamically updating, ML-powered statistics for a tailored experience on both desktop and mobile.
