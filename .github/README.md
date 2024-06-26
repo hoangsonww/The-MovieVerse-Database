@@ -57,13 +57,13 @@ Through The MovieVerse, users can search for movies, view detailed information, 
 - **Movie Matching**: Discover movies that align with your preferences and ratings.
 - **Live Translation**: Translate movie information, reviews, and discussions into multiple languages for a global audience.
 
-### Community Engagement
+### Navigating the MovieVerse
 - **MovieBot Chat**: Engage with our chatbot, MovieBot, for additional information about the application.
 - **User Sign On**: Create an account for a personalized experience with additional features like saving watchlists.
 - **Cinematic Timeline**: Explore cinema history by selecting specific time periods in the movie timeline.
 - **User Profile**: Customize your profile, manage your watch lists, and view your stats/information.
 
-### Additional Features
+### Enhanced User Experience
 - **Responsive Design**: Enjoy a seamless experience on various devices and screen sizes. The MovieVerse is optimized for all platforms, including desktop, tablet, and mobile.
 - **Movie Recommendations**: Receive suggestions based on your movie preferences and reviews with AI-powered recommendations.
 - **Statistics and Insights**: Access dynamically updating, ML-powered statistics for a tailored experience on both desktop and mobile.
