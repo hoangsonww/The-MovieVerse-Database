@@ -17,6 +17,11 @@ Welcome to **The MovieVerse** - your digital compass to the cinematic universe. 
 - [User Interface](#user-interface)
 - [Introduction](#introduction)
 - [Features & Usage](#features--usage)
+  - [Search & Discover](#search--discover)
+  - [User Interaction](#user-interaction)
+  - [Navigating the MovieVerse](#navigating-the-movieverse)
+  - [Enhanced User Experience](#enhanced-user-experience)
+  - [Additional Features](#additional-features)
 - [Project Structure](#project-structure)
 - [Deployment](#deployment)
 - [Technology Stack](#technology-stack)
@@ -50,6 +55,7 @@ Through The MovieVerse, users can search for movies, view detailed information, 
 - **Search Functionality**: Find movies or TV shows by title, actor, director, or genre in our comprehensive database with ease.
 - **Movie Details Page**: View detailed information, including synopses, cast, crew, ratings, and reviews.
 - **Curated Lists**: Access collections of new releases, most popular, trending, genre-specific movies, and many more.
+- **Cinematic Insights**: Explore movie trivia, behind-the-scenes facts, and other interesting tidbits about your favorite films.
 
 ### User Interaction
 - **Interactive Database**: Rate movies, write reviews, and read opinions from other users.
