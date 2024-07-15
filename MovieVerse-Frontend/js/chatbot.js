@@ -598,22 +598,6 @@ async function fetchCompanyDetails(companyName) {
 async function movieVerseResponse(message) {
     const lowerMessage = message.toLowerCase();
 
-    // if (lowerMessage.startsWith("do you know about ") ||
-    //     lowerMessage.startsWith("tell me about ") ||
-    //     lowerMessage.startsWith("what is ")) {
-    //     const movieName = lowerMessage.replace(/^(do you know about|show me|tell me about|what is) /, '');
-    //     return await fetchMovieDetailsFromTMDB(movieName);
-    // }
-
-    // if (lowerMessage.startsWith("show me details about ") ||
-    //     lowerMessage.startsWith("i want to know more about ") ||
-    //     lowerMessage.startsWith("details about ") ||
-    //     lowerMessage.startsWith("search for ")) {
-    //     const movieName = lowerMessage.replace("show me details about ", "").replace("i want to know more about ", "");
-    //     fetchAndRedirectToMovieDetails(movieName);
-    //     return `Searching for details about "${movieName}". Please wait...`;
-    // }
-
     if (lowerMessage.startsWith("show trailer for ")) {
         const movieName = lowerMessage.replace("show trailer for ", "");
         fetchMovieTrailer(movieName);
@@ -625,9 +609,6 @@ async function movieVerseResponse(message) {
     }
     else if (lowerMessage.startsWith("bye") || lowerMessage.startsWith("goodbye")) {
         return "Goodbye! Thank you for using MovieVerse Assistant and have a nice day!";
-    }
-    else if (lowerMessage.startsWith("who r u") || lowerMessage.startsWith("who are you") || lowerMessage.startsWith("what is your name") || lowerMessage.startsWith("what's your name") || lowerMessage.startsWith("what are you") || lowerMessage.startsWith("what r u") || lowerMessage.startsWith("what can u do") || lowerMessage.startsWith("what can you do") || lowerMessage.startsWith("introduce yourself")) {
-        return "I am MovieVerse Assistant, here to help you with all your movie-related or any other general queries. I am trained and powered by MovieVerse AI and Google to provide you with the best assistance!";
     }
     else {
         showSpinner();
