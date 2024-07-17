@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Movies List</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .movie {
+      margin-bottom: 20px;
+    }
+    .movie-title {
+      font-weight: bold;
+    }
+    .movie-year {
+      font-style: italic;
+    }
+    .movie-description {
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Movies List</h1>
+  {{#each movies}}
+    <div class="movie">
+      <div class="movie-title">{{this.title}}</div>
+      <div class="movie-year">Released in: {{this.year}}</div>
+      <div class="movie-description">{{this.description}}</div>
+    </div>
+  {{/each}}
+</body>
+</html>
