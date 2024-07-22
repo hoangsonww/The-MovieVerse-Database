@@ -32,12 +32,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     else {
         mainElement.style.display = '';
+        loadUserList();
+        setupSearchListeners();
     }
-
-    loadUserList();
-    setupSearchListeners();
 });
 
+async function animateLoadingDots() {
+    const loadingTextElement = document.querySelector('#myModal p');
+    let dots = "";
+
+    while (document.getElementById('myModal').classList.contains('modal-visible')) {
+        loadingTextElement.textContent = `Loading chats${dots}`;
+        dots = (dots.length < 3) ? dots + "." : ".";
+        await new Promise(resolve => setTimeout(resolve, 500));
+    }
+}
 
 const firebaseConfig = {
     apiKey: atob("QUl6YVN5REw2a1FuU2ZVZDhVdDhIRnJwS3VpdnF6MXhkWG03aw=="),
@@ -273,6 +282,7 @@ async function performSearch(searchText, isNewSearch = false) {
 
     try {
         showSpinner();
+        animateLoadingDots();
 
         let userQuery = query(
             collection(db, 'MovieVerseUsers'),
@@ -360,6 +370,7 @@ let previouslySelectedUserElement = null;
 async function loadUserList() {
     try {
         showSpinner();
+        animateLoadingDots();
 
         const userLimit = 5;
         const messageLimit = 30;
