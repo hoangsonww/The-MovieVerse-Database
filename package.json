@@ -10,7 +10,7 @@
     "build": "npm run start",
     "test": "http-server -o",
     "serve": "http-server -o",
-    "docker": "docker-compose up",
+    "docker": "docker compose up",
     "dev:android": "cd MovieVerse-Mobile && cordova run android",
     "dev:ios": "cd MovieVerse-Mobile && cordova run ios",
     "build:android": "cd MovieVerse-Mobile && cordova build android",
