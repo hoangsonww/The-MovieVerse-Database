@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -36,11 +35,7 @@
     <meta name="twitter:description" content="Explore The MovieVerse to discover and learn about your favorite movies, directors, actors, and more." />
     <meta name="twitter:image" content="https://movie-verse.com/images/image.png"/>
     <meta name="referrer" content="no-referrer-when-downgrade">
-
-    <!-- Load SystemJS, required for single-spa -->
     <script src="https://unpkg.com/systemjs/dist/system.js"></script>
-
-    <!-- SystemJS configuration -->
     <script src="MovieVerse-Frontend/js/systemjs-importmap.js"></script>
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
@@ -57,7 +52,6 @@
             text-align: center;
         }
     </style>
-
     <script type="text/javascript">
         (function(c,l,a,r,i,t,y){
             c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -66,26 +60,20 @@
         })(window, document, "clarity", "script", "l7gqnssat8");
     </script>
 </head>
-
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
 <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-
     gtag('config', 'G-CQKJ67FXZ4');
 </script>
-
 <body>
     <!-- Navigation bar region -->
     <nav id="navbar"></nav>
-
     <!-- Main content region -->
     <main id="main-content"></main>
-
     <!-- Footer region -->
     <footer id="footer"></footer>
-
     <script>
         // Load and start single-spa
         System.import('single-spa').then(singleSpa => {
@@ -93,5 +81,4 @@
         });
     </script>
 </body>
-
 </html>

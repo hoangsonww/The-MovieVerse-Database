@@ -5,7 +5,7 @@
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#7378c5",
-  "author": "Son Nguyen Hoang",
+  "author": "Son Nguyen",
   "description": "An interactive app that provides you with information about the latest movies and TV shows, and allows you to save your favorites, create watch lists, and more!",
   "icons": [
     {
