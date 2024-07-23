@@ -268,63 +268,6 @@ function getMostCommonGenre() {
 
 document.addEventListener('DOMContentLoaded', rotateUserStats);
 
-function updateUniqueDirectorsViewed(directorId) {
-    let viewedDirectors = JSON.parse(localStorage.getItem('uniqueDirectorsViewed')) || [];
-    if (!viewedDirectors.includes(directorId)) {
-        viewedDirectors.push(directorId);
-        localStorage.setItem('uniqueDirectorsViewed', JSON.stringify(viewedDirectors));
-    }
-}
-
-function updateActorVisitCount(actorId, actorName) {
-    let actorVisits = JSON.parse(localStorage.getItem('actorVisits')) || {};
-    if (!actorVisits[actorId]) {
-        actorVisits[actorId] = { count: 0, name: actorName };
-    }
-
-    actorVisits[actorId].count += 1;
-    localStorage.setItem('actorVisits', JSON.stringify(actorVisits));
-}
-
-function updateDirectorVisitCount(directorId, directorName) {
-    let directorVisits = JSON.parse(localStorage.getItem('directorVisits')) || {};
-    if (!directorVisits[directorId]) {
-        directorVisits[directorId] = { count: 0, name: directorName };
-    }
-
-    directorVisits[directorId].count += 1;
-    localStorage.setItem('directorVisits', JSON.stringify(directorVisits));
-}
-
-function calculateMoviesToDisplay() {
-    const screenWidth = window.innerWidth;
-    if (screenWidth <= 689.9) return 10; // 1 movie per row
-    if (screenWidth <= 1021.24) return 20; // 2 movies per row
-    if (screenWidth <= 1353.74) return 21; // 3 movies per row
-    if (screenWidth <= 1684.9) return 20; // 4 movies per row
-    if (screenWidth <= 2017.49) return 20; // 5 movies per row
-    if (screenWidth <= 2349.99) return 18; // 6 movies per row
-    if (screenWidth <= 2681.99) return 21; // 7 movies per row
-    if (screenWidth <= 3014.49) return 24; // 8 movies per row
-    if (screenWidth <= 3345.99) return 27; // 9 movies per row
-    if (screenWidth <= 3677.99) return 20; // 10 movies per row
-    if (screenWidth <= 4009.99) return 22; // 11 movies per row
-    if (screenWidth <= 4340.99) return 24; // 12 movies per row
-    if (screenWidth <= 4673.49) return 26; // 13 movies per row
-    if (screenWidth <= 5005.99) return 28; // 14 movies per row
-    if (screenWidth <= 5337.99) return 30; // 15 movies per row
-    if (screenWidth <= 5669.99) return 32; // 16 movies per row
-    if (screenWidth <= 6001.99) return 34; // 17 movies per row
-    if (screenWidth <= 6333.99) return 36; // 18 movies per row
-    if (screenWidth <= 6665.99) return 38; // 19 movies per row
-    if (screenWidth <= 6997.99) return 40; // 20 movies per row
-    if (screenWidth <= 7329.99) return 42; // 21 movies per row
-    if (screenWidth <= 7661.99) return 44; // 22 movies per row
-    if (screenWidth <= 7993.99) return 46; // 23 movies per row
-    if (screenWidth <= 8325.99) return 48; // 24 movies per row
-    return 20;
-}
-
 function initializeChatbot() {
     const chatbotInput = document.getElementById("chatbotInput");
     sendInitialInstructions();
@@ -352,50 +295,6 @@ async function sendMessage(message) {
     scrollToBottom();
 }
 
-function showMovies(movies, mainElement) {
-    mainElement.innerHTML = '';
-    movies.forEach(movie => {
-        const { id, poster_path, title, vote_average, overview } = movie;
-        const movieEl = document.createElement('div');
-        movieEl.classList.add('movie');
-        const movieImage = poster_path
-            ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
-            : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
-
-        const voteAvg = vote_average.toFixed(1);
-        movieEl.innerHTML = `
-            ${movieImage}
-            <div class="movie-info" style="cursor: pointer;">
-                <h3>${title}</h3>
-                <span class="${getClassByRate(vote_average)}">${voteAvg}</span>
-            </div>
-            <div class="overview" style="cursor: pointer;">
-                <h4>Movie Intro: </h4>
-                ${overview}
-            </div>`;
-
-        movieEl.addEventListener('click', () => {
-            localStorage.setItem('selectedMovieId', id);
-            window.location.href = 'movie-details.html';
-            updateMovieVisitCount(id, title);
-        });
-
-        mainElement.appendChild(movieEl);
-    });
-}
-
-function getClassByRate(vote){
-    if (vote >= 8) {
-        return 'green';
-    }
-    else if (vote >= 5) {
-        return 'orange';
-    }
-    else {
-        return 'red';
-    }
-}
-
 function sendInitialInstructions() {
     const initialMessage = `
         <div style="text-align: left">
@@ -419,41 +318,6 @@ function scrollToBottom() {
     chatbotBody.scrollTop = chatbotBody.scrollHeight;
 }
 
-async function getMovies(url, mainElement) {
-    clearMovieDetails();
-    const numberOfMovies = calculateMoviesToDisplay();
-    const pagesToFetch = numberOfMovies <= 20 ? 1 : 2;
-
-    let allMovies = [];
-
-    for (let page = 1; page <= pagesToFetch; page++) {
-        const response = await fetch(`${url}&page=${page}`);
-        const data = await response.json();
-        allMovies = allMovies.concat(data.results);
-    }
-
-    const popularityThreshold = 0.5;
-
-    allMovies.sort((a, b) => {
-        const popularityDifference = Math.abs(a.popularity - b.popularity);
-        if (popularityDifference < popularityThreshold) {
-            return b.vote_average - a.vote_average;
-        }
-        return b.popularity - a.popularity;
-    });
-
-    if (allMovies.length > 0) {
-        showMovies(allMovies.slice(0, numberOfMovies), mainElement);
-        document.getElementById('clear-search-btn').style.display = 'inline-block';
-    }
-    else {
-        mainElement.innerHTML = `<p>No movie with the specified search term found. Please try again.</p>`;
-        document.getElementById('clear-search-btn').style.display = 'none';
-    }
-
-    document.getElementById('alt-title').innerHTML = '';
-}
-
 document.getElementById('clear-search-btn').addEventListener('click', function() {
     document.getElementById('main').innerHTML = initialMainContent;
     initializeChatbot();
@@ -467,39 +331,6 @@ form.addEventListener('submit', (e) => {
     localStorage.setItem('searchQuery', searchQuery);
     window.location.href = 'search.html';
 });
-
-function handleSearch() {
-    const searchQuery = document.getElementById('search').value;
-    localStorage.setItem('searchQuery', searchQuery);
-    window.location.href = 'search.html';
-}
-
-function clearMovieDetails() {
-    const movieDetailsContainer = document.getElementById('main');
-    if (movieDetailsContainer) {
-        movieDetailsContainer.innerHTML = '';
-    }
-}
-
-async function fetchAndRedirectToMovieDetails(movieName) {
-    const searchUrl = SEARCHPATH + encodeURIComponent(movieName);
-    try {
-        const response = await fetch(searchUrl);
-        const data = await response.json();
-        const movie = data.results[0];
-        if (movie) {
-            localStorage.setItem('selectedMovieId', movie.id);
-            window.location.href = 'movie-details.html';
-        }
-        else {
-            alert('Movie not found. Please try another search.');
-        }
-    }
-    catch (error) {
-        console.log('Error fetching movie details:', error);
-        alert('Failed to fetch movie details. Please try again later.');
-    }
-}
 
 async function fetchMovieTrailer(movieName) {
     const searchUrl = SEARCHPATH + encodeURIComponent(movieName);
@@ -552,67 +383,8 @@ function createTrailerButton(trailerUrl, movieTitle) {
     });
 }
 
-async function fetchPersonDetails(name, type) {
-    const searchUrl = `https://${getMovieVerseData()}/3/search/person?${generateMovieNames()}${getMovieCode()}&query=${encodeURIComponent(name)}`;
-
-    try {
-        const response = await fetch(searchUrl);
-        const data = await response.json();
-        const person = data.results[0];
-
-        if (person) {
-            localStorage.setItem(type === 'director' ? 'selectedDirectorId' : 'selectedActorId', person.id);
-            window.location.href = type === 'director' ? 'director-details.html' : 'actor-details.html';
-        }
-        else {
-            alert(`${type.charAt(0).toUpperCase() + type.slice(1)} not found. Please try another search.`);
-        }
-    }
-    catch (error) {
-        console.log(`Error fetching ${type} details:`, error);
-        alert(`Failed to fetch ${type} details. Please try again later.`);
-    }
-}
-
-async function fetchCompanyDetails(companyName) {
-    const searchUrl = `https://${getMovieVerseData()}/3/search/company?${generateMovieNames()}${getMovieCode()}&query=${encodeURIComponent(companyName)}`;
-    try {
-        const response = await fetch(searchUrl);
-        const data = await response.json();
-        const company = data.results[0];
-
-        if (company) {
-            localStorage.setItem('selectedCompanyId', company.id);
-            window.location.href = 'company-details.html';
-        }
-        else {
-            alert('Company not found. Please try another search.');
-        }
-    }
-    catch (error) {
-        console.log('Error fetching company details:', error);
-        alert('Failed to fetch company details. Please try again later.');
-    }
-}
-
 async function movieVerseResponse(message) {
     const lowerMessage = message.toLowerCase();
-
-    // if (lowerMessage.startsWith("do you know about ") ||
-    //     lowerMessage.startsWith("tell me about ") ||
-    //     lowerMessage.startsWith("what is ")) {
-    //     const movieName = lowerMessage.replace(/^(do you know about|show me|tell me about|what is) /, '');
-    //     return await fetchMovieDetailsFromTMDB(movieName);
-    // }
-
-    // if (lowerMessage.startsWith("show me details about ") ||
-    //     lowerMessage.startsWith("i want to know more about ") ||
-    //     lowerMessage.startsWith("details about ") ||
-    //     lowerMessage.startsWith("search for ")) {
-    //     const movieName = lowerMessage.replace("show me details about ", "").replace("i want to know more about ", "");
-    //     fetchAndRedirectToMovieDetails(movieName);
-    //     return `Searching for details about "${movieName}". Please wait...`;
-    // }
 
     if (lowerMessage.startsWith("show trailer for ")) {
         const movieName = lowerMessage.replace("show trailer for ", "");
@@ -625,9 +397,6 @@ async function movieVerseResponse(message) {
     }
     else if (lowerMessage.startsWith("bye") || lowerMessage.startsWith("goodbye")) {
         return "Goodbye! Thank you for using MovieVerse Assistant and have a nice day!";
-    }
-    else if (lowerMessage.startsWith("who r u") || lowerMessage.startsWith("who are you") || lowerMessage.startsWith("what is your name") || lowerMessage.startsWith("what's your name") || lowerMessage.startsWith("what are you") || lowerMessage.startsWith("what r u") || lowerMessage.startsWith("what can u do") || lowerMessage.startsWith("what can you do") || lowerMessage.startsWith("introduce yourself")) {
-        return "I am MovieVerse Assistant, here to help you with all your movie-related or any other general queries. I am trained and powered by MovieVerse AI and Google to provide you with the best assistance!";
     }
     else {
         showSpinner();
@@ -688,6 +457,7 @@ async function animateLoadingDots() {
 function removeMarkdown(text) {
     const converter = new showdown.Converter();
     const html = converter.makeHtml(text);
+
     const tempDiv = document.createElement('div');
     tempDiv.innerHTML = html;
     return tempDiv.textContent || tempDiv.innerText || '';

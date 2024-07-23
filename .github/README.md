@@ -152,11 +152,15 @@ Or, for your convenience, you may simply run the following command, provided tha
     cordova emulate ios
     cordova emulate android
     ```
-11. If you'd also like to dockerize the application, you can run the following command:
+11. If you'd also like to dockerize the application, `cd` into the root directory and run the following command:
     ```bash
     npm run docker
     ```
-    This will create a Docker image of the application, which you can then deploy to a containerized environment.
+    Or
+    ```bash
+    docker compose up
+    ```
+    This will create a Docker image of the application, which you can then deploy to a containerized environment. Ensure that Docker is up and running on your system before running this command.
 12. As you develop, be sure to save & commit your changes (and don't forget to create a branch for your new feature):
     ```bash
     git commit -m 'Add some AmazingFeature'

@@ -354,7 +354,7 @@
     </nav>
     <main>
         <section id="newFeatures">
-            <h2 style="cursor: pointer">New Features</h2>
+            <h2 style="cursor: pointer" id="newFeaturesHeader">New Features</h2>
             <p style="color: black">Explore the exciting new features we've recently launched to enhance your MovieVerse experience:</p>
             <ul>
                 <li><i style="margin-right: 3px" class="fas fa-search"></i> <strong>Enhanced Search Functionality:</strong> Dive deeper into our movie catalog with precise filters for genre, rating, and release year.</li>
@@ -370,7 +370,7 @@
             </p>
         </section>
         <section id="newReleases">
-            <h2 style="cursor: pointer">New Releases</h2>
+            <h2 id="newReleasesHeader" style="cursor: pointer">New Releases</h2>
             <h3>Since Your Last Visit</h3>
             <ul id="releasesSinceLastVisit"></ul>
             <h3 style="margin-top: 35px">Since the Beginning of This Month</h3>
@@ -385,7 +385,7 @@
             </p>
         </section>
         <section id="tipsTricks">
-            <h2 style="cursor: pointer">Tips & Tricks</h2>
+            <h2 style="cursor: pointer" id="tipsTricksHeader">Tips & Tricks</h2>
             <p style="color: black">Maximize your enjoyment of The MovieVerse with these handy tips:</p>
             <ul>
                 <li><i style="margin-right: 3px" class="fas fa-list-ul"></i> <strong>Creating Custom Watchlists:</strong> Curate your own personal movie collections and keep track of your must-watch films with ease.</li>
@@ -400,7 +400,7 @@
             </p>
         </section>
         <section id="popularActors">
-            <h2 style="cursor: pointer">Popular Actors</h2>
+            <h2 style="cursor: pointer" id="popularActorsHeader">Popular Actors</h2>
             <p style="color: black">Explore films featuring the actors our users can’t get enough of this month!</p>
             <ul></ul>
             <p style="color: black; margin-top: 35px">
@@ -408,7 +408,7 @@
             </p>
         </section>
         <section id="popularDirectors">
-            <h2 style="cursor: pointer">Popular Directors</h2>
+            <h2 style="cursor: pointer" id="popularDirectorsHeader">Popular Directors</h2>
             <p style="color: black">Discover the visionaries behind the camera who are currently shaping the world of cinema!</p>
             <ul></ul>
             <p style="color: black; margin-top: 35px">
@@ -495,31 +495,31 @@
             }
         });
 
-        document.getElementById('newFeatures').addEventListener('click', function(e) {
+        document.getElementById('newFeaturesHeader').addEventListener('click', function(e) {
             e.preventDefault();
 
             document.getElementById('newFeatures').scrollIntoView({ behavior: 'smooth' });
         });
 
-        document.getElementById('newReleases').addEventListener('click', function(e) {
+        document.getElementById('newReleasesHeader').addEventListener('click', function(e) {
             e.preventDefault();
 
             document.getElementById('newReleases').scrollIntoView({ behavior: 'smooth' });
         });
 
-        document.getElementById('tipsTricks').addEventListener('click', function(e) {
+        document.getElementById('tipsTricksHeader').addEventListener('click', function(e) {
             e.preventDefault();
 
             document.getElementById('tipsTricks').scrollIntoView({ behavior: 'smooth' });
         });
 
-        document.getElementById('popularActors').addEventListener('click', function(e) {
+        document.getElementById('popularActorsHeader').addEventListener('click', function(e) {
             e.preventDefault();
 
             document.getElementById('popularActors').scrollIntoView({ behavior: 'smooth' });
         });
 
-        document.getElementById('popularDirectors').addEventListener('click', function(e) {
+        document.getElementById('popularDirectorsHeader').addEventListener('click', function(e) {
             e.preventDefault();
 
             document.getElementById('popularDirectors').scrollIntoView({ behavior: 'smooth' });
