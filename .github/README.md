@@ -164,8 +164,11 @@ Or, for your convenience, you may simply run the following command, provided tha
 12. As you develop, be sure to save & commit your changes (and don't forget to create a branch for your new feature):
     ```bash
     git checkout -b 'feature/AmazingFeature'
-    git commit -m 'Add some AmazingFeature'
+    git commit -m 'Update: Add some AmazingFeature'
     ```
+    Note the naming convention:
+    - For branches: The names will have 2 parts: `feature/` or `fix/` followed by the feature or fix name.
+    - For commits: The commit message will also have 2 parts: `Update:` or `Fix:` followed by the update or fix description.
 13. Push to your branch:
     ```bash
     git push origin feature/AmazingFeature
