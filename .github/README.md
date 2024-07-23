@@ -163,8 +163,12 @@ Or, for your convenience, you may simply run the following command, provided tha
     This will create a Docker image of the application, which you can then deploy to a containerized environment. Ensure that Docker is up and running on your system before running this command.
 12. As you develop, be sure to save & commit your changes (and don't forget to create a branch for your new feature):
     ```bash
-    git commit -m 'Add some AmazingFeature'
+    git checkout -b 'feature/AmazingFeature'
+    git commit -m 'Update: Add some AmazingFeature'
     ```
+    Note the naming convention:
+    - For branches: The names will have 2 parts: `feature/` or `fix/` followed by the feature or fix name.
+    - For commits: The commit message will also have 2 parts: `Update:` or `Fix:` followed by the update or fix description.
 13. Push to your branch:
     ```bash
     git push origin feature/AmazingFeature
@@ -208,11 +212,9 @@ Website: [https://movie-verse.com](https://movie-verse.com)
 
 Email: [Official MovieVerse Email](mailto:info@movie-verse.com)
 
----
-
 ## Special Note
 
-Please also note that the **MovieVerse** is an ever-evolving platform, and more updates are underway. I am continually enhancing the user experience and adding new features to help you navigate the vast sea of cinema with ease and excitement!
+Please note that the **MovieVerse** is an ever-evolving platform, and more updates are underway. I am continually enhancing the user experience and adding new features to help you navigate the vast sea of cinema with ease and excitement!
 
 Additionally, I'd also like to express special gratitude to [The Movie Database (TMDb)](https://www.themoviedb.org/) for providing additional movie data that greatly enriches The MovieVerse experience!
 
