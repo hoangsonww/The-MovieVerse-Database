@@ -163,6 +163,7 @@ Or, for your convenience, you may simply run the following command, provided tha
     This will create a Docker image of the application, which you can then deploy to a containerized environment. Ensure that Docker is up and running on your system before running this command.
 12. As you develop, be sure to save & commit your changes (and don't forget to create a branch for your new feature):
     ```bash
+    git checkout -b 'feature/AmazingFeature'
     git commit -m 'Add some AmazingFeature'
     ```
 13. Push to your branch:
