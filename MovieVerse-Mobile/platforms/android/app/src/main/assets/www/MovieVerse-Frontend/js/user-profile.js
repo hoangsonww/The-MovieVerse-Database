@@ -53,9 +53,11 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 document.addEventListener('DOMContentLoaded', function() {
+    showSpinner();
     handleProfileDisplay();
     setupEventListeners();
     setupSearchListeners();
+    hideSpinner();
 });
 
 function updateProgressCircles(movieRating, triviaScore) {
@@ -127,6 +129,7 @@ function handleProfileDisplay() {
 
 function setupSearchListeners() {
     try {
+        showSpinner();
         const searchUserInput = document.getElementById('searchUserInput');
         const searchUserResults = document.getElementById('searchUserResults');
 
@@ -141,6 +144,7 @@ function setupSearchListeners() {
                 searchUserResults.style.display = 'none';
             }
         });
+        hideSpinner();
     }
     catch (error) {
         console.error("Error fetching user list: ", error);
@@ -213,16 +217,11 @@ document.getElementById('container1').addEventListener('click', async () => {
     }
 
     try {
-        const rating = await getAverageMovieRating(userEmail);
-        const convertRatingToPercent = (rating / 5) * 100;
-        const averageRating = convertRatingToPercent.toFixed(1);
+        const rating = parseInt(localStorage.getItem('currentAverageRating'), 10);
+        const averageRating = rating.toFixed(1);
 
-        const triviaStats = await getTriviaStats(userEmail);
-
-        let averageTriviaScore = 0;
-        if (triviaStats.totalAttempted > 0) {
-            averageTriviaScore = (triviaStats.totalCorrect / triviaStats.totalAttempted) * 100;
-        }
+        const triviaStats = parseInt(localStorage.getItem('currentAverageTriviaScore'), 10);
+        const averageTriviaScore = triviaStats.toFixed(1);
 
         updateProgressCircles(averageRating, averageTriviaScore, 'container1');
     }
@@ -244,16 +243,11 @@ document.getElementById('container2').addEventListener('click', async () => {
     }
 
     try {
-        const rating = await getAverageMovieRating(userEmail);
-        const convertRatingToPercent = (rating / 5) * 100;
-        const averageRating = convertRatingToPercent.toFixed(1);
+        const rating = parseInt(localStorage.getItem('currentAverageRating'), 10);
+        const averageRating = rating.toFixed(1);
 
-        const triviaStats = await getTriviaStats(userEmail);
-
-        let averageTriviaScore = 0;
-        if (triviaStats.totalAttempted > 0) {
-            averageTriviaScore = (triviaStats.totalCorrect / triviaStats.totalAttempted) * 100;
-        }
+        const triviaStats = parseInt(localStorage.getItem('currentAverageTriviaScore'), 10);
+        const averageTriviaScore = triviaStats.toFixed(1);
 
         updateProgressCircles(averageRating, averageTriviaScore, 'container2');
     }
@@ -293,6 +287,24 @@ async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMo
             profileImage.style.cursor = 'pointer';
             profileImage.title = 'Click to change profile image';
         }
+
+        const rating = await getAverageMovieRating(userEmail);
+        const convertRatingToPercent = (rating / 5) * 100;
+        const averageRating = convertRatingToPercent.toFixed(1);
+
+        const triviaStats = await getTriviaStats(userEmail);
+
+        let averageTriviaScore = 0;
+        if (triviaStats.totalAttempted > 0) {
+            averageTriviaScore = (triviaStats.totalCorrect / triviaStats.totalAttempted) * 100;
+        }
+
+        localStorage.setItem('currentlyViewingProfile', userEmail);
+
+        updateProgressCircles(averageRating, averageTriviaScore);
+
+        localStorage.setItem('currentAverageRating', averageRating);
+        localStorage.setItem('currentAverageTriviaScore', averageTriviaScore);
 
         profileContainer.style.display = 'block';
 
@@ -339,21 +351,6 @@ async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMo
         else {
             followUnfollowBtn.style.display = 'none';
         }
-
-        const rating = await getAverageMovieRating(userEmail);
-        const convertRatingToPercent = (rating / 5) * 100;
-        const averageRating = convertRatingToPercent.toFixed(1);
-
-        const triviaStats = await getTriviaStats(userEmail);
-
-        let averageTriviaScore = 0;
-        if (triviaStats.totalAttempted > 0) {
-            averageTriviaScore = (triviaStats.totalCorrect / triviaStats.totalAttempted) * 100;
-        }
-
-        localStorage.setItem('currentlyViewingProfile', userEmail);
-
-        updateProgressCircles(averageRating, averageTriviaScore);
 
         try {
             const docSnap = await getDoc(docRef);
@@ -633,6 +630,8 @@ function resizeImageAndConvertToBase64(file, maxWidth, maxHeight) {
 }
 
 function setupEventListeners() {
+    showSpinner();
+
     document.getElementById('saveChanges').addEventListener('click', async () => {
         await saveProfileChanges();
     });
@@ -704,4 +703,6 @@ function setupEventListeners() {
     document.getElementById('removeProfileImage').addEventListener('click', async () => {
         await removeProfileImage();
     });
+
+    hideSpinner();
 }

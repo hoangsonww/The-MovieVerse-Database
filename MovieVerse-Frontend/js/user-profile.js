@@ -288,6 +288,24 @@ async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMo
             profileImage.title = 'Click to change profile image';
         }
 
+        const rating = await getAverageMovieRating(userEmail);
+        const convertRatingToPercent = (rating / 5) * 100;
+        const averageRating = convertRatingToPercent.toFixed(1);
+
+        const triviaStats = await getTriviaStats(userEmail);
+
+        let averageTriviaScore = 0;
+        if (triviaStats.totalAttempted > 0) {
+            averageTriviaScore = (triviaStats.totalCorrect / triviaStats.totalAttempted) * 100;
+        }
+
+        localStorage.setItem('currentlyViewingProfile', userEmail);
+
+        updateProgressCircles(averageRating, averageTriviaScore);
+
+        localStorage.setItem('currentAverageRating', averageRating);
+        localStorage.setItem('currentAverageTriviaScore', averageTriviaScore);
+
         profileContainer.style.display = 'block';
 
         const docRef = doc(db, 'profiles', userEmail);
@@ -333,24 +351,6 @@ async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMo
         else {
             followUnfollowBtn.style.display = 'none';
         }
-
-        const rating = await getAverageMovieRating(userEmail);
-        const convertRatingToPercent = (rating / 5) * 100;
-        const averageRating = convertRatingToPercent.toFixed(1);
-
-        const triviaStats = await getTriviaStats(userEmail);
-
-        let averageTriviaScore = 0;
-        if (triviaStats.totalAttempted > 0) {
-            averageTriviaScore = (triviaStats.totalCorrect / triviaStats.totalAttempted) * 100;
-        }
-
-        localStorage.setItem('currentlyViewingProfile', userEmail);
-
-        updateProgressCircles(averageRating, averageTriviaScore);
-
-        localStorage.setItem('currentAverageRating', averageRating);
-        localStorage.setItem('currentAverageTriviaScore', averageTriviaScore);
 
         try {
             const docSnap = await getDoc(docRef);
