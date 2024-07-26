@@ -136,7 +136,8 @@ export async function checkAndUpdateFavoriteButtonTVSeries() {
                 const userData = querySnapshot.docs[0].data();
                 favoritesTVSeries = userData.favoritesTVSeries || [];
             }
-        } else {
+        }
+        else {
             favoritesTVSeries = JSON.parse(localStorage.getItem('favoritesTVSeries')) || [];
         }
 

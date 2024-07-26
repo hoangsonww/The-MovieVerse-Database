@@ -58,35 +58,6 @@ function handleSearch() {
     window.location.href = 'search.html';
 }
 
-function calculateMoviesToDisplay() {
-    const screenWidth = window.innerWidth;
-    if (screenWidth <= 689.9) return 10;
-    if (screenWidth <= 1021.24) return 20;
-    if (screenWidth <= 1353.74) return 21;
-    if (screenWidth <= 1684.9) return 20;
-    if (screenWidth <= 2017.49) return 20;
-    if (screenWidth <= 2349.99) return 18;
-    if (screenWidth <= 2681.99) return 21;
-    if (screenWidth <= 3014.49) return 24;
-    if (screenWidth <= 3345.99) return 27;
-    if (screenWidth <= 3677.99) return 20;
-    if (screenWidth <= 4009.99) return 22;
-    if (screenWidth <= 4340.99) return 24;
-    if (screenWidth <= 4673.49) return 26;
-    if (screenWidth <= 5005.99) return 28;
-    if (screenWidth <= 5337.99) return 30;
-    if (screenWidth <= 5669.99) return 32;
-    if (screenWidth <= 6001.99) return 34;
-    if (screenWidth <= 6333.99) return 36;
-    if (screenWidth <= 6665.99) return 38;
-    if (screenWidth <= 6997.99) return 40;
-    if (screenWidth <= 7329.99) return 42;
-    if (screenWidth <= 7661.99) return 44;
-    if (screenWidth <= 7993.99) return 46;
-    if (screenWidth <= 8325.99) return 48;
-    return 20;
-}
-
 let initialMainContent = '';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -106,6 +77,7 @@ async function fetchActorDetails(actorId) {
     showSpinner();
     const actorUrl = `https://${getMovieVerseData()}/3/person/${actorId}?${generateMovieNames()}${getMovieCode()}`;
     const creditsUrl = `https://${getMovieVerseData()}/3/person/${actorId}/movie_credits?${generateMovieNames()}${getMovieCode()}`;
+
     try {
         const [actorResponse, creditsResponse] = await Promise.all([
             fetch(actorUrl),
@@ -216,7 +188,8 @@ async function populateActorDetails(actor, credits) {
         if (movie.poster_path) {
             movieImage.src = IMGPATH2 + movie.poster_path;
             movieImage.alt = `${movie.title} Poster`;
-        } else {
+        }
+        else {
             movieImage.alt = 'Image Not Available';
             movieImage.src = 'https://movie-verse.com/images/movie-default.jpg';
             movieImage.style.filter = 'grayscale(100%)';
@@ -248,7 +221,6 @@ async function populateActorDetails(actor, credits) {
     const mediaResponse = await fetch(mediaUrl);
     const mediaData = await mediaResponse.json();
     const images = mediaData.profiles;
-
     const detailsContainer = document.getElementById('actor-description');
 
     let mediaContainer = document.getElementById('media-container');
@@ -321,7 +293,6 @@ async function populateActorDetails(actor, credits) {
 
     imageElement.addEventListener('click', function () {
         const imageUrl = this.src;
-
         const modalHtml = `
             <div id="image-modal" style="z-index: 100022222; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
                 <button id="prevModalButton" style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); background-color: #7378c5; color: white; border-radius: 8px; height: 30px; width: 30px; border: none; cursor: pointer; z-index: 11;"><i class="fas fa-arrow-left"></i></button>
@@ -450,6 +421,8 @@ async function populateActorDetails(actor, credits) {
             navigateMedia(images, imageElement, index - currentIndex);
             updateDots(index);
         });
+        dot.addEventListener('mouseover', () => dot.style.backgroundColor = '#6a6a6a');
+        dot.addEventListener('mouseout', () => dot.style.backgroundColor = index === currentIndex ? '#ff8623' : '#bbb');
 
         currentLine.appendChild(dot);
 

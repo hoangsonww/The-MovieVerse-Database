@@ -411,6 +411,7 @@ async function loadHighlyRatedMoviesOverYearsChart() {
 }
 
 function loadAllCharts() {
+    showSpinner();
     loadMoviesByYearChart();
     loadGenrePopularityChart();
     loadMoviesByCertificationChart();
@@ -423,6 +424,7 @@ function loadAllCharts() {
     loadTopRatedMoviesPerYearChart();
     loadTotalMovieVotesOverYearsChart();
     loadHighlyRatedMoviesOverYearsChart();
+    hideSpinner();
 }
 
 document.addEventListener('DOMContentLoaded', loadAllCharts);

@@ -30,18 +30,6 @@ const IMGPATH = "https://image.tmdb.org/t/p/w1280";
 const IMGPATH2 = "https://image.tmdb.org/t/p/w185";
 const searchTitle = document.getElementById("search-title");
 
-function getClassByRate(vote){
-    if (vote >= 8) {
-        return 'green';
-    }
-    else if (vote >= 5) {
-        return 'orange';
-    }
-    else {
-        return 'red';
-    }
-}
-
 async function ensureGenreMapIsAvailable() {
     if (!localStorage.getItem('genreMap')) {
         await fetchGenreMap();
@@ -317,6 +305,7 @@ async function fetchCompanyDetails(companyId) {
 
         const homepage = company.homepage || '#';
         const companyWebsite = document.getElementById('company-website');
+
         if (homepage !== '#') {
             companyWebsite.href = homepage;
             companyWebsite.textContent = homepage;
@@ -344,6 +333,7 @@ async function fetchCompanyMovies(companyId) {
     try {
         const response = await fetch(url);
         const data = await response.json();
+
         if (data.results.length === 0) {
             const companyMoviesContainer = document.getElementById('company-movies-container');
             companyMoviesContainer.innerHTML = `<p>No movies found for this company.</p>`;

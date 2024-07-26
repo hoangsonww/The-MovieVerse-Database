@@ -1,6 +1,5 @@
 import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory } from "@google/generative-ai";
 
-const chatbotInput = document.getElementById("chatbotInput");
 const chatbotBody = document.getElementById("chatbotBody");
 const movieee = `https://${getMovieVerseData()}/3`;
 
@@ -31,13 +30,8 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('clear-search-btn').style.display = 'none';
 });
 
-const search = document.getElementById("search");
-const searchButton = document.getElementById("button-search");
 const searchTitle = document.getElementById("search-title");
-const otherTitle = document.getElementById("other1");
 const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
-const IMGPATH = "https://image.tmdb.org/t/p/w1280";
-const main = document.getElementById("main");
 
 async function ensureGenreMapIsAvailable() {
     if (!localStorage.getItem('genreMap')) {
@@ -171,24 +165,6 @@ async function rotateUserStats() {
     });
 }
 
-function updateMovieVisitCount(movieId, movieTitle) {
-    let movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
-    let uniqueMoviesViewed = JSON.parse(localStorage.getItem('uniqueMoviesViewed')) || [];
-
-    if (!movieVisits[movieId]) {
-        movieVisits[movieId] = { count: 0, title: movieTitle };
-    }
-
-    movieVisits[movieId].count += 1;
-
-    if (!uniqueMoviesViewed.includes(movieId)) {
-        uniqueMoviesViewed.push(movieId);
-    }
-
-    localStorage.setItem('movieVisits', JSON.stringify(movieVisits));
-    localStorage.setItem('uniqueMoviesViewed', JSON.stringify(uniqueMoviesViewed));
-}
-
 function getMostVisitedDirector() {
     const directorVisits = JSON.parse(localStorage.getItem('directorVisits')) || {};
     let mostVisitedDirector = '';
@@ -304,9 +280,9 @@ function sendInitialInstructions() {
             </span>
         </div>
         <ul style="text-align: left; margin-bottom: 10px; color: #fff;">
-            <li>To find details about a movie, type "Show me details about [movie name]".</li>
+            <li>To quickly find the trailer of a movie, type "Show trailer for [movie name]".</li>
             <li>You can also ask about genres, top-rated movies, latest movies, get a recommended movie, and any general questions!</li>
-            <li>💡<b>Tip:</b> To get the best results, try to avoid phrasing requests like "Show me details about ...", as they might trigger specific functions instead of a broader search.</li> 
+            <li>💡<b>Tip:</b> To get the best results, try to avoid phrasing requests like "Show trailer for ...", as they might trigger specific functions instead of a broader search.</li> 
         </ul>
         <div style="text-align: left; color: #fff;">How may I assist you today? 🎬🍿</div>
     `;
@@ -474,47 +450,6 @@ function showSpinner() {
 
 function hideSpinner() {
     document.getElementById('myModal').classList.remove('modal-visible');
-}
-
-async function fetchMovieDetailsFromTMDB(movieName) {
-    const url = `${movieee}/search/movie?${generateMovieNames()}${getMovieCode()}&query=${encodeURIComponent(movieName)}`;
-
-    try {
-        const response = await fetch(url);
-        const data = await response.json();
-
-        if (data.results.length > 0) {
-            const movie = data.results[0];
-            localStorage.setItem('selectedMovieId', movie.id);
-
-            let movieOverview = movie.overview;
-            if (movieOverview.length > 500) {
-                movieOverview = movieOverview.substring(0, 500) + '...';
-            }
-            if (movieOverview === '' || movieOverview === null || !movieOverview) {
-                movieOverview = 'N/A';
-            }
-
-            let movieReleaseDate = movie.release_date;
-            if (movieReleaseDate === '' || movieReleaseDate === null || !movieReleaseDate) {
-                movieReleaseDate = 'N/A';
-            }
-
-            let movieVoteAverage = movie.vote_average.toFixed(1);
-            if (movieVoteAverage === '' || movieVoteAverage === null || !movieVoteAverage) {
-                movieVoteAverage = 'N/A';
-            }
-
-            return `The title of the movie is ${movie.title}. Its overview is: ${movieOverview}. Its release date is ${movieReleaseDate}, and rating is ${movieVoteAverage}. You can find more info about it if you wish <a href="../html/movie-details.html" class='movie-details-link' style='color: #ff8623; cursor: pointer; text-decoration: underline;' data-movie-id='${movie.id}'>here</a>.`;
-        }
-        else {
-            return "I couldn't find any movie with that name. Please try another movie name.";
-        }
-    }
-    catch (error) {
-        console.log('Error fetching movie details:', error);
-        return "Sorry, I encountered an error while trying to fetch movie details. Please try again later.";
-    }
 }
 
 async function showMovieOfTheDay() {

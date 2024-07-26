@@ -1,72 +1,60 @@
 document.getElementById('agreement').addEventListener('click', function(e) {
     e.preventDefault();
-
     document.getElementById('agreement').scrollIntoView({ behavior: 'smooth' });
 });
 
 document.getElementById('consent').addEventListener('click', function(e) {
     e.preventDefault();
-
     document.getElementById('consent').scrollIntoView({ behavior: 'smooth' });
 });
 
 document.getElementById('subheading2').addEventListener('click', function(e) {
     e.preventDefault();
-
     document.getElementById('subheading2').scrollIntoView({ behavior: 'smooth' });
 });
 
 document.getElementById('subheading').addEventListener('click', function(e) {
     e.preventDefault();
-
     document.getElementById('subheading').scrollIntoView({ behavior: 'smooth' });
 });
 
 document.getElementById('subheading3').addEventListener('click', function(e) {
     e.preventDefault();
-
     document.getElementById('subheading3').scrollIntoView({ behavior: 'smooth' });
 });
 
 document.getElementById('subheading4').addEventListener('click', function(e) {
     e.preventDefault();
-
     document.getElementById('subheading4').scrollIntoView({ behavior: 'smooth' });
 });
 
 document.getElementById('subheading5').addEventListener('click', function(e) {
     e.preventDefault();
-
     document.getElementById('subheading5').scrollIntoView({ behavior: 'smooth' });
 });
 
 document.getElementById('subheading6').addEventListener('click', function(e) {
     e.preventDefault();
-
     document.getElementById('subheading6').scrollIntoView({ behavior: 'smooth' });
 });
 
 document.getElementById('subheading7').addEventListener('click', function(e) {
     e.preventDefault();
-
     document.getElementById('subheading7').scrollIntoView({ behavior: 'smooth' });
 });
 
 document.getElementById('subheading8').addEventListener('click', function(e) {
     e.preventDefault();
-
     document.getElementById('subheading8').scrollIntoView({ behavior: 'smooth' });
 });
 
 document.getElementById('subheading9').addEventListener('click', function(e) {
     e.preventDefault();
-
     document.getElementById('subheading9').scrollIntoView({ behavior: 'smooth' });
 });
 
 document.getElementById('subheading10').addEventListener('click', function(e) {
     e.preventDefault();
-
     document.getElementById('subheading10').scrollIntoView({ behavior: 'smooth' });
 });
 

@@ -9,7 +9,6 @@ document.getElementById('movie-match-form').addEventListener('submit', function(
     const mood = document.getElementById('mood').value;
     const genre = document.getElementById('genre').value;
     const period = document.getElementById('period').value;
-
     findMovieMatch(mood, genre, period);
 });
 
@@ -45,6 +44,7 @@ async function showMovieOfTheDay() {
 
 async function fetchGenreMap() {
     const url = `https://${getMovieVerseData()}/3/genre/movie/list?${generateMovieNames()}${getMovieCode()}`;
+
     try {
         const response = await fetch(url);
         const data = await response.json();

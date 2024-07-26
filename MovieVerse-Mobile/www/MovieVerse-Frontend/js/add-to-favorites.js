@@ -83,7 +83,8 @@ export async function checkAndUpdateFavoriteButton() {
             console.log('Firebase quota exceeded. Checking local storage for favorites.');
             const localFavorites = JSON.parse(localStorage.getItem('moviesFavorited')) || [];
             updateFavoriteButton(movieId, localFavorites);
-        } else {
+        }
+        else {
             console.error('An error occurred:', error);
         }
     }
@@ -198,8 +199,8 @@ export async function toggleFavorite() {
         }
 
         updateMoviesFavorited(movieId);
-
-    } catch (error) {
+    }
+    catch (error) {
         if (error.code === 'resource-exhausted') {
             console.log('Firebase quota exceeded. Using localStorage for favorites.');
             let favoritesMovies = JSON.parse(localStorage.getItem('moviesFavorited')) || [];
@@ -231,7 +232,6 @@ export async function toggleFavorite() {
 
         updateMoviesFavorited(movieId);
     }
-
     window.location.reload();
 }
 
