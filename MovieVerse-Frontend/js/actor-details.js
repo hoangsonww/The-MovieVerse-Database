@@ -421,6 +421,8 @@ async function populateActorDetails(actor, credits) {
             navigateMedia(images, imageElement, index - currentIndex);
             updateDots(index);
         });
+        dot.addEventListener('mouseover', () => dot.style.backgroundColor = '#6a6a6a');
+        dot.addEventListener('mouseout', () => dot.style.backgroundColor = index === currentIndex ? '#ff8623' : '#bbb');
 
         currentLine.appendChild(dot);
 

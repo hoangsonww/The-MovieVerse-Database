@@ -1640,7 +1640,6 @@ function updateFavoriteGenre(genre_ids) {
 
 function updateUniqueMoviesViewed(movieId) {
     let viewedMovies = JSON.parse(localStorage.getItem('uniqueMoviesViewed')) || [];
-
     if (!viewedMovies.includes(movieId)) {
         viewedMovies.push(movieId);
         localStorage.setItem('uniqueMoviesViewed', JSON.stringify(viewedMovies));
@@ -1661,6 +1660,7 @@ async function isListPinned(watchlistId) {
         try {
             const watchlistRef = doc(db, 'watchlists', watchlistId);
             const watchlistDoc = await getDoc(watchlistRef);
+
             if (watchlistDoc.exists()) {
                 const watchlistData = watchlistDoc.data();
                 return watchlistData.pinned || false;
@@ -1731,7 +1731,6 @@ function shareWatchList(watchlistDiv) {
     const watchlistTitle = watchlistDiv.querySelector('.watchlist-title').textContent;
     let itemsToShare = `Explore my curated watchlist, "${watchlistTitle}", which contains:\n`;
     let finalLine = 'Happy Watching! 🍿🎬🎥\n\n'
-
     const movieCards = watchlistDiv.querySelectorAll('[data-movie-title]');
     const tvSeriesCards = watchlistDiv.querySelectorAll('[data-series-title]');
 
@@ -1844,7 +1843,6 @@ async function moveWatchList(watchlistDiv, moveUp) {
             });
 
             const index = watchlists.findIndex(watchlist => watchlist.docId === watchlistId);
-
             if (index === -1 || watchlists.length < 2) {
                 hideSpinner();
                 return;
@@ -1915,7 +1913,6 @@ async function pinWatchList(watchlistDiv, watchlistId) {
     }
 
     loadWatchLists();
-
     window.location.reload();
 }
 

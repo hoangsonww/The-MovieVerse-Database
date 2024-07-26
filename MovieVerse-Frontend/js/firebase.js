@@ -10,12 +10,6 @@ function getFBConfig1() {
     return translateFBC(fbConfig1);
 }
 
-const movieCode = {
-    part1: 'YzVhMjBjODY=',
-    part2: 'MWFjZjdiYjg=',
-    part3: 'ZDllOTg3ZGNjN2YxYjU1OA=='
-};
-
 function getFBConfig2() {
     const fbConfig2 = "bW92aWV2ZXJzZS1hcHAuZmlyZWJhc2VhcHAuY29t";
     return translateFBC(fbConfig2);
@@ -46,5 +40,4 @@ const firebaseConfig = {
 };
 
 export const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
-
 export const db = getFirestore(app);
