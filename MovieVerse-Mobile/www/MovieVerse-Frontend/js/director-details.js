@@ -65,7 +65,6 @@ function handleSearch() {
 
 function updateSignInButtonState() {
     const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
-
     const signInText = document.getElementById('signInOutText');
     const signInIcon = document.getElementById('signInIcon');
     const signOutIcon = document.getElementById('signOutIcon');
@@ -90,6 +89,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 document.addEventListener('DOMContentLoaded', () => {
     const directorId = localStorage.getItem('selectedDirectorId');
+
     if (directorId) {
         fetchDirectorDetails(directorId);
     }
@@ -100,8 +100,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function fetchDirectorDetails(directorId) {
     showSpinner();
+
     const directorUrl = `https://${getMovieVerseData()}/3/person/${directorId}?${generateMovieNames()}${getMovieCode()}`;
     const creditsUrl = `https://${getMovieVerseData()}/3/person/${directorId}/movie_credits?${generateMovieNames()}${getMovieCode()}`;
+
     try {
         const [directorResponse, creditsResponse] = await Promise.all([
             fetch(directorUrl),
@@ -204,7 +206,8 @@ async function populateDirectorDetails(director, credits) {
         if (movie.poster_path) {
             movieImage.src = IMGPATH2 + movie.poster_path;
             movieImage.alt = `${movie.title} Poster`;
-        } else {
+        }
+        else {
             movieImage.alt = 'Image Not Available';
             movieImage.src = 'https://movie-verse.com/images/movie-default.jpg';
             movieImage.style.filter = 'grayscale(100%)';
@@ -442,6 +445,8 @@ async function populateDirectorDetails(director, credits) {
             navigateMedia(images, imageElement, index - currentIndex);
             updateDots(index);
         });
+        dot.addEventListener('mouseover', () => dot.style.backgroundColor = '#6a6a6a');
+        dot.addEventListener('mouseout', () => dot.style.backgroundColor = index === currentIndex ? '#ff8623' : '#bbb');
 
         currentLine.appendChild(dot);
 

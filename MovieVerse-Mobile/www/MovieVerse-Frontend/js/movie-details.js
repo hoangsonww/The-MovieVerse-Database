@@ -289,7 +289,6 @@ function updateActorVisitCount(actorId, actorName) {
     if (!actorVisits[actorId]) {
         actorVisits[actorId] = { count: 0, name: actorName };
     }
-
     actorVisits[actorId].count += 1;
     localStorage.setItem('actorVisits', JSON.stringify(actorVisits));
 }
@@ -299,7 +298,6 @@ function updateDirectorVisitCount(directorId, directorName) {
     if (!directorVisits[directorId]) {
         directorVisits[directorId] = { count: 0, name: directorName };
     }
-
     directorVisits[directorId].count += 1;
     localStorage.setItem('directorVisits', JSON.stringify(directorVisits));
 }
@@ -698,7 +696,6 @@ function getRatingDetails(rating) {
 
 async function fetchMovieRatings(imdbId, tmdbMovieData) {
     showSpinner();
-
     document.body.offsetHeight;
 
     const apiKeys = [
@@ -712,11 +709,11 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
         '6e367eef',
         '2a2a3080'
     ];
-
     const baseURL = `https://${getMovieActor()}/?i=${imdbId}&${getMovieName()}`;
 
     async function tryFetch(apiKey) {
         const url = `${baseURL}${apiKey}`;
+
         try {
             const response = await fetch(url);
             if (!response.ok) throw new Error('API limit reached or other error');
@@ -742,15 +739,13 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
 
     const requests = apiKeys.map(key => fetchWithTimeout(key));
     const responses = await Promise.all(requests);
-
     const data = responses.find(response => response !== null);
+    let imdbRating = data.imdbRating ? data.imdbRating : 'N/A';
 
     if (!data) {
         populateMovieDetails(tmdbMovieData, tmdbMovieData.vote_average, 'N/A', 'Metascore information unavailable, click to search on Metacritics', 'Awards information unavailable');
         return;
     }
-
-    let imdbRating = data.imdbRating ? data.imdbRating : 'N/A';
     if (imdbRating === 'N/A' || imdbRating === '0.0') {
         imdbRating = 'N/A';
     }
@@ -763,12 +758,10 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
     if (awards === 'N/A') {
         awards = 'Awards information unavailable';
     }
-
     if (metascore === 'N/A/100') {
         const metacriticsRatingValue = imdbRating !== 'N/A' ? parseFloat(imdbRating) : (tmdbMovieData.vote_average / 2);
         metascore = calculateFallbackMetacriticsRating(metacriticsRatingValue, tmdbMovieData.vote_average) + '/100';
     }
-
     if (rtRating === 'N/A') {
         const imdbRatingValue = imdbRating !== 'N/A' ? parseFloat(imdbRating) : (tmdbMovieData.vote_average / 2);
         rtRating = calculateFallbackRTRating(imdbRatingValue, tmdbMovieData.vote_average);
@@ -849,21 +842,6 @@ function getYouTubeVideoId(url) {
     const urlObj = new URL(url);
     return urlObj.searchParams.get('v');
 }
-
-function positionTrailerButton() {
-    showSpinner();
-    if (!trailerButton) {
-        document.getElementById('movie-description').style.marginTop = '-20px';
-        return;
-    }
-    document.getElementById('movie-description').style.marginTop = '-60px';
-
-    const movieRating = document.getElementById('movie-rating');
-    movieRating.parentNode.insertBefore(trailerButton, movieRating.nextSibling);
-
-    hideSpinner();
-}
-
 
 function showTrailerIframe(trailerUrl) {
     trailerUrlGlobal = trailerUrl;
@@ -1010,7 +988,6 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     }
     else {
         const timeDiff = currentDate - releaseDateObj;
-
         let years = Math.floor(timeDiff / (1000 * 60 * 60 * 24 * 365.25));
         let remainingMonths = Math.round((timeDiff % (1000 * 60 * 60 * 24 * 365.25)) / (1000 * 60 * 60 * 24 * 30.44));
 
@@ -1018,7 +995,6 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
             years += 1;
             remainingMonths -= 12;
         }
-
         if (years > 0) {
             timeAgoString += `${years} year${years > 1 ? 's' : ''}`;
             if (remainingMonths > 0) {
@@ -1558,6 +1534,8 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
             navigateMedia(images, imageElement, index - currentIndex);
             updateDots(index);
         });
+        dot.addEventListener('mouseover', () => dot.style.backgroundColor = '#6a6a6a');
+        dot.addEventListener('mouseout', () => dot.style.backgroundColor = index === currentIndex ? '#ff8623' : '#bbb');
 
         currentLine.appendChild(dot);
 
@@ -1740,7 +1718,6 @@ function selectActorId(actorId, actorName) {
     }
 
     localStorage.setItem('actorVisits', JSON.stringify(actorVisits));
-
     localStorage.setItem('selectedActorId', actorId);
     window.location.href = 'actor-details.html';
 }

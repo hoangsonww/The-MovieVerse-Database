@@ -48,35 +48,6 @@ function handleSearch() {
     window.location.href = 'search.html';
 }
 
-function calculateMoviesToDisplay() {
-    const screenWidth = window.innerWidth;
-    if (screenWidth <= 689.9) return 10;
-    if (screenWidth <= 1021.24) return 20;
-    if (screenWidth <= 1353.74) return 21;
-    if (screenWidth <= 1684.9) return 20;
-    if (screenWidth <= 2017.49) return 20;
-    if (screenWidth <= 2349.99) return 18;
-    if (screenWidth <= 2681.99) return 21;
-    if (screenWidth <= 3014.49) return 24;
-    if (screenWidth <= 3345.99) return 27;
-    if (screenWidth <= 3677.99) return 20;
-    if (screenWidth <= 4009.99) return 22;
-    if (screenWidth <= 4340.99) return 24;
-    if (screenWidth <= 4673.49) return 26;
-    if (screenWidth <= 5005.99) return 28;
-    if (screenWidth <= 5337.99) return 30;
-    if (screenWidth <= 5669.99) return 32;
-    if (screenWidth <= 6001.99) return 34;
-    if (screenWidth <= 6333.99) return 36;
-    if (screenWidth <= 6665.99) return 38;
-    if (screenWidth <= 6997.99) return 40;
-    if (screenWidth <= 7329.99) return 42;
-    if (screenWidth <= 7661.99) return 44;
-    if (screenWidth <= 7993.99) return 46;
-    if (screenWidth <= 8325.99) return 48;
-    return 20;
-}
-
 let initialMainContent = '';
 
 document.addEventListener('DOMContentLoaded', () => {
