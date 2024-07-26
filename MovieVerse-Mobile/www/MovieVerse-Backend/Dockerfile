@@ -6,7 +6,7 @@ COPY package*.json ./
 # ---- Dependencies ----
 FROM base AS dependencies
 RUN npm set progress=false && npm config set depth 0
-RUN npm install --only=production
+RUN npm install
 COPY . .
 RUN npm run build
 
@@ -20,12 +20,12 @@ RUN cp -R build/ /app/public/
 FROM python:3.8 AS python-base
 WORKDIR /app
 COPY --from=frontend-artifacts /app/public /app/public
-COPY backend/requirements.txt /app/
+COPY MovieVerse-Backend/requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
 
 # ---- Copy Backend Code ----
 FROM python-base AS backend-code
-COPY backend /app
+COPY MovieVerse-Backend /app
 
 # ---- Release with Gunicorn ----
 FROM backend-code AS release

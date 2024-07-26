@@ -1,0 +1,3 @@
+@echo off
+echo Opening MovieVerse website...
+start https://movie-verse.com

@@ -122,7 +122,7 @@ The tests directory contains a collection of test scripts and suites for the `Mo
 
 ## Getting Started
 
-To get started with MovieVerse:
+To get started with `MovieVerse-Frontend`:
 
 1. **Clone the repository**: Use Git to clone the app to your local machine:
     ```bash
@@ -140,12 +140,14 @@ To get started with MovieVerse:
     ```bash
     yarn install
     ```
-4. **Run the app**: Start the frontend server on your local server and navigate to the appropriate port to view it:
+4. **Run the app**: `cd` into the root directory then start the frontend server on your local server and navigate to the appropriate port to view it:
     ```bash
+    cd ..
     npm start
     ```
     Or using yarn:
      ```bash
+     cd ..
      yarn start
      ```
 5. **Explore the app**: Interact with the app's features, pages, and functionalities to get a feel for how it works.
