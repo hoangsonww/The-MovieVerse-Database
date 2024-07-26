@@ -1214,7 +1214,7 @@ header h1 {
 .movie-header {
     text-align: center;
     align-self: center;
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     font-weight: bold;
     color: #ffeb3b;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
@@ -1223,7 +1223,7 @@ header h1 {
 .actor-header {
     text-align: center;
     align-self: center;
-    font-size: 2.5rem;
+    font-size: 2.3rem;
     font-weight: bold;
     color: #ffeb3b;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
@@ -1248,7 +1248,7 @@ header h1 {
 .director-header {
     text-align: center;
     align-self: center;
-    font-size: 2.5rem;
+    font-size: 2.3rem;
     font-weight: bold;
     color: #ffeb3b;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
@@ -3707,7 +3707,7 @@ body {
 .company-header {
     text-align: center;
     align-self: center;
-    font-size: 2.5rem;
+    font-size: 2.3rem;
     font-weight: bold;
     color: #ffeb3b;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
