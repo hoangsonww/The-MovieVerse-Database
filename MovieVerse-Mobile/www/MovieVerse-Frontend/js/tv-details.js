@@ -1119,7 +1119,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
 
         closeModalBtn.onclick = function() {
             modal.remove();
-            imageElement.src = modalImage.src.replace('w1280', 'w780'); // Update the main image on modal close
+            imageElement.src = modalImage.src.replace('w1280', 'w780');
         };
 
         modal.addEventListener('click', function(event) {
