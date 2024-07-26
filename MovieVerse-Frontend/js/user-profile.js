@@ -552,11 +552,8 @@ async function removeProfileImage() {
 
     try {
         await setDoc(doc(db, 'profiles', userEmail), { profileImage: defaultImageUrl }, { merge: true });
-
         document.getElementById('profileImage').src = defaultImageUrl;
         document.getElementById('removeProfileImage').style.display = 'none';
-
-        console.log('Profile image reset to default successfully');
     }
     catch (error) {
         console.log("Error removing image: ", error);
