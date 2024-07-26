@@ -740,13 +740,14 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
     const requests = apiKeys.map(key => fetchWithTimeout(key));
     const responses = await Promise.all(requests);
     const data = responses.find(response => response !== null);
-    let imdbRating = data.imdbRating ? data.imdbRating : 'N/A';
 
     if (!data) {
         populateMovieDetails(tmdbMovieData, tmdbMovieData.vote_average, 'N/A', 'Metascore information unavailable, click to search on Metacritics', 'Awards information unavailable');
         return;
     }
-    if (imdbRating === 'N/A' || imdbRating === '0.0') {
+
+    let imdbRating = data.imdbRating ? data.imdbRating : 'N/A';
+    if (imdbRating === 'N/A' || imdbRating === '0.0' || imdbRating === null) {
         imdbRating = 'N/A';
     }
 

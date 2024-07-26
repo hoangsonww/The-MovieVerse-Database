@@ -206,7 +206,7 @@ The MovieVerse is committed to ensuring the security of the platform. Please ref
 
 ## Contact
 
-Son Nguyen Hoang - [@hoangsonww](https://github.com/hoangsonww)
+Son Nguyen - [@hoangsonww](https://github.com/hoangsonww)
 
 Website: [https://movie-verse.com](https://movie-verse.com)
 
