@@ -148,7 +148,8 @@ function setupPagination(mainElementId, paginationContainerId, genresContainerId
             if (data.total_pages) {
                 if (data.total_pages > 250) {
                     totalPages = 250;
-                } else {
+                }
+                else {
                     totalPages = data.total_pages;
                 }
             }
@@ -299,10 +300,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if (!mostVisitedMovieGenre || !mostCommonGenre) {
             recommendedMain.innerHTML = `<div style="display: flex; justify-content: center; align-items: center; height: 100%;">
-                <p style="text-align: center; font-size: 20px;">
-                    Start exploring and rating movies or add them to your favorites to get personalized recommendations.
-                </p>
-            </div>`;
+                                      <p style="text-align: center; font-size: 20px;">
+                                          Start exploring and rating movies or add them to your favorites to get personalized recommendations.
+                                      </p>
+                                  </div>`;
             return;
         }
 
@@ -379,15 +380,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 async function getMovies(url, mainElement, page = 1) {
     showSpinner();
-    url += `&page=${page}`;
 
+    url += `&page=${page}`;
     const numberOfMovies = calculateMoviesToDisplay();
     let allMovies = [];
     const response = await fetch(url);
     const data = await response.json();
-    allMovies = allMovies.concat(data.results);
     const popularityThreshold = 0.5;
-
+    allMovies = allMovies.concat(data.results);
     allMovies.sort((a, b) => {
         const popularityDifference = Math.abs(a.popularity - b.popularity);
         if (popularityDifference < popularityThreshold) {
@@ -402,6 +402,7 @@ async function getMovies(url, mainElement, page = 1) {
     else {
         mainElement.innerHTML = `<p>We're having trouble fetching movies right now. Please try again later.</p>`;
     }
+
     hideSpinner();
 }
 
@@ -464,7 +465,6 @@ function updateFavoriteGenre(genre_ids) {
 
 function updateUniqueMoviesViewed(movieId) {
     let viewedMovies = JSON.parse(localStorage.getItem('uniqueMoviesViewed')) || [];
-
     if (!viewedMovies.includes(movieId)) {
         viewedMovies.push(movieId);
         localStorage.setItem('uniqueMoviesViewed', JSON.stringify(viewedMovies));
@@ -595,7 +595,6 @@ async function rotateUserStats() {
 
     const localTimeDiv = document.getElementById('local-time');
     let statRotationInterval = setInterval(updateStatDisplay, 3000);
-
     localTimeDiv.addEventListener('click', () => {
         clearInterval(statRotationInterval);
         updateStatDisplay();
@@ -606,7 +605,6 @@ async function rotateUserStats() {
 
 function updateMovieVisitCount(movieId, movieTitle) {
     let movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
-
     if (!movieVisits[movieId]) {
         movieVisits[movieId] = { count: 0, title: movieTitle };
     }
@@ -625,6 +623,7 @@ function getMostVisitedMovie() {
             maxVisits = movieVisits[movieId].count;
         }
     }
+
     return mostVisitedMovie || 'Not Available';
 }
 
@@ -640,6 +639,7 @@ async function getMostVisitedMovieGenre() {
             mostVisitedGenre = await fetchGenreForMovie(movieId);
         }
     }
+
     return mostVisitedGenre;
 }
 
@@ -647,7 +647,6 @@ async function fetchGenreForMovie(movieId) {
     const movieDetailsUrl = `https://${getMovieVerseData()}/3/movie/${movieId}?${generateMovieNames()}${getMovieCode()}`;
     const response = await fetch(movieDetailsUrl);
     const movieDetails = await response.json();
-
     return movieDetails.genres[0] ? movieDetails.genres[0].id : null;
 }
 
@@ -668,7 +667,6 @@ function getMostVisitedActor() {
 
 function getMostVisitedDirector() {
     const directorVisits = JSON.parse(localStorage.getItem('directorVisits')) || {};
-
     let mostVisitedDirector = '';
     let maxVisits = 0;
 
@@ -683,7 +681,6 @@ function getMostVisitedDirector() {
 
 function getTriviaAccuracy() {
     let triviaStats = JSON.parse(localStorage.getItem('triviaStats')) || { totalCorrect: 0, totalAttempted: 0 };
-
     if (triviaStats.totalAttempted === 0) {
         return 'No trivia attempted';
     }
@@ -694,7 +691,6 @@ function getTriviaAccuracy() {
 
 function getMostCommonGenre() {
     const favoriteGenresArray = JSON.parse(localStorage.getItem('favoriteGenres')) || [];
-
     const genreCounts = favoriteGenresArray.reduce((acc, genre) => {
         acc[genre] = (acc[genre] || 0) + 1;
         return acc;
