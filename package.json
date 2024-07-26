@@ -1,7 +1,7 @@
 {
   "name": "movieverse",
   "displayName": "The MovieVerse",
-  "version": "1.2.2",
+  "version": "1.2.0",
   "description": "An interactive movie database app that allows users to search for movies, view movie details, and save movies to their favorites list",
   "main": "index.js",
   "scripts": {
