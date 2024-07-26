@@ -1740,7 +1740,6 @@ function selectActorId(actorId, actorName) {
     }
 
     localStorage.setItem('actorVisits', JSON.stringify(actorVisits));
-
     localStorage.setItem('selectedActorId', actorId);
     window.location.href = 'actor-details.html';
 }
