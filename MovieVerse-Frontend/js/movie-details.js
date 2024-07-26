@@ -745,8 +745,9 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
         populateMovieDetails(tmdbMovieData, tmdbMovieData.vote_average, 'N/A', 'Metascore information unavailable, click to search on Metacritics', 'Awards information unavailable');
         return;
     }
+
     let imdbRating = data.imdbRating ? data.imdbRating : 'N/A';
-    if (imdbRating === 'N/A' || imdbRating === '0.0') {
+    if (imdbRating === 'N/A' || imdbRating === '0.0' || imdbRating === null) {
         imdbRating = 'N/A';
     }
 
