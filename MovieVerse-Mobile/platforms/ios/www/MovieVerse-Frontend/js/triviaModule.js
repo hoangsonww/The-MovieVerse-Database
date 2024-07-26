@@ -51,7 +51,6 @@ export async function getTriviaStats(currentUserEmail) {
         try {
             const docSnap = await getDoc(statsRef);
             if (docSnap.exists()) {
-                console.log("Fetched trivia stats from Firebase:", docSnap.data());
                 return docSnap.data();
             }
             else {
@@ -61,7 +60,7 @@ export async function getTriviaStats(currentUserEmail) {
         }
         catch (error) {
             if (error.code === 'resource-exhausted') {
-                console.error("Firebase quota exceeded, fetching trivia stats from localStorage.");
+                console.log("Firebase quota exceeded, fetching trivia stats from localStorage.");
                 return JSON.parse(localStorage.getItem('triviaStats')) || {totalCorrect: 0, totalAttempted: 0};
             }
         }

@@ -12,25 +12,25 @@ function loadApp(name, path, activeWhen, customProps = {}) {
 
 loadApp(
     'navbar',
-    '/path-to-navbar-microfrontend/navbar.js',
-    () => true // always active
+    '/navbar.js',
+    () => true
 );
 
 loadApp(
     'home',
-    '/path-to-home-microfrontend/home.js',
+    '/home.js',
     (location) => location.pathname === '' || location.pathname === '/'
 );
 
 loadApp(
     'movie-details',
-    '/path-to-movie-details-microfrontend/movie-details.js',
+    '/movie-details.js',
     (location) => location.pathname.startsWith('/movie')
 );
 
 loadApp(
     'about',
-    '/path-to-about-microfrontend/about.js',
+    '/about.js',
     (location) => location.pathname.startsWith('/about')
 );
 

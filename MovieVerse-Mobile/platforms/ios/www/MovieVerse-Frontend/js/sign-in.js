@@ -59,7 +59,8 @@ document.getElementById('signInForm').addEventListener('submit', async function(
             localStorage.setItem('isSignedIn', JSON.stringify(true));
             localStorage.setItem('currentlySignedInMovieVerseUser', email);
             window.location.href = '../../index.html';
-        } else {
+        }
+        else {
             alert('Invalid email or password. Ensure that you have entered a correct combination of email and password - one that we have on file.');
         }
     }

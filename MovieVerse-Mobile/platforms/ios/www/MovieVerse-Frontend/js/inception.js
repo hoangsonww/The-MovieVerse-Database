@@ -47,6 +47,7 @@ async function ensureGenreMapIsAvailable() {
 
 async function fetchGenreMap() {
     const url = `https://${getMovieVerseData()}/3/genre/movie/list?${generateMovieNames()}${getMovieCode()}`;
+
     try {
         const response = await fetch(url);
         const data = await response.json();
