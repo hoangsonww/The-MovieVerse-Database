@@ -87,6 +87,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (enabled) {
             button.onclick = clickHandler;
         }
+
+
         return button;
     };
 
