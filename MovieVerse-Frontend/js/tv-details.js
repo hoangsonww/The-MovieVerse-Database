@@ -558,7 +558,7 @@ async function fetchTvDetails(tvSeriesId) {
             const imdbRating = await imdbRatingPromise;
             populateTvSeriesDetails(tvSeriesDetails, imdbRating);
         } else {
-            populateTvSeriesDetails(tvSeriesDetails, 'IMDb data unavailable but you can check it out by clicking here');
+            populateTvSeriesDetails(tvSeriesDetails, 'IMDb rating');
         }
 
         updateBrowserURL(tvSeriesDetails.name);
@@ -577,7 +577,7 @@ async function fetchTvDetails(tvSeriesId) {
 
 async function fetchTVRatings(imdbId) {
     if (!imdbId) {
-        return 'IMDb data unavailable but you can check it out by clicking here';
+        return 'IMDb rating';
     }
 
     const apiKeys = [
@@ -619,7 +619,7 @@ async function fetchTVRatings(imdbId) {
     const responses = await Promise.all(requests);
     const data = responses.find(response => response !== null);
 
-    return data && data.imdbRating ? data.imdbRating : 'IMDb data unavailable but you can check it out by clicking here';
+    return data && data.imdbRating ? data.imdbRating : 'View IMDb rating';
 }
 
 function getLanguageName(code) {
