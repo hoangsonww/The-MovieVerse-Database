@@ -88,6 +88,8 @@ function setProgress(circle, text, percent) {
 }
 
 function handleProfileDisplay() {
+    showSpinner();
+
     const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
     const userEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
     const welcomeMessage = document.getElementById('welcomeMessage');
@@ -95,8 +97,6 @@ function handleProfileDisplay() {
     const viewMyProfileBtn = document.getElementById('viewMyProfileBtn');
     const profileContainer = document.getElementById('profileContainer');
     profileContainer.style.display = 'none';
-
-    showSpinner();
 
     if (isSignedIn && userEmail) {
         loadProfile(userEmail);
