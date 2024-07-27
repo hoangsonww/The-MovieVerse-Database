@@ -153,7 +153,6 @@ function setupPagination(mainElementId, paginationContainerId, genresContainerId
                     totalPages = data.total_pages;
                 }
             }
-
             if (data.results.length > 0) {
                 let allMovies = data.results;
                 const popularityThreshold = 0.5;
