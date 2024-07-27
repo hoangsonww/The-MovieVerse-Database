@@ -1309,6 +1309,7 @@
                     name.className = 'result-name';
                     name.textContent = item.title || item.name;
                     details.appendChild(name);
+
                     const type = document.createElement('div');
                     type.className = 'result-type';
                     type.textContent = item.media_type === 'movie' ? 'Movie' : item.media_type === 'tv' ? 'TV Series' : 'Person';
