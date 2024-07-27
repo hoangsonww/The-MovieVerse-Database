@@ -742,7 +742,7 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
     const data = responses.find(response => response !== null);
 
     if (!data) {
-        populateMovieDetails(tmdbMovieData, tmdbMovieData.vote_average, 'N/A', 'Metascore information unavailable, click to search on Metacritics', 'Awards information unavailable');
+        populateMovieDetails(tmdbMovieData, tmdbMovieData.vote_average, 'N/A', 'View on Metacritics', 'Awards information unavailable');
         return;
     }
 
