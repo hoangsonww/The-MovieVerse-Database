@@ -2,7 +2,7 @@
 
 <p align="center" style="cursor: pointer">
   <a href="https://movie-verse.com">
-    <img src="../images/uwu.webp" alt="The MovieVerse App Interface" style="border-radius: 10px" width="200"/>
+    <img src="../images/uwu.webp" alt="The MovieVerse App Logo" style="border-radius: 10px" width="200"/>
   </a>
 </p>
 
