@@ -1287,7 +1287,6 @@
                     card.style.cursor = 'pointer';
 
                     const imagePath = item.poster_path || item.profile_path ? `https://image.tmdb.org/t/p/w185${item.poster_path || item.profile_path}` : null;
-
                     if (imagePath) {
                         const image = document.createElement('img');
                         image.src = imagePath;
@@ -1302,12 +1301,15 @@
                         placeholder.style.padding = '10px';
                         card.appendChild(placeholder);
                     }
+
                     const details = document.createElement('div');
                     details.className = 'result-details';
+
                     const name = document.createElement('div');
                     name.className = 'result-name';
                     name.textContent = item.title || item.name;
                     details.appendChild(name);
+
                     const type = document.createElement('div');
                     type.className = 'result-type';
                     type.textContent = item.media_type === 'movie' ? 'Movie' : item.media_type === 'tv' ? 'TV Series' : 'Person';

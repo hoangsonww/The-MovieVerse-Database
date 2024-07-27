@@ -153,7 +153,6 @@ function setupPagination(mainElementId, paginationContainerId, genresContainerId
                     totalPages = data.total_pages;
                 }
             }
-
             if (data.results.length > 0) {
                 let allMovies = data.results;
                 const popularityThreshold = 0.5;
@@ -1055,12 +1054,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
 function handleSearch() {
     const searchQuery = document.getElementById('search').value;
+
     localStorage.setItem('searchQuery', searchQuery);
     window.location.href = 'MovieVerse-Frontend/html/search.html';
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     const notificationBtn = document.getElementById('notificationBtn');
+
     notificationBtn.addEventListener('click', () => {
         window.location.href = 'MovieVerse-Frontend/html/notifications.html';
     });

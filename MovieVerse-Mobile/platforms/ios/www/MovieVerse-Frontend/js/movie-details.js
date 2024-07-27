@@ -698,7 +698,7 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
     showSpinner();
     document.body.offsetHeight;
 
-    const apiKeys = [
+    const req = [
         await getMovieCode2(),
         '58efe859',
         '60a09d79',
@@ -707,7 +707,8 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
         'cbfc076',
         'dc091ff2',
         '6e367eef',
-        '2a2a3080'
+        '2a2a3080',
+        'd20a931f'
     ];
     const baseURL = `https://${getMovieActor()}/?i=${imdbId}&${getMovieName()}`;
 
@@ -737,12 +738,12 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
         });
     }
 
-    const requests = apiKeys.map(key => fetchWithTimeout(key));
+    const requests = req.map(key => fetchWithTimeout(key));
     const responses = await Promise.all(requests);
     const data = responses.find(response => response !== null);
 
     if (!data) {
-        populateMovieDetails(tmdbMovieData, tmdbMovieData.vote_average, 'N/A', 'Metascore information unavailable, click to search on Metacritics', 'Awards information unavailable');
+        populateMovieDetails(tmdbMovieData, tmdbMovieData.vote_average, 'N/A', 'View on Metacritics', 'Awards information unavailable');
         return;
     }
 
@@ -1591,6 +1592,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     const movieId = movie.id;
     const code = `${getMovieCode()}`;
     const url2 = `https://${getMovieVerseData()}/3/movie/${movieId}?${generateMovieNames()}${code}&append_to_response=videos`;
+
     try {
         const response2 = await fetch(url2);
         const movie2 = await response2.json();
@@ -1601,6 +1603,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
             trailerButton = createTrailerButton(trailerUrl);
             detailsContainer.appendChild(trailerButton);
         }
+
         updateBrowserURL(movie.title);
     }
     catch (error) {

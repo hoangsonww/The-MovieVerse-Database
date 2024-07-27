@@ -14,7 +14,7 @@
     "ecosystem:cordova"
   ],
   "author": "Son Nguyen",
-  "license": "MIT",
+  "license": "CC BY-NC 4.0",
   "cordova": {
     "platforms": [
       "android",

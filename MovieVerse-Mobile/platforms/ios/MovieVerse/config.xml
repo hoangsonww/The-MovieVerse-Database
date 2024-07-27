@@ -32,7 +32,7 @@
     <name>MovieVerse</name>
     <description>Your Ultimate Movie and Filmography Database</description>
     <author email="info@movie-verse.com" href="https://sonnguyenhoang.com/">
-        David Nguyen
+        Son Nguyen
     </author>
     <content src="launch-screen.html" />
     <allow-intent href="https://*/*" />
