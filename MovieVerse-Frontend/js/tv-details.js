@@ -619,7 +619,7 @@ async function fetchTVRatings(imdbId) {
     const responses = await Promise.all(requests);
     const data = responses.find(response => response !== null);
 
-    return data && data.imdbRating ? data.imdbRating : 'View IMDb rating';
+    return data && data.imdbRating ? data.imdbRating : 'View on IMDb';
 }
 
 function getLanguageName(code) {
