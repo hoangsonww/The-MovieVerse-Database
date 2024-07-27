@@ -65,6 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
         for (let i = startPage; i <= endPage; i++) {
             paginationContainer.appendChild(createPageButton(i));
         }
+
         if (endPage < totalPages) {
             if (endPage < totalPages - 1) paginationContainer.appendChild(createPageButton('...'));
             paginationContainer.appendChild(createPageButton(totalPages));
