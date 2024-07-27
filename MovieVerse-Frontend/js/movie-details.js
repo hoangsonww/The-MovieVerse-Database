@@ -1592,6 +1592,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     const movieId = movie.id;
     const code = `${getMovieCode()}`;
     const url2 = `https://${getMovieVerseData()}/3/movie/${movieId}?${generateMovieNames()}${code}&append_to_response=videos`;
+
     try {
         const response2 = await fetch(url2);
         const movie2 = await response2.json();
