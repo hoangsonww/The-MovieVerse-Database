@@ -1173,7 +1173,7 @@ header h1 {
     padding: 10px;
     box-sizing: border-box;
     overflow-y: auto;
-    margin-top: 70px;
+    margin-top: 0;
 }
 
 .director-right {
@@ -1181,7 +1181,7 @@ header h1 {
     padding: 10px;
     box-sizing: border-box;
     overflow-y: auto;
-    margin-top: 40px;
+    margin-top: 30px;
 }
 
 .movie-link {
