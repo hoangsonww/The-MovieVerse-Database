@@ -1060,6 +1060,7 @@ function handleSearch() {
 
 document.addEventListener('DOMContentLoaded', () => {
     const notificationBtn = document.getElementById('notificationBtn');
+
     notificationBtn.addEventListener('click', () => {
         window.location.href = 'MovieVerse-Frontend/html/notifications.html';
     });
