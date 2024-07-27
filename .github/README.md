@@ -175,6 +175,7 @@ Or, for your convenience, you may simply run the following command, provided tha
     ```
 14. Open a Pull Request (if you want to merge your changes to our official app!)
 15. Enjoy coding and [let me know](https://github.com/hoangsonww/The-MovieVerse-Database/discussions) if you have any questions!
+16. If you'd also like to access full advanced features of the app's development, please [contact me](mailto:info@movie-verse.com)
 
 ## Privacy Policy
 
