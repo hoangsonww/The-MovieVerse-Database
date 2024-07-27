@@ -589,7 +589,8 @@ async function fetchTVRatings(imdbId) {
         'cbfc076',
         'dc091ff2',
         '6e367eef',
-        '2a2a3080'
+        '2a2a3080',
+        'd20a931f'
     ];
 
     const baseURL = `https://${getMovieActor()}/?i=${imdbId}&${getMovieName()}`;
