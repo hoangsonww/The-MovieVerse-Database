@@ -249,6 +249,7 @@ document.getElementById('container2').addEventListener('click', async () => {
 });
 
 async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMovieVerseUser')) {
+    showSpinner();
     try {
         document.getElementById('viewMyProfileBtn').disabled = false;
 
@@ -381,9 +382,12 @@ async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMo
 
                 if (userEmail === localStorage.getItem('currentlySignedInMovieVerseUser')) {
                     welcomeMessage.textContent = `Welcome, ${profile.username}!`;
-                } else {
+                }
+                else {
                     welcomeMessage.textContent = `Viewing ${profile.username}'s profile`;
                 }
+
+                hideSpinner();
 
                 await Promise.all([
                     displayUserList('following', userEmail),
@@ -419,6 +423,8 @@ async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMo
                 else {
                     welcomeMessage.textContent = `Viewing ${profile.username}'s profile`;
                 }
+
+                hideSpinner();
 
                 await Promise.all([
                     displayUserList('following', userEmail),
