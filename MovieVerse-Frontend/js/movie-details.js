@@ -1602,6 +1602,11 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
             trailerButton = createTrailerButton(trailerUrl);
             detailsContainer.appendChild(trailerButton);
         }
+        else {
+            const noTrailerElement = document.createElement('p');
+            noTrailerElement.innerHTML = `<strong>Trailer:</strong> No trailer available`;
+            detailsContainer.appendChild(noTrailerElement);
+        }
         updateBrowserURL(movie.title);
     }
     catch (error) {
