@@ -88,7 +88,6 @@ document.addEventListener('DOMContentLoaded', function() {
             button.onclick = clickHandler;
         }
 
-
         return button;
     };
 
