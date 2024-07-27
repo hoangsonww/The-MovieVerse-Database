@@ -1287,7 +1287,6 @@
                     card.style.cursor = 'pointer';
 
                     const imagePath = item.poster_path || item.profile_path ? `https://image.tmdb.org/t/p/w185${item.poster_path || item.profile_path}` : null;
-
                     if (imagePath) {
                         const image = document.createElement('img');
                         image.src = imagePath;
@@ -1302,6 +1301,7 @@
                         placeholder.style.padding = '10px';
                         card.appendChild(placeholder);
                     }
+
                     const details = document.createElement('div');
                     details.className = 'result-details';
 
