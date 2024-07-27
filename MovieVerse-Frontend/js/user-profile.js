@@ -129,7 +129,6 @@ function handleProfileDisplay() {
 
 function setupSearchListeners() {
     try {
-        showSpinner();
         const searchUserInput = document.getElementById('searchUserInput');
         const searchUserResults = document.getElementById('searchUserResults');
 
@@ -144,7 +143,6 @@ function setupSearchListeners() {
                 searchUserResults.style.display = 'none';
             }
         });
-        hideSpinner();
     }
     catch (error) {
         console.error("Error fetching user list: ", error);
@@ -207,8 +205,6 @@ async function performSearch(searchText) {
 }
 
 document.getElementById('container1').addEventListener('click', async () => {
-    showSpinner();
-
     const userEmail = localStorage.getItem('currentlyViewingProfile');
 
     if (!userEmail) {
@@ -228,13 +224,9 @@ document.getElementById('container1').addEventListener('click', async () => {
     catch (error) {
         console.error('Error updating progress circles:', error);
     }
-
-    hideSpinner();
 });
 
 document.getElementById('container2').addEventListener('click', async () => {
-    showSpinner();
-
     const userEmail = localStorage.getItem('currentlyViewingProfile');
 
     if (!userEmail) {
@@ -254,14 +246,10 @@ document.getElementById('container2').addEventListener('click', async () => {
     catch (error) {
         console.error('Error updating progress circles:', error);
     }
-
-    hideSpinner();
 });
 
 async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMovieVerseUser')) {
     try {
-        showSpinner();
-
         document.getElementById('viewMyProfileBtn').disabled = false;
 
         if (!userEmail) return;
@@ -397,8 +385,10 @@ async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMo
                     welcomeMessage.textContent = `Viewing ${profile.username}'s profile`;
                 }
 
-                await displayUserList('following', userEmail);
-                await displayUserList('followers', userEmail);
+                await Promise.all([
+                    displayUserList('following', userEmail),
+                    displayUserList('followers', userEmail)
+                ]);
             }
             else {
                 const imageUrl = profile.profileImage || '../../images/user-default.png';
@@ -430,8 +420,10 @@ async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMo
                     welcomeMessage.textContent = `Viewing ${profile.username}'s profile`;
                 }
 
-                await displayUserList('following', userEmail);
-                await displayUserList('followers', userEmail);
+                await Promise.all([
+                    displayUserList('following', userEmail),
+                    displayUserList('followers', userEmail)
+                ]);
             }
         }
         catch (error) {
@@ -441,13 +433,10 @@ async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMo
                     noUserSelected.innerHTML = "Sorry, our database is currently overloaded. Please try reloading once more, and if that still doesn't work, please try again in a couple hours. For full transparency, we are currently using a database that has a limited number of reads and writes per day due to lack of funding. Thank you for your patience as we work on scaling our services. At the mean time, feel free to use other MovieVerse features!";
                     noUserSelected.style.height = '350px';
                 }
-                hideSpinner();
             }
 
             document.getElementById('viewMyProfileBtn').disabled = true;
         }
-
-        hideSpinner();
     }
     catch (error) {
         console.error("Error fetching user list: ", error);
@@ -457,7 +446,6 @@ async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMo
                 noUserSelected.innerHTML = "Sorry, our database is currently overloaded. Please try reloading once more, and if that still doesn't work, please try again in a couple hours. For full transparency, we are currently using a database that has a limited number of reads and writes per day due to lack of funding. Thank you for your patience as we work on scaling our services. At the mean time, feel free to use other MovieVerse features!";
                 noUserSelected.style.height = '350px';
             }
-            hideSpinner();
         }
 
         document.getElementById('viewMyProfileBtn').disabled = true;
@@ -465,43 +453,62 @@ async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMo
 }
 
 async function displayUserList(listType, userEmail) {
-    showSpinner();
-
     const db = getFirestore();
     const listRef = collection(db, 'profiles', userEmail, listType);
-    const snapshot = await getDocs(listRef);
     const userListSpan = document.getElementById(`${listType}List`);
 
-    userListSpan.innerHTML = '';
-
-    if (snapshot.empty) {
-        userListSpan.textContent = 'N/A';
+    let loadingInterval;
+    function startLoadingAnimation() {
+        let dots = '';
+        loadingInterval = setInterval(() => {
+            dots = dots.length < 3 ? dots + '.' : '';
+            userListSpan.textContent = `Loading${dots}`;
+        }, 500);
     }
-    else {
-        for (let docSnapshot of snapshot.docs) {
-            const userRef = doc(db, 'profiles', docSnapshot.id);
-            const userSnap = await getDoc(userRef);
-            if (userSnap.exists()) {
-                const userData = userSnap.data();
 
-                const userLink = document.createElement('a');
-                userLink.textContent = userData.username;
-                userLink.href = '#';
-                userLink.id = "userLink"
-                userLink.style.cursor = 'pointer';
-                userLink.onclick = () => loadProfile(docSnapshot.id);
+    function stopLoadingAnimation() {
+        clearInterval(loadingInterval);
+        userListSpan.innerHTML = '';
+    }
 
-                userListSpan.appendChild(userLink);
-                userListSpan.appendChild(document.createTextNode(', '));
+    startLoadingAnimation();
+
+    try {
+        const snapshot = await getDocs(listRef);
+        stopLoadingAnimation();
+
+        if (snapshot.empty) {
+            userListSpan.textContent = 'N/A';
+        }
+        else {
+            for (let docSnapshot of snapshot.docs) {
+                const userRef = doc(db, 'profiles', docSnapshot.id);
+                const userSnap = await getDoc(userRef);
+                if (userSnap.exists()) {
+                    const userData = userSnap.data();
+
+                    const userLink = document.createElement('a');
+                    userLink.textContent = userData.username;
+                    userLink.href = '#';
+                    userLink.id = "userLink";
+                    userLink.style.cursor = 'pointer';
+                    userLink.onclick = () => loadProfile(docSnapshot.id);
+
+                    userListSpan.appendChild(userLink);
+                    userListSpan.appendChild(document.createTextNode(', '));
+                }
+            }
+
+            if (userListSpan.lastChild) {
+                userListSpan.removeChild(userListSpan.lastChild);
             }
         }
-
-        if (userListSpan.lastChild) {
-            userListSpan.removeChild(userListSpan.lastChild);
-        }
     }
-
-    hideSpinner();
+    catch (error) {
+        console.error('Error fetching user list:', error);
+        stopLoadingAnimation();
+        userListSpan.innerHTML = 'Error loading data';
+    }
 }
 
 async function saveProfileChanges() {
@@ -627,8 +634,6 @@ function resizeImageAndConvertToBase64(file, maxWidth, maxHeight) {
 }
 
 function setupEventListeners() {
-    showSpinner();
-
     document.getElementById('saveChanges').addEventListener('click', async () => {
         await saveProfileChanges();
     });
@@ -700,6 +705,4 @@ function setupEventListeners() {
     document.getElementById('removeProfileImage').addEventListener('click', async () => {
         await removeProfileImage();
     });
-
-    hideSpinner();
 }
