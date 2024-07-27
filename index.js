@@ -84,7 +84,6 @@ document.addEventListener('DOMContentLoaded', function() {
         button.disabled = !enabled;
         button.className = 'nav-button';
 
-
         if (enabled) {
             button.onclick = clickHandler;
         }
