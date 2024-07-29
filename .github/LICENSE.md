@@ -66,7 +66,7 @@ m. **You** means the individual or entity exercising the Licensed Rights under t
 
 Your exercise of the Licensed Rights is expressly made subject to the following conditions.
 
-### a. Attribution.
+### a. Attribution
 
 1. If You Share the Licensed Material (including in modified form), You must:
 
