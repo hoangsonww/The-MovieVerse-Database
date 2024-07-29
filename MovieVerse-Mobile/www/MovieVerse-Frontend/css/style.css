@@ -1285,6 +1285,14 @@ header h1 {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
+.question-header {
+  color: #ff8623;
+}
+
+.question-header:hover {
+  color: orange;
+}
+
 #rating {
   color: inherit;
 }

@@ -577,6 +577,8 @@ async function fetchTvDetails(tvSeriesId) {
 }
 
 async function fetchTVRatings(imdbId) {
+  showSpinner();
+
   if (!imdbId) {
     return 'IMDb rating';
   }
@@ -610,6 +612,7 @@ async function fetchTVRatings(imdbId) {
   const responses = await Promise.all(requests);
   const data = responses.find(response => response !== null);
 
+  hideSpinner();
   return data && data.imdbRating ? data.imdbRating : 'View on IMDb';
 }
 
