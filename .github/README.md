@@ -175,7 +175,7 @@ Or, for your convenience, you may simply run the following command, provided tha
     Note the naming convention:
     - For branches: The names will have 2 parts: `feature/` or `fix/` followed by the feature or fix name.
     - For commits: The commit message will also have 2 parts: `Update:` or `Fix:` followed by the update or fix description.
-13. Push to your branch:
+14. Push to your branch:
     ```bash
     git push origin feature/AmazingFeature
     ```
