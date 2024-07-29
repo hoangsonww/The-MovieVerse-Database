@@ -440,7 +440,6 @@ async function populateDirectorDetails(director, credits) {
   nextButton.onclick = () => navigateMedia(images, imageElement, 1);
 
   let rotationInterval;
-
   if (images.length === 0) {
     mediaContainer.innerHTML = "<p>No media available</p>";
   } else if (images.length > 1) {
