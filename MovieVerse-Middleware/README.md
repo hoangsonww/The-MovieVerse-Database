@@ -92,6 +92,6 @@ Contributions to improve or extend the functionality of these middleware compone
 
 ## License
 
-This entire project is licensed under MIT's license. View the [LICENSE](../LICENSE) file for more details.
+This entire project is licensed under CC BY-NC 4.0 license. View the [LICENSE](../LICENSE.md) file for more details.
 
 ---

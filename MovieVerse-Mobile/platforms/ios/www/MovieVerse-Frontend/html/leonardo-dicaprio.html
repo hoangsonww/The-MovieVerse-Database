@@ -1,470 +1,531 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
-
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Actor Details - Leonardo DiCaprio</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/style.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
     <meta http-equiv="content-language" content="en" />
-    <meta name="description" content="Dive into the career of Leonardo DiCaprio, featuring his filmography, latest movies, and achievements, on The MovieVerse.">
-    <link rel="canonical" href="https://movie-verse.com/MovieVerse-Frontend/html/leonardo-dicaprio.html">
-    <meta property="og:title" content="Actor Details - Leonardo DiCaprio">
-    <meta property="og:description" content="Dive into the career of Leonardo DiCaprio, featuring his filmography, latest movies, and achievements, on The MovieVerse." />
+    <meta
+      name="description"
+      content="Dive into the career of Leonardo DiCaprio, featuring his filmography, latest movies, and achievements, on The MovieVerse."
+    />
+    <link rel="canonical" href="https://movie-verse.com/MovieVerse-Frontend/html/leonardo-dicaprio.html" />
+    <meta property="og:title" content="Actor Details - Leonardo DiCaprio" />
+    <meta
+      property="og:description"
+      content="Dive into the career of Leonardo DiCaprio, featuring his filmography, latest movies, and achievements, on The MovieVerse."
+    />
     <meta property="og:url" content="https://movie-verse.com/MovieVerse-Frontend/html/leonardo-dicaprio.html" />
     <meta property="og:site_name" content="The MovieVerse" />
-    <meta property="og:image" content="https://movie-verse.com/images/image.png"/>
+    <meta property="og:image" content="https://movie-verse.com/images/image.png" />
     <meta property="og:favicon" content="./images/favicon.ico" />
-    <meta name="keywords" content="movies, film guide, directors, actors, movie genres, cinema, film reviews">
-    <meta name="author" content="Son Nguyen Hoang">
-    <meta name="robots" content="index, follow">
-    <meta name="rating" content="General">
-    <meta name="revisit-after" content="3 days">
-    <meta name="distribution" content="global">
-    <meta http-equiv="content-language" content="en">
-    <meta name="language" content="en">
-    <meta name="theme-color" content="#7378c5">
+    <meta name="keywords" content="movies, film guide, directors, actors, movie genres, cinema, film reviews" />
+    <meta name="author" content="Son Nguyen Hoang" />
+    <meta name="robots" content="index, follow" />
+    <meta name="rating" content="General" />
+    <meta name="revisit-after" content="3 days" />
+    <meta name="distribution" content="global" />
+    <meta http-equiv="content-language" content="en" />
+    <meta name="language" content="en" />
+    <meta name="theme-color" content="#7378c5" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@MovieVerse" />
     <meta name="twitter:creator" content="@hoangsonw" />
-    <meta name="twitter:title" content="Actor Details - Leonardo DiCaprio">
-    <meta name="twitter:description" content="Dive into the career of Leonardo DiCaprio, featuring his filmography, latest movies, and achievements, on The MovieVerse.">
-    <meta name="twitter:image" content="https://movie-verse.com/images/image.png"/>
-    <meta name="referrer" content="no-referrer-when-downgrade">
+    <meta name="twitter:title" content="Actor Details - Leonardo DiCaprio" />
+    <meta
+      name="twitter:description"
+      content="Dive into the career of Leonardo DiCaprio, featuring his filmography, latest movies, and achievements, on The MovieVerse."
+    />
+    <meta name="twitter:image" content="https://movie-verse.com/images/image.png" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
     <script src="../js/leonardo-dicarprio.js" defer></script>
-    <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
-    <link rel="manifest" href="../../manifest.json">
+    <link rel="icon" type="image/x-icon" href="../../images/favicon.ico" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="manifest" href="../../manifest.json" />
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
 
-        gtag('config', 'G-CQKJ67FXZ4');
+      gtag('config', 'G-CQKJ67FXZ4');
     </script>
     <style>
-        @font-face {
-            font-family: 'Poppins';
-            src: url('https://movie-verse.com/fonts/Poppins-Light.ttf') format('truetype');
-            font-weight: 200;
-            font-style: normal;
-            font-display: swap;
-        }
+      @font-face {
+        font-family: 'Poppins';
+        src: url('https://movie-verse.com/fonts/Poppins-Light.ttf') format('truetype');
+        font-weight: 200;
+        font-style: normal;
+        font-display: swap;
+      }
 
-        @font-face {
-            font-family: 'Poppins';
-            src: url('https://movie-verse.com/fonts/Poppins-Regular.ttf') format('truetype');
-            font-weight: 400;
-            font-style: normal;
-            font-display: swap;
-        }
+      @font-face {
+        font-family: 'Poppins';
+        src: url('https://movie-verse.com/fonts/Poppins-Regular.ttf') format('truetype');
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
 
-        @font-face {
-            font-family: 'Poppins';
-            src: url('https://movie-verse.com/fonts/Poppins-SemiBold.ttf') format('truetype');
-            font-weight: 600;
-            font-style: normal;
-            font-display: swap;
-        }
+      @font-face {
+        font-family: 'Poppins';
+        src: url('https://movie-verse.com/fonts/Poppins-SemiBold.ttf') format('truetype');
+        font-weight: 600;
+        font-style: normal;
+        font-display: swap;
+      }
 
+      body {
+        font-family: 'Poppins', sans-serif;
+      }
+
+      body {
+        background-image: url('https://movie-verse.com/images/universe-1.webp');
+        background-repeat: repeat-y;
+        background-size: 100% auto;
+      }
+
+      @media (max-width: 767px) {
         body {
-            font-family: 'Poppins', sans-serif;
+          background-size: auto;
+          background-position: top center;
         }
-
-        body {
-            background-image: url("https://movie-verse.com/images/universe-1.webp");
-            background-repeat: repeat-y;
-            background-size: 100% auto;
-        }
-
-        @media (max-width: 767px) {
-            body {
-                background-size: auto;
-                background-position: top center;
-            }
-        }
+      }
     </style>
     <style>
+      #translate_control {
+        position: fixed;
+        left: 10px;
+        bottom: 10px;
+        z-index: 1000000;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+      }
+
+      @media (max-width: 767px) {
         #translate_control {
-            position: fixed;
-            left: 10px;
-            bottom: 10px;
-            z-index: 1000000;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            border-radius: 8px;
+          display: block;
+          bottom: 70px;
+          position: fixed;
+          left: 10px;
+          z-index: 1000000;
         }
+      }
 
-        @media (max-width: 767px) {
-            #translate_control {
-                display: block;
-                bottom: 70px;
-                position: fixed;
-                left: 10px;
-                z-index: 1000000;
-            }
-        }
+      .translate-trigger {
+        background-color: #7378c5;
+        color: white;
+        padding: 10px;
+        border-radius: 8px;
+        cursor: pointer;
+      }
 
-        .translate-trigger {
-            background-color: #7378c5;
-            color: white;
-            padding: 10px;
-            border-radius: 8px;
-            cursor: pointer;
-        }
+      .translate-trigger:hover {
+        background-color: #ff8623;
+        transition: 0.1s ease-in;
+      }
 
-        .translate-trigger:hover {
-            background-color: #ff8623;
-            transition: 0.1s ease-in;
-        }
+      #google_translate_element {
+        display: none;
+        position: fixed;
+        left: 10px;
+        bottom: 60px;
+        background-color: #7378c5;
+        border: none;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        padding: 5px;
+        border-radius: 8px;
+        z-index: 100000000;
+        font: inherit;
+        color: white;
+      }
 
+      .goog-te-combo {
+        background-color: #7378c5 !important;
+        color: white !important;
+        border: 0.5px solid white !important;
+        border-radius: 8px !important;
+        font-size: 15px !important;
+        padding-left: 5px !important;
+      }
+
+      .skiptranslate {
+        color: white !important;
+      }
+
+      .goog-te-banner-frame {
+        opacity: 0.8 !important;
+        background-color: #f4f4f4 !important;
+      }
+
+      @media (max-width: 767px) {
         #google_translate_element {
-            display: none;
-            position: fixed;
-            left: 10px;
-            bottom: 60px;
-            background-color: #7378c5;
-            border: none;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            padding: 5px;
-            border-radius: 8px;
-            z-index: 100000000;
-            font: inherit;
-            color: white;
+          bottom: 120px;
         }
 
-        .goog-te-combo {
-            background-color: #7378c5 !important;
-            color: white !important;
-            border: 0.5px solid white !important;
-            border-radius: 8px !important;
-            font-size: 15px !important;
-            padding-left: 5px !important;
+        #translate_control {
+          bottom: 70px;
         }
-
-        .skiptranslate {
-            color: white !important;
-        }
-
-        .goog-te-banner-frame {
-            opacity: 0.8 !important;
-            background-color: #f4f4f4 !important;
-        }
-
-        @media (max-width: 767px) {
-            #google_translate_element {
-                bottom: 120px;
-            }
-
-            #translate_control {
-                bottom: 70px;
-            }
-        }
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <div id="google_translate_element"></div>
     <div id="translate_control">
-        <div class="translate-trigger">Translate</div>
+      <div class="translate-trigger">Translate</div>
     </div>
 
     <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <script>
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({
-                pageLanguage: 'en',
-                layout: google.translate.TranslateElement.InlineLayout.VERTICAL,
-                autoDisplay: false
-            }, 'google_translate_element');
-        }
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement(
+          {
+            pageLanguage: 'en',
+            layout: google.translate.TranslateElement.InlineLayout.VERTICAL,
+            autoDisplay: false,
+          },
+          'google_translate_element'
+        );
+      }
 
-        document.querySelector('.translate-trigger').addEventListener('click', function() {
-            const translateEl = document.getElementById('google_translate_element');
-            translateEl.style.display = translateEl.style.display === 'block' ? 'none' : 'block';
-        });
+      document.querySelector('.translate-trigger').addEventListener('click', function () {
+        const translateEl = document.getElementById('google_translate_element');
+        translateEl.style.display = translateEl.style.display === 'block' ? 'none' : 'block';
+      });
 
-        document.addEventListener('DOMContentLoaded', function() {
-            let lastScrollTop = window.scrollY;
-            const translateControl = document.getElementById('translate_control');
-            const translateEl = document.getElementById('google_translate_element');
+      document.addEventListener('DOMContentLoaded', function () {
+        let lastScrollTop = window.scrollY;
+        const translateControl = document.getElementById('translate_control');
+        const translateEl = document.getElementById('google_translate_element');
 
-            window.addEventListener('scroll', function() {
-                let scrollTop = window.scrollY;
+        window.addEventListener(
+          'scroll',
+          function () {
+            let scrollTop = window.scrollY;
 
-                if (window.innerWidth <= 767) {
-                    if (scrollTop > lastScrollTop && scrollTop > 0) {
-                        translateControl.style.display = 'none';
-                        translateEl.style.display = 'none';
-                    }
-                    else {
-                        translateControl.style.display = 'block';
-                    }
-                    lastScrollTop = scrollTop;
-                }
-            }, { passive: true });
-        })
+            if (window.innerWidth <= 767) {
+              if (scrollTop > lastScrollTop && scrollTop > 0) {
+                translateControl.style.display = 'none';
+                translateEl.style.display = 'none';
+              } else {
+                translateControl.style.display = 'block';
+              }
+              lastScrollTop = scrollTop;
+            }
+          },
+          { passive: true }
+        );
+      });
     </script>
     <header>
-        <h1 id="my-heading" style="margin-bottom: -10px; margin-top: 19px" class="notranslate">
-            <a id="indexLink" href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer">
-                The Mo<span class="highlight" id="highlight">vieV</span>erse
-            </a>
-        </h1>
+      <h1 id="my-heading" style="margin-bottom: -10px; margin-top: 19px" class="notranslate">
+        <a id="indexLink" href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer">
+          The Mo<span class="highlight" id="highlight">vieV</span>erse
+        </a>
+      </h1>
 
-        <div id="local-time" style="cursor: pointer; margin-left: 40px" title="Click to view more of your stats!">
-            <p id="stats-label" class="clock" style="font-size: 16px;"></p>
-            <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold;"></div>
+      <div id="local-time" style="cursor: pointer; margin-left: 40px" title="Click to view more of your stats!">
+        <p id="stats-label" class="clock" style="font-size: 16px"></p>
+        <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold"></div>
+      </div>
+
+      <button class="back-btn notranslate" onclick="window.location.href='../../index.html'">Home</button>
+
+      <button class="about notranslate" onclick="window.location.href='about.html'">About</button>
+
+      <button class="favorites-btn notranslate" onclick="window.location.href='favorites.html'" title="View your favorites & watchlists">
+        Favorites
+      </button>
+
+      <button id="googleSignInBtn" class="nav-btn notranslate" onclick="handleSignInOut()" title="Sign In/Out">
+        <span id="signInOutText">Sign In</span>
+        <i class="fas fa-sign-in-alt" id="signInIcon"></i>
+        <i class="fas fa-sign-out-alt" id="signOutIcon" style="display: none"></i>
+      </button>
+
+      <button id="profileBtn" class="nav-btn notranslate" onclick="window.location.href='user-profile.html'" title="Go to your profile">
+        <span id="profileText">Profile</span>
+        <i class="fas fa-user" id="profileIcon"></i>
+      </button>
+
+      <form id="form1">
+        <div class="search-container">
+          <input
+            type="text"
+            id="search"
+            placeholder="Search For Films, Actors..."
+            class="search"
+            title="Search for movies, actors, TV series, and more!"
+          />
+          <button type="button" id="button-search" onclick="handleSearch()">Search</button>
         </div>
 
-        <button class="back-btn notranslate" onclick="window.location.href='../../index.html'">Home</button>
+        <div id="search-results" class="search-results"></div>
 
-        <button class="about notranslate" onclick="window.location.href='about.html'">About</button>
-
-        <button class="favorites-btn notranslate" onclick="window.location.href='favorites.html'" title="View your favorites & watchlists">Favorites</button>
-
-        <button id="googleSignInBtn" class="nav-btn notranslate" onclick="handleSignInOut()" title="Sign In/Out">
-            <span id="signInOutText">Sign In</span>
-            <i class="fas fa-sign-in-alt" id="signInIcon"></i>
-            <i class="fas fa-sign-out-alt" id="signOutIcon" style="display: none;"></i>
-        </button>
-
-        <button id="profileBtn" class="nav-btn notranslate" onclick="window.location.href='user-profile.html'" title="Go to your profile">
-            <span id="profileText">Profile</span>
-            <i class="fas fa-user" id="profileIcon"></i>
-        </button>
-
-        <form id="form1">
-            <div class="search-container">
-                <input type="text" id="search" placeholder="Search For Films, Actors..." class="search" title="Search for movies, actors, TV series, and more!" />
-                <button type="button" id="button-search" onclick="handleSearch()">Search</button>
-            </div>
-
-            <div id="search-results" class="search-results"></div>
-
-            <div class="buttons-container">
-                <button type="button" id="view-all-results" style="display: none;">View more results</button>
-                <button type="button" id="clear-search" style="display: none">Clear</button>
-            </div>
-        </form>
+        <div class="buttons-container">
+          <button type="button" id="view-all-results" style="display: none">View more results</button>
+          <button type="button" id="clear-search" style="display: none">Clear</button>
+        </div>
+      </form>
     </header>
 
     <div class="genres" style="margin-left: 25px">
-        <h2 id="search-title"></h2>
-        <button id="clear-search-btn" style="display: none;">Clear Search Results</button>
+      <h2 id="search-title"></h2>
+      <button id="clear-search-btn" style="display: none">Clear Search Results</button>
     </div>
 
     <main id="main" style="margin-left: 25px"></main>
 
     <div class="details-container" id="actor-details-container">
-        <!-- Left side for Actor Image -->
-        <div class="actor-left" style="overflow: hidden">
-            <h2 id="actor-name" class="actor-header"></h2>
-            <img id="actor-image" alt="Loading Actor Details..." style="width: 25vw"/>
-        </div>
+      <!-- Left side for Actor Image -->
+      <div class="actor-left" style="overflow: hidden">
+        <h2 id="actor-name" class="actor-header"></h2>
+        <img id="actor-image" alt="Loading Actor Details..." style="width: 25vw" />
+      </div>
 
-        <!-- Right side for Description and Info -->
-        <div class="actor-right" id="actor-description">
-            <!-- Actor details will be populated here -->
-        </div>
+      <!-- Right side for Description and Info -->
+      <div class="actor-right" id="actor-description">
+        <!-- Actor details will be populated here -->
+      </div>
     </div>
 
     <script src="../js/leonardo-dicarprio.js"></script>
 
-    <button id="chat-button" onclick="window.location.href='chat.html'" style="bottom: 300px; right: 10px; z-index: 1001" title="Chat with fellow MovieVerse users!">Chat</button>
+    <button
+      id="chat-button"
+      onclick="window.location.href='chat.html'"
+      style="bottom: 300px; right: 10px; z-index: 1001"
+      title="Chat with fellow MovieVerse users!"
+    >
+      Chat
+    </button>
     <button id="settings-btn" style="position: fixed; bottom: 265px; right: 10px">Settings</button>
-    <button id="movie-match-btn3" onclick="window.location.href='movie-match.html'" title="Find a movie that matches your mood, genre, and time period!" style="bottom: 230px; right: 10px">Movie Match</button>
-    <button id="movie-timeline-btn" onclick="window.location.href='movie-timeline.html'" title="Explore movies through different eras!" style="bottom: 195px; right: 10px">Movie Timeline</button>
-    <button id="movie-of-the-day-btn" onclick="showMovieOfTheDay()" title="Get a recommended movie to watch for today!" style="bottom: 160px; right: 10px">Surprise Me!</button>
-    <button id="discussions-btn" onclick="window.location.href='chatbot.html'" style="bottom: 125px; right: 10px" title="Chat with our intelligent chatbot!">MovieVerse Chatbot</button>
-    <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 90px; right: 10px" title="Test your movie knowledge">MovieVerse Trivia</button>
+    <button
+      id="movie-match-btn3"
+      onclick="window.location.href='movie-match.html'"
+      title="Find a movie that matches your mood, genre, and time period!"
+      style="bottom: 230px; right: 10px"
+    >
+      Movie Match
+    </button>
+    <button
+      id="movie-timeline-btn"
+      onclick="window.location.href='movie-timeline.html'"
+      title="Explore movies through different eras!"
+      style="bottom: 195px; right: 10px"
+    >
+      Movie Timeline
+    </button>
+    <button
+      id="movie-of-the-day-btn"
+      onclick="showMovieOfTheDay()"
+      title="Get a recommended movie to watch for today!"
+      style="bottom: 160px; right: 10px"
+    >
+      Surprise Me!
+    </button>
+    <button
+      id="discussions-btn"
+      onclick="window.location.href='chatbot.html'"
+      style="bottom: 125px; right: 10px"
+      title="Chat with our intelligent chatbot!"
+    >
+      MovieVerse Chatbot
+    </button>
+    <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 90px; right: 10px" title="Test your movie knowledge">
+      MovieVerse Trivia
+    </button>
 
     <div id="mobile-bottom-bar" class="mobile-bottom-bar">
-        <a href="chat.html" class="bottom-bar-item">
-            <i class="fas fa-comments"></i>
-            <span>Chat</span>
-        </a>
-        <a href="settings.html" class="bottom-bar-item">
-            <i class="fas fa-cog"></i>
-            <span>Settings</span>
-        </a>
-        <a href="#" class="bottom-bar-item" onclick="showMovieOfTheDay()">
-            <i class="fas fa-surprise"></i>
-            <span>Surprise Me</span>
-        </a>
-        <a href="movie-match.html" class="bottom-bar-item">
-            <i class="fas fa-film"></i>
-            <span>Match</span>
-        </a>
-        <a href="movie-timeline.html" class="bottom-bar-item">
-            <i class="fas fa-clock"></i>
-            <span>Timeline</span>
-        </a>
-        <a href="chatbot.html" class="bottom-bar-item">
-            <i class="fas fa-robot"></i>
-            <span>Chatbot</span>
-        </a>
-        <a href="trivia.html" class="bottom-bar-item">
-            <i class="fas fa-question-circle"></i>
-            <span>Trivia</span>
-        </a>
+      <a href="chat.html" class="bottom-bar-item">
+        <i class="fas fa-comments"></i>
+        <span>Chat</span>
+      </a>
+      <a href="settings.html" class="bottom-bar-item">
+        <i class="fas fa-cog"></i>
+        <span>Settings</span>
+      </a>
+      <a href="#" class="bottom-bar-item" onclick="showMovieOfTheDay()">
+        <i class="fas fa-surprise"></i>
+        <span>Surprise Me</span>
+      </a>
+      <a href="movie-match.html" class="bottom-bar-item">
+        <i class="fas fa-film"></i>
+        <span>Match</span>
+      </a>
+      <a href="movie-timeline.html" class="bottom-bar-item">
+        <i class="fas fa-clock"></i>
+        <span>Timeline</span>
+      </a>
+      <a href="chatbot.html" class="bottom-bar-item">
+        <i class="fas fa-robot"></i>
+        <span>Chatbot</span>
+      </a>
+      <a href="trivia.html" class="bottom-bar-item">
+        <i class="fas fa-question-circle"></i>
+        <span>Trivia</span>
+      </a>
     </div>
 
     <button id="menu-btn" style="position: fixed; bottom: 10px; right: 10px; z-index: 1001" title="Toggle Menu Buttons">
-        <i class="fas fa-ellipsis-h"></i><br>
-        <span>Menu</span>
+      <i class="fas fa-ellipsis-h"></i><br />
+      <span>Menu</span>
     </button>
 
     <script>
-        window.addEventListener('load', function() {
-            adjustAnchorHeights();
+      window.addEventListener('load', function () {
+        adjustAnchorHeights();
+      });
+
+      window.addEventListener('resize', adjustAnchorHeights);
+
+      function adjustAnchorHeights() {
+        const bottomBarAnchors = document.querySelectorAll('.mobile-bottom-bar a');
+        let maxHeight = 0;
+
+        bottomBarAnchors.forEach(anchor => {
+          anchor.style.height = 'auto';
+          const anchorHeight = anchor.getBoundingClientRect().height;
+          maxHeight = Math.max(maxHeight, anchorHeight);
         });
 
-        window.addEventListener('resize', adjustAnchorHeights);
+        bottomBarAnchors.forEach(anchor => {
+          anchor.style.height = `${maxHeight}px`;
+        });
+      }
 
-        function adjustAnchorHeights() {
-            const bottomBarAnchors = document.querySelectorAll('.mobile-bottom-bar a');
-            let maxHeight = 0;
+      let lastScrollY = window.scrollY;
 
-            bottomBarAnchors.forEach(anchor => {
-                anchor.style.height = 'auto';
-                const anchorHeight = anchor.getBoundingClientRect().height;
-                maxHeight = Math.max(maxHeight, anchorHeight);
-            });
+      window.addEventListener('scroll', () => {
+        const currentScrollY = window.scrollY;
 
-            bottomBarAnchors.forEach(anchor => {
-                anchor.style.height = `${maxHeight}px`;
-            });
+        if (currentScrollY > lastScrollY && currentScrollY > 0) {
+          document.querySelector('.mobile-bottom-bar').classList.add('hide-bar');
+        } else {
+          document.querySelector('.mobile-bottom-bar').classList.remove('hide-bar');
         }
 
-        let lastScrollY = window.scrollY;
+        lastScrollY = currentScrollY;
+      });
 
-        window.addEventListener('scroll', () => {
-            const currentScrollY = window.scrollY;
+      let isAnimating = false;
 
-            if (currentScrollY > lastScrollY && currentScrollY > 0) {
-                document.querySelector('.mobile-bottom-bar').classList.add('hide-bar');
-            }
-            else {
-                document.querySelector('.mobile-bottom-bar').classList.remove('hide-bar');
-            }
+      document.getElementById('menu-btn').addEventListener('click', () => {
+        if (isAnimating) return;
 
-            lastScrollY = currentScrollY;
+        isAnimating = true;
+
+        const buttonIds = [
+          'chat-button',
+          'settings-btn',
+          'movie-match-btn3',
+          'movie-timeline-btn',
+          'movie-of-the-day-btn',
+          'discussions-btn',
+          'trivia-btn',
+        ];
+
+        buttonIds.forEach((id, index) => {
+          const button = document.getElementById(id);
+          if (button.style.display === 'none' || !button.style.display) {
+            button.style.display = 'block';
+            setTimeout(() => {
+              button.style.opacity = '1';
+              button.style.transform = 'translateY(0)';
+            }, 50 * index);
+          } else {
+            button.style.opacity = '0';
+            button.style.transform = 'translateY(20px)';
+          }
+
+          setTimeout(
+            () => {
+              button.style.display = button.style.opacity === '1' ? 'block' : 'none';
+              if (index === buttonIds.length - 1) {
+                isAnimating = false;
+              }
+            },
+            500 + 50 * index
+          );
         });
+      });
 
-        let isAnimating = false;
+      window.addEventListener('resize', () => {
+        if (window.innerWidth < 767) {
+          const buttonIds = [
+            'chat-button',
+            'settings-btn',
+            'movie-match-btn3',
+            'movie-timeline-btn',
+            'movie-of-the-day-btn',
+            'discussions-btn',
+            'trivia-btn',
+          ];
 
-        document.getElementById('menu-btn').addEventListener('click', () => {
-            if (isAnimating) return;
-
-            isAnimating = true;
-
-            const buttonIds = [
-                'chat-button',
-                'settings-btn',
-                'movie-match-btn3',
-                'movie-timeline-btn',
-                'movie-of-the-day-btn',
-                'discussions-btn',
-                'trivia-btn',
-            ];
-
-            buttonIds.forEach((id, index) => {
-                const button = document.getElementById(id);
-                if (button.style.display === 'none' || !button.style.display) {
-                    button.style.display = 'block';
-                    setTimeout(() => {
-                        button.style.opacity = '1';
-                        button.style.transform = 'translateY(0)';
-                    }, 50 * index);
-                }
-                else {
-                    button.style.opacity = '0';
-                    button.style.transform = 'translateY(20px)';
-                }
-
-                setTimeout(() => {
-                    button.style.display = button.style.opacity === '1' ? 'block' : 'none';
-                    if (index === buttonIds.length - 1) {
-                        isAnimating = false;
-                    }
-                }, 500 + 50 * index);
-            });
-        });
-
-        window.addEventListener('resize', () => {
-            if (window.innerWidth < 767) {
-                const buttonIds = [
-                    'chat-button',
-                    'settings-btn',
-                    'movie-match-btn3',
-                    'movie-timeline-btn',
-                    'movie-of-the-day-btn',
-                    'discussions-btn',
-                    'trivia-btn',
-                ];
-
-                buttonIds.forEach(id => {
-                    const button = document.getElementById(id);
-                    button.style.display = 'none';
-                    button.style.opacity = '0';
-                    button.style.transform = 'translateY(20px)';
-                });
-            }
-        });
+          buttonIds.forEach(id => {
+            const button = document.getElementById(id);
+            button.style.display = 'none';
+            button.style.opacity = '0';
+            button.style.transform = 'translateY(20px)';
+          });
+        }
+      });
     </script>
 
     <script>
-        document.getElementById('settings-btn').addEventListener('click', () => {
-            window.location.href = 'settings.html';
-        });
+      document.getElementById('settings-btn').addEventListener('click', () => {
+        window.location.href = 'settings.html';
+      });
 
-        document.addEventListener('DOMContentLoaded', () => {
-            applySettings();
+      document.addEventListener('DOMContentLoaded', () => {
+        applySettings();
 
-            function applySettings() {
-                const savedBg = localStorage.getItem('backgroundImage');
-                const savedTextColor = localStorage.getItem('textColor');
-                const savedFontSize = localStorage.getItem('fontSize');
+        function applySettings() {
+          const savedBg = localStorage.getItem('backgroundImage');
+          const savedTextColor = localStorage.getItem('textColor');
+          const savedFontSize = localStorage.getItem('fontSize');
 
-                if (savedBg) {
-                    document.body.style.backgroundImage = `url('${savedBg}')`;
-                }
-                if (savedTextColor) {
-                    document.querySelectorAll('h1, h2, h3, p, a, span, div, button, input, select, textarea, label, li').forEach(element => {
-                        element.style.color = savedTextColor;
-                    });
-                }
-                if (savedFontSize) {
-                    const size = savedFontSize === 'small' ? '12px' : savedFontSize === 'medium' ? '16px' : '20px';
-                    document.body.style.fontSize = size;
-                }
-            }
-        });
+          if (savedBg) {
+            document.body.style.backgroundImage = `url('${savedBg}')`;
+          }
+          if (savedTextColor) {
+            document.querySelectorAll('h1, h2, h3, p, a, span, div, button, input, select, textarea, label, li').forEach(element => {
+              element.style.color = savedTextColor;
+            });
+          }
+          if (savedFontSize) {
+            const size = savedFontSize === 'small' ? '12px' : savedFontSize === 'medium' ? '16px' : '20px';
+            document.body.style.fontSize = size;
+          }
+        }
+      });
 
-        document.getElementById('actor-image').addEventListener('click', function() {
-            const imageUrl = this.src;
-            const modalHtml = `<div id="image-modal" style="z-index: 10002; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
+      document.getElementById('actor-image').addEventListener('click', function () {
+        const imageUrl = this.src;
+        const modalHtml = `<div id="image-modal" style="z-index: 10002; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
                                 <img src="${imageUrl}" style="max-width: 80%; max-height: 80%; border-radius: 10px;">
                                 <span style="position: absolute; top: 10px; right: 25px; font-size: 40px; cursor: pointer" id="removeBtn" onclick="document.getElementById('image-modal').remove();">&times;</span>
                             </div>`;
-            document.body.insertAdjacentHTML('beforeend', modalHtml);
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
 
-            document.getElementById('image-modal').addEventListener('click', function(event) {
-                if (event.target === this) {
-                    this.remove();
-                }
-            });
+        document.getElementById('image-modal').addEventListener('click', function (event) {
+          if (event.target === this) {
+            this.remove();
+          }
         });
+      });
     </script>
 
     <footer>
-        <a href="../../index.html" style="cursor: pointer; text-decoration: none">
-            <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
-        </a>
+      <a href="../../index.html" style="cursor: pointer; text-decoration: none">
+        <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
+      </a>
     </footer>
-</body>
-
+  </body>
 </html>

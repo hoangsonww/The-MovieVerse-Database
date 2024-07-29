@@ -46,6 +46,8 @@ Users can select their background preference through the application's settings,
 
 The images in this directory are for use within our application only. Redistribution or use outside the scope of the application is not permitted without explicit permission. For any images not created in-house, please verify the license and usage rights from the respective copyright holders.
 
+[![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC%20BY--NC%204.0-red.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
+
 ## Contributions
 
 Contributors are encouraged to submit new images for inclusion in the app's background selection. Submitted images should be optimized for web use, adhere to the app's aesthetic, and follow the contribution guidelines provided in the project documentation.

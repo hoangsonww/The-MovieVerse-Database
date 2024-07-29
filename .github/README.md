@@ -161,7 +161,13 @@ Or, for your convenience, you may simply run the following command, provided tha
     docker compose up
     ```
     This will create a Docker image of the application, which you can then deploy to a containerized environment. Ensure that Docker is up and running on your system before running this command.
-12. As you develop, be sure to save & commit your changes (and don't forget to create a branch for your new feature):
+12. If you'd like to lint and/or format the code (so that they look better and adhere to the project's coding standards), run the following commands:
+    ```bash
+    npm run lint
+    npm run format
+    ```
+    This will check the code for any linting errors and format the code according to the project's coding standards. Make sure to fix any linting errors before committing your changes.
+13. As you develop, be sure to save & commit your changes (and don't forget to create a branch for your new feature):
     ```bash
     git checkout -b 'feature/AmazingFeature'
     git commit -m 'Update: Add some AmazingFeature'
@@ -169,12 +175,11 @@ Or, for your convenience, you may simply run the following command, provided tha
     Note the naming convention:
     - For branches: The names will have 2 parts: `feature/` or `fix/` followed by the feature or fix name.
     - For commits: The commit message will also have 2 parts: `Update:` or `Fix:` followed by the update or fix description.
-13. Push to your branch:
+14. Push to your branch:
     ```bash
     git push origin feature/AmazingFeature
     ```
-14. Open a Pull Request (if you want to merge your changes to our official app!)
-15. Enjoy coding and [let me know](https://github.com/hoangsonww/The-MovieVerse-Database/discussions) if you have any questions!
+15. Open a Pull Request (if you want to merge your changes to our official app!) Enjoy coding and [let me know](https://github.com/hoangsonww/The-MovieVerse-Database/discussions) if you have any questions!
 16. If you'd also like to access full, advanced features of the app's development, please [contact me](https://github.com/hoangsonww/The-MovieVerse-Database/discussions) for the `.env` file and additional configurations.
 
 **Note:** Although the primary branch of this repo is `main`, the active deployment branch is `main-deployment-branch`. Therefore, refer to the `main-deployment-branch` for the latest updates and changes as we always push code to the deployment branch before merging it into the main branch.
@@ -225,4 +230,6 @@ Thank you for your understanding and support~ 🎬🍿
 
 ---
 
-Created with ❤️ in 2023 by [Son Nguyen](https://github.com/hoangsonww). All rights reserved.
+Created with ❤️ in 2023 by [Son Nguyen](https://github.com/hoangsonww).
+
+© 2024 The MovieVerse. All Rights Reserved.
