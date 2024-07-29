@@ -158,7 +158,7 @@ Contributions to MovieVerse are always welcome. Whether it's bug reports, featur
 
 ## License
 
-This project is licensed under CC BY-NC 4.0 license. Refer to the `LICENSE` file in each subdirectory for more information.
+This project is licensed under CC BY-NC 4.0 license. Refer to the [LICENSE](LICENSE.md) file for more information.
 
 ---
 
