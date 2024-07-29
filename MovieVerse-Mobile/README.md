@@ -169,4 +169,8 @@ Stay updated with the latest version of the app for new features and improvement
 
 Enjoy exploring the world of movies with MovieVerse on your mobile device!
 
+## License
+
+This project is licensed under the CC BY-NC 4.0 License - see the [LICENSE](../LICENSE.md) file for details.
+
 ---
