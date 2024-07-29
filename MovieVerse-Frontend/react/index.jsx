@@ -8,18 +8,18 @@ import MovieRecommendations from './MovieRecommendations';
 import GenreMovies from './GenreMovies';
 
 class App extends React.Component {
-    render() {
-        return (
-            <div>
-                <MovieList />
-                <MovieDetails movieId="123" />
-                <MovieSearch />
-                <UserReviews movieId="123" />
-                <MovieRecommendations />
-                <GenreMovies genre="Action" />
-            </div>
-        );
-    }
+  render() {
+    return (
+      <div>
+        <MovieList />
+        <MovieDetails movieId="123" />
+        <MovieSearch />
+        <UserReviews movieId="123" />
+        <MovieRecommendations />
+        <GenreMovies genre="Action" />
+      </div>
+    );
+  }
 }
 
 ReactDOM.render(<App />, document.getElementById('root'));
