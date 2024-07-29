@@ -30,7 +30,7 @@ l. **Sui Generis Database Rights** means rights other than copyright resulting f
 
 m. **You** means the individual or entity exercising the Licensed Rights under this Public License. **Your** has a corresponding meaning.
 
-## Section 2 – Scope.
+## Section 2 – Scope
 
 ### a. License grant.
 
