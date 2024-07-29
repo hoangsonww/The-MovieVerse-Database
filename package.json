@@ -15,8 +15,8 @@
     "dev:ios": "cd MovieVerse-Mobile && cordova run ios",
     "build:android": "cd MovieVerse-Mobile && cordova build android",
     "build:ios": "cd MovieVerse-Mobile && cordova build ios",
-    "lint": "eslint -c ./MovieVerse-Config/.eslintrc.js .",
     "format": "prettier --config ./MovieVerse-Config/.prettierrc --write \"MovieVerse-Frontend/**/*.{html,css,js,jsx,ts,tsx}\" \"index.js\" \"404.html\" \"index.html\"",
+    "lint": "eslint -c ./MovieVerse-Config/.eslintrc.js .",
     "backend": "cd MovieVerse-Backend/databases && node app.js && node mongo-redis.js && node mysql.js && node postgresql.js && node publish.js && cd ../django_backend && python manage.py runserver"
   },
   "keywords": [
