@@ -88,7 +88,7 @@ async function fetchActorDetails(actorId) {
     if (actor.success === false) {
       document.getElementById('actor-details-container').innerHTML = `
             <div style="display: flex; justify-content: center; align-items: center; text-align: center; width: 100vw; height: 800px">
-                <h2>Actor details not found - try again with a different actor.</h2>
+                <h2>Actor details currently unavailable - please try again</h2>
             </div>`;
     } else {
       updateBrowserURL(actor.name);
@@ -99,7 +99,7 @@ async function fetchActorDetails(actorId) {
     console.log('Error fetching actor details:', error);
     document.getElementById('actor-details-container').innerHTML = `
             <div style="display: flex; justify-content: center; align-items: center; text-align: center; width: 100vw; height: 800px">
-                <h2>Actor details not found - try again with a different actor.</h2>
+                <h2>Actor details currently unavailable - please try again</h2>
             </div>`;
     hideSpinner();
   }
