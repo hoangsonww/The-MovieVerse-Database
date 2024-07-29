@@ -4,7 +4,47 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8bb29d63-e98d-4c08-9f32-16747d3aec75" name="Changes" comment="Fix: Updated Backend (#196)" />
+    <list default="true" id="8bb29d63-e98d-4c08-9f32-16747d3aec75" name="Changes" comment="Fix: Updated Backend (#196)">
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/475125e5-6f1b-4825-a9f3-de534e95e753.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/475125e5-6f1b-4825-a9f3-de534e95e753/storage_v2/_src_/database/postgres.edMnLQ.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/475125e5-6f1b-4825-a9f3-de534e95e753/storage_v2/_src_/database/postgres.edMnLQ/schema/public.abK9xQ.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/databases/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/databases/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/databases/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/databases/config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/databases/firebase.js" beforeDir="false" afterPath="$PROJECT_DIR$/databases/firebase.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/databases/mongo-redis.js" beforeDir="false" afterPath="$PROJECT_DIR$/databases/mongo-redis.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/databases/mysql.js" beforeDir="false" afterPath="$PROJECT_DIR$/databases/mysql.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/databases/postgresql.js" beforeDir="false" afterPath="$PROJECT_DIR$/databases/postgresql.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/databases/publish.js" beforeDir="false" afterPath="$PROJECT_DIR$/databases/publish.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/android/app/src/main/assets/www/MovieVerse-Backend/databases/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/android/app/src/main/assets/www/MovieVerse-Backend/databases/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/android/app/src/main/assets/www/MovieVerse-Backend/databases/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/android/app/src/main/assets/www/MovieVerse-Backend/databases/config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/android/app/src/main/assets/www/MovieVerse-Backend/databases/firebase.js" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/android/app/src/main/assets/www/MovieVerse-Backend/databases/firebase.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/android/app/src/main/assets/www/MovieVerse-Backend/databases/mongo-redis.js" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/android/app/src/main/assets/www/MovieVerse-Backend/databases/mongo-redis.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/android/app/src/main/assets/www/MovieVerse-Backend/databases/mysql.js" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/android/app/src/main/assets/www/MovieVerse-Backend/databases/mysql.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/android/app/src/main/assets/www/MovieVerse-Backend/databases/postgresql.js" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/android/app/src/main/assets/www/MovieVerse-Backend/databases/postgresql.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/android/app/src/main/assets/www/MovieVerse-Backend/databases/publish.js" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/android/app/src/main/assets/www/MovieVerse-Backend/databases/publish.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/android/app/src/main/assets/www/microfrontend-layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/android/app/src/main/assets/www/microfrontend-layout.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/ios/www/MovieVerse-Backend/databases/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/ios/www/MovieVerse-Backend/databases/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/ios/www/MovieVerse-Backend/databases/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/ios/www/MovieVerse-Backend/databases/config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/ios/www/MovieVerse-Backend/databases/firebase.js" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/ios/www/MovieVerse-Backend/databases/firebase.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/ios/www/MovieVerse-Backend/databases/mongo-redis.js" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/ios/www/MovieVerse-Backend/databases/mongo-redis.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/ios/www/MovieVerse-Backend/databases/mysql.js" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/ios/www/MovieVerse-Backend/databases/mysql.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/ios/www/MovieVerse-Backend/databases/postgresql.js" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/ios/www/MovieVerse-Backend/databases/postgresql.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/ios/www/MovieVerse-Backend/databases/publish.js" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/ios/www/MovieVerse-Backend/databases/publish.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/ios/www/microfrontend-layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/ios/www/microfrontend-layout.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/www/MovieVerse-Backend/databases/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/www/MovieVerse-Backend/databases/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/www/MovieVerse-Backend/databases/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/www/MovieVerse-Backend/databases/config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/www/MovieVerse-Backend/databases/firebase.js" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/www/MovieVerse-Backend/databases/firebase.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/www/MovieVerse-Backend/databases/mongo-redis.js" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/www/MovieVerse-Backend/databases/mongo-redis.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/www/MovieVerse-Backend/databases/mysql.js" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/www/MovieVerse-Backend/databases/mysql.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/www/MovieVerse-Backend/databases/postgresql.js" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/www/MovieVerse-Backend/databases/postgresql.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/www/MovieVerse-Backend/databases/publish.js" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/www/MovieVerse-Backend/databases/publish.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/www/microfrontend-layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/www/microfrontend-layout.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../microfrontend-layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/../microfrontend-layout.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../package.json" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -66,6 +106,11 @@
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.ide.settings.new.ui&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;postgresql&quot;
+    ]
   }
 }</component>
   <component name="RecentsManager">
@@ -211,11 +256,11 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Django Server.Django-Backend" />
       <item itemvalue="Django tests.Test: movieverse.tests" />
+      <item itemvalue="OpenAPI/Swagger Code Generator.movieverse-openapi.yaml" />
       <item itemvalue="Python.flask" />
       <item itemvalue="Python.python manage.py runserver" />
-      <item itemvalue="Django Server.Django-Backend" />
-      <item itemvalue="OpenAPI/Swagger Code Generator.movieverse-openapi.yaml" />
       <item itemvalue="Python tests.Python tests in api_test_suite.py" />
     </list>
     <recent_temporary>
@@ -261,6 +306,8 @@
       <workItem from="1719110625564" duration="2062000" />
       <workItem from="1719151721860" duration="573000" />
       <workItem from="1721010829658" duration="240000" />
+      <workItem from="1722234916065" duration="971000" />
+      <workItem from="1722236102258" duration="619000" />
     </task>
     <task id="LOCAL-00001" summary="Enhanced Backend">
       <option name="closed" value="true" />

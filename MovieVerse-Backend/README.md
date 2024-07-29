@@ -7,7 +7,7 @@
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
   - [Quick Start](#quick-start)
-  - [Running the Services (Recommended)](#running-the-services-recommended)
+  - [Running the Services (Recommended)](#running-the-individual-services-recommended)
     - [Database Services](#database-services)
     - [Django Service](#django-service)
     - [API Service](#api-service)
@@ -97,7 +97,7 @@ This command will start most (but not all) of the services required for the back
 
 **Important**: Remember to set the `SECRET_KEY` and set `Debug` to `True` in the [settings.py](django_backend/django_backend/settings.py) file in the `django_backend` directory. This is crucial for running the Django server locally. Additionally, you are also required to obtain a Django secret key and set it in the `settings.py` file.
 
-### Running the Services (Recommended)
+### Running the Individual Services (Recommended)
 
 To run the MovieVerse's backend services, follow these steps **in order**:
 
