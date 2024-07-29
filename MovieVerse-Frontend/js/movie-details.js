@@ -1541,9 +1541,11 @@ async function populateMovieDetails(
     imageElement.src = `https://image.tmdb.org/t/p/w780${images[0].file_path}`;
   }
 
+  let modalOpen = false;
+
   imageElement.addEventListener("click", function () {
     let imageUrl = this.src.replace("w780", "w1280");
-
+    modalOpen = true;
     const modalHtml = `
             <div id="image-modal" style="z-index: 100022222; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
                 <button id="prevModalButton" style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); background-color: #7378c5; color: white; border-radius: 8px; height: 30px; width: 30px; border: none; cursor: pointer; z-index: 11;"><i class="fas fa-arrow-left"></i></button>
@@ -1560,12 +1562,14 @@ async function populateMovieDetails(
 
     closeModalBtn.onclick = function () {
       modal.remove();
+      modalOpen = false;
       imageElement.src = modalImage.src.replace("w1280", "w780");
     };
 
     modal.addEventListener("click", function (event) {
       if (event.target === this) {
         this.remove();
+        modalOpen = false;
         imageElement.src = modalImage.src.replace("w1280", "w780");
       }
     });
@@ -1667,7 +1671,9 @@ async function populateMovieDetails(
 
   function startRotationInterval() {
     rotationInterval = setInterval(() => {
-      navigateMedia(images, imageElement, 1);
+      if (!modalOpen) {
+        navigateMedia(images, imageElement, 1);
+      }
     }, 3000);
   }
 
