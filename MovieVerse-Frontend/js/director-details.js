@@ -328,7 +328,7 @@ async function populateDirectorDetails(director, credits) {
   }
 
   imageElement.addEventListener("click", function () {
-    const imageUrl = this.src;
+    const imageUrl = this.src.replace("w780", "w1280");
     modalOpen = true;
     const modalHtml = `
             <div id="image-modal" style="z-index: 100022222; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
@@ -347,6 +347,7 @@ async function populateDirectorDetails(director, credits) {
     closeModalBtn.onclick = function () {
       modal.remove();
       modalOpen = false;
+      imageElement.src = modalImage.src.replace("w1280", "w780");
     };
 
     modal.addEventListener("click", function (event) {
