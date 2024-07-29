@@ -63,6 +63,8 @@ The Poppins font family is licensed under the SIL Open Font License, Version 1.1
 
 For the full text of the license, see the included OFL.txt file or visit [http://scripts.sil.org/OFL](http://scripts.sil.org/OFL).
 
+The fonts are also subject to the MovieVerse project license, **CC BY-NC 4.0**. For more information, refer to the [LICENSE](LICENSE.md) file.
+
 ## Acknowledgements
 
 Poppins was created by Jonny Pinhorn, so we extend our gratitude to him for designing this beautiful typeface. We also thank the Indian Type Foundry for making the font available under an open license, allowing designers and developers to use it freely in their projects.
