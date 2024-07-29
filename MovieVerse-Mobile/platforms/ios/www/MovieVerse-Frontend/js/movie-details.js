@@ -1401,9 +1401,11 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     imageElement.src = `https://image.tmdb.org/t/p/w780${images[0].file_path}`;
   }
 
+  let modalOpen = false;
+
   imageElement.addEventListener('click', function () {
     let imageUrl = this.src.replace('w780', 'w1280');
-
+    modalOpen = true;
     const modalHtml = `
             <div id="image-modal" style="z-index: 100022222; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
                 <button id="prevModalButton" style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); background-color: #7378c5; color: white; border-radius: 8px; height: 30px; width: 30px; border: none; cursor: pointer; z-index: 11;"><i class="fas fa-arrow-left"></i></button>
@@ -1420,12 +1422,14 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
 
     closeModalBtn.onclick = function () {
       modal.remove();
+      modalOpen = false;
       imageElement.src = modalImage.src.replace('w1280', 'w780');
     };
 
     modal.addEventListener('click', function (event) {
       if (event.target === this) {
         this.remove();
+        modalOpen = false;
         imageElement.src = modalImage.src.replace('w1280', 'w780');
       }
     });
@@ -1446,15 +1450,27 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     imgElement2.style.opacity = '0';
     currentIndex = (currentIndex + direction + images.length) % images.length;
 
-    setTimeout(() => {
-      imgElement1.src = `https://image.tmdb.org/t/p/w780${images[currentIndex].file_path}`;
-      imgElement2.src = `https://image.tmdb.org/t/p/w1280${images[currentIndex].file_path}`;
-      imgElement1.style.opacity = '1';
-      imgElement2.style.opacity = '1';
-    }, 500);
+    const newSrc1 = `https://image.tmdb.org/t/p/w780${images[currentIndex].file_path}`;
+    const newSrc2 = `https://image.tmdb.org/t/p/w1280${images[currentIndex].file_path}`;
+    const tempImage1 = new Image();
+    const tempImage2 = new Image();
+    tempImage1.src = newSrc1;
+    tempImage2.src = newSrc2;
+
+    tempImage1.onload = () => {
+      tempImage2.onload = () => {
+        setTimeout(() => {
+          imgElement1.src = newSrc1;
+          imgElement2.src = newSrc2;
+          imgElement1.style.opacity = '1';
+          imgElement2.style.opacity = '1';
+        }, 500);
+      };
+    };
 
     sessionStorage.setItem('currentIndex', currentIndex);
     updateDots(currentIndex);
+    resetRotationInterval();
   }
 
   const prevButton = document.createElement('button');
@@ -1499,15 +1515,45 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
   nextButton.onclick = () => navigateMedia(images, imageElement, 1);
   imageWrapper.appendChild(nextButton);
 
+  let rotationInterval;
+
+  if (images.length === 0) {
+    mediaContainer.innerHTML = '<p>No media available</p>';
+  } else if (images.length > 1) {
+    startRotationInterval();
+  }
+
+  function startRotationInterval() {
+    rotationInterval = setInterval(() => {
+      if (!modalOpen) {
+        navigateMedia(images, imageElement, 1);
+      }
+    }, 3000);
+  }
+
+  function resetRotationInterval() {
+    clearInterval(rotationInterval);
+    startRotationInterval();
+  }
+
   function navigateMedia(images, imgElement, direction) {
     currentIndex = (currentIndex + direction + images.length) % images.length;
     imgElement.style.opacity = '0';
-    setTimeout(() => {
-      imgElement.src = `https://image.tmdb.org/t/p/w780${images[currentIndex].file_path}`;
-      imgElement.style.opacity = '1';
-    }, 420);
+
+    const newSrc = `https://image.tmdb.org/t/p/w780${images[currentIndex].file_path}`;
+    const tempImage = new Image();
+    tempImage.src = newSrc;
+
+    tempImage.onload = () => {
+      setTimeout(() => {
+        imgElement.src = newSrc;
+        imgElement.style.opacity = '1';
+      }, 420);
+    };
+
     sessionStorage.setItem('currentIndex', currentIndex);
     updateDots(currentIndex);
+    resetRotationInterval();
   }
 
   const indicatorContainer = document.createElement('div');
@@ -1561,10 +1607,6 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     dots.forEach((dot, index) => {
       dot.style.backgroundColor = index === newIndex ? '#ff8623' : '#bbb';
     });
-  }
-
-  if (images.length === 0) {
-    mediaContainer.innerHTML = '<p>No media available</p>';
   }
 
   const movieImage = document.getElementById('movie-image');
