@@ -22,6 +22,7 @@
   - [Accessing Favorites](#accessing-favorites)
 - [Support](#support)
 - [Updates and Feedback](#updates-and-feedback)
+- [License](#license)
 
 ## Overview
 
