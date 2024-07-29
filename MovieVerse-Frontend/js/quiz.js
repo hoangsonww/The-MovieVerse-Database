@@ -783,7 +783,7 @@ function generateRandomQuestions() {
     });
 
     headerElement.addEventListener("mouseover", function () {
-      headerElement.style.color = "blue";
+      headerElement.style.color = "orange";
     });
 
     headerElement.addEventListener("mouseout", function () {
