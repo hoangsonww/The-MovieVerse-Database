@@ -568,7 +568,7 @@ async function fetchTvDetails(tvSeriesId) {
   } catch (error) {
     document.getElementById('movie-details-container').innerHTML = `
             <div style="display: flex; justify-content: center; align-items: center; text-align: center; margin-top: 40px; width: 100vw; height: 800px">
-                <h2>TV series details not found - Try again with another TV series</h2>
+                <h2>TV series details currently unavailable - please try again</h2>
             </div>`;
     console.log('Error fetching TV series details:', error);
   } finally {
@@ -577,6 +577,8 @@ async function fetchTvDetails(tvSeriesId) {
 }
 
 async function fetchTVRatings(imdbId) {
+  showSpinner();
+
   if (!imdbId) {
     return 'IMDb rating';
   }
@@ -610,6 +612,7 @@ async function fetchTVRatings(imdbId) {
   const responses = await Promise.all(requests);
   const data = responses.find(response => response !== null);
 
+  hideSpinner();
   return data && data.imdbRating ? data.imdbRating : 'View on IMDb';
 }
 
@@ -1018,11 +1021,18 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
 
   detailsHTML += `<p><strong>Streaming Options:</strong> ${streamingHTML}</p>`;
 
+  let keywordsHTML = tvSeries.keywords
+    ? tvSeries.keywords.results
+        .map(
+          kw => `<a class="keyword-link" href="javascript:void(0);" onclick="handleKeywordClick('${kw.name.replace(/'/g, "\\'")}')">${kw.name}</a>`
+        )
+        .join(', ')
+    : 'None Available';
+
   if (tvSeries.keywords && tvSeries.keywords.results && tvSeries.keywords.results.length) {
-    let keywordsHTML = tvSeries.keywords.results.map(keyword => keyword.name).join(', ');
     detailsHTML += `<p><strong>Keywords:</strong> ${keywordsHTML}</p>`;
   } else {
-    detailsHTML += `<p><strong>Keywords:</strong> Information not available</p>`;
+    detailsHTML += `<p><strong>Keywords:</strong> None Available</p>`;
   }
 
   const mediaUrl = `https://${getMovieVerseData()}/3/tv/${tvSeries.id}/images?${generateMovieNames()}${getMovieCode()}`;
@@ -1485,6 +1495,11 @@ function showSpinner() {
 
 function hideSpinner() {
   document.getElementById('myModal').classList.remove('modal-visible');
+}
+
+function handleKeywordClick(keyword) {
+  localStorage.setItem('searchQuery', keyword);
+  window.location.href = 'search.html';
 }
 
 function handleCreatorClick(creatorId, creatorName) {

@@ -682,7 +682,7 @@ function generateRandomQuestions() {
   selectedQuestions.forEach((question, index) => {
     const questionElement = document.createElement('div');
     questionElement.innerHTML = `
-        <h2 id="${index}">Question ${index + 1}:</h2>
+        <h2 class="question-header" id="${index}">Question ${index + 1}:</h2>
         <p>${question.question}</p>
         ${question.options.map((option, i) => `<label><input type="radio" name="q${index}" value="${option}"> ${option}</label><br>`).join('')}
         <br>`;
@@ -694,6 +694,14 @@ function generateRandomQuestions() {
       e.preventDefault();
 
       headerElement.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    headerElement.addEventListener('mouseover', function () {
+      headerElement.style.color = 'orange';
+    });
+
+    headerElement.addEventListener('mouseout', function () {
+      headerElement.style.color = '#ff8623';
     });
 
     headerElement.style.cursor = 'pointer';

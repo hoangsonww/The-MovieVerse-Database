@@ -1021,11 +1021,18 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
 
   detailsHTML += `<p><strong>Streaming Options:</strong> ${streamingHTML}</p>`;
 
+  let keywordsHTML = tvSeries.keywords
+    ? tvSeries.keywords.results
+        .map(
+          kw => `<a class="keyword-link" href="javascript:void(0);" onclick="handleKeywordClick('${kw.name.replace(/'/g, "\\'")}')">${kw.name}</a>`
+        )
+        .join(', ')
+    : 'None Available';
+
   if (tvSeries.keywords && tvSeries.keywords.results && tvSeries.keywords.results.length) {
-    let keywordsHTML = tvSeries.keywords.results.map(keyword => keyword.name).join(', ');
     detailsHTML += `<p><strong>Keywords:</strong> ${keywordsHTML}</p>`;
   } else {
-    detailsHTML += `<p><strong>Keywords:</strong> Information not available</p>`;
+    detailsHTML += `<p><strong>Keywords:</strong> None Available</p>`;
   }
 
   const mediaUrl = `https://${getMovieVerseData()}/3/tv/${tvSeries.id}/images?${generateMovieNames()}${getMovieCode()}`;
@@ -1488,6 +1495,11 @@ function showSpinner() {
 
 function hideSpinner() {
   document.getElementById('myModal').classList.remove('modal-visible');
+}
+
+function handleKeywordClick(keyword) {
+  localStorage.setItem('searchQuery', keyword);
+  window.location.href = 'search.html';
 }
 
 function handleCreatorClick(creatorId, creatorName) {
