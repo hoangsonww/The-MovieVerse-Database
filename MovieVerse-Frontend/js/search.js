@@ -827,7 +827,7 @@ async function showMovies(items, container, category) {
 
     if (imagePath) {
       movieContentHTML += `<div class="movie-images" style="position: relative; width: 100%; height: 435px; overflow: hidden;">`;
-      movieContentHTML += `<img src="${imagePath}" alt="${title}" style="cursor: pointer; max-width: 100%; position: absolute; top: 0; left: 0; transition: opacity 1s ease-in-out; opacity: 1;" onError="this.parentElement.innerHTML = '<div style=\'text-align: center; padding: 20px;\'>Image Unavailable</div>';">`;
+      movieContentHTML += `<img data-src="${imagePath}" alt="${title}" style="cursor: pointer; max-width: 100%; position: absolute; top: 0; left: 0; transition: opacity 1s ease-in-out; opacity: 1;" onError="this.parentElement.innerHTML = '<div style=\'text-align: center; padding: 20px;\'>Image Unavailable</div>';">`;
       movieContentHTML += `</div>`;
     } else {
       movieContentHTML += `<div style="text-align: center; padding: 20px;">Image Unavailable</div>`;
@@ -925,20 +925,40 @@ async function showMovies(items, container, category) {
 
     if (allImages.length > 1) {
       const imageContainer = movieEl.querySelector('.movie-images');
-      allImages.forEach((image, index) => {
-        if (index === 0) return;
-        const img = new Image();
-        img.src = `${IMGPATH + image}`;
-        img.style.position = 'absolute';
-        img.style.top = 0;
-        img.style.left = 0;
-        img.style.width = '100%';
-        img.style.height = '100%';
-        img.style.transition = 'opacity 1s ease-in-out';
-        img.style.opacity = 0;
-        imageContainer.appendChild(img);
-      });
-      rotateImages(Array.from(imageContainer.children), 3000);
+      const observer = new IntersectionObserver(
+        (entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const img = entry.target;
+              img.src = img.dataset.src;
+              observer.unobserve(img);
+
+              // Load additional images once the first image is in view
+              allImages.forEach((image, index) => {
+                if (index === 0) return;
+                const img = new Image();
+                img.src = `${IMGPATH + image}`;
+                img.style.position = 'absolute';
+                img.style.top = 0;
+                img.style.left = 0;
+                img.style.width = '100%';
+                img.style.height = '100%';
+                img.style.transition = 'opacity 1s ease-in-out';
+                img.style.opacity = 0;
+                imageContainer.appendChild(img);
+              });
+              rotateImages(Array.from(imageContainer.children), 3000);
+            }
+          });
+        },
+        {
+          rootMargin: '50px 0px',
+          threshold: 0.1,
+        }
+      );
+
+      const img = movieEl.querySelector('img');
+      observer.observe(img);
     }
   });
 }
