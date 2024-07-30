@@ -854,10 +854,42 @@ function displayResults(results, category, searchTerm) {
 
 const main = document.getElementById("movie-match-container1");
 
-function showMovies(items, container, category) {
+async function getAdditionalImages(itemId, category) {
+  let endpoint;
+  if (category === "movie") {
+    endpoint = `https://api.themoviedb.org/3/movie/${itemId}/images?api_key=${getMovieCode()}`;
+  } else if (category === "person") {
+    endpoint = `https://api.themoviedb.org/3/person/${itemId}/images?api_key=${getMovieCode()}`;
+  } else if (category === "tv") {
+    endpoint = `https://api.themoviedb.org/3/tv/${itemId}/images?api_key=${getMovieCode()}`;
+  }
+
+  const response = await fetch(endpoint);
+  const data = await response.json();
+  return data.profiles
+    ? data.profiles.map((image) => image.file_path)
+    : data.posters.map((image) => image.file_path);
+}
+
+function rotateImages(imageElements, interval = 3000) {
+  if (imageElements.length <= 1) return;
+
+  let currentIndex = 0;
+  imageElements[currentIndex].style.opacity = "1";
+
+  setTimeout(() => {
+    setInterval(() => {
+      imageElements[currentIndex].style.opacity = "0";
+      currentIndex = (currentIndex + 1) % imageElements.length;
+      imageElements[currentIndex].style.opacity = "1";
+    }, interval);
+  }, 0);
+}
+
+async function showMovies(items, container, category) {
   container.innerHTML = "";
 
-  items.forEach((item) => {
+  items.forEach(async (item) => {
     const hasVoteAverage = typeof item.vote_average === "number";
     const isPerson = !hasVoteAverage;
     const isMovie = item.title && hasVoteAverage;
@@ -892,7 +924,9 @@ function showMovies(items, container, category) {
     let movieContentHTML = `<div class="image-container" style="text-align: center;">`;
 
     if (imagePath) {
-      movieContentHTML += `<img src="${imagePath}" alt="${title}" style="cursor: pointer; max-width: 100%;" onError="this.parentElement.innerHTML = '<div style=\'text-align: center; padding: 20px;\'>Image Unavailable</div>';">`;
+      movieContentHTML += `<div class="movie-images" style="position: relative; width: 100%; height: 435px; overflow: hidden;">`;
+      movieContentHTML += `<img src="${imagePath}" alt="${title}" style="cursor: pointer; max-width: 100%; position: absolute; top: 0; left: 0; transition: opacity 1s ease-in-out; opacity: 1;" onError="this.parentElement.innerHTML = '<div style=\'text-align: center; padding: 20px;\'>Image Unavailable</div>';">`;
+      movieContentHTML += `</div>`;
     } else {
       movieContentHTML += `<div style="text-align: center; padding: 20px;">Image Unavailable</div>`;
     }
@@ -998,6 +1032,30 @@ function showMovies(items, container, category) {
     });
 
     container.appendChild(movieEl);
+
+    const additionalImages = await getAdditionalImages(id, category);
+    let allImages = [profile_path || poster_path, ...additionalImages].filter(
+      Boolean,
+    );
+    allImages = allImages.sort(() => 0.5 - Math.random()).slice(0, 10);
+
+    if (allImages.length > 1) {
+      const imageContainer = movieEl.querySelector(".movie-images");
+      allImages.forEach((image, index) => {
+        if (index === 0) return;
+        const img = new Image();
+        img.src = `${IMGPATH + image}`;
+        img.style.position = "absolute";
+        img.style.top = 0;
+        img.style.left = 0;
+        img.style.width = "100%";
+        img.style.height = "100%";
+        img.style.transition = "opacity 1s ease-in-out";
+        img.style.opacity = 0;
+        imageContainer.appendChild(img);
+      });
+      rotateImages(Array.from(imageContainer.children), 3000);
+    }
   });
 }
 
