@@ -1309,6 +1309,15 @@ header h1 {
   color: #ff8623;
 }
 
+.keyword-link {
+  color: white;
+  text-decoration: underline;
+}
+
+.keyword-link:hover {
+  color: #ff8623;
+}
+
 .director-header {
   text-align: center;
   align-self: center;

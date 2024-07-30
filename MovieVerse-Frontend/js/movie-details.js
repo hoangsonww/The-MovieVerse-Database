@@ -1129,7 +1129,7 @@ async function populateMovieDetails(
     ? movie.keywords.keywords
         .map(
           (kw) =>
-            `<a href="javascript:void(0);" onclick="handleKeywordClick('${kw.name.replace(/'/g, "\\'")}')">${kw.name}</a>`,
+            `<a class="keyword-link" href="javascript:void(0);" onclick="handleKeywordClick('${kw.name.replace(/'/g, "\\'")}')">${kw.name}</a>`,
         )
         .join(", ")
     : "None Available";
