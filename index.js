@@ -459,6 +459,8 @@ async function getAdditionalPosters(movieId) {
 }
 
 function rotateImages(imageElements, interval = 3000) {
+  if (imageElements.length <= 1) return;
+
   let currentIndex = 0;
   imageElements[currentIndex].style.opacity = "1";
 
