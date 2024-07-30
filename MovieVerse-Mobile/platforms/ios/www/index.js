@@ -481,9 +481,9 @@ async function showMovies(movies, mainElement) {
     movieEl.dataset.title = title;
 
     const words = title.split(' ');
-    if (words.length >= 9) {
-      words[8] = '...';
-      title = words.slice(0, 9).join(' ');
+    if (words.length >= 8) {
+      words[7] = '...';
+      title = words.slice(0, 8).join(' ');
     }
 
     const voteAvg = vote_count === 0 ? 'Unrated' : vote_average.toFixed(1);
