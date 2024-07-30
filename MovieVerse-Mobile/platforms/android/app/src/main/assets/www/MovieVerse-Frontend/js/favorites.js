@@ -1239,7 +1239,7 @@ async function fetchMovieDetails(movieId) {
   try {
     const response = await fetch(url);
     const movie = await response.json();
-    const movieCard = createMovieCard(movie);
+    const movieCard = await createMovieCard(movie);
     movieCard.setAttribute('data-movie-title', movie.title);
     return movieCard;
   } catch (error) {
@@ -1249,7 +1249,28 @@ async function fetchMovieDetails(movieId) {
   }
 }
 
-function createMovieCard(movie) {
+async function getAdditionalMovieImages(movieId) {
+  const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/images?api_key=${getMovieCode()}`);
+  const data = await response.json();
+  return data.posters.map(poster => poster.file_path);
+}
+
+function rotateImages(imageElements, interval = 3000) {
+  if (imageElements.length <= 1) return;
+
+  let currentIndex = 0;
+  imageElements[currentIndex].style.opacity = '1';
+
+  setTimeout(() => {
+    setInterval(() => {
+      imageElements[currentIndex].style.opacity = '0';
+      currentIndex = (currentIndex + 1) % imageElements.length;
+      imageElements[currentIndex].style.opacity = '1';
+    }, interval);
+  }, 0);
+}
+
+async function createMovieCard(movie) {
   const movieEl = document.createElement('div');
   movieEl.classList.add('movie');
   movieEl.style.cursor = 'pointer';
@@ -1271,7 +1292,9 @@ function createMovieCard(movie) {
   }
 
   movieEl.innerHTML = `
-                <img src="${IMGPATH + movie.poster_path}" alt="${movie.title}" style="cursor: pointer">
+                <div class="movie-images" style="position: relative; width: 100%; height: 435px; overflow: hidden;">
+                  <img data-src="${IMGPATH + movie.poster_path}" alt="${movie.title}" style="cursor: pointer; position: absolute; top: 0; left: 0; width: 100%; height: 100%; transition: opacity 1s ease-in-out; opacity: 1;">
+                </div>
                 <div class="movie-info" style="display: flex; justify-content: space-between; align-items: start; cursor: pointer;">
                     <h3 style="text-align: left; margin-right: 10px; flex: 1;">${movieTitle}</h3>
                     <span class="${ratingClass}" style="white-space: nowrap;">${voteAvg}</span>
@@ -1288,6 +1311,45 @@ function createMovieCard(movie) {
     updateMovieVisitCount(movie.id, movie.title);
     window.location.href = 'movie-details.html';
   });
+
+  const additionalImages = await getAdditionalMovieImages(movie.id);
+  let allImages = [movie.poster_path, ...additionalImages].filter(Boolean);
+  allImages = allImages.sort(() => 0.5 - Math.random()).slice(0, 10);
+
+  const imageContainer = movieEl.querySelector('.movie-images');
+  const observer = new IntersectionObserver(
+    (entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          img.src = img.dataset.src;
+          observer.unobserve(img);
+
+          allImages.forEach((image, index) => {
+            if (index === 0) return;
+            const img = new Image();
+            img.src = `${IMGPATH + image}`;
+            img.style.position = 'absolute';
+            img.style.top = 0;
+            img.style.left = 0;
+            img.style.width = '100%';
+            img.style.height = '100%';
+            img.style.transition = 'opacity 1s ease-in-out';
+            img.style.opacity = 0;
+            imageContainer.appendChild(img);
+          });
+          rotateImages(Array.from(imageContainer.children), 3000);
+        }
+      });
+    },
+    {
+      rootMargin: '50px 0px',
+      threshold: 0.1,
+    }
+  );
+
+  const img = movieEl.querySelector('img');
+  observer.observe(img);
 
   return movieEl;
 }
@@ -1577,7 +1639,7 @@ async function fetchTVSeriesDetails(tvSeriesId) {
   try {
     const response = await fetch(url);
     const series = await response.json();
-    const seriesCard = createTVSeriesCard(series);
+    const seriesCard = await createTVSeriesCard(series);
     seriesCard.setAttribute('data-series-title', series.name);
     return seriesCard;
   } catch (error) {
@@ -1587,29 +1649,37 @@ async function fetchTVSeriesDetails(tvSeriesId) {
   }
 }
 
-function createTVSeriesCard(movie) {
+async function getAdditionalTVSeriesImages(tvSeriesId) {
+  const response = await fetch(`https://api.themoviedb.org/3/tv/${tvSeriesId}/images?api_key=${getMovieCode()}`);
+  const data = await response.json();
+  return data.posters.map(poster => poster.file_path);
+}
+
+async function createTVSeriesCard(tvSeries) {
   const movieEl = document.createElement('div');
   movieEl.classList.add('movie');
   movieEl.style.cursor = 'pointer';
   movieEl.style.zIndex = '1000';
 
-  let movieTitle = movie.name;
+  let movieTitle = tvSeries.name;
   const words = movieTitle.split(' ');
   if (words.length >= 9) {
     words[8] = '...';
     movieTitle = words.slice(0, 9).join(' ');
   }
 
-  const ratingClass = movie.vote_count === 0 ? 'unrated' : getClassByRate(movie.vote_average);
-  const voteAvg = movie.vote_count === 0 ? 'Unrated' : movie.vote_average.toFixed(1);
+  const ratingClass = tvSeries.vote_count === 0 ? 'unrated' : getClassByRate(tvSeries.vote_average);
+  const voteAvg = tvSeries.vote_count === 0 ? 'Unrated' : tvSeries.vote_average.toFixed(1);
 
-  let overview = movie.overview;
+  let overview = tvSeries.overview;
   if (overview === '') {
     overview = 'No overview available.';
   }
 
   movieEl.innerHTML = `
-                <img src="${IMGPATH + movie.poster_path}" alt="${movie.name}" style="cursor: pointer">
+                <div class="movie-images" style="position: relative; width: 100%; height: 435px; overflow: hidden;">
+                  <img data-src="${IMGPATH + tvSeries.poster_path}" alt="${tvSeries.name}" style="cursor: pointer; position: absolute; top: 0; left: 0; width: 100%; height: 100%; transition: opacity 1s ease-in-out; opacity: 1;">
+                </div>
                 <div class="movie-info" style="display: flex; justify-content: space-between; align-items: start; cursor: pointer;">
                     <h3 style="text-align: left; margin-right: 10px; flex: 1;">${movieTitle}</h3>
                     <span class="${ratingClass}" style="white-space: nowrap;">${voteAvg}</span>
@@ -1620,12 +1690,51 @@ function createTVSeriesCard(movie) {
                 </div>`;
 
   movieEl.addEventListener('click', () => {
-    localStorage.setItem('selectedTvSeriesId', movie.id);
-    updateMovieVisitCount(movie.id, movie.name);
-    updateUniqueMoviesViewed(movie.id);
-    updateFavoriteGenre(movie.genres_ids);
+    localStorage.setItem('selectedTvSeriesId', tvSeries.id);
+    updateMovieVisitCount(tvSeries.id, tvSeries.name);
+    updateUniqueMoviesViewed(tvSeries.id);
+    updateFavoriteGenre(tvSeries.genres_ids);
     window.location.href = 'tv-details.html';
   });
+
+  const additionalImages = await getAdditionalTVSeriesImages(tvSeries.id);
+  let allImages = [tvSeries.poster_path, ...additionalImages].filter(Boolean);
+  allImages = allImages.sort(() => 0.5 - Math.random()).slice(0, 10);
+
+  const imageContainer = movieEl.querySelector('.movie-images');
+  const observer = new IntersectionObserver(
+    (entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          img.src = img.dataset.src;
+          observer.unobserve(img);
+
+          allImages.forEach((image, index) => {
+            if (index === 0) return;
+            const img = new Image();
+            img.src = `${IMGPATH + image}`;
+            img.style.position = 'absolute';
+            img.style.top = 0;
+            img.style.left = 0;
+            img.style.width = '100%';
+            img.style.height = '100%';
+            img.style.transition = 'opacity 1s ease-in-out';
+            img.style.opacity = 0;
+            imageContainer.appendChild(img);
+          });
+          rotateImages(Array.from(imageContainer.children), 3000);
+        }
+      });
+    },
+    {
+      rootMargin: '50px 0px',
+      threshold: 0.1,
+    }
+  );
+
+  const img = movieEl.querySelector('img');
+  observer.observe(img);
 
   return movieEl;
 }

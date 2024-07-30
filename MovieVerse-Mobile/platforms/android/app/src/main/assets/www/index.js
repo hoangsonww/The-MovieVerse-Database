@@ -396,18 +396,89 @@ async function getMovies(url, mainElement, page = 1) {
   hideSpinner();
 }
 
-function showMovies(movies, mainElement) {
+async function getAdditionalPosters(movieId) {
+  const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/images?api_key=${getMovieCode()}`);
+  const data = await response.json();
+  return data.posters.map(poster => poster.file_path);
+}
+
+function rotateImages(imageElements, interval = 3000) {
+  if (imageElements.length <= 1) return;
+
+  let currentIndex = 0;
+  imageElements[currentIndex].style.opacity = '1';
+
+  setTimeout(() => {
+    setInterval(() => {
+      imageElements[currentIndex].style.opacity = '0';
+      currentIndex = (currentIndex + 1) % imageElements.length;
+      imageElements[currentIndex].style.opacity = '1';
+    }, interval);
+  }, 0);
+}
+
+async function showMovies(movies, mainElement) {
   mainElement.innerHTML = '';
-  movies.forEach((movie, index) => {
+
+  const observer = new IntersectionObserver(
+    async (entries, observer) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          const movieEl = entry.target;
+          const movieId = movieEl.dataset.id;
+
+          const additionalPosters = await getAdditionalPosters(movieId);
+          let allPosters = [movieEl.dataset.posterPath, ...additionalPosters];
+
+          const movieImageContainer = movieEl.querySelector('.movie-images');
+
+          allPosters = allPosters.sort(() => 0.5 - Math.random()).slice(0, 10);
+
+          const imagePromises = allPosters.map((poster, index) => {
+            const img = new Image();
+            img.src = `${IMGPATH + poster}`;
+            img.loading = index === 0 ? 'eager' : 'lazy';
+            img.alt = `${movieEl.dataset.title} poster ${index + 1}`;
+            img.width = 300;
+            img.height = 435;
+            img.style.position = 'absolute';
+            img.style.top = 0;
+            img.style.left = 0;
+            img.style.transition = 'opacity 1s ease-in-out';
+            img.style.opacity = '0';
+            img.classList.add('poster-img');
+            movieImageContainer.appendChild(img);
+
+            return new Promise(resolve => {
+              img.onload = () => resolve(img);
+            });
+          });
+
+          const maxWait = new Promise(resolve => setTimeout(resolve, 3000));
+          await Promise.race([Promise.all(imagePromises), maxWait]);
+
+          movieImageContainer.querySelector('.poster-img').style.opacity = '1';
+
+          rotateImages(Array.from(movieImageContainer.children));
+          observer.unobserve(movieEl);
+        }
+      }
+    },
+    {
+      rootMargin: '50px 0px',
+      threshold: 0.1,
+    }
+  );
+
+  movies.forEach(movie => {
     let { id, poster_path, title, vote_average, vote_count, overview, genre_ids } = movie;
+
     const movieEl = document.createElement('div');
     movieEl.style.zIndex = '1000';
     movieEl.classList.add('movie');
-
-    const loadingType = index === 0 ? 'eager' : 'lazy';
-    const movieImage = poster_path
-      ? `<img src="${IMGPATH + poster_path}" loading="${loadingType}" alt="${title} poster" width="150" height="225">`
-      : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
+    movieEl.dataset.id = id;
+    movieEl.dataset.posterPath = poster_path;
+    movieEl.dataset.title = title;
 
     const words = title.split(' ');
     if (words.length >= 9) {
@@ -423,7 +494,11 @@ function showMovies(movies, mainElement) {
     }
 
     movieEl.innerHTML = `
-            ${movieImage}
+            <div class="movie-image-container">
+                <div class="movie-images" style="position: relative; width: 100%; height: 435px; overflow: hidden;">
+                  <img src="${IMGPATH + poster_path}" loading="lazy" alt="${title} poster" width="150" height="225" style="position: absolute; top: 0; left: 0; transition: opacity 1s ease-in-out; opacity: 1;">
+                </div>
+            </div>
             <div class="movie-info" style="display: flex; justify-content: space-between; align-items: start; cursor: pointer;">
                 <h3 style="text-align: left; margin-right: 10px; flex: 1;">${title}</h3>
                 <span class="${ratingClass}" style="white-space: nowrap;">${voteAvg}</span>
@@ -442,6 +517,7 @@ function showMovies(movies, mainElement) {
     });
 
     mainElement.appendChild(movieEl);
+    observer.observe(movieEl);
   });
 }
 
