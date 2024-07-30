@@ -854,139 +854,150 @@ function displayResults(results, category, searchTerm) {
 
 const main = document.getElementById("movie-match-container1");
 
-async function getAdditionalPosters(movieId) {
-  const response = await fetch(
-    `https://api.themoviedb.org/3/movie/${movieId}/images?api_key=${getMovieCode()}`,
-  );
-  const data = await response.json();
-  return data.posters.map((poster) => poster.file_path);
-}
+function showMovies(items, container, category) {
+  container.innerHTML = "";
 
-function rotateImages(imageElements, interval = 3000) {
-  if (imageElements.length <= 1) return;
+  items.forEach((item) => {
+    const hasVoteAverage = typeof item.vote_average === "number";
+    const isPerson = !hasVoteAverage;
+    const isMovie = item.title && hasVoteAverage;
+    const isTvSeries = item.name && hasVoteAverage && category === "tv";
 
-  let currentIndex = 0;
-  imageElements[currentIndex].style.opacity = "1";
-
-  setTimeout(() => {
-    setInterval(() => {
-      imageElements[currentIndex].style.opacity = "0";
-      currentIndex = (currentIndex + 1) % imageElements.length;
-      imageElements[currentIndex].style.opacity = "1";
-    }, interval);
-  }, 0);
-}
-
-async function showMovies(movies, mainElement) {
-  mainElement.innerHTML = "";
-
-  const observer = new IntersectionObserver(
-    async (entries, observer) => {
-      for (const entry of entries) {
-        if (entry.isIntersecting) {
-          const movieEl = entry.target;
-          const movieId = movieEl.dataset.id;
-
-          const additionalPosters = await getAdditionalPosters(movieId);
-          let allPosters = [movieEl.dataset.posterPath, ...additionalPosters];
-
-          const movieImageContainer = movieEl.querySelector(".movie-images");
-
-          allPosters = allPosters.sort(() => 0.5 - Math.random()).slice(0, 10);
-
-          const imagePromises = allPosters.map((poster, index) => {
-            const img = new Image();
-            img.src = `${IMGPATH + poster}`;
-            img.loading = index === 0 ? "eager" : "lazy";
-            img.alt = `${movieEl.dataset.title} poster ${index + 1}`;
-            img.width = 300;
-            img.height = 435;
-            img.style.position = "absolute";
-            img.style.top = 0;
-            img.style.left = 0;
-            img.style.transition = "opacity 1s ease-in-out";
-            img.style.opacity = "0";
-            img.classList.add("poster-img");
-            movieImageContainer.appendChild(img);
-
-            return new Promise((resolve) => {
-              img.onload = () => resolve(img);
-            });
-          });
-
-          const maxWait = new Promise((resolve) => setTimeout(resolve, 3000));
-          await Promise.race([Promise.all(imagePromises), maxWait]);
-
-          movieImageContainer.querySelector(".poster-img").style.opacity = "1";
-
-          rotateImages(Array.from(movieImageContainer.children));
-          observer.unobserve(movieEl);
-        }
-      }
-    },
-    {
-      rootMargin: "50px 0px",
-      threshold: 0.1,
-    },
-  );
-
-  movies.forEach((movie) => {
-    let {
-      id,
-      poster_path,
-      title,
-      vote_average,
-      vote_count,
-      overview,
-      genre_ids,
-    } = movie;
-
-    const movieEl = document.createElement("div");
-    movieEl.style.zIndex = "1000";
-    movieEl.classList.add("movie");
-    movieEl.dataset.id = id;
-    movieEl.dataset.posterPath = poster_path;
-    movieEl.dataset.title = title;
-
+    let title = item.title || item.name || "N/A";
     const words = title.split(" ");
+
     if (words.length >= 9) {
       words[8] = "...";
       title = words.slice(0, 9).join(" ");
     }
 
-    const voteAvg = vote_count === 0 ? "Unrated" : vote_average.toFixed(1);
-    const ratingClass =
-      vote_count === 0 ? "unrated" : getClassByRate(vote_average);
+    let overview = item.overview || "No overview available.";
+    const biography =
+      item.biography || "Click to view the details of this person.";
 
     if (overview === "") {
       overview = "No overview available.";
     }
 
-    movieEl.innerHTML = `
-            <div class="movie-image-container">
-                <div class="movie-images" style="position: relative; width: 100%; height: 435px; overflow: hidden;">
-                  <img src="${IMGPATH + poster_path}" loading="lazy" alt="${title} poster" width="150" height="225" style="position: absolute; top: 0; left: 0; transition: opacity 1s ease-in-out; opacity: 1;">
-                </div>
-            </div>
-            <div class="movie-info" style="display: flex; justify-content: space-between; align-items: start; cursor: pointer;">
-                <h3 style="text-align: left; margin-right: 10px; flex: 1;">${title}</h3>
-                <span class="${ratingClass}" style="white-space: nowrap;">${voteAvg}</span>
-            </div>
-            <div class="overview" style="cursor: pointer;">
-                <h4>Overview: </h4>
-                ${overview}
-            </div>`;
+    const { id, profile_path, poster_path } = item;
+    const imagePath =
+      profile_path || poster_path
+        ? IMGPATH + (profile_path || poster_path)
+        : null;
 
-    movieEl.addEventListener("click", () => {
-      localStorage.setItem("selectedMovieId", id);
-      updateUniqueMoviesViewed(id);
-      updateFavoriteGenre(genre_ids);
-      updateMovieVisitCount(id, title);
-      window.location.href = "MovieVerse-Frontend/html/movie-details.html";
+    const movieEl = document.createElement("div");
+    movieEl.classList.add("movie");
+    movieEl.style.zIndex = 10000;
+
+    let movieContentHTML = `<div class="image-container" style="text-align: center;">`;
+
+    if (imagePath) {
+      movieContentHTML += `<img src="${imagePath}" alt="${title}" style="cursor: pointer; max-width: 100%;" onError="this.parentElement.innerHTML = '<div style=\'text-align: center; padding: 20px;\'>Image Unavailable</div>';">`;
+    } else {
+      movieContentHTML += `<div style="text-align: center; padding: 20px;">Image Unavailable</div>`;
+    }
+
+    movieContentHTML += `</div><div class="movie-info" style="display: flex; justify-content: space-between; align-items: start; cursor: pointer;">`;
+    movieContentHTML += `<h3 style="text-align: left; flex-grow: 1; margin: 0; margin-right: 10px">${title}</h3>`;
+
+    if ((isMovie || isTvSeries) && hasVoteAverage) {
+      const voteAverage = item.vote_average.toFixed(1);
+      movieContentHTML += `<span class="${getClassByRate(item.vote_average)}">${voteAverage}</span>`;
+    }
+
+    movieContentHTML += `</div>`;
+
+    if (isPerson) {
+      const roleOverview =
+        item.known_for_department === "Directing"
+          ? "Director Overview"
+          : "Actor Overview";
+      movieContentHTML += `<div class="overview" style="cursor: pointer;"><h4>${roleOverview}: </h4>${biography}</div>`;
+    } else if (isTvSeries) {
+      movieContentHTML += `<div class="overview" style="cursor: pointer;"><h4>TV Series Overview: </h4>${overview}</div>`;
+    } else {
+      movieContentHTML += `<div class="overview" style="cursor: pointer;"><h4>Movie Overview: </h4>${overview}</div>`;
+    }
+
+    movieEl.innerHTML = movieContentHTML;
+
+    movieEl.addEventListener("click", async () => {
+      if (isPerson) {
+        try {
+          const personDetailsUrl = `https://${getMovieVerseData()}/3/person/${id}?${generateMovieNames()}${getMovieCode()}`;
+          const response = await fetch(personDetailsUrl);
+          const personDetails = await response.json();
+          if (personDetails.known_for_department === "Directing") {
+            const directorVisits =
+              JSON.parse(localStorage.getItem("directorVisits")) || {};
+            const uniqueDirectorsViewed =
+              JSON.parse(localStorage.getItem("uniqueDirectorsViewed")) || [];
+
+            if (!uniqueDirectorsViewed.includes(id)) {
+              uniqueDirectorsViewed.push(id);
+              localStorage.setItem(
+                "uniqueDirectorsViewed",
+                JSON.stringify(uniqueDirectorsViewed),
+              );
+            }
+
+            if (directorVisits[id]) {
+              directorVisits[id].count++;
+            } else {
+              directorVisits[id] = {
+                count: 1,
+                name: personDetails.name || "Unknown",
+              };
+            }
+
+            localStorage.setItem(
+              "directorVisits",
+              JSON.stringify(directorVisits),
+            );
+            localStorage.setItem("selectedDirectorId", id);
+            window.location.href = "director-details.html?" + id;
+          } else {
+            const actorVisits =
+              JSON.parse(localStorage.getItem("actorVisits")) || {};
+            const uniqueActorsViewed =
+              JSON.parse(localStorage.getItem("uniqueActorsViewed")) || [];
+
+            if (!uniqueActorsViewed.includes(id)) {
+              uniqueActorsViewed.push(id);
+              localStorage.setItem(
+                "uniqueActorsViewed",
+                JSON.stringify(uniqueActorsViewed),
+              );
+            }
+
+            if (actorVisits[id]) {
+              actorVisits[id].count++;
+            } else {
+              actorVisits[id] = {
+                count: 1,
+                name: personDetails.name || "Unknown",
+              };
+            }
+
+            localStorage.setItem("actorVisits", JSON.stringify(actorVisits));
+            localStorage.setItem("selectedActorId", id);
+            window.location.href = "actor-details.html?" + id;
+          }
+        } catch (error) {
+          console.log("Error fetching person details:", error);
+        }
+      } else if (isMovie) {
+        localStorage.setItem("selectedMovieId", id);
+        window.location.href = "movie-details.html?" + id;
+        updateMovieVisitCount(id, title);
+      } else if (isTvSeries) {
+        localStorage.setItem("selectedTvSeriesId", id);
+        window.location.href = "tv-details.html?" + id;
+        updateMovieVisitCount(id, title);
+      }
     });
 
-    mainElement.appendChild(movieEl);
-    observer.observe(movieEl);
+    container.appendChild(movieEl);
   });
 }
 
