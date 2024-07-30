@@ -676,6 +676,16 @@ async function showResults(category) {
       }
 
       data.results.sort((a, b) => b.popularity - a.popularity);
+
+      const personDetailsPromises = data.results.map(async person => {
+        const personDetailsUrl = `https://${getMovieVerseData()}/3/person/${person.id}?${generateMovieNames()}${code}`;
+        const personResponse = await fetch(personDetailsUrl);
+        const personDetails = await personResponse.json();
+        person.biography = personDetails.biography || 'Click to view the details of this person.';
+        return person;
+      });
+
+      data.results = await Promise.all(personDetailsPromises);
     } else if (category === 'tv') {
       const genre = document.getElementById('genre-tv-filter').value;
       const year = document.getElementById('year-tv-filter').value;
@@ -804,16 +814,16 @@ async function showMovies(items, container, category) {
     let title = item.title || item.name || 'N/A';
     const words = title.split(' ');
 
-    if (words.length >= 9) {
-      words[8] = '...';
-      title = words.slice(0, 9).join(' ');
+    if (words.length >= 8) {
+      words[7] = '...';
+      title = words.slice(0, 8).join(' ');
     }
 
-    let overview = item.overview || 'No overview available.';
+    let overview = item.overview || 'Click to view the details of this movie/TV series.';
     const biography = item.biography || 'Click to view the details of this person.';
 
     if (overview === '') {
-      overview = 'No overview available.';
+      overview = 'Click to view the details of this movie/TV series.';
     }
 
     const { id, profile_path, poster_path } = item;
