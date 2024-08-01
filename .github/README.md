@@ -179,7 +179,7 @@ Or, for your convenience, you may simply run the following command, provided tha
     ```bash
     git push origin feature/AmazingFeature
     ```
-15. Open a Pull Request (if you want to merge your changes to our official app!) Enjoy coding and [let me know](https://github.com/hoangsonww/The-MovieVerse-Database/discussions) if you have any questions!
+15. Open a Pull Request (if you want to merge your changes to our official app). Enjoy coding and [let me know](https://github.com/hoangsonww/The-MovieVerse-Database/discussions) if you have any questions!
 16. If you'd also like to access full, advanced features of the app's development, please [contact me](https://github.com/hoangsonww/The-MovieVerse-Database/discussions) for the `.env` file and additional configurations.
 
 **Note:** Although the primary branch of this repo is `main`, the active deployment branch is `main-deployment-branch`. Therefore, refer to the `main-deployment-branch` for the latest updates and changes as we always push code to the deployment branch before merging it into the main branch.
@@ -196,7 +196,7 @@ By accessing or using The MovieVerse, you agree to be bound by our [Terms of Ser
 
 Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag `enhancement`.
 
 ## License
 

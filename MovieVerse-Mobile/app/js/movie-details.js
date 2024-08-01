@@ -578,7 +578,7 @@ async function fetchMovieDetails(movieId) {
   } catch (error) {
     document.getElementById('movie-details-container').innerHTML = `
             <div style="display: flex; justify-content: center; align-items: center; text-align: center; margin-top: 40px; width: 100vw; height: 800px">
-                <h2>Movie details not found - Try again with a different movie</h2>
+                <h2>Movie details currently unavailable - please try again</h2>
             </div>`;
     console.log('Error fetching movie details:', error);
   } finally {
@@ -1011,7 +1011,6 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
   }
 
   const releaseDateWithTimeAgo = `${releaseDate} (${timeAgoString} ago)`;
-
   const budget = movie.budget === 0 ? 'Information Not Available' : `$${movie.budget.toLocaleString()}`;
   const revenue = movie.revenue <= 1000 ? 'Information Not Available' : `$${movie.revenue.toLocaleString()}`;
   const tagline = movie.tagline ? movie.tagline : 'No tagline found';
@@ -1020,13 +1019,19 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
   const countries = movie.production_countries.map(country => country.name).join(', ');
   const popularityScore = movie.popularity.toFixed(0);
 
-  let keywords = movie.keywords ? movie.keywords.keywords.map(kw => kw.name).join(', ') : 'None Available';
-  const scaledRating = (movie.vote_average / 2).toFixed(1);
+  let keywords = movie.keywords
+    ? movie.keywords.keywords
+        .map(
+          kw => `<a class="keyword-link" href="javascript:void(0);" onclick="handleKeywordClick('${kw.name.replace(/'/g, "\\'")}')">${kw.name}</a>`
+        )
+        .join(', ')
+    : 'None Available';
 
   if (keywords.length === 0) {
     keywords = 'No keywords have been added';
   }
 
+  const scaledRating = (movie.vote_average / 2).toFixed(1);
   const popularityThreshold = 80;
   const isPopular = movie.popularity >= popularityThreshold;
   const popularityText = isPopular
@@ -1729,6 +1734,11 @@ function retriggerAnimation(imdbRating) {
 
 function getSavedTextColor() {
   return localStorage.getItem('textColor') || 'white';
+}
+
+function handleKeywordClick(keyword) {
+  localStorage.setItem('searchQuery', keyword);
+  window.location.href = 'search.html';
 }
 
 function handleActorClick(actorId, actorName) {

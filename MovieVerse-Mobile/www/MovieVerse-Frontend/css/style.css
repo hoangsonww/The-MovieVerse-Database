@@ -1285,6 +1285,14 @@ header h1 {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
+.question-header {
+  color: #ff8623;
+}
+
+.question-header:hover {
+  color: orange;
+}
+
 #rating {
   color: inherit;
 }
@@ -1308,6 +1316,38 @@ header h1 {
   font-weight: bold;
   color: #ffeb3b;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.movie-images {
+  position: relative;
+  width: 100%;
+  height: 435px;
+  overflow: hidden;
+}
+
+.movie-images img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: opacity 1s ease-in-out;
+  opacity: 0;
+}
+
+.movie-images img.active {
+  opacity: 1;
+}
+
+.movie-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  cursor: pointer;
+}
+
+.overview {
+  cursor: pointer;
 }
 
 .adult-indicator {

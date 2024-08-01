@@ -568,7 +568,7 @@ async function fetchTvDetails(tvSeriesId) {
   } catch (error) {
     document.getElementById('movie-details-container').innerHTML = `
             <div style="display: flex; justify-content: center; align-items: center; text-align: center; margin-top: 40px; width: 100vw; height: 800px">
-                <h2>TV series details not found - Try again with another TV series</h2>
+                <h2>TV series details currently unavailable - please try again</h2>
             </div>`;
     console.log('Error fetching TV series details:', error);
   } finally {
@@ -577,6 +577,8 @@ async function fetchTvDetails(tvSeriesId) {
 }
 
 async function fetchTVRatings(imdbId) {
+  showSpinner();
+
   if (!imdbId) {
     return 'IMDb rating';
   }
@@ -610,6 +612,7 @@ async function fetchTVRatings(imdbId) {
   const responses = await Promise.all(requests);
   const data = responses.find(response => response !== null);
 
+  hideSpinner();
   return data && data.imdbRating ? data.imdbRating : 'View on IMDb';
 }
 
@@ -1018,11 +1021,18 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
 
   detailsHTML += `<p><strong>Streaming Options:</strong> ${streamingHTML}</p>`;
 
+  let keywordsHTML = tvSeries.keywords
+    ? tvSeries.keywords.results
+        .map(
+          kw => `<a class="keyword-link" href="javascript:void(0);" onclick="handleKeywordClick('${kw.name.replace(/'/g, "\\'")}')">${kw.name}</a>`
+        )
+        .join(', ')
+    : 'None Available';
+
   if (tvSeries.keywords && tvSeries.keywords.results && tvSeries.keywords.results.length) {
-    let keywordsHTML = tvSeries.keywords.results.map(keyword => keyword.name).join(', ');
     detailsHTML += `<p><strong>Keywords:</strong> ${keywordsHTML}</p>`;
   } else {
-    detailsHTML += `<p><strong>Keywords:</strong> Information not available</p>`;
+    detailsHTML += `<p><strong>Keywords:</strong> None Available</p>`;
   }
 
   const mediaUrl = `https://${getMovieVerseData()}/3/tv/${tvSeries.id}/images?${generateMovieNames()}${getMovieCode()}`;
@@ -1097,9 +1107,11 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
     imageElement.src = `https://image.tmdb.org/t/p/w780${images[currentIndex].file_path}`;
   }
 
+  let modalOpen = false;
+
   imageElement.addEventListener('click', function () {
     let imageUrl = this.src.replace('w780', 'w1280');
-
+    modalOpen = true;
     const modalHtml = `
             <div id="image-modal" style="z-index: 100022222; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
                 <button id="prevModalButton" style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); background-color: #7378c5; color: white; border-radius: 8px; height: 30px; width: 30px; border: none; cursor: pointer; z-index: 11;"><i class="fas fa-arrow-left"></i></button>
@@ -1116,12 +1128,14 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
 
     closeModalBtn.onclick = function () {
       modal.remove();
+      modalOpen = false;
       imageElement.src = modalImage.src.replace('w1280', 'w780');
     };
 
     modal.addEventListener('click', function (event) {
       if (event.target === this) {
         this.remove();
+        modalOpen = false;
         imageElement.src = modalImage.src.replace('w1280', 'w780');
       }
     });
@@ -1142,15 +1156,27 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
     imgElement2.style.opacity = '0';
     currentIndex = (currentIndex + direction + images.length) % images.length;
 
-    setTimeout(() => {
-      imgElement1.src = `https://image.tmdb.org/t/p/w780${images[currentIndex].file_path}`;
-      imgElement2.src = `https://image.tmdb.org/t/p/w1280${images[currentIndex].file_path}`;
-      imgElement1.style.opacity = '1';
-      imgElement2.style.opacity = '1';
-    }, 500);
+    const newSrc1 = `https://image.tmdb.org/t/p/w780${images[currentIndex].file_path}`;
+    const newSrc2 = `https://image.tmdb.org/t/p/w1280${images[currentIndex].file_path}`;
+    const tempImage1 = new Image();
+    const tempImage2 = new Image();
+    tempImage1.src = newSrc1;
+    tempImage2.src = newSrc2;
+
+    tempImage1.onload = () => {
+      tempImage2.onload = () => {
+        setTimeout(() => {
+          imgElement1.src = newSrc1;
+          imgElement2.src = newSrc2;
+          imgElement1.style.opacity = '1';
+          imgElement2.style.opacity = '1';
+        }, 500);
+      };
+    };
 
     sessionStorage.setItem('currentIndex', currentIndex);
     updateDots(currentIndex);
+    resetRotationInterval();
   }
 
   let prevButton = document.getElementById('prev-media-button');
@@ -1190,16 +1216,45 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
   prevButton.onclick = () => navigateMedia(images, imageElement, -1);
   nextButton.onclick = () => navigateMedia(images, imageElement, 1);
 
+  let rotationInterval;
+
+  if (images.length === 0) {
+    mediaContainer.innerHTML = '<p>No media available</p>';
+  } else if (images.length > 1) {
+    startRotationInterval();
+  }
+
+  function startRotationInterval() {
+    rotationInterval = setInterval(() => {
+      if (!modalOpen) {
+        navigateMedia(images, imageElement, 1);
+      }
+    }, 3000);
+  }
+
+  function resetRotationInterval() {
+    clearInterval(rotationInterval);
+    startRotationInterval();
+  }
+
   function navigateMedia(images, imgElement, direction) {
-    imgElement.style.opacity = '0';
     currentIndex = (currentIndex + direction + images.length) % images.length;
-    setTimeout(() => {
-      imgElement.src = `https://image.tmdb.org/t/p/w780${images[currentIndex].file_path}`;
-      imgElement.style.opacity = '1';
-    }, 500);
+    imgElement.style.opacity = '0';
+
+    const newSrc = `https://image.tmdb.org/t/p/w780${images[currentIndex].file_path}`;
+    const tempImage = new Image();
+    tempImage.src = newSrc;
+
+    tempImage.onload = () => {
+      setTimeout(() => {
+        imgElement.src = newSrc;
+        imgElement.style.opacity = '1';
+      }, 420);
+    };
 
     sessionStorage.setItem('currentIndex', currentIndex);
     updateDots(currentIndex);
+    resetRotationInterval();
   }
 
   const indicatorContainer = document.createElement('div');
@@ -1255,10 +1310,6 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
 
   if (window.innerWidth <= 767) {
     mediaContainer.style.width = 'calc(100% - 40px)';
-  }
-
-  if (images.length === 0) {
-    mediaContainer.innerHTML = '<p>No media available</p>';
   }
 
   document.getElementById('movie-description').innerHTML = detailsHTML;
@@ -1444,6 +1495,11 @@ function showSpinner() {
 
 function hideSpinner() {
   document.getElementById('myModal').classList.remove('modal-visible');
+}
+
+function handleKeywordClick(keyword) {
+  localStorage.setItem('searchQuery', keyword);
+  window.location.href = 'search.html';
 }
 
 function handleCreatorClick(creatorId, creatorName) {

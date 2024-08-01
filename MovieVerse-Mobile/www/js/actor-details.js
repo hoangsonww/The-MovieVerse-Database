@@ -88,7 +88,7 @@ async function fetchActorDetails(actorId) {
     if (actor.success === false) {
       document.getElementById('actor-details-container').innerHTML = `
             <div style="display: flex; justify-content: center; align-items: center; text-align: center; width: 100vw; height: 800px">
-                <h2>Actor details not found - try again with a different actor.</h2>
+                <h2>Actor details currently unavailable - please try again</h2>
             </div>`;
     } else {
       updateBrowserURL(actor.name);
@@ -99,7 +99,7 @@ async function fetchActorDetails(actorId) {
     console.log('Error fetching actor details:', error);
     document.getElementById('actor-details-container').innerHTML = `
             <div style="display: flex; justify-content: center; align-items: center; text-align: center; width: 100vw; height: 800px">
-                <h2>Actor details not found - try again with a different actor.</h2>
+                <h2>Actor details currently unavailable - please try again</h2>
             </div>`;
     hideSpinner();
   }
@@ -284,8 +284,11 @@ async function populateActorDetails(actor, credits) {
     imageElement.src = `https://image.tmdb.org/t/p/w780${images[0].file_path}`;
   }
 
+  let modalOpen = false;
+
   imageElement.addEventListener('click', function () {
-    const imageUrl = this.src;
+    const imageUrl = this.src.replace('w780', 'w1280');
+    modalOpen = true;
     const modalHtml = `
             <div id="image-modal" style="z-index: 100022222; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
                 <button id="prevModalButton" style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); background-color: #7378c5; color: white; border-radius: 8px; height: 30px; width: 30px; border: none; cursor: pointer; z-index: 11;"><i class="fas fa-arrow-left"></i></button>
@@ -302,11 +305,15 @@ async function populateActorDetails(actor, credits) {
 
     closeModalBtn.onclick = function () {
       modal.remove();
+      modalOpen = false;
+      imageElement.src = modalImage.src.replace('w1280', 'w780');
     };
 
     modal.addEventListener('click', function (event) {
       if (event.target === this) {
         this.remove();
+        modalOpen = false;
+        imageElement.src = modalImage.src.replace('w1280', 'w780');
       }
     });
 
@@ -326,15 +333,27 @@ async function populateActorDetails(actor, credits) {
     imgElement2.style.opacity = '0';
     currentIndex = (currentIndex + direction + images.length) % images.length;
 
-    setTimeout(() => {
-      imgElement1.src = `https://image.tmdb.org/t/p/w780${images[currentIndex].file_path}`;
-      imgElement2.src = `https://image.tmdb.org/t/p/w1280${images[currentIndex].file_path}`;
-      imgElement1.style.opacity = '1';
-      imgElement2.style.opacity = '1';
-    }, 500);
+    const newSrc1 = `https://image.tmdb.org/t/p/w780${images[currentIndex].file_path}`;
+    const newSrc2 = `https://image.tmdb.org/t/p/w1280${images[currentIndex].file_path}`;
+    const tempImage1 = new Image();
+    const tempImage2 = new Image();
+    tempImage1.src = newSrc1;
+    tempImage2.src = newSrc2;
+
+    tempImage1.onload = () => {
+      tempImage2.onload = () => {
+        setTimeout(() => {
+          imgElement1.src = newSrc1;
+          imgElement2.src = newSrc2;
+          imgElement1.style.opacity = '1';
+          imgElement2.style.opacity = '1';
+        }, 500);
+      };
+    };
 
     sessionStorage.setItem('currentIndex', currentIndex);
     updateDots(currentIndex);
+    resetRotationInterval();
   }
 
   let prevButton = document.getElementById('prev-media-button');
@@ -374,16 +393,45 @@ async function populateActorDetails(actor, credits) {
   prevButton.onclick = () => navigateMedia(images, imageElement, -1);
   nextButton.onclick = () => navigateMedia(images, imageElement, 1);
 
+  let rotationInterval;
+
+  if (images.length === 0) {
+    mediaContainer.innerHTML = '<p>No media available</p>';
+  } else if (images.length > 1) {
+    startRotationInterval();
+  }
+
+  function startRotationInterval() {
+    rotationInterval = setInterval(() => {
+      if (!modalOpen) {
+        navigateMedia(images, imageElement, 1);
+      }
+    }, 3000);
+  }
+
+  function resetRotationInterval() {
+    clearInterval(rotationInterval);
+    startRotationInterval();
+  }
+
   function navigateMedia(images, imgElement, direction) {
-    imgElement.style.opacity = '0';
     currentIndex = (currentIndex + direction + images.length) % images.length;
-    setTimeout(() => {
-      imgElement.src = `https://image.tmdb.org/t/p/w780${images[currentIndex].file_path}`;
-      imgElement.style.opacity = '1';
-    }, 500);
+    imgElement.style.opacity = '0';
+
+    const newSrc = `https://image.tmdb.org/t/p/w780${images[currentIndex].file_path}`;
+    const tempImage = new Image();
+    tempImage.src = newSrc;
+
+    tempImage.onload = () => {
+      setTimeout(() => {
+        imgElement.src = newSrc;
+        imgElement.style.opacity = '1';
+      }, 420);
+    };
 
     sessionStorage.setItem('currentIndex', currentIndex);
     updateDots(currentIndex);
+    resetRotationInterval();
   }
 
   const indicatorContainer = document.createElement('div');
@@ -441,10 +489,6 @@ async function populateActorDetails(actor, credits) {
 
   if (window.innerWidth <= 767) {
     mediaContainer.style.width = 'calc(100% - 40px)';
-  }
-
-  if (images.length === 0) {
-    mediaContainer.innerHTML = '<p>No media available</p>';
   }
 
   applySettings();
