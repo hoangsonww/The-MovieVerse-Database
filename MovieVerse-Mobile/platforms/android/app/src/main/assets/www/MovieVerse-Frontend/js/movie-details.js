@@ -767,6 +767,7 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
   }
 
   populateMovieDetails(tmdbMovieData, imdbRating, rtRating, metascore, awards, rated);
+
   hideSpinner();
 }
 
@@ -1061,7 +1062,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
       <div class="rating-bar">
         <div class="rating-fill" style="width: 0; background-color: ${ratingColor};" id="rating-fill"></div>
       </div>
-      <span class="rating-text"><strong id="user-ratings">${scaledRating}/5.0</strong> (<strong id="user-votes">${voteCount}</strong> votes)</span>
+      <span class="rating-text"><strong>${scaledRating}/5.0</strong> (<strong id="user-votes">${voteCount}</strong> votes)</span>
     </div>
   `;
 
@@ -1099,10 +1100,6 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         <p><strong>TMDb Rating:</strong> <a href="https://www.themoviedb.org/movie/${movie.id}" id="rating" target="_blank">${tmdbRating}/10.0</a></p>
         ${metascoreElement}
     `;
-
-  setTimeout(() => {
-    document.getElementById('rating-fill').style.width = `${ratingPercentage}%`;
-  }, 100);
 
   if (movie.credits && movie.credits.crew) {
     const directors = movie.credits.crew.filter(member => member.job === 'Director');
@@ -1367,7 +1364,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
 
   const homepage = document.createElement('p');
   homepage.innerHTML = movie.homepage
-    ? `<strong>Homepage:</strong> <a id="rating-link" href="${movie.homepage}" target="_blank">Visit homepage</a>`
+    ? `<strong>Homepage:</strong> <a id="rating-link" href="${movie.homepage}" target="_blank">Visit Homepage</a>`
     : `<strong>Homepage:</strong> Information unavailable`;
   movieDescription.appendChild(homepage);
 
@@ -1694,6 +1691,10 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
             </div>`;
     console.log('Error fetching movie details:', error);
   }
+
+  setTimeout(() => {
+    document.getElementById('rating-fill').style.width = `${ratingPercentage}%`;
+  }, 100);
 
   hideSpinner();
 }
