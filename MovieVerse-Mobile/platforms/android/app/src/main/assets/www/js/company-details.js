@@ -323,7 +323,7 @@ async function fetchCompanyDetails(companyId) {
     const companyDetailsContainer = document.getElementById('company-details-container');
     companyDetailsContainer.innerHTML = `
             <div style="display: flex; justify-content: center; align-items: center; height: 100vh; text-align: center; width: 100vw;">
-                <h2>Company details not found - try again with a different company.</h2>
+                <h2>Company details currently unavailable - please try again</h2>
             </div>`;
     hideSpinner();
   }

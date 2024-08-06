@@ -1310,12 +1310,53 @@ header h1 {
 }
 
 .keyword-link {
-  color: white;
-  text-decoration: underline;
+  display: inline-block;
+  margin: 5px;
+  margin-right: 1px;
+  padding: 5px 10px;
+  background-color: rgba(221, 221, 221, 0.5);
+  border-radius: 8px;
+  text-decoration: none;
+  color: black;
+  font-size: 14px;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
 }
 
 .keyword-link:hover {
-  color: #ff8623;
+  background-color: rgba(64, 64, 64, 0.8);
+  color: #fff;
+}
+
+.rating-container {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+  justify-content: center;
+  text-align: center;
+}
+
+.rating-bar {
+  flex-grow: 1;
+  height: 20px;
+  background-color: rgba(128, 128, 128, 0.3);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  margin: 0 10px;
+  max-width: 160px;
+}
+
+.rating-fill {
+  height: 100%;
+  width: 0;
+  transition: width 1s ease-in-out;
+}
+
+.rating-text {
+  font: inherit;
+  color: white;
 }
 
 .director-header {

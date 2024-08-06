@@ -733,7 +733,14 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
   const data = responses.find(response => response !== null);
 
   if (!data) {
-    populateMovieDetails(tmdbMovieData, tmdbMovieData.vote_average, 'N/A', 'View on Metacritics', 'Awards information unavailable');
+    populateMovieDetails(
+      tmdbMovieData,
+      tmdbMovieData.vote_average,
+      'N/A',
+      'View on Metacritics',
+      'Awards information unavailable',
+      'Rating information unavailable'
+    );
     return;
   }
 
@@ -1032,6 +1039,32 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
   }
 
   const scaledRating = (movie.vote_average / 2).toFixed(1);
+  const ratingPercentage = (scaledRating / 5) * 100;
+  const voteCount = movie.vote_count ? movie.vote_count : '0';
+
+  let ratingColor;
+  if (scaledRating <= 1) {
+    ratingColor = '#FF0000'; // Red
+  } else if (scaledRating < 2) {
+    ratingColor = '#FFA500'; // Orange
+  } else if (scaledRating < 3) {
+    ratingColor = '#FFFF00'; // Yellow
+  } else if (scaledRating < 4) {
+    ratingColor = '#2196F3'; // Blue
+  } else {
+    ratingColor = '#4CAF50'; // Green
+  }
+
+  const ratingHTML = `
+    <div class="rating-container" title="Your rating also counts - it might take a while for us to update!">
+      <strong>MovieVerse Rating:</strong>
+      <div class="rating-bar">
+        <div class="rating-fill" style="width: 0; background-color: ${ratingColor};" id="rating-fill"></div>
+      </div>
+      <span class="rating-text"><strong id="user-ratings">${scaledRating}/5.0</strong> (<strong id="user-votes">${voteCount}</strong> votes)</span>
+    </div>
+  `;
+
   const popularityThreshold = 80;
   const isPopular = movie.popularity >= popularityThreshold;
   const popularityText = isPopular
@@ -1061,13 +1094,15 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         <p><strong>Languages:</strong> ${languages}</p>
         <p><strong>Countries of Production:</strong> ${countries}</p>
         <p><strong>Popularity Score:</strong> <span class="${isPopular ? 'popular' : ''}">${popularityText}</span></p>
-        <p title="Your rating also counts - it might take a while for us to update!"><strong>MovieVerse User Rating:</strong> <span><strong id="user-ratings">${scaledRating}/5.0</strong> (based on <strong id="user-ratings">${
-          movie.vote_count
-        }</strong> votes)</span></p>
+        ${ratingHTML}
         ${awardsElement}
         <p><strong>TMDb Rating:</strong> <a href="https://www.themoviedb.org/movie/${movie.id}" id="rating" target="_blank">${tmdbRating}/10.0</a></p>
         ${metascoreElement}
     `;
+
+  setTimeout(() => {
+    document.getElementById('rating-fill').style.width = `${ratingPercentage}%`;
+  }, 100);
 
   if (movie.credits && movie.credits.crew) {
     const directors = movie.credits.crew.filter(member => member.job === 'Director');
