@@ -1335,6 +1335,7 @@ header h1 {
   margin: 10px 0;
   justify-content: center;
   text-align: center;
+  flex-wrap: wrap;
 }
 
 .rating-bar {
@@ -1342,10 +1343,11 @@ header h1 {
   height: 20px;
   background-color: rgba(128, 128, 128, 0.3);
   border-radius: 10px;
-  overflow: hidden;
+  overflow: auto;
   position: relative;
   margin: 0 10px;
   max-width: 160px;
+  min-width: 90px;
 }
 
 .rating-fill {
