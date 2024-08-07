@@ -698,7 +698,19 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
   showSpinner();
   document.body.offsetHeight;
 
-  const req = [await getMovieCode2(), '58efe859', '60a09d79', '956e468a', 'bd55ada4', 'cbfc076', 'dc091ff2', '6e367eef', '2a2a3080', 'd20a931f'];
+  const req = [
+    await getMovieCode2(),
+    '58efe859',
+    '60a09d79',
+    '956e468a',
+    'bd55ada4',
+    'cbfc076',
+    'dc091ff2',
+    '6e367eef',
+    '2a2a3080',
+    'd20a931f',
+    '531a4313',
+  ];
   const baseURL = `https://${getMovieActor()}/?i=${imdbId}&${getMovieName()}`;
 
   async function tryFetch(apiKey) {
@@ -733,14 +745,7 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
   const data = responses.find(response => response !== null);
 
   if (!data) {
-    populateMovieDetails(
-      tmdbMovieData,
-      tmdbMovieData.vote_average,
-      'N/A',
-      'View on Metacritics',
-      'Awards information unavailable',
-      'Rating information unavailable'
-    );
+    populateMovieDetails(tmdbMovieData, tmdbMovieData.vote_average, 'N/A', 'View on Metacritics');
     return;
   }
 

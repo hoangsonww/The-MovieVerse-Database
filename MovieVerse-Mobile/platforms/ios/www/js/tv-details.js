@@ -558,8 +558,9 @@ async function fetchTvDetails(tvSeriesId) {
 
     if (imdbId) {
       const imdbRatingPromise = fetchTVRatings(imdbId);
-      const imdbRating = await imdbRatingPromise;
-      populateTvSeriesDetails(tvSeriesDetails, imdbRating);
+      const imdbRating = await imdbRatingPromise.then(data => (data !== 'IMDb rating' ? data.imdbRating : 'IMDb rating'));
+      const rated = await imdbRatingPromise.then(data => (data !== 'IMDb rating' ? data.Rated : 'Rated'));
+      populateTvSeriesDetails(tvSeriesDetails, imdbRating, rated);
     } else {
       populateTvSeriesDetails(tvSeriesDetails, 'IMDb rating');
     }
@@ -583,8 +584,19 @@ async function fetchTVRatings(imdbId) {
     return 'IMDb rating';
   }
 
-  const apiKeys = [await getMovieCode2(), '58efe859', '60a09d79', '956e468a', 'bd55ada4', 'cbfc076', 'dc091ff2', '6e367eef', '2a2a3080', 'd20a931f'];
-
+  const req = [
+    await getMovieCode2(),
+    '58efe859',
+    '60a09d79',
+    '956e468a',
+    'bd55ada4',
+    'cbfc076',
+    'dc091ff2',
+    '6e367eef',
+    '2a2a3080',
+    'd20a931f',
+    '531a4313',
+  ];
   const baseURL = `https://${getMovieActor()}/?i=${imdbId}&${getMovieName()}`;
 
   async function tryFetch(apiKey, timeout = 5000) {
@@ -608,12 +620,12 @@ async function fetchTVRatings(imdbId) {
     });
   }
 
-  const requests = apiKeys.map(key => tryFetch(key));
+  const requests = req.map(key => tryFetch(key));
   const responses = await Promise.all(requests);
   const data = responses.find(response => response !== null);
 
   hideSpinner();
-  return data && data.imdbRating ? data.imdbRating : 'View on IMDb';
+  return data && data.imdbRating ? data : 'View on IMDb';
 }
 
 function getLanguageName(code) {
@@ -626,9 +638,117 @@ function getCountryName(code) {
   return regionNames.of(code);
 }
 
+function getRatingDetails(rating) {
+  let details = { color: 'black', text: rating, description: '' };
+
+  switch (rating) {
+    case 'R':
+      details = {
+        color: 'red',
+        text: 'R (Restricted)',
+        description: ' - No one 17 and under admitted',
+      };
+      break;
+    case 'PG-13':
+      details = {
+        color: 'yellow',
+        text: 'PG-13 (Parents Strongly Cautioned)',
+        description: ' - May be inappropriate for children under 13',
+      };
+      break;
+    case 'PG':
+      details = {
+        color: 'orange',
+        text: 'PG (Parental Guidance Suggested)',
+        description: ' - May not be suitable for children',
+      };
+      break;
+    case 'G':
+      details = {
+        color: 'green',
+        text: 'G (General Audiences)',
+        description: ' - All ages admitted',
+      };
+      break;
+    case 'NC-17':
+      details = {
+        color: 'darkred',
+        text: 'NC-17 (Adults Only)',
+        description: ' - No one 17 and under admitted',
+      };
+      break;
+    case 'TV-Y':
+      details = {
+        color: 'lightgreen',
+        text: 'TV-Y (All Children)',
+        description: ' - Appropriate for all children',
+      };
+      break;
+    case 'TV-Y7':
+      details = {
+        color: 'lightblue',
+        text: 'TV-Y7 (Directed to Older Children)',
+        description: ' - Suitable for children ages 7 and up',
+      };
+      break;
+    case 'TV-G':
+      details = {
+        color: 'green',
+        text: 'TV-G (General Audience)',
+        description: ' - Suitable for all ages',
+      };
+      break;
+    case 'TV-PG':
+      details = {
+        color: 'orange',
+        text: 'TV-PG (Parental Guidance Suggested)',
+        description: ' - May not be suitable for younger children',
+      };
+      break;
+    case 'TV-14':
+      details = {
+        color: 'yellow',
+        text: 'TV-14 (Parents Strongly Cautioned)',
+        description: ' - May be inappropriate for children under 14',
+      };
+      break;
+    case 'TV-MA':
+      details = {
+        color: 'red',
+        text: 'TV-MA (Mature Audience Only)',
+        description: ' - Specifically designed to be viewed by adults',
+      };
+      break;
+    case 'NR':
+      details = {
+        color: 'white',
+        text: 'NR (Not Rated)',
+        description: ' - Movie has not been officially rated',
+      };
+      break;
+    case 'UR':
+    case 'Unrated':
+      details = {
+        color: 'white',
+        text: 'UR (Unrated)',
+        description: ' - Contains content not used in the rated version',
+      };
+      break;
+    default:
+      details = {
+        color: 'white',
+        text: rating,
+        description: ' - Rating information not available',
+      };
+      break;
+  }
+
+  return details;
+}
+
 let globalRatingPercentage = 0;
 
-async function populateTvSeriesDetails(tvSeries, imdbRating) {
+async function populateTvSeriesDetails(tvSeries, imdbRating, rated) {
   const title = tvSeries.name || 'Title not available';
   document.getElementById('movie-title').textContent = title;
   document.title = tvSeries.name + ' - TV Series Details';
@@ -654,6 +774,13 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
 
   detailsHTML += `<p><strong>Genres:</strong> ${genres}</p>`;
 
+  const ratingDetails = getRatingDetails(rated);
+  const ratedElement = rated
+    ? `<p id="movie-rated-element"><strong>Rated:</strong> <span style="color: ${ratingDetails.color};"><strong>${ratingDetails.text}</strong>${ratingDetails.description}</span></p>`
+    : '';
+
+  detailsHTML += ratedElement;
+
   detailsHTML += `<p><strong>First Air Date:</strong> ${tvSeries.first_air_date || 'Not available'}</p>`;
 
   detailsHTML += `<p><strong>Last Air Date:</strong> ${tvSeries.last_air_date || 'Not available'}</p>`;
@@ -675,15 +802,15 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
 
   let ratingColor;
   if (scaledRating <= 1) {
-    ratingColor = '#FF0000'; // Red
+    ratingColor = '#FF0000';
   } else if (scaledRating < 2) {
-    ratingColor = '#FFA500'; // Orange
+    ratingColor = '#FFA500';
   } else if (scaledRating < 3) {
-    ratingColor = '#FFFF00'; // Yellow
+    ratingColor = '#FFFF00';
   } else if (scaledRating < 4) {
-    ratingColor = '#2196F3'; // Blue
+    ratingColor = '#2196F3';
   } else {
-    ratingColor = '#4CAF50'; // Green
+    ratingColor = '#4CAF50';
   }
 
   const ratingHTML = `
