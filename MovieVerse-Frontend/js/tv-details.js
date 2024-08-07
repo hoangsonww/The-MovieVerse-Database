@@ -729,15 +729,15 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
 
   let ratingColor;
   if (scaledRating <= 1) {
-    ratingColor = "#FF0000"; // Red
+    ratingColor = "#FF0000";
   } else if (scaledRating < 2) {
-    ratingColor = "#FFA500"; // Orange
+    ratingColor = "#FFA500";
   } else if (scaledRating < 3) {
-    ratingColor = "#FFFF00"; // Yellow
+    ratingColor = "#FFFF00";
   } else if (scaledRating < 4) {
-    ratingColor = "#2196F3"; // Blue
+    ratingColor = "#2196F3";
   } else {
-    ratingColor = "#4CAF50"; // Green
+    ratingColor = "#4CAF50";
   }
 
   const ratingHTML = `
