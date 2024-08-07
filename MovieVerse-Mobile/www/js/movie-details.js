@@ -767,6 +767,7 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
   }
 
   populateMovieDetails(tmdbMovieData, imdbRating, rtRating, metascore, awards, rated);
+
   hideSpinner();
 }
 
@@ -919,6 +920,8 @@ async function fetchStreamingLinks(movieId) {
   }
 }
 
+let globalRatingPercentage = 0;
+
 async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awards, rated) {
   showSpinner();
   document.getElementById('movie-title').textContent = movie.title;
@@ -1040,28 +1043,29 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
 
   const scaledRating = (movie.vote_average / 2).toFixed(1);
   const ratingPercentage = (scaledRating / 5) * 100;
+  globalRatingPercentage = ratingPercentage;
   const voteCount = movie.vote_count ? movie.vote_count : '0';
 
   let ratingColor;
   if (scaledRating <= 1) {
-    ratingColor = '#FF0000'; // Red
+    ratingColor = '#FF0000';
   } else if (scaledRating < 2) {
-    ratingColor = '#FFA500'; // Orange
+    ratingColor = '#FFA500';
   } else if (scaledRating < 3) {
-    ratingColor = '#FFFF00'; // Yellow
+    ratingColor = '#FFFF00';
   } else if (scaledRating < 4) {
-    ratingColor = '#2196F3'; // Blue
+    ratingColor = '#2196F3';
   } else {
-    ratingColor = '#4CAF50'; // Green
+    ratingColor = '#4CAF50';
   }
 
   const ratingHTML = `
     <div class="rating-container" title="Your rating also counts - it might take a while for us to update!">
       <strong>MovieVerse Rating:</strong>
-      <div class="rating-bar">
+      <div class="rating-bar" onclick="handleRatingClick()">
         <div class="rating-fill" style="width: 0; background-color: ${ratingColor};" id="rating-fill"></div>
       </div>
-      <span class="rating-text"><strong id="user-ratings">${scaledRating}/5.0</strong> (<strong id="user-votes">${voteCount}</strong> votes)</span>
+      <span class="rating-text"><strong>${scaledRating}/5.0</strong> (<strong id="user-votes">${voteCount}</strong> votes)</span>
     </div>
   `;
 
@@ -1099,10 +1103,6 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         <p><strong>TMDb Rating:</strong> <a href="https://www.themoviedb.org/movie/${movie.id}" id="rating" target="_blank">${tmdbRating}/10.0</a></p>
         ${metascoreElement}
     `;
-
-  setTimeout(() => {
-    document.getElementById('rating-fill').style.width = `${ratingPercentage}%`;
-  }, 100);
 
   if (movie.credits && movie.credits.crew) {
     const directors = movie.credits.crew.filter(member => member.job === 'Director');
@@ -1367,7 +1367,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
 
   const homepage = document.createElement('p');
   homepage.innerHTML = movie.homepage
-    ? `<strong>Homepage:</strong> <a id="rating-link" href="${movie.homepage}" target="_blank">Visit homepage</a>`
+    ? `<strong>Homepage:</strong> <a id="rating-link" href="${movie.homepage}" target="_blank">Visit Homepage</a>`
     : `<strong>Homepage:</strong> Information unavailable`;
   movieDescription.appendChild(homepage);
 
@@ -1695,7 +1695,23 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     console.log('Error fetching movie details:', error);
   }
 
+  setTimeout(() => {
+    document.getElementById('rating-fill').style.width = `${ratingPercentage}%`;
+  }, 100);
+
   hideSpinner();
+}
+
+function handleRatingClick() {
+  const ratingFill = document.getElementById('rating-fill');
+
+  ratingFill.style.transition = 'none';
+  ratingFill.style.width = '0';
+
+  setTimeout(() => {
+    ratingFill.style.transition = 'width 1s ease-in-out';
+    ratingFill.style.width = `${globalRatingPercentage}%`;
+  }, 50);
 }
 
 function createImdbRatingCircle(imdbRating, imdbId) {

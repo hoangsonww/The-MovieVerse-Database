@@ -626,6 +626,8 @@ function getCountryName(code) {
   return regionNames.of(code);
 }
 
+let globalRatingPercentage = 0;
+
 async function populateTvSeriesDetails(tvSeries, imdbRating) {
   const title = tvSeries.name || 'Title not available';
   document.getElementById('movie-title').textContent = title;
@@ -649,6 +651,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
   detailsHTML += `<p><strong>Tagline:</strong> ${tvSeries.tagline || 'Not available'}</p>`;
 
   const genres = tvSeries.genres && tvSeries.genres.length ? tvSeries.genres.map(genre => genre.name).join(', ') : 'Genres not available';
+
   detailsHTML += `<p><strong>Genres:</strong> ${genres}</p>`;
 
   detailsHTML += `<p><strong>First Air Date:</strong> ${tvSeries.first_air_date || 'Not available'}</p>`;
@@ -665,10 +668,35 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
   detailsHTML += `<p><strong>Networks:</strong> ${networks}</p>`;
 
   const voteAverage = tvSeries.vote_average ? tvSeries.vote_average.toFixed(1) : 'N/A';
-  const voteCount = tvSeries.vote_count ? tvSeries.vote_count.toLocaleString() : 'N/A';
-  detailsHTML += `<p title="Your rating also counts - it might take a while for us to update!"><strong>MovieVerse User Rating:</strong> <strong id="user-ratings">${(
-    voteAverage / 2
-  ).toFixed(1)}/5.0</strong> (based on <strong id="user-ratings">${voteCount}</strong> votes)</p>`;
+  const voteCount = tvSeries.vote_count ? tvSeries.vote_count : '0';
+  const scaledRating = (tvSeries.vote_average / 2).toFixed(1);
+  const ratingPercentage = (scaledRating / 5) * 100;
+  globalRatingPercentage = ratingPercentage;
+
+  let ratingColor;
+  if (scaledRating <= 1) {
+    ratingColor = '#FF0000'; // Red
+  } else if (scaledRating < 2) {
+    ratingColor = '#FFA500'; // Orange
+  } else if (scaledRating < 3) {
+    ratingColor = '#FFFF00'; // Yellow
+  } else if (scaledRating < 4) {
+    ratingColor = '#2196F3'; // Blue
+  } else {
+    ratingColor = '#4CAF50'; // Green
+  }
+
+  const ratingHTML = `
+    <div class="rating-container" title="Your rating also counts - it might take a while for us to update!">
+      <strong>MovieVerse Rating:</strong>
+      <div class="rating-bar" onclick="handleRatingClick()">
+        <div class="rating-fill" style="width: 0; background-color: ${ratingColor};" id="rating-fill"></div>
+      </div>
+      <span class="rating-text"><strong>${scaledRating}/5.0</strong> (<strong id="user-votes">${voteCount}</strong> votes)</span>
+    </div>
+  `;
+
+  detailsHTML += ratingHTML;
 
   if (tvSeries.external_ids && tvSeries.external_ids.imdb_id) {
     const imdbId = tvSeries.external_ids.imdb_id;
@@ -1405,6 +1433,22 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
     document.getElementById('movie-description').appendChild(trailerButton);
     document.getElementById('movie-description').appendChild(iframeContainer);
   }
+
+  setTimeout(() => {
+    document.getElementById('rating-fill').style.width = `${ratingPercentage}%`;
+  }, 100);
+}
+
+function handleRatingClick() {
+  const ratingFill = document.getElementById('rating-fill');
+
+  ratingFill.style.transition = 'none';
+  ratingFill.style.width = '0';
+
+  setTimeout(() => {
+    ratingFill.style.transition = 'width 1s ease-in-out';
+    ratingFill.style.width = `${globalRatingPercentage}%`;
+  }, 50);
 }
 
 async function fetchTvSeriesStreamingLinks(tvSeriesId) {

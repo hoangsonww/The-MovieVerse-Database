@@ -626,6 +626,8 @@ function getCountryName(code) {
   return regionNames.of(code);
 }
 
+let globalRatingPercentage = 0;
+
 async function populateTvSeriesDetails(tvSeries, imdbRating) {
   const title = tvSeries.name || 'Title not available';
   document.getElementById('movie-title').textContent = title;
@@ -669,6 +671,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
   const voteCount = tvSeries.vote_count ? tvSeries.vote_count : '0';
   const scaledRating = (tvSeries.vote_average / 2).toFixed(1);
   const ratingPercentage = (scaledRating / 5) * 100;
+  globalRatingPercentage = ratingPercentage;
 
   let ratingColor;
   if (scaledRating <= 1) {
@@ -686,10 +689,10 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
   const ratingHTML = `
     <div class="rating-container" title="Your rating also counts - it might take a while for us to update!">
       <strong>MovieVerse Rating:</strong>
-      <div class="rating-bar">
+      <div class="rating-bar" onclick="handleRatingClick()">
         <div class="rating-fill" style="width: 0; background-color: ${ratingColor};" id="rating-fill"></div>
       </div>
-      <span class="rating-text"><strong id="user-ratings">${scaledRating}/5.0</strong> (<strong id="user-votes">${voteCount}</strong> votes)</span>
+      <span class="rating-text"><strong>${scaledRating}/5.0</strong> (<strong id="user-votes">${voteCount}</strong> votes)</span>
     </div>
   `;
 
@@ -1434,6 +1437,18 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
   setTimeout(() => {
     document.getElementById('rating-fill').style.width = `${ratingPercentage}%`;
   }, 100);
+}
+
+function handleRatingClick() {
+  const ratingFill = document.getElementById('rating-fill');
+
+  ratingFill.style.transition = 'none';
+  ratingFill.style.width = '0';
+
+  setTimeout(() => {
+    ratingFill.style.transition = 'width 1s ease-in-out';
+    ratingFill.style.width = `${globalRatingPercentage}%`;
+  }, 50);
 }
 
 async function fetchTvSeriesStreamingLinks(tvSeriesId) {

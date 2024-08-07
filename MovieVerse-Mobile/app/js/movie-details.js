@@ -733,7 +733,14 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
   const data = responses.find(response => response !== null);
 
   if (!data) {
-    populateMovieDetails(tmdbMovieData, tmdbMovieData.vote_average, 'N/A', 'View on Metacritics', 'Awards information unavailable');
+    populateMovieDetails(
+      tmdbMovieData,
+      tmdbMovieData.vote_average,
+      'N/A',
+      'View on Metacritics',
+      'Awards information unavailable',
+      'Rating information unavailable'
+    );
     return;
   }
 
@@ -760,6 +767,7 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
   }
 
   populateMovieDetails(tmdbMovieData, imdbRating, rtRating, metascore, awards, rated);
+
   hideSpinner();
 }
 
@@ -912,6 +920,8 @@ async function fetchStreamingLinks(movieId) {
   }
 }
 
+let globalRatingPercentage = 0;
+
 async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awards, rated) {
   showSpinner();
   document.getElementById('movie-title').textContent = movie.title;
@@ -1032,6 +1042,33 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
   }
 
   const scaledRating = (movie.vote_average / 2).toFixed(1);
+  const ratingPercentage = (scaledRating / 5) * 100;
+  globalRatingPercentage = ratingPercentage;
+  const voteCount = movie.vote_count ? movie.vote_count : '0';
+
+  let ratingColor;
+  if (scaledRating <= 1) {
+    ratingColor = '#FF0000';
+  } else if (scaledRating < 2) {
+    ratingColor = '#FFA500';
+  } else if (scaledRating < 3) {
+    ratingColor = '#FFFF00';
+  } else if (scaledRating < 4) {
+    ratingColor = '#2196F3';
+  } else {
+    ratingColor = '#4CAF50';
+  }
+
+  const ratingHTML = `
+    <div class="rating-container" title="Your rating also counts - it might take a while for us to update!">
+      <strong>MovieVerse Rating:</strong>
+      <div class="rating-bar" onclick="handleRatingClick()">
+        <div class="rating-fill" style="width: 0; background-color: ${ratingColor};" id="rating-fill"></div>
+      </div>
+      <span class="rating-text"><strong>${scaledRating}/5.0</strong> (<strong id="user-votes">${voteCount}</strong> votes)</span>
+    </div>
+  `;
+
   const popularityThreshold = 80;
   const isPopular = movie.popularity >= popularityThreshold;
   const popularityText = isPopular
@@ -1061,9 +1098,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         <p><strong>Languages:</strong> ${languages}</p>
         <p><strong>Countries of Production:</strong> ${countries}</p>
         <p><strong>Popularity Score:</strong> <span class="${isPopular ? 'popular' : ''}">${popularityText}</span></p>
-        <p title="Your rating also counts - it might take a while for us to update!"><strong>MovieVerse User Rating:</strong> <span><strong id="user-ratings">${scaledRating}/5.0</strong> (based on <strong id="user-ratings">${
-          movie.vote_count
-        }</strong> votes)</span></p>
+        ${ratingHTML}
         ${awardsElement}
         <p><strong>TMDb Rating:</strong> <a href="https://www.themoviedb.org/movie/${movie.id}" id="rating" target="_blank">${tmdbRating}/10.0</a></p>
         ${metascoreElement}
@@ -1332,7 +1367,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
 
   const homepage = document.createElement('p');
   homepage.innerHTML = movie.homepage
-    ? `<strong>Homepage:</strong> <a id="rating-link" href="${movie.homepage}" target="_blank">Visit homepage</a>`
+    ? `<strong>Homepage:</strong> <a id="rating-link" href="${movie.homepage}" target="_blank">Visit Homepage</a>`
     : `<strong>Homepage:</strong> Information unavailable`;
   movieDescription.appendChild(homepage);
 
@@ -1660,7 +1695,23 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     console.log('Error fetching movie details:', error);
   }
 
+  setTimeout(() => {
+    document.getElementById('rating-fill').style.width = `${ratingPercentage}%`;
+  }, 100);
+
   hideSpinner();
+}
+
+function handleRatingClick() {
+  const ratingFill = document.getElementById('rating-fill');
+
+  ratingFill.style.transition = 'none';
+  ratingFill.style.width = '0';
+
+  setTimeout(() => {
+    ratingFill.style.transition = 'width 1s ease-in-out';
+    ratingFill.style.width = `${globalRatingPercentage}%`;
+  }, 50);
 }
 
 function createImdbRatingCircle(imdbRating, imdbId) {
