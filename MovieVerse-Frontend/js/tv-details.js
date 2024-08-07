@@ -619,7 +619,7 @@ async function fetchTVRatings(imdbId) {
     return "IMDb rating";
   }
 
-  const apiKeys = [
+  const req = [
     await getMovieCode2(),
     "58efe859",
     "60a09d79",
@@ -655,7 +655,7 @@ async function fetchTVRatings(imdbId) {
     });
   }
 
-  const requests = apiKeys.map((key) => tryFetch(key));
+  const requests = req.map((key) => tryFetch(key));
   const responses = await Promise.all(requests);
   const data = responses.find((response) => response !== null);
 
