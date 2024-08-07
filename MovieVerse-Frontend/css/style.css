@@ -1348,6 +1348,7 @@ header h1 {
   margin: 0 10px;
   max-width: 160px;
   min-width: 90px;
+  cursor: pointer;
 }
 
 .rating-fill {
