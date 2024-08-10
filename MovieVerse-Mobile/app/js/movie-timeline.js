@@ -337,7 +337,7 @@ function updateMovies() {
 }
 
 async function getAdditionalPosters(movieId) {
-  const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/images?api_key=${getMovieCode()}`);
+  const response = await fetch(`https://${getMovieVerseData()}/3/movie/${movieId}/images?${generateMovieNames()}${getMovieCode()}`);
   const data = await response.json();
   return data.posters.map(poster => poster.file_path);
 }
