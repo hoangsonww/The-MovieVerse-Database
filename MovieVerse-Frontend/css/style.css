@@ -1193,7 +1193,9 @@ header h1 {
 }
 
 .movie-left img {
-  height: auto;
+  width: 400px !important;
+  height: 570px !important;
+  object-fit: cover;
 }
 
 .actor-left {
@@ -1252,10 +1254,11 @@ header h1 {
 }
 
 .movie-image {
-  width: 100%;
-  height: auto;
+  width: 150px !important;
+  height: 225px !important;
   border-radius: 5px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  object-fit: cover;
 }
 
 @media (max-width: 768px) {

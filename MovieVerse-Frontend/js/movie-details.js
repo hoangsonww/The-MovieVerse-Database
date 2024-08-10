@@ -1654,27 +1654,86 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     });
   }
 
-  const movieImage = document.getElementById('movie-image');
-
-  if (movie.poster_path) {
-    movieImage.src = IMGPATH + movie.poster_path;
-    movieImage.alt = movie.title;
-    movieImage.loading = 'lazy';
-  } else {
-    const noImageContainer = document.createElement('div');
-    noImageContainer.id = 'no-image-container';
-    noImageContainer.style.textAlign = 'center';
-
-    const noImageText = document.createElement('h2');
-    noImageText.textContent = 'Movie Image Not Available';
-    noImageContainer.appendChild(noImageText);
-
-    if (movieImage.parentNode) {
-      movieImage.parentNode.replaceChild(noImageContainer, movieImage);
-    } else {
-      document.body.appendChild(noImageContainer);
-    }
+  async function getInitialPoster(movieId) {
+    const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${getMovieCode()}`);
+    const data = await response.json();
+    return data.poster_path;
   }
+
+  async function getAdditionalPosters(movieId) {
+    const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/images?api_key=${getMovieCode()}`);
+    const data = await response.json();
+    return data.posters.map(poster => poster.file_path);
+  }
+
+  function loadImage(src) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = reject;
+      img.src = src;
+    });
+  }
+
+  async function rotateImages(movieImage, imagePaths, interval = 5000) {
+    if (imagePaths.length <= 1) return;
+
+    let currentIndex = 0;
+
+    const updateImage = async () => {
+      movieImage.style.opacity = '0';
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      currentIndex = (currentIndex + 1) % imagePaths.length;
+      const nextImageSrc = IMGPATH + imagePaths[currentIndex];
+      movieImage.src = nextImageSrc;
+      movieImage.alt = `Poster ${currentIndex + 1}`;
+
+      try {
+        await loadImage(nextImageSrc);
+        movieImage.style.opacity = '1';
+      } catch (error) {
+        console.error('Failed to load image:', nextImageSrc);
+        movieImage.style.opacity = '1';
+      }
+    };
+
+    setInterval(updateImage, interval);
+  }
+
+  const movieImage = document.getElementById('movie-image');
+  const movie_id = movie.id;
+
+  await (async () => {
+    const initialPoster = await getInitialPoster(movie_id);
+
+    if (initialPoster) {
+      movieImage.src = IMGPATH + initialPoster;
+      movieImage.alt = 'Movie Title';
+      movieImage.loading = 'lazy';
+      movieImage.style.transition = 'transform 0.3s ease-in-out, opacity 1s ease-in-out';
+      movieImage.style.opacity = '1';
+
+      const additionalPosters = await getAdditionalPosters(movie_id);
+      let allPosters = [initialPoster, ...additionalPosters];
+      allPosters = allPosters.sort(() => 0.5 - Math.random()).slice(0, 10);
+      rotateImages(movieImage, allPosters);
+    } else {
+      const noImageContainer = document.createElement('div');
+      noImageContainer.id = 'no-image-container';
+      noImageContainer.style.textAlign = 'center';
+
+      const noImageText = document.createElement('h2');
+      noImageText.textContent = 'Movie Image Not Available';
+      noImageContainer.appendChild(noImageText);
+
+      if (movieImage.parentNode) {
+        movieImage.parentNode.replaceChild(noImageContainer, movieImage);
+      } else {
+        document.body.appendChild(noImageContainer);
+      }
+    }
+  })();
 
   const movieId = movie.id;
   const code = `${getMovieCode()}`;
