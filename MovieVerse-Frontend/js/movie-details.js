@@ -736,8 +736,8 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
   ];
   const baseURL = `https://${getMovieActor()}/?i=${imdbId}&${getMovieName()}`;
 
-  async function tryFetch(apiKey) {
-    const url = `${baseURL}${apiKey}`;
+  async function tryFetch(req) {
+    const url = `${baseURL}${req}`;
 
     try {
       const response = await fetch(url);
@@ -748,10 +748,10 @@ async function fetchMovieRatings(imdbId, tmdbMovieData) {
     }
   }
 
-  async function fetchWithTimeout(apiKey, timeout = 5000) {
+  async function fetchWithTimeout(req, timeout = 5000) {
     return new Promise((resolve) => {
       const timer = setTimeout(() => resolve(null), timeout);
-      tryFetch(apiKey)
+      tryFetch(req)
         .then((data) => {
           clearTimeout(timer);
           resolve(data);
@@ -1797,7 +1797,7 @@ async function populateMovieDetails(
 
   async function getInitialPoster(movieId) {
     const response = await fetch(
-      `https://api.themoviedb.org/3/movie/${movieId}?api_key=${getMovieCode()}`,
+      `https://${getMovieVerseData()}/3/movie/${movieId}?${generateMovieNames()}${getMovieCode()}`,
     );
     const data = await response.json();
     return data.poster_path;
@@ -1805,7 +1805,7 @@ async function populateMovieDetails(
 
   async function getAdditionalPosters(movieId) {
     const response = await fetch(
-      `https://api.themoviedb.org/3/movie/${movieId}/images?api_key=${getMovieCode()}`,
+      `https://${getMovieVerseData()}/3/movie/${movieId}/images?${generateMovieNames()}${getMovieCode()}`,
     );
     const data = await response.json();
     return data.posters.map((poster) => poster.file_path);
