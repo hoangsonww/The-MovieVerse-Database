@@ -206,7 +206,7 @@ async function performSearch(searchText) {
     hideSpinner();
   } catch (error) {
     console.error('Error during search: ', error);
-    searchUserResults.innerHTML = `<div style="text-align: center; font-weight: bold">Error in searching: ${error.message}</div>`;
+    searchUserResults.innerHTML = `<div style="text-align: center; font-weight: bold">Database overloaded. Please try again later.</div>`;
     searchUserResults.style.display = 'block';
     hideSpinner();
   }

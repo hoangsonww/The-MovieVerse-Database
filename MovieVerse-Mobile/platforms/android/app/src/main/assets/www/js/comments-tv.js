@@ -1,5 +1,14 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
-import { getFirestore, collection, addDoc, getDocs, query, orderBy, where } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  query,
+  orderBy,
+  where,
+  Timestamp,
+} from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
 import { app, db } from './firebase.js';
 
 const commentForm = document.getElementById('comment-form');
@@ -7,20 +16,25 @@ commentForm.addEventListener('submit', async e => {
   e.preventDefault();
   const userName = document.getElementById('user-name').value;
   const userComment = document.getElementById('user-comment').value;
-  const commentDate = new Date();
+  const commentDate = new Date().toISOString();
   const tvSeriesId = localStorage.getItem('selectedTvSeriesId');
 
+  const commentData = {
+    userName,
+    userComment,
+    commentDate,
+    tvSeriesId,
+  };
+
   try {
-    await addDoc(collection(db, 'comments'), {
-      userName,
-      userComment,
-      commentDate,
-      tvSeriesId,
-    });
+    await addDoc(collection(db, 'comments'), commentData);
     commentForm.reset();
+    cacheComment(commentData);
     fetchComments();
   } catch (error) {
     console.log('Error adding comment: ', error);
+    cacheComment(commentData);
+    fetchCommentsFromLocalStorage();
   }
 });
 
@@ -56,74 +70,116 @@ async function fetchComments() {
     const commentsContainer = document.getElementById('comments-container');
     commentsContainer.innerHTML = '';
     commentsContainer.style.maxWidth = '100%';
-    const movieId = localStorage.getItem('selectedTvSeriesId');
+    const tvSeriesId = localStorage.getItem('selectedTvSeriesId');
 
-    const q = query(collection(db, 'comments'), where('tvSeriesId', '==', movieId), orderBy('commentDate', 'desc'));
+    const q = query(collection(db, 'comments'), where('tvSeriesId', '==', tvSeriesId), orderBy('commentDate', 'desc'));
     const querySnapshot = await getDocs(q);
 
-    totalComments = querySnapshot.size;
-    totalPages = Math.ceil(totalComments / commentsPerPage);
-
-    let index = 0;
-    let displayedComments = 0;
-
-    if (querySnapshot.empty) {
-      const noCommentsMsg = document.createElement('p');
-      noCommentsMsg.textContent = 'No comments for this TV series yet.';
-      commentsContainer.appendChild(noCommentsMsg);
-    } else {
-      querySnapshot.forEach(doc => {
-        if (index >= (currentPage - 1) * commentsPerPage && displayedComments < commentsPerPage) {
-          const comment = doc.data();
-          const commentDate = comment.commentDate.toDate();
-
-          const formattedDate = formatCommentDate(commentDate);
-          const formattedTime = formatAMPM(commentDate);
-
-          const timezoneOffset = -commentDate.getTimezoneOffset() / 60;
-          const utcOffset = timezoneOffset >= 0 ? `UTC+${timezoneOffset}` : `UTC${timezoneOffset}`;
-          const commentElement = document.createElement('div');
-
-          commentElement.title = `Posted at ${formattedTime} ${utcOffset}`;
-          const commentStyle = `
-                    max-width: 100%;
-                    word-wrap: break-word;
-                    overflow-wrap: break-word;
-                    margin-bottom: 1rem;
-                `;
-          commentElement.style.cssText = commentStyle;
-          commentElement.innerHTML = `
-                    <p>
-                        <strong>${comment.userName}</strong> on ${formattedDate}: 
-                        <em>${comment.userComment}</em>
-                    </p>
-                `;
-          commentsContainer.appendChild(commentElement);
-          displayedComments++;
-        }
-        index++;
-      });
-    }
-
-    document.getElementById('prev-page').disabled = currentPage <= 1;
-    document.getElementById('next-page').disabled = currentPage >= totalPages;
-  } catch (error) {
-    console.error('Error fetching user list: ', error);
-    if (error.code === 'resource-exhausted') {
-      const noUserSelected = document.getElementById('comments-section');
-      if (noUserSelected) {
-        noUserSelected.innerHTML =
-          "Sorry, our database is currently overloaded. Please try reloading once more, and if that still doesn't work, please try again in a couple hours. For full transparency, we are currently using a database that has a limited number of reads and writes per day due to lack of funding. Thank you for your patience as we work on scaling our services. At the mean time, feel free to use other MovieVerse features!";
-        noUserSelected.style.height = '350px';
-        noUserSelected.style.textAlign = 'center';
-        noUserSelected.style.maxWidth = '350px';
+    const comments = [];
+    querySnapshot.forEach(doc => {
+      const data = doc.data();
+      if (data.commentDate instanceof Timestamp) {
+        data.commentDate = data.commentDate.toDate();
+      } else {
+        data.commentDate = new Date(data.commentDate);
       }
-      hideSpinner();
-    }
+      comments.push(data);
+    });
+
+    cacheCommentsToLocalStorage(comments.slice(0, 6));
+    displayComments(comments);
+  } catch (error) {
+    console.error('Error fetching comments from Firebase: ', error);
+    fetchCommentsFromLocalStorage();
   }
 }
 
+function cacheCommentsToLocalStorage(comments) {
+  const tvSeriesId = localStorage.getItem('selectedTvSeriesId');
+  const commentsWithIsoDates = comments.map(comment => ({
+    ...comment,
+    commentDate: comment.commentDate.toISOString(),
+  }));
+  localStorage.setItem(`comments_${tvSeriesId}`, JSON.stringify(commentsWithIsoDates));
+}
+
+function fetchCommentsFromLocalStorage() {
+  const commentsContainer = document.getElementById('comments-container');
+  commentsContainer.innerHTML = '';
+  commentsContainer.style.maxWidth = '100%';
+  const tvSeriesId = localStorage.getItem('selectedTvSeriesId');
+  const cachedComments = JSON.parse(localStorage.getItem(`comments_${tvSeriesId}`)) || [];
+
+  if (cachedComments.length === 0) {
+    const noCommentsMsg = document.createElement('p');
+    noCommentsMsg.textContent = 'No comments for this TV series yet.';
+    commentsContainer.appendChild(noCommentsMsg);
+  } else {
+    displayComments(cachedComments);
+  }
+}
+
+function cacheComment(commentData) {
+  const tvSeriesId = localStorage.getItem('selectedTvSeriesId');
+  const cachedComments = JSON.parse(localStorage.getItem(`comments_${tvSeriesId}`)) || [];
+  cachedComments.unshift(commentData);
+  if (cachedComments.length > 6) {
+    cachedComments.pop();
+  }
+  localStorage.setItem(`comments_${tvSeriesId}`, JSON.stringify(cachedComments));
+}
+
+function displayComments(comments) {
+  const commentsContainer = document.getElementById('comments-container');
+  commentsContainer.innerHTML = '';
+  let index = 0;
+  let displayedComments = 0;
+
+  comments.forEach(comment => {
+    if (index >= (currentPage - 1) * commentsPerPage && displayedComments < commentsPerPage) {
+      const commentDate = new Date(comment.commentDate);
+      if (isNaN(commentDate)) {
+        console.error('Invalid date format:', comment.commentDate);
+        return;
+      }
+      const formattedDate = formatCommentDate(commentDate);
+      const formattedTime = formatAMPM(commentDate);
+
+      const timezoneOffset = -commentDate.getTimezoneOffset() / 60;
+      const utcOffset = timezoneOffset >= 0 ? `UTC+${timezoneOffset}` : `UTC${timezoneOffset}`;
+      const commentElement = document.createElement('div');
+
+      commentElement.title = `Posted at ${formattedTime} ${utcOffset}`;
+      const commentStyle = `
+        max-width: 100%;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        margin-bottom: 1rem;
+      `;
+      commentElement.style.cssText = commentStyle;
+      commentElement.innerHTML = `
+        <p>
+          <strong>${comment.userName}</strong> on ${formattedDate}: 
+          <em>${comment.userComment}</em>
+        </p>
+      `;
+      commentsContainer.appendChild(commentElement);
+      displayedComments++;
+    }
+    index++;
+  });
+
+  totalComments = comments.length;
+  totalPages = Math.ceil(totalComments / commentsPerPage);
+
+  document.getElementById('prev-page').disabled = currentPage <= 1;
+  document.getElementById('next-page').disabled = currentPage >= totalPages;
+}
+
 function formatCommentDate(commentDate) {
+  if (!(commentDate instanceof Date) || isNaN(commentDate)) {
+    return 'Invalid Date';
+  }
   const formattedDate = commentDate.toLocaleString('default', { month: 'short' }) + ' ' + commentDate.getDate() + 'th, ' + commentDate.getFullYear();
   return formattedDate;
 }
