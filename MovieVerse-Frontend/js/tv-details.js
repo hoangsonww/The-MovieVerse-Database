@@ -599,8 +599,8 @@ async function fetchTVRatings(imdbId) {
   ];
   const baseURL = `https://${getMovieActor()}/?i=${imdbId}&${getMovieName()}`;
 
-  async function tryFetch(apiKey, timeout = 5000) {
-    const url = `${baseURL}${apiKey}`;
+  async function tryFetch(req, timeout = 5000) {
+    const url = `${baseURL}${req}`;
     return new Promise(resolve => {
       const timer = setTimeout(() => resolve(null), timeout);
       fetch(url)
@@ -754,13 +754,13 @@ async function populateTvSeriesDetails(tvSeries, imdbRating, rated) {
   document.title = tvSeries.name + ' - TV Series Details';
 
   async function getInitialPoster(tvSeriesId) {
-    const response = await fetch(`https://api.themoviedb.org/3/tv/${tvSeriesId}?api_key=${getMovieCode()}`);
+    const response = await fetch(`https://${getMovieVerseData()}/3/tv/${tvSeriesId}?${generateMovieNames()}${getMovieCode()}`);
     const data = await response.json();
     return data.poster_path;
   }
 
   async function getAdditionalPosters(tvSeriesId) {
-    const response = await fetch(`https://api.themoviedb.org/3/tv/${tvSeriesId}/images?api_key=${getMovieCode()}`);
+    const response = await fetch(`https://${getMovieVerseData()}/3/tv/${tvSeriesId}/images?${generateMovieNames()}${getMovieCode()}`);
     const data = await response.json();
     return data.posters.map(poster => poster.file_path);
   }
