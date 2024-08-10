@@ -8,6 +8,7 @@ import {
   orderBy,
   where,
   Timestamp,
+  limit,
 } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
 import { app, db } from './firebase.js';
 
@@ -72,7 +73,9 @@ async function fetchComments() {
     commentsContainer.style.maxWidth = '100%';
     const tvSeriesId = localStorage.getItem('selectedTvSeriesId');
 
-    const q = query(collection(db, 'comments'), where('tvSeriesId', '==', tvSeriesId), orderBy('commentDate', 'desc'));
+    // Query to fetch comments with a limit of 9, ordered by date
+    const q = query(collection(db, 'comments'), where('tvSeriesId', '==', tvSeriesId), orderBy('commentDate', 'desc'), limit(9));
+
     const querySnapshot = await getDocs(q);
 
     const comments = [];
@@ -86,7 +89,7 @@ async function fetchComments() {
       comments.push(data);
     });
 
-    cacheCommentsToLocalStorage(comments.slice(0, 6));
+    cacheCommentsToLocalStorage(comments);
     displayComments(comments);
   } catch (error) {
     console.error('Error fetching comments from Firebase: ', error);

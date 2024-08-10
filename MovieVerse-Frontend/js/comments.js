@@ -7,6 +7,7 @@ import {
   query,
   orderBy,
   where,
+  limit,
   Timestamp,
 } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
 import { app, db } from './firebase.js';
@@ -67,7 +68,14 @@ async function fetchComments() {
     commentsContainer.style.maxWidth = '100%';
     const movieId = localStorage.getItem('selectedMovieId');
 
-    const q = query(collection(db, 'comments'), where('movieId', '==', movieId), orderBy('commentDate', 'desc'));
+    // Query to fetch comments with a limit of 9
+    const q = query(
+      collection(db, 'comments'),
+      where('movieId', '==', movieId),
+      orderBy('commentDate', 'desc'),
+      limit(9) // Limit the number of comments fetched to 9
+    );
+
     const querySnapshot = await getDocs(q);
 
     if (querySnapshot.empty) {
