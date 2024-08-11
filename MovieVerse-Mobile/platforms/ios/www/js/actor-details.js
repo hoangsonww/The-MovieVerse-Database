@@ -109,11 +109,85 @@ async function populateActorDetails(actor, credits) {
   const actorImage = document.getElementById('actor-image');
   const actorName = document.getElementById('actor-name');
   const actorDescription = document.getElementById('actor-description');
+  const actorId = actor.id;
+
+  async function getInitialActorImage(actorId) {
+    const response = await fetch(`https://${getMovieVerseData()}/3/person/${actorId}?${generateMovieNames()}${getMovieCode()}`);
+    const data = await response.json();
+    return data.profile_path;
+  }
+
+  async function getAdditionalActorImages(actorId) {
+    const response = await fetch(`https://${getMovieVerseData()}/3/person/${actorId}/images?${generateMovieNames()}${getMovieCode()}`);
+    const data = await response.json();
+    return data.profiles.map(profile => profile.file_path);
+  }
+
+  async function rotateActorImages(actorImage, imagePaths, interval = 4000) {
+    const uniqueImagePaths = [...new Set(imagePaths)];
+
+    if (uniqueImagePaths.length <= 1) return;
+
+    let currentIndex = 0;
+
+    const preloadNextImage = nextIndex => {
+      return loadImage(`https://image.tmdb.org/t/p/w1280${uniqueImagePaths[nextIndex]}`);
+    };
+
+    const updateImage = async () => {
+      const nextIndex = (currentIndex + 1) % uniqueImagePaths.length;
+      const nextImageSrc = `https://image.tmdb.org/t/p/w1280${uniqueImagePaths[nextIndex]}`;
+
+      try {
+        const img = await preloadNextImage(nextIndex);
+        actorImage.style.opacity = '0';
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        actorImage.src = img.src;
+        actorImage.alt = `Actor Image ${nextIndex + 1}`;
+        actorImage.style.opacity = '1';
+        currentIndex = nextIndex;
+      } catch (error) {
+        console.error('Failed to load image:', nextImageSrc, error);
+        actorImage.style.opacity = '1';
+      }
+    };
+
+    setInterval(updateImage, interval);
+  }
+
+  function loadImage(src) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = reject;
+      img.src = src;
+    });
+  }
 
   if (actor.profile_path) {
     actorImage.src = `https://image.tmdb.org/t/p/w1280${actor.profile_path}`;
     actorName.textContent = actor.name;
     document.title = `${actor.name} - Actor's Details`;
+
+    const initialActorImage = await getInitialActorImage(actorId);
+
+    if (initialActorImage) {
+      actorImage.src = `https://image.tmdb.org/t/p/w1280${initialActorImage}`;
+      actorImage.alt = actor.name;
+      actorImage.loading = 'lazy';
+      actorImage.style.transition = 'transform 0.3s ease-in-out, opacity 1s ease-in-out';
+      actorImage.style.opacity = '1';
+
+      const additionalActorImages = await getAdditionalActorImages(actorId);
+      let allActorImages = [initialActorImage, ...additionalActorImages];
+      allActorImages = allActorImages.sort(() => 0.5 - Math.random()).slice(0, 10);
+      rotateActorImages(actorImage, allActorImages);
+    } else {
+      const noImageText = document.createElement('h2');
+      noImageText.textContent = 'Image Not Available';
+      noImageText.style.textAlign = 'center';
+      document.querySelector('.actor-left').appendChild(noImageText);
+    }
   } else {
     actorImage.style.display = 'none';
     actorName.textContent = actor.name;

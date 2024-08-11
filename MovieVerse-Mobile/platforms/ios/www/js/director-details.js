@@ -131,11 +131,85 @@ async function populateDirectorDetails(director, credits) {
   const directorImage = document.getElementById('director-image');
   const directorName = document.getElementById('director-name');
   const directorDescription = document.getElementById('director-description');
+  const directorId = director.id;
+
+  function loadImage(src) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = () => reject(new Error('Failed to load image'));
+      img.src = src;
+    });
+  }
+
+  async function rotateDirectorImages(directorImage, imagePaths, interval = 4000) {
+    const uniqueImagePaths = [...new Set(imagePaths)];
+
+    if (uniqueImagePaths.length <= 1) return;
+
+    let currentIndex = 0;
+
+    const preloadNextImage = nextIndex => {
+      return loadImage(`https://image.tmdb.org/t/p/w1280${uniqueImagePaths[nextIndex]}`);
+    };
+
+    const updateImage = async () => {
+      const nextIndex = (currentIndex + 1) % uniqueImagePaths.length;
+      const nextImageSrc = `https://image.tmdb.org/t/p/w1280${uniqueImagePaths[nextIndex]}`;
+
+      try {
+        const img = await preloadNextImage(nextIndex);
+        directorImage.style.opacity = '0';
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        directorImage.src = img.src;
+        directorImage.alt = `Director Image ${nextIndex + 1}`;
+        directorImage.style.opacity = '1';
+        currentIndex = nextIndex;
+      } catch (error) {
+        console.error('Failed to load image:', nextImageSrc, error);
+        directorImage.style.opacity = '1';
+      }
+    };
+
+    setInterval(updateImage, interval);
+  }
+
+  async function getInitialDirectorImage(actorId) {
+    const response = await fetch(`https://${getMovieVerseData()}/3/person/${actorId}?${generateMovieNames()}${getMovieCode()}`);
+    const data = await response.json();
+    return data.profile_path;
+  }
+
+  async function getAdditionalDirectorImages(actorId) {
+    const response = await fetch(`https://${getMovieVerseData()}/3/person/${actorId}/images?${generateMovieNames()}${getMovieCode()}`);
+    const data = await response.json();
+    return data.profiles.map(profile => profile.file_path);
+  }
 
   if (director.profile_path) {
     directorImage.src = `https://image.tmdb.org/t/p/w1280${director.profile_path}`;
     directorName.textContent = director.name;
     document.title = `${director.name} - Director's Details`;
+
+    const initialDirectorImage = await getInitialDirectorImage(directorId);
+    const additionalDirectorImages = await getAdditionalDirectorImages(directorId);
+
+    if (initialDirectorImage) {
+      directorImage.src = `https://image.tmdb.org/t/p/w1280${initialDirectorImage}`;
+      directorImage.alt = director.name;
+      directorImage.loading = 'lazy';
+      directorImage.style.transition = 'transform 0.3s ease-in-out, opacity 1s ease-in-out';
+      directorImage.style.opacity = '1';
+
+      let allDirectorImages = [initialDirectorImage, ...additionalDirectorImages];
+      allDirectorImages = allDirectorImages.sort(() => 0.5 - Math.random()).slice(0, 10);
+      rotateDirectorImages(directorImage, allDirectorImages);
+    } else {
+      const noImageText = document.createElement('h2');
+      noImageText.textContent = 'Image Not Available';
+      noImageText.style.textAlign = 'center';
+      document.querySelector('.director-left').appendChild(noImageText);
+    }
   } else {
     directorImage.style.display = 'none';
     directorName.textContent = director.name;

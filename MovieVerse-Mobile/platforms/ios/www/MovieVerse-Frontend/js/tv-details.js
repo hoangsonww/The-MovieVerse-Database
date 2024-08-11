@@ -774,26 +774,32 @@ async function populateTvSeriesDetails(tvSeries, imdbRating, rated) {
     });
   }
 
-  async function rotateImages(imageElement, imagePaths, interval = 5000) {
-    if (imagePaths.length <= 1) return;
+  async function rotateImages(movieImage, imagePaths, interval = 4000) {
+    const uniqueImagePaths = [...new Set(imagePaths)];
+
+    if (uniqueImagePaths.length <= 1) return;
 
     let currentIndex = 0;
 
-    const updateImage = async () => {
-      imageElement.style.opacity = '0';
-      await new Promise(resolve => setTimeout(resolve, 1000));
+    const preloadNextImage = nextIndex => {
+      return loadImage(IMGPATH + uniqueImagePaths[nextIndex]);
+    };
 
-      currentIndex = (currentIndex + 1) % imagePaths.length;
-      const nextImageSrc = IMGPATH + imagePaths[currentIndex];
-      imageElement.src = nextImageSrc;
-      imageElement.alt = `Poster ${currentIndex + 1}`;
+    const updateImage = async () => {
+      const nextIndex = (currentIndex + 1) % uniqueImagePaths.length;
+      const nextImageSrc = IMGPATH + uniqueImagePaths[nextIndex];
 
       try {
-        await loadImage(nextImageSrc);
-        imageElement.style.opacity = '1';
+        const img = await preloadNextImage(nextIndex);
+        movieImage.style.opacity = '0';
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        movieImage.src = img.src;
+        movieImage.alt = `Poster ${nextIndex + 1}`;
+        movieImage.style.opacity = '1';
+        currentIndex = nextIndex;
       } catch (error) {
         console.error('Failed to load image:', nextImageSrc);
-        imageElement.style.opacity = '1';
+        movieImage.style.opacity = '1';
       }
     };
 

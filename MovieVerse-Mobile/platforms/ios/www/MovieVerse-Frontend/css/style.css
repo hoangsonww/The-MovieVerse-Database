@@ -1193,8 +1193,8 @@ header h1 {
 }
 
 .movie-left img {
-  width: 400px !important;
-  height: 570px !important;
+  width: auto !important;
+  height: 600px !important;
   object-fit: cover;
 }
 
@@ -1206,12 +1206,24 @@ header h1 {
   overflow-y: auto;
 }
 
+.actor-left img {
+  width: auto !important;
+  height: 600px !important;
+  object-fit: cover;
+}
+
 .director-left {
   width: 33.3333%;
   box-sizing: border-box;
   align-items: center;
   justify-content: center;
   overflow-y: auto;
+}
+
+.director-left img {
+  width: auto !important;
+  height: 600px !important;
+  object-fit: cover;
 }
 
 .movie-right {

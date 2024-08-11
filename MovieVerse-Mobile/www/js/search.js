@@ -788,16 +788,18 @@ async function getAdditionalImages(itemId, category) {
 }
 
 function rotateImages(imageElements, interval = 3000) {
-  if (imageElements.length <= 1) return;
+  const uniqueImageElements = Array.from(imageElements).filter((el, index, self) => index === self.findIndex(e => e.src === el.src));
+
+  if (uniqueImageElements.length <= 1) return;
 
   let currentIndex = 0;
-  imageElements[currentIndex].style.opacity = '1';
+  uniqueImageElements[currentIndex].style.opacity = '1';
 
   setTimeout(() => {
     setInterval(() => {
-      imageElements[currentIndex].style.opacity = '0';
-      currentIndex = (currentIndex + 1) % imageElements.length;
-      imageElements[currentIndex].style.opacity = '1';
+      uniqueImageElements[currentIndex].style.opacity = '0';
+      currentIndex = (currentIndex + 1) % uniqueImageElements.length;
+      uniqueImageElements[currentIndex].style.opacity = '1';
     }, interval);
   }, 0);
 }
