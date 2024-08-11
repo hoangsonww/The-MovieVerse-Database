@@ -3306,19 +3306,19 @@ canvas {
 
   .movie-left img {
     width: 90% !important;
-    height: auto !important;
+    height: 600px !important;
     overflow: hidden;
   }
 
   .actor-left img {
     width: 90% !important;
-    height: auto !important;
+    height: 600px !important;
     overflow: hidden;
   }
 
   .director-left img {
     width: 90% !important;
-    height: auto !important;
+    height: 600px !important;
     overflow: hidden;
   }
 
