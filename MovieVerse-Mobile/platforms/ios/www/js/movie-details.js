@@ -1037,7 +1037,8 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
   let keywords = movie.keywords
     ? movie.keywords.keywords
         .map(
-          kw => `<a class="keyword-link" href="javascript:void(0);" onclick="handleKeywordClick('${kw.name.replace(/'/g, "\\'")}')">${kw.name}</a>`
+          kw =>
+            `<a class="keyword-link" href="javascript:void(0);" onclick="handleKeywordClick('${kw.name.replace(/'/g, "\\'")}')" title="Click to search for movies with the keyword '${kw.name}'">${kw.name}</a>`
         )
         .join(', ')
     : 'None Available';

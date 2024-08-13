@@ -125,7 +125,6 @@ async function populateActorDetails(actor, credits) {
 
   async function rotateActorImages(actorImage, imagePaths, interval = 4000) {
     const uniqueImagePaths = [...new Set(imagePaths)];
-    console.log(uniqueImagePaths);
 
     if (uniqueImagePaths.length <= 1) return;
 
@@ -239,51 +238,68 @@ async function populateActorDetails(actor, credits) {
   movieList.style.justifyContent = 'center';
   movieList.style.gap = '5px';
 
-  let filmsToDisplay = credits.cast;
-  filmsToDisplay = filmsToDisplay.sort((a, b) => b.popularity - a.popularity);
-
-  filmsToDisplay.forEach((movie, index) => {
-    const movieLink = document.createElement('a');
-    movieLink.classList.add('movie-link');
-    movieLink.href = 'javascript:void(0);';
-    movieLink.setAttribute('onclick', `selectMovieId(${movie.id});`);
-
-    const movieItem = document.createElement('div');
-    movieItem.classList.add('movie-item');
-
-    const movieImage = document.createElement('img');
-    movieImage.classList.add('movie-image');
-
-    if (movie.poster_path) {
-      movieImage.src = IMGPATH2 + movie.poster_path;
-      movieImage.alt = `${movie.title} Poster`;
-    } else {
-      movieImage.alt = 'Image Not Available';
-      movieImage.src = 'https://movie-verse.com/images/movie-default.jpg';
-      movieImage.style.filter = 'grayscale(100%)';
-      movieImage.style.objectFit = 'cover';
-    }
-
-    movieItem.appendChild(movieImage);
-
-    const movieDetails = document.createElement('div');
-    movieDetails.classList.add('movie-details');
-
-    const movieTitle = document.createElement('p');
-    movieTitle.classList.add('movie-title');
-    movieTitle.textContent = movie.title;
-    movieDetails.appendChild(movieTitle);
-
-    movieItem.appendChild(movieDetails);
-    movieLink.appendChild(movieItem);
-    movieList.appendChild(movieLink);
-
-    if (index < credits.cast.length - 1) {
-      movieList.appendChild(document.createTextNode(''));
-    }
-  });
-
   filmographyHeading.appendChild(movieList);
+
+  let filmsToDisplay = credits.cast;
+  if (filmsToDisplay.length === 0) {
+    const noFilmsText = document.createElement('p');
+    noFilmsText.textContent = 'No films found';
+    noFilmsText.style.textAlign = 'center';
+    noFilmsText.style.width = '100%';
+    noFilmsText.style.color = 'white';
+    movieList.appendChild(noFilmsText);
+  } else {
+    filmsToDisplay = filmsToDisplay.sort((a, b) => b.popularity - a.popularity);
+
+    filmsToDisplay.forEach((movie, index) => {
+      const movieLink = document.createElement('a');
+      movieLink.classList.add('movie-link');
+      movieLink.href = 'javascript:void(0);';
+      movieLink.style.marginRight = '0';
+      movieLink.style.marginTop = '10px';
+      movieLink.style.maxWidth = '115px';
+      movieLink.setAttribute('onclick', `selectMovieId(${movie.id});`);
+
+      const movieItem = document.createElement('div');
+      movieItem.classList.add('movie-item');
+      movieItem.style.height = 'auto';
+
+      const movieImage = document.createElement('img');
+      movieImage.classList.add('movie-image');
+      movieImage.style.maxHeight = '155px';
+      movieImage.style.maxWidth = '115px';
+
+      if (movie.poster_path) {
+        movieImage.src = IMGPATH2 + movie.poster_path;
+        movieImage.alt = `${movie.title} Poster`;
+      } else {
+        movieImage.alt = 'Image Not Available';
+        movieImage.src = 'https://movie-verse.com/images/movie-default.jpg';
+        movieImage.style.filter = 'grayscale(100%)';
+        movieImage.style.objectFit = 'cover';
+        movieImage.style.maxHeight = '155px';
+        movieImage.style.maxWidth = '115px';
+      }
+
+      movieItem.appendChild(movieImage);
+
+      const movieDetails = document.createElement('div');
+      movieDetails.classList.add('movie-details');
+
+      const movieTitle = document.createElement('p');
+      movieTitle.classList.add('movie-title');
+      movieTitle.textContent = movie.title;
+      movieDetails.appendChild(movieTitle);
+
+      movieItem.appendChild(movieDetails);
+      movieLink.appendChild(movieItem);
+      movieList.appendChild(movieLink);
+
+      if (index < credits.cast.length - 1) {
+        movieList.appendChild(document.createTextNode(''));
+      }
+    });
+  }
 
   const mediaUrl = `https://${getMovieVerseData()}/3/person/${actor.id}/images?${generateMovieNames()}${getMovieCode()}`;
   const mediaResponse = await fetch(mediaUrl);

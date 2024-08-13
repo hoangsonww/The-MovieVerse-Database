@@ -684,13 +684,18 @@ function displayCompanyMovies(movies) {
     const movieLink = document.createElement('a');
     movieLink.classList.add('movie-link');
     movieLink.href = 'javascript:void(0);';
+    movieLink.style.marginRight = '0';
+    movieLink.style.marginTop = '10px';
     movieLink.setAttribute('onclick', `selectMovieId(${movie.id});`);
 
     const movieItem = document.createElement('div');
     movieItem.classList.add('movie-item');
+    movieItem.style.height = 'auto';
 
     const movieImage = document.createElement('img');
     movieImage.classList.add('movie-image');
+    movieImage.style.maxHeight = '155px';
+    movieImage.style.maxWidth = '115px';
 
     if (movie.poster_path) {
       movieImage.src = IMGPATH2 + movie.poster_path;

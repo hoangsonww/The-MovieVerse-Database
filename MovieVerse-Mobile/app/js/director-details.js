@@ -254,46 +254,63 @@ async function populateDirectorDetails(director, credits) {
   let directedMovies = credits.crew.filter(movie => movie.job === 'Director');
   directedMovies = directedMovies.sort((a, b) => b.popularity - a.popularity);
 
-  directedMovies.forEach((movie, index) => {
-    const movieLink = document.createElement('a');
-    movieLink.classList.add('movie-link');
-    movieLink.href = 'javascript:void(0);';
-    movieLink.setAttribute('onclick', `selectMovieId(${movie.id});`);
+  if (directedMovies.length === 0) {
+    const noFilmsText = document.createElement('p');
+    noFilmsText.textContent = 'No films found';
+    noFilmsText.style.textAlign = 'center';
+    noFilmsText.style.width = '100%';
+    noFilmsText.style.color = 'white';
+    movieList.appendChild(noFilmsText);
+  } else {
+    directedMovies.forEach((movie, index) => {
+      const movieLink = document.createElement('a');
+      movieLink.classList.add('movie-link');
+      movieLink.href = 'javascript:void(0);';
+      movieLink.style.marginRight = '0';
+      movieLink.style.marginTop = '10px';
+      movieLink.style.maxWidth = '115px';
+      movieLink.setAttribute('onclick', `selectMovieId(${movie.id});`);
 
-    const movieItem = document.createElement('div');
-    movieItem.classList.add('movie-item');
+      const movieItem = document.createElement('div');
+      movieItem.classList.add('movie-item');
+      movieItem.style.height = 'auto';
 
-    const movieImage = document.createElement('img');
-    movieImage.classList.add('movie-image');
+      const movieImage = document.createElement('img');
+      movieImage.classList.add('movie-image');
+      movieImage.style.maxHeight = '155px';
+      movieImage.style.maxWidth = '115px';
 
-    if (movie.poster_path) {
-      movieImage.src = IMGPATH2 + movie.poster_path;
-      movieImage.alt = `${movie.title} Poster`;
-    } else {
-      movieImage.alt = 'Image Not Available';
-      movieImage.src = 'https://movie-verse.com/images/movie-default.jpg';
-      movieImage.style.filter = 'grayscale(100%)';
-      movieImage.style.objectFit = 'cover';
-    }
+      if (movie.poster_path) {
+        movieImage.src = IMGPATH2 + movie.poster_path;
+        movieImage.alt = `${movie.title} Poster`;
+      } else {
+        movieImage.alt = 'Image Not Available';
+        movieImage.src = 'https://movie-verse.com/images/movie-default.jpg';
+        movieImage.style.filter = 'grayscale(100%)';
+        movieImage.style.objectFit = 'cover';
+        movieImage.style.maxHeight = '155px';
+        movieImage.style.maxWidth = '115px';
+      }
 
-    movieItem.appendChild(movieImage);
+      movieItem.appendChild(movieImage);
 
-    const movieDetails = document.createElement('div');
-    movieDetails.classList.add('movie-details');
+      const movieDetails = document.createElement('div');
+      movieDetails.classList.add('movie-details');
 
-    const movieTitle = document.createElement('p');
-    movieTitle.classList.add('movie-title');
-    movieTitle.textContent = movie.title;
-    movieDetails.appendChild(movieTitle);
+      const movieTitle = document.createElement('p');
+      movieTitle.classList.add('movie-title');
+      movieTitle.textContent = movie.title;
+      movieDetails.appendChild(movieTitle);
 
-    movieItem.appendChild(movieDetails);
-    movieLink.appendChild(movieItem);
-    movieList.appendChild(movieLink);
+      movieItem.appendChild(movieDetails);
+      movieLink.appendChild(movieItem);
+      movieList.appendChild(movieLink);
 
-    if (index < directedMovies.length - 1) {
-      movieList.appendChild(document.createTextNode(''));
-    }
-  });
+      if (index < directedMovies.length - 1) {
+        movieList.appendChild(document.createTextNode(''));
+      }
+    });
+  }
 
   filmographyHeading.appendChild(movieList);
 
