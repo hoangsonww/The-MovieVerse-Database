@@ -268,6 +268,7 @@ async function populateDirectorDetails(director, credits) {
       movieLink.href = 'javascript:void(0);';
       movieLink.style.marginRight = '0';
       movieLink.style.marginTop = '10px';
+      movieLink.style.maxWidth = '115px';
       movieLink.setAttribute('onclick', `selectMovieId(${movie.id});`);
 
       const movieItem = document.createElement('div');
@@ -277,6 +278,7 @@ async function populateDirectorDetails(director, credits) {
       const movieImage = document.createElement('img');
       movieImage.classList.add('movie-image');
       movieImage.style.maxHeight = '155px';
+      movieImage.style.maxWidth = '115px';
 
       if (movie.poster_path) {
         movieImage.src = IMGPATH2 + movie.poster_path;
@@ -286,6 +288,8 @@ async function populateDirectorDetails(director, credits) {
         movieImage.src = 'https://movie-verse.com/images/movie-default.jpg';
         movieImage.style.filter = 'grayscale(100%)';
         movieImage.style.objectFit = 'cover';
+        movieImage.style.maxHeight = '155px';
+        movieImage.style.maxWidth = '115px';
       }
 
       movieItem.appendChild(movieImage);

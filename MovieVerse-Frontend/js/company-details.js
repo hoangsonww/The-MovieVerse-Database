@@ -695,6 +695,7 @@ function displayCompanyMovies(movies) {
     const movieImage = document.createElement('img');
     movieImage.classList.add('movie-image');
     movieImage.style.maxHeight = '155px';
+    movieImage.style.maxWidth = '115px';
 
     if (movie.poster_path) {
       movieImage.src = IMGPATH2 + movie.poster_path;
