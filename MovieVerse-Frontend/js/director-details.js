@@ -230,6 +230,9 @@ async function populateDirectorDetails(director, credits) {
     ageOrStatus = 'Unknown';
   }
 
+  const popularity = director.popularity.toFixed(2);
+  const isPopular = popularity > 20 ? 'popular' : 'not popular';
+
   directorDescription.innerHTML = `
         <p><strong>Biography:</strong> ${director.biography || 'Information Unavailable'}</p>
         <p><strong>Also Known As:</strong> ${director.also_known_as.join(', ') || 'Information Unavailable'}</p>
@@ -238,6 +241,7 @@ async function populateDirectorDetails(director, credits) {
         <p><strong>Age:</strong> ${ageOrStatus}</p>
         <p><strong>Place of Birth:</strong> ${director.place_of_birth || 'Information Unavailable'}</p>
         <p><strong>Known For:</strong> Directing</p>
+        <p><strong>Popularity Score:</strong> ${popularity} (This director is <strong>${isPopular}</strong>)</p>
     `;
 
   const filmographyHeading = document.createElement('p');

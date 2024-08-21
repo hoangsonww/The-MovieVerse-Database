@@ -940,6 +940,10 @@ async function populateTvSeriesDetails(tvSeries, imdbRating, rated) {
 
   detailsHTML += `<p><strong>Seasons:</strong> ${tvSeries.number_of_seasons || 0}, <strong>Episodes:</strong> ${tvSeries.number_of_episodes || 0}</p>`;
 
+  const popularity = tvSeries.popularity ? tvSeries.popularity.toFixed(2) : 'N/A';
+  const isPopular = tvSeries.popularity > 50 ? 'popular' : 'not popular';
+  detailsHTML += `<p><strong>Popularity Score:</strong> ${popularity} (This TV series is <strong>${isPopular}</strong>)</p>`;
+
   if (tvSeries.last_episode_to_air) {
     const lastEpisode = tvSeries.last_episode_to_air;
 
