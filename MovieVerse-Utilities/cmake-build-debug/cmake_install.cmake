@@ -1,4 +1,4 @@
-# Install script for directory: /Users/davidnguyen/WebstormProjects/The-MovieVerse-Database/utilities
+# Install script for directory: /Users/davidnguyen/WebstormProjects/The-MovieVerse-Database/MovieVerse-Utilities
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/davidnguyen/WebstormProjects/The-MovieVerse-Database/utilities/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Users/davidnguyen/WebstormProjects/The-MovieVerse-Database/MovieVerse-Utilities/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
