@@ -16,8 +16,8 @@
 		4E7CA2B6272ABB0D00177EF9 /* config.xml in Copy Staging Resources */ = {isa = PBXBuildFile; fileRef = F840E1F0165FE0F500CFE078 /* config.xml */; };
 		4E7CA2B7272ABB0D00177EF9 /* www in Copy Staging Resources */ = {isa = PBXBuildFile; fileRef = 301BF56E109A69640062928A /* www */; };
 		6AFF5BF91D6E424B00AB3073 /* CDVLaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6AFF5BF81D6E424B00AB3073 /* CDVLaunchScreen.storyboard */; };
-		8E320B6B885EB8DB17F98C05 /* libPods-MovieVerse.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EDCD7218CFD7C42434B9BFF /* libPods-MovieVerse.a */; };
-		C4D3CA1C6A9541A6974D30D6 /* CDVStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = DF90E3E32BD44290A9286FA3 /* CDVStatusBar.m */; };
+		7B261A2AC7CD4FC18A03EDFA /* CDVStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 350089FB6CDF4EC1B83484A9 /* CDVStatusBar.m */; };
+		EE1BE9DB06B40494EF82E899 /* libPods-MovieVerse.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A54837A04D60BE145BA3FFEB /* libPods-MovieVerse.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,11 +61,11 @@
 
 /* Begin PBXFileReference section */
 		0207DA571B56EA530066E2B4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		12C75A07E5038C41B13AB3E8 /* Pods-MovieVerse.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MovieVerse.debug.xcconfig"; path = "Target Support Files/Pods-MovieVerse/Pods-MovieVerse.debug.xcconfig"; sourceTree = "<group>"; };
 		1D3623240D0F684500981E51 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* MovieVerse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieVerse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		2EDCD7218CFD7C42434B9BFF /* libPods-MovieVerse.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MovieVerse.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		301BF52D109A57CC0062928A /* CordovaLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CordovaLib.xcodeproj; path = CordovaLib/CordovaLib.xcodeproj; sourceTree = "<group>"; };
 		301BF56E109A69640062928A /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = SOURCE_ROOT; };
 		302D95EE14D2391D003F00A1 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
@@ -75,15 +75,15 @@
 		3047A5101AB8059700498E2A /* build-release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "build-release.xcconfig"; path = "cordova/build-release.xcconfig"; sourceTree = SOURCE_ROOT; };
 		3047A5111AB8059700498E2A /* build.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = build.xcconfig; path = cordova/build.xcconfig; sourceTree = SOURCE_ROOT; };
 		32CA4F630368D1EE00C91783 /* MovieVerse-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MovieVerse-Prefix.pch"; sourceTree = "<group>"; };
+		350089FB6CDF4EC1B83484A9 /* CDVStatusBar.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVStatusBar.m; path = "cordova-plugin-statusbar/CDVStatusBar.m"; sourceTree = "<group>"; };
+		5631DA4993594130B0895B00 /* CDVStatusBar.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVStatusBar.h; path = "cordova-plugin-statusbar/CDVStatusBar.h"; sourceTree = "<group>"; };
 		6AFF5BF81D6E424B00AB3073 /* CDVLaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = CDVLaunchScreen.storyboard; sourceTree = "<group>"; };
-		79C9DA8D02CC4A928F550BDC /* CDVStatusBar.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVStatusBar.h; path = "cordova-plugin-statusbar/CDVStatusBar.h"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* MovieVerse-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MovieVerse-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
-		B5B78A283C3DDA04C2A36E87 /* Pods-MovieVerse.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MovieVerse.debug.xcconfig"; path = "Target Support Files/Pods-MovieVerse/Pods-MovieVerse.debug.xcconfig"; sourceTree = "<group>"; };
-		DF90E3E32BD44290A9286FA3 /* CDVStatusBar.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVStatusBar.m; path = "cordova-plugin-statusbar/CDVStatusBar.m"; sourceTree = "<group>"; };
+		A54837A04D60BE145BA3FFEB /* libPods-MovieVerse.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MovieVerse.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B9A2DE5E1ADFC3ECA1C5A7AD /* Pods-MovieVerse.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MovieVerse.release.xcconfig"; path = "Target Support Files/Pods-MovieVerse/Pods-MovieVerse.release.xcconfig"; sourceTree = "<group>"; };
 		EB87FDF31871DA8E0020F90C /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; name = www; path = ../../www; sourceTree = "<group>"; };
 		EB87FDF41871DAF40020F90C /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = ../../config.xml; sourceTree = "<group>"; };
 		ED33DF2A687741AEAF9F8254 /* Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
-		EE048BB746A8706307F4EC51 /* Pods-MovieVerse.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MovieVerse.release.xcconfig"; path = "Target Support Files/Pods-MovieVerse/Pods-MovieVerse.release.xcconfig"; sourceTree = "<group>"; };
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = MovieVerse/config.xml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -93,13 +93,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				301BF552109A68D80062928A /* libCordova.a in Frameworks */,
-				8E320B6B885EB8DB17F98C05 /* libPods-MovieVerse.a in Frameworks */,
+				EE1BE9DB06B40494EF82E899 /* libPods-MovieVerse.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		17730516330565E0104E13F8 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				12C75A07E5038C41B13AB3E8 /* Pods-MovieVerse.debug.xcconfig */,
+				B9A2DE5E1ADFC3ECA1C5A7AD /* Pods-MovieVerse.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -121,7 +131,7 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				D3F3A0BC053613FEFE5A1C37 /* Pods */,
+				17730516330565E0104E13F8 /* Pods */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -156,7 +166,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				2EDCD7218CFD7C42434B9BFF /* libPods-MovieVerse.a */,
+				A54837A04D60BE145BA3FFEB /* libPods-MovieVerse.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -183,22 +193,12 @@
 		307C750510C5A3420062BCA9 /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
-				DF90E3E32BD44290A9286FA3 /* CDVStatusBar.m */,
-				79C9DA8D02CC4A928F550BDC /* CDVStatusBar.h */,
+				350089FB6CDF4EC1B83484A9 /* CDVStatusBar.m */,
+				5631DA4993594130B0895B00 /* CDVStatusBar.h */,
 			);
 			name = Plugins;
 			path = MovieVerse/Plugins;
 			sourceTree = SOURCE_ROOT;
-		};
-		D3F3A0BC053613FEFE5A1C37 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				B5B78A283C3DDA04C2A36E87 /* Pods-MovieVerse.debug.xcconfig */,
-				EE048BB746A8706307F4EC51 /* Pods-MovieVerse.release.xcconfig */,
-			);
-			name = Pods;
-			path = Pods;
-			sourceTree = "<group>";
 		};
 		EB87FDF11871DA420020F90C /* Staging */ = {
 			isa = PBXGroup;
@@ -216,7 +216,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "MovieVerse" */;
 			buildPhases = (
-				BE01FD46A7EAC686701D1EC5 /* [CP] Check Pods Manifest.lock */,
+				D4EE16FE3C2D47D58A02D2D2 /* [CP] Check Pods Manifest.lock */,
 				857339E32710CC9700A1C74C /* Copy Staging Resources */,
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
@@ -301,7 +301,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		BE01FD46A7EAC686701D1EC5 /* [CP] Check Pods Manifest.lock */ = {
+		D4EE16FE3C2D47D58A02D2D2 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -333,7 +333,7 @@
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
 				302D95F114D2391D003F00A1 /* MainViewController.m in Sources */,
-				C4D3CA1C6A9541A6974D30D6 /* CDVStatusBar.m in Sources */,
+				7B261A2AC7CD4FC18A03EDFA /* CDVStatusBar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
