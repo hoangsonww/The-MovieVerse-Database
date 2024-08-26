@@ -224,7 +224,8 @@ async function populateActorDetails(actor, credits) {
   actorDescription.appendChild(gender);
 
   const popularity = document.createElement('div');
-  popularity.innerHTML = `<p><strong>Popularity Score:</strong> ${actor.popularity.toFixed(2)}</p>`;
+  const isPopular = actor.popularity > 30 ? 'popular' : 'not popular';
+  popularity.innerHTML = `<p><strong>Popularity Score:</strong> ${actor.popularity.toFixed(2)} (This actor is <strong>${isPopular}</strong>)</p>`;
   actorDescription.appendChild(popularity);
 
   const filmographyHeading = document.createElement('p');

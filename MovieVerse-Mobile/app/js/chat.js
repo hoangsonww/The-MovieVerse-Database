@@ -34,7 +34,6 @@ document.addEventListener('DOMContentLoaded', () => {
     signInMessage.style.marginLeft = '20px';
     signInMessage.style.marginBottom = '20px';
     signInMessage.style.backgroundColor = 'rgba(0, 0, 0, 0.6)';
-    document.getElementById('footer').style.display = 'none';
 
     const adContainer2 = document.getElementById('ad-container2');
     if (adContainer2) {
@@ -370,7 +369,7 @@ async function performSearch(searchText, isNewSearch = false) {
       const noUserSelected = document.getElementById('noUserSelected');
       if (noUserSelected) {
         noUserSelected.textContent =
-          "Sorry, our database is currently overloaded. Please try reloading once more, and if that still doesn't work, please try again in a couple hours. For full transparency, we are currently using a database that has a limited number of reads and writes per day due to lack of funding. Thank you for your patience as we work on scaling our services. At the mean time, feel free to use other MovieVerse features!";
+          "Sorry, the chat feature is currently unavailable as our database is overloaded. Please try reloading once more, and if that still doesn't work, please try again in a couple hours. For full transparency, we are currently using a database that has a limited number of reads and writes per day due to lack of funding. Thank you for your patience as we work on scaling our services. At the mean time, feel free to use other MovieVerse features!";
         noUserSelected.style.margin = '25px auto';
       }
       hideSpinner();
