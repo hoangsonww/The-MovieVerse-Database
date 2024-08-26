@@ -17,7 +17,8 @@
   "license": "CC BY-NC 4.0",
   "cordova": {
     "platforms": [
-      "android"
+      "android",
+      "ios"
     ],
     "plugins": {
       "cordova-plugin-statusbar": {}

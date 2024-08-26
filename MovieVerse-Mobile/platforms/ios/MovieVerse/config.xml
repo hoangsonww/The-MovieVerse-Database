@@ -25,6 +25,10 @@
         <param name="ios-package" value="CDVGestureHandler" />
         <param name="onload" value="true" />
     </feature>
+    <feature name="StatusBar">
+        <param name="ios-package" value="CDVStatusBar" />
+        <param name="onload" value="true" />
+    </feature>
     <name>MovieVerse</name>
     <description>Your Ultimate Movie and Filmography Database</description>
     <author email="info@movie-verse.com" href="https://sonnguyenhoang.com/">
@@ -41,8 +45,8 @@
     <preference name="SuppressesLongPressGesture" value="false" />
     <preference name="Suppresses3DTouchGesture" value="false" />
     <preference name="StatusBarOverlaysWebView" value="false" />
-    <preference name="StatusBarBackgroundColor" value="#000000" />
     <preference name="StatusBarStyle" value="default" />
+    <preference name="StatusBarBackgroundColor" value="#000000" />
     <preference name="deployment-target" value="17.0" />
     <preference name="Orientation" value="portrait" />
 </widget>
