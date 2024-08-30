@@ -82,7 +82,6 @@ Through The MovieVerse, users can search for movies, view detailed information, 
 **And So Much More!**
 
 ## Project Structure
-
 The MovieVerse is a full-stack application with a robust backend and a user-friendly frontend. The project is divided into the following **3 main** directories:
 
 1. `MovieVerse-Backend`: The [backend directory](../MovieVerse-Backend) contains the server-side code, including the API, database, and server configuration.
