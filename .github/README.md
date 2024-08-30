@@ -99,6 +99,11 @@ The current deployment and production branch is the [main-deployment-branch](htt
 
 The app is using [Netlify](https://www.netlify.com/) for the frontend deployment and [Heroku](https://www.heroku.com) for the backend deployment. The deployment status is monitored regularly to ensure the application is up and running smoothly.
 
+**Deployment Status:**
+
+[![Netlify Status](https://img.shields.io/badge/Netlify-Deploy_successful-brightgreen)](https://app.netlify.com/sites/fake-movie-verse/deploys)
+[![Heroku Status](https://img.shields.io/badge/Heroku-Running-brightgreen)](https://fake-movie-verse.herokuapp.com/)
+
 ## Technology Stack
 
 | Frontend Technologies                                           | Backend Technologies                                            | Database Technologies                           | Mobile App Development                                            | Additional Technologies                                         |
