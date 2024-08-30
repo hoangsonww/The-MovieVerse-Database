@@ -90,6 +90,7 @@ The MovieVerse is a full-stack application with a robust backend and a user-frie
 3. `MovieVerse-Mobile`: The [mobile app directory](../MovieVerse-Mobile) contains the mobile application code, built using Apache Cordova, including the mobile user interface, user experience, and mobile client configuration.
 
 There are also additional directories and files for project configuration, testing, and other utilities. The project is built using a variety of directories, including `.github`, `MovieVerse-Utilities`, `MovieVerse-Config`, `MovieVerse-Middleware`, `MovieVerse-Design`, `images`, and more. Each directory serves a specific purpose in the development, deployment, and maintenance of The MovieVerse application.
+
 ## Deployment
 
 The current deployment and production branch is the [main-deployment-branch](https://github.com/hoangsonww/The-MovieVerse-Database/tree/main-deployment-branch) and is being deployed to the official website at [movie-verse.com](https://movie-verse.com). The deployment process involves building the frontend, backend, and mobile app, configuring the server, and deploying the application to the server. The deployment process is automated using CI/CD pipelines and scripts to ensure a seamless deployment experience.
