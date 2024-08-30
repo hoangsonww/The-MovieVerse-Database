@@ -37,6 +37,34 @@ The microservices architecture of MovieVerse is designed to segregate the applic
 - **Search Service**: Offers comprehensive search functionality for movies and users.
 - **And so many more...**
 
+## Data Flow Illustration
+
+```       
+                                                                 +------------+          +------------+
+                                                                 |            |          |            |
+                                                                 | PostgreSQL |          |  Firebase  |
+                                                                 |            |          |            |
+                                                                 +------------+          +------------+
+                                                                       ^                       ^
+                                                                       |                       |
+                                                                       |                       |
+                                                                       v                       v
++----------+        +----------------+      +------------+       +-----------+           +-----------+   
+|          |        |                |      |            |       |           |           |           | 
+| Frontend | <----> | Django Backend | <--> |  RabbitMQ  | <---> |   Redis   | <-------> |  MongoDB  | 
+|          |        |                |      |            |       |           |           |           |
++----------+        +----------------+      +------------+       +-----------+           +-----------+
+                                                                       ^                    ^     ^
+                                                                       |                   /       \
+                                                                       |                  /         \
+                                                                       v                 /           \
+                                                                 +------------+   +------------+   +------------+
+                                                                 |            |   |            |   |            |
+                                                                 |    MySQL   |   |  TMDB API  |   | User-Added |
+                                                                 |            |   | (external) |   |    Data    |
+                                                                 +------------+   +------------+   +------------+
+```
+
 ## Getting Started
 
 ### Prerequisites
