@@ -3,6 +3,7 @@
 ## Table of Contents
 - [Overview](#overview)
 - [Architecture](#architecture)
+- [Data Flow Illustration](#data-flow-illustration)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
@@ -38,6 +39,8 @@ The microservices architecture of MovieVerse is designed to segregate the applic
 - **And so many more...**
 
 ## Data Flow Illustration
+
+Here is an illustration of the data flow in the backend services of MovieVerse:
 
 ```       
                                                                  +------------+          +------------+
