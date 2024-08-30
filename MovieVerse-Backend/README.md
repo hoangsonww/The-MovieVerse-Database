@@ -68,6 +68,8 @@ Here is an illustration of the data flow in the backend services of MovieVerse:
                                                                  +------------+   +------------+   +------------+
 ```
 
+For more information on the data flow in the backend services of MovieVerse, refer to the code and the [README.md](databases/README.md) file in the `databases` directory.
+
 ## Getting Started
 
 ### Prerequisites
