@@ -336,6 +336,29 @@ function updateMovies() {
   }
 }
 
+async function getAdditionalPosters(movieId) {
+  const response = await fetch(`https://${getMovieVerseData()}/3/movie/${movieId}/images?${generateMovieNames()}${getMovieCode()}`);
+  const data = await response.json();
+  return data.posters.map(poster => poster.file_path);
+}
+
+function rotateImages(imageElements, interval = 3000) {
+  const uniqueImageElements = Array.from(imageElements).filter((el, index, self) => index === self.findIndex(e => e.src === el.src));
+
+  if (uniqueImageElements.length <= 1) return;
+
+  let currentIndex = 0;
+  uniqueImageElements[currentIndex].style.opacity = '1';
+
+  setTimeout(() => {
+    setInterval(() => {
+      uniqueImageElements[currentIndex].style.opacity = '0';
+      currentIndex = (currentIndex + 1) % uniqueImageElements.length;
+      uniqueImageElements[currentIndex].style.opacity = '1';
+    }, interval);
+  }, 0);
+}
+
 function showMovies(movies, mainElement, startYear, endYear, append) {
   showSpinner();
 
@@ -358,26 +381,85 @@ function showMovies(movies, mainElement, startYear, endYear, append) {
     centerContainer1.appendChild(mainElement);
   }
 
-  movies.forEach(movie => {
-    const movieEl = document.createElement('div');
-    movieEl.classList.add('movie');
-    const movieImage = movie.poster_path
-      ? `<img src="${IMGPATH + movie.poster_path}" alt="${movie.title}" />`
-      : `<div class="no-image" style="margin-top: 20px; margin-bottom: 20px">Image Not Available</div>`;
-    const voteAvg = movie.vote_average.toFixed(1);
-    const ratingClass = getClassByRate(movie.vote_average);
-    let title = movie.title;
-    const words = title.split(' ');
-    if (words.length >= 9) {
-      words[8] = '...';
-      title = words.slice(0, 9).join(' ');
+  const observer = new IntersectionObserver(
+    async (entries, observer) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          const movieEl = entry.target;
+          const movieId = movieEl.dataset.id;
+
+          const additionalPosters = await getAdditionalPosters(movieId);
+          let allPosters = [movieEl.dataset.posterPath, ...additionalPosters];
+
+          const movieImageContainer = movieEl.querySelector('.movie-images');
+
+          allPosters = allPosters.sort(() => 0.5 - Math.random()).slice(0, 10);
+
+          const imagePromises = allPosters.map((poster, index) => {
+            const img = new Image();
+            img.src = `${IMGPATH + poster}`;
+            img.loading = index === 0 ? 'eager' : 'lazy';
+            img.alt = `${movieEl.dataset.title} poster ${index + 1}`;
+            img.width = 300;
+            img.height = 435;
+            img.style.position = 'absolute';
+            img.style.top = 0;
+            img.style.left = 0;
+            img.style.transition = 'opacity 1s ease-in-out';
+            img.style.opacity = '0';
+            img.classList.add('poster-img');
+            movieImageContainer.appendChild(img);
+
+            return new Promise(resolve => {
+              img.onload = () => resolve(img);
+            });
+          });
+
+          const maxWait = new Promise(resolve => setTimeout(resolve, 3000));
+          await Promise.race([Promise.all(imagePromises), maxWait]);
+
+          movieImageContainer.querySelector('.poster-img').style.opacity = '1';
+
+          rotateImages(Array.from(movieImageContainer.children));
+          observer.unobserve(movieEl);
+        }
+      }
+    },
+    {
+      rootMargin: '50px 0px',
+      threshold: 0.1,
     }
-    let overview = movie.overview;
+  );
+
+  movies.forEach(movie => {
+    let { id, poster_path, title, vote_average, vote_count, overview, genre_ids } = movie;
+
+    const movieEl = document.createElement('div');
+    movieEl.style.zIndex = '1000';
+    movieEl.classList.add('movie');
+    movieEl.dataset.id = id;
+    movieEl.dataset.posterPath = poster_path;
+    movieEl.dataset.title = title;
+
+    const words = title.split(' ');
+    if (words.length >= 8) {
+      words[7] = '...';
+      title = words.slice(0, 8).join(' ');
+    }
+
+    const voteAvg = vote_count === 0 ? 'Unrated' : vote_average.toFixed(1);
+    const ratingClass = vote_count === 0 ? 'unrated' : getClassByRate(vote_average);
+
     if (overview === '') {
       overview = 'No overview available.';
     }
+
     movieEl.innerHTML = `
-            ${movieImage}
+            <div class="movie-image-container">
+                <div class="movie-images" style="position: relative; width: 100%; height: 435px; overflow: hidden;">
+                  <img src="${IMGPATH + poster_path}" loading="lazy" alt="${title} poster" width="150" height="225" style="position: absolute; top: 0; left: 0; transition: opacity 1s ease-in-out; opacity: 1;">
+                </div>
+            </div>
             <div class="movie-info" style="display: flex; justify-content: space-between; align-items: start; cursor: pointer;">
                 <h3 style="text-align: left; margin-right: 10px; flex: 1;">${title}</h3>
                 <span class="${ratingClass}" style="white-space: nowrap;">${voteAvg}</span>
@@ -386,13 +468,17 @@ function showMovies(movies, mainElement, startYear, endYear, append) {
                 <h4>Overview: </h4>
                 ${overview}
             </div>`;
+
     movieEl.addEventListener('click', () => {
-      localStorage.setItem('selectedMovieId', movie.id);
-      window.location.href = 'movie-details.html';
-      updateMovieVisitCount(movie.id, movie.title);
+      localStorage.setItem('selectedMovieId', id);
+      updateUniqueMoviesViewed(id);
+      updateFavoriteGenre(genre_ids);
+      updateMovieVisitCount(id, title);
+      window.location.href = 'MovieVerse-Frontend/html/movie-details.html';
     });
-    movieEl.style.cursor = 'pointer';
+
     mainElement.appendChild(movieEl);
+    observer.observe(movieEl);
   });
   const centerContainer1 = document.getElementById('center-container1');
   centerContainer1.appendChild(mainElement);

@@ -621,8 +621,8 @@ async function showResults(category) {
   document.getElementById('search-results-label').textContent = `Search Results for "${searchQuery}"`;
 
   const code = getMovieCode();
-  const baseApiUrl = `https://${getMovieVerseData()}/3`;
-  let url = `${baseApiUrl}/search/${category}?${generateMovieNames()}${code}&query=${encodeURIComponent(searchQuery)}`;
+  const baseFetchUrl = `https://${getMovieVerseData()}/3`;
+  let url = `${baseFetchUrl}/search/${category}?${generateMovieNames()}${code}&query=${encodeURIComponent(searchQuery)}`;
   let sortValue = '';
 
   if (category === 'movie') {
@@ -775,11 +775,11 @@ const main = document.getElementById('movie-match-container1');
 async function getAdditionalImages(itemId, category) {
   let endpoint;
   if (category === 'movie') {
-    endpoint = `https://api.themoviedb.org/3/movie/${itemId}/images?api_key=${getMovieCode()}`;
+    endpoint = `https://${getMovieVerseData()}/3/movie/${itemId}/images?${generateMovieNames()}${getMovieCode()}`;
   } else if (category === 'person') {
-    endpoint = `https://api.themoviedb.org/3/person/${itemId}/images?api_key=${getMovieCode()}`;
+    endpoint = `https://${getMovieVerseData()}/3/person/${itemId}/images?${generateMovieNames()}${getMovieCode()}`;
   } else if (category === 'tv') {
-    endpoint = `https://api.themoviedb.org/3/tv/${itemId}/images?api_key=${getMovieCode()}`;
+    endpoint = `https://${getMovieVerseData()}/3/tv/${itemId}/images?${generateMovieNames()}${getMovieCode()}`;
   }
 
   const response = await fetch(endpoint);
@@ -788,16 +788,18 @@ async function getAdditionalImages(itemId, category) {
 }
 
 function rotateImages(imageElements, interval = 3000) {
-  if (imageElements.length <= 1) return;
+  const uniqueImageElements = Array.from(imageElements).filter((el, index, self) => index === self.findIndex(e => e.src === el.src));
+
+  if (uniqueImageElements.length <= 1) return;
 
   let currentIndex = 0;
-  imageElements[currentIndex].style.opacity = '1';
+  uniqueImageElements[currentIndex].style.opacity = '1';
 
   setTimeout(() => {
     setInterval(() => {
-      imageElements[currentIndex].style.opacity = '0';
-      currentIndex = (currentIndex + 1) % imageElements.length;
-      imageElements[currentIndex].style.opacity = '1';
+      uniqueImageElements[currentIndex].style.opacity = '0';
+      currentIndex = (currentIndex + 1) % uniqueImageElements.length;
+      uniqueImageElements[currentIndex].style.opacity = '1';
     }, interval);
   }, 0);
 }
@@ -943,7 +945,6 @@ async function showMovies(items, container, category) {
               img.src = img.dataset.src;
               observer.unobserve(img);
 
-              // Load additional images once the first image is in view
               allImages.forEach((image, index) => {
                 if (index === 0) return;
                 const img = new Image();

@@ -1193,7 +1193,9 @@ header h1 {
 }
 
 .movie-left img {
-  height: auto;
+  width: auto !important;
+  height: 600px !important;
+  object-fit: cover;
 }
 
 .actor-left {
@@ -1204,12 +1206,24 @@ header h1 {
   overflow-y: auto;
 }
 
+.actor-left img {
+  width: auto !important;
+  height: 600px !important;
+  object-fit: cover;
+}
+
 .director-left {
   width: 33.3333%;
   box-sizing: border-box;
   align-items: center;
   justify-content: center;
   overflow-y: auto;
+}
+
+.director-left img {
+  width: auto !important;
+  height: 600px !important;
+  object-fit: cover;
 }
 
 .movie-right {
@@ -1252,10 +1266,11 @@ header h1 {
 }
 
 .movie-image {
-  width: 100%;
-  height: auto;
+  width: auto !important;
+  height: 225px !important;
   border-radius: 5px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  object-fit: cover;
 }
 
 @media (max-width: 768px) {
@@ -1310,12 +1325,56 @@ header h1 {
 }
 
 .keyword-link {
-  color: white;
-  text-decoration: underline;
+  display: inline-block;
+  margin: 5px;
+  margin-right: 1px;
+  padding: 5px 10px;
+  background-color: rgba(246, 246, 246, 0.5);
+  border-radius: 8px;
+  text-decoration: none;
+  color: black;
+  font-size: 14px;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
 }
 
 .keyword-link:hover {
-  color: #ff8623;
+  background-color: rgba(64, 64, 64, 0.8);
+  color: #fff;
+}
+
+.rating-container {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+  justify-content: center;
+  text-align: center;
+  flex-wrap: wrap;
+}
+
+.rating-bar {
+  flex-grow: 1;
+  height: 20px;
+  background-color: rgba(128, 128, 128, 0.3);
+  border-radius: 10px;
+  overflow: auto;
+  position: relative;
+  margin: 0 10px;
+  max-width: 160px;
+  min-width: 90px;
+  cursor: pointer;
+}
+
+.rating-fill {
+  height: 100%;
+  width: 0;
+  transition: width 1s ease-in-out;
+}
+
+.rating-text {
+  font: inherit;
+  color: white;
 }
 
 .director-header {
@@ -3247,19 +3306,19 @@ canvas {
 
   .movie-left img {
     width: 90% !important;
-    height: auto !important;
+    height: 600px !important;
     overflow: hidden;
   }
 
   .actor-left img {
     width: 90% !important;
-    height: auto !important;
+    height: 600px !important;
     overflow: hidden;
   }
 
   .director-left img {
     width: 90% !important;
-    height: auto !important;
+    height: 600px !important;
     overflow: hidden;
   }
 

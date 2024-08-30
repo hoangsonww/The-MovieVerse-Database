@@ -6,9 +6,7 @@
   </a>
 </p>
 
-Welcome to **The MovieVerse** - your digital compass to the cinematic universe. Created by [Son Nguyen](https://github.com/hoangsonww) in 2023 and currently attracting more than **450,000 monthly users**, this application is completely **free-to-use**, designed to serve as a bridge connecting movie enthusiasts with an extensive collection of films across various genres and periods. Dive into an ocean of narratives, where stories come to life, right at your fingertips with **MovieVerse**!
-
-🌟 Star this repository to show your support and stay updated on the latest features and enhancements. Feel free to contribute to the project, and let's build a vibrant community of movie lovers together 🎬🍿!
+Welcome to **The MovieVerse** - your digital compass to the cinematic universe. Created by [Son Nguyen](https://github.com/hoangsonww) and currently serving more than **1 MILLION USERS**, this application is completely **free-to-use**, designed to function as a bridge connecting movie enthusiasts with an extensive collection of films across various genres and periods. Dive into an ocean of narratives, where stories come to life, right at your fingertips with **MovieVerse** 🎬🍿!
 
 **This app is currently available at [movie-verse.com](https://movie-verse.com).**
 
@@ -97,7 +95,12 @@ There are also additional directories and files for project configuration, testi
 
 The current deployment and production branch is the [main-deployment-branch](https://github.com/hoangsonww/The-MovieVerse-Database/tree/main-deployment-branch) and is being deployed to the official website at [movie-verse.com](https://movie-verse.com). The deployment process involves building the frontend, backend, and mobile app, configuring the server, and deploying the application to the server. The deployment process is automated using CI/CD pipelines and scripts to ensure a seamless deployment experience.
 
-The app is using [Netlify](https://www.netlify.com/) for the frontend deployment and [Heroku](https://www.heroku.com) for the backend deployment. The deployment status is monitored regularly to ensure the application is up and running smoothly.
+The **official** app is currently using [Netlify](https://www.netlify.com/) for the frontend deployment and [Heroku](https://www.heroku.com) for the backend deployment. The deployment status is monitored regularly to ensure the application is up and running smoothly.
+
+**Deployment Status:**
+
+[![Netlify Status](https://img.shields.io/badge/Netlify-Deploy_successful-brightgreen)](https://app.netlify.com/sites/fake-movie-verse/deploys)
+[![Heroku Status](https://img.shields.io/badge/Heroku-Running-brightgreen)](https://fake-movie-verse.herokuapp.com/)
 
 ## Technology Stack
 
@@ -230,6 +233,6 @@ Thank you for your understanding and support~ 🎬🍿
 
 ---
 
-Created with ❤️ in 2023 by [Son Nguyen](https://github.com/hoangsonww).
+Created with ❤️ in 2023-24 by [Son Nguyen](https://github.com/hoangsonww).
 
 © 2024 The MovieVerse. All Rights Reserved.

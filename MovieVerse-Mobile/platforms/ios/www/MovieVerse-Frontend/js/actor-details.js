@@ -109,11 +109,85 @@ async function populateActorDetails(actor, credits) {
   const actorImage = document.getElementById('actor-image');
   const actorName = document.getElementById('actor-name');
   const actorDescription = document.getElementById('actor-description');
+  const actorId = actor.id;
+
+  async function getInitialActorImage(actorId) {
+    const response = await fetch(`https://${getMovieVerseData()}/3/person/${actorId}?${generateMovieNames()}${getMovieCode()}`);
+    const data = await response.json();
+    return data.profile_path;
+  }
+
+  async function getAdditionalActorImages(actorId) {
+    const response = await fetch(`https://${getMovieVerseData()}/3/person/${actorId}/images?${generateMovieNames()}${getMovieCode()}`);
+    const data = await response.json();
+    return data.profiles.map(profile => profile.file_path);
+  }
+
+  async function rotateActorImages(actorImage, imagePaths, interval = 4000) {
+    const uniqueImagePaths = [...new Set(imagePaths)];
+
+    if (uniqueImagePaths.length <= 1) return;
+
+    let currentIndex = 0;
+
+    const preloadNextImage = nextIndex => {
+      return loadImage(`https://image.tmdb.org/t/p/w1280${uniqueImagePaths[nextIndex]}`);
+    };
+
+    const updateImage = async () => {
+      const nextIndex = (currentIndex + 1) % uniqueImagePaths.length;
+      const nextImageSrc = `https://image.tmdb.org/t/p/w1280${uniqueImagePaths[nextIndex]}`;
+
+      try {
+        const img = await preloadNextImage(nextIndex);
+        actorImage.style.opacity = '0';
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        actorImage.src = img.src;
+        actorImage.alt = `Actor Image ${nextIndex + 1}`;
+        actorImage.style.opacity = '1';
+        currentIndex = nextIndex;
+      } catch (error) {
+        console.error('Failed to load image:', nextImageSrc, error);
+        actorImage.style.opacity = '1';
+      }
+    };
+
+    setInterval(updateImage, interval);
+  }
+
+  function loadImage(src) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = reject;
+      img.src = src;
+    });
+  }
 
   if (actor.profile_path) {
     actorImage.src = `https://image.tmdb.org/t/p/w1280${actor.profile_path}`;
     actorName.textContent = actor.name;
     document.title = `${actor.name} - Actor's Details`;
+
+    const initialActorImage = await getInitialActorImage(actorId);
+
+    if (initialActorImage) {
+      actorImage.src = `https://image.tmdb.org/t/p/w1280${initialActorImage}`;
+      actorImage.alt = actor.name;
+      actorImage.loading = 'lazy';
+      actorImage.style.transition = 'transform 0.3s ease-in-out, opacity 1s ease-in-out';
+      actorImage.style.opacity = '1';
+
+      const additionalActorImages = await getAdditionalActorImages(actorId);
+      let allActorImages = [initialActorImage, ...additionalActorImages];
+      allActorImages = allActorImages.sort(() => 0.5 - Math.random()).slice(0, 10);
+      rotateActorImages(actorImage, allActorImages);
+    } else {
+      const noImageText = document.createElement('h2');
+      noImageText.textContent = 'Image Not Available';
+      noImageText.style.textAlign = 'center';
+      document.querySelector('.actor-left').appendChild(noImageText);
+    }
   } else {
     actorImage.style.display = 'none';
     actorName.textContent = actor.name;
@@ -150,7 +224,8 @@ async function populateActorDetails(actor, credits) {
   actorDescription.appendChild(gender);
 
   const popularity = document.createElement('div');
-  popularity.innerHTML = `<p><strong>Popularity Score:</strong> ${actor.popularity.toFixed(2)}</p>`;
+  const isPopular = actor.popularity > 30 ? 'popular' : 'not popular';
+  popularity.innerHTML = `<p><strong>Popularity Score:</strong> ${actor.popularity.toFixed(2)} (This actor is <strong>${isPopular}</strong>)</p>`;
   actorDescription.appendChild(popularity);
 
   const filmographyHeading = document.createElement('p');
@@ -164,51 +239,68 @@ async function populateActorDetails(actor, credits) {
   movieList.style.justifyContent = 'center';
   movieList.style.gap = '5px';
 
-  let filmsToDisplay = credits.cast;
-  filmsToDisplay = filmsToDisplay.sort((a, b) => b.popularity - a.popularity);
-
-  filmsToDisplay.forEach((movie, index) => {
-    const movieLink = document.createElement('a');
-    movieLink.classList.add('movie-link');
-    movieLink.href = 'javascript:void(0);';
-    movieLink.setAttribute('onclick', `selectMovieId(${movie.id});`);
-
-    const movieItem = document.createElement('div');
-    movieItem.classList.add('movie-item');
-
-    const movieImage = document.createElement('img');
-    movieImage.classList.add('movie-image');
-
-    if (movie.poster_path) {
-      movieImage.src = IMGPATH2 + movie.poster_path;
-      movieImage.alt = `${movie.title} Poster`;
-    } else {
-      movieImage.alt = 'Image Not Available';
-      movieImage.src = 'https://movie-verse.com/images/movie-default.jpg';
-      movieImage.style.filter = 'grayscale(100%)';
-      movieImage.style.objectFit = 'cover';
-    }
-
-    movieItem.appendChild(movieImage);
-
-    const movieDetails = document.createElement('div');
-    movieDetails.classList.add('movie-details');
-
-    const movieTitle = document.createElement('p');
-    movieTitle.classList.add('movie-title');
-    movieTitle.textContent = movie.title;
-    movieDetails.appendChild(movieTitle);
-
-    movieItem.appendChild(movieDetails);
-    movieLink.appendChild(movieItem);
-    movieList.appendChild(movieLink);
-
-    if (index < credits.cast.length - 1) {
-      movieList.appendChild(document.createTextNode(''));
-    }
-  });
-
   filmographyHeading.appendChild(movieList);
+
+  let filmsToDisplay = credits.cast;
+  if (filmsToDisplay.length === 0) {
+    const noFilmsText = document.createElement('p');
+    noFilmsText.textContent = 'No films found';
+    noFilmsText.style.textAlign = 'center';
+    noFilmsText.style.width = '100%';
+    noFilmsText.style.color = 'white';
+    movieList.appendChild(noFilmsText);
+  } else {
+    filmsToDisplay = filmsToDisplay.sort((a, b) => b.popularity - a.popularity);
+
+    filmsToDisplay.forEach((movie, index) => {
+      const movieLink = document.createElement('a');
+      movieLink.classList.add('movie-link');
+      movieLink.href = 'javascript:void(0);';
+      movieLink.style.marginRight = '0';
+      movieLink.style.marginTop = '10px';
+      movieLink.style.maxWidth = '115px';
+      movieLink.setAttribute('onclick', `selectMovieId(${movie.id});`);
+
+      const movieItem = document.createElement('div');
+      movieItem.classList.add('movie-item');
+      movieItem.style.height = 'auto';
+
+      const movieImage = document.createElement('img');
+      movieImage.classList.add('movie-image');
+      movieImage.style.maxHeight = '155px';
+      movieImage.style.maxWidth = '115px';
+
+      if (movie.poster_path) {
+        movieImage.src = IMGPATH2 + movie.poster_path;
+        movieImage.alt = `${movie.title} Poster`;
+      } else {
+        movieImage.alt = 'Image Not Available';
+        movieImage.src = 'https://movie-verse.com/images/movie-default.jpg';
+        movieImage.style.filter = 'grayscale(100%)';
+        movieImage.style.objectFit = 'cover';
+        movieImage.style.maxHeight = '155px';
+        movieImage.style.maxWidth = '115px';
+      }
+
+      movieItem.appendChild(movieImage);
+
+      const movieDetails = document.createElement('div');
+      movieDetails.classList.add('movie-details');
+
+      const movieTitle = document.createElement('p');
+      movieTitle.classList.add('movie-title');
+      movieTitle.textContent = movie.title;
+      movieDetails.appendChild(movieTitle);
+
+      movieItem.appendChild(movieDetails);
+      movieLink.appendChild(movieItem);
+      movieList.appendChild(movieLink);
+
+      if (index < credits.cast.length - 1) {
+        movieList.appendChild(document.createTextNode(''));
+      }
+    });
+  }
 
   const mediaUrl = `https://${getMovieVerseData()}/3/person/${actor.id}/images?${generateMovieNames()}${getMovieCode()}`;
   const mediaResponse = await fetch(mediaUrl);

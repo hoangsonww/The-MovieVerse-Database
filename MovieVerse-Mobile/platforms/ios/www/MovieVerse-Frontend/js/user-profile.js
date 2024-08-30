@@ -206,7 +206,7 @@ async function performSearch(searchText) {
     hideSpinner();
   } catch (error) {
     console.error('Error during search: ', error);
-    searchUserResults.innerHTML = `<div style="text-align: center; font-weight: bold">Error in searching: ${error.message}</div>`;
+    searchUserResults.innerHTML = `<div style="text-align: center; font-weight: bold">Sorry, our databases are currently overloaded. Please try again later.</div>`;
     searchUserResults.style.display = 'block';
     hideSpinner();
   }
@@ -443,8 +443,9 @@ async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMo
         const noUserSelected = document.getElementById('profileContainer');
         if (noUserSelected) {
           noUserSelected.innerHTML =
-            "Sorry, our database is currently overloaded. Please try reloading once more, and if that still doesn't work, please try again in a couple hours. For full transparency, we are currently using a database that has a limited number of reads and writes per day due to lack of funding. Thank you for your patience as we work on scaling our services. At the mean time, feel free to use other MovieVerse features!";
+            "Sorry, the profile feature is currently unavailable as our databases are overloaded. Please try reloading once more, and if that still doesn't work, please try again in a couple hours. For full transparency, we are currently using a database that has a limited number of reads and writes per day due to lack of funding. Thank you for your patience as we work on scaling our services. At the mean time, feel free to use other MovieVerse features!";
           noUserSelected.style.height = '350px';
+          noUserSelected.style.display = 'block';
         }
       }
 
@@ -456,8 +457,9 @@ async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMo
       const noUserSelected = document.getElementById('profileContainer');
       if (noUserSelected) {
         noUserSelected.innerHTML =
-          "Sorry, our database is currently overloaded. Please try reloading once more, and if that still doesn't work, please try again in a couple hours. For full transparency, we are currently using a database that has a limited number of reads and writes per day due to lack of funding. Thank you for your patience as we work on scaling our services. At the mean time, feel free to use other MovieVerse features!";
+          "Sorry, the profile feature is currently unavailable as our databases are overloaded. Please try reloading once more, and if that still doesn't work, please try again in a couple hours. For full transparency, we are currently using a database that has a limited number of reads and writes per day due to lack of funding. Thank you for your patience as we work on scaling our services. At the mean time, feel free to use other MovieVerse features!";
         noUserSelected.style.height = '350px';
+        noUserSelected.style.display = 'block';
       }
     }
 

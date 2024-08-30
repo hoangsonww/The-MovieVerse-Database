@@ -3,6 +3,7 @@
 ## Table of Contents
 - [Overview](#overview)
 - [Architecture](#architecture)
+- [Data Flow Illustration](#data-flow-illustration)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
@@ -36,6 +37,38 @@ The microservices architecture of MovieVerse is designed to segregate the applic
 - **Recommendation Service**: Provides movie recommendations to users based on their preferences and viewing history.
 - **Search Service**: Offers comprehensive search functionality for movies and users.
 - **And so many more...**
+
+## Data Flow Illustration
+
+Here is an illustration of the data flow in the backend services of MovieVerse:
+
+```       
+                                                                 +------------+          +------------+
+                                                                 |            |          |            |
+                                                                 | PostgreSQL |          |  Firebase  |
+                                                                 |            |          |            |
+                                                                 +------------+          +------------+
+                                                                       ^                       ^
+                                                                       |                       |
+                                                                       |                       |
+                                                                       v                       v
++----------+        +----------------+      +------------+       +-----------+           +-----------+   
+|          |        |                |      |            |       |           |           |           | 
+| Frontend | <----> | Django Backend | <--> |  RabbitMQ  | <---> |   Redis   | <-------> |  MongoDB  | 
+|          |        |                |      |            |       |           |           |           |
++----------+        +----------------+      +------------+       +-----------+           +-----------+
+                                                                       ^                    ^     ^
+                                                                       |                   /       \
+                                                                       |                  /         \
+                                                                       v                 /           \
+                                                                 +------------+   +------------+   +------------+
+                                                                 |            |   |            |   |            |
+                                                                 |    MySQL   |   |  TMDB API  |   | User-Added |
+                                                                 |            |   | (external) |   |    Data    |
+                                                                 +------------+   +------------+   +------------+
+```
+
+For more information on the data flow in the backend services of MovieVerse, refer to the code and the [README.md](databases/README.md) file in the `databases` directory.
 
 ## Getting Started
 

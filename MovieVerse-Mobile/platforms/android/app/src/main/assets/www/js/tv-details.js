@@ -558,8 +558,9 @@ async function fetchTvDetails(tvSeriesId) {
 
     if (imdbId) {
       const imdbRatingPromise = fetchTVRatings(imdbId);
-      const imdbRating = await imdbRatingPromise;
-      populateTvSeriesDetails(tvSeriesDetails, imdbRating);
+      const imdbRating = await imdbRatingPromise.then(data => (data !== 'IMDb rating' ? data.imdbRating : 'IMDb rating'));
+      const rated = await imdbRatingPromise.then(data => (data !== 'IMDb rating' ? data.Rated : 'Rated'));
+      populateTvSeriesDetails(tvSeriesDetails, imdbRating, rated);
     } else {
       populateTvSeriesDetails(tvSeriesDetails, 'IMDb rating');
     }
@@ -568,7 +569,7 @@ async function fetchTvDetails(tvSeriesId) {
   } catch (error) {
     document.getElementById('movie-details-container').innerHTML = `
             <div style="display: flex; justify-content: center; align-items: center; text-align: center; margin-top: 40px; width: 100vw; height: 800px">
-                <h2>TV series details not found - Try again with another TV series</h2>
+                <h2>TV series details currently unavailable - please try again</h2>
             </div>`;
     console.log('Error fetching TV series details:', error);
   } finally {
@@ -577,16 +578,29 @@ async function fetchTvDetails(tvSeriesId) {
 }
 
 async function fetchTVRatings(imdbId) {
+  showSpinner();
+
   if (!imdbId) {
     return 'IMDb rating';
   }
 
-  const apiKeys = [await getMovieCode2(), '58efe859', '60a09d79', '956e468a', 'bd55ada4', 'cbfc076', 'dc091ff2', '6e367eef', '2a2a3080', 'd20a931f'];
-
+  const req = [
+    await getMovieCode2(),
+    '58efe859',
+    '60a09d79',
+    '956e468a',
+    'bd55ada4',
+    'cbfc076',
+    'dc091ff2',
+    '6e367eef',
+    '2a2a3080',
+    'd20a931f',
+    '531a4313',
+  ];
   const baseURL = `https://${getMovieActor()}/?i=${imdbId}&${getMovieName()}`;
 
-  async function tryFetch(apiKey, timeout = 5000) {
-    const url = `${baseURL}${apiKey}`;
+  async function tryFetch(req, timeout = 5000) {
+    const url = `${baseURL}${req}`;
     return new Promise(resolve => {
       const timer = setTimeout(() => resolve(null), timeout);
       fetch(url)
@@ -606,11 +620,12 @@ async function fetchTVRatings(imdbId) {
     });
   }
 
-  const requests = apiKeys.map(key => tryFetch(key));
+  const requests = req.map(key => tryFetch(key));
   const responses = await Promise.all(requests);
   const data = responses.find(response => response !== null);
 
-  return data && data.imdbRating ? data.imdbRating : 'View on IMDb';
+  hideSpinner();
+  return data && data.imdbRating ? data : 'View on IMDb';
 }
 
 function getLanguageName(code) {
@@ -623,21 +638,204 @@ function getCountryName(code) {
   return regionNames.of(code);
 }
 
-async function populateTvSeriesDetails(tvSeries, imdbRating) {
+function getRatingDetails(rating) {
+  let details = { color: 'black', text: rating, description: '' };
+
+  switch (rating) {
+    case 'R':
+      details = {
+        color: 'red',
+        text: 'R (Restricted)',
+        description: ' - No one 17 and under admitted',
+      };
+      break;
+    case 'PG-13':
+      details = {
+        color: 'yellow',
+        text: 'PG-13 (Parents Strongly Cautioned)',
+        description: ' - May be inappropriate for children under 13',
+      };
+      break;
+    case 'PG':
+      details = {
+        color: 'orange',
+        text: 'PG (Parental Guidance Suggested)',
+        description: ' - May not be suitable for children',
+      };
+      break;
+    case 'G':
+      details = {
+        color: 'green',
+        text: 'G (General Audiences)',
+        description: ' - All ages admitted',
+      };
+      break;
+    case 'NC-17':
+      details = {
+        color: 'darkred',
+        text: 'NC-17 (Adults Only)',
+        description: ' - No one 17 and under admitted',
+      };
+      break;
+    case 'TV-Y':
+      details = {
+        color: 'lightgreen',
+        text: 'TV-Y (All Children)',
+        description: ' - Appropriate for all children',
+      };
+      break;
+    case 'TV-Y7':
+      details = {
+        color: 'lightblue',
+        text: 'TV-Y7 (Directed to Older Children)',
+        description: ' - Suitable for children ages 7 and up',
+      };
+      break;
+    case 'TV-G':
+      details = {
+        color: 'green',
+        text: 'TV-G (General Audience)',
+        description: ' - Suitable for all ages',
+      };
+      break;
+    case 'TV-PG':
+      details = {
+        color: 'orange',
+        text: 'TV-PG (Parental Guidance Suggested)',
+        description: ' - May not be suitable for younger children',
+      };
+      break;
+    case 'TV-14':
+      details = {
+        color: 'yellow',
+        text: 'TV-14 (Parents Strongly Cautioned)',
+        description: ' - May be inappropriate for children under 14',
+      };
+      break;
+    case 'TV-MA':
+      details = {
+        color: 'red',
+        text: 'TV-MA (Mature Audience Only)',
+        description: ' - Specifically designed to be viewed by adults',
+      };
+      break;
+    case 'NR':
+      details = {
+        color: 'white',
+        text: 'NR (Not Rated)',
+        description: ' - Movie has not been officially rated',
+      };
+      break;
+    case 'UR':
+    case 'Unrated':
+      details = {
+        color: 'white',
+        text: 'UR (Unrated)',
+        description: ' - Contains content not used in the rated version',
+      };
+      break;
+    default:
+      details = {
+        color: 'white',
+        text: rating,
+        description: ' - Rating information not available',
+      };
+      break;
+  }
+
+  return details;
+}
+
+let globalRatingPercentage = 0;
+
+async function populateTvSeriesDetails(tvSeries, imdbRating, rated) {
   const title = tvSeries.name || 'Title not available';
   document.getElementById('movie-title').textContent = title;
   document.title = tvSeries.name + ' - TV Series Details';
 
-  const posterPath = `https://image.tmdb.org/t/p/w780${tvSeries.poster_path}`;
-  if (tvSeries.poster_path) {
-    document.getElementById('movie-image').src = posterPath;
-    document.getElementById('movie-image').alt = `Poster of ${title}`;
-  } else {
-    const noImageTitle = document.createElement('h2');
-    noImageTitle.textContent = 'TV Show Image Not Available';
-    noImageTitle.style.textAlign = 'center';
-    document.getElementById('movie-image').replaceWith(noImageTitle);
+  async function getInitialPoster(tvSeriesId) {
+    const response = await fetch(`https://${getMovieVerseData()}/3/tv/${tvSeriesId}?${generateMovieNames()}${getMovieCode()}`);
+    const data = await response.json();
+    return data.poster_path;
   }
+
+  async function getAdditionalPosters(tvSeriesId) {
+    const response = await fetch(`https://${getMovieVerseData()}/3/tv/${tvSeriesId}/images?${generateMovieNames()}${getMovieCode()}`);
+    const data = await response.json();
+    return data.posters.map(poster => poster.file_path);
+  }
+
+  function loadImage(src) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = reject;
+      img.src = src;
+    });
+  }
+
+  async function rotateImages(movieImage, imagePaths, interval = 4000) {
+    const uniqueImagePaths = [...new Set(imagePaths)];
+
+    if (uniqueImagePaths.length <= 1) return;
+
+    let currentIndex = 0;
+
+    const preloadNextImage = nextIndex => {
+      return loadImage(IMGPATH + uniqueImagePaths[nextIndex]);
+    };
+
+    const updateImage = async () => {
+      const nextIndex = (currentIndex + 1) % uniqueImagePaths.length;
+      const nextImageSrc = IMGPATH + uniqueImagePaths[nextIndex];
+
+      try {
+        const img = await preloadNextImage(nextIndex);
+        movieImage.style.opacity = '0';
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        movieImage.src = img.src;
+        movieImage.alt = `Poster ${nextIndex + 1}`;
+        movieImage.style.opacity = '1';
+        currentIndex = nextIndex;
+      } catch (error) {
+        console.error('Failed to load image:', nextImageSrc);
+        movieImage.style.opacity = '1';
+      }
+    };
+
+    setInterval(updateImage, interval);
+  }
+
+  const tvSeriesImage = document.getElementById('movie-image');
+  const tvSeriesId = tvSeries.id;
+
+  await (async () => {
+    const initialPoster = await getInitialPoster(tvSeriesId);
+
+    if (initialPoster) {
+      const initialPosterPath = `https://image.tmdb.org/t/p/w780${initialPoster}`;
+      tvSeriesImage.src = initialPosterPath;
+      tvSeriesImage.alt = `Poster of ${tvSeries.title}`;
+      tvSeriesImage.loading = 'lazy';
+      tvSeriesImage.style.transition = 'transform 0.3s ease-in-out, opacity 1s ease-in-out';
+      tvSeriesImage.style.opacity = '1';
+
+      const additionalPosters = await getAdditionalPosters(tvSeriesId);
+      let allPosters = [initialPoster, ...additionalPosters];
+      allPosters = allPosters.sort(() => 0.5 - Math.random()).slice(0, 10);
+      rotateImages(tvSeriesImage, allPosters);
+    } else {
+      const noImageTitle = document.createElement('h2');
+      noImageTitle.textContent = 'TV Show Image Not Available';
+      noImageTitle.style.textAlign = 'center';
+
+      if (tvSeriesImage.parentNode) {
+        tvSeriesImage.parentNode.replaceChild(noImageTitle, tvSeriesImage);
+      } else {
+        document.body.appendChild(noImageTitle);
+      }
+    }
+  })();
 
   let detailsHTML = `<p><strong>Overview:</strong> ${tvSeries.overview || 'Overview not available.'}</p>`;
 
@@ -646,7 +844,15 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
   detailsHTML += `<p><strong>Tagline:</strong> ${tvSeries.tagline || 'Not available'}</p>`;
 
   const genres = tvSeries.genres && tvSeries.genres.length ? tvSeries.genres.map(genre => genre.name).join(', ') : 'Genres not available';
+
   detailsHTML += `<p><strong>Genres:</strong> ${genres}</p>`;
+
+  const ratingDetails = getRatingDetails(rated);
+  const ratedElement = rated
+    ? `<p id="movie-rated-element"><strong>Rated:</strong> <span style="color: ${ratingDetails.color};"><strong>${ratingDetails.text}</strong>${ratingDetails.description}</span></p>`
+    : '';
+
+  detailsHTML += ratedElement;
 
   detailsHTML += `<p><strong>First Air Date:</strong> ${tvSeries.first_air_date || 'Not available'}</p>`;
 
@@ -662,15 +868,46 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
   detailsHTML += `<p><strong>Networks:</strong> ${networks}</p>`;
 
   const voteAverage = tvSeries.vote_average ? tvSeries.vote_average.toFixed(1) : 'N/A';
-  const voteCount = tvSeries.vote_count ? tvSeries.vote_count.toLocaleString() : 'N/A';
-  detailsHTML += `<p title="Your rating also counts - it might take a while for us to update!"><strong>MovieVerse User Rating:</strong> <strong id="user-ratings">${(
-    voteAverage / 2
-  ).toFixed(1)}/5.0</strong> (based on <strong id="user-ratings">${voteCount}</strong> votes)</p>`;
+  const voteCount = tvSeries.vote_count ? tvSeries.vote_count : '0';
+  const scaledRating = (tvSeries.vote_average / 2).toFixed(1);
+  const ratingPercentage = (scaledRating / 5) * 100;
+  globalRatingPercentage = ratingPercentage;
+
+  let ratingColor;
+  if (scaledRating <= 1) {
+    ratingColor = '#FF0000';
+  } else if (scaledRating < 2) {
+    ratingColor = '#FFA500';
+  } else if (scaledRating < 3) {
+    ratingColor = '#FFFF00';
+  } else if (scaledRating < 4) {
+    ratingColor = '#2196F3';
+  } else {
+    ratingColor = '#4CAF50';
+  }
+
+  const ratingHTML = `
+    <div class="rating-container" title="Your rating also counts - it might take a while for us to update!">
+      <strong>MovieVerse Rating:</strong>
+      <div class="rating-bar" onclick="handleRatingClick()">
+        <div class="rating-fill" style="width: 0; background-color: ${ratingColor};" id="rating-fill"></div>
+      </div>
+      <span class="rating-text"><strong>${scaledRating}/5.0</strong> (<strong id="user-votes">${voteCount}</strong> votes)</span>
+    </div>
+  `;
+
+  detailsHTML += ratingHTML;
 
   if (tvSeries.external_ids && tvSeries.external_ids.imdb_id) {
-    const imdbId = tvSeries.external_ids.imdb_id;
-    const imdbUrl = `https://www.imdb.com/title/${imdbId}/`;
-    detailsHTML += `<p title="Click to go to this TV series' IMDB page"><strong>IMDb Rating:</strong> <strong><a id="ratingImdb" href="${imdbUrl}" target="_blank">${imdbRating}</a></strong></p>`;
+    if (imdbRating && imdbRating !== null && imdbRating !== undefined) {
+      const imdbId = tvSeries.external_ids.imdb_id;
+      const imdbUrl = `https://www.imdb.com/title/${imdbId}/`;
+      detailsHTML += `<p title="Click to go to this TV series' IMDB page"><strong>IMDb Rating:</strong> <strong><a id="ratingImdb" href="${imdbUrl}" target="_blank">${imdbRating}</a></strong></p>`;
+    } else {
+      const imdbId = tvSeries.external_ids.imdb_id;
+      const imdbUrl = `https://www.imdb.com/title/${imdbId}/`;
+      detailsHTML += `<p title="Click to go to this TV series' IMDB page"><strong>IMDb Rating:</strong> <strong><a id="ratingImdb" href="${imdbUrl}" target="_blank">View on IMDb</a></strong></p>`;
+    }
   } else {
     detailsHTML += `<p title="Click to go to this TV series' IMDB page"><strong>IMDb Rating:</strong> <strong>IMDb rating not available</strong></p>`;
   }
@@ -702,6 +939,10 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
   detailsHTML += `<p><strong>Production Countries:</strong> ${productionCountries}</p>`;
 
   detailsHTML += `<p><strong>Seasons:</strong> ${tvSeries.number_of_seasons || 0}, <strong>Episodes:</strong> ${tvSeries.number_of_episodes || 0}</p>`;
+
+  const popularity = tvSeries.popularity ? tvSeries.popularity.toFixed(2) : 'N/A';
+  const isPopular = tvSeries.popularity > 50 ? 'popular' : 'not popular';
+  detailsHTML += `<p><strong>Popularity Score:</strong> ${popularity} (This TV series is <strong>${isPopular}</strong>)</p>`;
 
   if (tvSeries.last_episode_to_air) {
     const lastEpisode = tvSeries.last_episode_to_air;
@@ -1018,11 +1259,19 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
 
   detailsHTML += `<p><strong>Streaming Options:</strong> ${streamingHTML}</p>`;
 
+  let keywordsHTML = tvSeries.keywords
+    ? tvSeries.keywords.results
+        .map(
+          kw =>
+            `<a class="keyword-link" href="javascript:void(0);" onclick="handleKeywordClick('${kw.name.replace(/'/g, "\\'")}')" title="Click to search for movies with the keyword '${kw.name}'">${kw.name}</a>`
+        )
+        .join(', ')
+    : 'None Available';
+
   if (tvSeries.keywords && tvSeries.keywords.results && tvSeries.keywords.results.length) {
-    let keywordsHTML = tvSeries.keywords.results.map(keyword => keyword.name).join(', ');
     detailsHTML += `<p><strong>Keywords:</strong> ${keywordsHTML}</p>`;
   } else {
-    detailsHTML += `<p><strong>Keywords:</strong> Information not available</p>`;
+    detailsHTML += `<p><strong>Keywords:</strong> None Available</p>`;
   }
 
   const mediaUrl = `https://${getMovieVerseData()}/3/tv/${tvSeries.id}/images?${generateMovieNames()}${getMovieCode()}`;
@@ -1097,9 +1346,11 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
     imageElement.src = `https://image.tmdb.org/t/p/w780${images[currentIndex].file_path}`;
   }
 
+  let modalOpen = false;
+
   imageElement.addEventListener('click', function () {
     let imageUrl = this.src.replace('w780', 'w1280');
-
+    modalOpen = true;
     const modalHtml = `
             <div id="image-modal" style="z-index: 100022222; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
                 <button id="prevModalButton" style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); background-color: #7378c5; color: white; border-radius: 8px; height: 30px; width: 30px; border: none; cursor: pointer; z-index: 11;"><i class="fas fa-arrow-left"></i></button>
@@ -1116,12 +1367,14 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
 
     closeModalBtn.onclick = function () {
       modal.remove();
+      modalOpen = false;
       imageElement.src = modalImage.src.replace('w1280', 'w780');
     };
 
     modal.addEventListener('click', function (event) {
       if (event.target === this) {
         this.remove();
+        modalOpen = false;
         imageElement.src = modalImage.src.replace('w1280', 'w780');
       }
     });
@@ -1142,15 +1395,27 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
     imgElement2.style.opacity = '0';
     currentIndex = (currentIndex + direction + images.length) % images.length;
 
-    setTimeout(() => {
-      imgElement1.src = `https://image.tmdb.org/t/p/w780${images[currentIndex].file_path}`;
-      imgElement2.src = `https://image.tmdb.org/t/p/w1280${images[currentIndex].file_path}`;
-      imgElement1.style.opacity = '1';
-      imgElement2.style.opacity = '1';
-    }, 500);
+    const newSrc1 = `https://image.tmdb.org/t/p/w780${images[currentIndex].file_path}`;
+    const newSrc2 = `https://image.tmdb.org/t/p/w1280${images[currentIndex].file_path}`;
+    const tempImage1 = new Image();
+    const tempImage2 = new Image();
+    tempImage1.src = newSrc1;
+    tempImage2.src = newSrc2;
+
+    tempImage1.onload = () => {
+      tempImage2.onload = () => {
+        setTimeout(() => {
+          imgElement1.src = newSrc1;
+          imgElement2.src = newSrc2;
+          imgElement1.style.opacity = '1';
+          imgElement2.style.opacity = '1';
+        }, 500);
+      };
+    };
 
     sessionStorage.setItem('currentIndex', currentIndex);
     updateDots(currentIndex);
+    resetRotationInterval();
   }
 
   let prevButton = document.getElementById('prev-media-button');
@@ -1190,16 +1455,45 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
   prevButton.onclick = () => navigateMedia(images, imageElement, -1);
   nextButton.onclick = () => navigateMedia(images, imageElement, 1);
 
+  let rotationInterval;
+
+  if (images.length === 0) {
+    mediaContainer.innerHTML = '<p>No media available</p>';
+  } else if (images.length > 1) {
+    startRotationInterval();
+  }
+
+  function startRotationInterval() {
+    rotationInterval = setInterval(() => {
+      if (!modalOpen) {
+        navigateMedia(images, imageElement, 1);
+      }
+    }, 3000);
+  }
+
+  function resetRotationInterval() {
+    clearInterval(rotationInterval);
+    startRotationInterval();
+  }
+
   function navigateMedia(images, imgElement, direction) {
-    imgElement.style.opacity = '0';
     currentIndex = (currentIndex + direction + images.length) % images.length;
-    setTimeout(() => {
-      imgElement.src = `https://image.tmdb.org/t/p/w780${images[currentIndex].file_path}`;
-      imgElement.style.opacity = '1';
-    }, 500);
+    imgElement.style.opacity = '0';
+
+    const newSrc = `https://image.tmdb.org/t/p/w780${images[currentIndex].file_path}`;
+    const tempImage = new Image();
+    tempImage.src = newSrc;
+
+    tempImage.onload = () => {
+      setTimeout(() => {
+        imgElement.src = newSrc;
+        imgElement.style.opacity = '1';
+      }, 420);
+    };
 
     sessionStorage.setItem('currentIndex', currentIndex);
     updateDots(currentIndex);
+    resetRotationInterval();
   }
 
   const indicatorContainer = document.createElement('div');
@@ -1255,10 +1549,6 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
 
   if (window.innerWidth <= 767) {
     mediaContainer.style.width = 'calc(100% - 40px)';
-  }
-
-  if (images.length === 0) {
-    mediaContainer.innerHTML = '<p>No media available</p>';
   }
 
   document.getElementById('movie-description').innerHTML = detailsHTML;
@@ -1354,6 +1644,22 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
     document.getElementById('movie-description').appendChild(trailerButton);
     document.getElementById('movie-description').appendChild(iframeContainer);
   }
+
+  setTimeout(() => {
+    document.getElementById('rating-fill').style.width = `${ratingPercentage}%`;
+  }, 100);
+}
+
+function handleRatingClick() {
+  const ratingFill = document.getElementById('rating-fill');
+
+  ratingFill.style.transition = 'none';
+  ratingFill.style.width = '0';
+
+  setTimeout(() => {
+    ratingFill.style.transition = 'width 1s ease-in-out';
+    ratingFill.style.width = `${globalRatingPercentage}%`;
+  }, 50);
 }
 
 async function fetchTvSeriesStreamingLinks(tvSeriesId) {
@@ -1444,6 +1750,11 @@ function showSpinner() {
 
 function hideSpinner() {
   document.getElementById('myModal').classList.remove('modal-visible');
+}
+
+function handleKeywordClick(keyword) {
+  localStorage.setItem('searchQuery', keyword);
+  window.location.href = 'search.html';
 }
 
 function handleCreatorClick(creatorId, creatorName) {

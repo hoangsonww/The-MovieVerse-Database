@@ -39,7 +39,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "utilities::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-utilities-Debug-69931f2a983d50397e34.json",
+					"jsonFile" : "target-utilities-Debug-34264e4a48d83b632ee8.json",
 					"name" : "utilities",
 					"projectIndex" : 0
 				}
@@ -49,12 +49,12 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/Users/davidnguyen/WebstormProjects/The-MovieVerse-Database/utilities/cmake-build-debug",
-		"source" : "/Users/davidnguyen/WebstormProjects/The-MovieVerse-Database/utilities"
+		"build" : "/Users/davidnguyen/WebstormProjects/The-MovieVerse-Database/MovieVerse-Utilities/cmake-build-debug",
+		"source" : "/Users/davidnguyen/WebstormProjects/The-MovieVerse-Database/MovieVerse-Utilities"
 	},
 	"version" : 
 	{
 		"major" : 2,
-		"minor" : 6
+		"minor" : 7
 	}
 }

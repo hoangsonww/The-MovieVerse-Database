@@ -110,7 +110,7 @@ async function fetchDirectorDetails(directorId) {
     if (director.success === false) {
       document.getElementById('director-details-container').innerHTML = `
             <div style="display: flex; justify-content: center; align-items: center; text-align: center; margin-top: 40px; width: 100vw; height: 800px">
-                <h2>Director details not found - try again with a different director.</h2>
+                <h2>Director details currently unavailable - please try again</h2>
             </div>`;
     } else {
       updateBrowserURL(director.name);
@@ -120,7 +120,7 @@ async function fetchDirectorDetails(directorId) {
   } catch (error) {
     document.getElementById('director-details-container').innerHTML = `
             <div style="display: flex; justify-content: center; align-items: center; text-align: center; margin-top: 40px; width: 100vw; height: 800px">
-                <h2>Director details not found - try again with a different director.</h2>
+                <h2>Director details currently unavailable - please try again</h2>
             </div>`;
     console.log('Error fetching director details:', error);
     hideSpinner();
@@ -131,11 +131,85 @@ async function populateDirectorDetails(director, credits) {
   const directorImage = document.getElementById('director-image');
   const directorName = document.getElementById('director-name');
   const directorDescription = document.getElementById('director-description');
+  const directorId = director.id;
+
+  function loadImage(src) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = () => reject(new Error('Failed to load image'));
+      img.src = src;
+    });
+  }
+
+  async function rotateDirectorImages(directorImage, imagePaths, interval = 4000) {
+    const uniqueImagePaths = [...new Set(imagePaths)];
+
+    if (uniqueImagePaths.length <= 1) return;
+
+    let currentIndex = 0;
+
+    const preloadNextImage = nextIndex => {
+      return loadImage(`https://image.tmdb.org/t/p/w1280${uniqueImagePaths[nextIndex]}`);
+    };
+
+    const updateImage = async () => {
+      const nextIndex = (currentIndex + 1) % uniqueImagePaths.length;
+      const nextImageSrc = `https://image.tmdb.org/t/p/w1280${uniqueImagePaths[nextIndex]}`;
+
+      try {
+        const img = await preloadNextImage(nextIndex);
+        directorImage.style.opacity = '0';
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        directorImage.src = img.src;
+        directorImage.alt = `Director Image ${nextIndex + 1}`;
+        directorImage.style.opacity = '1';
+        currentIndex = nextIndex;
+      } catch (error) {
+        console.error('Failed to load image:', nextImageSrc, error);
+        directorImage.style.opacity = '1';
+      }
+    };
+
+    setInterval(updateImage, interval);
+  }
+
+  async function getInitialDirectorImage(actorId) {
+    const response = await fetch(`https://${getMovieVerseData()}/3/person/${actorId}?${generateMovieNames()}${getMovieCode()}`);
+    const data = await response.json();
+    return data.profile_path;
+  }
+
+  async function getAdditionalDirectorImages(actorId) {
+    const response = await fetch(`https://${getMovieVerseData()}/3/person/${actorId}/images?${generateMovieNames()}${getMovieCode()}`);
+    const data = await response.json();
+    return data.profiles.map(profile => profile.file_path);
+  }
 
   if (director.profile_path) {
     directorImage.src = `https://image.tmdb.org/t/p/w1280${director.profile_path}`;
     directorName.textContent = director.name;
     document.title = `${director.name} - Director's Details`;
+
+    const initialDirectorImage = await getInitialDirectorImage(directorId);
+    const additionalDirectorImages = await getAdditionalDirectorImages(directorId);
+
+    if (initialDirectorImage) {
+      directorImage.src = `https://image.tmdb.org/t/p/w1280${initialDirectorImage}`;
+      directorImage.alt = director.name;
+      directorImage.loading = 'lazy';
+      directorImage.style.transition = 'transform 0.3s ease-in-out, opacity 1s ease-in-out';
+      directorImage.style.opacity = '1';
+
+      let allDirectorImages = [initialDirectorImage, ...additionalDirectorImages];
+      allDirectorImages = allDirectorImages.sort(() => 0.5 - Math.random()).slice(0, 10);
+      rotateDirectorImages(directorImage, allDirectorImages);
+    } else {
+      const noImageText = document.createElement('h2');
+      noImageText.textContent = 'Image Not Available';
+      noImageText.style.textAlign = 'center';
+      document.querySelector('.director-left').appendChild(noImageText);
+    }
   } else {
     directorImage.style.display = 'none';
     directorName.textContent = director.name;
@@ -156,6 +230,9 @@ async function populateDirectorDetails(director, credits) {
     ageOrStatus = 'Unknown';
   }
 
+  const popularity = director.popularity.toFixed(2);
+  const isPopular = popularity > 20 ? 'popular' : 'not popular';
+
   directorDescription.innerHTML = `
         <p><strong>Biography:</strong> ${director.biography || 'Information Unavailable'}</p>
         <p><strong>Also Known As:</strong> ${director.also_known_as.join(', ') || 'Information Unavailable'}</p>
@@ -164,6 +241,7 @@ async function populateDirectorDetails(director, credits) {
         <p><strong>Age:</strong> ${ageOrStatus}</p>
         <p><strong>Place of Birth:</strong> ${director.place_of_birth || 'Information Unavailable'}</p>
         <p><strong>Known For:</strong> Directing</p>
+        <p><strong>Popularity Score:</strong> ${popularity} (This director is <strong>${isPopular}</strong>)</p>
     `;
 
   const filmographyHeading = document.createElement('p');
@@ -180,46 +258,63 @@ async function populateDirectorDetails(director, credits) {
   let directedMovies = credits.crew.filter(movie => movie.job === 'Director');
   directedMovies = directedMovies.sort((a, b) => b.popularity - a.popularity);
 
-  directedMovies.forEach((movie, index) => {
-    const movieLink = document.createElement('a');
-    movieLink.classList.add('movie-link');
-    movieLink.href = 'javascript:void(0);';
-    movieLink.setAttribute('onclick', `selectMovieId(${movie.id});`);
+  if (directedMovies.length === 0) {
+    const noFilmsText = document.createElement('p');
+    noFilmsText.textContent = 'No films found';
+    noFilmsText.style.textAlign = 'center';
+    noFilmsText.style.width = '100%';
+    noFilmsText.style.color = 'white';
+    movieList.appendChild(noFilmsText);
+  } else {
+    directedMovies.forEach((movie, index) => {
+      const movieLink = document.createElement('a');
+      movieLink.classList.add('movie-link');
+      movieLink.href = 'javascript:void(0);';
+      movieLink.style.marginRight = '0';
+      movieLink.style.marginTop = '10px';
+      movieLink.style.maxWidth = '115px';
+      movieLink.setAttribute('onclick', `selectMovieId(${movie.id});`);
 
-    const movieItem = document.createElement('div');
-    movieItem.classList.add('movie-item');
+      const movieItem = document.createElement('div');
+      movieItem.classList.add('movie-item');
+      movieItem.style.height = 'auto';
 
-    const movieImage = document.createElement('img');
-    movieImage.classList.add('movie-image');
+      const movieImage = document.createElement('img');
+      movieImage.classList.add('movie-image');
+      movieImage.style.maxHeight = '155px';
+      movieImage.style.maxWidth = '115px';
 
-    if (movie.poster_path) {
-      movieImage.src = IMGPATH2 + movie.poster_path;
-      movieImage.alt = `${movie.title} Poster`;
-    } else {
-      movieImage.alt = 'Image Not Available';
-      movieImage.src = 'https://movie-verse.com/images/movie-default.jpg';
-      movieImage.style.filter = 'grayscale(100%)';
-      movieImage.style.objectFit = 'cover';
-    }
+      if (movie.poster_path) {
+        movieImage.src = IMGPATH2 + movie.poster_path;
+        movieImage.alt = `${movie.title} Poster`;
+      } else {
+        movieImage.alt = 'Image Not Available';
+        movieImage.src = 'https://movie-verse.com/images/movie-default.jpg';
+        movieImage.style.filter = 'grayscale(100%)';
+        movieImage.style.objectFit = 'cover';
+        movieImage.style.maxHeight = '155px';
+        movieImage.style.maxWidth = '115px';
+      }
 
-    movieItem.appendChild(movieImage);
+      movieItem.appendChild(movieImage);
 
-    const movieDetails = document.createElement('div');
-    movieDetails.classList.add('movie-details');
+      const movieDetails = document.createElement('div');
+      movieDetails.classList.add('movie-details');
 
-    const movieTitle = document.createElement('p');
-    movieTitle.classList.add('movie-title');
-    movieTitle.textContent = movie.title;
-    movieDetails.appendChild(movieTitle);
+      const movieTitle = document.createElement('p');
+      movieTitle.classList.add('movie-title');
+      movieTitle.textContent = movie.title;
+      movieDetails.appendChild(movieTitle);
 
-    movieItem.appendChild(movieDetails);
-    movieLink.appendChild(movieItem);
-    movieList.appendChild(movieLink);
+      movieItem.appendChild(movieDetails);
+      movieLink.appendChild(movieItem);
+      movieList.appendChild(movieLink);
 
-    if (index < directedMovies.length - 1) {
-      movieList.appendChild(document.createTextNode(''));
-    }
-  });
+      if (index < directedMovies.length - 1) {
+        movieList.appendChild(document.createTextNode(''));
+      }
+    });
+  }
 
   filmographyHeading.appendChild(movieList);
 
@@ -294,17 +389,15 @@ async function populateDirectorDetails(director, credits) {
     imageWrapper.appendChild(imageElement);
   }
 
-  if (images.length === 0) {
-    mediaContainer.innerHTML = '<p>No media available</p>';
-  }
+  let modalOpen = false;
 
   if (images.length > 0) {
     imageElement.src = `https://image.tmdb.org/t/p/w780${images[0].file_path}`;
   }
 
   imageElement.addEventListener('click', function () {
-    const imageUrl = this.src;
-
+    const imageUrl = this.src.replace('w780', 'w1280');
+    modalOpen = true;
     const modalHtml = `
             <div id="image-modal" style="z-index: 100022222; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
                 <button id="prevModalButton" style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); background-color: #7378c5; color: white; border-radius: 8px; height: 30px; width: 30px; border: none; cursor: pointer; z-index: 11;"><i class="fas fa-arrow-left"></i></button>
@@ -321,11 +414,14 @@ async function populateDirectorDetails(director, credits) {
 
     closeModalBtn.onclick = function () {
       modal.remove();
+      modalOpen = false;
+      imageElement.src = modalImage.src.replace('w1280', 'w780');
     };
 
     modal.addEventListener('click', function (event) {
       if (event.target === this) {
         this.remove();
+        modalOpen = false;
       }
     });
 
@@ -345,15 +441,27 @@ async function populateDirectorDetails(director, credits) {
     imgElement2.style.opacity = '0';
     currentIndex = (currentIndex + direction + images.length) % images.length;
 
-    setTimeout(() => {
-      imgElement1.src = `https://image.tmdb.org/t/p/w780${images[currentIndex].file_path}`;
-      imgElement2.src = `https://image.tmdb.org/t/p/w1280${images[currentIndex].file_path}`;
-      imgElement1.style.opacity = '1';
-      imgElement2.style.opacity = '1';
-    }, 500);
+    const newSrc1 = `https://image.tmdb.org/t/p/w780${images[currentIndex].file_path}`;
+    const newSrc2 = `https://image.tmdb.org/t/p/w1280${images[currentIndex].file_path}`;
+    const tempImage1 = new Image();
+    const tempImage2 = new Image();
+    tempImage1.src = newSrc1;
+    tempImage2.src = newSrc2;
+
+    tempImage1.onload = () => {
+      tempImage2.onload = () => {
+        setTimeout(() => {
+          imgElement1.src = newSrc1;
+          imgElement2.src = newSrc2;
+          imgElement1.style.opacity = '1';
+          imgElement2.style.opacity = '1';
+        }, 500);
+      };
+    };
 
     sessionStorage.setItem('currentIndex', currentIndex);
     updateDots(currentIndex);
+    resetRotationInterval();
   }
 
   let prevButton = document.getElementById('prev-media-button');
@@ -393,16 +501,45 @@ async function populateDirectorDetails(director, credits) {
   prevButton.onclick = () => navigateMedia(images, imageElement, -1);
   nextButton.onclick = () => navigateMedia(images, imageElement, 1);
 
+  let rotationInterval;
+
+  if (images.length === 0) {
+    mediaContainer.innerHTML = '<p>No media available</p>';
+  } else if (images.length > 1) {
+    startRotationInterval();
+  }
+
+  function startRotationInterval() {
+    rotationInterval = setInterval(() => {
+      if (!modalOpen) {
+        navigateMedia(images, imageElement, 1);
+      }
+    }, 3000);
+  }
+
+  function resetRotationInterval() {
+    clearInterval(rotationInterval);
+    startRotationInterval();
+  }
+
   function navigateMedia(images, imgElement, direction) {
-    imgElement.style.opacity = '0';
     currentIndex = (currentIndex + direction + images.length) % images.length;
-    setTimeout(() => {
-      imgElement.src = `https://image.tmdb.org/t/p/w780${images[currentIndex].file_path}`;
-      imgElement.style.opacity = '1';
-    }, 500);
+    imgElement.style.opacity = '0';
+
+    const newSrc = `https://image.tmdb.org/t/p/w780${images[currentIndex].file_path}`;
+    const tempImage = new Image();
+    tempImage.src = newSrc;
+
+    tempImage.onload = () => {
+      setTimeout(() => {
+        imgElement.src = newSrc;
+        imgElement.style.opacity = '1';
+      }, 380);
+    };
 
     sessionStorage.setItem('currentIndex', currentIndex);
     updateDots(currentIndex);
+    resetRotationInterval();
   }
 
   const indicatorContainer = document.createElement('div');

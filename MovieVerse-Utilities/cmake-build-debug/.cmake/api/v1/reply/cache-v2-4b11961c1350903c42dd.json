@@ -55,7 +55,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/Users/davidnguyen/WebstormProjects/The-MovieVerse-Database/utilities/cmake-build-debug"
+			"value" : "/Users/davidnguyen/WebstormProjects/The-MovieVerse-Database/MovieVerse-Utilities/cmake-build-debug"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -79,7 +79,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "28"
+			"value" : "29"
 		},
 		{
 			"name" : "CMAKE_CACHE_PATCH_VERSION",
@@ -91,7 +91,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "1"
+			"value" : "6"
 		},
 		{
 			"name" : "CMAKE_COLOR_DIAGNOSTICS",
@@ -383,7 +383,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/Users/davidnguyen/WebstormProjects/The-MovieVerse-Database/utilities/cmake-build-debug/CMakeFiles/pkgRedirects"
+			"value" : "/Users/davidnguyen/WebstormProjects/The-MovieVerse-Database/MovieVerse-Utilities/cmake-build-debug/CMakeFiles/pkgRedirects"
 		},
 		{
 			"name" : "CMAKE_GENERATOR",
@@ -443,7 +443,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/Users/davidnguyen/WebstormProjects/The-MovieVerse-Database/utilities"
+			"value" : "/Users/davidnguyen/WebstormProjects/The-MovieVerse-Database/MovieVerse-Utilities"
 		},
 		{
 			"name" : "CMAKE_INSTALL_NAME_TOOL",
@@ -675,7 +675,7 @@
 				}
 			],
 			"type" : "PATH",
-			"value" : "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk"
+			"value" : "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.5.sdk"
 		},
 		{
 			"name" : "CMAKE_PLATFORM_INFO_INITIALIZED",
@@ -767,7 +767,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/Applications/CLion.app/Contents/bin/cmake/mac/aarch64/share/cmake-3.28"
+			"value" : "/Applications/CLion.app/Contents/bin/cmake/mac/aarch64/share/cmake-3.29"
 		},
 		{
 			"name" : "CMAKE_SHARED_LINKER_FLAGS",
@@ -1031,7 +1031,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/Users/davidnguyen/WebstormProjects/The-MovieVerse-Database/utilities/cmake-build-debug"
+			"value" : "/Users/davidnguyen/WebstormProjects/The-MovieVerse-Database/MovieVerse-Utilities/cmake-build-debug"
 		},
 		{
 			"name" : "utilities_IS_TOP_LEVEL",
@@ -1055,7 +1055,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/Users/davidnguyen/WebstormProjects/The-MovieVerse-Database/utilities"
+			"value" : "/Users/davidnguyen/WebstormProjects/The-MovieVerse-Database/MovieVerse-Utilities"
 		}
 	],
 	"kind" : "cache",

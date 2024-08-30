@@ -5,6 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8bb29d63-e98d-4c08-9f32-16747d3aec75" name="Changes" comment="Fix: Updated Backend (#196)">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/475125e5-6f1b-4825-a9f3-de534e95e753.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/475125e5-6f1b-4825-a9f3-de534e95e753.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/.idea/other.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/.idea/other.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/ios/MovieVerse.xcworkspace/xcuserdata/davidnguyen.xcuserdatad/UserInterfaceState.xcuserstate" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/ios/MovieVerse.xcworkspace/xcuserdata/davidnguyen.xcuserdatad/UserInterfaceState.xcuserstate" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -181,9 +183,6 @@
     <configuration name="movieverse-openapi.yaml" type="SwaggerCodegen" editBeforeRun="true" temporary="true" show_console_on_std_err="false" show_console_on_std_out="false">
       <option name="allowRunningInParallel" value="false" />
       <option name="customTemplatesPath" value="" />
-      <option name="envs">
-        <map />
-      </option>
       <option name="generateToPath" value="$USER_HOME$/gen" />
       <option name="generationParameters">
         <list />
@@ -191,14 +190,11 @@
       <option name="generatorType" value="OPENAPI_GENERATOR_V6" />
       <option name="jdkPath" value="$APPLICATION_HOME_DIR$/jbr/Contents/Home/bin/java" />
       <option name="language" value="python" />
-      <option name="passParentEnvs" value="true" />
-      <option name="programParameters" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
       </option>
       <option name="specificationPath" value="$PROJECT_DIR$/APIs/movieverse-openapi.yaml" />
-      <option name="workingDirectory" value="$PROJECT_DIR$/APIs" />
       <method v="2" />
     </configuration>
     <configuration name="Python tests in api_test_suite.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
@@ -218,11 +214,11 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Django Server.Django-Backend" />
       <item itemvalue="Django tests.Test: movieverse.tests" />
+      <item itemvalue="OpenAPI/Swagger Code Generator.movieverse-openapi.yaml" />
       <item itemvalue="Python.flask" />
       <item itemvalue="Python.python manage.py runserver" />
-      <item itemvalue="Django Server.Django-Backend" />
-      <item itemvalue="OpenAPI/Swagger Code Generator.movieverse-openapi.yaml" />
       <item itemvalue="Python tests.Python tests in api_test_suite.py" />
     </list>
     <recent_temporary>
@@ -238,8 +234,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-PY-241.18034.82" />
-        <option value="bundled-python-sdk-975db3bf15a3-2767605e8bc2-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-241.18034.82" />
+        <option value="bundled-js-predefined-d6986cc7102b-410509235cf1-JavaScript-PY-242.20224.428" />
+        <option value="bundled-python-sdk-80e8e15d2b92-39cff9de6eef-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-242.20224.428" />
       </set>
     </attachedChunks>
   </component>
@@ -271,6 +267,7 @@
       <workItem from="1722234916065" duration="971000" />
       <workItem from="1722236102258" duration="619000" />
       <workItem from="1722237525733" duration="4000" />
+      <workItem from="1724949938647" duration="563000" />
     </task>
     <task id="LOCAL-00001" summary="Enhanced Backend">
       <option name="closed" value="true" />

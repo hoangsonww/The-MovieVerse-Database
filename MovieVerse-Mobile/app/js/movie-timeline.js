@@ -337,22 +337,24 @@ function updateMovies() {
 }
 
 async function getAdditionalPosters(movieId) {
-  const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/images?api_key=${getMovieCode()}`);
+  const response = await fetch(`https://${getMovieVerseData()}/3/movie/${movieId}/images?${generateMovieNames()}${getMovieCode()}`);
   const data = await response.json();
   return data.posters.map(poster => poster.file_path);
 }
 
 function rotateImages(imageElements, interval = 3000) {
-  if (imageElements.length <= 1) return;
+  const uniqueImageElements = Array.from(imageElements).filter((el, index, self) => index === self.findIndex(e => e.src === el.src));
+
+  if (uniqueImageElements.length <= 1) return;
 
   let currentIndex = 0;
-  imageElements[currentIndex].style.opacity = '1';
+  uniqueImageElements[currentIndex].style.opacity = '1';
 
   setTimeout(() => {
     setInterval(() => {
-      imageElements[currentIndex].style.opacity = '0';
-      currentIndex = (currentIndex + 1) % imageElements.length;
-      imageElements[currentIndex].style.opacity = '1';
+      uniqueImageElements[currentIndex].style.opacity = '0';
+      currentIndex = (currentIndex + 1) % uniqueImageElements.length;
+      uniqueImageElements[currentIndex].style.opacity = '1';
     }, interval);
   }, 0);
 }

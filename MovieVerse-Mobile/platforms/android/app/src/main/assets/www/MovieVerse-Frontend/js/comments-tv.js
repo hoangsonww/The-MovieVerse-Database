@@ -1,5 +1,14 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
-import { getFirestore, collection, addDoc, getDocs, query, orderBy, where } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  query,
+  orderBy,
+  where,
+  Timestamp,
+} from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
 import { app, db } from './firebase.js';
 
 const commentForm = document.getElementById('comment-form');
@@ -56,9 +65,9 @@ async function fetchComments() {
     const commentsContainer = document.getElementById('comments-container');
     commentsContainer.innerHTML = '';
     commentsContainer.style.maxWidth = '100%';
-    const movieId = localStorage.getItem('selectedTvSeriesId');
+    const tvSeriesId = localStorage.getItem('selectedTvSeriesId');
 
-    const q = query(collection(db, 'comments'), where('tvSeriesId', '==', movieId), orderBy('commentDate', 'desc'));
+    const q = query(collection(db, 'comments'), where('tvSeriesId', '==', tvSeriesId), orderBy('commentDate', 'desc'));
     const querySnapshot = await getDocs(q);
 
     totalComments = querySnapshot.size;
@@ -75,7 +84,16 @@ async function fetchComments() {
       querySnapshot.forEach(doc => {
         if (index >= (currentPage - 1) * commentsPerPage && displayedComments < commentsPerPage) {
           const comment = doc.data();
-          const commentDate = comment.commentDate.toDate();
+
+          let commentDate;
+          if (comment.commentDate instanceof Timestamp) {
+            commentDate = comment.commentDate.toDate();
+          } else if (typeof comment.commentDate === 'string') {
+            commentDate = new Date(comment.commentDate);
+          } else {
+            console.error('Unexpected commentDate format:', comment.commentDate);
+            return;
+          }
 
           const formattedDate = formatCommentDate(commentDate);
           const formattedTime = formatAMPM(commentDate);
@@ -108,13 +126,15 @@ async function fetchComments() {
     document.getElementById('prev-page').disabled = currentPage <= 1;
     document.getElementById('next-page').disabled = currentPage >= totalPages;
   } catch (error) {
-    console.error('Error fetching user list: ', error);
+    console.error('Error fetching comments: ', error);
     if (error.code === 'resource-exhausted') {
       const noUserSelected = document.getElementById('comments-section');
       if (noUserSelected) {
-        noUserSelected.innerHTML =
-          "Sorry, our database is currently overloaded. Please try reloading once more, and if that still doesn't work, please try again in a couple hours. For full transparency, we are currently using a database that has a limited number of reads and writes per day due to lack of funding. Thank you for your patience as we work on scaling our services. At the mean time, feel free to use other MovieVerse features!";
-        noUserSelected.style.height = '350px';
+        const commentControls = document.getElementById('comments-controls');
+        commentControls.style.display = 'none';
+        noUserSelected.innerHTML +=
+          'Sorry, the comment feature is currently unavailable as our databases are currently overloaded. Please try again in a couple of hours. Thank you for your patience as we work on scaling our services. At the mean time, feel free to use other MovieVerse features!';
+        noUserSelected.style.height = 'auto';
         noUserSelected.style.textAlign = 'center';
         noUserSelected.style.maxWidth = '350px';
       }
