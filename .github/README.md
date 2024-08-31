@@ -101,6 +101,7 @@ The **official** app is currently using [Netlify](https://www.netlify.com/) for 
 
 [![Netlify Status](https://img.shields.io/badge/Netlify-Deploy_successful-brightgreen)](https://app.netlify.com/sites/fake-movie-verse/deploys)
 [![Heroku Status](https://img.shields.io/badge/Heroku-Running-brightgreen)](https://fake-movie-verse.herokuapp.com/)
+[![Docker Status](https://img.shields.io/badge/Docker-Ready-brightgreen)](https://www.docker.com/)
 
 ## Technology Stack
 
