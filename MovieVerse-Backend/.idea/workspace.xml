@@ -5,13 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8bb29d63-e98d-4c08-9f32-16747d3aec75" name="Changes" comment="Fix: Updated Backend (#196)">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/django_backend/django_backend/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_backend/django_backend/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/ios/CordovaLib/CordovaLib.xcodeproj/xcuserdata/davidnguyen.xcuserdatad/xcschemes/xcschememanagement.plist" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/ios/CordovaLib/CordovaLib.xcodeproj/xcuserdata/davidnguyen.xcuserdatad/xcschemes/xcschememanagement.plist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/ios/MovieVerse.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/ios/MovieVerse.xcodeproj/project.pbxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/ios/MovieVerse.xcworkspace/xcuserdata/davidnguyen.xcuserdatad/UserInterfaceState.xcuserstate" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/ios/MovieVerse.xcworkspace/xcuserdata/davidnguyen.xcuserdatad/UserInterfaceState.xcuserstate" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/ios/www/MovieVerse-Middleware/cors.py" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/ios/www/MovieVerse-Middleware/cors.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/.idea/other.xml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -278,6 +273,7 @@
       <workItem from="1725200287210" duration="85000" />
       <workItem from="1725200373603" duration="1000" />
       <workItem from="1725200380893" duration="77000" />
+      <workItem from="1725628221138" duration="32000" />
     </task>
     <task id="LOCAL-00001" summary="Enhanced Backend">
       <option name="closed" value="true" />

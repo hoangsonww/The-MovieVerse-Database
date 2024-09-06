@@ -25,6 +25,8 @@ STATIC_URL = '/static/'
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'movie-verse.com', 'www.movie-verse.com']
 
+# Remember to put your secret key and set Debug to True here...
+
 # Application definition
 
 INSTALLED_APPS = [
