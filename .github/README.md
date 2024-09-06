@@ -103,6 +103,7 @@ The **official** app is currently using [Netlify](https://www.netlify.com/) for 
 [![Heroku Status](https://img.shields.io/badge/Heroku-Running-brightgreen)](https://movie-verse.com/)
 [![CI/CD Status](https://img.shields.io/badge/CI/CD-Automated-brightgreen)](https://movie-verse.com)
 [![Docker Status](https://img.shields.io/badge/Docker-Ready-brightgreen)](https://movie-verse.com)
+[![Server Status](https://img.shields.io/badge/Server-Online-brightgreen)](https://movie-verse.com)
 
 ## Technology Stack
 
