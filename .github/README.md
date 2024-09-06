@@ -234,6 +234,7 @@ Additionally, I'd also like to express special gratitude to [The Movie Database 
 Thank you for your understanding and support~ 🎬🍿
 
 ---
+
 Created with ❤️ in 2023-24 by [Son Nguyen](https://github.com/hoangsonww).
 
 © 2024 The MovieVerse. All Rights Reserved.
