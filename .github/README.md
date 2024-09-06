@@ -99,8 +99,10 @@ The **official** app is currently using [Netlify](https://www.netlify.com/) for 
 
 **Deployment Status:**
 
-[![Netlify Status](https://img.shields.io/badge/Netlify-Deploy_successful-brightgreen)](https://app.netlify.com/sites/fake-movie-verse/deploys)
-[![Heroku Status](https://img.shields.io/badge/Heroku-Running-brightgreen)](https://fake-movie-verse.herokuapp.com/)
+[![Netlify Status](https://img.shields.io/badge/Netlify-Deploy_successful-brightgreen)](https://movie-verse.com/)
+[![Heroku Status](https://img.shields.io/badge/Heroku-Running-brightgreen)](https://movie-verse.com/)
+[![CI/CD Status](https://img.shields.io/badge/CI/CD-Automated-brightgreen)](https://movie-verse.com)
+[![Docker Status](https://img.shields.io/badge/Docker-Ready-brightgreen)](https://movie-verse.com)
 
 ## Technology Stack
 
@@ -233,6 +235,6 @@ Thank you for your understanding and support~ 🎬🍿
 
 ---
 
-Created with ❤️ in 2023-24 by [Son Nguyen](https://github.com/hoangsonww).
+Created with ❤️ in 2023-2024 by [Son Nguyen](https://github.com/hoangsonww).
 
 © 2024 The MovieVerse. All Rights Reserved.

@@ -5,9 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8bb29d63-e98d-4c08-9f32-16747d3aec75" name="Changes" comment="Fix: Updated Backend (#196)">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/475125e5-6f1b-4825-a9f3-de534e95e753.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/475125e5-6f1b-4825-a9f3-de534e95e753.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/.idea/other.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/.idea/other.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/ios/MovieVerse.xcworkspace/xcuserdata/davidnguyen.xcuserdatad/UserInterfaceState.xcuserstate" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/ios/MovieVerse.xcworkspace/xcuserdata/davidnguyen.xcuserdatad/UserInterfaceState.xcuserstate" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/django_backend/django_backend/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_backend/django_backend/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/.idea/other.xml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,6 +31,9 @@
     &quot;accountId&quot;: &quot;96738bbf-61cc-45b7-a456-2974fb587c71&quot;
   }
 }</component>
+  <component name="PackageJsonUpdateNotifier">
+    <dismissed value="$PROJECT_DIR$/package.json" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6
 }</component>
@@ -214,11 +216,11 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Django Server.Django-Backend" />
       <item itemvalue="Django tests.Test: movieverse.tests" />
-      <item itemvalue="OpenAPI/Swagger Code Generator.movieverse-openapi.yaml" />
       <item itemvalue="Python.flask" />
       <item itemvalue="Python.python manage.py runserver" />
+      <item itemvalue="Django Server.Django-Backend" />
+      <item itemvalue="OpenAPI/Swagger Code Generator.movieverse-openapi.yaml" />
       <item itemvalue="Python tests.Python tests in api_test_suite.py" />
     </list>
     <recent_temporary>
@@ -234,8 +236,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-410509235cf1-JavaScript-PY-242.20224.428" />
-        <option value="bundled-python-sdk-80e8e15d2b92-39cff9de6eef-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-242.20224.428" />
+        <option value="bundled-js-predefined-d6986cc7102b-7c0b70fcd90d-JavaScript-PY-242.21829.153" />
+        <option value="bundled-python-sdk-464836ebc622-b74155a9e76b-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-242.21829.153" />
       </set>
     </attachedChunks>
   </component>
@@ -268,6 +270,10 @@
       <workItem from="1722236102258" duration="619000" />
       <workItem from="1722237525733" duration="4000" />
       <workItem from="1724949938647" duration="563000" />
+      <workItem from="1725200287210" duration="85000" />
+      <workItem from="1725200373603" duration="1000" />
+      <workItem from="1725200380893" duration="77000" />
+      <workItem from="1725628221138" duration="32000" />
     </task>
     <task id="LOCAL-00001" summary="Enhanced Backend">
       <option name="closed" value="true" />
