@@ -714,7 +714,11 @@ function displayCompanyMovies(movies) {
 
     const movieTitle = document.createElement('p');
     movieTitle.classList.add('movie-title');
-    movieTitle.textContent = movie.title;
+    const movieTitleWords = movie.title.split(' ');
+    const truncatedMovieTitle = movieTitleWords.length > 5 ? movieTitleWords.slice(0, 5).join(' ') + ' ...' : movie.title;
+
+    movieTitle.textContent = truncatedMovieTitle;
+
     movieDetails.appendChild(movieTitle);
 
     movieItem.appendChild(movieDetails);
