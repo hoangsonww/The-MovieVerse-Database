@@ -1287,7 +1287,10 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
 
       const similarMovieTitle = document.createElement('p');
       similarMovieTitle.classList.add('actor-name');
-      similarMovieTitle.textContent = similarMovie.title;
+      const titleWords = similarMovie.title.split(' ');
+      const truncatedTitle = titleWords.length > 5 ? titleWords.slice(0, 5).join(' ') + ' ...' : similarMovie.title;
+      similarMovieTitle.textContent = truncatedTitle;
+
       similarMovieDetails.appendChild(similarMovieTitle);
 
       similarMovieItem.appendChild(similarMovieDetails);
