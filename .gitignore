@@ -6,3 +6,4 @@ node_modules
 
 # Ignore the Emscripten SDK
 emsdk/
+/MovieVerse-Mobile/platforms/
