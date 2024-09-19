@@ -47,6 +47,8 @@ The MovieVerse is an open-source, full-stack, and mobile-friendly application cr
 
 Through The MovieVerse, users can search for movies, view detailed information, rate, and review films, and interact with a community of like-minded movie enthusiasts. It's a platform that celebrates cinema in all its forms, from blockbuster hits to indie gems.
 
+**Note:** This open-source repository is not the official repository for The MovieVerse. The deployed repository is private. This repository is only for educational purposes and to showcase the codebase of The MovieVerse, which may differ significantly from the official, private codebase.
+
 ## Features & Usage
 
 ### Search & Discover
