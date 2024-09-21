@@ -475,9 +475,6 @@ async function displayUserList(listType, userEmail) {
   const listRef = collection(db, 'profiles', userEmail, listType);
   const userListSpan = document.getElementById(`${listType}List`);
 
-  const CACHE_KEY = `movieVerseUserListCache_${listType}_${userEmail}`;
-  const CACHE_EXPIRATION_MS = 24 * 60 * 60 * 1000; // 24 hours
-
   let loadingInterval;
   function startLoadingAnimation() {
     let dots = '';
@@ -492,46 +489,6 @@ async function displayUserList(listType, userEmail) {
     userListSpan.innerHTML = '';
   }
 
-  function loadFromCache() {
-    const cachedData = localStorage.getItem(CACHE_KEY);
-    if (cachedData) {
-      const parsedCache = JSON.parse(cachedData);
-      if (Date.now() - parsedCache.timestamp < CACHE_EXPIRATION_MS) {
-        return parsedCache.data;
-      }
-    }
-    return null;
-  }
-
-  function saveToCache(data) {
-    const cacheEntry = {
-      data: data,
-      timestamp: Date.now(),
-    };
-    localStorage.setItem(CACHE_KEY, JSON.stringify(cacheEntry));
-  }
-
-  const cachedData = loadFromCache();
-  if (cachedData) {
-    userListSpan.innerHTML = '';
-    cachedData.forEach(userData => {
-      const userLink = document.createElement('a');
-      userLink.textContent = userData.username;
-      userLink.href = '#';
-      userLink.id = 'userLink';
-      userLink.style.cursor = 'pointer';
-      userLink.onclick = () => loadProfile(userData.id);
-
-      userListSpan.appendChild(userLink);
-      userListSpan.appendChild(document.createTextNode(', '));
-    });
-
-    if (userListSpan.lastChild) {
-      userListSpan.removeChild(userListSpan.lastChild);
-    }
-    return;
-  }
-
   startLoadingAnimation();
 
   try {
@@ -541,14 +498,11 @@ async function displayUserList(listType, userEmail) {
     if (snapshot.empty) {
       userListSpan.textContent = 'N/A';
     } else {
-      const fetchedData = [];
-
       for (let docSnapshot of snapshot.docs) {
         const userRef = doc(db, 'profiles', docSnapshot.id);
         const userSnap = await getDoc(userRef);
         if (userSnap.exists()) {
           const userData = userSnap.data();
-          fetchedData.push({ id: docSnapshot.id, username: userData.username });
 
           const userLink = document.createElement('a');
           userLink.textContent = userData.username;
@@ -565,8 +519,6 @@ async function displayUserList(listType, userEmail) {
       if (userListSpan.lastChild) {
         userListSpan.removeChild(userListSpan.lastChild);
       }
-
-      saveToCache(fetchedData);
     }
   } catch (error) {
     console.error('Error fetching user list:', error);
@@ -608,6 +560,7 @@ async function saveProfileChanges() {
     favoriteActor: document.getElementById('editFavoriteActor').value,
     favoriteDirector: document.getElementById('editFavoriteDirector').value,
     personalQuote: document.getElementById('editPersonalQuote').value,
+    profileImage: currentProfile?.profileImage || '',
   };
 
   try {
