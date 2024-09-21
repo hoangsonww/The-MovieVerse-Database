@@ -170,38 +170,37 @@ async function performSearch(searchText) {
   showSpinner();
 
   try {
+    const cachedSearchResults = localStorage.getItem(`movieVerseSearchCache_${searchText}`);
+    if (cachedSearchResults) {
+      const parsedCache = JSON.parse(cachedSearchResults);
+      const cacheAge = Date.now() - parsedCache.timestamp;
+
+      if (cacheAge < 24 * 60 * 60 * 1000) {
+        displaySearchResults(parsedCache.results, searchText);
+        hideSpinner();
+        return;
+      }
+    }
+
     const userQuery = query(collection(db, 'profiles'), where('username', '>=', searchText), where('username', '<=', searchText + '\uf8ff'));
     const querySnapshot = await getDocs(userQuery);
 
     searchUserResults.innerHTML = '';
+
     if (querySnapshot.empty) {
       searchUserResults.innerHTML = `<div style="text-align: center; font-weight: bold">No User with Username "${searchText}" found</div>`;
       searchUserResults.style.display = 'block';
+      localStorage.setItem(`movieVerseSearchCache_${searchText}`, JSON.stringify({ results: [], timestamp: Date.now() }));
     } else {
-      searchUserResults.style.display = 'block';
+      const results = [];
       querySnapshot.forEach(doc => {
         const user = doc.data();
-        const userDiv = document.createElement('div');
-        userDiv.className = 'user-search-result';
-        userDiv.style.cursor = 'pointer';
-        userDiv.addEventListener('click', () => loadProfile(doc.id));
-
-        const img = document.createElement('img');
-        img.src = user.profileImage || '../../images/user-default.png';
-        img.style.width = '33%';
-        img.style.borderRadius = '8px';
-        userDiv.appendChild(img);
-
-        const textDiv = document.createElement('div');
-        textDiv.style.width = '67%';
-        textDiv.style.textAlign = 'left';
-        textDiv.innerHTML = `<strong style="font-size: 16px">${user.username}</strong><p style="margin-top: 5px; text-align: left; font-size: 16px">Bio: ${
-          user.bio || 'Not Set'
-        }</p>`;
-        userDiv.appendChild(textDiv);
-
-        searchUserResults.appendChild(userDiv);
+        results.push({ id: doc.id, ...user });
       });
+
+      localStorage.setItem(`movieVerseSearchCache_${searchText}`, JSON.stringify({ results, timestamp: Date.now() }));
+
+      displaySearchResults(results, searchText);
     }
     hideSpinner();
   } catch (error) {
@@ -210,6 +209,41 @@ async function performSearch(searchText) {
     searchUserResults.style.display = 'block';
     hideSpinner();
   }
+}
+
+function displaySearchResults(results, searchText) {
+  const searchUserResults = document.getElementById('searchUserResults');
+  searchUserResults.innerHTML = '';
+
+  if (results.length === 0) {
+    searchUserResults.innerHTML = `<div style="text-align: center; font-weight: bold">No User with Username "${searchText}" found</div>`;
+    searchUserResults.style.display = 'block';
+    return;
+  }
+
+  results.forEach(user => {
+    const userDiv = document.createElement('div');
+    userDiv.className = 'user-search-result';
+    userDiv.style.cursor = 'pointer';
+    userDiv.addEventListener('click', () => loadProfile(user.id));
+
+    const img = document.createElement('img');
+    img.src = user.profileImage || '../../images/user-default.png';
+    img.style.width = '33%';
+    img.style.borderRadius = '8px';
+    userDiv.appendChild(img);
+
+    const textDiv = document.createElement('div');
+    textDiv.style.width = '67%';
+    textDiv.style.textAlign = 'left';
+    textDiv.innerHTML = `<strong style="font-size: 16px">${user.username}</strong><p style="margin-top: 5px; text-align: left; font-size: 16px">Bio: ${
+      user.bio || 'Not Set'
+    }</p>`;
+    userDiv.appendChild(textDiv);
+
+    searchUserResults.appendChild(userDiv);
+  });
+  searchUserResults.style.display = 'block';
 }
 
 document.getElementById('container1').addEventListener('click', async () => {
@@ -348,9 +382,23 @@ async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMo
       followUnfollowBtn.style.display = 'none';
     }
 
-    try {
+    const cacheKey = `movieVerseProfileCache_${userEmail}`;
+    const cachedData = localStorage.getItem(cacheKey);
+    let profile = null;
+
+    if (cachedData) {
+      const parsedCache = JSON.parse(cachedData);
+      const cacheAge = Date.now() - parsedCache.timestamp;
+
+      if (cacheAge < 24 * 60 * 60 * 1000) {
+        profile = parsedCache.profile;
+      }
+    }
+
+    if (!profile) {
       const docSnap = await getDoc(docRef);
-      let profile = {
+
+      profile = {
         username: 'N/A',
         dob: 'N/A',
         bio: 'N/A',
@@ -366,91 +414,46 @@ async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMo
 
       if (docSnap.exists()) {
         profile = { ...profile, ...docSnap.data() };
-        const imageUrl = profile.profileImage || '../../images/user-default.png';
-        document.getElementById('profileImage').src = imageUrl;
-
-        if (
-          userEmail !== localStorage.getItem('currentlySignedInMovieVerseUser') ||
-          !localStorage.getItem('currentlySignedInMovieVerseUser') ||
-          !JSON.parse(localStorage.getItem('isSignedIn')) ||
-          profile.profileImage === '../../images/user-default.png'
-        ) {
-          removeProfileImageBtn.style.display = 'none';
-        } else {
-          removeProfileImageBtn.style.display = 'inline';
-        }
-
-        document.getElementById('usernameDisplay').innerHTML = `<strong>Username:</strong> ${profile.username}`;
-        document.getElementById('dobDisplay').innerHTML = `<strong>Date of Birth:</strong> ${profile.dob}`;
-        document.getElementById('bioDisplay').innerHTML = `<strong>Bio:</strong> ${profile.bio}`;
-        document.getElementById('favoriteGenresDisplay').innerHTML = `<strong>Favorite Genres:</strong> ${profile.favoriteGenres}`;
-        document.getElementById('locationDisplay').innerHTML = `<strong>Location:</strong> ${profile.location}`;
-        document.getElementById('favoriteMovieDisplay').innerHTML = `<strong>Favorite Movie:</strong> ${profile.favoriteMovie}`;
-        document.getElementById('hobbiesDisplay').innerHTML = `<strong>Hobbies:</strong> ${profile.hobbies}`;
-        document.getElementById('favoriteActorDisplay').innerHTML = `<strong>Favorite Actor:</strong> ${profile.favoriteActor}`;
-        document.getElementById('favoriteDirectorDisplay').innerHTML = `<strong>Favorite Director:</strong> ${profile.favoriteDirector}`;
-        document.getElementById('personalQuoteDisplay').innerHTML = `<strong>Personal Quote:</strong> ${profile.personalQuote}`;
-        window.document.title = `${profile.username !== 'N/A' ? profile.username : 'User'}'s Profile - The MovieVerse`;
-
-        if (userEmail === localStorage.getItem('currentlySignedInMovieVerseUser')) {
-          welcomeMessage.textContent = `Welcome, ${profile.username}!`;
-        } else {
-          welcomeMessage.textContent = `Viewing ${profile.username}'s profile`;
-        }
-
-        hideSpinner();
-
-        await Promise.all([displayUserList('following', userEmail), displayUserList('followers', userEmail)]);
-      } else {
-        const imageUrl = profile.profileImage || '../../images/user-default.png';
-        document.getElementById('profileImage').src = imageUrl;
-
-        if (
-          userEmail !== localStorage.getItem('currentlySignedInMovieVerseUser') ||
-          !localStorage.getItem('currentlySignedInMovieVerseUser') ||
-          !JSON.parse(localStorage.getItem('isSignedIn')) ||
-          profile.profileImage === '../../images/user-default.png'
-        ) {
-          removeProfileImageBtn.style.display = 'none';
-        } else {
-          removeProfileImageBtn.style.display = 'inline';
-        }
-
-        document.getElementById('usernameDisplay').innerHTML = `<strong>Username:</strong> N/A`;
-        document.getElementById('dobDisplay').innerHTML = `<strong>Date of Birth:</strong> N/A`;
-        document.getElementById('bioDisplay').innerHTML = `<strong>Bio:</strong> N/A`;
-        document.getElementById('favoriteGenresDisplay').innerHTML = `<strong>Favorite Genres:</strong> N/A`;
-        document.getElementById('locationDisplay').innerHTML = `<strong>Location:</strong> N/A`;
-        document.getElementById('favoriteMovieDisplay').innerHTML = `<strong>Favorite Movie:</strong> N/A`;
-        document.getElementById('hobbiesDisplay').innerHTML = `<strong>Hobbies:</strong> N/A`;
-        document.getElementById('favoriteActorDisplay').innerHTML = `<strong>Favorite Actor:</strong> N/A`;
-        document.getElementById('favoriteDirectorDisplay').innerHTML = `<strong>Favorite Director:</strong> N/A`;
-        document.getElementById('personalQuoteDisplay').innerHTML = `<strong>Personal Quote:</strong> N/A`;
-        window.document.title = `${profile.username !== 'N/A' ? profile.username : 'User'}'s Profile - The MovieVerse`;
-
-        if (userEmail === localStorage.getItem('currentlySignedInMovieVerseUser')) {
-          welcomeMessage.textContent = `Welcome, ${profile.username}!`;
-        } else {
-          welcomeMessage.textContent = `Viewing ${profile.username}'s profile`;
-        }
-
-        hideSpinner();
-
-        await Promise.all([displayUserList('following', userEmail), displayUserList('followers', userEmail)]);
-      }
-    } catch (error) {
-      if (error.code === 'resource-exhausted') {
-        const noUserSelected = document.getElementById('profileContainer');
-        if (noUserSelected) {
-          noUserSelected.innerHTML =
-            "Sorry, the profile feature is currently unavailable as our databases are overloaded. Please try reloading once more, and if that still doesn't work, please try again in a couple hours. For full transparency, we are currently using a database that has a limited number of reads and writes per day due to lack of funding. Thank you for your patience as we work on scaling our services. At the mean time, feel free to use other MovieVerse features!";
-          noUserSelected.style.height = '350px';
-          noUserSelected.style.display = 'block';
-        }
       }
 
-      document.getElementById('viewMyProfileBtn').disabled = true;
+      localStorage.setItem(cacheKey, JSON.stringify({ profile, timestamp: Date.now() }));
     }
+
+    const imageUrl = profile.profileImage || '../../images/user-default.png';
+    document.getElementById('profileImage').src = imageUrl;
+
+    if (
+      userEmail !== localStorage.getItem('currentlySignedInMovieVerseUser') ||
+      !localStorage.getItem('currentlySignedInMovieVerseUser') ||
+      !JSON.parse(localStorage.getItem('isSignedIn')) ||
+      profile.profileImage === '../../images/user-default.png'
+    ) {
+      removeProfileImageBtn.style.display = 'none';
+    } else {
+      removeProfileImageBtn.style.display = 'inline';
+    }
+
+    document.getElementById('usernameDisplay').innerHTML = `<strong>Username:</strong> ${profile.username}`;
+    document.getElementById('dobDisplay').innerHTML = `<strong>Date of Birth:</strong> ${profile.dob}`;
+    document.getElementById('bioDisplay').innerHTML = `<strong>Bio:</strong> ${profile.bio}`;
+    document.getElementById('favoriteGenresDisplay').innerHTML = `<strong>Favorite Genres:</strong> ${profile.favoriteGenres}`;
+    document.getElementById('locationDisplay').innerHTML = `<strong>Location:</strong> ${profile.location}`;
+    document.getElementById('favoriteMovieDisplay').innerHTML = `<strong>Favorite Movie:</strong> ${profile.favoriteMovie}`;
+    document.getElementById('hobbiesDisplay').innerHTML = `<strong>Hobbies:</strong> ${profile.hobbies}`;
+    document.getElementById('favoriteActorDisplay').innerHTML = `<strong>Favorite Actor:</strong> ${profile.favoriteActor}`;
+    document.getElementById('favoriteDirectorDisplay').innerHTML = `<strong>Favorite Director:</strong> ${profile.favoriteDirector}`;
+    document.getElementById('personalQuoteDisplay').innerHTML = `<strong>Personal Quote:</strong> ${profile.personalQuote}`;
+    window.document.title = `${profile.username !== 'N/A' ? profile.username : 'User'}'s Profile - The MovieVerse`;
+
+    if (userEmail === localStorage.getItem('currentlySignedInMovieVerseUser')) {
+      welcomeMessage.textContent = `Welcome, ${profile.username}!`;
+    } else {
+      welcomeMessage.textContent = `Viewing ${profile.username}'s profile`;
+    }
+
+    hideSpinner();
+
+    await Promise.all([displayUserList('following', userEmail), displayUserList('followers', userEmail)]);
   } catch (error) {
     console.error('Error fetching user list: ', error);
     if (error.code === 'resource-exhausted') {
@@ -472,6 +475,9 @@ async function displayUserList(listType, userEmail) {
   const listRef = collection(db, 'profiles', userEmail, listType);
   const userListSpan = document.getElementById(`${listType}List`);
 
+  const CACHE_KEY = `movieVerseUserListCache_${listType}_${userEmail}`;
+  const CACHE_EXPIRATION_MS = 24 * 60 * 60 * 1000; // 24 hours
+
   let loadingInterval;
   function startLoadingAnimation() {
     let dots = '';
@@ -486,6 +492,46 @@ async function displayUserList(listType, userEmail) {
     userListSpan.innerHTML = '';
   }
 
+  function loadFromCache() {
+    const cachedData = localStorage.getItem(CACHE_KEY);
+    if (cachedData) {
+      const parsedCache = JSON.parse(cachedData);
+      if (Date.now() - parsedCache.timestamp < CACHE_EXPIRATION_MS) {
+        return parsedCache.data;
+      }
+    }
+    return null;
+  }
+
+  function saveToCache(data) {
+    const cacheEntry = {
+      data: data,
+      timestamp: Date.now(),
+    };
+    localStorage.setItem(CACHE_KEY, JSON.stringify(cacheEntry));
+  }
+
+  const cachedData = loadFromCache();
+  if (cachedData) {
+    userListSpan.innerHTML = '';
+    cachedData.forEach(userData => {
+      const userLink = document.createElement('a');
+      userLink.textContent = userData.username;
+      userLink.href = '#';
+      userLink.id = 'userLink';
+      userLink.style.cursor = 'pointer';
+      userLink.onclick = () => loadProfile(userData.id);
+
+      userListSpan.appendChild(userLink);
+      userListSpan.appendChild(document.createTextNode(', '));
+    });
+
+    if (userListSpan.lastChild) {
+      userListSpan.removeChild(userListSpan.lastChild);
+    }
+    return;
+  }
+
   startLoadingAnimation();
 
   try {
@@ -495,11 +541,14 @@ async function displayUserList(listType, userEmail) {
     if (snapshot.empty) {
       userListSpan.textContent = 'N/A';
     } else {
+      const fetchedData = [];
+
       for (let docSnapshot of snapshot.docs) {
         const userRef = doc(db, 'profiles', docSnapshot.id);
         const userSnap = await getDoc(userRef);
         if (userSnap.exists()) {
           const userData = userSnap.data();
+          fetchedData.push({ id: docSnapshot.id, username: userData.username });
 
           const userLink = document.createElement('a');
           userLink.textContent = userData.username;
@@ -516,6 +565,8 @@ async function displayUserList(listType, userEmail) {
       if (userListSpan.lastChild) {
         userListSpan.removeChild(userListSpan.lastChild);
       }
+
+      saveToCache(fetchedData);
     }
   } catch (error) {
     console.error('Error fetching user list:', error);
@@ -562,6 +613,10 @@ async function saveProfileChanges() {
   try {
     await setDoc(profileRef, profile, { merge: true });
     console.log('Profile updated successfully.');
+
+    const cacheKey = `movieVerseProfileCache_${userEmail}`;
+    localStorage.setItem(cacheKey, JSON.stringify({ profile, timestamp: Date.now() }));
+
     closeModal();
     loadProfile();
   } catch (error) {
@@ -579,6 +634,15 @@ async function removeProfileImage() {
     await setDoc(doc(db, 'profiles', userEmail), { profileImage: defaultImageUrl }, { merge: true });
     document.getElementById('profileImage').src = defaultImageUrl;
     document.getElementById('removeProfileImage').style.display = 'none';
+
+    const cacheKey = `movieVerseProfileCache_${userEmail}`;
+    const cachedProfile = JSON.parse(localStorage.getItem(cacheKey));
+
+    if (cachedProfile && cachedProfile.profile) {
+      cachedProfile.profile.profileImage = defaultImageUrl;
+      cachedProfile.timestamp = Date.now();
+      localStorage.setItem(cacheKey, JSON.stringify(cachedProfile));
+    }
   } catch (error) {
     console.log('Error removing image: ', error);
   }
@@ -605,6 +669,16 @@ async function uploadImage() {
 
     document.getElementById('profileImage').src = base64Image;
     console.log('Image processed and Firestore updated');
+
+    const cacheKey = `movieVerseProfileCache_${userEmail}`;
+    const cachedProfile = JSON.parse(localStorage.getItem(cacheKey));
+
+    if (cachedProfile && cachedProfile.profile) {
+      cachedProfile.profile.profileImage = base64Image;
+      cachedProfile.timestamp = Date.now();
+      localStorage.setItem(cacheKey, JSON.stringify(cachedProfile));
+    }
+
     window.location.reload();
   } catch (error) {
     console.log('Error during image processing:', error);
