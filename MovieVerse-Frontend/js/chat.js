@@ -529,12 +529,14 @@ function clearUserCache() {
   localStorage.removeItem(LOCAL_STORAGE_USER_CACHE_KEY);
 }
 
+const inMemoryUserCache = {}; // In-memory cache for user data
+
 async function loadUserList() {
   try {
     showSpinner();
     animateLoadingDots();
 
-    const userLimit = 5;
+    const userLimit = 10;
     const messageLimit = 30;
 
     const sentMessagesQuery = query(
@@ -543,6 +545,7 @@ async function loadUserList() {
       where("sender", "==", currentUserEmail),
       limit(messageLimit),
     );
+
     const receivedMessagesQuery = query(
       collection(db, "messages"),
       orderBy("timestamp", "desc"),
@@ -563,31 +566,37 @@ async function loadUserList() {
 
     let users = [];
     const cachedUsers = getCachedUsers();
+    const emailsToFetch = [];
 
     for (let email of userEmails) {
       if (email) {
-        if (
-          cachedUsers[email] &&
-          cachedUsers[email].lastUpdated &&
-          Date.now() - cachedUsers[email].lastUpdated < 24 * 60 * 60 * 1000
-        ) {
+        if (cachedUsers[email]) {
           users.push(cachedUsers[email]);
+          inMemoryUserCache[email] = cachedUsers[email];
+        } else if (inMemoryUserCache[email]) {
+          users.push(inMemoryUserCache[email]);
         } else {
-          const userQuery = query(
-            collection(db, "MovieVerseUsers"),
-            where("email", "==", email),
-          );
-          const userSnapshot = await getDocs(userQuery);
-          userSnapshot.forEach((doc) => {
-            let userData = doc.data();
-            if (userData.email) {
-              userData.lastUpdated = Date.now();
-              updateUserCache(email, userData);
-              users.push(userData);
-            }
-          });
+          emailsToFetch.push(email);
         }
       }
+    }
+
+    if (emailsToFetch.length > 0) {
+      const userQuery = query(
+        collection(db, "MovieVerseUsers"),
+        where("email", "in", emailsToFetch.slice(0, 10)),
+      );
+
+      const userSnapshot = await getDocs(userQuery);
+      userSnapshot.forEach((doc) => {
+        const userData = doc.data();
+        if (userData.email) {
+          userData.lastUpdated = Date.now();
+          users.push(userData);
+          updateUserCache(userData.email, userData);
+          inMemoryUserCache[userData.email] = userData;
+        }
+      });
     }
 
     users.sort((a, b) => {
@@ -636,6 +645,11 @@ async function loadUserList() {
       let imageUrl = "../../images/user-default.png";
       if (cachedUsers[user.email] && cachedUsers[user.email].profileImage) {
         imageUrl = cachedUsers[user.email].profileImage;
+      } else if (
+        inMemoryUserCache[user.email] &&
+        inMemoryUserCache[user.email].profileImage
+      ) {
+        imageUrl = inMemoryUserCache[user.email].profileImage;
       } else {
         const profileQuery = query(
           collection(db, "profiles"),
@@ -650,6 +664,10 @@ async function loadUserList() {
             cachedUsers[user.email].profileImage = imageUrl;
             updateUserCache(user.email, cachedUsers[user.email]);
           }
+          inMemoryUserCache[user.email] = {
+            ...inMemoryUserCache[user.email],
+            profileImage: imageUrl,
+          };
         }
       }
 
