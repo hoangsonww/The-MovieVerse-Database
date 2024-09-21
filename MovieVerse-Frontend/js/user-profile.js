@@ -184,6 +184,20 @@ async function performSearch(searchText) {
   showSpinner();
 
   try {
+    const cachedSearchResults = localStorage.getItem(
+      `movieVerseSearchCache_${searchText}`,
+    );
+    if (cachedSearchResults) {
+      const parsedCache = JSON.parse(cachedSearchResults);
+      const cacheAge = Date.now() - parsedCache.timestamp;
+
+      if (cacheAge < 24 * 60 * 60 * 1000) {
+        displaySearchResults(parsedCache.results, searchText);
+        hideSpinner();
+        return;
+      }
+    }
+
     const userQuery = query(
       collection(db, "profiles"),
       where("username", ">=", searchText),
@@ -192,34 +206,27 @@ async function performSearch(searchText) {
     const querySnapshot = await getDocs(userQuery);
 
     searchUserResults.innerHTML = "";
+
     if (querySnapshot.empty) {
       searchUserResults.innerHTML = `<div style="text-align: center; font-weight: bold">No User with Username "${searchText}" found</div>`;
       searchUserResults.style.display = "block";
+      localStorage.setItem(
+        `movieVerseSearchCache_${searchText}`,
+        JSON.stringify({ results: [], timestamp: Date.now() }),
+      );
     } else {
-      searchUserResults.style.display = "block";
+      const results = [];
       querySnapshot.forEach((doc) => {
         const user = doc.data();
-        const userDiv = document.createElement("div");
-        userDiv.className = "user-search-result";
-        userDiv.style.cursor = "pointer";
-        userDiv.addEventListener("click", () => loadProfile(doc.id));
-
-        const img = document.createElement("img");
-        img.src = user.profileImage || "../../images/user-default.png";
-        img.style.width = "33%";
-        img.style.borderRadius = "8px";
-        userDiv.appendChild(img);
-
-        const textDiv = document.createElement("div");
-        textDiv.style.width = "67%";
-        textDiv.style.textAlign = "left";
-        textDiv.innerHTML = `<strong style="font-size: 16px">${user.username}</strong><p style="margin-top: 5px; text-align: left; font-size: 16px">Bio: ${
-          user.bio || "Not Set"
-        }</p>`;
-        userDiv.appendChild(textDiv);
-
-        searchUserResults.appendChild(userDiv);
+        results.push({ id: doc.id, ...user });
       });
+
+      localStorage.setItem(
+        `movieVerseSearchCache_${searchText}`,
+        JSON.stringify({ results, timestamp: Date.now() }),
+      );
+
+      displaySearchResults(results, searchText);
     }
     hideSpinner();
   } catch (error) {
@@ -228,6 +235,41 @@ async function performSearch(searchText) {
     searchUserResults.style.display = "block";
     hideSpinner();
   }
+}
+
+function displaySearchResults(results, searchText) {
+  const searchUserResults = document.getElementById("searchUserResults");
+  searchUserResults.innerHTML = "";
+
+  if (results.length === 0) {
+    searchUserResults.innerHTML = `<div style="text-align: center; font-weight: bold">No User with Username "${searchText}" found</div>`;
+    searchUserResults.style.display = "block";
+    return;
+  }
+
+  results.forEach((user) => {
+    const userDiv = document.createElement("div");
+    userDiv.className = "user-search-result";
+    userDiv.style.cursor = "pointer";
+    userDiv.addEventListener("click", () => loadProfile(user.id));
+
+    const img = document.createElement("img");
+    img.src = user.profileImage || "../../images/user-default.png";
+    img.style.width = "33%";
+    img.style.borderRadius = "8px";
+    userDiv.appendChild(img);
+
+    const textDiv = document.createElement("div");
+    textDiv.style.width = "67%";
+    textDiv.style.textAlign = "left";
+    textDiv.innerHTML = `<strong style="font-size: 16px">${user.username}</strong><p style="margin-top: 5px; text-align: left; font-size: 16px">Bio: ${
+      user.bio || "Not Set"
+    }</p>`;
+    userDiv.appendChild(textDiv);
+
+    searchUserResults.appendChild(userDiv);
+  });
+  searchUserResults.style.display = "block";
 }
 
 document.getElementById("container1").addEventListener("click", async () => {
@@ -493,6 +535,7 @@ async function loadProfile(
         noUserSelected.style.display = "block";
       }
     }
+
     document.getElementById("viewMyProfileBtn").disabled = true;
   }
 }
