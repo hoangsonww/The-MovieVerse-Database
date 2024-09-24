@@ -798,6 +798,16 @@ header h1 {
   }
 }
 
+@media print {
+  #mobileGoogleSignInBtn {
+    display: none;
+  }
+
+  #mobileProfileBtn {
+    display: none;
+  }
+}
+
 .back-btn:hover {
   background-color: #ff8623;
   transition: 0.3s ease-in;
@@ -1282,6 +1292,15 @@ header h1 {
   }
 }
 
+@media print {
+  .movie-image {
+    height: auto;
+  }
+  #actor-image {
+    height: auto;
+  }
+}
+
 .movie-header {
   text-align: center;
   align-self: center;
@@ -1456,7 +1475,7 @@ header h1 {
   border-radius: 8px;
 }
 
-@media (max-width: 768px) {
+@media all and (max-width: 768px) {
   .company-item {
     max-width: 125px;
   }
@@ -2335,7 +2354,7 @@ strong {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
-@media (max-width: 700px) {
+@media all and (max-width: 700px) {
   #settings-container {
     max-width: calc(100% - 10px);
     margin: 10px 10px;
@@ -2359,7 +2378,7 @@ strong {
   display: none;
 }
 
-@media (min-width: 768px) {
+@media all and (min-width: 768px) {
   #chat-button,
   #settings-btn,
   #movie-of-the-day-btn,
@@ -2394,7 +2413,7 @@ strong {
   transition: transform 0.09s ease-in-out;
 }
 
-@media (max-width: 767px) {
+@media all and (max-width: 767px) {
   .mobile-bottom-bar {
     display: flex;
   }
@@ -2433,7 +2452,7 @@ strong {
   color: #ecf0f1;
 }
 
-@media (max-width: 767px) {
+@media all and (max-width: 767px) {
   .mobile-bottom-bar {
     display: flex;
   }
@@ -2600,7 +2619,7 @@ strong {
   text-align: center;
 }
 
-@media (max-width: 767px) {
+@media all and (max-width: 767px) {
   .genres + main + .pagination {
     text-align: center;
   }
@@ -2951,14 +2970,14 @@ ol li:hover {
   border-radius: 5px;
 }
 
-@media (max-width: 705px) {
+@media all and (max-width: 705px) {
   #search-title,
   #alt-title {
     display: none;
   }
 }
 
-@media (max-height: 930px) {
+@media all and (max-height: 930px) {
   #search-title,
   #alt-title {
     display: none;
@@ -2975,7 +2994,7 @@ ol li:hover {
   align-self: flex-start;
 }
 
-@media (max-width: 767px) {
+@media all and (max-width: 767px) {
   #chatbotContainer {
     top: 56.1%;
   }
@@ -3077,7 +3096,7 @@ ol li:hover {
   color: #ff8623;
 }
 
-@media (max-width: 982px) {
+@media all and (max-width: 982px) {
   #local-time {
     display: none;
   }
@@ -3148,7 +3167,7 @@ canvas {
   cursor: pointer;
 }
 
-@media screen and (max-width: 900px) {
+@media all and (max-width: 900px) {
   .chart-container {
     flex-direction: column;
   }
@@ -3199,7 +3218,7 @@ canvas {
   transition: 0.1s ease-in;
 }
 
-@media (max-width: 1000px) {
+@media all and (max-width: 1000px) {
   #comments-section {
     margin-bottom: 210px;
   }
@@ -3217,7 +3236,7 @@ canvas {
   transition: 0.1s ease-in;
 }
 
-@media (max-width: 800px) {
+@media all and (max-width: 800px) {
   #my-heading {
     margin-left: 0;
   }
@@ -3628,7 +3647,7 @@ canvas {
   background-color: #ff8623;
 }
 
-@media screen and (-webkit-min-device-pixel-ratio: 0) {
+@media all and (-webkit-min-device-pixel-ratio: 0) {
   body {
     background-size: auto;
     background-repeat: repeat;
@@ -3936,7 +3955,7 @@ body {
   color: purple;
 }
 
-@media (max-width: 800px) {
+@media all and (max-width: 800px) {
   .company-details-container {
     display: flex;
     flex-direction: column;
@@ -4207,7 +4226,7 @@ footer {
   color: white;
 }
 
-@media (max-width: 900px) {
+@media all and (max-width: 900px) {
   .notification-modal {
     right: 12.5px;
   }

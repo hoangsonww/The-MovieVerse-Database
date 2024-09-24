@@ -1135,7 +1135,10 @@ async function populateTvSeriesDetails(tvSeries, imdbRating, rated) {
 
       const similarTvName = document.createElement('p');
       similarTvName.classList.add('similar-tv-name');
-      similarTvName.textContent = similarTv.name;
+      const tvNameWords = similarTv.name.split(' ');
+      const truncatedTvName = tvNameWords.length > 5 ? tvNameWords.slice(0, 5).join(' ') + ' ...' : similarTv.name;
+      similarTvName.textContent = truncatedTvName;
+
       similarTvDetails.appendChild(similarTvName);
 
       similarTvItem.appendChild(similarTvDetails);

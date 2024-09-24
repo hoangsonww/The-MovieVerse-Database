@@ -214,6 +214,21 @@ const noUserSelected = document.getElementById('noUserSelected');
 chatSection.style.display = 'none';
 noUserSelected.style.display = 'flex';
 
+const LOCAL_STORAGE_MESSAGES_KEY_PREFIX = 'movieVerseMessagesCache';
+
+function getCachedMessages(conversationKey) {
+  const cachedData = localStorage.getItem(LOCAL_STORAGE_MESSAGES_KEY_PREFIX + conversationKey);
+  return cachedData ? JSON.parse(cachedData) : [];
+}
+
+function updateMessageCache(conversationKey, messages) {
+  localStorage.setItem(LOCAL_STORAGE_MESSAGES_KEY_PREFIX + conversationKey, JSON.stringify(messages));
+}
+
+function clearMessageCache(conversationKey) {
+  localStorage.removeItem(LOCAL_STORAGE_MESSAGES_KEY_PREFIX + conversationKey);
+}
+
 async function loadMessages(userEmail) {
   selectedUserEmail = userEmail;
   messagesDiv.innerHTML = '';
@@ -232,6 +247,17 @@ async function loadMessages(userEmail) {
     selectedUser.classList.add('selected');
   }
 
+  const conversationKey = `${currentUserEmail}_${selectedUserEmail}`;
+
+  const cachedMessages = getCachedMessages(conversationKey);
+  if (cachedMessages.length > 0) {
+    cachedMessages.forEach(msg => {
+      const messageElement = formatMessage(msg.message, msg.isCurrentUser, msg.timestamp);
+      messagesDiv.appendChild(messageElement);
+    });
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  }
+
   const messagesQuery = query(
     collection(db, 'messages'),
     orderBy('timestamp'),
@@ -240,6 +266,8 @@ async function loadMessages(userEmail) {
   );
 
   onSnapshot(messagesQuery, snapshot => {
+    const newMessages = [];
+
     messagesDiv.innerHTML = '';
     snapshot.docs.forEach(doc => {
       const messageData = doc.data();
@@ -251,7 +279,15 @@ async function loadMessages(userEmail) {
       if (!isCurrentUser && (!messageData.readBy || !messageData.readBy.includes(currentUserEmail))) {
         updateReadStatus(doc.id);
       }
+
+      newMessages.push({
+        message: messageData.message,
+        isCurrentUser,
+        timestamp: timestamp ? timestamp.toDate().toISOString() : null,
+      });
     });
+
+    updateMessageCache(conversationKey, newMessages);
 
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
   });
@@ -289,8 +325,53 @@ function setupSearchListeners() {
   });
 }
 
+const LOCAL_STORAGE_SEARCH_CACHE_KEY = 'movieVerseSearchCache';
+
+function getCachedSearchResults(query) {
+  const cachedData = localStorage.getItem(LOCAL_STORAGE_SEARCH_CACHE_KEY);
+  if (cachedData) {
+    const searchCache = JSON.parse(cachedData);
+    return searchCache[query] ? searchCache[query].results : null;
+  }
+  return null;
+}
+
+function updateSearchCache(query, results) {
+  const cachedData = localStorage.getItem(LOCAL_STORAGE_SEARCH_CACHE_KEY);
+  const searchCache = cachedData ? JSON.parse(cachedData) : {};
+  searchCache[query] = { results, lastUpdated: Date.now() };
+  localStorage.setItem(LOCAL_STORAGE_SEARCH_CACHE_KEY, JSON.stringify(searchCache));
+}
+
 async function performSearch(searchText, isNewSearch = false) {
   const searchUserResults = document.getElementById('searchUserResults');
+  const cachedResults = getCachedSearchResults(searchText);
+
+  if (cachedResults && isNewSearch) {
+    searchUserResults.innerHTML = '';
+    cachedResults.forEach(user => {
+      const userDiv = document.createElement('div');
+      userDiv.className = 'user-search-result';
+      userDiv.style.cursor = 'pointer';
+      userDiv.addEventListener('click', () => loadMessages(user.email));
+
+      const img = document.createElement('img');
+      img.src = user.imageUrl || '../../images/user-default.png';
+      img.style.width = '33%';
+      img.style.borderRadius = '8px';
+      userDiv.appendChild(img);
+
+      const textDiv = document.createElement('div');
+      textDiv.style.width = '67%';
+      textDiv.style.textAlign = 'left';
+      textDiv.innerHTML = `<strong>${user.email}</strong><p>${user.bio || ''}</p>`;
+      userDiv.appendChild(textDiv);
+
+      searchUserResults.appendChild(userDiv);
+    });
+    searchUserResults.style.display = 'block';
+    return;
+  }
 
   try {
     showSpinner();
@@ -318,6 +399,7 @@ async function performSearch(searchText, isNewSearch = false) {
       lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
     }
 
+    const results = [];
     for (const doc of querySnapshot.docs) {
       const user = doc.data();
       const userDiv = document.createElement('div');
@@ -346,6 +428,7 @@ async function performSearch(searchText, isNewSearch = false) {
       userDiv.appendChild(textDiv);
 
       searchUserResults.appendChild(userDiv);
+      results.push({ email: user.email, bio: user.bio, imageUrl });
     }
 
     searchUserResults.style.display = 'block';
@@ -363,6 +446,10 @@ async function performSearch(searchText, isNewSearch = false) {
         loadMoreButton.style.display = 'none';
       }
     }
+
+    if (isNewSearch) {
+      updateSearchCache(searchText, results);
+    }
   } catch (error) {
     console.error('Error fetching user list: ', error);
     if (error.code === 'resource-exhausted') {
@@ -379,12 +466,31 @@ async function performSearch(searchText, isNewSearch = false) {
 
 let previouslySelectedUserElement = null;
 
+const LOCAL_STORAGE_USER_CACHE_KEY = 'movieVerseUserCache';
+
+function getCachedUsers() {
+  const cachedData = localStorage.getItem(LOCAL_STORAGE_USER_CACHE_KEY);
+  return cachedData ? JSON.parse(cachedData) : {};
+}
+
+function updateUserCache(email, userData) {
+  const currentCache = getCachedUsers();
+  currentCache[email] = userData;
+  localStorage.setItem(LOCAL_STORAGE_USER_CACHE_KEY, JSON.stringify(currentCache));
+}
+
+function clearUserCache() {
+  localStorage.removeItem(LOCAL_STORAGE_USER_CACHE_KEY);
+}
+
+const inMemoryUserCache = {}; // In-memory cache for user data
+
 async function loadUserList() {
   try {
     showSpinner();
     animateLoadingDots();
 
-    const userLimit = 5;
+    const userLimit = 10;
     const messageLimit = 30;
 
     const sentMessagesQuery = query(
@@ -393,6 +499,7 @@ async function loadUserList() {
       where('sender', '==', currentUserEmail),
       limit(messageLimit)
     );
+
     const receivedMessagesQuery = query(
       collection(db, 'messages'),
       orderBy('timestamp', 'desc'),
@@ -407,17 +514,35 @@ async function loadUserList() {
     receivedMessagesSnapshot.forEach(doc => userEmails.add(doc.data().sender));
 
     let users = [];
+    const cachedUsers = getCachedUsers();
+    const emailsToFetch = [];
+
     for (let email of userEmails) {
       if (email) {
-        const userQuery = query(collection(db, 'MovieVerseUsers'), where('email', '==', email));
-        const userSnapshot = await getDocs(userQuery);
-        userSnapshot.forEach(doc => {
-          let userData = doc.data();
-          if (userData.email) {
-            users.push(userData);
-          }
-        });
+        if (cachedUsers[email]) {
+          users.push(cachedUsers[email]);
+          inMemoryUserCache[email] = cachedUsers[email];
+        } else if (inMemoryUserCache[email]) {
+          users.push(inMemoryUserCache[email]);
+        } else {
+          emailsToFetch.push(email);
+        }
       }
+    }
+
+    if (emailsToFetch.length > 0) {
+      const userQuery = query(collection(db, 'MovieVerseUsers'), where('email', 'in', emailsToFetch.slice(0, 10)));
+
+      const userSnapshot = await getDocs(userQuery);
+      userSnapshot.forEach(doc => {
+        const userData = doc.data();
+        if (userData.email) {
+          userData.lastUpdated = Date.now();
+          users.push(userData);
+          updateUserCache(userData.email, userData);
+          inMemoryUserCache[userData.email] = userData;
+        }
+      });
     }
 
     users.sort((a, b) => {
@@ -450,12 +575,27 @@ async function loadUserList() {
         previouslySelectedUserElement = userElement;
       };
 
-      const profileQuery = query(collection(db, 'profiles'), where('__name__', '==', user.email));
-      const profileSnapshot = await getDocs(profileQuery);
       let imageUrl = '../../images/user-default.png';
-      if (!profileSnapshot.empty) {
-        const profileData = profileSnapshot.docs[0].data();
-        imageUrl = profileData.profileImage || imageUrl;
+      if (cachedUsers[user.email] && cachedUsers[user.email].profileImage) {
+        imageUrl = cachedUsers[user.email].profileImage;
+      } else if (inMemoryUserCache[user.email] && inMemoryUserCache[user.email].profileImage) {
+        imageUrl = inMemoryUserCache[user.email].profileImage;
+      } else {
+        const profileQuery = query(collection(db, 'profiles'), where('__name__', '==', user.email));
+        const profileSnapshot = await getDocs(profileQuery);
+        if (!profileSnapshot.empty) {
+          const profileData = profileSnapshot.docs[0].data();
+          imageUrl = profileData.profileImage || imageUrl;
+
+          if (cachedUsers[user.email]) {
+            cachedUsers[user.email].profileImage = imageUrl;
+            updateUserCache(user.email, cachedUsers[user.email]);
+          }
+          inMemoryUserCache[user.email] = {
+            ...inMemoryUserCache[user.email],
+            profileImage: imageUrl,
+          };
+        }
       }
 
       const img = document.createElement('img');

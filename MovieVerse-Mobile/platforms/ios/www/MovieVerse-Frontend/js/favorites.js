@@ -1380,7 +1380,6 @@ function handleSearch() {
   localStorage.setItem('searchQuery', searchQuery);
   window.location.href = 'search.html';
 }
-
 async function loadWatchLists() {
   const displaySection = document.getElementById('watchlists-display-section');
 
@@ -1389,13 +1388,20 @@ async function loadWatchLists() {
 
     const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
 
+    let watchlists = [];
     if (currentUserEmail) {
-      const q = query(collection(db, 'watchlists'), where('userEmail', '==', currentUserEmail));
-      const querySnapshot = await getDocs(q);
-      const watchlists = querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
+      const cachedWatchlists = JSON.parse(localStorage.getItem('cachedWatchlists_' + currentUserEmail)) || [];
+      if (cachedWatchlists.length > 0) {
+        watchlists = cachedWatchlists;
+      } else {
+        const q = query(collection(db, 'watchlists'), where('userEmail', '==', currentUserEmail));
+        const querySnapshot = await getDocs(q);
+        watchlists = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        localStorage.setItem('cachedWatchlists_' + currentUserEmail, JSON.stringify(watchlists));
+      }
 
       if (watchlists.length === 0) {
         displaySection.innerHTML = '<p style="text-align: center">No watch lists found. Click on "Create Watch Lists" to start adding movies.</p>';
@@ -1419,7 +1425,6 @@ async function loadWatchLists() {
       }
     } else {
       let localWatchlists = JSON.parse(localStorage.getItem('localWatchlists')) || [];
-
       if (localWatchlists.length === 0) {
         displaySection.innerHTML = '<p style="text-align: center">No watch lists found. Start by adding movies to your watchlist.</p>';
       } else {
@@ -1440,13 +1445,19 @@ async function loadWatchLists() {
     let favoritesTVSeries = [];
 
     if (currentUserEmail) {
-      const usersRef = query(collection(db, 'MovieVerseUsers'), where('email', '==', currentUserEmail));
-      const userSnapshot = await getDocs(usersRef);
+      const cachedFavorites = JSON.parse(localStorage.getItem('cachedFavorites_' + currentUserEmail)) || {};
+      favorites = cachedFavorites.favorites || [];
+      favoritesTVSeries = cachedFavorites.favoritesTVSeries || [];
 
-      if (!userSnapshot.empty) {
-        const userData = userSnapshot.docs[0].data();
-        favorites = userData.favoritesMovies || [];
-        favoritesTVSeries = userData.favoritesTVSeries || [];
+      if (favorites.length === 0 || favoritesTVSeries.length === 0) {
+        const usersRef = query(collection(db, 'MovieVerseUsers'), where('email', '==', currentUserEmail));
+        const userSnapshot = await getDocs(usersRef);
+        if (!userSnapshot.empty) {
+          const userData = userSnapshot.docs[0].data();
+          favorites = userData.favoritesMovies || [];
+          favoritesTVSeries = userData.favoritesTVSeries || [];
+          localStorage.setItem('cachedFavorites_' + currentUserEmail, JSON.stringify({ favorites, favoritesTVSeries }));
+        }
       }
     } else {
       favorites = JSON.parse(localStorage.getItem('moviesFavorited')) || [];
@@ -1476,10 +1487,8 @@ async function loadWatchLists() {
       const moviesContainer = document.createElement('div');
       moviesContainer.className = 'movies-container';
 
-      for (const movieId of favorites) {
-        const movieCard = await fetchMovieDetails(movieId);
-        moviesContainer.appendChild(movieCard);
-      }
+      const movieCards = await Promise.all(favorites.map(fetchMovieDetails));
+      movieCards.forEach(movieCard => moviesContainer.appendChild(movieCard));
 
       favoritesDiv.appendChild(moviesContainer);
       displaySection.appendChild(favoritesDiv);
@@ -1515,10 +1524,8 @@ async function loadWatchLists() {
       const moviesContainer = document.createElement('div');
       moviesContainer.className = 'movies-container';
 
-      for (const tvSeriesId of favoritesTVSeries) {
-        const tvSeriesCard = await fetchTVSeriesDetails(tvSeriesId);
-        moviesContainer.appendChild(tvSeriesCard);
-      }
+      const tvSeriesCards = await Promise.all(favoritesTVSeries.map(fetchTVSeriesDetails));
+      tvSeriesCards.forEach(tvSeriesCard => moviesContainer.appendChild(tvSeriesCard));
 
       favoritesDiv.appendChild(moviesContainer);
       displaySection.appendChild(favoritesDiv);
@@ -1535,7 +1542,6 @@ async function loadWatchLists() {
   } catch (error) {
     if (error.code === 'resource-exhausted') {
       let localWatchlists = JSON.parse(localStorage.getItem('localWatchlists')) || [];
-
       if (localWatchlists.length === 0) {
         displaySection.innerHTML = '<p style="text-align: center">No watch lists found. Start by adding movies to your watchlist.</p>';
       } else {
@@ -1551,11 +1557,8 @@ async function loadWatchLists() {
         }
       }
 
-      let favorites = [];
-      let favoritesTVSeries = [];
-
-      favorites = JSON.parse(localStorage.getItem('moviesFavorited')) || [];
-      favoritesTVSeries = JSON.parse(localStorage.getItem('favoritesTVSeries')) || [];
+      let favorites = JSON.parse(localStorage.getItem('moviesFavorited')) || [];
+      let favoritesTVSeries = JSON.parse(localStorage.getItem('favoritesTVSeries')) || [];
 
       if (favorites.length > 0) {
         const favoritesDiv = document.createElement('div');
@@ -1576,10 +1579,8 @@ async function loadWatchLists() {
         const moviesContainer = document.createElement('div');
         moviesContainer.className = 'movies-container';
 
-        for (const movieId of favorites) {
-          const movieCard = await fetchMovieDetails(movieId);
-          moviesContainer.appendChild(movieCard);
-        }
+        const movieCards = await Promise.all(favorites.map(fetchMovieDetails));
+        movieCards.forEach(movieCard => moviesContainer.appendChild(movieCard));
 
         favoritesDiv.appendChild(moviesContainer);
         displaySection.appendChild(favoritesDiv);
@@ -1611,10 +1612,8 @@ async function loadWatchLists() {
         const moviesContainer = document.createElement('div');
         moviesContainer.className = 'movies-container';
 
-        for (const tvSeriesId of favoritesTVSeries) {
-          const tvSeriesCard = await fetchTVSeriesDetails(tvSeriesId);
-          moviesContainer.appendChild(tvSeriesCard);
-        }
+        const tvSeriesCards = await Promise.all(favoritesTVSeries.map(fetchTVSeriesDetails));
+        tvSeriesCards.forEach(tvSeriesCard => moviesContainer.appendChild(tvSeriesCard));
 
         favoritesDiv.appendChild(moviesContainer);
         displaySection.appendChild(favoritesDiv);
@@ -1630,6 +1629,7 @@ async function loadWatchLists() {
       }
     } else {
       console.error('An error occurred:', error);
+      hideSpinner();
     }
   }
 }

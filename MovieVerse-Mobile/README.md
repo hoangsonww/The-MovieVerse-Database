@@ -2,14 +2,21 @@
 
 ## Table of Contents
 - [Overview](#overview)
-- [User Interface (iOS)](#user-interface-ios)
-- [User Interface (Android)](#user-interface-android)
+- [User Interfaces](#user-interfaces)
+  - [User Interface (iOS)](#user-interface-ios)
+  - [User Interface (Android)](#user-interface-android)
+  - [User Interface (iPadOS)](#user-interface-ipados)
+  - [User Interface (Mac Catalyst)](#user-interface-mac-catalyst)
+- [Launch Screens](#launch-screens)
+  - [Launch Screen (iOS)](#launch-screen-ios)
+  - [Launch Screen (Android)](#launch-screen-android)
+  - [Launch Screen (iPadOS)](#launch-screen-ipados)
+  - [Launch Screen (Mac Catalyst)](#launch-screen-mac-catalyst)
+- [Platform Compatibility](#platform-compatibility)
 - [Features](#features)
   - [Easy Navigation](#easy-navigation)
   - [Rich Movie Catalog](#rich-movie-catalog)
   - [Interactive Elements](#interactive-elements)
-  - [And all other features from the web app!](#and-all-other-features-from-the-web-app)
-  - [Launch Screen](#launch-screen)
 - [Development](#development)
   - [Prerequisites](#prerequisites)
   - [Instructions](#instructions)
@@ -20,17 +27,22 @@
   - [Viewing Movie Details](#viewing-movie-details)
   - [Adding to Favorites](#adding-to-favorites)
   - [Accessing Favorites](#accessing-favorites)
+  - [Chatbot Integration](#chatbot-integration)
 - [Support](#support)
 - [Updates and Feedback](#updates-and-feedback)
 - [License](#license)
 
 ## Overview
 
-MovieVerse is a dynamic, user-friendly mobile application that offers an extensive library of movies across various genres. Designed for movie enthusiasts, it provides a seamless browsing experience on iOS devices, including iPhones and iPads. Explore popular, award-winning, and hidden gems, or dive into categories like action, horror, romance, and more. MovieVerse is your ultimate mobile destination for movie discovery and entertainment.
+MovieVerse is a dynamic, user-friendly mobile application that offers an extensive library of movies across various genres. Designed for movie enthusiasts, it provides a seamless browsing experience on iOS and iPadOS devices, including iPhones and iPads, as well as Android devices. Additionally, the app is optimized for Mac Catalyst, allowing users to enjoy the same features on their Mac devices.
 
-**Note:** The app is under active development and will be available for download on the App Store and Google Play Store soon. Stay tuned for updates!
+Explore popular, award-winning, and hidden gems, or dive into categories like action, horror, romance, and more. MovieVerse is your ultimate mobile destination for movie discovery and entertainment!
 
-## User Interface (iOS)
+**Note:** The mobile apps are under active development and will be available for download on the App Store and Google Play Store soon. Stay tuned for updates!
+
+## User Interfaces
+
+### User Interface (iOS)
 
 <p align="center" style="cursor: pointer">
   <a href="https://movie-verse.com">
@@ -38,13 +50,79 @@ MovieVerse is a dynamic, user-friendly mobile application that offers an extensi
   </a>
 </p>
 
-## User Interface (Android)
+### User Interface (Android)
 
 <p align="center" style="cursor: pointer">
   <a href="https://movie-verse.com">
     <img src="../images/Mobile-UI-Android.png" alt="The MovieVerse App Interface" width="80%" height="auto"/>
   </a>
 </p>
+
+### User Interface (iPadOS)
+
+<p align="center" style="cursor: pointer">
+  <a href="https://movie-verse.com">
+    <img src="../images/Mobile-UI-iPad.png" alt="The MovieVerse App Interface" width="80%" height="auto"/>
+  </a>
+</p>
+
+### User Interface (Mac Catalyst)
+
+<p align="center" style="cursor: pointer">
+  <a href="https://movie-verse.com">
+    <img src="../images/Mobile-UI-Mac.png" alt="The MovieVerse App Interface" width="80%" height="auto"/>
+  </a>
+</p>
+
+## Launch Screens
+
+MovieVerse also offers a launch screen that welcomes users with a sleek and engaging design. The launch screen is designed to provide a seamless transition to the main app interface, ensuring a visually appealing experience from the moment the app is launched.
+
+### Launch Screen (iOS)
+
+<p align="center" style="cursor: pointer">
+  <a href="https://movie-verse.com">
+    <img src="../images/Mobile-UI-LS.png" alt="The MovieVerse App Interface" width="80%" height="auto"/>
+  </a>
+</p>
+
+The launch screen will be displayed when the app is launched, providing a brief introduction to the app's theme and design before transitioning to the main interface. It stay for roughly 2-3 seconds before transitioning to the main app interface.
+
+### Launch Screen (Android)
+
+<p align="center" style="cursor: pointer">
+  <a href="https://movie-verse.com">
+    <img src="../images/Mobile-UI-LS-Android.png" alt="The MovieVerse App Interface" width="80%" height="auto"/>
+  </a>
+</p>
+
+### Launch Screen (iPadOS)
+
+<p align="center" style="cursor: pointer">
+  <a href="https://movie-verse.com">
+    <img src="../images/Mobile-UI-LS-iPad.png" alt="The MovieVerse App Interface" width="80%" height="auto"/>
+  </a>
+</p>
+
+### Launch Screen (Mac Catalyst)
+
+<p align="center" style="cursor: pointer">
+  <a href="https://movie-verse.com">
+    <img src="../images/Mobile-UI-LS-Mac.png" alt="The MovieVerse App Interface" width="80%" height="auto"/>
+  </a>
+</p>
+
+The launch screen will be displayed when the app is launched, providing a brief introduction to the app's theme and design before transitioning to the main interface. It stay for roughly 2-3 seconds before transitioning to the main app interface.
+
+## Platform Compatibility
+
+The MovieVerse mobile app is designed to run on the following platforms:
+
+- **iOS**: Compatible with iOS devices, including iPhones and iPads.
+- **Android**: Compatible with Android devices, including smartphones and tablets.
+- **iPadOS**: Compatible with iPad devices, providing an optimized user experience.
+- **Mac Catalyst (MacOS)**: A native app that is perfectly compatible with Mac devices, offering a seamless transition from mobile to desktop.
+- **PWA**: Installable as a Progressive Web App (PWA) for quick access on mobile devices.
 
 ## Features
 
@@ -63,19 +141,7 @@ MovieVerse is a dynamic, user-friendly mobile application that offers an extensi
 - **Movie Details**: Tap on any movie to view detailed information, including ratings, overviews, and more.
 - **Responsive Design**: Enjoy a consistent and engaging user experience on both iPhones and iPads.
 
-### And all other features from the web app!
-
-### Launch Screen
-
-MovieVerse also offers a launch screen that welcomes users with a sleek and engaging design. The launch screen is designed to provide a seamless transition to the main app interface, ensuring a visually appealing experience from the moment the app is launched.
-
-<p align="center" style="cursor: pointer">
-  <a href="https://movie-verse.com">
-    <img src="../images/Mobile-UI-LS.png" alt="The MovieVerse App Interface" width="80%" height="auto"/>
-  </a>
-</p>
-
-The launch screen will be displayed when the app is launched, providing a brief introduction to the app's theme and design before transitioning to the main interface. It stay for roughly 2-3 seconds before transitioning to the main app interface.
+#### And all other features from the web app!
 
 ## Development
 
@@ -93,6 +159,7 @@ The launch screen will be displayed when the app is launched, providing a brief 
 - [Git](https://git-scm.com/) 2.32.0 or later
 
 ### Instructions
+
 1. **Clone the Repository**: Clone the repository to your local machine using the following command:
     ```bash
     git clone
@@ -120,7 +187,8 @@ The launch screen will be displayed when the app is launched, providing a brief 
     cordova emulate android
     ```
 7. **Open the Project**: Open the project in Xcode and/or Android Studio to view the source code and test the app within the simulator.
-8. **Enjoy coding!**
+8. **Choose a Simulator**: Select a simulator to run the app on, such as iPhone 16 Pro Max or Pixel 4.
+9. **Enjoy coding!**
 
 ### Special Notes
 
@@ -159,6 +227,11 @@ cordova emulate android
 
 ### Accessing Favorites
 - Tap on the "Favorites" button in the navigation bar to view your list of favorite movies.
+
+### Chatbot Integration
+- Access the chatbot feature to get movie recommendations and information.
+
+### And so much more!
 
 ## Support
 
