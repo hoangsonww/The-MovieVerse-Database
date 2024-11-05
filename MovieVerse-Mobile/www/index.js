@@ -423,6 +423,21 @@ function rotateImages(imageElements, interval = 3000) {
 async function showMovies(movies, mainElement) {
   mainElement.innerHTML = '';
 
+  // Inject CSS for the sliding-up animation effect
+  const style = document.createElement('style');
+  style.innerHTML = `
+    .movie {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .movie.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  `;
+  document.head.appendChild(style);
+
   const observer = new IntersectionObserver(
     async (entries, observer) => {
       for (const entry of entries) {
@@ -430,11 +445,15 @@ async function showMovies(movies, mainElement) {
           const movieEl = entry.target;
           const movieId = movieEl.dataset.id;
 
+          // Add the 'visible' class to trigger the sliding animation
+          movieEl.classList.add('visible');
+
+          // Fetch additional posters and append them to the movie image container
           const additionalPosters = await getAdditionalPosters(movieId);
           let allPosters = [movieEl.dataset.posterPath, ...additionalPosters];
-
           const movieImageContainer = movieEl.querySelector('.movie-images');
 
+          // Randomly sort and limit posters to 10
           allPosters = allPosters.sort(() => 0.5 - Math.random()).slice(0, 10);
 
           const imagePromises = allPosters.map((poster, index) => {
@@ -457,9 +476,11 @@ async function showMovies(movies, mainElement) {
             });
           });
 
+          // Wait for all images to load or timeout after 3 seconds
           const maxWait = new Promise(resolve => setTimeout(resolve, 3000));
           await Promise.race([Promise.all(imagePromises), maxWait]);
 
+          // Make the first poster visible
           movieImageContainer.querySelector('.poster-img').style.opacity = '1';
 
           rotateImages(Array.from(movieImageContainer.children));
@@ -1007,6 +1028,39 @@ async function getDirectorSpotlight(url) {
 function showMoviesDirectorSpotlight(movies) {
   director_main.innerHTML = '';
 
+  // Inject CSS for the sliding-up animation effect if it doesn't exist
+  const style = document.createElement('style');
+  style.innerHTML = `
+    .movie {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .movie.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  `;
+  document.head.appendChild(style);
+
+  const observer = new IntersectionObserver(
+    (entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const movieEl = entry.target;
+
+          // Add the 'visible' class to trigger the sliding animation
+          movieEl.classList.add('visible');
+          observer.unobserve(movieEl);
+        }
+      });
+    },
+    {
+      rootMargin: '50px 0px',
+      threshold: 0.1,
+    }
+  );
+
   movies.forEach(movie => {
     const { id, poster_path, title, vote_average, genre_ids } = movie;
     const movieEl = document.createElement('div');
@@ -1041,6 +1095,7 @@ function showMoviesDirectorSpotlight(movies) {
     });
 
     director_main.appendChild(movieEl);
+    observer.observe(movieEl); // Observe each movie card
   });
 }
 
