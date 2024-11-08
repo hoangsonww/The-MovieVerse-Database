@@ -56,7 +56,6 @@
     <link rel="preload" href="https://movie-verse.com/fonts/Poppins-Light.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
     <link rel="preload" href="https://movie-verse.com/fonts/Poppins-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
     <link rel="preload" href="https://movie-verse.com/fonts/Poppins-SemiBold.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -1694,33 +1693,6 @@
           }
         });
         searchInput.addEventListener('blur', clearSelection);
-      });
-    </script>
-    <script>
-      let confettiTriggered = false;
-
-      function launchConfetti() {
-        const confettiInstance = confetti.create(null, { resize: true });
-        confettiInstance({
-          particleCount: 150,
-          spread: 70,
-          origin: { y: 0.6 },
-        });
-
-        const canvas = document.querySelector('canvas');
-
-        if (canvas) {
-          canvas.style.zIndex = '9999999999';
-          canvas.style.position = 'fixed';
-        }
-      }
-
-      document.addEventListener('DOMContentLoaded', function () {
-        if (!confettiTriggered) {
-          launchConfetti();
-
-          confettiTriggered = true;
-        }
       });
     </script>
   </body>

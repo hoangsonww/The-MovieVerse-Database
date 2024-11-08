@@ -16,6 +16,7 @@ import {
 
 let initialMoviesSelection = [];
 let initialTVSeriesSelection = [];
+const IMGPATH = `https://image.tmdb.org/t/p/w500`;
 
 function translateFBC(value) {
   return atob(value);
