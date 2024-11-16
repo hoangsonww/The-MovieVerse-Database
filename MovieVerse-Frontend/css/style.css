@@ -1928,7 +1928,6 @@ strong {
 }
 
 #favorite-btn:hover::after {
-  content: 'Favorite / Unfavorite';
   position: absolute;
   top: -45px;
   left: 50%;
