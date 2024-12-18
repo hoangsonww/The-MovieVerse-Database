@@ -947,8 +947,14 @@ document.addEventListener('mousemove', function (event) {
 document.addEventListener('click', function (event) {
   const sideNav = document.getElementById('side-nav');
   const navToggle = document.getElementById('nav-toggle');
+  const menuButton = document.getElementById('sticky-menu-button');
 
-  if (!sideNav.contains(event.target) && !navToggle.contains(event.target) && sideNav.classList.contains('manual-toggle')) {
+  if (
+    !sideNav.contains(event.target) &&
+    !navToggle.contains(event.target) &&
+    sideNav.classList.contains('manual-toggle') &&
+    !menuButton.contains(event.target)
+  ) {
     sideNav.classList.remove('manual-toggle');
     adjustNavBar();
   }
