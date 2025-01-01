@@ -5,8 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8bb29d63-e98d-4c08-9f32-16747d3aec75" name="Changes" comment="Fix: Updated Backend (#196)">
-      <change beforePath="$PROJECT_DIR$/django_backend/django_backend/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_backend/django_backend/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/.idea/other.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Middleware/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Middleware/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/.idea/caches/deviceStreaming.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/js/favorites.js" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/android/app/src/main/assets/www/MovieVerse-Frontend/js/favorites.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/android/app/src/main/assets/www/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/android/app/src/main/assets/www/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/android/app/src/main/assets/www/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/android/app/src/main/assets/www/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/ios/MovieVerse.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/ios/MovieVerse.xcodeproj/project.pbxproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/ios/MovieVerse.xcworkspace/xcuserdata/davidnguyen.xcuserdatad/UserInterfaceState.xcuserstate" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/ios/MovieVerse.xcworkspace/xcuserdata/davidnguyen.xcuserdatad/UserInterfaceState.xcuserstate" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/ios/www/MovieVerse-Frontend/js/favorites.js" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/ios/www/MovieVerse-Frontend/js/favorites.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/ios/www/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/ios/www/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/ios/www/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/platforms/ios/www/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/www/MovieVerse-Frontend/js/favorites.js" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/www/MovieVerse-Frontend/js/favorites.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/www/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/www/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MovieVerse-Mobile/www/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../MovieVerse-Mobile/www/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -236,8 +247,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-7c0b70fcd90d-JavaScript-PY-242.21829.153" />
-        <option value="bundled-python-sdk-464836ebc622-b74155a9e76b-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-242.21829.153" />
+        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-PY-243.22562.220" />
+        <option value="bundled-python-sdk-0fc6c617c4bd-9a18a617cbe4-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.22562.220" />
       </set>
     </attachedChunks>
   </component>
@@ -274,6 +285,7 @@
       <workItem from="1725200373603" duration="1000" />
       <workItem from="1725200380893" duration="77000" />
       <workItem from="1725628221138" duration="32000" />
+      <workItem from="1734683233941" duration="3000" />
     </task>
     <task id="LOCAL-00001" summary="Enhanced Backend">
       <option name="closed" value="true" />

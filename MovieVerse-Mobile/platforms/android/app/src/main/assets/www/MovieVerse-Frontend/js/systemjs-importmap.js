@@ -23,3 +23,6 @@ System.import('@system-env').then(env => {
     });
   }
 });
+
+// Replace 'your-production-url' with the actual URL of your production server.
+// Mine is not included here for security reasons.

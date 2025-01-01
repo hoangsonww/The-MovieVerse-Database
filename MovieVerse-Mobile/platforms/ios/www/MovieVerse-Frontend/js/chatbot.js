@@ -455,7 +455,7 @@ function removeMarkdown(text) {
 }
 
 function getAIResponse() {
-  const response = 'QUl6YVN5Q1RoUWVFdmNUb01ka0NqWlM3UTNxNzZBNUNlNjVyMW9r';
+  const response = 'QUl6YVN' + '5QnRIdGJIVW' + 'N6enExT1p3Z' + 'XB0TXNOd' + 'Fdlal9s' + 'U0lWcWZ3';
   return atob(response);
 }
 

@@ -12,6 +12,7 @@ import {
 import { app, db } from './firebase.js';
 
 const commentForm = document.getElementById('comment-form');
+
 commentForm.addEventListener('submit', async e => {
   e.preventDefault();
   const userName = document.getElementById('user-name').value;
@@ -27,6 +28,7 @@ commentForm.addEventListener('submit', async e => {
       movieId,
     });
     commentForm.reset();
+    clearCommentCache(movieId);
     fetchComments();
   } catch (error) {
     console.log('Error adding comment: ', error);
@@ -60,6 +62,21 @@ const commentsPerPage = 3;
 let totalComments = 0;
 let totalPages = 1;
 
+const LOCAL_STORAGE_COMMENT_KEY_PREFIX = 'movieVerseCommentsCache';
+
+function getCachedComments(movieId) {
+  const cachedData = localStorage.getItem(LOCAL_STORAGE_COMMENT_KEY_PREFIX + movieId);
+  return cachedData ? JSON.parse(cachedData) : null;
+}
+
+function updateCommentCache(movieId, comments) {
+  localStorage.setItem(LOCAL_STORAGE_COMMENT_KEY_PREFIX + movieId, JSON.stringify({ comments, lastUpdated: Date.now() }));
+}
+
+function clearCommentCache(movieId) {
+  localStorage.removeItem(LOCAL_STORAGE_COMMENT_KEY_PREFIX + movieId);
+}
+
 async function fetchComments() {
   try {
     const commentsContainer = document.getElementById('comments-container');
@@ -67,12 +84,55 @@ async function fetchComments() {
     commentsContainer.style.maxWidth = '100%';
     const movieId = localStorage.getItem('selectedMovieId');
 
+    const cachedComments = getCachedComments(movieId);
+
+    if (cachedComments && cachedComments.comments.length > 0) {
+      const allComments = cachedComments.comments;
+      totalComments = allComments.length;
+      totalPages = Math.ceil(totalComments / commentsPerPage);
+
+      let startIndex = (currentPage - 1) * commentsPerPage;
+      let endIndex = startIndex + commentsPerPage;
+      const pageComments = allComments.slice(startIndex, endIndex);
+
+      pageComments.forEach(comment => {
+        const commentDate = new Date(comment.commentDate);
+        const formattedDate = formatCommentDate(commentDate);
+        const formattedTime = formatAMPM(commentDate);
+
+        const timezoneOffset = -commentDate.getTimezoneOffset() / 60;
+        const utcOffset = timezoneOffset >= 0 ? `UTC+${timezoneOffset}` : `UTC${timezoneOffset}`;
+        const commentElement = document.createElement('div');
+
+        commentElement.title = `Posted at ${formattedTime} ${utcOffset}`;
+        const commentStyle = `
+                    max-width: 100%;
+                    word-wrap: break-word;
+                    overflow-wrap: break-word;
+                    margin-bottom: 1rem;
+                `;
+        commentElement.style.cssText = commentStyle;
+        commentElement.innerHTML = `
+                    <p>
+                        <strong>${comment.userName}</strong> on ${formattedDate}: 
+                        <em>${comment.userComment}</em>
+                    </p>
+                `;
+        commentsContainer.appendChild(commentElement);
+      });
+
+      document.getElementById('prev-page').disabled = currentPage <= 1;
+      document.getElementById('next-page').disabled = currentPage >= totalPages;
+      return;
+    }
+
     const q = query(collection(db, 'comments'), where('movieId', '==', movieId), orderBy('commentDate', 'desc'));
     const querySnapshot = await getDocs(q);
 
     totalComments = querySnapshot.size;
     totalPages = Math.ceil(totalComments / commentsPerPage);
 
+    let commentsData = [];
     let index = 0;
     let displayedComments = 0;
 
@@ -82,19 +142,24 @@ async function fetchComments() {
       commentsContainer.appendChild(noCommentsMsg);
     } else {
       querySnapshot.forEach(doc => {
+        const comment = doc.data();
+        let commentDate;
+        if (comment.commentDate instanceof Timestamp) {
+          commentDate = comment.commentDate.toDate();
+        } else if (typeof comment.commentDate === 'string') {
+          commentDate = new Date(comment.commentDate);
+        } else {
+          console.error('Unexpected commentDate format:', comment.commentDate);
+          return;
+        }
+
+        commentsData.push({
+          userName: comment.userName,
+          userComment: comment.userComment,
+          commentDate: commentDate.toISOString(),
+        });
+
         if (index >= (currentPage - 1) * commentsPerPage && displayedComments < commentsPerPage) {
-          const comment = doc.data();
-
-          let commentDate;
-          if (comment.commentDate instanceof Timestamp) {
-            commentDate = comment.commentDate.toDate();
-          } else if (typeof comment.commentDate === 'string') {
-            commentDate = new Date(comment.commentDate);
-          } else {
-            console.error('Unexpected commentDate format:', comment.commentDate);
-            return;
-          }
-
           const formattedDate = formatCommentDate(commentDate);
           const formattedTime = formatAMPM(commentDate);
 
@@ -104,23 +169,27 @@ async function fetchComments() {
 
           commentElement.title = `Posted at ${formattedTime} ${utcOffset}`;
           const commentStyle = `
-                    max-width: 100%;
-                    word-wrap: break-word;
-                    overflow-wrap: break-word;
-                    margin-bottom: 1rem;
-                `;
+                        max-width: 100%;
+                        word-wrap: break-word;
+                        overflow-wrap: break-word;
+                        margin-bottom: 1rem;
+                    `;
           commentElement.style.cssText = commentStyle;
           commentElement.innerHTML = `
-                    <p>
-                        <strong>${comment.userName}</strong> on ${formattedDate}: 
-                        <em>${comment.userComment}</em>
-                    </p>
-                `;
+                        <p>
+                            <strong>${comment.userName}</strong> on ${formattedDate}: 
+                            <em>${comment.userComment}</em>
+                        </p>
+                    `;
           commentsContainer.appendChild(commentElement);
           displayedComments++;
         }
         index++;
       });
+
+      if (commentsData.length > 0) {
+        updateCommentCache(movieId, commentsData);
+      }
     }
 
     document.getElementById('prev-page').disabled = currentPage <= 1;
