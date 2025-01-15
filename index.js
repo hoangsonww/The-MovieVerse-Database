@@ -1358,18 +1358,22 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('DOMContentLoaded', function () {
   const stickyMenuButton = document.getElementById('sticky-menu-button');
 
-  // Initially hide the button
   stickyMenuButton.style.display = 'none';
 
-  // Function to toggle visibility based on scroll position
+  // Function to check if the device is mobile
+  function isMobileDevice() {
+    return window.innerWidth <= 768;
+  }
+
+  // Function to toggle visibility based on scroll position and device type
   function toggleStickyMenuButton() {
-    if (window.scrollY > 0) {
+    if (isMobileDevice() && window.scrollY > 0) {
       stickyMenuButton.style.display = 'flex';
     } else {
       stickyMenuButton.style.display = 'none';
     }
   }
 
-  // Listen for scroll events
   window.addEventListener('scroll', toggleStickyMenuButton);
+  window.addEventListener('resize', toggleStickyMenuButton);
 });
