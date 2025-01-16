@@ -2343,6 +2343,111 @@ strong {
   transition: 0.1s linear;
 }
 
+#how-to-play-btn {
+  background-color: #7378c5;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  font: inherit;
+  font-size: 14px;
+  z-index: 1000000002 !important;
+}
+
+#how-to-play-btn i {
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+
+#how-to-play-btn:hover {
+  background-color: #ff8623;
+  transition: 0.1s linear;
+}
+
+#back-to-games-btn {
+  background-color: #7378c5;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  font: inherit;
+  font-size: 14px;
+  z-index: 1000000002 !important;
+}
+
+#back-to-games-btn i {
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+
+#back-to-games-btn:hover {
+  background-color: #ff8623;
+  transition: 0.1s linear;
+}
+
+#leftButton {
+  background-color: #7378c5;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  font: inherit;
+  font-size: 14px;
+  z-index: 1000000002 !important;
+}
+
+#rightButton {
+  background-color: #7378c5;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  font: inherit;
+  font-size: 14px;
+  z-index: 1000000002 !important;
+}
+
+#shootButton {
+  background-color: #7378c5;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  font: inherit;
+  font-size: 14px;
+  z-index: 1000000002 !important;
+}
+
+#shootButton:hover {
+  background-color: #ff8623;
+  transition: 0.1s linear;
+}
+
+#leftButton:hover {
+  background-color: #ff8623;
+  transition: 0.1s linear;
+}
+
+#rightButton:hover {
+  background-color: #ff8623;
+  transition: 0.1s linear;
+}
+
 #settings-container {
   background-color: rgba(255, 255, 255, 0.1);
   padding: 15px;
@@ -4308,4 +4413,47 @@ footer {
 #local-time div {
   opacity: 0;
   animation: dropIn 1s ease forwards 2s;
+}
+
+.card {
+  background-color: #2e2e3e;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  max-width: 220px;
+  text-align: center;
+}
+
+/* Icon in the card */
+.card i {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+/* Container for each game's canvas */
+.game-container {
+  margin: 70px auto;
+  max-width: 1000px;
+  border: 2px solid #7378c5;
+  border-radius: 10px;
+  padding: 20px;
+  background-color: #2e2e3e;
+}
+
+/* Canvas styling */
+canvas {
+  display: block;
+  margin: 20px auto;
+  background-color: #ffffff;
+}
+
+/* Responsive design tweaks (optional) */
+@media (max-width: 600px) {
+  .card {
+    max-width: 100%;
+  }
+  .container {
+    flex-direction: column;
+    align-items: center;
+  }
 }
