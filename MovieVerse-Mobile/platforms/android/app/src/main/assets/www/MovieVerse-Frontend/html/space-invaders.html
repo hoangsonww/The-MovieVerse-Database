@@ -67,18 +67,15 @@
         background-repeat: repeat-y;
         background-size: 100% auto;
       }
-
       h2 {
         margin: 20px 0;
         font-size: 2.2rem;
         color: #ff8623;
         animation: fadeInDown 1s ease-in-out;
       }
-
       p {
         animation: fadeInDown 1s ease-in-out;
       }
-
       .container {
         display: grid !important;
         grid-template-columns: repeat(3, 1fr);
@@ -88,7 +85,6 @@
         padding: 20px;
         animation: fadeIn 1.5s ease-in-out;
       }
-
       .card {
         display: flex;
         flex-direction: column;
@@ -107,24 +103,20 @@
         position: relative;
         overflow: hidden;
       }
-
       .card:hover {
         transform: translateY(-10px);
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
       }
-
       .card i {
         font-size: 3rem;
         margin-bottom: 10px;
         color: #ff8623;
         animation: bounce 2s infinite;
       }
-
       .card p {
         font-size: 1.2rem;
         margin: 10px 0;
       }
-
       .card a {
         display: inline-block;
         font-size: 1rem;
@@ -138,19 +130,16 @@
           background-color 0.3s ease,
           transform 0.2s;
       }
-
       .card a:hover {
         background-color: #ff8623;
         transform: scale(1.1);
       }
-
       h2 {
         margin: 50px 0;
         font-size: 2.2rem;
         color: #ff8623;
         animation: fadeInDown 1s ease-in-out;
       }
-
       @keyframes fadeIn {
         from {
           opacity: 0;
@@ -161,7 +150,6 @@
           transform: translateY(0);
         }
       }
-
       @keyframes fadeInDown {
         from {
           opacity: 0;
@@ -172,7 +160,6 @@
           transform: translateY(0);
         }
       }
-
       @keyframes bounce {
         0%,
         20%,
@@ -188,7 +175,6 @@
           transform: translateY(-5px);
         }
       }
-
       @media (max-width: 600px) {
         .container {
           grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -199,7 +185,6 @@
           height: 240px;
         }
       }
-
       #translate_control {
         position: fixed;
         left: 10px;
@@ -698,21 +683,6 @@
             document.body.style.fontSize = size;
           }
         }
-      });
-
-      document.getElementById('actor-image').addEventListener('click', function () {
-        const imageUrl = this.src.replace('w1280', 'original');
-        const modalHtml = `<div id="image-modal" style="z-index: 100020000; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
-                                <img src="${imageUrl}" style="max-width: 95%; max-height: 95%; border-radius: 10px;">
-                                <span style="position: absolute; top: 10px; right: 25px; font-size: 40px; cursor: pointer" id="removeBtn" onclick="document.getElementById('image-modal').remove();">&times;</span>
-                            </div>`;
-        document.body.insertAdjacentHTML('beforeend', modalHtml);
-
-        document.getElementById('image-modal').addEventListener('click', function (event) {
-          if (event.target === this) {
-            this.remove();
-          }
-        });
       });
 
       window.addEventListener('resize', () => {

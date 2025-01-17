@@ -12,8 +12,9 @@ Welcome to **The MovieVerse** - your digital compass to the cinematic universe. 
 
 ## Table of Contents
 
-- [User Interface](#user-interface)
 - [Introduction](#introduction)
+  - [Disclaimer](#disclaimer)
+- [User Interface](#user-interface)
 - [Features & Usage](#features--usage)
   - [Search & Discover](#search--discover)
   - [User Interaction](#user-interaction)
@@ -33,6 +34,16 @@ Welcome to **The MovieVerse** - your digital compass to the cinematic universe. 
 - [Contact](#contact)
 - [Special Note](#special-note)
 
+## Introduction
+
+The MovieVerse is an open-source, full-stack, and mobile-friendly application created with the vision of creating a seamless and enriching experience for movie lovers. It's more than just a database; it's a portal to explore, discover, and immerse yourself in the art of cinema.
+
+Through The MovieVerse, users can search for movies, view detailed information, rate, and review films, and interact with a community of like-minded movie enthusiasts. It's a platform that celebrates cinema in all its forms, from blockbuster hits to indie gems.
+
+### Disclaimer
+
+**This open-source repository is not the official repository for The MovieVerse. The deployed repository is private for security reasons. This repository is only for educational purposes and to showcase the codebase of The MovieVerse, which may differ significantly from the official, private codebase.**
+
 ## User Interface
 
 <p align="center" style="cursor: pointer">
@@ -40,14 +51,6 @@ Welcome to **The MovieVerse** - your digital compass to the cinematic universe. 
     <img src="../images/MovieVerse-UI.png" alt="The MovieVerse App Interface" style="border-radius: 10px" width="100%"/>
   </a>
 </p>
-
-## Introduction
-
-The MovieVerse is an open-source, full-stack, and mobile-friendly application created with the vision of creating a seamless and enriching experience for movie lovers. It's more than just a database; it's a portal to explore, discover, and immerse yourself in the art of cinema.
-
-Through The MovieVerse, users can search for movies, view detailed information, rate, and review films, and interact with a community of like-minded movie enthusiasts. It's a platform that celebrates cinema in all its forms, from blockbuster hits to indie gems.
-
-**Note:** This open-source repository is not the official repository for The MovieVerse. The deployed repository is private. This repository is only for educational purposes and to showcase the codebase of The MovieVerse, which may differ significantly from the official, private codebase.
 
 ## Features & Usage
 

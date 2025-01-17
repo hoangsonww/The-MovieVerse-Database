@@ -66,14 +66,12 @@
         background-repeat: repeat-y;
         background-size: 100% auto;
       }
-
       h2 {
         margin: 20px 0;
         font-size: 2.2rem;
         color: #ff8623;
         animation: fadeInDown 1s ease-in-out;
       }
-
       .instructions-container {
         max-width: 1000px;
         margin: 0 auto;
@@ -81,28 +79,23 @@
         text-align: left;
         animation: fadeIn 1.5s ease-in-out;
       }
-
       .instructions-container h3 {
         color: #ff8623;
         font-size: 1.6rem;
         margin-bottom: 10px;
       }
-
       .instructions-container p {
         font-size: 1.1rem;
         line-height: 1.6;
         margin-bottom: 15px;
       }
-
       .instructions-container ul {
         list-style: inside;
         margin-bottom: 15px;
       }
-
       .instructions-container li {
         margin-bottom: 8px;
       }
-
       a.instruction-link {
         color: #7378c5;
         font-weight: bold;
@@ -112,7 +105,6 @@
         color: #ff8623;
         transition: 0.2s ease-in;
       }
-
       @keyframes fadeIn {
         from {
           opacity: 0;
@@ -123,7 +115,6 @@
           transform: translateY(0);
         }
       }
-
       @keyframes fadeInDown {
         from {
           opacity: 0;
@@ -134,13 +125,11 @@
           transform: translateY(0);
         }
       }
-
       @media (max-width: 600px) {
         .instructions-container {
           padding: 15px;
         }
       }
-
       #translate_control {
         position: fixed;
         left: 10px;
@@ -207,7 +196,6 @@
           bottom: 70px;
         }
       }
-
       @font-face {
         font-family: 'Poppins';
         src: url('https://movie-verse.com/fonts/Poppins-Light.ttf') format('truetype');
@@ -229,7 +217,6 @@
         font-style: normal;
         font-display: swap;
       }
-
       @media (min-width: 900px) {
         #form1 {
           margin-right: 0;
@@ -247,7 +234,6 @@
           margin-top: 25px;
         }
       }
-
       .modal-overlay {
         display: none;
         position: fixed;
@@ -280,7 +266,6 @@
           transform: rotate(360deg);
         }
       }
-
       .mobile-bottom-bar {
         display: none;
       }
@@ -354,7 +339,6 @@
         border-radius: 8px;
         padding: 10px 20px;
       }
-
       .back-btn2:hover {
         background-color: #ff8623;
         transition: 0.3s ease-in;
@@ -779,24 +763,6 @@
         }
       });
 
-      // Example function if you have an image to zoom (not used here but kept for consistency)
-      if (document.getElementById('actor-image')) {
-        document.getElementById('actor-image').addEventListener('click', function () {
-          const imageUrl = this.src.replace('w1280', 'original');
-          const modalHtml = `<div id="image-modal" style="z-index: 100020000; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
-                                <img src="${imageUrl}" style="max-width: 95%; max-height: 95%; border-radius: 10px;">
-                                <span style="position: absolute; top: 10px; right: 25px; font-size: 40px; cursor: pointer" id="removeBtn" onclick="document.getElementById('image-modal').remove();">&times;</span>
-                            </div>`;
-          document.body.insertAdjacentHTML('beforeend', modalHtml);
-
-          document.getElementById('image-modal').addEventListener('click', function (event) {
-            if (event.target === this) {
-              this.remove();
-            }
-          });
-        });
-      }
-
       // Responsive display toggles for floating buttons
       window.addEventListener('resize', () => {
         if (window.innerWidth < 767) {
@@ -937,7 +903,6 @@
           }
 
           if (query) {
-            // Replace the following utility calls with your actual search logic:
             const searchURL = `https://${getMovieVerseData()}/3/search/multi?${generateMovieNames()}${getMovieCode()}&query=${encodeURIComponent(
               query
             )}`;
@@ -1129,7 +1094,6 @@
         searchInput.addEventListener('blur', clearSelection);
       });
 
-      // Spinner show/hide
       function showSpinner() {
         document.getElementById('myModal').classList.add('modal-visible');
       }
