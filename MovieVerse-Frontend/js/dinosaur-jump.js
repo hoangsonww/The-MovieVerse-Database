@@ -4,7 +4,7 @@ const ctx = canvas.getContext('2d');
 // Dino properties
 let dino = {
   x: 50,
-  y: canvas.height - 50, // Start at the bottom
+  y: canvas.height - 50,
   width: 20,
   height: 20,
   vy: 0,
@@ -17,7 +17,7 @@ let gameSpeed = 3;
 let score = 0;
 let isGameOver = false;
 let spawnTimer = 0; // Timer to control obstacle spawns
-const spawnInterval = 120; // Minimum frames between spawns (e.g., 2 seconds at 60 FPS)
+const spawnInterval = 100; // Minimum frames between spawns (e.g., 2 seconds at 60 FPS)
 
 // Key press or tap to jump
 function handleJump() {
