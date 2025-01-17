@@ -1499,7 +1499,7 @@ async function displayFavoritesSection(titleText, items, displaySection) {
   if (items.length > 0) {
     const favoritesDiv = document.createElement('div');
     favoritesDiv.className = 'watchlist';
-    favoritesDiv.id = titleText.toLowerCase().replace(' ', '-');
+    favoritesDiv.id = titleText.toLowerCase().replace(/\s+/g, '-');
 
     const title = document.createElement('h3');
     title.textContent = titleText;
@@ -1509,8 +1509,10 @@ async function displayFavoritesSection(titleText, items, displaySection) {
       favoritesDiv.scrollIntoView({ behavior: 'smooth' });
     });
 
+    const titleTextNew = titleText === 'Favorite Movies' ? 'favorite movies' : 'favorite TV series';
+
     const description = document.createElement('p');
-    description.textContent = `A collection of your ${titleText.toLowerCase()}.`;
+    description.textContent = `A collection of your ${titleTextNew}.`;
     description.className = 'watchlist-description';
 
     favoritesDiv.appendChild(title);
@@ -1527,8 +1529,9 @@ async function displayFavoritesSection(titleText, items, displaySection) {
   } else {
     const favoritesDiv = document.createElement('div');
     favoritesDiv.className = 'watchlist';
-    favoritesDiv.id = titleText.toLowerCase().replace(' ', '-');
-    favoritesDiv.innerHTML = `<div style="text-align: center"><h3 style="text-align: center; font-size: 24px; color: #ff8623">${titleText}</h3><p style="text-align: center">No ${titleText.toLowerCase()} added yet.</p></div>`;
+    favoritesDiv.id = titleText.toLowerCase().replace(/\s+/g, '-');
+    const titleTextNew = titleText === 'Favorite Movies' ? 'favorite movies' : 'favorite TV series';
+    favoritesDiv.innerHTML = `<div style="text-align: center"><h3 style="text-align: center; font-size: 24px; color: #ff8623">${titleText}</h3><p style="text-align: center">No ${titleTextNew} added yet.</p></div>`;
     displaySection.appendChild(favoritesDiv);
   }
 }

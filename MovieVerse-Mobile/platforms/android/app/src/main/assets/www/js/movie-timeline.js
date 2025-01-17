@@ -362,6 +362,7 @@ function rotateImages(imageElements, interval = 3000) {
 function showMovies(movies, mainElement, startYear, endYear, append) {
   showSpinner();
 
+  // Add header for the selected year range if not appending
   if (!append) {
     mainElement.innerHTML = '';
     const header = document.createElement('h2');
@@ -370,31 +371,28 @@ function showMovies(movies, mainElement, startYear, endYear, append) {
     header.style.marginBottom = '20px';
     header.style.color = '#ff8623';
     header.style.fontSize = '23px';
-    if (startYear === endYear) {
-      header.textContent = `Movies released in ${startYear}`;
-    } else {
-      header.textContent = `Movies released between ${startYear} and ${endYear}`;
-    }
+    header.textContent = startYear === endYear ? `Movies released in ${startYear}` : `Movies released between ${startYear} and ${endYear}`;
+
     const centerContainer1 = document.getElementById('center-container1');
     centerContainer1.innerHTML = '';
     centerContainer1.appendChild(header);
     centerContainer1.appendChild(mainElement);
   }
 
-  const observer = new IntersectionObserver(
+  // Observer for loading additional images when movie enters viewport
+  const imageObserver = new IntersectionObserver(
     async (entries, observer) => {
       for (const entry of entries) {
         if (entry.isIntersecting) {
           const movieEl = entry.target;
           const movieId = movieEl.dataset.id;
 
+          // Fetch and set up additional posters
           const additionalPosters = await getAdditionalPosters(movieId);
           let allPosters = [movieEl.dataset.posterPath, ...additionalPosters];
-
-          const movieImageContainer = movieEl.querySelector('.movie-images');
-
           allPosters = allPosters.sort(() => 0.5 - Math.random()).slice(0, 10);
 
+          const movieImageContainer = movieEl.querySelector('.movie-images');
           const imagePromises = allPosters.map((poster, index) => {
             const img = new Image();
             img.src = `${IMGPATH + poster}`;
@@ -415,9 +413,11 @@ function showMovies(movies, mainElement, startYear, endYear, append) {
             });
           });
 
+          // Wait for images to load or timeout after 3 seconds
           const maxWait = new Promise(resolve => setTimeout(resolve, 3000));
           await Promise.race([Promise.all(imagePromises), maxWait]);
 
+          // Show the first poster image
           movieImageContainer.querySelector('.poster-img').style.opacity = '1';
 
           rotateImages(Array.from(movieImageContainer.children));
@@ -441,6 +441,7 @@ function showMovies(movies, mainElement, startYear, endYear, append) {
     movieEl.dataset.posterPath = poster_path;
     movieEl.dataset.title = title;
 
+    // Limit the title to 8 words, adding "..." if necessary
     const words = title.split(' ');
     if (words.length >= 8) {
       words[7] = '...';
@@ -454,6 +455,7 @@ function showMovies(movies, mainElement, startYear, endYear, append) {
       overview = 'No overview available.';
     }
 
+    // Define HTML structure for the movie card
     movieEl.innerHTML = `
             <div class="movie-image-container">
                 <div class="movie-images" style="position: relative; width: 100%; height: 435px; overflow: hidden;">
@@ -478,13 +480,49 @@ function showMovies(movies, mainElement, startYear, endYear, append) {
     });
 
     mainElement.appendChild(movieEl);
-    observer.observe(movieEl);
+    imageObserver.observe(movieEl);
+
+    // Observer for the slide-up animation
+    const slideObserver = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            slideObserver.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        rootMargin: '50px 0px',
+        threshold: 0.1,
+      }
+    );
+    slideObserver.observe(movieEl);
   });
+
   const centerContainer1 = document.getElementById('center-container1');
   centerContainer1.appendChild(mainElement);
 
   createLoadMoreButton(startYear, endYear, mainElement);
   hideSpinner();
+}
+
+// Inject CSS for sliding-up animation if it doesn't already exist
+if (!document.getElementById('slide-animation-style')) {
+  const style = document.createElement('style');
+  style.id = 'slide-animation-style';
+  style.innerHTML = `
+    .movie {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .movie.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  `;
+  document.head.appendChild(style);
 }
 
 function createLoadMoreButton(startYear, endYear, mainElement) {

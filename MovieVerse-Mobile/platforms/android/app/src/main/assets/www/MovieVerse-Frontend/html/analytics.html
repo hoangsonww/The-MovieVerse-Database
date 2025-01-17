@@ -236,6 +236,35 @@
       .highlight2:hover {
         color: #ff8623;
       }
+      #games-button {
+        background-color: #7378c5;
+        bottom: 265px;
+        right: 10px;
+        color: black;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        font: inherit;
+        position: fixed;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      }
+      #games-button:hover {
+        background-color: #ff8623;
+        transition: 0.1s ease-in;
+      }
+      #games-button {
+        transition:
+          transform 0.5s ease,
+          opacity 0.5s ease;
+        transform: translateY(20px);
+        opacity: 0;
+        display: none;
+      }
+      @media all and (min-width: 768px) {
+        #games-button {
+          display: block;
+        }
+      }
     </style>
   </head>
   <body>
@@ -330,10 +359,18 @@
       <button
         id="chat-button"
         onclick="window.location.href='chat.html'"
-        style="bottom: 300px; right: 10px; z-index: 1001"
+        style="bottom: 335px; right: 10px; z-index: 1001"
         title="Chat with fellow MovieVerse users!"
       >
         Chat
+      </button>
+      <button
+        id="games-button"
+        onclick="window.location.href='games.html'"
+        style="bottom: 300px; right: 10px; z-index: 1001"
+        title="Play fun movie-related games!"
+      >
+        Games
       </button>
       <button id="settings-btn" style="position: fixed; bottom: 265px; right: 10px">Settings</button>
       <button
@@ -571,6 +608,7 @@
 
         const buttonIds = [
           'chat-button',
+          'games-button',
           'settings-btn',
           'movie-of-the-day-btn',
           'movie-match-btn3',
@@ -608,6 +646,7 @@
         if (window.innerWidth < 767) {
           const buttonIds = [
             'chat-button',
+            'games-button',
             'settings-btn',
             'movie-of-the-day-btn',
             'movie-match-btn3',

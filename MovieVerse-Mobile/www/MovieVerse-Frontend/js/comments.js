@@ -12,6 +12,7 @@ import {
 import { app, db } from './firebase.js';
 
 const commentForm = document.getElementById('comment-form');
+
 commentForm.addEventListener('submit', async e => {
   e.preventDefault();
   const userName = document.getElementById('user-name').value;

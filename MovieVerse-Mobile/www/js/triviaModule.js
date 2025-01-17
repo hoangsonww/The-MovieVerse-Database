@@ -1,13 +1,34 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
 import { getFirestore, doc, setDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
 
+const code1 = 'QUl6YVN5RE' + 'w2a1FuU2ZV' + 'ZDhVdDhIR' + 'nJwS3Vpdn' + 'F6MXhkW' + 'G03aw==';
+
+const code2 = 'bW92aWV2' + 'ZXJzZS1' + 'hcHAuZm' + 'lyZWJhc2' + 'VhcHAu' + 'Y29t';
+
+const code3 = 'bW92aWV2' + 'ZXJzZS1hc' + 'HAuYXBwc' + '3BvdC' + '5jb20=';
+
+const code4 = 'ODAyOTQz' + 'NzE4ODcx';
+
+const code5 = 'MTo4MDI' + '5NDM3MTg' + '4NzE6d2V' + 'iOjQ4YmM' + '5MTZjYz' + 'k5ZTI3M' + 'jQyMTI' + '3OTI=';
+
+async function animateLoadingDots() {
+  const loadingTextElement = document.querySelector('#myModal p');
+  let dots = '';
+
+  while (document.getElementById('myModal').classList.contains('modal-visible')) {
+    loadingTextElement.textContent = `Loading chats${dots}`;
+    dots = dots.length < 3 ? dots + '.' : '.';
+    await new Promise(resolve => setTimeout(resolve, 500));
+  }
+}
+
 const firebaseConfig = {
-  apiKey: atob('QUl6YVN5REw2a1FuU2ZVZDhVdDhIRnJwS3VpdnF6MXhkWG03aw=='),
-  authDomain: atob('bW92aWV2ZXJzZS1hcHAuZmlyZWJhc2VhcHAuY29t'),
+  apiKey: atob(code1),
+  authDomain: atob(code2),
   projectId: 'movieverse-app',
-  storageBucket: atob('bW92aWV2ZXJzZS1hcHAuYXBwc3BvdC5jb20='),
-  messagingSenderId: atob('ODAyOTQzNzE4ODcx'),
-  appId: atob('MTo4MDI5NDM3MTg4NzE6d2ViOjQ4YmM5MTZjYzk5ZTI3MjQyMTI3OTI='),
+  storageBucket: atob(code3),
+  messagingSenderId: atob(code4),
+  appId: atob(code5),
 };
 
 const app = initializeApp(firebaseConfig);

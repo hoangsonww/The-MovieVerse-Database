@@ -191,7 +191,24 @@
         background-color: #ff8623;
         transition: 0.1s ease-in;
       }
+      #games-button {
+        background-color: #7378c5;
+        bottom: 265px;
+        right: 10px;
+        color: black;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        font: inherit;
+        position: fixed;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      }
+      #games-button:hover {
+        background-color: #ff8623;
+        transition: 0.1s ease-in;
+      }
       #chat-button,
+      #games-button,
       #settings-btn,
       #movie-of-the-day-btn,
       #movie-match-btn,
@@ -208,6 +225,7 @@
       }
       @media (min-width: 768px) {
         #chat-button,
+        #games-button,
         #settings-btn,
         #movie-of-the-day-btn,
         #movie-match-btn,
@@ -228,6 +246,7 @@
           display: flex;
         }
         #chat-button,
+        #games-button,
         #settings-btn,
         #movie-of-the-day-btn,
         #movie-match-btn,
@@ -304,111 +323,6 @@
           bottom: 70px;
         }
       }
-      #githubLink {
-        color: white !important;
-      }
-      #githubLink:hover {
-        color: #ff8623 !important;
-        transition: 0.1s ease-in;
-      }
-      #githubLink7 {
-        color: white !important;
-      }
-      #githubLink7:hover {
-        color: #ff8623 !important;
-        transition: 0.1s ease-in;
-      }
-      #githubLink8 {
-        color: white !important;
-      }
-      #githubLink8:hover {
-        color: #ff8623 !important;
-        transition: 0.1s ease-in;
-      }
-      #githubLink9 {
-        color: white !important;
-      }
-      #githubLink9:hover {
-        color: #ff8623 !important;
-        transition: 0.1s ease-in;
-      }
-      #githubLink10 {
-        color: white !important;
-      }
-      #githubLink10:hover {
-        color: #ff8623 !important;
-        transition: 0.1s ease-in;
-      }
-      #githubLink11 {
-        color: white !important;
-      }
-      #githubLink11:hover {
-        color: #ff8623 !important;
-        transition: 0.1s ease-in;
-      }
-      #githubLink12 {
-        color: white !important;
-      }
-      #githubLink12:hover {
-        color: #ff8623 !important;
-        transition: 0.1s ease-in;
-      }
-      #githubLink14 {
-        color: white !important;
-      }
-      #githubLink14:hover {
-        color: #ff8623 !important;
-        transition: 0.1s ease-in;
-      }
-      #githubLink15 {
-        color: white !important;
-      }
-      #githubLink15:hover {
-        color: #ff8623 !important;
-        transition: 0.1s ease-in;
-      }
-      #githubLink16 {
-        color: white !important;
-      }
-      #githubLink16:hover {
-        color: #ff8623 !important;
-        transition: 0.1s ease-in;
-      }
-      #githubLink19 {
-        color: white !important;
-      }
-      #githubLink19:hover {
-        color: #ff8623 !important;
-        transition: 0.1s ease-in;
-      }
-      #githubLink3 {
-        color: white !important;
-      }
-      #githubLink3:hover {
-        color: #ff8623 !important;
-        transition: 0.1s ease-in;
-      }
-      #githubLink4 {
-        color: white !important;
-      }
-      #githubLink4:hover {
-        color: #ff8623 !important;
-        transition: 0.1s ease-in;
-      }
-      #githubLink5 {
-        color: white !important;
-      }
-      #githubLink5:hover {
-        color: #ff8623 !important;
-        transition: 0.1s ease-in;
-      }
-      #githubLink6 {
-        color: white !important;
-      }
-      #githubLink6:hover {
-        color: #ff8623 !important;
-        transition: 0.1s ease-in;
-      }
       #other {
         margin-top: 40px;
       }
@@ -418,30 +332,6 @@
       .pagination {
         min-height: 54px;
         text-align: center;
-      }
-      #ad-container {
-        display: block;
-      }
-      #ad-container1 {
-        display: block;
-      }
-      #ad-container2 {
-        display: block;
-      }
-      #ad-container3 {
-        display: block;
-      }
-      #ad-container4 {
-        display: block;
-      }
-      #ad-container5 {
-        display: block;
-      }
-      #ad-container6 {
-        display: block;
-      }
-      #ad-container7 {
-        display: block;
       }
       #my-heading {
         margin-top: 19.5px !important;
@@ -453,7 +343,6 @@
         #my-heading {
           margin-top: -5px !important;
         }
-
         #my-heading1 {
           margin-top: -5px !important;
         }
@@ -534,6 +423,61 @@
         opacity: 0;
         animation: dropIn 1s ease forwards 2s;
       }
+      #sticky-menu-button {
+        display: none;
+      }
+      @media (max-width: 767px) {
+        #sticky-menu-button {
+          position: fixed;
+          top: 50%;
+          left: 10px;
+          transform: translateY(-50%);
+          background-color: #7378c5;
+          color: white;
+          border: none;
+          border-radius: 8px;
+          padding: 10px;
+          font-size: 16px;
+          cursor: pointer;
+          z-index: 1001;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        #sticky-menu-button:hover {
+          background-color: #ff8623;
+          transition: 0.2s ease-in-out;
+        }
+        #sticky-menu-button i {
+          font-size: 18px;
+        }
+      }
+      #mobileGamesBtn {
+        background-color: #7378c5;
+        border: none;
+        color: white;
+        height: 40px;
+        text-align: center;
+        font: inherit;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 8px;
+        padding: 0 10px;
+        margin-left: 5px;
+      }
+      #mobileGamesBtn {
+        display: none;
+      }
+      #mobileGamesBtn:hover {
+        background-color: #ff8623;
+        transition: 0.2s ease-in-out;
+      }
+      @media (max-width: 900px) {
+        #mobileGamesBtn {
+          display: block;
+        }
+      }
     </style>
   </head>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
@@ -558,6 +502,9 @@
       </div>
       <button id="nav-toggle" style="z-index: 200000" class="nav-toggle" title="Toggle side navbar" onclick="toggleNav()">
         <i class="fas fa-bars"></i>
+      </button>
+      <button id="sticky-menu-button" onclick="toggleNav()">
+        <i class="fas fa-arrow-right"></i>
       </button>
       <button class="back-btn nav-btn notranslate" id="home-btn" title="Go back to homepage">Home</button>
       <button
@@ -681,6 +628,15 @@
       >
         <span id="mobileProfileText">Profile</span>
         <i class="fas fa-user" id="mobileProfileIcon"></i>
+      </button>
+      <button
+        id="mobileGamesBtn"
+        class="nav-btn"
+        onclick="window.location.href='MovieVerse-Frontend/html/games.html'"
+        title="Check out our fun mini games!"
+      >
+        <span id="mobileGamesText">Games</span>
+        <i class="fas fa-gamepad" id="mobileGamesIcon"></i>
       </button>
     </div>
     <div id="myModal" class="modal-overlay">
@@ -1087,10 +1043,18 @@
     <button
       id="chat-button"
       onclick="window.location.href='MovieVerse-Frontend/html/chat.html'"
-      style="bottom: 325px; right: 10px; z-index: 1001"
+      style="bottom: 360px; right: 10px; z-index: 1001"
       title="Chat with fellow MovieVerse users!"
     >
       Chat
+    </button>
+    <button
+      id="games-button"
+      onclick="window.location.href='MovieVerse-Frontend/html/games.html'"
+      style="bottom: 325px; right: 10px; z-index: 1001"
+      title="Play some of our fun mini games!"
+    >
+      Games
     </button>
     <button id="settings-btn" style="position: fixed; bottom: 290px; right: 10px; z-index: 1001">Settings</button>
     <button
@@ -1234,8 +1198,7 @@
           { passive: true }
         );
       });
-    </script>
-    <script>
+
       window.onload = function () {
         const bottomBarAnchors = document.querySelectorAll('.mobile-bottom-bar a');
         let maxHeight = 0;
@@ -1285,6 +1248,7 @@
         isAnimating = true;
         const buttonIds = [
           'chat-button',
+          'games-button',
           'settings-btn',
           'movie-of-the-day-btn',
           'movie-match-btn',
@@ -1321,6 +1285,7 @@
         if (window.innerWidth < 767) {
           const buttonIds = [
             'chat-button',
+            'games-button',
             'settings-btn',
             'movie-of-the-day-btn',
             'movie-match-btn',
@@ -1337,8 +1302,7 @@
           });
         }
       });
-    </script>
-    <script>
+
       document.getElementById('settings-btn').addEventListener('click', () => {
         window.location.href = 'MovieVerse-Frontend/html/settings.html';
       });
@@ -1390,8 +1354,7 @@
           });
         });
       });
-    </script>
-    <script>
+
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', function () {
           navigator.serviceWorker.register('MovieVerse-Frontend/js/service-worker.js').then(
@@ -1404,8 +1367,7 @@
           );
         });
       }
-    </script>
-    <script>
+
       document.addEventListener('DOMContentLoaded', function () {
         checkApiStatusWithRetry(5);
       });
@@ -1426,8 +1388,7 @@
             }
           });
       }
-    </script>
-    <script>
+
       document.addEventListener('DOMContentLoaded', function () {
         const bellIcon = document.getElementById('bellIcon');
         bellIcon.classList.add('shake-animation');
@@ -1435,8 +1396,7 @@
           bellIcon.classList.remove('shake-animation');
         }, 500);
       });
-    </script>
-    <script>
+
       document.addEventListener('DOMContentLoaded', function () {
         const searchBar = document.getElementById('search');
         const searchButton = document.getElementById('button-search');
@@ -1462,8 +1422,7 @@
         searchBar.addEventListener('input', toggleVisibility);
         toggleVisibility();
       });
-    </script>
-    <script>
+
       document.addEventListener('DOMContentLoaded', function () {
         const searchInput = document.getElementById('search');
         const viewAllResultsBtn = document.getElementById('view-all-results');
@@ -1494,8 +1453,7 @@
         toggleButtons();
         searchInput.addEventListener('input', toggleButtons);
       });
-    </script>
-    <script>
+
       function showSpinner() {
         document.getElementById('myModal').classList.add('modal-visible');
       }
@@ -1696,4 +1654,136 @@
       });
     </script>
   </body>
+
+  <style>
+    #githubLink {
+      color: white !important;
+    }
+    #githubLink:hover {
+      color: #ff8623 !important;
+      transition: 0.1s ease-in;
+    }
+    #githubLink7 {
+      color: white !important;
+    }
+    #githubLink7:hover {
+      color: #ff8623 !important;
+      transition: 0.1s ease-in;
+    }
+    #githubLink8 {
+      color: white !important;
+    }
+    #githubLink8:hover {
+      color: #ff8623 !important;
+      transition: 0.1s ease-in;
+    }
+    #githubLink9 {
+      color: white !important;
+    }
+    #githubLink9:hover {
+      color: #ff8623 !important;
+      transition: 0.1s ease-in;
+    }
+    #githubLink10 {
+      color: white !important;
+    }
+    #githubLink10:hover {
+      color: #ff8623 !important;
+      transition: 0.1s ease-in;
+    }
+    #githubLink11 {
+      color: white !important;
+    }
+    #githubLink11:hover {
+      color: #ff8623 !important;
+      transition: 0.1s ease-in;
+    }
+    #githubLink12 {
+      color: white !important;
+    }
+    #githubLink12:hover {
+      color: #ff8623 !important;
+      transition: 0.1s ease-in;
+    }
+    #githubLink14 {
+      color: white !important;
+    }
+    #githubLink14:hover {
+      color: #ff8623 !important;
+      transition: 0.1s ease-in;
+    }
+    #githubLink15 {
+      color: white !important;
+    }
+    #githubLink15:hover {
+      color: #ff8623 !important;
+      transition: 0.1s ease-in;
+    }
+    #githubLink16 {
+      color: white !important;
+    }
+    #githubLink16:hover {
+      color: #ff8623 !important;
+      transition: 0.1s ease-in;
+    }
+    #githubLink19 {
+      color: white !important;
+    }
+    #githubLink19:hover {
+      color: #ff8623 !important;
+      transition: 0.1s ease-in;
+    }
+    #githubLink3 {
+      color: white !important;
+    }
+    #githubLink3:hover {
+      color: #ff8623 !important;
+      transition: 0.1s ease-in;
+    }
+    #githubLink4 {
+      color: white !important;
+    }
+    #githubLink4:hover {
+      color: #ff8623 !important;
+      transition: 0.1s ease-in;
+    }
+    #githubLink5 {
+      color: white !important;
+    }
+    #githubLink5:hover {
+      color: #ff8623 !important;
+      transition: 0.1s ease-in;
+    }
+    #githubLink6 {
+      color: white !important;
+    }
+    #githubLink6:hover {
+      color: #ff8623 !important;
+      transition: 0.1s ease-in;
+    }
+    #ad-container {
+      display: block;
+    }
+    #ad-container1 {
+      display: block;
+    }
+    #ad-container2 {
+      display: block;
+    }
+    #ad-container3 {
+      display: block;
+    }
+    #ad-container4 {
+      display: block;
+    }
+    #ad-container5 {
+      display: block;
+    }
+    #ad-container6 {
+      display: block;
+    }
+    #ad-container7 {
+      display: block;
+    }
+  </style>
 </html>

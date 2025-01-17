@@ -1354,3 +1354,26 @@ document.addEventListener('DOMContentLoaded', () => {
     window.location.href = 'MovieVerse-Frontend/html/notifications.html';
   });
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+  const stickyMenuButton = document.getElementById('sticky-menu-button');
+
+  stickyMenuButton.style.display = 'none';
+
+  // Function to check if the device is mobile
+  function isMobileDevice() {
+    return window.innerWidth <= 768;
+  }
+
+  // Function to toggle visibility based on scroll position and device type
+  function toggleStickyMenuButton() {
+    if (isMobileDevice() && window.scrollY > 0) {
+      stickyMenuButton.style.display = 'flex';
+    } else {
+      stickyMenuButton.style.display = 'none';
+    }
+  }
+
+  window.addEventListener('scroll', toggleStickyMenuButton);
+  window.addEventListener('resize', toggleStickyMenuButton);
+});

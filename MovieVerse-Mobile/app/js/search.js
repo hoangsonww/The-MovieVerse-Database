@@ -807,6 +807,21 @@ function rotateImages(imageElements, interval = 3000) {
 async function showMovies(items, container, category) {
   container.innerHTML = '';
 
+  // Inject CSS for sliding-up animation if it doesn't already exist
+  const style = document.createElement('style');
+  style.innerHTML = `
+    .movie {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+    .movie.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  `;
+  document.head.appendChild(style);
+
   items.forEach(async item => {
     const hasVoteAverage = typeof item.vote_average === 'number';
     const isPerson = !hasVoteAverage;
@@ -815,7 +830,6 @@ async function showMovies(items, container, category) {
 
     let title = item.title || item.name || 'N/A';
     const words = title.split(' ');
-
     if (words.length >= 8) {
       words[7] = '...';
       title = words.slice(0, 8).join(' ');
@@ -823,7 +837,6 @@ async function showMovies(items, container, category) {
 
     let overview = item.overview || 'Click to view the details of this movie/TV series.';
     const biography = item.biography || 'Click to view the details of this person.';
-
     if (overview === '') {
       overview = 'Click to view the details of this movie/TV series.';
     }
@@ -971,6 +984,23 @@ async function showMovies(items, container, category) {
       const img = movieEl.querySelector('img');
       observer.observe(img);
     }
+
+    // Slide-up animation observer
+    const slideObserver = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            slideObserver.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        rootMargin: '50px 0px',
+        threshold: 0.1,
+      }
+    );
+    slideObserver.observe(movieEl);
   });
 }
 

@@ -947,8 +947,14 @@ document.addEventListener('mousemove', function (event) {
 document.addEventListener('click', function (event) {
   const sideNav = document.getElementById('side-nav');
   const navToggle = document.getElementById('nav-toggle');
+  const menuButton = document.getElementById('sticky-menu-button');
 
-  if (!sideNav.contains(event.target) && !navToggle.contains(event.target) && sideNav.classList.contains('manual-toggle')) {
+  if (
+    !sideNav.contains(event.target) &&
+    !navToggle.contains(event.target) &&
+    sideNav.classList.contains('manual-toggle') &&
+    !menuButton.contains(event.target)
+  ) {
     sideNav.classList.remove('manual-toggle');
     adjustNavBar();
   }
@@ -1347,4 +1353,27 @@ document.addEventListener('DOMContentLoaded', () => {
   notificationBtn.addEventListener('click', () => {
     window.location.href = 'MovieVerse-Frontend/html/notifications.html';
   });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+  const stickyMenuButton = document.getElementById('sticky-menu-button');
+
+  stickyMenuButton.style.display = 'none';
+
+  // Function to check if the device is mobile
+  function isMobileDevice() {
+    return window.innerWidth <= 768;
+  }
+
+  // Function to toggle visibility based on scroll position and device type
+  function toggleStickyMenuButton() {
+    if (isMobileDevice() && window.scrollY > 0) {
+      stickyMenuButton.style.display = 'flex';
+    } else {
+      stickyMenuButton.style.display = 'none';
+    }
+  }
+
+  window.addEventListener('scroll', toggleStickyMenuButton);
+  window.addEventListener('resize', toggleStickyMenuButton);
 });

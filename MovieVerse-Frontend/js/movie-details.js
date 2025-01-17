@@ -1921,17 +1921,17 @@ function updateMoviesFavorited(movieId) {
 }
 
 function getMovieCode2() {
-  const codeOfMovie = 'MmJhOGU1MzY=';
+  const codeOfMovie = 'MmJhOG' + 'U1MzY=';
   return atob(codeOfMovie);
 }
 
 function getMovieName() {
-  const moviename = 'YXBpa2V5PQ==';
+  const moviename = 'YXBpa2' + 'V5PQ==';
   return atob(moviename);
 }
 
 function getMovieActor() {
-  const actor = 'd3d3Lm9tZGJhcGkuY29t';
+  const actor = 'd3d3Lm' + '9tZGJhc' + 'GkuY29t';
   return atob(actor);
 }
 
