@@ -788,12 +788,20 @@ header h1 {
   display: none;
 }
 
+#mobileGamesBtn {
+  display: none;
+}
+
 @media screen and (max-width: 900px) {
   #mobileGoogleSignInBtn {
     display: block;
   }
 
   #mobileProfileBtn {
+    display: block;
+  }
+
+  #mobileGamesBtn {
     display: block;
   }
 }
@@ -804,6 +812,10 @@ header h1 {
   }
 
   #mobileProfileBtn {
+    display: none;
+  }
+
+  #mobileGamesBtn {
     display: none;
   }
 }
@@ -2466,6 +2478,7 @@ strong {
 }
 
 #chat-button,
+#games-button,
 #settings-btn,
 #movie-of-the-day-btn,
 #movie-match-btn,
@@ -2484,6 +2497,7 @@ strong {
 
 @media all and (min-width: 768px) {
   #chat-button,
+  #games-button,
   #settings-btn,
   #movie-of-the-day-btn,
   #movie-match-btn,
@@ -3340,6 +3354,11 @@ canvas {
   transition: 0.1s ease-in;
 }
 
+#mobileGamesBtn:hover {
+  background-color: #ff8623;
+  transition: 0.1s ease-in;
+}
+
 @media all and (max-width: 800px) {
   #my-heading {
     margin-left: 0;
@@ -3851,6 +3870,20 @@ body {
 }
 
 #mobileProfileBtn {
+  background-color: #7378c5;
+  border: none;
+  color: white;
+  height: 40px;
+  text-align: center;
+  font: inherit;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 0 10px;
+  margin-left: 5px;
+}
+
+#mobileGamesBtn {
   background-color: #7378c5;
   border: none;
   color: white;
@@ -4424,13 +4457,11 @@ footer {
   text-align: center;
 }
 
-/* Icon in the card */
 .card i {
   font-size: 40px;
   margin-bottom: 10px;
 }
 
-/* Container for each game's canvas */
 .game-container {
   margin: 70px auto;
   max-width: 1000px;
@@ -4440,14 +4471,12 @@ footer {
   background-color: #2e2e3e;
 }
 
-/* Canvas styling */
 canvas {
   display: block;
   margin: 20px auto;
   background-color: #ffffff;
 }
 
-/* Responsive design tweaks (optional) */
 @media (max-width: 600px) {
   .card {
     max-width: 100%;

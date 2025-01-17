@@ -54,7 +54,6 @@
       gtag('config', 'G-CQKJ67FXZ4');
     </script>
     <style>
-      /* Global Styles */
       body {
         font-family: 'Poppins', sans-serif;
         margin: 0;
@@ -63,7 +62,6 @@
         color: #ffffff;
         text-align: center;
         overflow-x: hidden;
-        /* Ensures content spans at least 100vh */
         min-height: 100vh;
         background-image: url('../../images/universe-1.webp');
         background-repeat: repeat-y;
@@ -77,25 +75,21 @@
         animation: fadeInDown 1s ease-in-out;
       }
 
-      /* Container for the cards */
       .container {
-        /* Fixed 3x3 grid */
         display: grid !important;
         grid-template-columns: repeat(3, 1fr);
         grid-template-rows: repeat(3, auto);
         justify-items: center;
-        /* Reduced gap for closer cards */
         gap: 10px;
         padding: 20px;
         animation: fadeIn 1.5s ease-in-out;
       }
 
-      /* Card Styling */
       .card {
-        display: flex; /* <--- NEW */
-        flex-direction: column; /* <--- NEW */
-        align-items: center; /* <--- NEW */
-        justify-content: center; /* <--- NEW */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
         background-color: #2e2e3e;
         border-radius: 10px;
         box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
@@ -115,7 +109,6 @@
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
       }
 
-      /* Icon Styling */
       .card i {
         font-size: 3rem;
         margin-bottom: 10px;
@@ -123,13 +116,11 @@
         animation: bounce 2s infinite;
       }
 
-      /* Card Text */
       .card p {
         font-size: 1.2rem;
         margin: 10px 0;
       }
 
-      /* Link Styling */
       .card a {
         display: inline-block;
         font-size: 1rem;
@@ -150,13 +141,13 @@
       }
 
       h2 {
-        margin: 50px 0;
+        margin: 40px 0;
+        margin-bottom: 0;
         font-size: 2.2rem;
         color: #ff8623;
         animation: fadeInDown 1s ease-in-out;
       }
 
-      /* Animations */
       @keyframes fadeIn {
         from {
           opacity: 0;
@@ -195,15 +186,12 @@
         }
       }
 
-      /* Responsive Design */
       @media (max-width: 600px) {
         .container {
-          /* Use auto-fit so cards will reflow properly on smaller screens */
           grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
           grid-template-rows: auto;
         }
         .card {
-          /* Keep a consistent look while adapting to narrower widths */
           width: 180px;
           height: 240px;
         }
@@ -319,6 +307,35 @@
           margin-top: 25px;
         }
       }
+      #games-button {
+        background-color: #7378c5;
+        bottom: 265px;
+        right: 10px;
+        color: black;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        font: inherit;
+        position: fixed;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      }
+      #games-button:hover {
+        background-color: #ff8623;
+        transition: 0.1s ease-in;
+      }
+      #games-button {
+        transition:
+          transform 0.5s ease,
+          opacity 0.5s ease;
+        transform: translateY(20px);
+        opacity: 0;
+        display: none;
+      }
+      @media all and (min-width: 768px) {
+        #games-button {
+          display: block;
+        }
+      }
     </style>
   </head>
 
@@ -425,10 +442,18 @@
     <button
       id="chat-button"
       onclick="window.location.href='chat.html'"
-      style="bottom: 300px; right: 10px; z-index: 1001"
+      style="bottom: 335px; right: 10px; z-index: 1001"
       title="Chat with fellow MovieVerse users!"
     >
       Chat
+    </button>
+    <button
+      id="games-button"
+      onclick="window.location.href='games.html'"
+      style="bottom: 300px; right: 10px; z-index: 1001"
+      title="Play fun movie-related games!"
+    >
+      Games
     </button>
     <button id="settings-btn" style="position: fixed; bottom: 265px; right: 10px">Settings</button>
     <button
@@ -566,6 +591,7 @@
 
         const buttonIds = [
           'chat-button',
+          'games-button',
           'settings-btn',
           'movie-of-the-day-btn',
           'movie-match-btn3',
@@ -647,6 +673,7 @@
         if (window.innerWidth < 767) {
           const buttonIds = [
             'chat-button',
+            'games-button',
             'settings-btn',
             'movie-of-the-day-btn',
             'movie-match-btn3',

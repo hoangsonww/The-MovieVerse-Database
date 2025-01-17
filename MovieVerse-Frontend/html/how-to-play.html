@@ -53,7 +53,6 @@
       gtag('config', 'G-CQKJ67FXZ4');
     </script>
     <style>
-      /* Global Styles */
       body {
         font-family: 'Poppins', sans-serif;
         margin: 0;
@@ -75,7 +74,6 @@
         animation: fadeInDown 1s ease-in-out;
       }
 
-      /* Container for instructions */
       .instructions-container {
         max-width: 1000px;
         margin: 0 auto;
@@ -105,7 +103,6 @@
         margin-bottom: 8px;
       }
 
-      /* Link Styling for any in-text link */
       a.instruction-link {
         color: #7378c5;
         font-weight: bold;
@@ -116,7 +113,6 @@
         transition: 0.2s ease-in;
       }
 
-      /* Animations */
       @keyframes fadeIn {
         from {
           opacity: 0;
@@ -139,14 +135,12 @@
         }
       }
 
-      /* Responsive Design */
       @media (max-width: 600px) {
         .instructions-container {
           padding: 15px;
         }
       }
 
-      /* Google Translate Controls */
       #translate_control {
         position: fixed;
         left: 10px;
@@ -214,7 +208,6 @@
         }
       }
 
-      /* Font Face */
       @font-face {
         font-family: 'Poppins';
         src: url('https://movie-verse.com/fonts/Poppins-Light.ttf') format('truetype');
@@ -237,7 +230,6 @@
         font-display: swap;
       }
 
-      /* Additional Styles for the Navigation / Buttons */
       @media (min-width: 900px) {
         #form1 {
           margin-right: 0;
@@ -256,7 +248,6 @@
         }
       }
 
-      /* Modal Overlay Spinner (if needed) */
       .modal-overlay {
         display: none;
         position: fixed;
@@ -290,7 +281,6 @@
         }
       }
 
-      /* Bottom Bar & Floating Buttons */
       .mobile-bottom-bar {
         display: none;
       }
@@ -320,6 +310,35 @@
           background-color: #2e2e3e;
           box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.5);
           z-index: 1000;
+        }
+      }
+      #games-button {
+        background-color: #7378c5;
+        bottom: 265px;
+        right: 10px;
+        color: black;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        font: inherit;
+        position: fixed;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      }
+      #games-button:hover {
+        background-color: #ff8623;
+        transition: 0.1s ease-in;
+      }
+      #games-button {
+        transition:
+          transform 0.5s ease,
+          opacity 0.5s ease;
+        transform: translateY(20px);
+        opacity: 0;
+        display: none;
+      }
+      @media all and (min-width: 768px) {
+        #games-button {
+          display: block;
         }
       }
     </style>
@@ -517,10 +536,18 @@
     <button
       id="chat-button"
       onclick="window.location.href='chat.html'"
-      style="bottom: 300px; right: 10px; z-index: 1001"
+      style="bottom: 335px; right: 10px; z-index: 1001"
       title="Chat with fellow MovieVerse users!"
     >
       Chat
+    </button>
+    <button
+      id="games-button"
+      onclick="window.location.href='games.html'"
+      style="bottom: 300px; right: 10px; z-index: 1001"
+      title="Play fun movie-related games!"
+    >
+      Games
     </button>
     <button id="settings-btn" style="position: fixed; bottom: 265px; right: 10px">Settings</button>
     <button
@@ -617,6 +644,7 @@
         isAnimating = true;
         const buttonIds = [
           'chat-button',
+          'games-button',
           'settings-btn',
           'movie-of-the-day-btn',
           'movie-match-btn3',
@@ -704,6 +732,7 @@
         if (window.innerWidth < 767) {
           const buttonIds = [
             'chat-button',
+            'games-button',
             'settings-btn',
             'movie-of-the-day-btn',
             'movie-match-btn3',
