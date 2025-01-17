@@ -1,0 +1,1047 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>How to Play - The MovieVerse</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Learn how to play fun and interactive games on The MovieVerse. Detailed instructions for Flappy Bird, Space Invaders, Dinosaur Jump, and more!"
+    />
+    <link rel="canonical" href="https://movie-verse.com/MovieVerse-Frontend/html/how-to-play.html" />
+    <meta property="og:title" content="How to Play - The MovieVerse" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="website" />
+    <meta http-equiv="content-language" content="en" />
+    <meta
+      property="og:description"
+      content="Learn how to play fun and interactive games on The MovieVerse. Detailed instructions for Flappy Bird, Space Invaders, Dinosaur Jump, and more!"
+    />
+    <meta property="og:url" content="https://movie-verse.com/MovieVerse-Frontend/html/how-to-play.html" />
+    <meta property="og:site_name" content="The MovieVerse" />
+    <meta property="og:image" content="https://movie-verse.com/images/image.png" />
+    <meta property="og:favicon" content="../images/favicon.ico" />
+    <meta name="keywords" content="movies, film guide, directors, actors, movie genres, cinema, film reviews, games, how to play" />
+    <meta name="author" content="Son Nguyen Hoang" />
+    <meta name="robots" content="index, follow" />
+    <meta name="rating" content="General" />
+    <meta name="revisit-after" content="3 days" />
+    <meta name="distribution" content="global" />
+    <meta http-equiv="content-language" content="en" />
+    <meta name="language" content="en" />
+    <meta name="theme-color" content="#7378c5" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@MovieVerse" />
+    <meta name="twitter:creator" content="@hoangsonw" />
+    <meta name="twitter:title" content="How to Play - The MovieVerse" />
+    <meta
+      name="twitter:description"
+      content="Learn how to play fun and interactive games on The MovieVerse. Detailed instructions for Flappy Bird, Space Invaders, Dinosaur Jump, and more!"
+    />
+    <meta name="twitter:image" content="https://movie-verse.com/images/image.png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="manifest" href="../../manifest.json" />
+    <link rel="icon" type="image/x-icon" href="../../images/favicon.ico" />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'G-CQKJ67FXZ4');
+    </script>
+    <style>
+      body {
+        font-family: 'Poppins', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #1e1e2e;
+        color: #ffffff;
+        text-align: center;
+        overflow-x: hidden;
+        min-height: 100vh;
+        background-image: url('../../images/universe-1.webp');
+        background-repeat: repeat-y;
+        background-size: 100% auto;
+      }
+
+      h2 {
+        margin: 20px 0;
+        font-size: 2.2rem;
+        color: #ff8623;
+        animation: fadeInDown 1s ease-in-out;
+      }
+
+      .instructions-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 20px;
+        text-align: left;
+        animation: fadeIn 1.5s ease-in-out;
+      }
+
+      .instructions-container h3 {
+        color: #ff8623;
+        font-size: 1.6rem;
+        margin-bottom: 10px;
+      }
+
+      .instructions-container p {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        margin-bottom: 15px;
+      }
+
+      .instructions-container ul {
+        list-style: inside;
+        margin-bottom: 15px;
+      }
+
+      .instructions-container li {
+        margin-bottom: 8px;
+      }
+
+      a.instruction-link {
+        color: #7378c5;
+        font-weight: bold;
+        text-decoration: none;
+      }
+      a.instruction-link:hover {
+        color: #ff8623;
+        transition: 0.2s ease-in;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 600px) {
+        .instructions-container {
+          padding: 15px;
+        }
+      }
+
+      #translate_control {
+        position: fixed;
+        left: 10px;
+        bottom: 10px;
+        z-index: 1000000;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+      }
+      @media (max-width: 767px) {
+        #translate_control {
+          display: block;
+          bottom: 70px;
+          position: fixed;
+          left: 10px;
+          z-index: 1000000;
+        }
+      }
+      .translate-trigger {
+        background-color: #7378c5;
+        color: white;
+        padding: 10px;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+      .translate-trigger:hover {
+        background-color: #ff8623;
+        transition: 0.1s ease-in;
+      }
+      #google_translate_element {
+        display: none;
+        position: fixed;
+        left: 10px;
+        bottom: 60px;
+        background-color: #7378c5;
+        border: none;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        padding: 5px;
+        border-radius: 8px;
+        z-index: 100000000;
+        font: inherit;
+        color: white;
+      }
+      .goog-te-combo {
+        background-color: #7378c5 !important;
+        color: white !important;
+        border: 0.5px solid white !important;
+        border-radius: 8px !important;
+        font-size: 15px !important;
+        padding-left: 5px !important;
+      }
+      .skiptranslate {
+        color: white !important;
+      }
+      .goog-te-banner-frame {
+        opacity: 0.8 !important;
+        background-color: #f4f4f4 !important;
+      }
+      @media (max-width: 767px) {
+        #google_translate_element {
+          bottom: 120px;
+        }
+
+        #translate_control {
+          bottom: 70px;
+        }
+      }
+
+      @font-face {
+        font-family: 'Poppins';
+        src: url('https://movie-verse.com/fonts/Poppins-Light.ttf') format('truetype');
+        font-weight: 200;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Poppins';
+        src: url('https://movie-verse.com/fonts/Poppins-Regular.ttf') format('truetype');
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Poppins';
+        src: url('https://movie-verse.com/fonts/Poppins-SemiBold.ttf') format('truetype');
+        font-weight: 600;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @media (min-width: 900px) {
+        #form1 {
+          margin-right: 0;
+        }
+      }
+      #actor-details-container {
+        margin-top: 0;
+      }
+      @media (max-width: 767px) {
+        body {
+          background-size: auto;
+          background-position: top center;
+        }
+        #actor-details-container {
+          margin-top: 25px;
+        }
+      }
+
+      .modal-overlay {
+        display: none;
+        position: fixed;
+        z-index: 999999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background-color: rgba(0, 0, 0, 0.7);
+      }
+      .modal-visible {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+      }
+      .spinner {
+        border: 8px solid #f3f3f3;
+        border-top: 8px solid #7378c5;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .mobile-bottom-bar {
+        display: none;
+      }
+      .mobile-bottom-bar.hide-bar {
+        transform: translateY(100%);
+        transition: transform 0.3s ease-in-out;
+      }
+      .bottom-bar-item {
+        flex: 1;
+        text-align: center;
+        padding: 10px 0;
+        color: #ffffff;
+        text-decoration: none;
+      }
+      .bottom-bar-item i {
+        display: block;
+        font-size: 1.2rem;
+        margin-bottom: 5px;
+      }
+      @media (max-width: 767px) {
+        .mobile-bottom-bar {
+          display: flex;
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          background-color: #2e2e3e;
+          box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.5);
+          z-index: 1000;
+        }
+      }
+      #games-button {
+        background-color: #7378c5;
+        bottom: 265px;
+        right: 10px;
+        color: black;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        font: inherit;
+        position: fixed;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      }
+      #games-button:hover {
+        background-color: #ff8623;
+        transition: 0.1s ease-in;
+      }
+      #games-button {
+        transition:
+          transform 0.5s ease,
+          opacity 0.5s ease;
+        transform: translateY(20px);
+        opacity: 0;
+        display: none;
+      }
+      @media all and (min-width: 768px) {
+        #games-button {
+          display: block;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Google Translate Element -->
+    <div id="google_translate_element"></div>
+    <div id="translate_control">
+      <div class="translate-trigger">Translate</div>
+    </div>
+
+    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script>
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement(
+          {
+            pageLanguage: 'en',
+            layout: google.translate.TranslateElement.InlineLayout.VERTICAL,
+            autoDisplay: false,
+          },
+          'google_translate_element'
+        );
+      }
+
+      document.querySelector('.translate-trigger').addEventListener('click', function () {
+        const translateEl = document.getElementById('google_translate_element');
+        translateEl.style.display = translateEl.style.display === 'block' ? 'none' : 'block';
+      });
+
+      document.addEventListener('DOMContentLoaded', function () {
+        let lastScrollTop = window.scrollY;
+        const translateControl = document.getElementById('translate_control');
+        const translateEl = document.getElementById('google_translate_element');
+
+        window.addEventListener(
+          'scroll',
+          function () {
+            let scrollTop = window.scrollY;
+
+            if (window.innerWidth <= 767) {
+              if (scrollTop > lastScrollTop && scrollTop > 0) {
+                translateControl.style.display = 'none';
+                translateEl.style.display = 'none';
+              } else {
+                translateControl.style.display = 'block';
+              }
+              lastScrollTop = scrollTop;
+            }
+          },
+          { passive: true }
+        );
+      });
+    </script>
+
+    <!-- Header -->
+    <header style="margin-bottom: -50px">
+      <h1 id="my-heading" style="margin-bottom: -10px" class="notranslate">
+        <a id="indexLink" href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer">
+          The Mo<span class="highlight" id="highlight">vieV</span>erse
+        </a>
+      </h1>
+      <div id="local-time" style="cursor: pointer; margin-left: 40px" title="Click to view more of your stats!">
+        <p id="stats-label" class="clock" style="font-size: 16px"></p>
+        <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold"></div>
+      </div>
+      <button class="back-btn notranslate" onclick="window.location.href='../../index.html'">Home</button>
+      <button class="about notranslate" onclick="window.location.href='about.html'">About</button>
+      <button class="favorites-btn notranslate" onclick="window.location.href='favorites.html'" title="View your favorites & watchlists">
+        Favorites
+      </button>
+      <button id="googleSignInBtn" class="nav-btn notranslate" onclick="handleSignInOut()" title="Sign In/Out">
+        <span id="signInOutText">Sign In</span>
+        <i class="fas fa-sign-in-alt" id="signInIcon"></i>
+        <i class="fas fa-sign-out-alt" id="signOutIcon" style="display: none"></i>
+      </button>
+      <button id="profileBtn" class="nav-btn notranslate" onclick="window.location.href='user-profile.html'" title="Go to your profile">
+        <span id="profileText">Profile</span>
+        <i class="fas fa-user" id="profileIcon"></i>
+      </button>
+      <form id="form1">
+        <div class="search-container">
+          <input
+            type="text"
+            id="search"
+            placeholder="Search For Films, Actors..."
+            class="search"
+            title="Search for movies, actors, TV series, and more!"
+          />
+          <button type="button" id="button-search" onclick="handleSearch()">Search</button>
+        </div>
+        <div id="search-results" class="search-results"></div>
+        <div class="buttons-container">
+          <button type="button" id="view-all-results" style="display: none">View more results</button>
+          <button type="button" id="clear-search" style="display: none">Clear</button>
+        </div>
+      </form>
+    </header>
+
+    <!-- Main Content: How to Play Instructions -->
+    <h2 style="margin-top: 50px !important">How to Play</h2>
+    <div class="instructions-container">
+      <!-- Dinosaur Jump Instructions -->
+      <h3>Dinosaur Jump</h3>
+      <p>
+        Dinosaur Jump is a simple side-scrolling endless runner game. Your dinosaur automatically runs forward, and you must jump over cacti and avoid
+        flying pterodactyls.
+      </p>
+      <ul>
+        <li>
+          <strong>Controls:</strong> Use the <em>spacebar</em> or the up arrow (↑) to make your dinosaur jump. Alternatively, you can tap the screen
+          on mobile devices.
+        </li>
+        <li>Each cactus or pterodactyl you successfully jump over increases your score. The game speeds up over time, so stay alert!</li>
+        <li>Hitting an obstacle ends the game. Play again as many times as you'd like!</li>
+      </ul>
+
+      <!-- Flappy Bird Instructions -->
+      <h3>Flappy Bird</h3>
+      <p>Navigate your bird through a series of pipes without colliding. This popular arcade-style game tests your timing and reflexes.</p>
+      <ul>
+        <li><strong>Controls:</strong> Click or tap the screen (or use the spacebar) to make the bird flap and gain some height.</li>
+        <li>Avoid hitting the pipes or the ground. Each set of pipes you pass scores you a point.</li>
+        <li>The challenge increases as you progress. Keep flapping to stay in the air!</li>
+      </ul>
+
+      <!-- Catch the Popcorn Instructions -->
+      <h3>Catch the Popcorn</h3>
+      <p>Popcorn kernels fall from the top of the screen, and you have to move a bucket left and right to catch them.</p>
+      <ul>
+        <li>
+          <strong>Controls:</strong> Use the <em>left</em> and <em>right</em>
+          arrow keys to move your bucket. Alternatively, you can use the on-screen left and right buttons to move the bucket.
+        </li>
+        <li>Each popcorn kernel you catch increases your score. If a kernel hits the ground, you lose a life.</li>
+        <li>The game is over when you run out of lives. Catch as many kernels as you can!</li>
+      </ul>
+
+      <!-- Falling Stars Instructions -->
+      <h3>Falling Star</h3>
+      <p>In Falling Star, you must ensure that the star stays in the sky for as long as possible. If it falls to the ground, the game is over.</p>
+      <ul>
+        <li><strong>Controls:</strong> Use the spacebar to make the star jump. Alternatively, you can tap the screen on mobile devices.</li>
+        <li>Your survival time will be recorded as your score. The longer you keep the star in the air, the higher your score will be.</li>
+        <li>The longer you survive, the more challenging it becomes. Good luck!</li>
+      </ul>
+
+      <!-- Space Invaders Instructions -->
+      <h3>Space Invaders</h3>
+      <p>
+        Defend Earth from a wave of advancing aliens! This classic game features a row of aliens that slowly move down, and you must shoot them all
+        before they reach your base.
+      </p>
+      <ul>
+        <li>
+          <strong>Controls:</strong> Use <em>left</em> and <em>right</em> arrow keys (or A/D) to move your spaceship. Press the <em>spacebar</em> to
+          shoot. Alternatively, you can use the on-screen buttons to move and shoot.
+        </li>
+        <li>The aliens get faster and closer after each wave. Destroy them all before they land. Each alien you shoot scores you a point.</li>
+        <li>If an alien hits the ground, you lose a life. The game ends when you run out of lives.</li>
+        <li>If you collide with an alien or get hit by their projectiles, you lose a life. Remember: the game ends when you run out of lives.</li>
+      </ul>
+
+      <!-- Stack the Blocks Instructions -->
+      <h3>Stack the Blocks</h3>
+      <p>
+        Time your taps to stack blocks as high as possible. Each block moves horizontally across the screen, and you must stop it above the previous
+        block.
+      </p>
+      <ul>
+        <li><strong>Controls:</strong> Tap the screen (or use the spacebar) to place the moving block.</li>
+        <li>If your placement is off, the overhanging part of the block will fall off, and the remaining surface area becomes the new block size.</li>
+        <li>Try to stack as high as you can! The game ends when your block overhangs too far and you miss.</li>
+        <li>You can win the game by stacking the blocks to the top of the screen. Good luck!</li>
+      </ul>
+
+      <!-- horizontal line -->
+      <hr style="margin: 20px 0; border: 1px solid #7378c5" />
+
+      <p>
+        Ready to play? Head over to the
+        <a href="games.html" class="instruction-link"> Games page </a>
+        to start your adventure! Have fun! 🎮
+      </p>
+    </div>
+
+    <!-- Modal overlay for spinner (if needed) -->
+    <div id="myModal" class="modal-overlay">
+      <div class="spinner"></div>
+    </div>
+
+    <!-- Scripts and Buttons Section -->
+    <script src="../js/actor-details.js"></script>
+
+    <!-- Floating buttons (hidden by default, shown via Menu) -->
+    <button
+      id="chat-button"
+      onclick="window.location.href='chat.html'"
+      style="bottom: 335px; right: 10px; z-index: 1001"
+      title="Chat with fellow MovieVerse users!"
+    >
+      Chat
+    </button>
+    <button
+      id="games-button"
+      onclick="window.location.href='games.html'"
+      style="bottom: 300px; right: 10px; z-index: 1001"
+      title="Play fun movie-related games!"
+    >
+      Games
+    </button>
+    <button id="settings-btn" style="position: fixed; bottom: 265px; right: 10px">Settings</button>
+    <button
+      id="movie-of-the-day-btn"
+      onclick="showMovieOfTheDay()"
+      title="Get a recommended movie to watch for today!"
+      style="bottom: 230px; right: 10px"
+    >
+      Surprise Me!
+    </button>
+    <button
+      id="movie-match-btn3"
+      onclick="window.location.href='movie-match.html'"
+      title="Find a movie that matches your mood, genre, and time period!"
+      style="bottom: 195px; right: 10px"
+    >
+      Movie Match
+    </button>
+    <button
+      id="movie-timeline-btn"
+      onclick="window.location.href='movie-timeline.html'"
+      title="Explore movies through different eras!"
+      style="bottom: 160px; right: 10px"
+    >
+      Movie Timeline
+    </button>
+    <button
+      id="discussions-btn"
+      onclick="window.location.href='chatbot.html'"
+      style="bottom: 125px; right: 10px"
+      title="Chat with our intelligent chatbot!"
+    >
+      MovieVerse Chatbot
+    </button>
+    <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 90px; right: 10px" title="Test your movie knowledge">
+      MovieVerse Trivia
+    </button>
+
+    <div id="mobile-bottom-bar" class="mobile-bottom-bar">
+      <a href="chat.html" class="bottom-bar-item">
+        <i class="fas fa-comments"></i>
+        <span>Chat</span>
+      </a>
+      <a href="settings.html" class="bottom-bar-item">
+        <i class="fas fa-cog"></i>
+        <span>Settings</span>
+      </a>
+      <a href="#" class="bottom-bar-item" onclick="showMovieOfTheDay()">
+        <i class="fas fa-surprise"></i>
+        <span>Surprise Me</span>
+      </a>
+      <a href="movie-match.html" class="bottom-bar-item">
+        <i class="fas fa-film"></i>
+        <span>Match</span>
+      </a>
+      <a href="movie-timeline.html" class="bottom-bar-item">
+        <i class="fas fa-clock"></i>
+        <span>Timeline</span>
+      </a>
+      <a href="chatbot.html" class="bottom-bar-item">
+        <i class="fas fa-robot"></i>
+        <span>Chatbot</span>
+      </a>
+      <a href="trivia.html" class="bottom-bar-item">
+        <i class="fas fa-question-circle"></i>
+        <span>Trivia</span>
+      </a>
+    </div>
+
+    <button id="menu-btn" style="position: fixed; bottom: 10px; right: 10px; z-index: 1001" title="Toggle Menu Buttons">
+      <i class="fas fa-ellipsis-h"></i><br />
+      <span>Menu</span>
+    </button>
+
+    <script>
+      // Handle menu button toggle
+      let lastScrollY = window.scrollY;
+      window.addEventListener('scroll', () => {
+        const currentScrollY = window.scrollY;
+
+        if (currentScrollY > lastScrollY && currentScrollY > 0) {
+          document.querySelector('.mobile-bottom-bar').classList.add('hide-bar');
+        } else {
+          document.querySelector('.mobile-bottom-bar').classList.remove('hide-bar');
+        }
+
+        lastScrollY = currentScrollY;
+      });
+
+      let isAnimating = false;
+      document.getElementById('menu-btn').addEventListener('click', () => {
+        if (isAnimating) return;
+
+        isAnimating = true;
+        const buttonIds = [
+          'chat-button',
+          'games-button',
+          'settings-btn',
+          'movie-of-the-day-btn',
+          'movie-match-btn3',
+          'movie-timeline-btn',
+          'discussions-btn',
+          'trivia-btn',
+        ];
+
+        buttonIds.forEach((id, index) => {
+          const button = document.getElementById(id);
+          if (button.style.display === 'none' || !button.style.display) {
+            button.style.display = 'block';
+            setTimeout(() => {
+              button.style.opacity = '1';
+              button.style.transform = 'translateY(0)';
+            }, 50 * index);
+          } else {
+            button.style.opacity = '0';
+            button.style.transform = 'translateY(20px)';
+          }
+
+          setTimeout(
+            () => {
+              button.style.display = button.style.opacity === '1' ? 'block' : 'none';
+              if (index === buttonIds.length - 1) {
+                isAnimating = false;
+              }
+            },
+            500 + 50 * index
+          );
+        });
+      });
+
+      // Settings Button
+      document.getElementById('settings-btn').addEventListener('click', () => {
+        window.location.href = 'settings.html';
+      });
+    </script>
+
+    <script>
+      // Apply user settings (background, text color, font size) if saved
+      document.addEventListener('DOMContentLoaded', () => {
+        applySettings();
+
+        function applySettings() {
+          const savedBg = localStorage.getItem('backgroundImage');
+          const savedTextColor = localStorage.getItem('textColor');
+          const savedFontSize = localStorage.getItem('fontSize');
+
+          if (savedBg) {
+            document.body.style.backgroundImage = `url('${savedBg}')`;
+          }
+          if (savedTextColor) {
+            document.querySelectorAll('h1, h2, h3, p, a, span, div, button, input, select, textarea, label, li').forEach(element => {
+              element.style.color = savedTextColor;
+            });
+          }
+          if (savedFontSize) {
+            const size = savedFontSize === 'small' ? '12px' : savedFontSize === 'medium' ? '16px' : '20px';
+            document.body.style.fontSize = size;
+          }
+        }
+      });
+
+      // Example function if you have an image to zoom (not used here but kept for consistency)
+      if (document.getElementById('actor-image')) {
+        document.getElementById('actor-image').addEventListener('click', function () {
+          const imageUrl = this.src.replace('w1280', 'original');
+          const modalHtml = `<div id="image-modal" style="z-index: 100020000; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
+                                <img src="${imageUrl}" style="max-width: 95%; max-height: 95%; border-radius: 10px;">
+                                <span style="position: absolute; top: 10px; right: 25px; font-size: 40px; cursor: pointer" id="removeBtn" onclick="document.getElementById('image-modal').remove();">&times;</span>
+                            </div>`;
+          document.body.insertAdjacentHTML('beforeend', modalHtml);
+
+          document.getElementById('image-modal').addEventListener('click', function (event) {
+            if (event.target === this) {
+              this.remove();
+            }
+          });
+        });
+      }
+
+      // Responsive display toggles for floating buttons
+      window.addEventListener('resize', () => {
+        if (window.innerWidth < 767) {
+          const buttonIds = [
+            'chat-button',
+            'games-button',
+            'settings-btn',
+            'movie-of-the-day-btn',
+            'movie-match-btn3',
+            'movie-timeline-btn',
+            'discussions-btn',
+            'trivia-btn',
+          ];
+
+          buttonIds.forEach(id => {
+            const button = document.getElementById(id);
+            button.style.display = 'none';
+            button.style.opacity = '0';
+            button.style.transform = 'translateY(20px)';
+          });
+        }
+      });
+    </script>
+
+    <!-- Footer -->
+    <footer>
+      <a href="../../index.html" style="cursor: pointer; text-decoration: none">
+        <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
+      </a>
+    </footer>
+
+    <!-- Second modal overlay if needed -->
+    <div id="myModal" class="modal-overlay">
+      <div class="spinner"></div>
+    </div>
+
+    <!-- Search Scripts -->
+    <script>
+      // Show or hide elements based on search input
+      document.addEventListener('DOMContentLoaded', function () {
+        const searchBar = document.getElementById('search');
+        const searchButton = document.getElementById('button-search');
+        const myHeading = document.getElementById('my-heading');
+        const localTime = document.getElementById('local-time');
+
+        function toggleVisibility() {
+          const query = searchBar.value.trim();
+          if (query) {
+            if (window.innerWidth > 800) {
+              myHeading.style.visibility = 'hidden';
+              myHeading.style.opacity = '0';
+              localTime.style.visibility = 'hidden';
+              localTime.style.opacity = '0';
+            }
+          } else {
+            myHeading.style.visibility = 'visible';
+            myHeading.style.opacity = '1';
+            localTime.style.visibility = 'visible';
+            localTime.style.opacity = '1';
+          }
+        }
+        searchBar.addEventListener('input', toggleVisibility);
+        toggleVisibility();
+      });
+
+      // Handle search logic
+      document.addEventListener('DOMContentLoaded', function () {
+        const searchInput = document.getElementById('search');
+        const viewAllResultsBtn = document.getElementById('view-all-results');
+        const clearSearchBtn = document.getElementById('clear-search');
+        const searchResultsContainer = document.getElementById('search-results');
+        const myHeading = document.getElementById('my-heading');
+        const localTime = document.getElementById('local-time');
+        const searchButton = document.getElementById('button-search');
+
+        function toggleButtons() {
+          const query = searchInput.value.trim();
+          viewAllResultsBtn.style.display = query ? 'inline-block' : 'none';
+          clearSearchBtn.style.display = query ? 'inline-block' : 'none';
+        }
+
+        clearSearchBtn.addEventListener('click', function () {
+          searchInput.value = '';
+          searchResultsContainer.innerHTML = '';
+          toggleButtons();
+          searchInput.focus();
+
+          myHeading.style.visibility = 'visible';
+          myHeading.style.opacity = '1';
+          localTime.style.visibility = 'visible';
+          localTime.style.opacity = '1';
+        });
+
+        toggleButtons();
+        searchInput.addEventListener('input', toggleButtons);
+      });
+
+      // Spinner logic & Search fetch
+      document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('search').addEventListener('input', function (e) {
+          showSpinner();
+          const viewAllResultsBtn = document.getElementById('view-all-results');
+          const searchInput = document.getElementById('search');
+          const query = e.target.value.trim();
+          const searchResultsContainer = document.getElementById('search-results');
+
+          viewAllResultsBtn.style.display = query ? 'block' : 'none';
+
+          function toggleButtons() {
+            viewAllResultsBtn.style.display = query ? 'inline-block' : 'none';
+            const clearSearchBtn = document.getElementById('clear-search');
+            clearSearchBtn.style.display = query ? 'inline-block' : 'none';
+          }
+
+          if (query) {
+            // Replace the following utility calls with your actual search logic:
+            const searchURL = `https://${getMovieVerseData()}/3/search/multi?${generateMovieNames()}${getMovieCode()}&query=${encodeURIComponent(
+              query
+            )}`;
+            fetch(searchURL)
+              .then(response => response.json())
+              .then(data => {
+                const sortedResults = data.results.sort((a, b) => b.popularity - a.popularity);
+                displaySearchResults(sortedResults.slice(0, 5));
+              })
+              .catch(err => console.log('Fetching error:', err));
+          } else {
+            searchInput.value = '';
+            searchResultsContainer.innerHTML = '';
+            toggleButtons();
+            searchInput.focus();
+          }
+
+          searchInput.addEventListener('input', function () {
+            if (searchInput.value.trim()) {
+              viewAllResultsBtn.style.display = 'block';
+            } else {
+              viewAllResultsBtn.style.display = 'none';
+            }
+          });
+
+          viewAllResultsBtn.addEventListener('click', function () {
+            const searchQuery = searchInput.value.trim();
+            if (searchQuery) {
+              localStorage.setItem('searchQuery', searchQuery);
+              window.location.href = 'search.html';
+            } else {
+              alert('Please enter a search query.');
+            }
+          });
+
+          hideSpinner();
+        });
+
+        function displaySearchResults(results) {
+          showSpinner();
+          const resultsContainer = document.getElementById('search-results');
+          resultsContainer.innerHTML = '';
+
+          results.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'search-result-card';
+            card.style.cursor = 'pointer';
+
+            const imagePath =
+              item.poster_path || item.profile_path ? `https://image.tmdb.org/t/p/w500${item.poster_path || item.profile_path}` : null;
+
+            if (imagePath) {
+              const image = document.createElement('img');
+              image.src = imagePath;
+              image.className = 'result-image';
+              card.appendChild(image);
+            } else {
+              const placeholder = document.createElement('div');
+              placeholder.className = 'result-image-placeholder';
+              placeholder.textContent = 'Image Not Available';
+              placeholder.style.textAlign = 'center';
+              placeholder.style.padding = '10px';
+              card.appendChild(placeholder);
+            }
+
+            const details = document.createElement('div');
+            details.className = 'result-details';
+
+            const name = document.createElement('div');
+            name.className = 'result-name';
+            name.textContent = item.title || item.name;
+            details.appendChild(name);
+
+            const type = document.createElement('div');
+            type.className = 'result-type';
+            type.textContent = item.media_type === 'movie' ? 'Movie' : item.media_type === 'tv' ? 'TV Series' : 'Person';
+            details.appendChild(type);
+
+            card.appendChild(details);
+            resultsContainer.appendChild(card);
+
+            card.addEventListener('click', () => handleResultClick(item));
+          });
+
+          hideSpinner();
+        }
+
+        async function handleResultClick(item) {
+          console.log('Clicked item:', item.media_type, item.id);
+
+          if (!item.media_type) {
+            console.log('Media type is undefined');
+            return;
+          }
+
+          if (item.media_type === 'movie') {
+            localStorage.setItem('selectedMovieId', item.id);
+            window.location.href = 'movie-details.html';
+          } else if (item.media_type === 'tv') {
+            localStorage.setItem('selectedTvSeriesId', item.id);
+            window.location.href = 'tv-details.html';
+          } else if (item.media_type === 'person') {
+            try {
+              const personDetailsUrl = `https://${getMovieVerseData()}/3/person/${item.id}?${generateMovieNames()}${getMovieCode()}`;
+              const response = await fetch(personDetailsUrl);
+              const personDetails = await response.json();
+
+              if (personDetails.known_for_department === 'Directing') {
+                localStorage.setItem('selectedDirectorId', item.id);
+                window.location.href = 'director-details.html?' + item.id;
+              } else {
+                localStorage.setItem('selectedActorId', item.id);
+                window.location.href = 'actor-details.html?' + item.id;
+              }
+            } catch (error) {
+              console.log('Error fetching person details:', error);
+            }
+          } else {
+            console.log('Unknown media type:', item.media_type);
+          }
+        }
+      });
+
+      // Keyboard navigation for search results
+      document.addEventListener('DOMContentLoaded', function () {
+        const searchInput = document.getElementById('search');
+        const viewAllResultsBtn = document.getElementById('view-all-results');
+        const clearSearchBtn = document.getElementById('clear-search');
+        const searchResultsContainer = document.getElementById('search-results');
+        let selectedIndex = -1;
+
+        function clearSelection() {
+          const results = searchResultsContainer.getElementsByClassName('search-result-card');
+          if (selectedIndex >= 0 && selectedIndex < results.length) {
+            results[selectedIndex].style.backgroundColor = '';
+          } else if (selectedIndex === results.length) {
+            viewAllResultsBtn.style.backgroundColor = '';
+          } else if (selectedIndex === results.length + 1) {
+            clearSearchBtn.style.backgroundColor = '';
+          }
+        }
+
+        function moveSelection(direction) {
+          const results = searchResultsContainer.getElementsByClassName('search-result-card');
+          const totalElements = results.length + 2;
+          clearSelection();
+
+          if (direction === 'down') {
+            selectedIndex = (selectedIndex + 1) % totalElements;
+          } else if (direction === 'up') {
+            selectedIndex = (selectedIndex - 1 + totalElements) % totalElements;
+          }
+
+          if (selectedIndex < results.length) {
+            results[selectedIndex].style.backgroundColor = '#ff8623';
+            results[selectedIndex].scrollIntoView({ block: 'nearest' });
+          } else if (selectedIndex === results.length) {
+            viewAllResultsBtn.style.backgroundColor = '#ff8623';
+            viewAllResultsBtn.scrollIntoView({ block: 'nearest' });
+          } else if (selectedIndex === results.length + 1) {
+            clearSearchBtn.style.backgroundColor = '#ff8623';
+            clearSearchBtn.scrollIntoView({ block: 'nearest' });
+          }
+        }
+
+        searchInput.addEventListener('keydown', function (e) {
+          if (e.key === 'ArrowDown' || (e.key === 'Tab' && !e.shiftKey)) {
+            e.preventDefault();
+            moveSelection('down');
+          } else if (e.key === 'ArrowUp' || (e.key === 'Tab' && e.shiftKey)) {
+            e.preventDefault();
+            moveSelection('up');
+          } else if (e.key === 'Enter') {
+            e.preventDefault();
+            if (selectedIndex >= 0 && selectedIndex < searchResultsContainer.getElementsByClassName('search-result-card').length) {
+              searchResultsContainer.getElementsByClassName('search-result-card')[selectedIndex].click();
+            } else if (selectedIndex === searchResultsContainer.getElementsByClassName('search-result-card').length) {
+              viewAllResultsBtn.click();
+            } else if (selectedIndex === searchResultsContainer.getElementsByClassName('search-result-card').length + 1) {
+              clearSearchBtn.click();
+            } else {
+              const query = searchInput.value.trim();
+              localStorage.setItem('searchQuery', query);
+              window.location.href = 'search.html';
+            }
+          }
+        });
+
+        searchInput.addEventListener('blur', clearSelection);
+      });
+
+      // Spinner show/hide
+      function showSpinner() {
+        document.getElementById('myModal').classList.add('modal-visible');
+      }
+
+      function hideSpinner() {
+        document.getElementById('myModal').classList.remove('modal-visible');
+      }
+    </script>
+  </body>
+</html>

@@ -734,6 +734,7 @@ document.getElementById('menu-btn').addEventListener('click', () => {
 
   const buttonIds = [
     'chat-button',
+    'games-button',
     'settings-btn',
     'movie-of-the-day-btn',
     'movie-match-btn3',
@@ -771,6 +772,7 @@ window.addEventListener('resize', () => {
   if (window.innerWidth < 767) {
     const buttonIds = [
       'chat-button',
+      'games-button',
       'settings-btn',
       'movie-of-the-day-btn',
       'movie-match-btn3',

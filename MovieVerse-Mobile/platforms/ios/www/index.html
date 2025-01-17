@@ -191,7 +191,24 @@
         background-color: #ff8623;
         transition: 0.1s ease-in;
       }
+      #games-button {
+        background-color: #7378c5;
+        bottom: 265px;
+        right: 10px;
+        color: black;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        font: inherit;
+        position: fixed;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      }
+      #games-button:hover {
+        background-color: #ff8623;
+        transition: 0.1s ease-in;
+      }
       #chat-button,
+      #games-button,
       #settings-btn,
       #movie-of-the-day-btn,
       #movie-match-btn,
@@ -208,6 +225,7 @@
       }
       @media (min-width: 768px) {
         #chat-button,
+        #games-button,
         #settings-btn,
         #movie-of-the-day-btn,
         #movie-match-btn,
@@ -228,6 +246,7 @@
           display: flex;
         }
         #chat-button,
+        #games-button,
         #settings-btn,
         #movie-of-the-day-btn,
         #movie-match-btn,
@@ -434,6 +453,31 @@
           font-size: 18px;
         }
       }
+      #mobileGamesBtn {
+        background-color: #7378c5;
+        border: none;
+        color: white;
+        height: 40px;
+        text-align: center;
+        font: inherit;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 8px;
+        padding: 0 10px;
+        margin-left: 5px;
+      }
+      #mobileGamesBtn {
+        display: none;
+      }
+      #mobileGamesBtn:hover {
+        background-color: #ff8623;
+        transition: 0.2s ease-in-out;
+      }
+      @media (max-width: 900px) {
+        #mobileGamesBtn {
+          display: block;
+        }
+      }
     </style>
   </head>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
@@ -584,6 +628,15 @@
       >
         <span id="mobileProfileText">Profile</span>
         <i class="fas fa-user" id="mobileProfileIcon"></i>
+      </button>
+      <button
+        id="mobileGamesBtn"
+        class="nav-btn"
+        onclick="window.location.href='MovieVerse-Frontend/html/games.html'"
+        title="Check out our fun mini games!"
+      >
+        <span id="mobileGamesText">Games</span>
+        <i class="fas fa-gamepad" id="mobileGamesIcon"></i>
       </button>
     </div>
     <div id="myModal" class="modal-overlay">
@@ -990,10 +1043,18 @@
     <button
       id="chat-button"
       onclick="window.location.href='MovieVerse-Frontend/html/chat.html'"
-      style="bottom: 325px; right: 10px; z-index: 1001"
+      style="bottom: 360px; right: 10px; z-index: 1001"
       title="Chat with fellow MovieVerse users!"
     >
       Chat
+    </button>
+    <button
+      id="games-button"
+      onclick="window.location.href='MovieVerse-Frontend/html/games.html'"
+      style="bottom: 325px; right: 10px; z-index: 1001"
+      title="Play some of our fun mini games!"
+    >
+      Games
     </button>
     <button id="settings-btn" style="position: fixed; bottom: 290px; right: 10px; z-index: 1001">Settings</button>
     <button
@@ -1187,6 +1248,7 @@
         isAnimating = true;
         const buttonIds = [
           'chat-button',
+          'games-button',
           'settings-btn',
           'movie-of-the-day-btn',
           'movie-match-btn',
@@ -1223,6 +1285,7 @@
         if (window.innerWidth < 767) {
           const buttonIds = [
             'chat-button',
+            'games-button',
             'settings-btn',
             'movie-of-the-day-btn',
             'movie-match-btn',
