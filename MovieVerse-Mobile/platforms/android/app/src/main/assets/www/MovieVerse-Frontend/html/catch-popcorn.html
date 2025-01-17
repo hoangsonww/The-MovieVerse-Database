@@ -54,7 +54,6 @@
       gtag('config', 'G-CQKJ67FXZ4');
     </script>
     <style>
-      /* Global Styles */
       body {
         font-family: 'Poppins', sans-serif;
         margin: 0;
@@ -63,39 +62,31 @@
         color: #ffffff;
         text-align: center;
         overflow-x: hidden;
-        /* Ensures content spans at least 100vh */
         min-height: 100vh;
         background-image: url('../../images/universe-1.webp');
         background-repeat: repeat-y;
         background-size: 100% auto;
       }
-
       h2 {
         margin: 50px 0;
         font-size: 2.2rem;
         color: #ff8623;
         animation: fadeInDown 1s ease-in-out;
       }
-
-      /* Container for the cards */
       .container {
-        /* Fixed 3x3 grid */
         display: grid !important;
         grid-template-columns: repeat(3, 1fr);
         grid-template-rows: repeat(3, auto);
         justify-items: center;
-        /* Reduced gap for closer cards */
         gap: 10px;
         padding: 20px;
         animation: fadeIn 1.5s ease-in-out;
       }
-
-      /* Card Styling */
       .card {
-        display: flex; /* <--- NEW */
-        flex-direction: column; /* <--- NEW */
-        align-items: center; /* <--- NEW */
-        justify-content: center; /* <--- NEW */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
         background-color: #2e2e3e;
         border-radius: 10px;
         box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
@@ -109,27 +100,20 @@
         position: relative;
         overflow: hidden;
       }
-
       .card:hover {
         transform: translateY(-10px);
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
       }
-
-      /* Icon Styling */
       .card i {
         font-size: 3rem;
         margin-bottom: 10px;
         color: #ff8623;
         animation: bounce 2s infinite;
       }
-
-      /* Card Text */
       .card p {
         font-size: 1.2rem;
         margin: 10px 0;
       }
-
-      /* Link Styling */
       .card a {
         display: inline-block;
         font-size: 1rem;
@@ -143,20 +127,16 @@
           background-color 0.3s ease,
           transform 0.2s;
       }
-
       .card a:hover {
         background-color: #ff8623;
         transform: scale(1.1);
       }
-
       h2 {
         margin: 50px 0;
         font-size: 2.2rem;
         color: #ff8623;
         animation: fadeInDown 1s ease-in-out;
       }
-
-      /* Animations */
       @keyframes fadeIn {
         from {
           opacity: 0;
@@ -167,7 +147,6 @@
           transform: translateY(0);
         }
       }
-
       @keyframes fadeInDown {
         from {
           opacity: 0;
@@ -178,7 +157,6 @@
           transform: translateY(0);
         }
       }
-
       @keyframes bounce {
         0%,
         20%,
@@ -194,21 +172,16 @@
           transform: translateY(-5px);
         }
       }
-
-      /* Responsive Design */
       @media (max-width: 600px) {
         .container {
-          /* Use auto-fit so cards will reflow properly on smaller screens */
           grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
           grid-template-rows: auto;
         }
         .card {
-          /* Keep a consistent look while adapting to narrower widths */
           width: 180px;
           height: 240px;
         }
       }
-
       #translate_control {
         position: fixed;
         left: 10px;
@@ -316,11 +289,9 @@
           margin-top: 25px;
         }
       }
-
       p {
         animation: fadeInDown 1s ease-in-out;
       }
-
       #games-button {
         background-color: #7378c5;
         bottom: 265px;
@@ -705,21 +676,6 @@
             document.body.style.fontSize = size;
           }
         }
-      });
-
-      document.getElementById('actor-image').addEventListener('click', function () {
-        const imageUrl = this.src.replace('w1280', 'original');
-        const modalHtml = `<div id="image-modal" style="z-index: 100020000; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
-                                <img src="${imageUrl}" style="max-width: 95%; max-height: 95%; border-radius: 10px;">
-                                <span style="position: absolute; top: 10px; right: 25px; font-size: 40px; cursor: pointer" id="removeBtn" onclick="document.getElementById('image-modal').remove();">&times;</span>
-                            </div>`;
-        document.body.insertAdjacentHTML('beforeend', modalHtml);
-
-        document.getElementById('image-modal').addEventListener('click', function (event) {
-          if (event.target === this) {
-            this.remove();
-          }
-        });
       });
 
       window.addEventListener('resize', () => {
