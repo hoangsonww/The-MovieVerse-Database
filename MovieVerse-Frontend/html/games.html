@@ -83,7 +83,7 @@
         grid-template-columns: repeat(3, 1fr);
         grid-template-rows: repeat(3, auto);
         justify-items: center;
-        gap: 10px;
+        gap: 20px;
         padding: 20px;
         animation: fadeIn 1.5s ease-in-out;
       }
@@ -323,6 +323,17 @@
         #games-button {
           display: block;
         }
+        #c1 {
+          padding: 0 !important;
+        }
+      }
+      #c1 {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        animation: fadeIn 1.5s ease-in-out;
+        padding: 20px;
       }
     </style>
   </head>
@@ -460,7 +471,7 @@
     </div>
 
     <!-- How to Play -->
-    <div style="width: 100%; display: flex; justify-content: center; align-items: center; animation: fadeIn 1.5s ease-in-out;">
+    <div id="c1">
       <div class="card">
         <i class="fas fa-question-circle"></i>
         <p>How to Play</p>
