@@ -319,8 +319,25 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        gap: 20px;
         animation: fadeIn 1.5s ease-in-out;
         padding: 20px;
+        flex-wrap: wrap;
+      }
+      #c1 > * {
+        flex: 1 1 45%;
+        max-width: 600px;
+        min-width: 200px;
+        box-sizing: border-box;
+      }
+      @media (max-width: 768px) {
+        #c1 {
+          flex-direction: column;
+        }
+
+        #c1 > * {
+          flex: 1 1 100%;
+        }
       }
     </style>
   </head>
@@ -463,6 +480,11 @@
         <i class="fas fa-question-circle"></i>
         <p>How to Play</p>
         <a href="how-to-play.html">Learn More</a>
+      </div>
+      <div class="card">
+        <i class="fas fa-trophy"></i>
+        <p>Leaderboards</p>
+        <a href="leaderboards.html">View</a>
       </div>
     </div>
 
