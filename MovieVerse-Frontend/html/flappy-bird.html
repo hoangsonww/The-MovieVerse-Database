@@ -512,6 +512,11 @@
       <span>How to Play</span>
     </button>
 
+    <button title="Back to Games" id="leaderboard-btn">
+      <i class="fas fa-trophy"></i><br />
+      <span>Leaderboard</span>
+    </button>
+
     <button title="Back to Games" id="back-to-games-btn">
       <i class="fas fa-arrow-left"></i><br />
       <span>Back to Games</span>
@@ -559,6 +564,10 @@
 
       document.getElementById('back-to-games-btn').addEventListener('click', function () {
         window.location.href = 'games.html';
+      });
+
+      document.getElementById('leaderboard-btn').addEventListener('click', function () {
+        window.location.href = 'leaderboards.html';
       });
 
       window.addEventListener('load', function () {
