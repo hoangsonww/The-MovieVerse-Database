@@ -1,5 +1,5 @@
-const canvas = document.getElementById('gameCanvas');
-const ctx = canvas.getContext('2d');
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
 
 // Resize canvas to fit screen
 function resizeCanvas() {
@@ -7,7 +7,7 @@ function resizeCanvas() {
   canvas.height = window.innerHeight * 0.8;
 }
 resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
+window.addEventListener("resize", resizeCanvas);
 
 // Game variables
 let stack = [];
@@ -21,17 +21,20 @@ let currentBlock = {
 };
 let currentLevelY = canvas.height - 30;
 let score = 0;
+let highScore = localStorage.getItem("highScoreStackGame") || 0;
 let isGameOver = false;
 
 // Handle block placement
-document.addEventListener('keydown', e => {
-  if ((e.key === ' ' || e.key === 'Enter') && !isGameOver) {
+document.addEventListener("keydown", (e) => {
+  e.preventDefault();
+
+  if ((e.key === " " || e.key === "Enter") && !isGameOver) {
     placeBlock();
-  } else if (isGameOver && (e.key === ' ' || e.key === 'Enter')) {
+  } else if (isGameOver && (e.key === " " || e.key === "Enter")) {
     resetGame();
   }
 });
-canvas.addEventListener('click', () => {
+canvas.addEventListener("click", () => {
   if (isGameOver) {
     resetGame();
   } else {
@@ -50,6 +53,7 @@ function placeBlock() {
 
     if (overlap <= 0) {
       isGameOver = true;
+      updateHighScore();
     } else {
       currentBlock.width = overlap;
       if (currentBlock.x < topBlock.x) {
@@ -65,6 +69,7 @@ function placeBlock() {
 }
 
 function resetGame() {
+  updateHighScore();
   stack = [];
   currentBlock = {
     width: 280,
@@ -77,6 +82,13 @@ function resetGame() {
   currentLevelY = canvas.height - 30;
   score = 0;
   isGameOver = false;
+}
+
+function updateHighScore() {
+  if (score > highScore) {
+    highScore = score;
+    localStorage.setItem("highScoreStackGame", highScore);
+  }
 }
 
 function getOverlap(blockA, blockB) {
@@ -107,6 +119,7 @@ function update() {
 
   if (currentLevelY < 0) {
     isGameOver = true;
+    updateHighScore(); // Update high score when the player wins
   }
 }
 
@@ -114,41 +127,51 @@ function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   // Background
-  ctx.fillStyle = 'black';
+  ctx.fillStyle = "black";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   // Draw stacked blocks
-  ctx.fillStyle = 'orange';
-  stack.forEach(b => {
+  ctx.fillStyle = "orange";
+  stack.forEach((b) => {
     ctx.fillRect(b.x, b.y, b.width, b.height);
   });
 
   // Draw current block
   if (!isGameOver) {
-    ctx.fillStyle = 'green';
-    ctx.fillRect(currentBlock.x, currentLevelY, currentBlock.width, currentBlock.height);
+    ctx.fillStyle = "green";
+    ctx.fillRect(
+      currentBlock.x,
+      currentLevelY,
+      currentBlock.width,
+      currentBlock.height,
+    );
   }
 
-  // Draw score
-  ctx.fillStyle = 'white';
-  ctx.font = '20px Poppins, sans-serif';
-  ctx.textAlign = 'left';
+  // Draw score and high score
+  ctx.fillStyle = "white";
+  ctx.font = "20px Poppins, sans-serif";
+  ctx.textAlign = "left";
   ctx.fillText(`Score: ${score}`, 10, 30);
+  ctx.fillText(`High Score: ${highScore}`, 10, 60);
 
   // Game over message
   if (isGameOver) {
-    ctx.fillStyle = 'red';
-    ctx.font = '30px Poppins, sans-serif';
-    ctx.textAlign = 'center';
+    ctx.fillStyle = "red";
+    ctx.font = "30px Poppins, sans-serif";
+    ctx.textAlign = "center";
     if (currentLevelY < 0) {
-      ctx.fillText('You Win!', canvas.width / 2, canvas.height / 2 - 20);
+      ctx.fillText("You Win!", canvas.width / 2, canvas.height / 2 - 20);
     } else {
-      ctx.fillText('Game Over!', canvas.width / 2, canvas.height / 2 - 20);
+      ctx.fillText("Game Over!", canvas.width / 2, canvas.height / 2 - 20);
     }
 
-    ctx.fillStyle = 'white';
-    ctx.font = '18px Poppins, sans-serif';
-    ctx.fillText('Press Space, Enter, or Tap to Restart', canvas.width / 2, canvas.height / 2 + 20);
+    ctx.fillStyle = "white";
+    ctx.font = "18px Poppins, sans-serif";
+    ctx.fillText(
+      "Press Space, Enter, or Tap to Restart",
+      canvas.width / 2,
+      canvas.height / 2 + 20,
+    );
   }
 }
 

@@ -1,5 +1,5 @@
-const canvas = document.getElementById('gameCanvas');
-const ctx = canvas.getContext('2d');
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
 
 let bird = {
   x: 50,
@@ -7,18 +7,19 @@ let bird = {
   width: 20,
   height: 20,
   vy: 0,
-  gravity: 0.1, // Reduced gravity for slower falling
-  jump: 3, // Slightly reduced jump for balance
+  gravity: 0.1,
+  jump: 3,
 };
 
 let pipes = [];
-let gap = 100; // Increased gap for easier gameplay
+let gap = 100;
 let pipeWidth = 40;
 let pipeSpeed = 2;
 let score = 0;
+let highScore = localStorage.getItem("highScoreFlappyBird") || 0;
 let isGameOver = false;
 let spawnTimer = 0;
-const spawnInterval = 100; // Minimum frames between pipe spawns
+const spawnInterval = 100;
 
 // Bird jump or game reset
 function handleJumpOrReset() {
@@ -31,6 +32,10 @@ function handleJumpOrReset() {
 
 // Reset the game
 function resetGame() {
+  if (score > highScore) {
+    highScore = score;
+    localStorage.setItem("highScoreFlappyBird", highScore);
+  }
   bird.y = 200;
   bird.vy = 0;
   pipes = [];
@@ -41,8 +46,8 @@ function resetGame() {
 }
 
 // Add event listeners for jump or reset
-document.addEventListener('keydown', handleJumpOrReset);
-canvas.addEventListener('click', handleJumpOrReset);
+document.addEventListener("keydown", handleJumpOrReset);
+canvas.addEventListener("click", handleJumpOrReset);
 
 function createPipe() {
   let topHeight = Math.floor(Math.random() * (canvas.height - gap - 40)) + 20;
@@ -109,37 +114,46 @@ function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   // Set the game background
-  ctx.fillStyle = 'black';
+  ctx.fillStyle = "black";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   // Draw bird
-  ctx.fillStyle = 'yellow';
+  ctx.fillStyle = "yellow";
   ctx.fillRect(bird.x, bird.y, bird.width, bird.height);
 
   // Draw pipes
-  ctx.fillStyle = 'green';
+  ctx.fillStyle = "green";
   for (let pipe of pipes) {
     ctx.fillRect(pipe.x, pipe.y, pipe.width, pipe.height);
   }
 
-  // Draw score
-  ctx.fillStyle = 'white';
-  ctx.font = "20px 'Poppins', sans-serif"; // Use Poppins font
+  // Draw score and high score
+  ctx.fillStyle = "white";
+  ctx.font = "20px 'Poppins', sans-serif";
   ctx.fillText(`Score: ${score}`, 10, 30);
+  ctx.fillText(`High Score: ${highScore}`, 10, 60);
 
   // Game over text
   if (isGameOver) {
-    ctx.fillStyle = 'red';
-    ctx.font = "24px 'Poppins', sans-serif"; // Use Poppins font
-    const gameOverText = 'Game Over!';
-    const restartText = 'Press Any Key or Tap to Restart';
+    ctx.fillStyle = "red";
+    ctx.font = "24px 'Poppins', sans-serif";
+    const gameOverText = "Game Over!";
+    const restartText = "Press Any Key or Tap to Restart";
 
     const gameOverWidth = ctx.measureText(gameOverText).width;
     const restartWidth = ctx.measureText(restartText).width;
 
-    ctx.fillText(gameOverText, (canvas.width - gameOverWidth) / 2, canvas.height / 2 - 20);
-    ctx.fillStyle = 'white';
-    ctx.fillText(restartText, (canvas.width - restartWidth) / 2, canvas.height / 2 + 20);
+    ctx.fillText(
+      gameOverText,
+      (canvas.width - gameOverWidth) / 2,
+      canvas.height / 2 - 20,
+    );
+    ctx.fillStyle = "white";
+    ctx.fillText(
+      restartText,
+      (canvas.width - restartWidth) / 2,
+      canvas.height / 2 + 20,
+    );
   }
 }
 
