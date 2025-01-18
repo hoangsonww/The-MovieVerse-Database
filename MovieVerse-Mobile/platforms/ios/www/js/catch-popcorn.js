@@ -19,7 +19,8 @@ let bucket = {
 
 let popcorns = [];
 let score = 0;
-let lives = 3;
+let highScore = localStorage.getItem('highScoreBucketGame') || 0;
+let lives = 10;
 let isGameOver = false;
 
 // Control bucket with arrow keys / touch
@@ -62,16 +63,20 @@ function spawnPopcorn() {
     y: 0,
     width: 15,
     height: 15,
-    vy: 1.5 + Math.random(), // Slower popcorn speed for reduced difficulty
+    vy: 1.5 + Math.random(),
   });
 }
 
 // Reset game
 function resetGame() {
+  if (score > highScore) {
+    highScore = score;
+    localStorage.setItem('highScoreBucketGame', highScore);
+  }
   bucket.x = canvas.width / 2 - 25;
   popcorns = [];
   score = 0;
-  lives = 3;
+  lives = 10;
   isGameOver = false;
 }
 
@@ -136,8 +141,9 @@ function draw() {
   ctx.fillStyle = 'white';
   ctx.font = '16px Poppins, sans-serif';
   ctx.textAlign = 'left';
-  ctx.fillText(`Score: ${score}`, 10, Math.min(20, canvas.height - 10)); // Ensures text isn't clipped
-  ctx.fillText(`Lives: ${lives}`, 10, Math.min(40, canvas.height - 10)); // Ensures text isn't clipped
+  ctx.fillText(`Score: ${score}`, 10, Math.min(20, canvas.height - 10));
+  ctx.fillText(`High Score: ${highScore}`, 10, Math.min(40, canvas.height - 10)); // Display high score
+  ctx.fillText(`Lives: ${lives}`, 10, Math.min(60, canvas.height - 10));
 
   // Game Over message
   if (isGameOver) {

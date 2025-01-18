@@ -323,89 +323,76 @@
       }
       .container {
         display: grid;
-        grid-template-columns: repeat(3, 1fr); /* 3x3 grid for desktop */
+        grid-template-columns: repeat(3, 1fr);
         gap: 20px;
         padding: 20px;
-        justify-items: center; /* Center align items within the grid */
+        justify-items: center;
       }
-
       .leaderboard {
-        width: 100%; /* Ensure the leaderboard spans full grid cell width */
+        width: 100%;
         padding: 20px;
         background-color: rgba(211, 211, 211, 0.5);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        border-radius: 8px; /* Rounded corners */
+        border-radius: 8px;
         text-align: center;
         min-width: 100%;
       }
-
       .leaderboard h2 {
         margin-bottom: 10px;
         margin-top: 0;
         font-size: 1.5rem;
       }
-
       .leaderboard input {
-        width: 100%; /* Full width for input field */
+        width: 100%;
         padding: 10px;
         margin: 10px 0;
         border: 1px solid #ccc;
         border-radius: 5px;
-        font-family: 'Poppins', sans-serif; /* Consistent font */
+        font-family: 'Poppins', sans-serif;
       }
-
       table {
-        width: 100%; /* Full width */
-        border-collapse: collapse; /* Remove gaps between cells */
+        width: 100%;
+        border-collapse: collapse;
       }
-
       th,
       td {
         padding: 10px;
-        text-align: left; /* Align text to the left */
-        border-bottom: 1px solid #ddd; /* Subtle bottom border */
-        font-family: 'Poppins', sans-serif; /* Consistent font */
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+        font-family: 'Poppins', sans-serif;
       }
-
       th {
         font-weight: 600;
       }
-
       .pagination {
         display: flex;
         justify-content: center;
         margin-top: 10px;
       }
-
       .pagination button {
         padding: 5px 10px;
         margin: 0 5px;
         border: 1px solid #ccc;
         background-color: #fff;
         cursor: pointer;
-        font-family: 'Poppins', sans-serif; /* Ensure font consistency */
+        font-family: 'Poppins', sans-serif;
       }
-
       .pagination button.active {
         font-weight: bold;
         color: white;
-        background-color: #007bff; /* Highlight active page */
+        background-color: #007bff;
       }
-
-      /* Responsive design for smaller screens */
       @media (max-width: 1200px) {
         .container {
-          grid-template-columns: repeat(2, 1fr); /* Switch to 2 columns on smaller desktops */
+          grid-template-columns: repeat(2, 1fr);
         }
       }
-
       @media (max-width: 767px) {
         .container {
-          grid-template-columns: repeat(1, 1fr); /* Single column for mobile */
+          grid-template-columns: repeat(1, 1fr);
         }
-
         .leaderboard {
-          max-width: 100%; /* Remove max-width restriction for narrow devices */
+          max-width: 100%;
         }
       }
     </style>
