@@ -1,5 +1,5 @@
-const canvas = document.getElementById("gameCanvas");
-const ctx = canvas.getContext("2d");
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
 
 // Resize canvas to fit screen
 function resizeCanvas() {
@@ -7,7 +7,7 @@ function resizeCanvas() {
   canvas.height = window.innerHeight * 0.8;
 }
 resizeCanvas();
-window.addEventListener("resize", resizeCanvas);
+window.addEventListener('resize', resizeCanvas);
 
 // Ship properties
 let ship = {
@@ -25,15 +25,15 @@ let bullets = [];
 let enemies = [];
 let enemySpeed = 0.75;
 let score = 0;
-let highScore = localStorage.getItem("highScoreSpaceShooter") || 0;
+let highScore = localStorage.getItem('highScoreSpaceShooter') || 0;
 let isGameOver = false;
 let lives = 10;
 
 // Listen for key presses
-document.addEventListener("keydown", (e) => {
-  if (e.key === "ArrowLeft") leftPressed = true;
-  if (e.key === "ArrowRight") rightPressed = true;
-  if (e.key === " ") {
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowLeft') leftPressed = true;
+  if (e.key === 'ArrowRight') rightPressed = true;
+  if (e.key === ' ') {
     e.preventDefault();
 
     if (isGameOver) {
@@ -42,18 +42,18 @@ document.addEventListener("keydown", (e) => {
       shoot();
     }
   }
-  if (isGameOver && e.key === "Enter") {
+  if (isGameOver && e.key === 'Enter') {
     resetGame();
   }
 });
 
-document.addEventListener("keyup", (e) => {
-  if (e.key === "ArrowLeft") leftPressed = false;
-  if (e.key === "ArrowRight") rightPressed = false;
+document.addEventListener('keyup', e => {
+  if (e.key === 'ArrowLeft') leftPressed = false;
+  if (e.key === 'ArrowRight') rightPressed = false;
 });
 
 // Tap or click to shoot or restart
-canvas.addEventListener("click", () => {
+canvas.addEventListener('click', () => {
   if (isGameOver) {
     resetGame();
   } else {
@@ -82,7 +82,7 @@ function createEnemy() {
 function resetGame() {
   if (score > highScore) {
     highScore = score;
-    localStorage.setItem("highScoreSpaceShooter", highScore);
+    localStorage.setItem('highScoreSpaceShooter', highScore);
   }
   ship.x = canvas.width / 2 - 15;
   bullets = [];
@@ -179,29 +179,29 @@ function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   // Background
-  ctx.fillStyle = "black";
+  ctx.fillStyle = 'black';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   // Draw ship
-  ctx.fillStyle = "cyan";
+  ctx.fillStyle = 'cyan';
   ctx.fillRect(ship.x, ship.y, ship.width, ship.height);
 
   // Draw bullets
-  ctx.fillStyle = "yellow";
-  bullets.forEach((bullet) => {
+  ctx.fillStyle = 'yellow';
+  bullets.forEach(bullet => {
     ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
   });
 
   // Draw enemies
-  ctx.fillStyle = "red";
-  enemies.forEach((enemy) => {
+  ctx.fillStyle = 'red';
+  enemies.forEach(enemy => {
     ctx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
   });
 
   // Draw score and high score
-  ctx.fillStyle = "white";
-  ctx.font = "20px Poppins, sans-serif";
-  ctx.textAlign = "left";
+  ctx.fillStyle = 'white';
+  ctx.font = '20px Poppins, sans-serif';
+  ctx.textAlign = 'left';
   ctx.fillText(`Score: ${score}`, 10, 30);
   ctx.fillText(`High Score: ${highScore}`, 10, 60);
 
@@ -210,44 +210,40 @@ function draw() {
 
   // Game over message
   if (isGameOver) {
-    ctx.fillStyle = "red";
-    ctx.font = "30px Poppins, sans-serif";
-    ctx.textAlign = "center";
-    ctx.fillText("Game Over!", canvas.width / 2, canvas.height / 2 - 20);
+    ctx.fillStyle = 'red';
+    ctx.font = '30px Poppins, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('Game Over!', canvas.width / 2, canvas.height / 2 - 20);
 
-    ctx.fillStyle = "white";
-    ctx.font = "18px Poppins, sans-serif";
-    ctx.fillText(
-      "Press Space, Enter, or Tap to Restart",
-      canvas.width / 2,
-      canvas.height / 2 + 20,
-    );
+    ctx.fillStyle = 'white';
+    ctx.font = '18px Poppins, sans-serif';
+    ctx.fillText('Press Space, Enter, or Tap to Restart', canvas.width / 2, canvas.height / 2 + 20);
   }
 }
 
 // Control buttons
-const leftButton = document.getElementById("leftButton");
-const rightButton = document.getElementById("rightButton");
-const shootButton = document.getElementById("shootButton");
+const leftButton = document.getElementById('leftButton');
+const rightButton = document.getElementById('rightButton');
+const shootButton = document.getElementById('shootButton');
 
 // Add event listeners for control buttons
-leftButton.addEventListener("mousedown", () => (leftPressed = true));
-leftButton.addEventListener("mouseup", () => (leftPressed = false));
-leftButton.addEventListener("touchstart", (e) => {
+leftButton.addEventListener('mousedown', () => (leftPressed = true));
+leftButton.addEventListener('mouseup', () => (leftPressed = false));
+leftButton.addEventListener('touchstart', e => {
   e.preventDefault(); // Prevent scrolling
   leftPressed = true;
 });
-leftButton.addEventListener("touchend", () => (leftPressed = false));
+leftButton.addEventListener('touchend', () => (leftPressed = false));
 
-rightButton.addEventListener("mousedown", () => (rightPressed = true));
-rightButton.addEventListener("mouseup", () => (rightPressed = false));
-rightButton.addEventListener("touchstart", (e) => {
+rightButton.addEventListener('mousedown', () => (rightPressed = true));
+rightButton.addEventListener('mouseup', () => (rightPressed = false));
+rightButton.addEventListener('touchstart', e => {
   e.preventDefault();
   rightPressed = true;
 });
-rightButton.addEventListener("touchend", () => (rightPressed = false));
+rightButton.addEventListener('touchend', () => (rightPressed = false));
 
-shootButton.addEventListener("click", () => {
+shootButton.addEventListener('click', () => {
   if (!isGameOver) shoot();
 });
 

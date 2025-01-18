@@ -1,5 +1,5 @@
-const canvas = document.getElementById("gameCanvas");
-const ctx = canvas.getContext("2d");
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
 
 let bird = {
   x: 50,
@@ -16,7 +16,7 @@ let gap = 100;
 let pipeWidth = 40;
 let pipeSpeed = 2;
 let score = 0;
-let highScore = localStorage.getItem("highScoreFlappyBird") || 0;
+let highScore = localStorage.getItem('highScoreFlappyBird') || 0;
 let isGameOver = false;
 let spawnTimer = 0;
 const spawnInterval = 100;
@@ -34,7 +34,7 @@ function handleJumpOrReset() {
 function resetGame() {
   if (score > highScore) {
     highScore = score;
-    localStorage.setItem("highScoreFlappyBird", highScore);
+    localStorage.setItem('highScoreFlappyBird', highScore);
   }
   bird.y = 200;
   bird.vy = 0;
@@ -46,8 +46,8 @@ function resetGame() {
 }
 
 // Add event listeners for jump or reset
-document.addEventListener("keydown", handleJumpOrReset);
-canvas.addEventListener("click", handleJumpOrReset);
+document.addEventListener('keydown', handleJumpOrReset);
+canvas.addEventListener('click', handleJumpOrReset);
 
 function createPipe() {
   let topHeight = Math.floor(Math.random() * (canvas.height - gap - 40)) + 20;
@@ -114,46 +114,38 @@ function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   // Set the game background
-  ctx.fillStyle = "black";
+  ctx.fillStyle = 'black';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   // Draw bird
-  ctx.fillStyle = "yellow";
+  ctx.fillStyle = 'yellow';
   ctx.fillRect(bird.x, bird.y, bird.width, bird.height);
 
   // Draw pipes
-  ctx.fillStyle = "green";
+  ctx.fillStyle = 'green';
   for (let pipe of pipes) {
     ctx.fillRect(pipe.x, pipe.y, pipe.width, pipe.height);
   }
 
   // Draw score and high score
-  ctx.fillStyle = "white";
+  ctx.fillStyle = 'white';
   ctx.font = "20px 'Poppins', sans-serif";
   ctx.fillText(`Score: ${score}`, 10, 30);
   ctx.fillText(`High Score: ${highScore}`, 10, 60);
 
   // Game over text
   if (isGameOver) {
-    ctx.fillStyle = "red";
+    ctx.fillStyle = 'red';
     ctx.font = "24px 'Poppins', sans-serif";
-    const gameOverText = "Game Over!";
-    const restartText = "Press Any Key or Tap to Restart";
+    const gameOverText = 'Game Over!';
+    const restartText = 'Press Any Key or Tap to Restart';
 
     const gameOverWidth = ctx.measureText(gameOverText).width;
     const restartWidth = ctx.measureText(restartText).width;
 
-    ctx.fillText(
-      gameOverText,
-      (canvas.width - gameOverWidth) / 2,
-      canvas.height / 2 - 20,
-    );
-    ctx.fillStyle = "white";
-    ctx.fillText(
-      restartText,
-      (canvas.width - restartWidth) / 2,
-      canvas.height / 2 + 20,
-    );
+    ctx.fillText(gameOverText, (canvas.width - gameOverWidth) / 2, canvas.height / 2 - 20);
+    ctx.fillStyle = 'white';
+    ctx.fillText(restartText, (canvas.width - restartWidth) / 2, canvas.height / 2 + 20);
   }
 }
 

@@ -2,23 +2,23 @@
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
   <head>
     <meta charset="UTF-8" />
-    <title>Stack the Blocks - The MovieVerse</title>
+    <title>Game Leaderboards - The MovieVerse</title>
     <link rel="stylesheet" href="../css/style.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Stack the Blocks is a fun game where you can reach the sky by stacking the blocks as high as you can! Play now on The MovieVerse."
+      content="Game leaderboards for The MovieVerse. Check out the global leaderboards of our games and see how you rank against other players!"
     />
-    <link rel="canonical" href="https://movie-verse.com/MovieVerse-Frontend/html/stack-blocks.html" />
+    <link rel="canonical" href="https://movie-verse.com/MovieVerse-Frontend/html/leaderboards.html" />
     <meta property="og:title" content="Actor Details - The MovieVerse" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
     <meta http-equiv="content-language" content="en" />
     <meta
       property="og:description"
-      content="Stack the Blocks is a fun game where you can reach the sky by stacking the blocks as high as you can! Play now on The MovieVerse."
+      content="Game leaderboards for The MovieVerse. Check out the global leaderboards of our games and see how you rank against other players!"
     />
-    <meta property="og:url" content="https://movie-verse.com/MovieVerse-Frontend/html/stack-blocks.html" />
+    <meta property="og:url" content="https://movie-verse.com/MovieVerse-Frontend/html/leaderboards.html" />
     <meta property="og:site_name" content="The MovieVerse" />
     <meta property="og:image" content="https://movie-verse.com/images/image.png" />
     <meta property="og:favicon" content="./images/favicon.ico" />
@@ -37,7 +37,7 @@
     <meta name="twitter:title" content="The MovieVerse - Your Ultimate Movie Guide" />
     <meta
       name="twitter:description"
-      content="Discover detailed insights into your favorite actors on The MovieVerse. Explore filmographies, biographies, and more to learn about the stars of cinema."
+      content="Game leaderboards for The MovieVerse. Check out the global leaderboards of our games and see how you rank against other players!"
     />
     <meta name="twitter:image" content="https://movie-verse.com/images/image.png" />
     <meta name="referrer" content="no-referrer-when-downgrade" />
@@ -321,9 +321,95 @@
           display: block;
         }
       }
+      .container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* 3x3 grid for desktop */
+        gap: 20px;
+        padding: 20px;
+        justify-items: center; /* Center align items within the grid */
+      }
+
+      .leaderboard {
+        width: 100%; /* Ensure the leaderboard spans full grid cell width */
+        padding: 20px;
+        background-color: rgba(211, 211, 211, 0.5);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border-radius: 8px; /* Rounded corners */
+        text-align: center;
+        min-width: 100%;
+      }
+
+      .leaderboard h2 {
+        margin-bottom: 10px;
+        margin-top: 0;
+        font-size: 1.5rem;
+      }
+
+      .leaderboard input {
+        width: 100%; /* Full width for input field */
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-family: 'Poppins', sans-serif; /* Consistent font */
+      }
+
+      table {
+        width: 100%; /* Full width */
+        border-collapse: collapse; /* Remove gaps between cells */
+      }
+
+      th,
+      td {
+        padding: 10px;
+        text-align: left; /* Align text to the left */
+        border-bottom: 1px solid #ddd; /* Subtle bottom border */
+        font-family: 'Poppins', sans-serif; /* Consistent font */
+      }
+
+      th {
+        font-weight: 600;
+      }
+
+      .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+      }
+
+      .pagination button {
+        padding: 5px 10px;
+        margin: 0 5px;
+        border: 1px solid #ccc;
+        background-color: #fff;
+        cursor: pointer;
+        font-family: 'Poppins', sans-serif; /* Ensure font consistency */
+      }
+
+      .pagination button.active {
+        font-weight: bold;
+        color: white;
+        background-color: #007bff; /* Highlight active page */
+      }
+
+      /* Responsive design for smaller screens */
+      @media (max-width: 1200px) {
+        .container {
+          grid-template-columns: repeat(2, 1fr); /* Switch to 2 columns on smaller desktops */
+        }
+      }
+
+      @media (max-width: 767px) {
+        .container {
+          grid-template-columns: repeat(1, 1fr); /* Single column for mobile */
+        }
+
+        .leaderboard {
+          max-width: 100%; /* Remove max-width restriction for narrow devices */
+        }
+      }
     </style>
   </head>
-
   <body>
     <div id="google_translate_element"></div>
     <div id="translate_control">
@@ -414,12 +500,12 @@
         </div>
       </form>
     </header>
-    <h2 style="margin-bottom: 0">Stack the Blocks</h2>
-    <p>Reach the sky by stacking the blocks as high as you can!</p>
-    <div class="game-container">
-      <canvas id="gameCanvas" width="400" height="400"></canvas>
+    <h2 style="text-align: center; margin-bottom: 0">Global Leaderboards</h2>
+    <p>Welcome to The MovieVerse Games! Check out the global leaderboards of our games below:</p>
+    <div class="container" id="leaderboards-container">
+      <!-- Leaderboards will be dynamically added here -->
     </div>
-    <script src="../js/stack-blocks.js"></script>
+    <script type="module" src="../js/highscores.js"></script>
     <div id="myModal" class="modal-overlay">
       <div class="spinner"></div>
     </div>
@@ -519,8 +605,8 @@
     </button>
 
     <button title="Back to Games" id="back-to-games-btn">
-      <i class="fas fa-arrow-left"></i><br />
-      <span>Back to Games</span>
+      <i class="fas fa-gamepad"></i><br />
+      <span>Go to Games</span>
     </button>
 
     <div
