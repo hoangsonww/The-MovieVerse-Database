@@ -5,19 +5,13 @@
     <title>Flappy Bird - The MovieVerse</title>
     <link rel="stylesheet" href="../css/style.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Discover detailed insights into your favorite actors on The MovieVerse. Explore filmographies, biographies, and more to learn about the stars of cinema."
-    />
+    <meta name="description" content="Flappy Bird is a fun game where you help the bird fly through the pipes. Play now on The MovieVerse!" />
     <link rel="canonical" href="https://movie-verse.com/MovieVerse-Frontend/html/flappy-bird.html" />
     <meta property="og:title" content="Actor Details - The MovieVerse" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
     <meta http-equiv="content-language" content="en" />
-    <meta
-      property="og:description"
-      content="Discover detailed insights into your favorite actors on The MovieVerse. Explore filmographies, biographies, and more to learn about the stars of cinema."
-    />
+    <meta property="og:description" content="Flappy Bird is a fun game where you help the bird fly through the pipes. Play now on The MovieVerse!" />
     <meta property="og:url" content="https://movie-verse.com/MovieVerse-Frontend/html/flappy-bird.html" />
     <meta property="og:site_name" content="The MovieVerse" />
     <meta property="og:image" content="https://movie-verse.com/images/image.png" />
@@ -35,10 +29,7 @@
     <meta name="twitter:site" content="@MovieVerse" />
     <meta name="twitter:creator" content="@hoangsonw" />
     <meta name="twitter:title" content="The MovieVerse - Your Ultimate Movie Guide" />
-    <meta
-      name="twitter:description"
-      content="Discover detailed insights into your favorite actors on The MovieVerse. Explore filmographies, biographies, and more to learn about the stars of cinema."
-    />
+    <meta name="twitter:description" content="Flappy Bird is a fun game where you help the bird fly through the pipes. Play now on The MovieVerse!" />
     <meta name="twitter:image" content="https://movie-verse.com/images/image.png" />
     <meta name="referrer" content="no-referrer-when-downgrade" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
@@ -521,6 +512,11 @@
       <span>How to Play</span>
     </button>
 
+    <button title="Back to Games" id="leaderboard-btn">
+      <i class="fas fa-trophy"></i><br />
+      <span>Leaderboard</span>
+    </button>
+
     <button title="Back to Games" id="back-to-games-btn">
       <i class="fas fa-arrow-left"></i><br />
       <span>Back to Games</span>
@@ -568,6 +564,10 @@
 
       document.getElementById('back-to-games-btn').addEventListener('click', function () {
         window.location.href = 'games.html';
+      });
+
+      document.getElementById('leaderboard-btn').addEventListener('click', function () {
+        window.location.href = 'leaderboards.html';
       });
 
       window.addEventListener('load', function () {

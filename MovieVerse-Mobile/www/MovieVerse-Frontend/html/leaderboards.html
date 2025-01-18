@@ -2,23 +2,23 @@
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
   <head>
     <meta charset="UTF-8" />
-    <title>Games - The MovieVerse</title>
+    <title>Game Leaderboards - The MovieVerse</title>
     <link rel="stylesheet" href="../css/style.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Play fun and interactive games on The MovieVerse. Choose from a variety of games like Flappy Bird, Space Invaders, and more!"
+      content="Game leaderboards for The MovieVerse. Check out the global leaderboards of our games and see how you rank against other players!"
     />
-    <link rel="canonical" href="https://movie-verse.com/MovieVerse-Frontend/html/games.html" />
-    <meta property="og:title" content="Games - The MovieVerse" />
+    <link rel="canonical" href="https://movie-verse.com/MovieVerse-Frontend/html/leaderboards.html" />
+    <meta property="og:title" content="Actor Details - The MovieVerse" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
     <meta http-equiv="content-language" content="en" />
     <meta
       property="og:description"
-      content="Play fun and interactive games on The MovieVerse. Choose from a variety of games like Flappy Bird, Space Invaders, and more!"
+      content="Game leaderboards for The MovieVerse. Check out the global leaderboards of our games and see how you rank against other players!"
     />
-    <meta property="og:url" content="https://movie-verse.com/MovieVerse-Frontend/html/games.html" />
+    <meta property="og:url" content="https://movie-verse.com/MovieVerse-Frontend/html/leaderboards.html" />
     <meta property="og:site_name" content="The MovieVerse" />
     <meta property="og:image" content="https://movie-verse.com/images/image.png" />
     <meta property="og:favicon" content="./images/favicon.ico" />
@@ -37,9 +37,10 @@
     <meta name="twitter:title" content="The MovieVerse - Your Ultimate Movie Guide" />
     <meta
       name="twitter:description"
-      content="Play fun and interactive games on The MovieVerse. Choose from a variety of games like Flappy Bird, Space Invaders, and more!"
+      content="Game leaderboards for The MovieVerse. Check out the global leaderboards of our games and see how you rank against other players!"
     />
     <meta name="twitter:image" content="https://movie-verse.com/images/image.png" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <link rel="manifest" href="../../manifest.json" />
     <link rel="icon" type="image/x-icon" href="../../images/favicon.ico" />
@@ -80,7 +81,7 @@
         grid-template-columns: repeat(3, 1fr);
         grid-template-rows: repeat(3, auto);
         justify-items: center;
-        gap: 20px;
+        gap: 10px;
         padding: 20px;
         animation: fadeIn 1.5s ease-in-out;
       }
@@ -92,8 +93,8 @@
         background-color: #2e2e3e;
         border-radius: 10px;
         box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-        width: 100%;
-        height: 100%;
+        width: 200px;
+        height: 250px;
         padding: 20px;
         text-align: center;
         transition:
@@ -133,6 +134,12 @@
         background-color: #ff8623;
         transform: scale(1.1);
       }
+      h2 {
+        margin: 50px 0;
+        font-size: 2.2rem;
+        color: #ff8623;
+        animation: fadeInDown 1s ease-in-out;
+      }
       @keyframes fadeIn {
         from {
           opacity: 0;
@@ -153,7 +160,6 @@
           transform: translateY(0);
         }
       }
-
       @keyframes bounce {
         0%,
         20%,
@@ -173,6 +179,10 @@
         .container {
           grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
           grid-template-rows: auto;
+        }
+        .card {
+          width: 180px;
+          height: 240px;
         }
       }
       #translate_control {
@@ -310,33 +320,92 @@
         #games-button {
           display: block;
         }
-        #c1 {
-          padding: 0 !important;
-        }
       }
-      #c1 {
-        width: 100%;
+      .container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* 3x3 grid for desktop */
+        gap: 20px;
+        padding: 20px;
+        justify-items: center; /* Center align items within the grid */
+      }
+
+      .leaderboard {
+        width: 100%; /* Ensure the leaderboard spans full grid cell width */
+        padding: 20px;
+        background-color: rgba(211, 211, 211, 0.5);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border-radius: 8px; /* Rounded corners */
+        text-align: center;
+        min-width: 100%;
+      }
+
+      .leaderboard h2 {
+        margin-bottom: 10px;
+        margin-top: 0;
+        font-size: 1.5rem;
+      }
+
+      .leaderboard input {
+        width: 100%; /* Full width for input field */
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-family: 'Poppins', sans-serif; /* Consistent font */
+      }
+
+      table {
+        width: 100%; /* Full width */
+        border-collapse: collapse; /* Remove gaps between cells */
+      }
+
+      th,
+      td {
+        padding: 10px;
+        text-align: left; /* Align text to the left */
+        border-bottom: 1px solid #ddd; /* Subtle bottom border */
+        font-family: 'Poppins', sans-serif; /* Consistent font */
+      }
+
+      th {
+        font-weight: 600;
+      }
+
+      .pagination {
         display: flex;
         justify-content: center;
-        align-items: center;
-        gap: 20px;
-        animation: fadeIn 1.5s ease-in-out;
-        padding: 20px;
-        flex-wrap: wrap;
+        margin-top: 10px;
       }
-      #c1 > * {
-        flex: 1 1 45%;
-        max-width: 600px;
-        min-width: 200px;
-        box-sizing: border-box;
+
+      .pagination button {
+        padding: 5px 10px;
+        margin: 0 5px;
+        border: 1px solid #ccc;
+        background-color: #fff;
+        cursor: pointer;
+        font-family: 'Poppins', sans-serif; /* Ensure font consistency */
       }
-      @media (max-width: 768px) {
-        #c1 {
-          flex-direction: column;
+
+      .pagination button.active {
+        font-weight: bold;
+        color: white;
+        background-color: #007bff; /* Highlight active page */
+      }
+
+      /* Responsive design for smaller screens */
+      @media (max-width: 1200px) {
+        .container {
+          grid-template-columns: repeat(2, 1fr); /* Switch to 2 columns on smaller desktops */
+        }
+      }
+
+      @media (max-width: 767px) {
+        .container {
+          grid-template-columns: repeat(1, 1fr); /* Single column for mobile */
         }
 
-        #c1 > * {
-          flex: 1 1 100%;
+        .leaderboard {
+          max-width: 100%; /* Remove max-width restriction for narrow devices */
         }
       }
     </style>
@@ -389,7 +458,6 @@
         );
       });
     </script>
-
     <header style="margin-bottom: -50px; margin-top: -5px">
       <h1 id="my-heading" style="margin-bottom: -10px" class="notranslate">
         <a id="indexLink" href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer">
@@ -432,101 +500,16 @@
         </div>
       </form>
     </header>
-
-    <h2 style="margin-top: 50px !important">Mini Games</h2>
-    <p>Welcome to The MovieVerse Games! Explore our collection of fun and interactive mini games below:</p>
-    <div class="container">
-      <!-- Dinosaur Jump -->
-      <div class="card">
-        <i class="fas fa-dungeon"></i>
-        <p>Dinosaur Jump</p>
-        <a href="dinosaur-jump.html">Play Now</a>
-      </div>
-      <!-- Flappy Bird -->
-      <div class="card">
-        <i class="fas fa-feather-alt"></i>
-        <p>Flappy Bird</p>
-        <a href="flappy-bird.html">Play Now</a>
-      </div>
-      <!-- Catch the Popcorn (icon replaced) -->
-      <div class="card">
-        <i class="fas fa-mug-hot"></i>
-        <p>Catch the Popcorn</p>
-        <a href="catch-popcorn.html">Play Now</a>
-      </div>
-      <!-- Falling Stars -->
-      <div class="card">
-        <i class="fas fa-star"></i>
-        <p>Falling Star</p>
-        <a href="falling-stars.html">Play Now</a>
-      </div>
-      <!-- Space Invaders -->
-      <div class="card">
-        <i class="fas fa-space-shuttle"></i>
-        <p>Space Invaders</p>
-        <a href="space-invaders.html">Play Now</a>
-      </div>
-      <!-- Stack the Blocks -->
-      <div class="card">
-        <i class="fas fa-layer-group"></i>
-        <p>Stack the Blocks</p>
-        <a href="stack-blocks.html">Play Now</a>
-      </div>
+    <h2 style="text-align: center; margin-bottom: 0">Global Leaderboards</h2>
+    <p>Welcome to The MovieVerse Games! Check out the global leaderboards of our games below:</p>
+    <div class="container" id="leaderboards-container">
+      <!-- Leaderboards will be dynamically added here -->
     </div>
-
-    <!-- How to Play -->
-    <div id="c1">
-      <div class="card">
-        <i class="fas fa-question-circle"></i>
-        <p>How to Play</p>
-        <a href="how-to-play.html">Learn More</a>
-      </div>
-      <div class="card">
-        <i class="fas fa-trophy"></i>
-        <p>Leaderboards</p>
-        <a href="leaderboards.html">View</a>
-      </div>
-    </div>
-
-    <div
-      id="ad-container2"
-      style="
-        text-align: center;
-        cursor: pointer;
-        background-color: rgba(255, 255, 255, 0.15);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        margin: 20px auto;
-        padding: 10px;
-        border-radius: 8px;
-        width: auto;
-        max-width: calc(100% - 40px);
-      "
-      title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!"
-    >
-      <p style="margin: 0">Advertisement</p>
-      <ins
-        class="adsbygoogle"
-        style="display: block; width: 100%"
-        data-ad-client="ca-pub-6608388491200814"
-        data-ad-slot="4832732030"
-        data-ad-format="auto"
-      ></ins>
-      <p style="margin: 0; font-size: 12px; margin-top: 5px">
-        Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your
-        <a style="text-decoration: underline" id="githubLink" href="/MovieVerse-Frontend/html/feedback.html">feedback</a>
-        if you find the ad inappropriate or irrelevant.
-      </p>
-    </div>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-    <script>
-      (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-
+    <script type="module" src="../js/highscores.js"></script>
     <div id="myModal" class="modal-overlay">
       <div class="spinner"></div>
     </div>
 
-    <script src="../js/actor-details.js"></script>
     <button
       id="chat-button"
       onclick="window.location.href='chat.html'"
@@ -616,7 +599,60 @@
       <span>Menu</span>
     </button>
 
+    <button title="How to Play guide" id="how-to-play-btn" style="margin-top: 20px">
+      <i class="fas fa-question-circle"></i><br />
+      <span>How to Play</span>
+    </button>
+
+    <button title="Back to Games" id="back-to-games-btn" style="margin-top: 20px">
+      <i class="fas fa-gamepad"></i><br />
+      <span>Go to Games</span>
+    </button>
+
+    <div
+      id="ad-container2"
+      style="
+        text-align: center;
+        cursor: pointer;
+        background-color: rgba(255, 255, 255, 0.15);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        margin: 20px auto;
+        margin-top: 70px;
+        padding: 10px;
+        border-radius: 8px;
+        width: auto;
+        max-width: calc(100% - 40px);
+      "
+      title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!"
+    >
+      <p style="margin: 0">Advertisement</p>
+      <ins
+        class="adsbygoogle"
+        style="display: block; width: 100%"
+        data-ad-client="ca-pub-6608388491200814"
+        data-ad-slot="4832732030"
+        data-ad-format="auto"
+      ></ins>
+      <p style="margin: 0; font-size: 12px; margin-top: 5px">
+        Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your
+        <a style="text-decoration: underline" id="githubLink" href="/MovieVerse-Frontend/html/feedback.html">feedback</a>
+        if you find the ad inappropriate or irrelevant.
+      </p>
+    </div>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+
+    <script>
+      document.getElementById('how-to-play-btn').addEventListener('click', function () {
+        window.location.href = 'how-to-play.html';
+      });
+
+      document.getElementById('back-to-games-btn').addEventListener('click', function () {
+        window.location.href = 'games.html';
+      });
+
       window.addEventListener('load', function () {
         adjustAnchorHeights();
       });
@@ -1032,5 +1068,6 @@
         searchInput.addEventListener('blur', clearSelection);
       });
     </script>
+    <script src="../js/actor-details.js"></script>
   </body>
 </html>

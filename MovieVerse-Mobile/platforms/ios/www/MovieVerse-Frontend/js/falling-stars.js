@@ -21,11 +21,16 @@ let star = {
 
 // Game variables
 let score = 0;
+let highScore = localStorage.getItem('highScoreBouncingStar') || 0;
 let isGameOver = false;
 let startTime = null;
 
 // Initialize the star position for a fresh game
 function resetGame() {
+  if (score > highScore) {
+    highScore = score;
+    localStorage.setItem('highScoreBouncingStar', highScore);
+  }
   star.x = 100;
   star.y = 100;
   star.velocityY = 0;
@@ -36,6 +41,8 @@ function resetGame() {
 
 // Listen for key presses to jump or restart the game
 document.addEventListener('keydown', e => {
+  e.preventDefault();
+
   if (isGameOver && (e.key === ' ' || e.key === 'Enter')) {
     resetGame();
     return;
@@ -86,11 +93,12 @@ function draw() {
   ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
   ctx.fill();
 
-  // Draw score
+  // Draw score and high score
   ctx.fillStyle = 'white';
   ctx.font = '20px Poppins, sans-serif';
   ctx.textAlign = 'left';
   ctx.fillText(`Score: ${score}`, 10, 30);
+  ctx.fillText(`High Score: ${highScore}`, 10, 60);
 
   // Game over message
   if (isGameOver) {

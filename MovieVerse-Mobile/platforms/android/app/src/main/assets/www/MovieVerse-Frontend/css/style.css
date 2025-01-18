@@ -2441,6 +2441,30 @@ strong {
   transition: 0.1s linear;
 }
 
+#leaderboard-btn {
+  background-color: #7378c5;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  font: inherit;
+  font-size: 14px;
+  z-index: 1000000002 !important;
+}
+
+#leaderboard-btn i {
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+
+#leaderboard-btn:hover {
+  background-color: #ff8623;
+  transition: 0.1s linear;
+}
+
 #leftButton {
   background-color: #7378c5;
   color: white;

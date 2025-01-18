@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Discover detailed insights into your favorite actors on The MovieVerse. Explore filmographies, biographies, and more to learn about the stars of cinema."
+      content="Catch the falling popcorn in this fun game! Move the bucket left and right to catch as many popcorn pieces as you can."
     />
     <link rel="canonical" href="https://movie-verse.com/MovieVerse-Frontend/html/catch-popcorn.html" />
     <meta property="og:title" content="Actor Details - The MovieVerse" />
@@ -16,7 +16,7 @@
     <meta http-equiv="content-language" content="en" />
     <meta
       property="og:description"
-      content="Discover detailed insights into your favorite actors on The MovieVerse. Explore filmographies, biographies, and more to learn about the stars of cinema."
+      content="Catch the falling popcorn in this fun game! Move the bucket left and right to catch as many popcorn pieces as you can."
     />
     <meta property="og:url" content="https://movie-verse.com/MovieVerse-Frontend/html/catch-popcorn.html" />
     <meta property="og:site_name" content="The MovieVerse" />
@@ -37,7 +37,7 @@
     <meta name="twitter:title" content="The MovieVerse - Your Ultimate Movie Guide" />
     <meta
       name="twitter:description"
-      content="Discover detailed insights into your favorite actors on The MovieVerse. Explore filmographies, biographies, and more to learn about the stars of cinema."
+      content="Catch the falling popcorn in this fun game! Move the bucket left and right to catch as many popcorn pieces as you can."
     />
     <meta name="twitter:image" content="https://movie-verse.com/images/image.png" />
     <meta name="referrer" content="no-referrer-when-downgrade" />
@@ -522,6 +522,11 @@
       <span>How to Play</span>
     </button>
 
+    <button title="Back to Games" id="leaderboard-btn">
+      <i class="fas fa-trophy"></i><br />
+      <span>Leaderboard</span>
+    </button>
+
     <button title="Back to Games" id="back-to-games-btn">
       <i class="fas fa-arrow-left"></i><br />
       <span>Back to Games</span>
@@ -569,6 +574,10 @@
 
       document.getElementById('back-to-games-btn').addEventListener('click', function () {
         window.location.href = 'games.html';
+      });
+
+      document.getElementById('leaderboard-btn').addEventListener('click', function () {
+        window.location.href = 'leaderboards.html';
       });
 
       window.addEventListener('load', function () {
