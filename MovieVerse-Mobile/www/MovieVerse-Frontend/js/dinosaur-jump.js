@@ -133,7 +133,7 @@ function draw() {
   if (isGameOver) {
     // "Game Over!" Text
     ctx.fillStyle = 'red';
-    ctx.font = "24px 'Poppins', sans-serif";
+    ctx.font = "20px 'Poppins', sans-serif";
     const gameOverText = 'Game Over!';
     const gameOverWidth = ctx.measureText(gameOverText).width;
     ctx.fillText(gameOverText, (canvas.width - gameOverWidth) / 2, canvas.height / 2 - 20);
