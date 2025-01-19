@@ -322,7 +322,7 @@
         </div>
       </form>
     </header>
-    <div id="bot-header">
+    <div id="bot-header" style="animation: fadeIn 1.5s ease-in-out">
       <h2 id="search-title">The <span class="highlight1">MovieVerse</span> Assistant</h2>
       <button id="clear-search-btn" style="display: none">Clear Search Results</button>
       <h4 id="alt-title" style="font-weight: normal; font-size: 15px; color: #ff8623">Dive deep into the movie world with our expert assistant!</h4>
@@ -472,9 +472,13 @@
     </div>
     <footer>
       <a href="../../index.html" style="cursor: pointer; text-decoration: none">
-        <p style="cursor: pointer; color: white; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
+        <p style="cursor: pointer; text-decoration: none">© <span id="year"></span> The MovieVerse. All rights reserved.</p>
       </a>
     </footer>
+    <script>
+      const currentYear = new Date().getFullYear();
+      document.getElementById('year').textContent = currentYear;
+    </script>
     <script>
       function handleSignInOut() {
         const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;

@@ -349,6 +349,7 @@
         border: 1px solid #ccc;
         border-radius: 5px;
         font-family: 'Poppins', sans-serif;
+        font-size: 16px;
       }
       table {
         width: 100%;
@@ -489,7 +490,7 @@
     </header>
     <h2 style="text-align: center; margin-bottom: 0">Global Leaderboards</h2>
     <p>Welcome to The MovieVerse Games! Check out the global leaderboards of our games below:</p>
-    <div class="container" id="leaderboards-container">
+    <div class="container" id="leaderboards-container" style="animation: fadeIn 1.5s ease-in-out">
       <!-- Leaderboards will be dynamically added here -->
     </div>
     <script type="module" src="../js/highscores.js"></script>
@@ -772,9 +773,13 @@
 
     <footer>
       <a href="../../index.html" style="cursor: pointer; text-decoration: none">
-        <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
+        <p style="cursor: pointer; text-decoration: none">© <span id="year"></span> The MovieVerse. All rights reserved.</p>
       </a>
     </footer>
+    <script>
+      const currentYear = new Date().getFullYear();
+      document.getElementById('year').textContent = currentYear;
+    </script>
 
     <div id="myModal" class="modal-overlay">
       <div class="spinner"></div>

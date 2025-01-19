@@ -1035,6 +1035,16 @@
         }
       }
 
+      function fallbackMovieSelection() {
+        const fallbackMovies = [
+          432413, 299534, 1726, 562, 118340, 455207, 493922, 447332, 22970, 530385, 27205, 264660, 120467, 603, 577922, 76341, 539, 419704, 515001,
+          118340, 424, 98,
+        ];
+        const randomFallbackMovie = fallbackMovies[Math.floor(Math.random() * fallbackMovies.length)];
+        localStorage.setItem('selectedMovieId', randomFallbackMovie);
+        window.location.href = 'movie-details.html';
+      }
+
       document.getElementById('settings-btn').addEventListener('click', () => {
         window.location.href = 'settings.html';
       });
@@ -1349,9 +1359,13 @@
     </script>
     <footer style="margin-top: 20px">
       <a href="../../index.html" style="cursor: pointer; text-decoration: none">
-        <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
+        <p style="cursor: pointer; text-decoration: none">© <span id="year"></span> The MovieVerse. All rights reserved.</p>
       </a>
     </footer>
+    <script>
+      const currentYear = new Date().getFullYear();
+      document.getElementById('year').textContent = currentYear;
+    </script>
     <div id="mobile-bottom-bar" class="mobile-bottom-bar">
       <a href="chat.html" class="bottom-bar-item">
         <i class="fas fa-comments"></i>

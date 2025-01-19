@@ -99,7 +99,7 @@
             "@type": "Person",
             "name": "Michael Patrick"
           },
-          "datePublished": "2024-03-06",
+          "datePublished": "2024-11-09",
           "reviewRating": {
             "@type": "Rating",
             "ratingValue": 9.0,
@@ -535,7 +535,7 @@
         <i class="fas fa-sign-in-alt" id="signInIcon"></i>
         <i class="fas fa-sign-out-alt" id="signOutIcon" style="display: none"></i>
       </button>
-      <form id="form">
+      <form id="form" style="animation: fadeIn 1.5s ease-in-out">
         <div class="search-container">
           <input
             type="text"
@@ -614,7 +614,7 @@
         </li>
       </ul>
     </nav>
-    <div class="mobile-sign-in-container">
+    <div class="mobile-sign-in-container" style="animation: fadeIn 1.5s ease-in-out">
       <button id="mobileGoogleSignInBtn" class="nav-btn" onclick="handleSignInOut()" title="Sign In/Out">
         <span id="mobileSignInOutText">Sign In</span>
         <i class="fas fa-sign-in-alt" id="mobileSignInIcon"></i>
@@ -642,10 +642,10 @@
     <div id="myModal" class="modal-overlay">
       <div class="spinner"></div>
     </div>
-    <div class="genres">
+    <div class="genres" style="animation: fadeIn 1.5s ease-in-out">
       <h2 id="other" style="cursor: pointer">Global Hits: Popular Movies Worldwide</h2>
     </div>
-    <div id="most-popular-pagination" class="pagination" style="text-align: center"></div>
+    <div id="most-popular-pagination" class="pagination" style="text-align: center; animation: fadeIn 1.5s ease-in-out"></div>
     <main id="most-popular"></main>
     <div
       id="ad-container3"
@@ -1137,7 +1137,7 @@
       <span>Menu</span>
     </button>
     <footer style="margin-top: 40px">
-      <p id="footer">© 2024 The MovieVerse. All rights reserved.</p>
+      <p id="footer">© <span id="year"></span> The MovieVerse. All rights reserved.</p>
       <p>
         Learn more
         <a href="MovieVerse-Frontend/html/about.html" id="githubLink10">about The MovieVerse</a>
@@ -1153,6 +1153,13 @@
         <a href="MovieVerse-Frontend/html/user-profile.html" id="githubLink5">profile feature</a>!
       </p>
     </footer>
+    <script>
+      // Get the current year
+      const currentYear = new Date().getFullYear();
+
+      // Update the year in the footer
+      document.getElementById('year').textContent = currentYear;
+    </script>
     <div id="google_translate_element"></div>
     <div id="translate_control">
       <div class="translate-trigger">Translate</div>

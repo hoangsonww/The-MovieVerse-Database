@@ -44,6 +44,7 @@
     <link rel="icon" href="../../images/favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="https://movie-verse.com/MovieVerse-Frontend/css/style.css" />
     <link rel="manifest" href="../../manifest.json" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="/MovieVerse-Frontend/js/settings.js" defer></script>
     <script>
@@ -436,62 +437,62 @@
       </ul>
     </nav>
     <div>
-      <div class="chart-title" style="font-size: 28px; font-weight: bold">The MovieVerse Analytics</div>
-      <p class="chart-description">
+      <div class="chart-title" style="animation: fadeIn 1.5s ease-in-out; font-size: 28px; font-weight: bold">The MovieVerse Analytics</div>
+      <p class="chart-description" style="animation: fadeIn 1.5s ease-in-out">
         Take a look at how our database has evolved over the years to serve more than <strong>450,000</strong> monthly active users!
       </p>
     </div>
     <div id="myModal" class="modal-overlay">
       <div class="spinner"></div>
     </div>
-    <div class="chart-container" style="margin-bottom: 250px">
+    <div class="chart-container" style="animation: fadeIn 1.5s ease-in-out; margin-bottom: 250px">
       <div class="chart-box">
-        <h2 class="chart-title" id="chart-title1" style="cursor: pointer">Number of Movies Released Each Year</h2>
-        <canvas id="chart1"></canvas>
+        <h2 class="chart-title" id="chart-title1" style="margin-top: 10px; cursor: pointer">Number of Movies Released Each Year</h2>
+        <canvas id="chart1" style="background-color: transparent"></canvas>
       </div>
       <div class="chart-box">
-        <h2 class="chart-title" id="chart-title2" style="cursor: pointer">Popularity of Genres</h2>
-        <canvas id="chart2"></canvas>
+        <h2 class="chart-title" id="chart-title2" style="margin-top: 10px; cursor: pointer">Popularity of Genres</h2>
+        <canvas id="chart2" style="background-color: transparent"></canvas>
       </div>
       <div class="chart-box">
-        <h2 class="chart-title" id="chart-title3" style="cursor: pointer">Movies Distribution by Certification</h2>
-        <canvas id="chart3"></canvas>
+        <h2 class="chart-title" id="chart-title3" style="margin-top: 10px; cursor: pointer">Movies Distribution by Certification</h2>
+        <canvas id="chart3" style="background-color: transparent"></canvas>
       </div>
       <div class="chart-box">
-        <h2 class="chart-title" id="chart-title4" style="cursor: pointer">Average Movie Popularity Over Time</h2>
-        <canvas id="chart4"></canvas>
+        <h2 class="chart-title" id="chart-title4" style="margin-top: 10px; cursor: pointer">Average Movie Popularity Over Time</h2>
+        <canvas id="chart4" style="background-color: transparent"></canvas>
       </div>
       <div class="chart-box">
-        <h2 class="chart-title" id="chart-title5" style="cursor: pointer">Movies Count by Original Language</h2>
-        <canvas id="chart5"></canvas>
+        <h2 class="chart-title" id="chart-title5" style="margin-top: 10px; cursor: pointer">Movies Count by Original Language</h2>
+        <canvas id="chart5" style="background-color: transparent"></canvas>
       </div>
       <div class="chart-box">
-        <h2 class="chart-title" id="chart-title6" style="cursor: pointer">Average Vote Count by Genre</h2>
-        <canvas id="chart6"></canvas>
+        <h2 class="chart-title" id="chart-title6" style="margin-top: 10px; cursor: pointer">Average Vote Count by Genre</h2>
+        <canvas id="chart6" style="background-color: transparent"></canvas>
       </div>
       <div class="chart-box">
-        <h2 class="chart-title" id="chart-title7" style="cursor: pointer">Movie Releases by Month</h2>
-        <canvas id="chart7"></canvas>
+        <h2 class="chart-title" id="chart-title7" style="margin-top: 10px; cursor: pointer">Movie Releases by Month</h2>
+        <canvas id="chart7" style="background-color: transparent"></canvas>
       </div>
       <div class="chart-box">
-        <h2 class="chart-title" id="chart-title8" style="cursor: pointer">Movie Releases by Decades</h2>
-        <canvas id="chart8"></canvas>
+        <h2 class="chart-title" id="chart-title8" style="margin-top: 10px; cursor: pointer">Movie Releases by Decades</h2>
+        <canvas id="chart8" style="background-color: transparent"></canvas>
       </div>
       <div class="chart-box">
-        <h2 class="chart-title" id="chart-title9" style="cursor: pointer">Movie Releases by Countries</h2>
-        <canvas id="chart9"></canvas>
+        <h2 class="chart-title" id="chart-title9" style="margin-top: 10px; cursor: pointer">Movie Releases by Countries</h2>
+        <canvas id="chart9" style="background-color: transparent"></canvas>
       </div>
       <div class="chart-box" id="chart-title1">
-        <h2 class="chart-title" id="chart-title10" style="cursor: pointer">Top Rated Movies per Year</h2>
-        <canvas id="chart11"></canvas>
+        <h2 class="chart-title" id="chart-title10" style="margin-top: 10px; cursor: pointer">Top Rated Movies per Year</h2>
+        <canvas id="chart11" style="background-color: transparent"></canvas>
       </div>
       <div class="chart-box">
-        <h2 class="chart-title" id="chart-title11" style="cursor: pointer">Total Movie Votes Over Years</h2>
-        <canvas id="chartVotesOverYears"></canvas>
+        <h2 class="chart-title" id="chart-title11" style="margin-top: 10px; cursor: pointer">Total Movie Votes Over Years</h2>
+        <canvas id="chartVotesOverYears" style="background-color: transparent"></canvas>
       </div>
       <div class="chart-box">
-        <h2 class="chart-title" id="chart-title12" style="cursor: pointer">Highly Rated Movies Over Years</h2>
-        <canvas id="chartHighlyRatedMovies"></canvas>
+        <h2 class="chart-title" id="chart-title12" style="margin-top: 10px; cursor: pointer">Highly Rated Movies Over Years</h2>
+        <canvas id="chartHighlyRatedMovies" style="background-color: transparent"></canvas>
       </div>
     </div>
     <div id="mobile-bottom-bar" class="mobile-bottom-bar">
@@ -668,9 +669,17 @@
     <script src="../js/analytics.js"></script>
     <footer>
       <a href="../../index.html" style="cursor: pointer; text-decoration: none">
-        <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
+        <p style="cursor: pointer; text-decoration: none">© <span id="year"></span> The MovieVerse. All rights reserved.</p>
       </a>
     </footer>
+    <script>
+      // Get the current year
+      const currentYear = new Date().getFullYear();
+
+      // Update the year in the footer
+      document.getElementById('year').textContent = currentYear;
+    </script>
+
     <div id="myModal" class="modal-overlay">
       <div class="spinner"></div>
     </div>

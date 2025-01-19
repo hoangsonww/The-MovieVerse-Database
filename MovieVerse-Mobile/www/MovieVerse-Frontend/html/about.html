@@ -461,29 +461,30 @@
       </p>
       <ul style="animation: fadeIn 1.5s ease-in-out; align-content: center; color: white">
         <li>
+          <p style="color: black; text-align: center">Get AI-generated insights and summaries and organize your documents easily with DocuThinker.</p>
+          <button onclick="window.location.href='https://docuthinker.vercel.app/';" class="app-btn">DocuThinker App</button>
+        </li>
+        <li>
+          <p style="color: black; text-align: center">Stay ahead of the weather with WeatherMate, your personal weather forecasting assistant.</p>
+          <button onclick="window.location.href='https://the-weathermate.vercel.app/';" class="app-btn">The WeatherMate App</button>
+        </li>
+        <li>
           <p style="color: black; text-align: center">
             Organize your thoughts effortlessly with StickyNotes, a simple yet effective note-taking app that can also help you focus on your tasks by
             setting reminders and pomodoro timers.
           </p>
-          <button onclick="window.location.href='https://hoangsonww.github.io/The-StickyNotes-App/';" class="app-btn">The StickyNotes App</button>
+          <button onclick="window.location.href='https://stickynotes-app.onrender.com/';" class="app-btn">The StickyNotes App</button>
         </li>
         <li>
           <p style="color: black; text-align: center">Embark on a culinary adventure with RecipeGenie, your go-to database for delightful recipes.</p>
-          <button onclick="window.location.href='https://hoangsonww.github.io/RecipeGenie-App/';" class="app-btn">The RecipeGenie Database</button>
-        </li>
-        <li>
-          <p style="color: black; text-align: center">Stay ahead of the weather with WeatherMate, your personal weather forecasting assistant.</p>
-          <button onclick="window.location.href='https://hoangsonww.github.io/WeatherMate-App/';" class="app-btn">The WeatherMate App</button>
+          <button onclick="window.location.href='https://recipe-genie.netlify.app/';" class="app-btn">RecipeGenie Database</button>
         </li>
         <li>
           <p style="color: black; text-align: center">
-            Keep track of your tasks and boost productivity with the ToDo App, a straightforward task manager.
+            Keep track of your tasks and boost productivity with the Next.js ToDo App, a straightforward task manager with cloud storage and
+            synchronization.
           </p>
-          <button onclick="window.location.href='https://hoangsonww.github.io/The-ToDo-App/';" class="app-btn">The ToDo App</button>
-        </li>
-        <li>
-          <p style="color: black; text-align: center">Plan and manage your events seamlessly with EventHorizon, your ultimate event organizer.</p>
-          <button onclick="window.location.href='https://hoangsonww.github.io/The-Event-Horizon-App/';" class="app-btn">The EventHorizon App</button>
+          <button onclick="window.location.href='https://todo-app-nextjs-stack.vercel.app/';" class="app-btn">Next.js ToDo App</button>
         </li>
       </ul>
       <h3 id="subheading" style="animation: fadeIn 1.5s ease-in-out; cursor: pointer">Our Vision:</h3>
@@ -510,9 +511,12 @@
           <i style="margin-left: 3px" class="fab fa-github"></i>
         </em>
       </p>
+      <div style="border: 0; height: 1px; border-top: 1px solid #7378c5; margin: 20px auto; width: 100%; animation: fadeIn 1.5s ease-in-out"></div>
       <h3 id="subheading4" style="animation: fadeIn 1.5s ease-in-out; cursor: pointer">Useful Links:</h3>
       <p style="animation: fadeIn 1.5s ease-in-out; color: white; text-align: center">
-        Here are some links that you might find useful: You can explore the
+        <strong>Here are some links that you might find useful:</strong>
+        <br />
+        You can explore the
         <a href="analytics.html" style="text-decoration: underline" id="githubLink">analytics page</a>
         of our database, read our
         <a style="text-decoration: underline" id="githubLink" href="terms-of-service.html">terms of service</a>, and review our
@@ -533,13 +537,15 @@
       <br />
       <p style="animation: fadeIn 1.5s ease-in-out; color: white; text-align: center">
         If you are also interested in the website's creator and developer, feel free to visit my
-        <a style="text-decoration: underline" id="githubLink" href="https://www.linkedin.com/in/hoangsonw/">LinkedIn profile</a>!
+        <a style="text-decoration: underline" id="githubLink" href="https://www.linkedin.com/in/hoangsonw/">LinkedIn profile</a> or
+        <a style="text-decoration: underline" id="githubLink" href="https://sonnguyenhoang.com">personal website</a>.
         <button onclick="window.location.href='analytics.html'" style="border: none; margin-top: 40px" class="app-btn">MovieVerse Analytics</button>
         <button onclick="window.location.href='terms-of-service.html'" style="border: none; margin-top: 40px" class="app-btn">
           Terms of Service
         </button>
         <button onclick="window.location.href='privacy-policy.html';" style="border: none; margin-top: 40px" class="app-btn">Privacy Policy</button>
         <button onclick="window.location.href='support.html'" style="border: none; margin-top: 40px" class="app-btn">Contact Support</button>
+        <button onclick="window.location.href='feedback.html'" style="border: none; margin-top: 40px" class="app-btn">Submit Feedback</button>
       </p>
     </main>
     <div
@@ -712,9 +718,13 @@
     </script>
     <footer>
       <a href="../../index.html" style="cursor: pointer; text-decoration: none">
-        <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
+        <p style="cursor: pointer; text-decoration: none">© <span id="year"></span> The MovieVerse. All rights reserved.</p>
       </a>
     </footer>
+    <script>
+      const currentYear = new Date().getFullYear();
+      document.getElementById('year').textContent = currentYear;
+    </script>
     <script>
       document.getElementById('logo').addEventListener('click', function () {
         document.getElementById('subheading1').scrollIntoView({ behavior: 'smooth' });

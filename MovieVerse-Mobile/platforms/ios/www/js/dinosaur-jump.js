@@ -134,21 +134,21 @@ function draw() {
 
   // Score
   ctx.fillStyle = 'white';
-  ctx.font = "16px 'Poppins', sans-serif";
+  ctx.font = "10px 'Poppins', sans-serif";
   ctx.fillText(`Score: ${score}`, 10, 20);
   ctx.fillText(`High Score: ${highScore}`, 10, 40);
 
   if (isGameOver) {
     // "Game Over!" Text
     ctx.fillStyle = 'red';
-    ctx.font = "20px 'Poppins', sans-serif";
+    ctx.font = "18px 'Poppins', sans-serif";
     const gameOverText = 'Game Over!';
     const gameOverWidth = ctx.measureText(gameOverText).width;
     ctx.fillText(gameOverText, (canvas.width - gameOverWidth) / 2, canvas.height / 2 - 20);
 
     // Restart Instruction Text
     ctx.fillStyle = 'white';
-    ctx.font = "16px 'Poppins', sans-serif";
+    ctx.font = "10px 'Poppins', sans-serif";
     const restartText = 'Press Space, Arrow Key, or Tap to Restart';
     const restartWidth = ctx.measureText(restartText).width;
     ctx.fillText(restartText, (canvas.width - restartWidth) / 2, canvas.height / 2 + 10);

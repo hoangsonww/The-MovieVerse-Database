@@ -54,6 +54,32 @@ const db = getFirestore(app);
 
 const games = ['BouncingStar', 'BucketGame', 'DinosaurJump', 'FlappyBird', 'SpaceShooter', 'StackGame'];
 
+// Fetch user's high scores from Firebase and update local storage
+async function syncHighScores() {
+  showSpinner();
+
+  const userEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
+  if (!userEmail) return;
+
+  for (const game of games) {
+    const collectionRef = collection(db, `highScores${game}`);
+    const gameQuery = query(collectionRef, where('email', '==', userEmail));
+    const snapshot = await getDocs(gameQuery);
+
+    if (!snapshot.empty) {
+      const firebaseScore = snapshot.docs[0].data().score;
+      const localKey = `highScore${game}`;
+      const localScore = parseFloat(localStorage.getItem(localKey)) || 0;
+
+      if (firebaseScore > localScore) {
+        localStorage.setItem(localKey, firebaseScore.toString());
+      }
+    }
+  }
+
+  hideSpinner();
+}
+
 // Get local storage high scores
 function getLocalHighScores() {
   return games.reduce((scores, game) => {
@@ -117,7 +143,7 @@ async function fetchLeaderboards() {
 function renderLeaderboard(container, title, data, gameKey) {
   showSpinner();
   container.innerHTML = `
-    <div class="leaderboard">
+    <div class="leaderboard" style="animation: fadeIn 1.5s ease-in-out">
       <h2>${title}</h2>
       <input type="text" placeholder="Search for a User..." id="search-${gameKey}" data-game="${gameKey}">
       <table>
@@ -196,9 +222,27 @@ async function initializeLeaderboards() {
 
   leaderboardsContainer.innerHTML = '';
   for (const [gameKey, data] of Object.entries(leaderboards)) {
+    let gameTitle = gameKey;
+
+    if (gameKey === 'BouncingStar') {
+      gameTitle = 'Falling Star';
+    } else if (gameKey === 'BucketGame') {
+      gameTitle = 'Catch the Popcorn';
+    } else if (gameKey === 'DinosaurJump') {
+      gameTitle = 'Dinosaur Jump';
+    } else if (gameKey === 'FlappyBird') {
+      gameTitle = 'Flappy Bird';
+    } else if (gameKey === 'SpaceShooter') {
+      gameTitle = 'Space Invaders';
+    } else if (gameKey === 'StackGame') {
+      gameTitle = 'Stack the Blocks';
+    } else {
+      gameTitle = gameKey;
+    }
+
     const container = document.createElement('div');
     leaderboardsContainer.appendChild(container); // Attach container to DOM first
-    renderLeaderboard(container, gameKey, data, gameKey); // Render after attaching
+    renderLeaderboard(container, gameTitle, data, gameKey); // Render after attaching
     localStorage.setItem(`leaderboardData${gameKey}`, JSON.stringify(data));
     updateLeaderboard(gameKey, data); // Safely update after rendering
   }
@@ -206,5 +250,5 @@ async function initializeLeaderboards() {
   hideSpinner();
 }
 
-// Upload high scores and initialize leaderboards
-uploadHighScores().then(initializeLeaderboards);
+// Sync high scores, upload local scores, and initialize leaderboards
+syncHighScores().then(uploadHighScores).then(initializeLeaderboards);

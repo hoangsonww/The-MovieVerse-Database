@@ -1137,7 +1137,7 @@
       <span>Menu</span>
     </button>
     <footer style="margin-top: 40px">
-      <p id="footer">© 2024 The MovieVerse. All rights reserved.</p>
+      <p id="footer">© <span id="year"></span> The MovieVerse. All rights reserved.</p>
       <p>
         Learn more
         <a href="MovieVerse-Frontend/html/about.html" id="githubLink10">about The MovieVerse</a>
@@ -1153,6 +1153,13 @@
         <a href="MovieVerse-Frontend/html/user-profile.html" id="githubLink5">profile feature</a>!
       </p>
     </footer>
+    <script>
+      // Get the current year
+      const currentYear = new Date().getFullYear();
+
+      // Update the year in the footer
+      document.getElementById('year').textContent = currentYear;
+    </script>
     <div id="google_translate_element"></div>
     <div id="translate_control">
       <div class="translate-trigger">Translate</div>

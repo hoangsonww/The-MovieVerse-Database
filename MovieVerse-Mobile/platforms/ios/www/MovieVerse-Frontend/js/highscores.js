@@ -143,7 +143,7 @@ async function fetchLeaderboards() {
 function renderLeaderboard(container, title, data, gameKey) {
   showSpinner();
   container.innerHTML = `
-    <div class="leaderboard">
+    <div class="leaderboard" style="animation: fadeIn 1.5s ease-in-out">
       <h2>${title}</h2>
       <input type="text" placeholder="Search for a User..." id="search-${gameKey}" data-game="${gameKey}">
       <table>
