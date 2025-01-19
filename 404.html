@@ -511,7 +511,7 @@
         <span id="profileText">Profile</span>
         <i class="fas fa-user" id="profileIcon"></i>
       </button>
-      <form id="form1">
+      <form id="form1" style="animation: fadeIn 1.5s ease-in-out">
         <div class="search-container">
           <input
             type="text"
@@ -734,7 +734,7 @@
     <div id="myModal" class="modal-overlay">
       <div class="spinner"></div>
     </div>
-    <div class="center-text" style="padding: 150px">
+    <div class="center-text" style="animation: fadeIn 1.5s ease-in-out; padding: 150px">
       <div style="font-weight: bold; font-size: 55px; color: #ff8623">404</div>
       <p>Sorry, the page you are looking for cannot be found.</p>
       <button class="center-button" onclick="window.location.href='https://movie-verse.com/'">Back to Home</button>
@@ -1137,8 +1137,15 @@
     </script>
     <footer style="margin-top: 400px">
       <a href="https://movie-verse.com/" style="cursor: pointer; text-decoration: none">
-        <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
+        <p style="cursor: pointer; text-decoration: none">© <span id="year"></span> The MovieVerse. All rights reserved.</p>
       </a>
     </footer>
+    <script>
+      // Get the current year
+      const currentYear = new Date().getFullYear();
+
+      // Update the year in the footer
+      document.getElementById('year').textContent = currentYear;
+    </script>
   </body>
 </html>

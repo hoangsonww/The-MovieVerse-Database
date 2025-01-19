@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Discover detailed insights into your favorite actors on The MovieVerse. Explore filmographies, biographies, and more to learn about the stars of cinema."
+      content="Play Space Invaders on The MovieVerse! Shoot the aliens before they reach the bottom of the screen. Enjoy this classic arcade game!"
     />
     <link rel="canonical" href="https://movie-verse.com/MovieVerse-Frontend/html/space-invaders.html" />
     <meta property="og:title" content="Actor Details - The MovieVerse" />
@@ -16,7 +16,7 @@
     <meta http-equiv="content-language" content="en" />
     <meta
       property="og:description"
-      content="Discover detailed insights into your favorite actors on The MovieVerse. Explore filmographies, biographies, and more to learn about the stars of cinema."
+      content="Play Space Invaders on The MovieVerse! Shoot the aliens before they reach the bottom of the screen. Enjoy this classic arcade game!"
     />
     <meta property="og:url" content="https://movie-verse.com/MovieVerse-Frontend/html/space-invaders.html" />
     <meta property="og:site_name" content="The MovieVerse" />
@@ -37,7 +37,7 @@
     <meta name="twitter:title" content="The MovieVerse - Your Ultimate Movie Guide" />
     <meta
       name="twitter:description"
-      content="Discover detailed insights into your favorite actors on The MovieVerse. Explore filmographies, biographies, and more to learn about the stars of cinema."
+      content="Play Space Invaders on The MovieVerse! Shoot the aliens before they reach the bottom of the screen. Enjoy this classic arcade game!"
     />
     <meta name="twitter:image" content="https://movie-verse.com/images/image.png" />
     <meta name="referrer" content="no-referrer-when-downgrade" />
@@ -396,7 +396,7 @@
         <span id="profileText">Profile</span>
         <i class="fas fa-user" id="profileIcon"></i>
       </button>
-      <form id="form1">
+      <form id="form1" style="animation: fadeIn 1.5s ease-in-out">
         <div class="search-container">
           <input
             type="text"
@@ -414,7 +414,7 @@
         </div>
       </form>
     </header>
-    <h2>Space Invaders</h2>
+    <h2 style="margin-bottom: 0">Space Invaders</h2>
     <p>Shoot the aliens before they reach the bottom of the screen!</p>
     <div class="game-container">
       <canvas id="gameCanvas" width="400" height="400"></canvas>
@@ -529,6 +529,11 @@
       <span>How to Play</span>
     </button>
 
+    <button title="Back to Games" id="leaderboard-btn">
+      <i class="fas fa-trophy"></i><br />
+      <span>Leaderboard</span>
+    </button>
+
     <button title="Back to Games" id="back-to-games-btn">
       <i class="fas fa-arrow-left"></i><br />
       <span>Back to Games</span>
@@ -576,6 +581,10 @@
 
       document.getElementById('back-to-games-btn').addEventListener('click', function () {
         window.location.href = 'games.html';
+      });
+
+      document.getElementById('leaderboard-btn').addEventListener('click', function () {
+        window.location.href = 'leaderboards.html';
       });
 
       window.addEventListener('load', function () {
@@ -710,9 +719,13 @@
 
     <footer>
       <a href="../../index.html" style="cursor: pointer; text-decoration: none">
-        <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
+        <p style="cursor: pointer; text-decoration: none">© <span id="year"></span> The MovieVerse. All rights reserved.</p>
       </a>
     </footer>
+    <script>
+      const currentYear = new Date().getFullYear();
+      document.getElementById('year').textContent = currentYear;
+    </script>
 
     <div id="myModal" class="modal-overlay">
       <div class="spinner"></div>

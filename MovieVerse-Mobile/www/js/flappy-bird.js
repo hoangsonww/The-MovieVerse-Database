@@ -7,18 +7,19 @@ let bird = {
   width: 20,
   height: 20,
   vy: 0,
-  gravity: 0.1, // Reduced gravity for slower falling
-  jump: 3, // Slightly reduced jump for balance
+  gravity: 0.1,
+  jump: 3,
 };
 
 let pipes = [];
-let gap = 100; // Increased gap for easier gameplay
+let gap = 100;
 let pipeWidth = 40;
 let pipeSpeed = 2;
 let score = 0;
+let highScore = localStorage.getItem('highScoreFlappyBird') || 0;
 let isGameOver = false;
 let spawnTimer = 0;
-const spawnInterval = 100; // Minimum frames between pipe spawns
+const spawnInterval = 100;
 
 // Bird jump or game reset
 function handleJumpOrReset() {
@@ -31,6 +32,10 @@ function handleJumpOrReset() {
 
 // Reset the game
 function resetGame() {
+  if (score > highScore) {
+    highScore = score;
+    localStorage.setItem('highScoreFlappyBird', highScore);
+  }
   bird.y = 200;
   bird.vy = 0;
   pipes = [];
@@ -122,15 +127,16 @@ function draw() {
     ctx.fillRect(pipe.x, pipe.y, pipe.width, pipe.height);
   }
 
-  // Draw score
+  // Draw score and high score
   ctx.fillStyle = 'white';
-  ctx.font = "20px 'Poppins', sans-serif"; // Use Poppins font
+  ctx.font = "20px 'Poppins', sans-serif";
   ctx.fillText(`Score: ${score}`, 10, 30);
+  ctx.fillText(`High Score: ${highScore}`, 10, 60);
 
   // Game over text
   if (isGameOver) {
     ctx.fillStyle = 'red';
-    ctx.font = "24px 'Poppins', sans-serif"; // Use Poppins font
+    ctx.font = "24px 'Poppins', sans-serif";
     const gameOverText = 'Game Over!';
     const restartText = 'Press Any Key or Tap to Restart';
 

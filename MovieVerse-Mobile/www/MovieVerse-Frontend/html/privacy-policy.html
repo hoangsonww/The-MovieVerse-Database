@@ -316,7 +316,7 @@
         <i class="fas fa-sign-in-alt" id="signInIcon"></i>
         <i class="fas fa-sign-out-alt" id="signOutIcon" style="display: none"></i>
       </button>
-      <form id="form1">
+      <form id="form1" style="animation: fadeIn 1.5s ease-in-out">
         <div class="search-container">
           <input
             type="text"
@@ -411,28 +411,28 @@
         <li><a href="support.html">Contact Support</a></li>
       </ul>
     </nav>
-    <main class="content-area" style="text-align: center">
+    <main class="content-area" style="text-align: center; animation: fadeIn 1.5s ease-in-out">
       <div style="text-align: center; width: 90%; margin-top: 25px">
         <div style="font-weight: bold; font-size: 30px" id="privacy-header">Privacy Policy</div>
       </div>
-      <div id="introduction" style="text-align: center; width: 90%">
-        <h2 style="cursor: pointer">Introduction</h2>
+      <div style="text-align: center; width: 90%">
+        <h2 id="introduction" style="cursor: pointer">Introduction</h2>
         <p>
           At The MovieVerse, accessible from
           <a id="linkWeb" href="https://movie-verse.com">https://movie-verse.com</a>, one of our main priorities is the privacy of our visitors. This
           Privacy Policy document contains types of information that is collected and recorded by The MovieVerse and how we use it.
         </p>
       </div>
-      <div id="consent" style="text-align: center; width: 90%">
-        <h2 style="cursor: pointer">Consent</h2>
+      <div style="text-align: center; width: 90%">
+        <h2 style="cursor: pointer" id="consent">Consent</h2>
         <p>
           By using our website, you hereby consent to our Privacy Policy and agree to its terms. For our Terms and Conditions, please visit the
           <a id="linkWeb" href="https://movie-verse.com/MovieVerse-Frontend/html/terms-of-service.html">Terms and Conditions</a>
           page.
         </p>
       </div>
-      <div style="text-align: center; width: 90%" id="subheading2">
-        <h2 style="cursor: pointer">Information we collect</h2>
+      <div style="text-align: center; width: 90%">
+        <h2 style="cursor: pointer" id="subheading2">Information we collect</h2>
         <p>
           The personal information that you are asked to provide, and the reasons why you are asked to provide it, will be made clear to you at the
           point we ask you to provide your personal information.
@@ -442,8 +442,8 @@
           and/or attachments you may send us, and any other information you may choose to provide.
         </p>
       </div>
-      <div style="text-align: center; width: 90%; cursor: pointer" id="subheading">
-        <h2 style="cursor: pointer">How we use your information</h2>
+      <div style="text-align: center; width: 90%; cursor: pointer">
+        <h2 style="cursor: pointer" id="subheading">How we use your information</h2>
         <p>We use the information we collect in various ways, including to:</p>
         <ul style="color: white; list-style: none; width: 90%">
           <li>1. Provide, operate, and maintain our website</li>
@@ -459,8 +459,8 @@
           <li>8. Log Files</li>
         </ul>
       </div>
-      <div style="text-align: center; width: 90%; cursor: pointer" id="subheading3">
-        <h2 style="cursor: pointer">Log Files</h2>
+      <div style="text-align: center; width: 90%; cursor: pointer">
+        <h2 style="cursor: pointer" id="subheading3">Log Files</h2>
         <p>The MovieVerse follows a standard procedure of using log files.</p>
         <p>These files log visitors when they visit websites. All hosting companies do this and a part of hosting services' analytics.</p>
         <p>These are not linked to any information that is personally identifiable.</p>
@@ -469,8 +469,8 @@
           demographic information.
         </p>
       </div>
-      <div style="text-align: center; margin-bottom: 300px; width: 90%; cursor: pointer" id="subheading4">
-        <h2 style="cursor: pointer">Cookies and Web Beacons</h2>
+      <div style="text-align: center; margin-bottom: 300px; width: 90%; cursor: pointer">
+        <h2 style="cursor: pointer" id="subheading4">Cookies and Web Beacons</h2>
         <p>
           Like any other website, The MovieVerse uses 'cookies'. These cookies are used to store information including visitors' preferences, and the
           pages on the website that the visitor accessed or visited.
@@ -495,9 +495,13 @@
     </div>
     <footer>
       <a href="../../index.html" style="cursor: pointer; text-decoration: none">
-        <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
+        <p style="cursor: pointer; text-decoration: none">© <span id="year"></span> The MovieVerse. All rights reserved.</p>
       </a>
     </footer>
+    <script>
+      const currentYear = new Date().getFullYear();
+      document.getElementById('year').textContent = currentYear;
+    </script>
     <div id="mobile-bottom-bar" class="mobile-bottom-bar">
       <a href="chat.html" class="bottom-bar-item">
         <i class="fas fa-comments"></i>

@@ -330,7 +330,7 @@
         <i class="fas fa-sign-in-alt" id="signInIcon"></i>
         <i class="fas fa-sign-out-alt" id="signOutIcon" style="display: none"></i>
       </button>
-      <form id="form1" style="margin-top: 21px">
+      <form id="form1" style="margin-top: 21px; animation: fadeIn 1.5s ease-in-out">
         <div class="search-container">
           <input
             type="text"
@@ -400,7 +400,7 @@
         MovieVerse Trivia
       </button>
     </header>
-    <div class="sign-in-form-container" style="margin-bottom: 390px">
+    <div class="sign-in-form-container" style="margin-bottom: 390px; animation: fadeIn 1.5s ease-in-out">
       <form id="signInForm">
         <h2>Sign In</h2>
         <p>Sign in to save your stats, watchlists, get personalized movie recommendation, join our community, and more!</p>
@@ -1219,8 +1219,12 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js"></script>
     <footer>
       <a href="../../index.html" style="cursor: pointer; text-decoration: none">
-        <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
+        <p style="cursor: pointer; text-decoration: none">© <span id="year"></span> The MovieVerse. All rights reserved.</p>
       </a>
     </footer>
+    <script>
+      const currentYear = new Date().getFullYear();
+      document.getElementById('year').textContent = currentYear;
+    </script>
   </body>
 </html>

@@ -21,10 +21,13 @@ let currentBlock = {
 };
 let currentLevelY = canvas.height - 30;
 let score = 0;
+let highScore = localStorage.getItem('highScoreStackGame') || 0;
 let isGameOver = false;
 
 // Handle block placement
 document.addEventListener('keydown', e => {
+  e.preventDefault();
+
   if ((e.key === ' ' || e.key === 'Enter') && !isGameOver) {
     placeBlock();
   } else if (isGameOver && (e.key === ' ' || e.key === 'Enter')) {
@@ -50,6 +53,7 @@ function placeBlock() {
 
     if (overlap <= 0) {
       isGameOver = true;
+      updateHighScore();
     } else {
       currentBlock.width = overlap;
       if (currentBlock.x < topBlock.x) {
@@ -65,6 +69,7 @@ function placeBlock() {
 }
 
 function resetGame() {
+  updateHighScore();
   stack = [];
   currentBlock = {
     width: 280,
@@ -77,6 +82,13 @@ function resetGame() {
   currentLevelY = canvas.height - 30;
   score = 0;
   isGameOver = false;
+}
+
+function updateHighScore() {
+  if (score > highScore) {
+    highScore = score;
+    localStorage.setItem('highScoreStackGame', highScore);
+  }
 }
 
 function getOverlap(blockA, blockB) {
@@ -107,6 +119,7 @@ function update() {
 
   if (currentLevelY < 0) {
     isGameOver = true;
+    updateHighScore(); // Update high score when the player wins
   }
 }
 
@@ -129,11 +142,12 @@ function draw() {
     ctx.fillRect(currentBlock.x, currentLevelY, currentBlock.width, currentBlock.height);
   }
 
-  // Draw score
+  // Draw score and high score
   ctx.fillStyle = 'white';
   ctx.font = '20px Poppins, sans-serif';
   ctx.textAlign = 'left';
   ctx.fillText(`Score: ${score}`, 10, 30);
+  ctx.fillText(`High Score: ${highScore}`, 10, 60);
 
   // Game over message
   if (isGameOver) {

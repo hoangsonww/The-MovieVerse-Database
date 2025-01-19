@@ -462,7 +462,7 @@
         <i class="fas fa-sign-in-alt" id="signInIcon"></i>
         <i class="fas fa-sign-out-alt" id="signOutIcon" style="display: none"></i>
       </button>
-      <form id="form1" style="margin-top: 20px">
+      <form id="form1" style="margin-top: 20px; animation: fadeIn 1.5s ease-in-out">
         <div class="search-container">
           <input
             type="text"
@@ -532,14 +532,17 @@
         MovieVerse Trivia
       </button>
     </header>
-    <div id="welcomeMessage" style="color: #ff8623; font-weight: bold; font-size: 30px; text-align: center; margin-top: 30px"></div>
-    <div class="search-users-container" id="search-users-container">
+    <div
+      id="welcomeMessage"
+      style="animation: fadeIn 1s ease-in-out; color: #ff8623; font-weight: bold; font-size: 30px; text-align: center; margin-top: 30px"
+    ></div>
+    <div class="search-users-container" id="search-users-container" style="animation: fadeIn 1s ease-in-out">
       <input type="text" id="searchUserInput" placeholder="Search For Any MovieVerse User..." title="Remember that this search is case-sensitive!" />
       <button id="searchUserBtn">Search</button>
     </div>
-    <div id="searchUserResults" class="search-results-container"></div>
-    <button id="viewMyProfileBtn" style="margin-top: 20px">View My Profile</button>
-    <div id="profileContainer" class="profile-container">
+    <div id="searchUserResults" class="search-results-container" style="animation: fadeIn 1s ease-in-out"></div>
+    <button id="viewMyProfileBtn" style="animation: fadeIn 1s ease-in-out; margin-top: 20px">View My Profile</button>
+    <div id="profileContainer" class="profile-container" style="animation: fadeIn 1s ease-in-out">
       <div class="profile-image-container">
         <img
           id="profileImage"
@@ -1032,6 +1035,16 @@
         }
       }
 
+      function fallbackMovieSelection() {
+        const fallbackMovies = [
+          432413, 299534, 1726, 562, 118340, 455207, 493922, 447332, 22970, 530385, 27205, 264660, 120467, 603, 577922, 76341, 539, 419704, 515001,
+          118340, 424, 98,
+        ];
+        const randomFallbackMovie = fallbackMovies[Math.floor(Math.random() * fallbackMovies.length)];
+        localStorage.setItem('selectedMovieId', randomFallbackMovie);
+        window.location.href = 'movie-details.html';
+      }
+
       document.getElementById('settings-btn').addEventListener('click', () => {
         window.location.href = 'settings.html';
       });
@@ -1346,9 +1359,13 @@
     </script>
     <footer style="margin-top: 20px">
       <a href="../../index.html" style="cursor: pointer; text-decoration: none">
-        <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
+        <p style="cursor: pointer; text-decoration: none">© <span id="year"></span> The MovieVerse. All rights reserved.</p>
       </a>
     </footer>
+    <script>
+      const currentYear = new Date().getFullYear();
+      document.getElementById('year').textContent = currentYear;
+    </script>
     <div id="mobile-bottom-bar" class="mobile-bottom-bar">
       <a href="chat.html" class="bottom-bar-item">
         <i class="fas fa-comments"></i>

@@ -61,7 +61,17 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+function showSpinner() {
+  document.getElementById('myModal').classList.add('modal-visible');
+}
+
+function hideSpinner() {
+  document.getElementById('myModal').classList.remove('modal-visible');
+}
+
 document.getElementById('createAccountForm').addEventListener('submit', async e => {
+  showSpinner();
+
   try {
     e.preventDefault();
     const email = document.getElementById('newEmail').value;
@@ -128,8 +138,9 @@ document.getElementById('createAccountForm').addEventListener('submit', async e 
           "Sorry, our database is currently overloaded. Please try reloading once more, and if that still doesn't work, please try again in a couple hours. For full transparency, we are currently using a database that has a limited number of reads and writes per day due to lack of funding. Thank you for your patience as we work on scaling our services. At the mean time, feel free to use other MovieVerse features!";
         noUserSelected.style.height = '350px';
       }
-      hideSpinner();
     }
+  } finally {
+    hideSpinner();
   }
 });
 

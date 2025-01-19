@@ -420,7 +420,7 @@
         <span id="profileText">Profile</span>
         <i class="fas fa-user" id="profileIcon"></i>
       </button>
-      <form id="form1">
+      <form id="form1" style="animation: fadeIn 1.5s ease-in-out">
         <div class="search-container">
           <input
             type="text"
@@ -541,6 +541,11 @@
     <button class="back-btn2" onclick="window.location.href='games.html'">
       <i class="fas fa-arrow-left"></i>
       Back to Games
+    </button>
+
+    <button class="back-btn2" onclick="window.location.href='leaderboards.html'">
+      <i class="fas fa-trophy"></i>
+      Global Leaderboards
     </button>
 
     <div
@@ -815,11 +820,14 @@
     <!-- Footer -->
     <footer>
       <a href="../../index.html" style="cursor: pointer; text-decoration: none">
-        <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
+        <p style="cursor: pointer; text-decoration: none">© <span id="year"></span> The MovieVerse. All rights reserved.</p>
       </a>
     </footer>
+    <script>
+      const currentYear = new Date().getFullYear();
+      document.getElementById('year').textContent = currentYear;
+    </script>
 
-    <!-- Second modal overlay if needed -->
     <div id="myModal" class="modal-overlay">
       <div class="spinner"></div>
     </div>

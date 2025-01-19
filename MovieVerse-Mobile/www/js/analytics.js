@@ -57,18 +57,49 @@ async function loadMoviesByYearChart() {
     movieCounts.push(response.total_results);
   }
 
-  createChart('chart1', 'line', {
-    labels: years,
-    datasets: [
-      {
-        label: 'Number of Movies Released',
-        data: movieCounts,
-        backgroundColor: 'rgba(0,148,255,1)',
-        borderColor: 'rgba(54, 162, 235, 1)',
-        borderWidth: 1,
+  createChart(
+    'chart1',
+    'line',
+    {
+      labels: years,
+      datasets: [
+        {
+          label: 'Number of Movies Released',
+          data: movieCounts,
+          backgroundColor: 'rgba(0,148,255,1)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 1,
+        },
+      ],
+    },
+    {
+      plugins: {
+        legend: {
+          labels: {
+            font: {
+              family: 'Poppins',
+            },
+          },
+        },
       },
-    ],
-  });
+      scales: {
+        x: {
+          ticks: {
+            font: {
+              family: 'Poppins',
+            },
+          },
+        },
+        y: {
+          ticks: {
+            font: {
+              family: 'Poppins',
+            },
+          },
+        },
+      },
+    }
+  );
 
   hideSpinner();
 }
@@ -87,18 +118,49 @@ async function loadGenrePopularityChart() {
     genrePopularity.push(response.results.reduce((acc, movie) => acc + movie.popularity, 0) / response.results.length);
   }
 
-  createChart('chart2', 'bar', {
-    labels: genreNames,
-    datasets: [
-      {
-        label: 'Average Popularity',
-        data: genrePopularity,
-        backgroundColor: 'rgba(255, 99, 132, 1)',
-        borderColor: 'rgba(255, 99, 132, 1)',
-        borderWidth: 1,
+  createChart(
+    'chart2',
+    'bar',
+    {
+      labels: genreNames,
+      datasets: [
+        {
+          label: 'Average Popularity',
+          data: genrePopularity,
+          backgroundColor: 'rgba(255, 99, 132, 1)',
+          borderColor: 'rgba(255, 99, 132, 1)',
+          borderWidth: 1,
+        },
+      ],
+    },
+    {
+      plugins: {
+        legend: {
+          labels: {
+            font: {
+              family: 'Poppins',
+            },
+          },
+        },
       },
-    ],
-  });
+      scales: {
+        x: {
+          ticks: {
+            font: {
+              family: 'Poppins',
+            },
+          },
+        },
+        y: {
+          ticks: {
+            font: {
+              family: 'Poppins',
+            },
+          },
+        },
+      },
+    }
+  );
 
   hideSpinner();
 }
@@ -115,18 +177,49 @@ async function loadMoviesByCertificationChart() {
     movieCounts.push(response.total_results);
   }
 
-  createChart('chart3', 'bar', {
-    labels: certifications,
-    datasets: [
-      {
-        label: 'Number of Movies',
-        data: movieCounts,
-        backgroundColor: 'rgba(75, 192, 192, 1)',
-        borderColor: 'rgba(75, 192, 192, 1)',
-        borderWidth: 1,
+  createChart(
+    'chart3',
+    'bar',
+    {
+      labels: certifications,
+      datasets: [
+        {
+          label: 'Number of Movies',
+          data: movieCounts,
+          backgroundColor: 'rgba(75, 192, 192, 1)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1,
+        },
+      ],
+    },
+    {
+      plugins: {
+        legend: {
+          labels: {
+            font: {
+              family: 'Poppins',
+            },
+          },
+        },
       },
-    ],
-  });
+      scales: {
+        x: {
+          ticks: {
+            font: {
+              family: 'Poppins',
+            },
+          },
+        },
+        y: {
+          ticks: {
+            font: {
+              family: 'Poppins',
+            },
+          },
+        },
+      },
+    }
+  );
 
   hideSpinner();
 }
@@ -144,19 +237,51 @@ async function loadAveragePopularityChart() {
     averagePopularity.push(totalPopularity / response.results.length);
   }
 
-  createChart('chart4', 'line', {
-    labels: years,
-    datasets: [
-      {
-        label: 'Average Popularity',
-        data: averagePopularity,
-        backgroundColor: 'rgba(255, 159, 64, 1)',
-        borderColor: 'rgba(255, 159, 64, 1)',
-        borderWidth: 1,
+  createChart(
+    'chart4',
+    'line',
+    {
+      labels: years,
+      datasets: [
+        {
+          label: 'Average Popularity',
+          data: averagePopularity,
+          backgroundColor: 'rgba(255, 159, 64, 1)',
+          borderColor: 'rgba(255, 159, 64, 1)',
+          borderWidth: 1,
+        },
+      ],
+    },
+    {
+      plugins: {
+        legend: {
+          labels: {
+            font: {
+              family: 'Poppins',
+            },
+          },
+        },
       },
-    ],
-  });
-  showSpinner();
+      scales: {
+        x: {
+          ticks: {
+            font: {
+              family: 'Poppins',
+            },
+          },
+        },
+        y: {
+          ticks: {
+            font: {
+              family: 'Poppins',
+            },
+          },
+        },
+      },
+    }
+  );
+
+  hideSpinner();
 }
 
 Chart.defaults.color = 'black';
@@ -172,22 +297,53 @@ async function loadMoviesByLanguageChart() {
     movieCounts.push(response.total_results);
   }
 
-  createChart('chart5', 'bar', {
-    labels: languages.map(lang => lang.toUpperCase()),
-    datasets: [
-      {
-        label: 'Number of Movies',
-        data: movieCounts,
-        backgroundColor: 'rgba(153, 102, 255, 1)',
-        borderColor: 'rgba(153, 102, 255, 1)',
-        borderWidth: 1,
-      },
-    ],
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
+  createChart(
+    'chart5',
+    'bar',
+    {
+      labels: languages.map(lang => lang.toUpperCase()),
+      datasets: [
+        {
+          label: 'Number of Movies',
+          data: movieCounts,
+          backgroundColor: 'rgba(153, 102, 255, 1)',
+          borderColor: 'rgba(153, 102, 255, 1)',
+          borderWidth: 1,
+        },
+      ],
     },
-  });
+    {
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+      },
+      plugins: {
+        legend: {
+          labels: {
+            font: {
+              family: 'Poppins',
+            },
+          },
+        },
+      },
+      scales: {
+        x: {
+          ticks: {
+            font: {
+              family: 'Poppins',
+            },
+          },
+        },
+        y: {
+          ticks: {
+            font: {
+              family: 'Poppins',
+            },
+          },
+        },
+      },
+    }
+  );
 
   hideSpinner();
 }
@@ -206,18 +362,49 @@ async function loadVoteCountByGenreChart() {
     averageVoteCounts.push(totalVotes / response.results.length);
   }
 
-  createChart('chart6', 'bar', {
-    labels: genreNames,
-    datasets: [
-      {
-        label: 'Average Vote Count',
-        data: averageVoteCounts,
-        backgroundColor: 'rgba(255, 206, 86, 1)',
-        borderColor: 'rgba(255, 206, 86, 1)',
-        borderWidth: 1,
+  createChart(
+    'chart6',
+    'bar',
+    {
+      labels: genreNames,
+      datasets: [
+        {
+          label: 'Average Vote Count',
+          data: averageVoteCounts,
+          backgroundColor: 'rgba(255, 206, 86, 1)',
+          borderColor: 'rgba(255, 206, 86, 1)',
+          borderWidth: 1,
+        },
+      ],
+    },
+    {
+      plugins: {
+        legend: {
+          labels: {
+            font: {
+              family: 'Poppins',
+            },
+          },
+        },
       },
-    ],
-  });
+      scales: {
+        x: {
+          ticks: {
+            font: {
+              family: 'Poppins',
+            },
+          },
+        },
+        y: {
+          ticks: {
+            font: {
+              family: 'Poppins',
+            },
+          },
+        },
+      },
+    }
+  );
 
   hideSpinner();
 }
@@ -234,18 +421,49 @@ async function loadMovieReleaseDatesByMonthChart() {
     movieCounts[releaseDate.getMonth()]++;
   });
 
-  createChart('chart7', 'bar', {
-    labels: months,
-    datasets: [
-      {
-        label: 'Movies Released',
-        data: movieCounts,
-        backgroundColor: 'rgba(123, 239, 178, 1)',
-        borderColor: 'rgba(123, 239, 178, 1)',
-        borderWidth: 1,
+  createChart(
+    'chart7',
+    'bar',
+    {
+      labels: months,
+      datasets: [
+        {
+          label: 'Movies Released',
+          data: movieCounts,
+          backgroundColor: 'rgba(123, 239, 178, 1)',
+          borderColor: 'rgba(123, 239, 178, 1)',
+          borderWidth: 1,
+        },
+      ],
+    },
+    {
+      plugins: {
+        legend: {
+          labels: {
+            font: {
+              family: 'Poppins',
+            },
+          },
+        },
       },
-    ],
-  });
+      scales: {
+        x: {
+          ticks: {
+            font: {
+              family: 'Poppins',
+            },
+          },
+        },
+        y: {
+          ticks: {
+            font: {
+              family: 'Poppins',
+            },
+          },
+        },
+      },
+    }
+  );
 
   hideSpinner();
 }
@@ -282,11 +500,17 @@ async function loadMoviesByDecadeChart() {
         x: {
           ticks: {
             color: 'black',
+            font: {
+              family: 'Poppins',
+            },
           },
         },
         y: {
           ticks: {
             color: 'black',
+            font: {
+              family: 'Poppins',
+            },
           },
         },
       },
@@ -295,6 +519,9 @@ async function loadMoviesByDecadeChart() {
           position: 'right',
           labels: {
             color: 'black',
+            font: {
+              family: 'Poppins',
+            },
           },
         },
       },
@@ -333,11 +560,17 @@ async function loadMoviesByProductionCountriesChart() {
         x: {
           ticks: {
             color: 'black',
+            font: {
+              family: 'Poppins',
+            },
           },
         },
         y: {
           ticks: {
             color: 'black',
+            font: {
+              family: 'Poppins',
+            },
           },
         },
       },
@@ -346,6 +579,9 @@ async function loadMoviesByProductionCountriesChart() {
           position: 'right',
           labels: {
             color: 'black',
+            font: {
+              family: 'Poppins',
+            },
           },
         },
       },
@@ -383,6 +619,39 @@ async function loadTopRatedMoviesPerYearChart() {
         borderWidth: 1,
       },
     ],
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: {
+          ticks: {
+            color: 'black',
+            font: {
+              family: 'Poppins',
+            },
+          },
+        },
+        y: {
+          ticks: {
+            color: 'black',
+            font: {
+              family: 'Poppins',
+            },
+          },
+        },
+      },
+      plugins: {
+        legend: {
+          position: 'top',
+          labels: {
+            color: 'black',
+            font: {
+              family: 'Poppins',
+            },
+          },
+        },
+      },
+    },
   });
 }
 
@@ -409,6 +678,39 @@ async function loadTotalMovieVotesOverYearsChart() {
         borderWidth: 1,
       },
     ],
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: {
+          ticks: {
+            color: 'black',
+            font: {
+              family: 'Poppins',
+            },
+          },
+        },
+        y: {
+          ticks: {
+            color: 'black',
+            font: {
+              family: 'Poppins',
+            },
+          },
+        },
+      },
+      plugins: {
+        legend: {
+          position: 'top',
+          labels: {
+            color: 'black',
+            font: {
+              family: 'Poppins',
+            },
+          },
+        },
+      },
+    },
   });
 }
 
@@ -435,6 +737,39 @@ async function loadHighlyRatedMoviesOverYearsChart() {
         borderWidth: 1,
       },
     ],
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: {
+          ticks: {
+            color: 'black',
+            font: {
+              family: 'Poppins',
+            },
+          },
+        },
+        y: {
+          ticks: {
+            color: 'black',
+            font: {
+              family: 'Poppins',
+            },
+          },
+        },
+      },
+      plugins: {
+        legend: {
+          position: 'top',
+          labels: {
+            color: 'black',
+            font: {
+              family: 'Poppins',
+            },
+          },
+        },
+      },
+    },
   });
 }
 

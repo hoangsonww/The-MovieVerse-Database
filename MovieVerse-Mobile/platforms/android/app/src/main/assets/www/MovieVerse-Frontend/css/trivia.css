@@ -893,6 +893,11 @@ main {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
+#trivia-btn:hover {
+  background-color: #ff8623;
+  transition: 0.1s linear;
+}
+
 @media (max-width: 767px) {
   .mobile-bottom-bar {
     display: flex;
@@ -1161,4 +1166,26 @@ main {
   border: none;
   cursor: pointer;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

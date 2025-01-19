@@ -4,7 +4,7 @@ const ctx = canvas.getContext('2d');
 // Dino properties
 let dino = {
   x: 50,
-  y: canvas.height - 50, // Start at the bottom
+  y: canvas.height - 50,
   width: 20,
   height: 20,
   vy: 0,
@@ -15,9 +15,10 @@ let dino = {
 let obstacles = [];
 let gameSpeed = 3;
 let score = 0;
+let highScore = localStorage.getItem('highScoreDinosaurJump') || 0;
 let isGameOver = false;
 let spawnTimer = 0; // Timer to control obstacle spawns
-const spawnInterval = 120; // Minimum frames between spawns (e.g., 2 seconds at 60 FPS)
+const spawnInterval = 100; // Minimum frames between spawns (e.g., 2 seconds at 60 FPS)
 
 // Key press or tap to jump
 function handleJump() {
@@ -28,17 +29,23 @@ function handleJump() {
 
 // Reset the game
 function resetGame() {
+  if (score > highScore) {
+    highScore = score;
+    localStorage.setItem('highScoreDinosaurJump', highScore);
+  }
   dino.y = canvas.height - dino.height;
   dino.vy = 0;
   obstacles = [];
   score = 0;
-  gameSpeed = 3; // Reset speed
-  spawnTimer = 0; // Reset spawn timer
+  gameSpeed = 3;
+  spawnTimer = 0;
   isGameOver = false;
 }
 
 // Handle key presses for jump or reset
 document.addEventListener('keydown', e => {
+  e.preventDefault();
+
   if (isGameOver && (e.code === 'Space' || e.code === 'ArrowUp')) {
     resetGame();
   } else {
@@ -99,12 +106,12 @@ function update() {
       // 50% chance to spawn an obstacle after the interval
       obstacles.push({
         x: canvas.width,
-        y: canvas.height - 30, // Align obstacles to the bottom
+        y: canvas.height - 30,
         width: 20,
-        height: Math.random() * 20 + 20, // Randomize height for variety
+        height: Math.random() * 20 + 20,
       });
     }
-    spawnTimer = 0; // Reset the spawn timer
+    spawnTimer = 0;
   }
 }
 
@@ -116,32 +123,33 @@ function draw() {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   // Draw Dino
-  ctx.fillStyle = 'limegreen'; // Updated for better contrast
+  ctx.fillStyle = 'limegreen';
   ctx.fillRect(dino.x, dino.y, dino.width, dino.height);
 
   // Draw obstacles
-  ctx.fillStyle = 'orange'; // Updated for better contrast
+  ctx.fillStyle = 'orange';
   for (let obs of obstacles) {
     ctx.fillRect(obs.x, obs.y, obs.width, obs.height);
   }
 
   // Score
   ctx.fillStyle = 'white';
-  ctx.font = "16px 'Poppins', sans-serif"; // Apply Poppins font
+  ctx.font = "10px 'Poppins', sans-serif";
   ctx.fillText(`Score: ${score}`, 10, 20);
+  ctx.fillText(`High Score: ${highScore}`, 10, 40);
 
   if (isGameOver) {
     // "Game Over!" Text
     ctx.fillStyle = 'red';
-    ctx.font = "24px 'Poppins', sans-serif";
+    ctx.font = "18px 'Poppins', sans-serif";
     const gameOverText = 'Game Over!';
     const gameOverWidth = ctx.measureText(gameOverText).width;
     ctx.fillText(gameOverText, (canvas.width - gameOverWidth) / 2, canvas.height / 2 - 20);
 
     // Restart Instruction Text
     ctx.fillStyle = 'white';
-    ctx.font = "16px 'Poppins', sans-serif";
-    const restartText = 'Press Space, Arrow Key, or Click to Restart';
+    ctx.font = "10px 'Poppins', sans-serif";
+    const restartText = 'Press Space, Arrow Key, or Tap to Restart';
     const restartWidth = ctx.measureText(restartText).width;
     ctx.fillText(restartText, (canvas.width - restartWidth) / 2, canvas.height / 2 + 10);
   }

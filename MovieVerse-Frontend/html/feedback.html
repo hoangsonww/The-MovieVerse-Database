@@ -587,7 +587,7 @@
         <span id="profileText">Profile</span>
         <i class="fas fa-user" id="profileIcon"></i>
       </button>
-      <form id="form1">
+      <form id="form1" style="animation: fadeIn 1.5s ease-in-out">
         <div class="search-container">
           <input
             type="text"
@@ -657,7 +657,7 @@
         MovieVerse Trivia
       </button>
     </header>
-    <div class="form-container">
+    <div class="form-container" style="animation: fadeIn 1.5s ease-in-out">
       <div style="font-weight: bold; font-size: 28px; margin-top: 10px">Feedback</div>
       <p style="color: black">Noticed a bug? Have a suggestion? Wrong movie information? Or just want to say hi? We'd love to hear from you!</p>
       <form action="https://formspree.io/f/xqkrbdqd" method="POST">
@@ -1089,9 +1089,13 @@
     </script>
     <footer style="margin-top: 20px">
       <a href="../../index.html" style="cursor: pointer; text-decoration: none">
-        <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
+        <p style="cursor: pointer; text-decoration: none">© <span id="year"></span> The MovieVerse. All rights reserved.</p>
       </a>
     </footer>
+    <script>
+      const currentYear = new Date().getFullYear();
+      document.getElementById('year').textContent = currentYear;
+    </script>
     <div id="mobile-bottom-bar" class="mobile-bottom-bar">
       <a href="chat.html" class="bottom-bar-item">
         <i class="fas fa-comments"></i>

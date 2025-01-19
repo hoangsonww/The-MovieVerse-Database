@@ -377,7 +377,7 @@
         <span id="profileText">Profile</span>
         <i class="fas fa-user" id="profileIcon"></i>
       </button>
-      <form id="form1" style="margin-top: 5px">
+      <form id="form1" style="margin-top: 5px; animation: fadeIn 1.5s ease-in-out">
         <div class="search-container">
           <input
             type="text"
@@ -414,13 +414,13 @@
       </ul>
     </nav>
 
-    <div class="watchlist-buttons-container">
+    <div class="watchlist-buttons-container" style="animation: fadeIn 1.5s ease-in-out">
       <button id="create-watchlist-btn">Create Watch Lists</button>
       <button id="edit-watchlist-btn">Edit Watch Lists</button>
       <button id="delete-watchlist-btn">Delete Watch Lists</button>
     </div>
 
-    <div id="create-watchlist-modal" class="modal" style="z-index: 1000000000; margin-top: 0; padding-top: 0">
+    <div id="create-watchlist-modal" class="modal" style="animation: fadeIn 0.5s ease-in-out; z-index: 1000000000; margin-top: 0; padding-top: 0">
       <div class="modal-content" style="margin-top: 10px">
         <span class="close-button" title="Close this modal" onclick="closeModal('create-watchlist-modal')">&times;</span>
         <h2>Create a Watch List</h2>
@@ -439,7 +439,7 @@
       <div class="spinner"></div>
     </div>
 
-    <div id="edit-watchlist-modal" class="modal" style="z-index: 1000000000; margin-top: 0; padding-top: 0">
+    <div id="edit-watchlist-modal" class="modal" style="animation: fadeIn 0.5s ease-in-out; z-index: 1000000000; margin-top: 0; padding-top: 0">
       <div class="modal-content" style="margin-top: 10px">
         <span class="close-button" title="Close this modal" onclick="closeModal('edit-watchlist-modal')">&times;</span>
         <h2>Edit a Watch List</h2>
@@ -449,7 +449,7 @@
       </div>
     </div>
 
-    <div id="delete-watchlist-modal" class="modal" style="z-index: 1000000000; margin-top: 0; padding-top: 0">
+    <div id="delete-watchlist-modal" class="modal" style="animation: fadeIn 0.5s ease-in-out; z-index: 1000000000; margin-top: 0; padding-top: 0">
       <div class="modal-content" style="margin-top: 40px">
         <span class="close-button" title="Close this modal" onclick="closeModal('delete-watchlist-modal')">&times;</span>
         <h2>Delete Watch Lists</h2>
@@ -460,7 +460,7 @@
       </div>
     </div>
 
-    <div id="watchlists-display-section">
+    <div id="watchlists-display-section" style="animation: fadeIn 1.5s ease-in-out">
       <!-- Dynamically populated watch lists will go here -->
     </div>
 
@@ -471,7 +471,7 @@
       <button id="how-to-use-btn">How to Use</button>
     </div>
 
-    <div id="how-to-use-section" style="display: none; text-align: center; padding: 20px; margin-top: 20px">
+    <div id="how-to-use-section" style="animation: fadeIn 0.5s ease-in-out; display: none; text-align: center; padding: 20px; margin-top: 20px">
       <h4 style="color: white">How to Use MovieVerse Watchlists</h4>
       <p>
         To start creating a watchlist, add movies and TV series to your favorites by clicking the heart icon on their pages. Your favorites serve as a
@@ -634,9 +634,13 @@
     <script src="../js/movie-details.js"></script>
     <footer>
       <a href="../../index.html" style="cursor: pointer; text-decoration: none">
-        <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
+        <p style="cursor: pointer; text-decoration: none">© <span id="year"></span> The MovieVerse. All rights reserved.</p>
       </a>
     </footer>
+    <script>
+      const currentYear = new Date().getFullYear();
+      document.getElementById('year').textContent = currentYear;
+    </script>
     <div id="mobile-bottom-bar" class="mobile-bottom-bar">
       <a href="chat.html" class="bottom-bar-item">
         <i class="fas fa-comments"></i>

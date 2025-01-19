@@ -331,7 +331,7 @@
         <i class="fas fa-sign-in-alt" id="signInIcon"></i>
         <i class="fas fa-sign-out-alt" id="signOutIcon" style="display: none"></i>
       </button>
-      <form id="form1" style="margin-top: 21px">
+      <form id="form1" style="margin-top: 21px; animation: fadeIn 1.5s ease-in-out">
         <div class="search-container">
           <input
             type="text"
@@ -402,7 +402,11 @@
         MovieVerse Trivia
       </button>
     </header>
-    <div class="account-creation-form-container" id="account-creation-form-container" style="margin-bottom: 300px">
+    <div
+      class="account-creation-form-container"
+      id="account-creation-form-container"
+      style="margin-bottom: 300px; animation: fadeIn 1.5s ease-in-out"
+    >
       <form id="createAccountForm">
         <h2>Create Account</h2>
         <p style="color: black">
@@ -484,7 +488,7 @@
       <i class="fas fa-ellipsis-h"></i><br />
       <span>Menu</span>
     </button>
-    <div id="myModal" class="modal-overlay">
+    <div id="" class="modal-overlay">
       <div class="spinner"></div>
     </div>
     <script>
@@ -1203,11 +1207,15 @@
         return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
       }
     </script>
-    <footer style="margin-top: 20px">
+    <footer>
       <a href="../../index.html" style="cursor: pointer; text-decoration: none">
-        <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
+        <p style="cursor: pointer; text-decoration: none">© <span id="year"></span> The MovieVerse. All rights reserved.</p>
       </a>
     </footer>
+    <script>
+      const currentYear = new Date().getFullYear();
+      document.getElementById('year').textContent = currentYear;
+    </script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js"></script>
   </body>

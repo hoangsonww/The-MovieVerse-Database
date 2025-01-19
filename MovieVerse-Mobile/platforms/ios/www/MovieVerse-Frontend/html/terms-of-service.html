@@ -138,6 +138,13 @@
           z-index: 1000000;
         }
       }
+      #linkWeb {
+        color: white;
+      }
+      #linkWeb:hover {
+        color: #ff8623;
+        text-decoration: underline;
+      }
       .translate-trigger {
         background-color: #7378c5;
         color: white;
@@ -294,7 +301,7 @@
         <i class="fas fa-sign-in-alt" id="signInIcon"></i>
         <i class="fas fa-sign-out-alt" id="signOutIcon" style="display: none"></i>
       </button>
-      <form id="form1">
+      <form id="form1" style="animation: fadeIn 1.5s ease-in-out">
         <div class="search-container">
           <input
             type="text"
@@ -394,26 +401,26 @@
         <li><a href="support.html">Contact Support</a></li>
       </ul>
     </nav>
-    <main class="content-area">
+    <main class="content-area" style="animation: fadeIn 1.5s ease-in-out">
       <div style="text-align: center; width: 90%">
         <div style="font-weight: bold; font-size: 28px; margin-top: 10px; color: #ff8623" id="tos-header">Terms of Service</div>
       </div>
-      <div style="text-align: center; width: 90%" id="agreement">
-        <h2 style="cursor: pointer">Agreement to Terms</h2>
+      <div style="text-align: center; width: 90%">
+        <h2 style="cursor: pointer" id="agreement">Agreement to Terms</h2>
         <p>
           By using The MovieVerse, you agree to be bound by these terms. If you disagree with any part of the terms, then you do not have permission
           to access the service.
         </p>
       </div>
-      <div style="text-align: center; width: 90%" id="consent">
-        <h2 style="cursor: pointer">Changes to Terms</h2>
+      <div style="text-align: center; width: 90%">
+        <h2 style="cursor: pointer" id="consent">Changes to Terms</h2>
         <p>
           We reserve the right to modify or replace these Terms at any time at our sole discretion. We will try to provide at least 30 days' notice
           prior to any new terms taking effect.
         </p>
       </div>
-      <div style="text-align: center; width: 90%" id="subheading2">
-        <h2 style="cursor: pointer">Use of Service</h2>
+      <div style="text-align: center; width: 90%">
+        <h2 style="cursor: pointer" id="subheading2">Use of Service</h2>
         <p>The MovieVerse is provided on an "AS IS" and "AS AVAILABLE" basis. The service is for personal, non-commercial use only.</p>
         <p>
           You may not use the service for any illegal or unauthorized purpose. You must not, in the use of the service, violate any laws in your
@@ -424,16 +431,16 @@
           service without express written permission by us.
         </p>
       </div>
-      <div style="text-align: center; width: 90%" id="subheading">
-        <h2 style="cursor: pointer">Content</h2>
+      <div style="text-align: center; width: 90%">
+        <h2 style="cursor: pointer" id="subheading">Content</h2>
         <p>
           Content found on or through this Service are the property of The MovieVerse or used with permission. You may not distribute, modify,
           transmit, reuse, download, repost, copy, or use said Content, whether in whole or in part, for commercial purposes or for personal gain,
           without express advance written permission from us.
         </p>
       </div>
-      <div style="text-align: center; width: 90%" id="subheading3">
-        <h2 style="cursor: pointer">Ads</h2>
+      <div style="text-align: center; width: 90%">
+        <h2 style="cursor: pointer" id="subheading3">Ads</h2>
         <p>
           During use of the Service, you may enter into correspondence with or participate in promotions of advertisers or sponsors showing their
           goods or services through the Service. Any such activity, and any terms, conditions, warranties or representations associated with such
@@ -445,46 +452,46 @@
         </p>
         <p>
           If you encounter any ads that are inappropriate, misleading, or intrusive, please let us know by contacting us at using the Feedback form
-          <a style="color: white" href="feedback.html">here</a>.
+          <a id="linkWeb" href="feedback.html">here</a>.
         </p>
       </div>
-      <div style="text-align: center; width: 90%" id="subheading4">
-        <h2 style="cursor: pointer">Accounts</h2>
+      <div style="text-align: center; width: 90%">
+        <h2 style="cursor: pointer" id="subheading4">Accounts</h2>
         <p>
           When you create an account with us, you guarantee that the information you provide us is accurate, complete, and current at all times.
           Inaccurate, incomplete, or obsolete information may result in the immediate termination of your account on the Service.
         </p>
       </div>
-      <div style="text-align: center; width: 90%" id="subheading5">
-        <h2 style="cursor: pointer">Intellectual Property</h2>
+      <div style="text-align: center; width: 90%">
+        <h2 style="cursor: pointer" id="subheading5">Intellectual Property</h2>
         <p>
           The Service and its original content, features, and functionality are and will remain the exclusive property of The MovieVerse and its
           licensors.
         </p>
       </div>
-      <div style="text-align: center; width: 90%" id="subheading6">
-        <h2 style="cursor: pointer">Links To Other Web Sites</h2>
+      <div style="text-align: center; width: 90%">
+        <h2 style="cursor: pointer" id="subheading6">Links To Other Web Sites</h2>
         <p>
           Our Service may contain links to third-party web sites or services that are not owned or controlled by The MovieVerse. We have no control
           over, and assume no responsibility for the content, privacy policies, or practices of any third-party web sites or services.
         </p>
       </div>
-      <div style="text-align: center; width: 90%" id="subheading7">
-        <h2 style="cursor: pointer">Termination</h2>
+      <div style="text-align: center; width: 90%">
+        <h2 style="cursor: pointer" id="subheading7">Termination</h2>
         <p>
           We may terminate or suspend your account and bar access to the Service immediately, without prior notice or liability, under our sole
           discretion, for any reason whatsoever and without limitation, including but not limited to a breach of the Terms.
         </p>
       </div>
-      <div style="text-align: center; width: 90%" id="subheading8">
-        <h2 style="cursor: pointer">Disclaimer</h2>
+      <div style="text-align: center; width: 90%">
+        <h2 style="cursor: pointer" id="subheading8">Disclaimer</h2>
         <p>
           Your use of the Service is at your sole risk. The Service is provided on an "AS IS" and "AS AVAILABLE" basis. The Service is provided
           without warranties of any kind.
         </p>
       </div>
-      <div style="text-align: center; width: 90%" id="subheading9">
-        <h2 style="cursor: pointer">Governing Law</h2>
+      <div style="text-align: center; width: 90%">
+        <h2 style="cursor: pointer" id="subheading9">Governing Law</h2>
         <p>
           These Terms shall be governed and construed in accordance with the laws of the country where The MovieVerse is based (the United States of
           America), without regard to its conflict of law provisions.
@@ -494,8 +501,8 @@
           Terms is held to be invalid or unenforceable by a court, the remaining provisions of these Terms will remain in effect.
         </p>
       </div>
-      <div style="text-align: center; width: 90%; margin-bottom: 300px" id="subheading10">
-        <h2 style="cursor: pointer">Contact Us</h2>
+      <div style="text-align: center; width: 90%; margin-bottom: 300px">
+        <h2 style="cursor: pointer" id="subheading10">Contact Us</h2>
         <p>
           If you have any questions about these Terms, please contact us at
           <a id="mail" href="mailto:info@movie-verse.com">info@movie-verse.com</a>.
@@ -507,9 +514,13 @@
     </div>
     <footer>
       <a href="../../index.html" style="cursor: pointer; text-decoration: none">
-        <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
+        <p style="cursor: pointer; text-decoration: none">© <span id="year"></span> The MovieVerse. All rights reserved.</p>
       </a>
     </footer>
+    <script>
+      const currentYear = new Date().getFullYear();
+      document.getElementById('year').textContent = currentYear;
+    </script>
     <div id="mobile-bottom-bar" class="mobile-bottom-bar">
       <a href="chat.html" class="bottom-bar-item">
         <i class="fas fa-comments"></i>

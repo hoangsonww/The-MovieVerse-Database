@@ -294,7 +294,7 @@
         <i class="fas fa-user" id="profileIcon"></i>
       </button>
 
-      <form id="form1">
+      <form id="form1" style="animation: fadeIn 1.5s ease-in-out">
         <div class="search-container">
           <input
             type="text"
@@ -313,7 +313,7 @@
       </form>
     </header>
 
-    <div class="timeline-container" style="margin-bottom: 345px">
+    <div class="timeline-container" style="animation: fadeIn 1.5s ease-in-out; margin-bottom: 345px">
       <div class="center-container">
         <div style="font-weight: bold; font-size: 27px" id="select-text">Select a Period</div>
         <div class="year-input-container">
@@ -915,8 +915,12 @@
 
     <footer id="footer" style="margin-top: 0">
       <a href="../../index.html" style="cursor: pointer; text-decoration: none">
-        <p style="cursor: pointer; text-decoration: none">© 2024 The MovieVerse. All rights reserved.</p>
+        <p style="cursor: pointer; text-decoration: none">© <span id="year"></span> The MovieVerse. All rights reserved.</p>
       </a>
     </footer>
+    <script>
+      const currentYear = new Date().getFullYear();
+      document.getElementById('year').textContent = currentYear;
+    </script>
   </body>
 </html>

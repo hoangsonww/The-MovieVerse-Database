@@ -25,9 +25,8 @@ let bullets = [];
 let enemies = [];
 let enemySpeed = 0.75;
 let score = 0;
+let highScore = localStorage.getItem('highScoreSpaceShooter') || 0;
 let isGameOver = false;
-
-// NEW: Lives for the player
 let lives = 10;
 
 // Listen for key presses
@@ -35,6 +34,8 @@ document.addEventListener('keydown', e => {
   if (e.key === 'ArrowLeft') leftPressed = true;
   if (e.key === 'ArrowRight') rightPressed = true;
   if (e.key === ' ') {
+    e.preventDefault();
+
     if (isGameOver) {
       resetGame();
     } else {
@@ -79,11 +80,15 @@ function createEnemy() {
 
 // Reset the game
 function resetGame() {
+  if (score > highScore) {
+    highScore = score;
+    localStorage.setItem('highScoreSpaceShooter', highScore);
+  }
   ship.x = canvas.width / 2 - 15;
   bullets = [];
   enemies = [];
   score = 0;
-  lives = 10; // Reset lives
+  lives = 10;
   isGameOver = false;
 }
 
@@ -193,14 +198,15 @@ function draw() {
     ctx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
   });
 
-  // Draw score
+  // Draw score and high score
   ctx.fillStyle = 'white';
   ctx.font = '20px Poppins, sans-serif';
   ctx.textAlign = 'left';
   ctx.fillText(`Score: ${score}`, 10, 30);
+  ctx.fillText(`High Score: ${highScore}`, 10, 60);
 
-  // NEW: Draw lives
-  ctx.fillText(`Lives: ${lives}`, 10, 60);
+  // Draw lives
+  ctx.fillText(`Lives: ${lives}`, 10, 90);
 
   // Game over message
   if (isGameOver) {
