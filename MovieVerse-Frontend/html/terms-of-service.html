@@ -616,6 +616,8 @@
         document.getElementById('subheading10').scrollIntoView({ behavior: 'smooth' });
       });
 
+      const token = localStorage.getItem('movieverseToken');
+
       document.addEventListener('DOMContentLoaded', function () {
         const searchBar = document.getElementById('search');
         const searchButton = document.getElementById('button-search');
@@ -745,14 +747,21 @@
           }
 
           if (query) {
-            const searchURL = `https://${getMovieVerseData()}/3/search/multi?${generateMovieNames()}${getMovieCode()}&query=${encodeURIComponent(query)}`;
-            fetch(searchURL)
+            const searchURL = `https://api-movieverse.vercel.app/api/3/search/multi?query=${encodeURIComponent(query)}`;
+
+            fetch(searchURL, {
+              method: 'GET',
+              headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+              },
+            })
               .then(response => response.json())
               .then(data => {
                 const sortedResults = data.results.sort((a, b) => b.popularity - a.popularity);
                 displaySearchResults(sortedResults.slice(0, 5));
               })
-              .catch(err => console.log('Fetching error:', err));
+              .catch(err => console.error('Fetching error:', err));
           } else {
             searchInput.value = '';
             searchResultsContainer.innerHTML = '';
@@ -846,8 +855,14 @@
             window.location.href = 'tv-details.html';
           } else if (item.media_type === 'person') {
             try {
-              const personDetailsUrl = `https://${getMovieVerseData()}/3/person/${item.id}?${generateMovieNames()}${getMovieCode()}`;
-              const response = await fetch(personDetailsUrl);
+              const personDetailsUrl = `https://api-movieverse.vercel.app/api/3/person/${item.id}`;
+              const response = await fetch(personDetailsUrl, {
+                method: 'GET',
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  'Content-Type': 'application/json',
+                },
+              });
               const personDetails = await response.json();
 
               if (personDetails.known_for_department === 'Directing') {
@@ -997,30 +1012,18 @@
         }
       });
 
-      const movieCode1 = {
-        part1: 'YzVhMjBjODY=',
-        part2: 'MWFjZjdiYjg=',
-        part3: 'ZDllOTg3ZGNjN2YxYjU1OA==',
-      };
-
-      function getMovieCode() {
-        return atob(movieCode1.part1) + atob(movieCode1.part2) + atob(movieCode1.part3);
-      }
-
-      function generateMovieNames(input) {
-        return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
-      }
-
-      function getMovieVerseData(input) {
-        return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
-      }
-
       async function showMovieOfTheDay() {
         const year = new Date().getFullYear();
-        const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+        const url = `https://api-movieverse.vercel.app/api/3/discover/movie&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
 
         try {
-          const response = await fetch(url);
+          const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          });
           const data = await response.json();
           const movies = data.results;
 
@@ -1044,9 +1047,15 @@
       }
 
       async function fetchGenreMap() {
-        const url = `https://${getMovieVerseData()}/3/genre/movie/list?${generateMovieNames()}${getMovieCode()}`;
+        const url = `ttps://api-movieverse.vercel.app/api/3/genre/movie/list`;
         try {
-          const response = await fetch(url);
+          const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          });
           const data = await response.json();
           const genreMap = data.genres.reduce((map, genre) => {
             map[genre.id] = genre.name;

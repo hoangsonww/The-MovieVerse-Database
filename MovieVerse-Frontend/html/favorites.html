@@ -696,35 +696,59 @@
         deleteDoc,
       } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js';
 
-      let initialMoviesSelection = [];
-      let initialTVSeriesSelection = [];
+      const alpha = 'QUl6YVN';
+      const beta = '5REw2a1F';
+      const gamma = 'uU2ZVZDhV';
+      const delta = 'dDhIRnJwS';
+      const epsilon = '3VpdnF6MX';
+      const zeta = 'hkWG03aw==';
+      const theta = 'bW92aWV';
+      const iota = '2ZXJzZS1hc';
+      const kappa = 'HAuZmlyZWJhc';
+      const lambda = '2VhcHAuY29t';
+      const mu = 'bW92aWV';
+
+      function getFBConfig3() {
+        const fbConfig3 = mu.concat(nu, xi);
+        return translateFBC(fbConfig3);
+      }
 
       function translateFBC(value) {
         return atob(value);
       }
 
+      let initialMoviesSelection = [];
+      let initialTVSeriesSelection = [];
+
       function getFBConfig1() {
-        const fbConfig1 = 'QUl6YVN5REw2a1FuU2ZVZDhVdDhIRnJwS3VpdnF6MXhkWG03aw==';
+        const fbConfig1 = alpha.concat(beta, gamma, delta, epsilon, zeta);
         return translateFBC(fbConfig1);
       }
 
       function getFBConfig2() {
-        const fbConfig2 = 'bW92aWV2ZXJzZS1hcHAuZmlyZWJhc2VhcHAuY29t';
+        const fbConfig2 = theta.concat(iota, kappa, lambda);
         return translateFBC(fbConfig2);
       }
 
-      function getFBConfig3() {
-        const fbConfig3 = 'bW92aWV2ZXJzZS1hcHAuYXBwc3BvdC5jb20=';
-        return translateFBC(fbConfig3);
-      }
+      const nu = '2ZXJzZS1hcHAu';
+      const xi = 'YXBwc3BvdC5jb20=';
+      const omicron = 'ODAyOT';
+      const pi = 'QzNzE4ODcx';
+      const rho = 'MTo4MDI';
+      const sigma = '5NDM3MTg4NzE6';
+      const tau = 'd2ViOjQ4YmM5';
+      const upsilon = 'MTZjYzk5ZTI3MjQyMTI3OTI=';
+      const phi = 'bW92aWV';
+      const chi = 'dmVyc2U';
+      const psi = 'tYXBw';
 
       function getFBConfig4() {
-        const fbConfig4 = 'ODAyOTQzNzE4ODcx';
+        const fbConfig4 = omicron.concat(pi);
         return translateFBC(fbConfig4);
       }
 
       function getFBConfig5() {
-        const fbConfig5 = 'MTo4MDI5NDM3MTg4NzE6d2ViOjQ4YmM5MTZjYzk5ZTI3MjQyMTI3OTI=';
+        const fbConfig5 = rho.concat(sigma, tau, upsilon);
         return translateFBC(fbConfig5);
       }
 
@@ -1068,6 +1092,8 @@
         document.getElementById('myModal').classList.remove('modal-visible');
       }
 
+      const token = localStorage.getItem('movieverseToken');
+
       document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('search').addEventListener('input', function (e) {
           showSpinner();
@@ -1085,14 +1111,21 @@
           }
 
           if (query) {
-            const searchURL = `https://${getMovieVerseData()}/3/search/multi?${generateMovieNames()}${getMovieCode()}&query=${encodeURIComponent(query)}`;
-            fetch(searchURL)
+            const searchURL = `https://api-movieverse.vercel.app/api/3/search/multi?query=${encodeURIComponent(query)}`;
+
+            fetch(searchURL, {
+              method: 'GET',
+              headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+              },
+            })
               .then(response => response.json())
               .then(data => {
                 const sortedResults = data.results.sort((a, b) => b.popularity - a.popularity);
                 displaySearchResults(sortedResults.slice(0, 5));
               })
-              .catch(err => console.log('Fetching error:', err));
+              .catch(err => console.error('Fetching error:', err));
           } else {
             searchInput.value = '';
             searchResultsContainer.innerHTML = '';
@@ -1186,8 +1219,14 @@
             window.location.href = 'tv-details.html';
           } else if (item.media_type === 'person') {
             try {
-              const personDetailsUrl = `https://${getMovieVerseData()}/3/person/${item.id}?${generateMovieNames()}${getMovieCode()}`;
-              const response = await fetch(personDetailsUrl);
+              const personDetailsUrl = `https://api-movieverse.vercel.app/api/3/person/${item.id}`;
+              const response = await fetch(personDetailsUrl, {
+                method: 'GET',
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  'Content-Type': 'application/json',
+                },
+              });
               const personDetails = await response.json();
 
               if (personDetails.known_for_department === 'Directing') {

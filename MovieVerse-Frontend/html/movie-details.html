@@ -521,57 +521,6 @@
 
       checkAndUpdateFavoriteButton();
     </script>
-    <script type="module">
-      import { loadUserRatings, updateAverageMovieRating } from '../js/ratings-module.js';
-
-      document.addEventListener('DOMContentLoaded', async () => {
-        const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
-        const savedRatings = await loadUserRatings(currentUserEmail);
-        const movieId = localStorage.getItem('selectedMovieId');
-        const movieRating = savedRatings[movieId] || 0;
-        setStarRating(movieRating);
-      });
-
-      function setStarRating(rating) {
-        const stars = document.querySelectorAll('.rating .star');
-        stars.forEach(star => {
-          star.style.color = star.dataset.value > rating ? 'white' : 'gold';
-        });
-        document.getElementById('rating-value').textContent = `${rating}.0/5.0`;
-      }
-
-      let isHovering = false;
-
-      const stars = document.querySelectorAll('.rating .star');
-      stars.forEach(star => {
-        star.addEventListener('mouseover', e => {
-          isHovering = true;
-          setStarRating(e.target.dataset.value);
-        });
-
-        star.addEventListener('mouseout', () => {
-          isHovering = false;
-          setTimeout(() => {
-            if (!isHovering) {
-              const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
-              loadUserRatings(currentUserEmail).then(savedRatings => {
-                const movieId = localStorage.getItem('selectedMovieId');
-                const movieRating = savedRatings[movieId] || 0;
-                setStarRating(movieRating);
-              });
-            }
-          }, 10);
-        });
-
-        star.addEventListener('click', async e => {
-          const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
-          const movieId = localStorage.getItem('selectedMovieId');
-          const rating = e.target.dataset.value;
-          await updateAverageMovieRating(currentUserEmail, movieId, rating);
-          window.location.reload();
-        });
-      });
-    </script>
     <div id="myModal" class="modal-overlay">
       <div class="spinner"></div>
     </div>
@@ -603,6 +552,8 @@
       });
     </script>
     <script>
+      const token = localStorage.getItem('movieverseToken');
+
       document.addEventListener('DOMContentLoaded', function () {
         const searchInput = document.getElementById('search');
         const viewAllResultsBtn = document.getElementById('view-all-results');
@@ -660,14 +611,21 @@
           }
 
           if (query) {
-            const searchURL = `https://${getMovieVerseData()}/3/search/multi?${generateMovieNames()}${getMovieCode()}&query=${encodeURIComponent(query)}`;
-            fetch(searchURL)
+            const searchURL = `https://api-movieverse.vercel.app/api/3/search/multi?query=${encodeURIComponent(query)}`;
+
+            fetch(searchURL, {
+              method: 'GET',
+              headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+              },
+            })
               .then(response => response.json())
               .then(data => {
                 const sortedResults = data.results.sort((a, b) => b.popularity - a.popularity);
                 displaySearchResults(sortedResults.slice(0, 5));
               })
-              .catch(err => console.log('Fetching error:', err));
+              .catch(err => console.error('Fetching error:', err));
           } else {
             searchInput.value = '';
             searchResultsContainer.innerHTML = '';
@@ -761,8 +719,14 @@
             window.location.href = 'tv-details.html';
           } else if (item.media_type === 'person') {
             try {
-              const personDetailsUrl = `https://${getMovieVerseData()}/3/person/${item.id}?${generateMovieNames()}${getMovieCode()}`;
-              const response = await fetch(personDetailsUrl);
+              const personDetailsUrl = `https://api-movieverse.vercel.app/api/3/person/${item.id}`;
+              const response = await fetch(personDetailsUrl, {
+                method: 'GET',
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  'Content-Type': 'application/json',
+                },
+              });
               const personDetails = await response.json();
 
               if (personDetails.known_for_department === 'Directing') {
@@ -1038,6 +1002,77 @@
     <script>
       const currentYear = new Date().getFullYear();
       document.getElementById('year').textContent = currentYear;
+    </script>
+    <script type="module">
+      import { loadUserRatings, updateAverageMovieRating } from '../js/ratings-module.js';
+
+      initRating();
+
+      async function initRating() {
+        const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
+        const savedRatings = await loadUserRatings(currentUserEmail);
+        const movieId = localStorage.getItem('selectedMovieId');
+        const movieRating = Number(savedRatings[movieId]) || 0;
+        console.log('initRating: movieRating =', movieRating);
+        setStarRating(movieRating);
+      }
+
+      function setStarRating(rating) {
+        const numericRating = Number(rating);
+        const stars = document.querySelectorAll('.rating .star');
+        stars.forEach(star => {
+          // Use getAttribute to ensure we get the proper number from data-value
+          const starValue = Number(star.getAttribute('data-value'));
+          // Color the star gold if its value is less than or equal to the rating
+          star.style.color = starValue <= numericRating ? 'gold' : 'white';
+        });
+        const ratingDisplay = document.getElementById('rating-value');
+        if (ratingDisplay) {
+          ratingDisplay.textContent = `${numericRating}.0/5.0`;
+        }
+      }
+
+      // Wait for the entire page to load (including all DOM elements) before initializing
+      window.addEventListener('load', async () => {
+        await initRating();
+      });
+
+      // Set up hover and click behavior on the stars
+      let isHovering = false;
+      const stars = document.querySelectorAll('.rating .star');
+
+      stars.forEach(star => {
+        star.addEventListener('mouseover', e => {
+          isHovering = true;
+          // Temporarily update the star rating based on the hovered star's value
+          setStarRating(Number(e.target.dataset.value));
+        });
+
+        star.addEventListener('mouseout', () => {
+          isHovering = false;
+          // After a short delay, revert to the saved rating
+          setTimeout(async () => {
+            if (!isHovering) {
+              const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
+              const savedRatings = await loadUserRatings(currentUserEmail);
+              const movieId = localStorage.getItem('selectedMovieId');
+              const movieRating = Number(savedRatings[movieId]) || 0;
+              setStarRating(movieRating);
+            }
+          }, 10);
+        });
+
+        star.addEventListener('click', async e => {
+          const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
+          const movieId = localStorage.getItem('selectedMovieId');
+          const rating = e.target.dataset.value;
+          await updateAverageMovieRating(currentUserEmail, movieId, rating);
+          // Immediately update the UI to reflect the new rating
+          const savedRatings = await loadUserRatings(currentUserEmail);
+          const movieRating = Number(savedRatings[movieId]) || 0;
+          setStarRating(movieRating);
+        });
+      });
     </script>
   </body>
 </html>
