@@ -98,6 +98,7 @@ Through The MovieVerse, users can search for movies, view detailed information, 
 - **Continuous Improvements**: The platform is ever-evolving with regular updates and new features.
 - **Free to Use**: The MovieVerse is completely free to use, with absolutely no hidden costs or subscriptions.
 - **Privacy & Security**: The MovieVerse is committed to protecting your privacy and ensuring a secure platform.
+- **Accessibility**: The platform is designed to be accessible to all users, including those with disabilities.
 
 **And So Much More!**
 
@@ -264,7 +265,7 @@ The MovieVerse is committed to ensuring the security of the platform. Please ref
 
 Son Nguyen - [@hoangsonww](https://github.com/hoangsonww)
 
-Website: [https://movie-verse.com](https://movie-verse.com)
+Website: [https://sonnguyenhoang.com](https://sonnguyenhoang.com)
 
 Email: [Official MovieVerse Email](mailto:info@movie-verse.com)
 
