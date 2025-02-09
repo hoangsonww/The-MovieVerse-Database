@@ -16,7 +16,15 @@ Welcome to the MovieVerse app, your ultimate guide to the world of movies! This 
 
 ## Overview
 
-The `MovieVerse-Frontend` directory contains the frontend codebase for the MovieVerse application. This directory includes all the necessary files, scripts, and stylesheets to create an interactive and engaging user experience. The frontend is built using a combination of HTML, CSS, Vue, JavaScript, and React components to provide a seamless browsing experience for users.
+The `MovieVerse-Frontend` directory contains the frontend codebase for the MovieVerse application. This directory includes all the necessary files, scripts, and stylesheets to create an interactive and engaging user experience. The frontend is built using a combination of pure HTML, CSS, and JavaScript, as well as React components to provide a seamless browsing experience for users.
+
+## Architecture
+
+The MovieVerse app is designed to be a multi-page web application that allows users to explore various movie-related content. The frontend is built using a combination of HTML, CSS, and JavaScript to create a dynamic and interactive user experience. The app's architecture is based on a modular design, with each page having its own set of scripts, stylesheets, and components.
+
+This design allows for easy maintenance and scalability, as new features and pages can be added without affecting the existing codebase. The app also leverages the React library to create reusable components that can be shared across different pages. This approach helps to streamline development and ensure consistency in the app's appearance and functionality.
+
+Additionally, the MPA design also allows for Server-Side Rendering (SSR) and Search Engine Optimization (SEO) benefits. The app can be easily indexed by search engines, making it more discoverable to users. The app also includes a service worker script to enable offline functionality, allowing users to access the app even when they are not connected to the internet.
 
 ## Directory Structure
 

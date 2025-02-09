@@ -759,6 +759,33 @@
     </script>
 
     <script>
+      async function login(email, password) {
+        try {
+          const response = await fetch('https://api-movieverse.vercel.app/auth/login', {
+            method: 'POST',
+            headers: {
+              Accept: '*/*',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, password }),
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+
+          const data = await response.json();
+
+          if (data.token) {
+            localStorage.setItem('movieverseToken', data.token);
+          } else {
+            console.log('Login failed:', data.message);
+          }
+        } catch (error) {
+          console.log('Error logging in:', error);
+        }
+      }
+
       document.getElementById('settings-btn').addEventListener('click', () => {
         window.location.href = 'settings.html';
       });
@@ -808,30 +835,18 @@
         }
       });
 
-      const movieCodes = {
-        part1: 'YzVhMjBjODY=',
-        part2: 'MWFjZjdiYjg=',
-        part3: 'ZDllOTg3ZGNjN2YxYjU1OA==',
-      };
-
-      function getMovieCode() {
-        return atob(movieCodes.part1) + atob(movieCodes.part2) + atob(movieCodes.part3);
-      }
-
-      function generateMovieNames(input) {
-        return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
-      }
-
-      function getMovieVerseData(input) {
-        return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
-      }
-
       async function showMovieOfTheDay() {
         const year = new Date().getFullYear();
-        const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+        const url = `https://api-movieverse.vercel.app/api/3/discover/movie&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
 
         try {
-          const response = await fetch(url);
+          const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          });
           const data = await response.json();
           const movies = data.results;
 
@@ -892,9 +907,15 @@
       }
 
       async function fetchGenreMap() {
-        const url = `https://${getMovieVerseData()}/3/genre/movie/list?${generateMovieNames()}${getMovieCode()}`;
+        const url = `https://api-movieverse.vercel.app/api/3/genre/movie/list`;
         try {
-          const response = await fetch(url);
+          const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          });
           const data = await response.json();
           const genreMap = data.genres.reduce((map, genre) => {
             map[genre.id] = genre.name;

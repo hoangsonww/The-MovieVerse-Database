@@ -44,11 +44,11 @@ function resetGame() {
 
 // Handle key presses for jump or reset
 document.addEventListener('keydown', e => {
-  e.preventDefault();
-
   if (isGameOver && (e.code === 'Space' || e.code === 'ArrowUp')) {
+    e.preventDefault();
     resetGame();
-  } else {
+  } else if (e.code === 'Space' || e.code === 'ArrowUp') {
+    e.preventDefault();
     handleJump();
   }
 });

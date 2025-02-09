@@ -278,6 +278,33 @@
           { passive: true }
         );
       });
+
+      async function login(email, password) {
+        try {
+          const response = await fetch('https://api-movieverse.vercel.app/auth/login', {
+            method: 'POST',
+            headers: {
+              Accept: '*/*',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, password }),
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+
+          const data = await response.json();
+
+          if (data.token) {
+            localStorage.setItem('movieverseToken', data.token);
+          } else {
+            console.log('Login failed:', data.message);
+          }
+        } catch (error) {
+          console.log('Error logging in:', error);
+        }
+      }
     </script>
     <header style="margin-bottom: -50px; margin-top: -5px">
       <h1 id="my-heading" style="margin-bottom: -10px" class="notranslate">
@@ -609,7 +636,7 @@
       document.getElementById('actor-image').addEventListener('click', function () {
         const imageUrl = this.src.replace('w1280', 'original');
         const modalHtml = `<div id="image-modal" style="z-index: 100020000; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
-                                <img src="${imageUrl}" style="max-width: 95%; max-height: 95%; border-radius: 10px;">
+                                <img src="${imageUrl}" style="max-width: 95%; max-height: 95%; border-radius: 10px;" alt="Actor Image"/>
                                 <span style="position: absolute; top: 10px; right: 25px; font-size: 40px; cursor: pointer" id="removeBtn" onclick="document.getElementById('image-modal').remove();">&times;</span>
                             </div>`;
         document.body.insertAdjacentHTML('beforeend', modalHtml);
@@ -728,6 +755,8 @@
         document.getElementById('myModal').classList.remove('modal-visible');
       }
 
+      const token = localStorage.getItem('movieverseToken');
+
       document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('search').addEventListener('input', function (e) {
           showSpinner();
@@ -745,14 +774,21 @@
           }
 
           if (query) {
-            const searchURL = `https://${getMovieVerseData()}/3/search/multi?${generateMovieNames()}${getMovieCode()}&query=${encodeURIComponent(query)}`;
-            fetch(searchURL)
+            const searchURL = `https://api-movieverse.vercel.app/api/3/search/multi?query=${encodeURIComponent(query)}`;
+
+            fetch(searchURL, {
+              method: 'GET',
+              headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+              },
+            })
               .then(response => response.json())
               .then(data => {
                 const sortedResults = data.results.sort((a, b) => b.popularity - a.popularity);
                 displaySearchResults(sortedResults.slice(0, 5));
               })
-              .catch(err => console.log('Fetching error:', err));
+              .catch(err => console.error('Fetching error:', err));
           } else {
             searchInput.value = '';
             searchResultsContainer.innerHTML = '';
@@ -846,8 +882,14 @@
             window.location.href = 'tv-details.html';
           } else if (item.media_type === 'person') {
             try {
-              const personDetailsUrl = `https://${getMovieVerseData()}/3/person/${item.id}?${generateMovieNames()}${getMovieCode()}`;
-              const response = await fetch(personDetailsUrl);
+              const personDetailsUrl = `https://api-movieverse.vercel.app/api/3/person/${item.id}`;
+              const response = await fetch(personDetailsUrl, {
+                method: 'GET',
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  'Content-Type': 'application/json',
+                },
+              });
               const personDetails = await response.json();
 
               if (personDetails.known_for_department === 'Directing') {

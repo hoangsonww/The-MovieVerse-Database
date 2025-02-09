@@ -1,25 +1,12 @@
 const search = document.getElementById('search');
 const searchButton = document.getElementById('button-search');
 
-const movieCode = {
-  part1: 'YzVhMjBjODY=',
-  part2: 'MWFjZjdiYjg=',
-  part3: 'ZDllOTg3ZGNjN2YxYjU1OA==',
-};
-
-function getMovieCode() {
-  return atob(movieCode.part1) + atob(movieCode.part2) + atob(movieCode.part3);
-}
-
-function generateMovieNames(input) {
-  return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
-}
-
 const form = document.getElementById('form1');
-const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
+const SEARCHPATH = `https://api-movieverse.vercel.app/api/3/search/movie&query=`;
 const main = document.getElementById('main');
 const IMGPATH = 'https://image.tmdb.org/t/p/w1280';
 const searchTitle = document.getElementById('search-title');
+const token = localStorage.getItem('movieverseToken');
 
 function updateBrowserURL(name) {
   const nameSlug = createNameSlug(name);
@@ -70,10 +57,25 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function fetchActorDetails(actorId) {
-  const actorUrl = `https://${getMovieVerseData()}/3/person/6193?${generateMovieNames()}${getMovieCode()}`;
-  const creditsUrl = `https://${getMovieVerseData()}/3/person/6193/movie_credits?${generateMovieNames()}${getMovieCode()}`;
+  const actorUrl = `https://api-movieverse.vercel.app/api/3/person/6193`;
+  const creditsUrl = `https://api-movieverse.vercel.app/api/3/person/6193/movie_credits`;
   try {
-    const [actorResponse, creditsResponse] = await Promise.all([fetch(actorUrl), fetch(creditsUrl)]);
+    const [actorResponse, creditsResponse] = await Promise.all([
+      fetch(actorUrl, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      }),
+      fetch(creditsUrl, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      }),
+    ]);
 
     const actor = await actorResponse.json();
     const credits = await creditsResponse.json();
@@ -173,9 +175,15 @@ async function ensureGenreMapIsAvailable() {
 }
 
 async function fetchGenreMap() {
-  const url = `https://${getMovieVerseData()}/3/genre/movie/list?${generateMovieNames()}${getMovieCode()}`;
+  const url = `https://api-movieverse.vercel.app/api/3/genre/movie/list`;
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     const data = await response.json();
     const genreMap = data.genres.reduce((map, genre) => {
       map[genre.id] = genre.name;
@@ -402,10 +410,6 @@ function handleSignInOut() {
   updateSignInButtonState();
 }
 
-function getMovieVerseData(input) {
-  return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
-}
-
 function updateSignInButtonState() {
   const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
   const signInText = document.getElementById('signInOutText');
@@ -432,10 +436,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
 async function showMovieOfTheDay() {
   const year = new Date().getFullYear();
-  const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+  const url = `https://api-movieverse.vercel.app/api/3/discover/movie&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
 
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     const data = await response.json();
     const movies = data.results;
 

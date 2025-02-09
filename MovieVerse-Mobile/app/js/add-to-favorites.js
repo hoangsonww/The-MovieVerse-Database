@@ -10,52 +10,37 @@ import {
   getDocs,
 } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js';
 
-function translateFBC(value) {
-  return atob(value);
+let app;
+let db;
+
+async function loadFirebaseConfig() {
+  try {
+    const token = localStorage.getItem('movieverseToken');
+
+    const response = await fetch('https://api-movieverse.vercel.app/api/firebase-config', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch Firebase config: ${response.statusText}`);
+    }
+
+    const firebaseConfig = await response.json();
+
+    app = initializeApp(firebaseConfig);
+    db = getFirestore(app);
+
+    console.log('🔥 Firebase Initialized Successfully');
+  } catch (error) {
+    console.error('❌ Error loading Firebase config:', error);
+  }
 }
 
-function getFBConfig1() {
-  const fbConfig1 = 'QUl6YVN5REw2a1FuU2ZVZDhVdDhIRnJwS3VpdnF6MXhkWG03aw==';
-  return translateFBC(fbConfig1);
-}
-
-const movieCode = {
-  part1: 'YzVhMjBjODY=',
-  part2: 'MWFjZjdiYjg=',
-  part3: 'ZDllOTg3ZGNjN2YxYjU1OA==',
-};
-
-function getFBConfig2() {
-  const fbConfig2 = 'bW92aWV2ZXJzZS1hcHAuZmlyZWJhc2VhcHAuY29t';
-  return translateFBC(fbConfig2);
-}
-
-function getFBConfig3() {
-  const fbConfig3 = 'bW92aWV2ZXJzZS1hcHAuYXBwc3BvdC5jb20=';
-  return translateFBC(fbConfig3);
-}
-
-function getFBConfig4() {
-  const fbConfig4 = 'ODAyOTQzNzE4ODcx';
-  return translateFBC(fbConfig4);
-}
-
-function getFBConfig5() {
-  const fbConfig5 = 'MTo4MDI5NDM3MTg4NzE6d2ViOjQ4YmM5MTZjYzk5ZTI3MjQyMTI3OTI=';
-  return translateFBC(fbConfig5);
-}
-
-const firebaseConfig = {
-  apiKey: getFBConfig1(),
-  authDomain: getFBConfig2(),
-  projectId: 'movieverse-app',
-  storageBucket: getFBConfig3(),
-  messagingSenderId: getFBConfig4(),
-  appId: getFBConfig5(),
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+loadFirebaseConfig();
 
 export async function checkAndUpdateFavoriteButton() {
   let userEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
@@ -73,6 +58,7 @@ export async function checkAndUpdateFavoriteButton() {
       updateFavoriteButton(movieId, localFavorites);
       return;
     }
+    if (!db) await loadFirebaseConfig();
 
     const usersRef = query(collection(db, 'MovieVerseUsers'), where('email', '==', userEmail));
     const querySnapshot = await getDocs(usersRef);
@@ -111,13 +97,16 @@ function updateFavoriteButton(movieId, favorites) {
   }
 }
 
-function getMovieCode() {
-  return atob(movieCode.part1) + atob(movieCode.part2) + atob(movieCode.part3);
-}
-
 async function getMovieGenre(movieId) {
-  const tmdbUrl = `https://${getMovieVerseData()}/3/movie/${movieId}?${generateMovieNames()}${getMovieCode()}`;
-  const response = await fetch(tmdbUrl);
+  const token = localStorage.getItem('movieverseToken');
+  const tmdbUrl = `https://api-movieverse.vercel.app/api/3/movie/${movieId}`;
+  const response = await fetch(tmdbUrl, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  });
   const movieData = await response.json();
   return movieData.genres.length > 0 ? movieData.genres[0].name : 'Unknown';
 }
@@ -161,6 +150,7 @@ export async function toggleFavorite() {
       window.location.reload();
       return;
     }
+    if (!db) await loadFirebaseConfig();
 
     const usersRef = query(collection(db, 'MovieVerseUsers'), where('email', '==', userEmail));
     const querySnapshot = await getDocs(usersRef);

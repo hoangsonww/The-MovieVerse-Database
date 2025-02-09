@@ -234,6 +234,33 @@
     </div>
     <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <script>
+      async function login(email, password) {
+        try {
+          const response = await fetch('https://api-movieverse.vercel.app/auth/login', {
+            method: 'POST',
+            headers: {
+              Accept: '*/*',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, password }),
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+
+          const data = await response.json();
+
+          if (data.token) {
+            localStorage.setItem('movieverseToken', data.token);
+          } else {
+            console.log('Login failed:', data.message);
+          }
+        } catch (error) {
+          console.log('Error logging in:', error);
+        }
+      }
+
       function googleTranslateElementInit() {
         new google.translate.TranslateElement(
           {

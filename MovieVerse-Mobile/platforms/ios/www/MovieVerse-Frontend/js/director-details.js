@@ -6,26 +6,10 @@ function hideSpinner() {
   document.getElementById('myModal').classList.remove('modal-visible');
 }
 
-const movieCode = {
-  part1: 'YzVhMjBjODY=',
-  part2: 'MWFjZjdiYjg=',
-  part3: 'ZDllOTg3ZGNjN2YxYjU1OA==',
-};
-
-let currentIndex = sessionStorage.getItem('currentIndex') ? parseInt(sessionStorage.getItem('currentIndex')) : 0;
-
-function getMovieCode() {
-  return atob(movieCode.part1) + atob(movieCode.part2) + atob(movieCode.part3);
-}
-
-function generateMovieNames(input) {
-  return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
-}
-
 const search = document.getElementById('search');
 const searchButton = document.getElementById('button-search');
 const form = document.getElementById('form1');
-const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
+const SEARCHPATH = `https://api-movieverse.vercel.app/api/3/search/movie&query=`;
 const main = document.getElementById('main');
 const IMGPATH = 'https://image.tmdb.org/t/p/w1280';
 const IMGPATH2 = 'https://image.tmdb.org/t/p/w185';
@@ -98,11 +82,26 @@ document.addEventListener('DOMContentLoaded', () => {
 async function fetchDirectorDetails(directorId) {
   showSpinner();
 
-  const directorUrl = `https://${getMovieVerseData()}/3/person/${directorId}?${generateMovieNames()}${getMovieCode()}`;
-  const creditsUrl = `https://${getMovieVerseData()}/3/person/${directorId}/movie_credits?${generateMovieNames()}${getMovieCode()}`;
+  const directorUrl = `https://api-movieverse.vercel.app/api/3/person/${directorId}`;
+  const creditsUrl = `https://api-movieverse.vercel.app/api/3/person/${directorId}/movie_credits`;
 
   try {
-    const [directorResponse, creditsResponse] = await Promise.all([fetch(directorUrl), fetch(creditsUrl)]);
+    const [directorResponse, creditsResponse] = await Promise.all([
+      fetch(directorUrl, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      }),
+      fetch(creditsUrl, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      }),
+    ]);
 
     const director = await directorResponse.json();
     const credits = await creditsResponse.json();
@@ -175,13 +174,25 @@ async function populateDirectorDetails(director, credits) {
   }
 
   async function getInitialDirectorImage(actorId) {
-    const response = await fetch(`https://${getMovieVerseData()}/3/person/${actorId}?${generateMovieNames()}${getMovieCode()}`);
+    const response = await fetch(`https://api-movieverse.vercel.app/api/3/person/${actorId}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     const data = await response.json();
     return data.profile_path;
   }
 
   async function getAdditionalDirectorImages(actorId) {
-    const response = await fetch(`https://${getMovieVerseData()}/3/person/${actorId}/images?${generateMovieNames()}${getMovieCode()}`);
+    const response = await fetch(`https://api-movieverse.vercel.app/api/3/person/${actorId}/images`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     const data = await response.json();
     return data.profiles.map(profile => profile.file_path);
   }
@@ -322,8 +333,14 @@ async function populateDirectorDetails(director, credits) {
 
   filmographyHeading.appendChild(movieList);
 
-  const mediaUrl = `https://${getMovieVerseData()}/3/person/${director.id}/images?${generateMovieNames()}${getMovieCode()}`;
-  const mediaResponse = await fetch(mediaUrl);
+  const mediaUrl = `https://api-movieverse.vercel.app/api/3/person/${director.id}/images`;
+  const mediaResponse = await fetch(mediaUrl, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  });
   const mediaData = await mediaResponse.json();
   const images = mediaData.profiles;
 
@@ -626,9 +643,15 @@ function selectMovieId(movieId) {
 }
 
 async function fetchGenreMap() {
-  const url = `https://${getMovieVerseData()}/3/genre/movie/list?${generateMovieNames()}${getMovieCode()}`;
+  const url = `ttps://api-movieverse.vercel.app/api/3/genre/movie/list`;
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     const data = await response.json();
     const genreMap = data.genres.reduce((map, genre) => {
       map[genre.id] = genre.name;

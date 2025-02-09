@@ -1,23 +1,9 @@
-const movieCode = {
-  part1: 'YzVhMjBjODY=',
-  part2: 'MWFjZjdiYjg=',
-  part3: 'ZDllOTg3ZGNjN2YxYjU1OA==',
-};
-
 let currentIndex = sessionStorage.getItem('currentIndex') ? parseInt(sessionStorage.getItem('currentIndex')) : 0;
-
-function getMovieCode() {
-  return atob(movieCode.part1) + atob(movieCode.part2) + atob(movieCode.part3);
-}
-
-function generateMovieNames(input) {
-  return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
-}
 
 const search = document.getElementById('search');
 const searchButton = document.getElementById('button-search');
 const form = document.getElementById('form1');
-const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
+const SEARCHPATH = `https://api-movieverse.vercel.app/api/3/search/movie&query=`;
 
 const main = document.getElementById('main');
 const IMGPATH = 'https://image.tmdb.org/t/p/w780';
@@ -44,9 +30,15 @@ async function ensureGenreMapIsAvailable() {
 }
 
 async function fetchGenreMap() {
-  const url = `https://${getMovieVerseData()}/3/genre/movie/list?${generateMovieNames()}${getMovieCode()}`;
+  const url = `https://api-movieverse.vercel.app/api/3/genre/movie/list`;
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     const data = await response.json();
     const genreMap = data.genres.reduce((map, genre) => {
       map[genre.id] = genre.name;
@@ -270,10 +262,6 @@ function setStarRating(rating) {
   document.getElementById('rating-value').textContent = `${rating}.0/5.0`;
 }
 
-function getMovieVerseData(input) {
-  return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
-}
-
 document.querySelectorAll('.rating .star').forEach(star => {
   star.addEventListener('mouseover', e => {
     setStarRating(e.target.dataset.value);
@@ -343,8 +331,6 @@ document.addEventListener('DOMContentLoaded', function () {
 document.addEventListener('DOMContentLoaded', function () {
   applySettings();
 });
-
-const tvCode = `${getMovieCode()}`;
 
 const twoLetterLangCodes = [
   { code: 'aa', name: 'Afar' },
@@ -544,11 +530,17 @@ const twoLetterLangCodes = [
 
 async function fetchTvDetails(tvSeriesId) {
   showSpinner();
-  const baseUrl = `https://${getMovieVerseData()}/3/tv/${tvSeriesId}`;
-  const urlWithAppend = `${baseUrl}?${generateMovieNames()}${tvCode}&append_to_response=credits,keywords,similar,videos,external_ids`;
+  const baseUrl = `https://api-movieverse.vercel.app/api/3/tv/${tvSeriesId}`;
+  const urlWithAppend = `${baseUrl}&append_to_response=credits,keywords,similar,videos,external_ids`;
 
   try {
-    const tvDetailsPromise = fetch(urlWithAppend).then(response => {
+    const tvDetailsPromise = fetch(urlWithAppend, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    }).then(response => {
       if (!response.ok) throw new Error('Failed to fetch TV series details');
       return response.json();
     });
@@ -584,33 +576,28 @@ async function fetchTVRatings(imdbId) {
     return 'IMDb rating';
   }
 
-  const req = [
-    await getMovieCode2(),
-    '58efe859',
-    '60a09d79',
-    '956e468a',
-    'bd55ada4',
-    'cbfc076',
-    'dc091ff2',
-    '6e367eef',
-    '2a2a3080',
-    'd20a931f',
-    '531a4313',
-  ];
-  const baseURL = `https://${getMovieActor()}/?i=${imdbId}&${getMovieName()}`;
+  const baseURL = `https://api-movieverse.vercel.app/api/omdb?i=${imdbId}`;
 
-  async function tryFetch(req, timeout = 5000) {
-    const url = `${baseURL}${req}`;
+  async function tryFetch() {
+    try {
+      const response = await fetch(baseURL, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!response.ok) throw new Error('API limit reached or other error');
+      return await response.json();
+    } catch (error) {
+      return null;
+    }
+  }
+
+  async function fetchWithTimeout(timeout = 5000) {
     return new Promise(resolve => {
       const timer = setTimeout(() => resolve(null), timeout);
-      fetch(url)
-        .then(response => {
-          if (!response.ok) throw new Error('API limit reached or other error');
-          return response.json();
-        })
+      tryFetch()
         .then(data => {
           clearTimeout(timer);
-          if (!data || data.Error) throw new Error('Data fetch error');
           resolve(data);
         })
         .catch(() => {
@@ -620,9 +607,7 @@ async function fetchTVRatings(imdbId) {
     });
   }
 
-  const requests = req.map(key => tryFetch(key));
-  const responses = await Promise.all(requests);
-  const data = responses.find(response => response !== null);
+  const data = await fetchWithTimeout(5000);
 
   hideSpinner();
   return data && data.imdbRating ? data : 'View on IMDb';
@@ -754,13 +739,25 @@ async function populateTvSeriesDetails(tvSeries, imdbRating, rated) {
   document.title = tvSeries.name + ' - TV Series Details';
 
   async function getInitialPoster(tvSeriesId) {
-    const response = await fetch(`https://${getMovieVerseData()}/3/tv/${tvSeriesId}?${generateMovieNames()}${getMovieCode()}`);
+    const response = await fetch(`https://api-movieverse.vercel.app/api/3/tv/${tvSeriesId}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     const data = await response.json();
     return data.poster_path;
   }
 
   async function getAdditionalPosters(tvSeriesId) {
-    const response = await fetch(`https://${getMovieVerseData()}/3/tv/${tvSeriesId}/images?${generateMovieNames()}${getMovieCode()}`);
+    const response = await fetch(`https://api-movieverse.vercel.app/api/3/tv/${tvSeriesId}/images`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     const data = await response.json();
     return data.posters.map(poster => poster.file_path);
   }
@@ -1277,8 +1274,14 @@ async function populateTvSeriesDetails(tvSeries, imdbRating, rated) {
     detailsHTML += `<p><strong>Keywords:</strong> None Available</p>`;
   }
 
-  const mediaUrl = `https://${getMovieVerseData()}/3/tv/${tvSeries.id}/images?${generateMovieNames()}${getMovieCode()}`;
-  const mediaResponse = await fetch(mediaUrl);
+  const mediaUrl = `https://api-movieverse.vercel.app/api/3/tv/${tvSeries.id}/images`;
+  const mediaResponse = await fetch(mediaUrl, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  });
   const mediaData = await mediaResponse.json();
   const images = mediaData.backdrops;
 
@@ -1666,9 +1669,15 @@ function handleRatingClick() {
 }
 
 async function fetchTvSeriesStreamingLinks(tvSeriesId) {
-  const url = `https://${getMovieVerseData()}/3/tv/${tvSeriesId}/watch/providers?${generateMovieNames()}${getMovieCode()}`;
+  const url = `https://api-movieverse.vercel.app/api/3/tv/${tvSeriesId}/watch/providers`;
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     const data = await response.json();
     const results = data.results || {};
     let providersMap = {};
@@ -1785,10 +1794,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function showMovieOfTheDay() {
   const year = new Date().getFullYear();
-  const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+  const url = `https://api-movieverse.vercel.app/api/3/discover/movie&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
 
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     const data = await response.json();
     const movies = data.results;
 
@@ -1830,21 +1845,6 @@ function applySettings() {
     const size = savedFontSize === 'small' ? '12px' : savedFontSize === 'medium' ? '16px' : '20px';
     document.body.style.fontSize = size;
   }
-}
-
-function getMovieCode2() {
-  const encodedKey = 'MmJhOG' + 'U1MzY=';
-  return atob(encodedKey);
-}
-
-function getMovieName() {
-  const moviename = 'YXBpa' + '2V5PQ==';
-  return atob(moviename);
-}
-
-function getMovieActor() {
-  const actor = 'd3d3Lm' + '9tZGJhc' + 'GkuY29t';
-  return atob(actor);
 }
 
 function applyTextColor(color) {

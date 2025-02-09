@@ -1,15 +1,48 @@
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
-import {
-  getFirestore,
-  collection,
-  addDoc,
-  getDocs,
-  query,
-  orderBy,
-  where,
-  Timestamp,
-} from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
-import { app, db } from './firebase.js';
+let app;
+let db;
+let firebaseModules;
+
+async function loadFirebaseConfig() {
+  try {
+    const token = localStorage.getItem('movieverseToken');
+    const response = await fetch('https://api-movieverse.vercel.app/api/firebase-config', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to fetch Firebase config: ${response.statusText}`);
+    }
+    const firebaseConfig = await response.json();
+    const firebaseAppModule = await import('https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js');
+    const firebaseFirestoreModule = await import('https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js');
+    app = firebaseAppModule.initializeApp(firebaseConfig);
+    db = firebaseFirestoreModule.getFirestore(app);
+    firebaseModules = {
+      collection: firebaseFirestoreModule.collection,
+      addDoc: firebaseFirestoreModule.addDoc,
+      getDocs: firebaseFirestoreModule.getDocs,
+      query: firebaseFirestoreModule.query,
+      orderBy: firebaseFirestoreModule.orderBy,
+      where: firebaseFirestoreModule.where,
+      Timestamp: firebaseFirestoreModule.Timestamp,
+    };
+    console.log('Firebase Initialized Successfully');
+  } catch (error) {
+    console.error('Error loading Firebase config:', error);
+  }
+}
+
+loadFirebaseConfig();
+
+async function ensureFirebase() {
+  while (!db || !firebaseModules) {
+    await new Promise(resolve => setTimeout(resolve, 100));
+  }
+  return { db, firebaseModules };
+}
 
 const commentForm = document.getElementById('comment-form');
 
@@ -21,7 +54,8 @@ commentForm.addEventListener('submit', async e => {
   const tvSeriesId = localStorage.getItem('selectedTvSeriesId');
 
   try {
-    await addDoc(collection(db, 'comments'), {
+    const { db, firebaseModules } = await ensureFirebase();
+    await firebaseModules.addDoc(firebaseModules.collection(db, 'comments'), {
       userName,
       userComment,
       commentDate,
@@ -90,52 +124,49 @@ async function fetchComments() {
       const allComments = cachedComments.comments;
       totalComments = allComments.length;
       totalPages = Math.ceil(totalComments / commentsPerPage);
-
       let startIndex = (currentPage - 1) * commentsPerPage;
       let endIndex = startIndex + commentsPerPage;
       const pageComments = allComments.slice(startIndex, endIndex);
-
       pageComments.forEach(comment => {
         const commentDate = new Date(comment.commentDate);
         const formattedDate = formatCommentDate(commentDate);
         const formattedTime = formatAMPM(commentDate);
-
         const timezoneOffset = -commentDate.getTimezoneOffset() / 60;
         const utcOffset = timezoneOffset >= 0 ? `UTC+${timezoneOffset}` : `UTC${timezoneOffset}`;
         const commentElement = document.createElement('div');
-
         commentElement.title = `Posted at ${formattedTime} ${utcOffset}`;
         const commentStyle = `
-                    max-width: 100%;
-                    word-wrap: break-word;
-                    overflow-wrap: break-word;
-                    margin-bottom: 1rem;
-                `;
+          max-width: 100%;
+          word-wrap: break-word;
+          overflow-wrap: break-word;
+          margin-bottom: 1rem;
+        `;
         commentElement.style.cssText = commentStyle;
         commentElement.innerHTML = `
-                    <p>
-                        <strong>${comment.userName}</strong> on ${formattedDate}: 
-                        <em>${comment.userComment}</em>
-                    </p>
-                `;
+          <p>
+            <strong>${comment.userName}</strong> on ${formattedDate}: 
+            <em>${comment.userComment}</em>
+          </p>
+        `;
         commentsContainer.appendChild(commentElement);
       });
-
       document.getElementById('prev-page').disabled = currentPage <= 1;
       document.getElementById('next-page').disabled = currentPage >= totalPages;
       return;
     }
 
-    const q = query(collection(db, 'comments'), where('tvSeriesId', '==', tvSeriesId), orderBy('commentDate', 'desc'));
-    const querySnapshot = await getDocs(q);
-
+    const { db, firebaseModules } = await ensureFirebase();
+    const q = firebaseModules.query(
+      firebaseModules.collection(db, 'comments'),
+      firebaseModules.where('tvSeriesId', '==', tvSeriesId),
+      firebaseModules.orderBy('commentDate', 'desc')
+    );
+    const querySnapshot = await firebaseModules.getDocs(q);
     totalComments = querySnapshot.size;
     totalPages = Math.ceil(totalComments / commentsPerPage);
-
     let commentsData = [];
     let index = 0;
     let displayedComments = 0;
-
     if (querySnapshot.empty) {
       const noCommentsMsg = document.createElement('p');
       noCommentsMsg.textContent = 'No comments for this TV series yet.';
@@ -144,7 +175,7 @@ async function fetchComments() {
       querySnapshot.forEach(doc => {
         const comment = doc.data();
         let commentDate;
-        if (comment.commentDate instanceof Timestamp) {
+        if (comment.commentDate instanceof firebaseModules.Timestamp) {
           commentDate = comment.commentDate.toDate();
         } else if (typeof comment.commentDate === 'string') {
           commentDate = new Date(comment.commentDate);
@@ -152,46 +183,40 @@ async function fetchComments() {
           console.error('Unexpected commentDate format:', comment.commentDate);
           return;
         }
-
         commentsData.push({
           userName: comment.userName,
           userComment: comment.userComment,
           commentDate: commentDate.toISOString(),
         });
-
         if (index >= (currentPage - 1) * commentsPerPage && displayedComments < commentsPerPage) {
           const formattedDate = formatCommentDate(commentDate);
           const formattedTime = formatAMPM(commentDate);
-
           const timezoneOffset = -commentDate.getTimezoneOffset() / 60;
           const utcOffset = timezoneOffset >= 0 ? `UTC+${timezoneOffset}` : `UTC${timezoneOffset}`;
           const commentElement = document.createElement('div');
-
           commentElement.title = `Posted at ${formattedTime} ${utcOffset}`;
           const commentStyle = `
-                        max-width: 100%;
-                        word-wrap: break-word;
-                        overflow-wrap: break-word;
-                        margin-bottom: 1rem;
-                    `;
+            max-width: 100%;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            margin-bottom: 1rem;
+          `;
           commentElement.style.cssText = commentStyle;
           commentElement.innerHTML = `
-                        <p>
-                            <strong>${comment.userName}</strong> on ${formattedDate}: 
-                            <em>${comment.userComment}</em>
-                        </p>
-                    `;
+            <p>
+              <strong>${comment.userName}</strong> on ${formattedDate}: 
+              <em>${comment.userComment}</em>
+            </p>
+          `;
           commentsContainer.appendChild(commentElement);
           displayedComments++;
         }
         index++;
       });
-
       if (commentsData.length > 0) {
         updateCommentCache(tvSeriesId, commentsData);
       }
     }
-
     document.getElementById('prev-page').disabled = currentPage <= 1;
     document.getElementById('next-page').disabled = currentPage >= totalPages;
   } catch (error) {
@@ -207,7 +232,6 @@ async function fetchComments() {
         noUserSelected.style.textAlign = 'center';
         noUserSelected.style.maxWidth = '350px';
       }
-      hideSpinner();
     }
   }
 }

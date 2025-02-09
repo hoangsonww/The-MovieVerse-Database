@@ -1,28 +1,7 @@
-import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory } from '@google/generative-ai';
-
 const chatbotBody = document.getElementById('chatbotBody');
-const movieee = `https://${getMovieVerseData()}/3`;
 
 let initialMainContent;
 let conversationHistory = [];
-
-const movieCode = {
-  part1: 'YzVhMjBjODY=',
-  part2: 'MWFjZjdiYjg=',
-  part3: 'ZDllOTg3ZGNjN2YxYjU1OA==',
-};
-
-function getMovieCode() {
-  return atob(movieCode.part1) + atob(movieCode.part2) + atob(movieCode.part3);
-}
-
-function generateMovieNames(input) {
-  return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
-}
-
-function getMovieVerseData(input) {
-  return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
-}
 
 document.addEventListener('DOMContentLoaded', function () {
   initialMainContent = document.getElementById('main').innerHTML;
@@ -31,8 +10,9 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 const searchTitle = document.getElementById('search-title');
-const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
+const SEARCHPATH = `https://api-movieverse.vercel.app/api/3/search/movie&query=`;
 
+// Make sure the genre map is available in localStorage.
 async function ensureGenreMapIsAvailable() {
   if (!localStorage.getItem('genreMap')) {
     await fetchGenreMap();
@@ -40,9 +20,16 @@ async function ensureGenreMapIsAvailable() {
 }
 
 async function fetchGenreMap() {
-  const url = `https://${getMovieVerseData()}/3/genre/movie/list?${generateMovieNames()}${getMovieCode()}`;
+  const token = localStorage.getItem('movieverseToken');
+  const url = `https://api-movieverse.vercel.app/api/3/genre/movie/list`;
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     const data = await response.json();
     const genreMap = data.genres.reduce((map, genre) => {
       map[genre.id] = genre.name;
@@ -335,10 +322,17 @@ async function fetchMovieTrailer(movieName) {
 }
 
 async function getTrailerUrl(movieId) {
-  const trailerApiUrl = `https://${getMovieVerseData()}/3/movie/${movieId}/videos?${generateMovieNames()}${getMovieCode()}`;
+  const token = localStorage.getItem('movieverseToken');
+  const trailerApiUrl = `https://api-movieverse.vercel.app/api/3/movie/${movieId}/videos`;
 
   try {
-    const response = await fetch(trailerApiUrl);
+    const response = await fetch(trailerApiUrl, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     const data = await response.json();
     const trailer = data.results.find(video => video.type === 'Trailer' && video.site === 'YouTube');
     return trailer ? `https://www.youtube.com/watch?v=${trailer.key}` : null;
@@ -363,70 +357,40 @@ function createTrailerButton(trailerUrl, movieTitle) {
 async function movieVerseResponse(message) {
   const lowerMessage = message.toLowerCase();
 
+  // If the user wants a trailer, call the trailer function.
   if (lowerMessage.startsWith('show trailer for ')) {
     const movieName = lowerMessage.replace('show trailer for ', '');
     fetchMovieTrailer(movieName);
     return `Searching for the trailer of "${movieName}". Please wait...`;
   }
 
+  // Pre-defined greetings and sign-offs.
   if (lowerMessage.startsWith('hello') || lowerMessage.startsWith('hi') || lowerMessage.startsWith('hey')) {
     return 'Hello! How can I assist you with MovieVerse today?';
   } else if (lowerMessage.startsWith('bye') || lowerMessage.startsWith('goodbye')) {
     return 'Goodbye! Thank you for using MovieVerse Assistant and have a nice day!';
   } else {
+    // For all other queries, show the spinner and call your AI API.
     showSpinner();
     animateLoadingDots();
 
     let fullResponse = '';
     try {
-      const genAI = new GoogleGenerativeAI(getAIResponse());
-      const model = genAI.getGenerativeModel({
-        model: 'gemini-1.5-flash',
-        systemInstruction:
-          "You are MovieVerse Assistant - an AI Chatbot of the MovieVerse App. You are here to help users with movie-related or any other general queries. You are trained and powered by MovieVerse AI and Google to provide the best assistance. You can also provide information about movies, actors, directors, genres, and companies, or recommend movies to users. If the user asks anything about you or your information, you must by default identify yourself as MovieVerse Assistant, trained by The MovieVerse creator - Son Nguyen, and you're here to provide assistance for any movie-related or any other general inquiries. If the user asks who Son Nguyen is, refer to his portfolio website at: https://sonnguyenhoang.com, LinkedIn at: https://www.linkedin.com/in/hoangsonw, and GitHub at: https://github.com/hoangsonww. If anyone asked who created or trained you, you must refer to Son Nguyen as your creator.",
-      });
-
-      conversationHistory.push({ role: 'user', parts: [{ text: message }] });
-
-      const chatSession = model.startChat({
-        generationConfig: {
-          temperature: 1,
-          topP: 0.95,
-          topK: 64,
-          maxOutputTokens: 8192,
-          responseMimeType: 'text/plain',
+      const token = localStorage.getItem('movieverseToken');
+      const response = await fetch('https://api-movieverse.vercel.app/api/ai/chat', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
-        safetySettings: [
-          {
-            category: HarmCategory.HARM_CATEGORY_HARASSMENT,
-            threshold: HarmBlockThreshold.BLOCK_NONE,
-          },
-          {
-            category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
-            threshold: HarmBlockThreshold.BLOCK_NONE,
-          },
-          {
-            category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
-            threshold: HarmBlockThreshold.BLOCK_NONE,
-          },
-          {
-            category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
-            threshold: HarmBlockThreshold.BLOCK_NONE,
-          },
-        ],
-        history: conversationHistory,
+        body: JSON.stringify({ message }),
       });
-
-      const result = await chatSession.sendMessage(message);
-      fullResponse = result.response.text();
-      conversationHistory.push({
-        role: 'model',
-        parts: [{ text: fullResponse }],
-      });
+      const data = await response.json();
+      fullResponse = data.response;
     } catch (error) {
-      console.error('Error fetching response:', error.message);
-      fullResponse =
-        'An error occurred while generating the response, possibly due to high traffic or safety concerns. Please understand that I am trained by MovieVerse to provide safe and helpful responses within my limitations. I apologize for any inconvenience caused. Please try again with a different query or contact MovieVerse support for further assistance.';
+      console.error('Error fetching response:', error);
+      fullResponse = 'An error occurred while generating the response. Please try again.';
     }
 
     hideSpinner();
@@ -456,6 +420,7 @@ function removeMarkdown(text) {
 
 function getAIResponse() {
   const response = 'QUl6YVN' + '5QnRIdGJIVW' + 'N6enExT1p3Z' + 'XB0TXNOd' + 'Fdlal9s' + 'U0lWcWZ3';
+  console.log(atob(response));
   return atob(response);
 }
 
@@ -468,11 +433,18 @@ function hideSpinner() {
 }
 
 async function showMovieOfTheDay() {
+  const token = localStorage.getItem('movieverseToken');
   const year = new Date().getFullYear();
-  const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+  const url = `https://api-movieverse.vercel.app/api/3/discover/movie&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
 
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     const data = await response.json();
     const movies = data.results;
 

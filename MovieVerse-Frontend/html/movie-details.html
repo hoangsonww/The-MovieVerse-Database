@@ -525,6 +525,33 @@
       <div class="spinner"></div>
     </div>
     <script>
+      async function login(email, password) {
+        try {
+          const response = await fetch('https://api-movieverse.vercel.app/auth/login', {
+            method: 'POST',
+            headers: {
+              Accept: '*/*',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, password }),
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+
+          const data = await response.json();
+
+          if (data.token) {
+            localStorage.setItem('movieverseToken', data.token);
+          } else {
+            console.log('Login failed:', data.message);
+          }
+        } catch (error) {
+          console.log('Error logging in:', error);
+        }
+      }
+
       document.addEventListener('DOMContentLoaded', function () {
         const searchBar = document.getElementById('search');
         const searchButton = document.getElementById('button-search');

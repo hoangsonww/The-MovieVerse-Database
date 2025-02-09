@@ -3,11 +3,12 @@
 ## Table of Contents
 - [Overview](#overview)
 - [Architecture](#architecture)
+- [Data Flow Illustration](#data-flow-illustration)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
   - [Quick Start](#quick-start)
-  - [Running the Services (Recommended)](#running-the-services-recommended)
+  - [Running the Services (Recommended)](#running-the-individual-services-recommended)
     - [Database Services](#database-services)
     - [Django Service](#django-service)
     - [API Service](#api-service)
@@ -23,6 +24,14 @@ The backend of MovieVerse is built using the **microservices architecture**. Thi
 
 **Important**: Be sure to carefully read this file and the [README.md](databases/README.md) file in the `databases` directory for more information on the backend services of MovieVerse before you start developing.
 
+## Live Backend Services
+
+The backend services of MovieVerse are live and hosted on the cloud. You can access the live services using the following links:
+- **Django Backend**: [https://api-movieverse.vercel.app/](https://api-movieverse.vercel.app/)
+- **Documentation**: [https://api-movieverse.vercel.app/docs/](https://api-movieverse.vercel.app/docs/)
+- **Redoc**: [https://api-movieverse.vercel.app/redoc/](https://api-movieverse.vercel.app/redoc/)
+- **GraphQL**: [https://api-movieverse.vercel.app/graphql/](https://api-movieverse.vercel.app/graphql/)
+
 ## Architecture
 
 The microservices architecture of MovieVerse is designed to segregate the application into small, loosely coupled services. Each service is focused on a single business capability and can be developed, deployed, and scaled independently.
@@ -36,6 +45,38 @@ The microservices architecture of MovieVerse is designed to segregate the applic
 - **Recommendation Service**: Provides movie recommendations to users based on their preferences and viewing history.
 - **Search Service**: Offers comprehensive search functionality for movies and users.
 - **And so many more...**
+
+## Data Flow Illustration
+
+Here is an illustration of the data flow in the backend services of MovieVerse:
+
+```       
+                                                                 +------------+          +------------+
+                                                                 |            |          |            |
+                                                                 | PostgreSQL |          |  Firebase  |
+                                                                 |            |          |            |
+                                                                 +------------+          +------------+
+                                                                       ^                       ^
+                                                                       |                       |
+                                                                       |                       |
+                                                                       v                       v
++----------+        +----------------+      +------------+       +-----------+           +-----------+   
+|          |        |                |      |            |       |           |           |           | 
+| Frontend | <----> | Django Backend | <--> |  RabbitMQ  | <---> |   Redis   | <-------> |  MongoDB  | 
+|          |        |                |      |            |       |           |           |           |
++----------+        +----------------+      +------------+       +-----------+           +-----------+
+                                                                       ^                    ^     ^
+                                                                       |                   /       \
+                                                                       |                  /         \
+                                                                       v                 /           \
+                                                                 +------------+   +------------+   +------------+
+                                                                 |            |   |            |   |            |
+                                                                 |    MySQL   |   |  TMDB API  |   | User-Added |
+                                                                 |            |   | (external) |   |    Data    |
+                                                                 +------------+   +------------+   +------------+
+```
+
+For more information on the data flow in the backend services of MovieVerse, refer to the code and the [README.md](databases/README.md) file in the `databases` directory.
 
 ## Getting Started
 
@@ -97,7 +138,7 @@ This command will start most (but not all) of the services required for the back
 
 **Important**: Remember to set the `SECRET_KEY` and set `Debug` to `True` in the [settings.py](django_backend/django_backend/settings.py) file in the `django_backend` directory. This is crucial for running the Django server locally. Additionally, you are also required to obtain a Django secret key and set it in the `settings.py` file.
 
-### Running the Services (Recommended)
+### Running the Individual Services (Recommended)
 
 To run the MovieVerse's backend services, follow these steps **in order**:
 
@@ -237,7 +278,7 @@ Quit the server with CONTROL-C.
 [17/Jun/2024 08:39:00] "GET /search/?search=g HTTP/1.1" 200 2693
 ```
 
-If you go to `http://127.0.0.1:8000/admin/` in your browser, you should see te following admin interface for the backend of MovieVerse:
+If you go to `http://127.0.0.1:8000/admin/` in your browser, you should see the following admin interface for the backend of MovieVerse:
 
 <p align="center" style="cursor: pointer">
     <img src="../images/Administration-UI.png" alt="The MovieVerse Backend Admin Interface" width="100%" height="auto" style="border-radius: 10px"/>
@@ -321,6 +362,6 @@ Contributions are what make the open-source community such an amazing place to l
 
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the CC BY-NC 4.0 License. See `LICENSE` for more information.
 
 ---

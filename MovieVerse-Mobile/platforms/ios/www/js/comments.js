@@ -1,15 +1,54 @@
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
-import {
-  getFirestore,
-  collection,
-  addDoc,
-  getDocs,
-  query,
-  orderBy,
-  where,
-  Timestamp,
-} from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
-import { app, db } from './firebase.js';
+let app;
+let db;
+let firebaseModules;
+
+async function loadFirebaseConfig() {
+  try {
+    const token = localStorage.getItem('movieverseToken');
+    const response = await fetch('https://api-movieverse.vercel.app/api/firebase-config', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to fetch Firebase config: ${response.statusText}`);
+    }
+    const firebaseConfig = await response.json();
+    const firebaseAppModule = await import('https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js');
+    const firebaseFirestoreModule = await import('https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js');
+
+    // Check if an app already exists to avoid duplicate initialization
+    if (!firebaseAppModule.getApps().length) {
+      app = firebaseAppModule.initializeApp(firebaseConfig);
+    } else {
+      app = firebaseAppModule.getApp();
+    }
+    db = firebaseFirestoreModule.getFirestore(app);
+    firebaseModules = {
+      collection: firebaseFirestoreModule.collection,
+      addDoc: firebaseFirestoreModule.addDoc,
+      getDocs: firebaseFirestoreModule.getDocs,
+      query: firebaseFirestoreModule.query,
+      orderBy: firebaseFirestoreModule.orderBy,
+      where: firebaseFirestoreModule.where,
+      Timestamp: firebaseFirestoreModule.Timestamp,
+    };
+    console.log('Firebase Initialized Successfully');
+  } catch (error) {
+    console.error('Error loading Firebase config:', error);
+  }
+}
+
+loadFirebaseConfig();
+
+async function ensureFirebase() {
+  while (!db || !firebaseModules) {
+    await new Promise(resolve => setTimeout(resolve, 100));
+  }
+  return { db, firebaseModules };
+}
 
 const commentForm = document.getElementById('comment-form');
 
@@ -21,7 +60,8 @@ commentForm.addEventListener('submit', async e => {
   const movieId = localStorage.getItem('selectedMovieId');
 
   try {
-    await addDoc(collection(db, 'comments'), {
+    const { db, firebaseModules } = await ensureFirebase();
+    await firebaseModules.addDoc(firebaseModules.collection(db, 'comments'), {
       userName,
       userComment,
       commentDate,
@@ -106,18 +146,18 @@ async function fetchComments() {
 
         commentElement.title = `Posted at ${formattedTime} ${utcOffset}`;
         const commentStyle = `
-                    max-width: 100%;
-                    word-wrap: break-word;
-                    overflow-wrap: break-word;
-                    margin-bottom: 1rem;
-                `;
+          max-width: 100%;
+          word-wrap: break-word;
+          overflow-wrap: break-word;
+          margin-bottom: 1rem;
+        `;
         commentElement.style.cssText = commentStyle;
         commentElement.innerHTML = `
-                    <p>
-                        <strong>${comment.userName}</strong> on ${formattedDate}: 
-                        <em>${comment.userComment}</em>
-                    </p>
-                `;
+          <p>
+            <strong>${comment.userName}</strong> on ${formattedDate}: 
+            <em>${comment.userComment}</em>
+          </p>
+        `;
         commentsContainer.appendChild(commentElement);
       });
 
@@ -126,8 +166,13 @@ async function fetchComments() {
       return;
     }
 
-    const q = query(collection(db, 'comments'), where('movieId', '==', movieId), orderBy('commentDate', 'desc'));
-    const querySnapshot = await getDocs(q);
+    const { db, firebaseModules } = await ensureFirebase();
+    const q = firebaseModules.query(
+      firebaseModules.collection(db, 'comments'),
+      firebaseModules.where('movieId', '==', movieId),
+      firebaseModules.orderBy('commentDate', 'desc')
+    );
+    const querySnapshot = await firebaseModules.getDocs(q);
 
     totalComments = querySnapshot.size;
     totalPages = Math.ceil(totalComments / commentsPerPage);
@@ -144,7 +189,7 @@ async function fetchComments() {
       querySnapshot.forEach(doc => {
         const comment = doc.data();
         let commentDate;
-        if (comment.commentDate instanceof Timestamp) {
+        if (comment.commentDate instanceof firebaseModules.Timestamp) {
           commentDate = comment.commentDate.toDate();
         } else if (typeof comment.commentDate === 'string') {
           commentDate = new Date(comment.commentDate);
@@ -169,18 +214,18 @@ async function fetchComments() {
 
           commentElement.title = `Posted at ${formattedTime} ${utcOffset}`;
           const commentStyle = `
-                        max-width: 100%;
-                        word-wrap: break-word;
-                        overflow-wrap: break-word;
-                        margin-bottom: 1rem;
-                    `;
+            max-width: 100%;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            margin-bottom: 1rem;
+          `;
           commentElement.style.cssText = commentStyle;
           commentElement.innerHTML = `
-                        <p>
-                            <strong>${comment.userName}</strong> on ${formattedDate}: 
-                            <em>${comment.userComment}</em>
-                        </p>
-                    `;
+            <p>
+              <strong>${comment.userName}</strong> on ${formattedDate}: 
+              <em>${comment.userComment}</em>
+            </p>
+          `;
           commentsContainer.appendChild(commentElement);
           displayedComments++;
         }
@@ -207,7 +252,6 @@ async function fetchComments() {
         noUserSelected.style.textAlign = 'center';
         noUserSelected.style.maxWidth = '350px';
       }
-      hideSpinner();
     }
   }
 }
