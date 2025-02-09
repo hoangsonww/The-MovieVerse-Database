@@ -1,21 +1,3 @@
-const movieCode = {
-  part1: 'YzVhMjBjODY=',
-  part2: 'MWFjZjdiYjg=',
-  part3: 'ZDllOTg3ZGNjN2YxYjU1OA==',
-};
-
-function getMovieCode() {
-  return atob(movieCode.part1) + atob(movieCode.part2) + atob(movieCode.part3);
-}
-
-function generateMovieNames(input) {
-  return String.fromCharCode(97, 112, 105, 95, 107, 101, 121);
-}
-
-function getMovieVerseData(input) {
-  return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
-}
-
 function showSpinner() {
   document.getElementById('myModal').classList.add('modal-visible');
 }
@@ -24,11 +6,15 @@ function hideSpinner() {
   document.getElementById('myModal').classList.remove('modal-visible');
 }
 
-const string = `${getMovieCode()}`;
-
 async function fetchData(url) {
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     return await response.json();
   } catch (error) {
     console.log('Error fetching data:', error);
@@ -53,7 +39,13 @@ async function loadMoviesByYearChart() {
 
   for (let year = currentYear - 10; year <= currentYear; year++) {
     years.push(year);
-    const response = await fetchData(`${BASE_URL}/discover/movie?${generateMovieNames()}=${string}&primary_release_year=${year}`);
+    const response = await fetchData(`${BASE_URL}/discover/movie&primary_release_year=${year}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     movieCounts.push(response.total_results);
   }
 
@@ -106,7 +98,7 @@ async function loadMoviesByYearChart() {
 
 async function loadGenrePopularityChart() {
   showSpinner();
-  const genresResponse = await fetchData(`${BASE_URL}/genre/movie/list?${generateMovieNames()}=${string}`);
+  const genresResponse = await fetchData(`${BASE_URL}/genre/movie/list`);
   const genres = genresResponse.genres;
 
   const genreNames = [];
@@ -114,7 +106,13 @@ async function loadGenrePopularityChart() {
 
   for (const genre of genres) {
     genreNames.push(genre.name);
-    const response = await fetchData(`${BASE_URL}/discover/movie?${generateMovieNames()}=${string}&with_genres=${genre.id}`);
+    const response = await fetchData(`${BASE_URL}/discover/movie&with_genres=${genre.id}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     genrePopularity.push(response.results.reduce((acc, movie) => acc + movie.popularity, 0) / response.results.length);
   }
 
@@ -171,9 +169,13 @@ async function loadMoviesByCertificationChart() {
   const movieCounts = [];
 
   for (const certification of certifications) {
-    const response = await fetchData(
-      `${BASE_URL}/discover/movie?${generateMovieNames()}=${string}&certification_country=US&certification=${certification}`
-    );
+    const response = await fetchData(`${BASE_URL}/discover/movie&certification_country=US&certification=${certification}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     movieCounts.push(response.total_results);
   }
 
@@ -232,7 +234,13 @@ async function loadAveragePopularityChart() {
 
   for (let year = currentYear - 4; year <= currentYear; year++) {
     years.push(year);
-    const response = await fetchData(`${BASE_URL}/discover/movie?${generateMovieNames()}=${string}&primary_release_year=${year}`);
+    const response = await fetchData(`${BASE_URL}/discover/movie&primary_release_year=${year}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     const totalPopularity = response.results.reduce((sum, movie) => sum + movie.popularity, 0);
     averagePopularity.push(totalPopularity / response.results.length);
   }
@@ -293,7 +301,13 @@ async function loadMoviesByLanguageChart() {
   const movieCounts = [];
 
   for (const language of languages) {
-    const response = await fetchData(`${BASE_URL}/discover/movie?${generateMovieNames()}=${string}&with_original_language=${language}`);
+    const response = await fetchData(`${BASE_URL}/discover/movie&with_original_language=${language}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     movieCounts.push(response.total_results);
   }
 
@@ -350,14 +364,26 @@ async function loadMoviesByLanguageChart() {
 
 async function loadVoteCountByGenreChart() {
   showSpinner();
-  const genreResponse = await fetchData(`${BASE_URL}/genre/movie/list?${generateMovieNames()}=${string}`);
+  const genreResponse = await fetchData(`${BASE_URL}/genre/movie/list`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  });
   const genres = genreResponse.genres.slice(0, 5);
   const genreNames = [];
   const averageVoteCounts = [];
 
   for (const genre of genres) {
     genreNames.push(genre.name);
-    const response = await fetchData(`${BASE_URL}/discover/movie?${generateMovieNames()}=${string}&with_genres=${genre.id}`);
+    const response = await fetchData(`${BASE_URL}/discover/movie&with_genres=${genre.id}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     const totalVotes = response.results.reduce((sum, movie) => sum + movie.vote_count, 0);
     averageVoteCounts.push(totalVotes / response.results.length);
   }
@@ -415,7 +441,13 @@ async function loadMovieReleaseDatesByMonthChart() {
   const movieCounts = Array(12).fill(0);
   const currentYear = new Date().getFullYear();
 
-  const response = await fetchData(`${BASE_URL}/discover/movie?${generateMovieNames()}=${string}&primary_release_year=${currentYear}`);
+  const response = await fetchData(`${BASE_URL}/discover/movie&primary_release_year=${currentYear}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  });
   response.results.forEach(movie => {
     const releaseDate = new Date(movie.release_date);
     movieCounts[releaseDate.getMonth()]++;
@@ -477,7 +509,14 @@ async function loadMoviesByDecadeChart() {
   for (const startYear of decadeStartYears) {
     const endYear = startYear + 9;
     const response = await fetchData(
-      `${BASE_URL}/discover/movie?${generateMovieNames()}=${string}&primary_release_date.gte=${startYear}-01-01&primary_release_date.lte=${endYear}-12-31`
+      `${BASE_URL}/discover/movie&primary_release_date.gte=${startYear}-01-01&primary_release_date.lte=${endYear}-12-31`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      }
     );
     movieCounts.push(response.total_results);
   }
@@ -538,7 +577,13 @@ async function loadMoviesByProductionCountriesChart() {
   const movieCounts = [];
 
   for (const country of countries) {
-    const response = await fetchData(`${BASE_URL}/discover/movie?${generateMovieNames()}=${string}&with_original_language=en&region=${country}`);
+    const response = await fetchData(`${BASE_URL}/discover/movie&with_original_language=en&region=${country}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     movieCounts.push(response.total_results);
   }
 
@@ -598,9 +643,13 @@ async function loadTopRatedMoviesPerYearChart() {
 
   for (let year = currentYear - 10; year <= currentYear; year++) {
     years.push(year);
-    const response = await fetchData(
-      `${BASE_URL}/discover/movie?${generateMovieNames()}=${string}&primary_release_year=${year}&sort_by=vote_average.desc&vote_count.gte=100`
-    );
+    const response = await fetchData(`${BASE_URL}/discover/movie&primary_release_year=${year}&sort_by=vote_average.desc&vote_count.gte=100`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     if (response.results.length > 0) {
       topMovies.push(response.results[0].vote_average);
     } else {
@@ -662,7 +711,13 @@ async function loadTotalMovieVotesOverYearsChart() {
 
   for (let year = currentYear - 10; year <= currentYear; year++) {
     years.push(year);
-    const response = await fetchData(`${BASE_URL}/discover/movie?${generateMovieNames()}=${string}&primary_release_year=${year}`);
+    const response = await fetchData(`${BASE_URL}/discover/movie&primary_release_year=${year}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     const yearlyTotalVotes = response.results.reduce((sum, movie) => sum + movie.vote_count, 0);
     totalVoteCounts.push(yearlyTotalVotes);
   }
@@ -722,7 +777,13 @@ async function loadHighlyRatedMoviesOverYearsChart() {
 
   for (let year = startYear; year <= currentYear; year++) {
     years.push(year);
-    const response = await fetchData(`${BASE_URL}/discover/movie?${generateMovieNames()}=${string}&primary_release_year=${year}&vote_average.gte=8`);
+    const response = await fetchData(`${BASE_URL}/discover/movie&primary_release_year=${year}&vote_average.gte=8`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     highRatedMovieCounts.push(response.total_results);
   }
 
@@ -792,14 +853,20 @@ function loadAllCharts() {
 
 document.addEventListener('DOMContentLoaded', loadAllCharts);
 
-const BASE_URL = `https://${getMovieVerseData()}/3`;
+const BASE_URL = `https://api-movieverse.vercel.app/api/3`;
 
 async function showMovieOfTheDay() {
   const year = new Date().getFullYear();
-  const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}=${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+  const url = `https://api-movieverse.vercel.app/api/3/discover/movie&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
 
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     const data = await response.json();
     const movies = data.results;
 
@@ -897,9 +964,15 @@ async function ensureGenreMapIsAvailable() {
 }
 
 async function fetchGenreMap() {
-  const url = `https://${getMovieVerseData()}/3/genre/movie/list?${generateMovieNames()}${getMovieCode()}`;
+  const url = `https://api-movieverse.vercel.app/api/3/genre/movie/list`;
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     const data = await response.json();
     const genreMap = data.genres.reduce((map, genre) => {
       map[genre.id] = genre.name;

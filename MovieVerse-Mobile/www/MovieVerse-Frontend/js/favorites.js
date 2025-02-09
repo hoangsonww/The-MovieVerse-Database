@@ -14,6 +14,8 @@ import {
   deleteDoc,
 } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js';
 
+const token = localStorage.getItem('movieverseToken');
+
 let initialMoviesSelection = [];
 let initialTVSeriesSelection = [];
 const IMGPATH = `https://image.tmdb.org/t/p/w500`;
@@ -22,60 +24,9 @@ function translateFBC(value) {
   return atob(value);
 }
 
-function getFBConfig1() {
-  const fbConfig1 = 'QUl6YVN5REw2a1FuU2ZVZDhVdDhIRnJwS3VpdnF6MXhkWG03aw==';
-  return translateFBC(fbConfig1);
-}
-
-function getFBConfig2() {
-  const fbConfig2 = 'bW92aWV2ZXJzZS1hcHAuZmlyZWJhc2VhcHAuY29t';
-  return translateFBC(fbConfig2);
-}
-
-function getFBConfig3() {
-  const fbConfig3 = 'bW92aWV2ZXJzZS1hcHAuYXBwc3BvdC5jb20=';
-  return translateFBC(fbConfig3);
-}
-
-function getFBConfig4() {
-  const fbConfig4 = 'ODAyOTQzNzE4ODcx';
-  return translateFBC(fbConfig4);
-}
-
-function getFBConfig5() {
-  const fbConfig5 = 'MTo4MDI5NDM3MTg4NzE6d2ViOjQ4YmM5MTZjYzk5ZTI3MjQyMTI3OTI=';
-  return translateFBC(fbConfig5);
-}
-
-const firebaseConfig = {
-  apiKey: getFBConfig1(),
-  authDomain: getFBConfig2(),
-  projectId: 'movieverse-app',
-  storageBucket: getFBConfig3(),
-  messagingSenderId: getFBConfig4(),
-  appId: getFBConfig5(),
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
 document.addEventListener('DOMContentLoaded', function () {
   loadWatchLists();
 });
-
-const tvCode = {
-  part1: 'YzVhMjBjODY=',
-  part2: 'MWFjZjdiYjg=',
-  part3: 'ZDllOTg3ZGNjN2YxYjU1OA==',
-};
-
-function getMovieCode() {
-  return atob(tvCode.part1) + atob(tvCode.part2) + atob(tvCode.part3);
-}
-
-function generateMovieNames(input) {
-  return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
-}
 
 document.addEventListener('DOMContentLoaded', function () {
   adjustButtonMargin();
@@ -109,10 +60,28 @@ async function ensureGenreMapIsAvailable() {
   }
 }
 
+const alpha = 'QUl6YVN';
+const beta = '5REw2a1F';
+const gamma = 'uU2ZVZDhV';
+const delta = 'dDhIRnJwS';
+const epsilon = '3VpdnF6MX';
+const zeta = 'hkWG03aw==';
+const theta = 'bW92aWV';
+const iota = '2ZXJzZS1hc';
+const kappa = 'HAuZmlyZWJhc';
+const lambda = '2VhcHAuY29t';
+const mu = 'bW92aWV';
+
 async function fetchGenreMap() {
-  const url = `https://${getMovieVerseData()}/3/genre/movie/list?${generateMovieNames()}${getMovieCode()}`;
+  const url = `https://api-movieverse.vercel.app/api/3/genre/movie/list`;
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     const data = await response.json();
     const genreMap = data.genres.reduce((map, genre) => {
       map[genre.id] = genre.name;
@@ -237,6 +206,18 @@ async function rotateUserStats() {
   });
 }
 
+const nu = '2ZXJzZS1hcHAu';
+const xi = 'YXBwc3BvdC5jb20=';
+const omicron = 'ODAyOT';
+const pi = 'QzNzE4ODcx';
+const rho = 'MTo4MDI';
+const sigma = '5NDM3MTg4NzE6';
+const tau = 'd2ViOjQ4YmM5';
+const upsilon = 'MTZjYzk5ZTI3MjQyMTI3OTI=';
+const phi = 'bW92aWV';
+const chi = 'dmVyc2U';
+const psi = 'tYXBw';
+
 function updateMovieVisitCount(movieId, movieTitle) {
   let movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
   if (!movieVisits[movieId]) {
@@ -244,6 +225,11 @@ function updateMovieVisitCount(movieId, movieTitle) {
   }
   movieVisits[movieId].count += 1;
   localStorage.setItem('movieVisits', JSON.stringify(movieVisits));
+}
+
+function getFBConfig1() {
+  const fbConfig1 = alpha.concat(beta, gamma, delta, epsilon, zeta);
+  return translateFBC(fbConfig1);
 }
 
 function getMostVisitedMovie() {
@@ -291,6 +277,11 @@ function getMostVisitedDirector() {
   return mostVisitedDirector || 'Not Available';
 }
 
+function getFBConfig2() {
+  const fbConfig2 = theta.concat(iota, kappa, lambda);
+  return translateFBC(fbConfig2);
+}
+
 function getTriviaAccuracy() {
   let triviaStats = JSON.parse(localStorage.getItem('triviaStats')) || {
     totalCorrect: 0,
@@ -323,18 +314,25 @@ function getMostCommonGenre() {
   return mostCommonGenre || 'Not Available';
 }
 
-document.addEventListener('DOMContentLoaded', rotateUserStats);
-
-function getMovieVerseData(input) {
-  return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
+function getFBConfig3() {
+  const fbConfig3 = mu.concat(nu, xi);
+  return translateFBC(fbConfig3);
 }
+
+document.addEventListener('DOMContentLoaded', rotateUserStats);
 
 async function showMovieOfTheDay() {
   const year = new Date().getFullYear();
-  const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+  const url = `https://api-movieverse.vercel.app/api/3/discover/movie&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
 
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     const data = await response.json();
     const movies = data.results;
 
@@ -348,6 +346,11 @@ async function showMovieOfTheDay() {
   } catch (error) {
     fallbackMovieSelection();
   }
+}
+
+function getFBConfig4() {
+  const fbConfig4 = omicron.concat(pi);
+  return translateFBC(fbConfig4);
 }
 
 function fallbackMovieSelection() {
@@ -382,17 +385,39 @@ function closeModal(modalId) {
 document.getElementById('delete-watchlist-btn').addEventListener('click', () => openModal('delete-watchlist-modal'));
 
 async function getMovieTitle(movieId) {
-  const apiKey = `${getMovieCode()}`;
-  const url = `https://${getMovieVerseData()}/3/movie/${movieId}?${generateMovieNames()}${apiKey}`;
+  const url = `https://api-movieverse.vercel.app/api/3/movie/${movieId}`;
 
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     const movie = await response.json();
     return movie.title;
   } catch (error) {
     return 'Unknown Movie';
   }
 }
+
+function getFBConfig5() {
+  const fbConfig5 = rho.concat(sigma, tau, upsilon);
+  return translateFBC(fbConfig5);
+}
+
+const firebaseConfig = {
+  apiKey: getFBConfig1(),
+  authDomain: getFBConfig2(),
+  projectId: 'movieverse-app',
+  storageBucket: getFBConfig3(),
+  messagingSenderId: getFBConfig4(),
+  appId: getFBConfig5(),
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 async function populateCreateModalWithFavorites() {
   try {
@@ -647,11 +672,16 @@ document.getElementById('create-watchlist-form').addEventListener('submit', asyn
 });
 
 async function getTVSeriesTitle(seriesId) {
-  const apiKey = `${getMovieCode()}`;
-  const url = `https://${getMovieVerseData()}/3/tv/${seriesId}?${generateMovieNames()}${apiKey}`;
+  const url = `https://api-movieverse.vercel.app/api/3/tv/${seriesId}`;
 
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     const series = await response.json();
     return series.name;
   } catch (error) {
@@ -1234,11 +1264,16 @@ async function deleteSelectedWatchlists() {
 document.getElementById('delete-watchlist-btn').addEventListener('click', populateDeleteModal);
 
 async function fetchMovieDetails(movieId) {
-  const code = `${getMovieCode()}`;
-  const url = `https://${getMovieVerseData()}/3/movie/${movieId}?${generateMovieNames()}${code}&append_to_response=credits,keywords,similar`;
+  const url = `https://api-movieverse.vercel.app/api/3/movie/${movieId}&append_to_response=credits,keywords,similar`;
 
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     const movie = await response.json();
     const movieCard = await createMovieCard(movie);
     movieCard.setAttribute('data-movie-title', movie.title);
@@ -1251,7 +1286,13 @@ async function fetchMovieDetails(movieId) {
 }
 
 async function getAdditionalMovieImages(movieId) {
-  const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/images?api_key=${getMovieCode()}`);
+  const response = await fetch(`https://api-movieverse.vercel.app/api/3/movie/${movieId}/images`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  });
   const data = await response.json();
   return data.posters.map(poster => poster.file_path);
 }
@@ -1537,11 +1578,16 @@ async function displayFavoritesSection(titleText, items, displaySection) {
 }
 
 async function fetchTVSeriesDetails(tvSeriesId) {
-  const code = `${getMovieCode()}`;
-  const url = `https://${getMovieVerseData()}/3/tv/${tvSeriesId}?${generateMovieNames()}${code}&append_to_response=credits,keywords,similar`;
+  const url = `https://api-movieverse.vercel.app/api/3/tv/${tvSeriesId}&append_to_response=credits,keywords,similar`;
 
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     const series = await response.json();
     const seriesCard = await createTVSeriesCard(series);
     seriesCard.setAttribute('data-series-title', series.name);
@@ -1554,7 +1600,13 @@ async function fetchTVSeriesDetails(tvSeriesId) {
 }
 
 async function getAdditionalTVSeriesImages(tvSeriesId) {
-  const response = await fetch(`https://api.themoviedb.org/3/tv/${tvSeriesId}/images?api_key=${getMovieCode()}`);
+  const response = await fetch(`https://api-movieverse.vercel.app/api/3/tv/${tvSeriesId}/images`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  });
   const data = await response.json();
   return data.posters.map(poster => poster.file_path);
 }

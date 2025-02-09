@@ -5,6 +5,38 @@ const searchButton = document.getElementById('button-search');
 const searchTitle = document.getElementById('search-title');
 const otherTitle = document.getElementById('other1');
 
+async function login(email, password) {
+  try {
+    const response = await fetch('https://api-movieverse.vercel.app/auth/login', {
+      method: 'POST',
+      headers: {
+        Accept: '*/*',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    if (data.token) {
+      localStorage.setItem('movieverseToken', data.token);
+    } else {
+      console.log('Login failed:', data.message);
+    }
+  } catch (error) {
+    console.log('Error logging in:', error);
+  }
+}
+
+const token = localStorage.getItem('movieverseToken');
+
+// TODO: Example usage - replace with your own email and password!
+login('string', 'string');
+
 function showSpinner() {
   document.getElementById('myModal').classList.add('modal-visible');
 }
@@ -37,8 +69,14 @@ document.addEventListener('DOMContentLoaded', function () {
   const paginationContainer = document.getElementById('most-popular-pagination');
 
   const fetchAndUpdateMostPopular = () => {
-    const mostPopularUrl = `https://${getMovieVerseData()}/3/movie/popular?${generateMovieNames()}${getMovieCode()}`;
+    // Encode API path correctly to match expected format
+    const encodedPath = encodeURIComponent('3/movie/popular');
+    const mostPopularUrl = `https://api-movieverse.vercel.app/api/${encodedPath}`;
+
+    // Call `getMovies` with the correctly formatted URL
     getMovies(mostPopularUrl, mostPopularMain, currentPageMostPopular);
+
+    // Ensure pagination display updates correctly
     updatePaginationDisplay();
   };
 
@@ -139,7 +177,13 @@ function setupPagination(mainElementId, paginationContainerId, genresContainerId
     showSpinner();
 
     try {
-      const response = await fetch(url);
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
       const data = await response.json();
 
       if (data.total_pages) {
@@ -257,7 +301,14 @@ function setupPagination(mainElementId, paginationContainerId, genresContainerId
 }
 
 async function fetchAndDisplayMovies(url, count, mainElement) {
-  const response = await fetch(`${url}`);
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  });
+
   const data = await response.json();
   const movies = data.results.slice(0, count);
 
@@ -299,11 +350,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     const totalMoviesToDisplay = calculateMoviesToDisplay();
-    const commonGenreUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=${mostCommonGenre}&sort_by=popularity.desc&vote_count.gte=10&page=${currentPageRecommended}`;
-    const visitedGenreUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=${mostVisitedMovieGenre}&sort_by=popularity.desc&vote_count.gte=10&page=${currentPageRecommended}`;
+    const commonGenreUrl = `https://api-movieverse.vercel.app/api/3/discover/movie&with_genres=${mostCommonGenre}&sort_by=popularity.desc&vote_count.gte=10&page=${currentPageRecommended}`;
+    const visitedGenreUrl = `https://api-movieverse.vercel.app/api/3/discover/movie&with_genres=${mostVisitedMovieGenre}&sort_by=popularity.desc&vote_count.gte=10&page=${currentPageRecommended}`;
 
-    await fetchAndDisplayMovies(commonGenreUrl, totalMoviesToDisplay, recommendedMain);
-    await fetchAndDisplayMovies(visitedGenreUrl, totalMoviesToDisplay, recommendedMain);
+    await fetchAndDisplayMovies(commonGenreUrl, totalMoviesToDisplay, recommendedMain, token);
+
+    await fetchAndDisplayMovies(visitedGenreUrl, totalMoviesToDisplay, recommendedMain, token);
 
     updatePaginationDisplayRecommended();
     hideSpinner();
@@ -371,34 +423,74 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 async function getMovies(url, mainElement, page = 1) {
-  showSpinner();
+  try {
+    showSpinner();
 
-  url += `&page=${page}`;
-  const numberOfMovies = calculateMoviesToDisplay();
-  let allMovies = [];
-  const response = await fetch(url);
-  const data = await response.json();
-  const popularityThreshold = 0.5;
-  allMovies = allMovies.concat(data.results);
-  allMovies.sort((a, b) => {
-    const popularityDifference = Math.abs(a.popularity - b.popularity);
-    if (popularityDifference < popularityThreshold) {
-      return b.vote_average - a.vote_average;
+    // Retrieve token from localStorage
+    let token = localStorage.getItem('movieverseToken');
+
+    if (!token) {
+      try {
+        await login('string', 'string');
+        token = localStorage.getItem('movieverseToken');
+      } catch (error) {
+        console.error('No token found. Please log in first.');
+        mainElement.innerHTML = `<p>Temporary error - Please RELOAD this page. If the issue persists, please submit a <a href="MovieVerse-Frontend/html/support.html" id="githubLink">Support Ticket</a> so we can assist you.</p>`;
+        hideSpinner();
+        return;
+      }
     }
-    return b.popularity - a.popularity;
-  });
 
-  if (allMovies.length > 0) {
-    showMovies(allMovies.slice(0, numberOfMovies), mainElement);
-  } else {
+    // Append page number to the URL
+    url += `&page=${page}`;
+
+    // Fetch data with Authorization header
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    const numberOfMovies = calculateMoviesToDisplay();
+    let allMovies = data.results || [];
+
+    // Sort movies by popularity and rating
+    const popularityThreshold = 0.5;
+    allMovies.sort((a, b) => {
+      const popularityDifference = Math.abs(a.popularity - b.popularity);
+      return popularityDifference < popularityThreshold ? b.vote_average - a.vote_average : b.popularity - a.popularity;
+    });
+
+    // Display movies or show error message
+    if (allMovies.length > 0) {
+      showMovies(allMovies.slice(0, numberOfMovies), mainElement);
+    } else {
+      mainElement.innerHTML = `<p>We're having trouble fetching movies right now. Please try again later.</p>`;
+    }
+  } catch (error) {
+    console.error('Error fetching movies:', error);
     mainElement.innerHTML = `<p>We're having trouble fetching movies right now. Please try again later.</p>`;
+  } finally {
+    hideSpinner();
   }
-
-  hideSpinner();
 }
 
 async function getAdditionalPosters(movieId) {
-  const response = await fetch(`https://${getMovieVerseData()}/3/movie/${movieId}/images?${generateMovieNames()}${getMovieCode()}`);
+  const response = await fetch(`https://api-movieverse.vercel.app/api/3/movie/${movieId}/images`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  });
+
   const data = await response.json();
   return data.posters.map(poster => poster.file_path);
 }
@@ -586,10 +678,17 @@ async function ensureGenreMapIsAvailable() {
 }
 
 async function fetchGenreMap() {
-  const url = `https://c/3/genre/movie/list?${generateMovieNames()}${getMovieCode()}`;
+  const url = `https://api-movieverse.vercel.app/api/3/genre/movie/list`;
 
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
     const data = await response.json();
     const genreMap = data.genres.reduce((map, genre) => {
       map[genre.id] = genre.name;
@@ -754,8 +853,14 @@ async function getMostVisitedMovieGenre() {
 }
 
 async function fetchGenreForMovie(movieId) {
-  const movieDetailsUrl = `https://${getMovieVerseData()}/3/movie/${movieId}?${generateMovieNames()}${getMovieCode()}`;
-  const response = await fetch(movieDetailsUrl);
+  const movieDetailsUrl = `https://api-movieverse.vercel.app/api/3/movie/${movieId}`;
+  const response = await fetch(movieDetailsUrl, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  });
   const movieDetails = await response.json();
   return movieDetails.genres[0] ? movieDetails.genres[0].id : null;
 }
@@ -832,10 +937,16 @@ document.addEventListener('DOMContentLoaded', rotateUserStats);
 
 async function showMovieOfTheDay() {
   const year = new Date().getFullYear();
-  const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+  const url = `https://api-movieverse.vercel.app/api/3/discover/movie&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
 
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     const data = await response.json();
     const movies = data.results;
 
@@ -968,9 +1079,9 @@ document.getElementById('side-nav').addEventListener('mouseleave', function () {
   }
 });
 
-const DATABASEURL = `https://${getMovieVerseData()}/3/discover/movie?sort_by=popularity.desc&${generateMovieNames()}${getMovieCode()}`;
+const DATABASEURL = `https://api-movieverse.vercel.app/api/3/discover/movie?sort_by=popularity.desc`;
 const IMGPATH = `https://image.tmdb.org/t/p/w500`;
-const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
+const SEARCHPATH = `https://api-movieverse.vercel.app/api/3/search/movie&query=`;
 
 const directors = [
   { name: 'Alfred Hitchcock', id: '2636' },
@@ -1019,9 +1130,7 @@ function updateDirectorSpotlight() {
   const director = directors[currentDirectorIndex];
   document.getElementById('spotlight-director-name').textContent = director.name;
 
-  const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_people=${
-    director.id
-  }&sort_by=popularity.desc&sort_by=vote_average.desc`;
+  const url = `https://api-movieverse.vercel.app/api/3/discover/movie&with_people=${director.id}&sort_by=popularity.desc&sort_by=vote_average.desc`;
   getDirectorSpotlight(url);
 }
 
@@ -1039,7 +1148,13 @@ function getMovieCode() {
 
 async function getDirectorSpotlight(url) {
   const numberOfMovies = calculateMoviesToDisplay();
-  const resp = await fetch(url);
+  const resp = await fetch(url, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  });
   const respData = await resp.json();
   let allMovies = [];
 
@@ -1178,161 +1293,161 @@ setupPagination(
   'award-winning',
   'award-winning-pagination',
   'award-winning-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=1000`
+  `https://api-movieverse.vercel.app/api/3/discover/movie&sort_by=vote_average.desc&vote_count.gte=1000`
 );
 
 setupPagination(
   'hidden-gems',
   'hidden-gems-pagination',
   'hidden-gems-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&vote_average.gte=7&popularity.lte=10`
+  `https://api-movieverse.vercel.app/api/3/discover/movie&sort_by=vote_average.desc&vote_count.gte=100&vote_average.gte=7&popularity.lte=10`
 );
 
 setupPagination(
   'western',
   'western-pagination',
   'western-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=37&sort_by=popularity.desc&vote_count.gte=8`
+  `https://api-movieverse.vercel.app/api/3/discover/movie&with_genres=37&sort_by=popularity.desc&vote_count.gte=8`
 );
 
 setupPagination(
   'war',
   'war-pagination',
   'war-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10752&sort_by=popularity.desc&vote_count.gte=8`
+  `https://api-movieverse.vercel.app/api/3/discover/movie&with_genres=10752&sort_by=popularity.desc&vote_count.gte=8`
 );
 
 setupPagination(
   'vietnamese',
   'vietnamese-pagination',
   'vietnamese-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_original_language=vi&sort_by=popularity.desc`
+  `https://api-movieverse.vercel.app/api/3/discover/movie&with_original_language=vi&sort_by=popularity.desc`
 );
 
 setupPagination(
   'korean',
   'korean-pagination',
   'korean-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_original_language=ko&sort_by=vote_average.desc,popularity.desc&vote_count.gte=10&vote_average.gte=8`
+  `https://api-movieverse.vercel.app/api/3/discover/movie&with_original_language=ko&sort_by=vote_average.desc,popularity.desc&vote_count.gte=10&vote_average.gte=8`
 );
 
 setupPagination(
   'musical',
   'musical-pagination',
   'musical-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10402&sort_by=popularity.desc&vote_count.gte=8`
+  `https://api-movieverse.vercel.app/api/3/discover/movie&with_genres=10402&sort_by=popularity.desc&vote_count.gte=8`
 );
 
 setupPagination(
   'drama',
   'drama-pagination',
   'drama-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=18&sort_by=popularity.desc&vote_count.gte=8`
+  `https://api-movieverse.vercel.app/api/3/discover/movie&with_genres=18&sort_by=popularity.desc&vote_count.gte=8`
 );
 
 setupPagination(
   'indian',
   'indian-pagination',
   'indian-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_original_language=hi&sort_by=popularity.desc`
+  `https://api-movieverse.vercel.app/api/3/discover/movie&with_original_language=hi&sort_by=popularity.desc`
 );
 
 setupPagination(
   'action',
   'action-pagination',
   'action-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=28&sort_by=popularity.desc&vote_count.gte=8`
+  `https://api-movieverse.vercel.app/api/3/discover/movie&with_genres=28&sort_by=popularity.desc&vote_count.gte=8`
 );
 
 setupPagination(
   'horror',
   'horror-pagination',
   'horror-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=27&sort_by=popularity.desc&vote_count.gte=8`
+  `https://api-movieverse.vercel.app/api/3/discover/movie&with_genres=27&sort_by=popularity.desc&vote_count.gte=8`
 );
 
 setupPagination(
   'documentary',
   'documentary-pagination',
   'documentary-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=99&sort_by=popularity.desc&vote_count.gte=8`
+  `https://api-movieverse.vercel.app/api/3/discover/movie&with_genres=99&sort_by=popularity.desc&vote_count.gte=8`
 );
 
 setupPagination(
   'animation',
   'animation-pagination',
   'animation-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=16&sort_by=popularity.desc&vote_count.gte=8`
+  `https://api-movieverse.vercel.app/api/3/discover/movie&with_genres=16&sort_by=popularity.desc&vote_count.gte=8`
 );
 
 setupPagination(
   'sci-fi',
   'sci-fi-pagination',
   'sci-fi-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=878&sort_by=popularity.desc&vote_count.gte=8`
+  `https://api-movieverse.vercel.app/api/3/discover/movie&with_genres=878&sort_by=popularity.desc&vote_count.gte=8`
 );
 
 setupPagination(
   'romantic',
   'romantic-pagination',
   'romantic-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10749&sort_by=popularity.desc&vote_count.gte=8`
+  `https://api-movieverse.vercel.app/api/3/discover/movie&with_genres=10749&sort_by=popularity.desc&vote_count.gte=8`
 );
 
 setupPagination(
   'thriller',
   'thriller-pagination',
   'thriller-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=53&sort_by=popularity.desc&vote_count.gte=8`
+  `https://api-movieverse.vercel.app/api/3/discover/movie&with_genres=53&sort_by=popularity.desc&vote_count.gte=8`
 );
 
 setupPagination(
   'mystery',
   'mystery-pagination',
   'mystery-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=9648&sort_by=popularity.desc&vote_count.gte=8`
+  `https://api-movieverse.vercel.app/api/3/discover/movie&with_genres=9648&sort_by=popularity.desc&vote_count.gte=8`
 );
 
 setupPagination(
   'comedy',
   'comedy-pagination',
   'comedy-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=35&sort_by=popularity.desc&vote_count.gte=8`
+  `https://api-movieverse.vercel.app/api/3/discover/movie&with_genres=35&sort_by=popularity.desc&vote_count.gte=8`
 );
 
 setupPagination(
   'fantasy',
   'fantasy-pagination',
   'fantasy-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=14&sort_by=popularity.desc&vote_count.gte=8`
+  `https://api-movieverse.vercel.app/api/3/discover/movie&with_genres=14&sort_by=popularity.desc&vote_count.gte=8`
 );
 
 setupPagination(
   'family',
   'family-pagination',
   'family-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10751&sort_by=popularity.desc&vote_count.gte=8`
+  `https://api-movieverse.vercel.app/api/3/discover/movie&with_genres=10751&sort_by=popularity.desc&vote_count.gte=8`
 );
 
 setupPagination(
   'tv-series',
   'tv-series-pagination',
   'tv-series-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10770&sort_by=popularity.desc&vote_count.gte=8`
+  `https://api-movieverse.vercel.app/api/3/discover/movie&with_genres=10770&sort_by=popularity.desc&vote_count.gte=8`
 );
 
 setupPagination(
   'crime',
   'crime-pagination',
   'crime-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=80&sort_by=popularity.desc&vote_count.gte=8`
+  `https://api-movieverse.vercel.app/api/3/discover/movie&with_genres=80&sort_by=popularity.desc&vote_count.gte=8`
 );
 
 setupPagination(
   'classic',
   'classic-pagination',
   'classic-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=popularity.desc&release_date.lte=1980`
+  `https://api-movieverse.vercel.app/api/3/discover/movie&sort_by=popularity.desc&release_date.lte=1980`
 );
 
 document.addEventListener('DOMContentLoaded', function () {

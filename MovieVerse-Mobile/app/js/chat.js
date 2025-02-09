@@ -1,20 +1,3 @@
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
-import {
-  getFirestore,
-  collection,
-  addDoc,
-  doc,
-  startAfter,
-  getDocs,
-  query,
-  where,
-  orderBy,
-  onSnapshot,
-  documentId,
-  serverTimestamp,
-  limit,
-} from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
-
 document.addEventListener('DOMContentLoaded', () => {
   const mainElement = document.getElementById('main');
   const isLoggedIn = localStorage.getItem('isSignedIn');
@@ -69,17 +52,79 @@ async function animateLoadingDots() {
   }
 }
 
-const firebaseConfig = {
-  apiKey: atob(code1),
-  authDomain: atob(code2),
-  projectId: 'movieverse-app',
-  storageBucket: atob(code3),
-  messagingSenderId: atob(code4),
-  appId: atob(code5),
-};
+let app;
+let db;
 
-initializeApp(firebaseConfig);
-const db = getFirestore();
+async function loadFirebaseConfig() {
+  try {
+    const token = localStorage.getItem('movieverseToken');
+
+    const response = await fetch('https://api-movieverse.vercel.app/api/firebase-config', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch Firebase config: ${response.statusText}`);
+    }
+
+    const firebaseConfig = await response.json();
+
+    const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js');
+    const {
+      getFirestore,
+      collection,
+      addDoc,
+      doc,
+      startAfter,
+      getDocs,
+      query,
+      where,
+      orderBy,
+      onSnapshot,
+      documentId,
+      serverTimestamp,
+      limit,
+      arrayUnion,
+    } = await import('https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js');
+
+    app = initializeApp(firebaseConfig);
+    db = getFirestore(app);
+
+    console.log('🔥 Firebase Initialized Successfully');
+
+    window._movieVerseDB = db;
+    window._firebaseModules = {
+      collection,
+      addDoc,
+      doc,
+      startAfter,
+      getDocs,
+      query,
+      where,
+      orderBy,
+      onSnapshot,
+      documentId,
+      serverTimestamp,
+      limit,
+      arrayUnion,
+    };
+  } catch (error) {
+    console.error('❌ Error loading Firebase config:', error);
+  }
+}
+
+loadFirebaseConfig();
+
+async function ensureFirebaseModules() {
+  while (!window._firebaseModules) {
+    await new Promise(resolve => setTimeout(resolve, 100));
+  }
+  return window._firebaseModules;
+}
 
 const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
 let selectedUserEmail = null;
@@ -93,11 +138,12 @@ sendButton.addEventListener('click', async () => {
   const text = messageInput.value.trim();
   if (text && selectedUserEmail) {
     try {
-      await addDoc(collection(db, 'messages'), {
+      const modules = await ensureFirebaseModules();
+      await modules.addDoc(modules.collection(db, 'messages'), {
         sender: currentUserEmail,
         recipient: selectedUserEmail,
         message: text,
-        timestamp: serverTimestamp(),
+        timestamp: modules.serverTimestamp(),
         readBy: [currentUserEmail],
       });
       messageInput.value = '';
@@ -124,8 +170,9 @@ async function createUserElement(email) {
   userElement.setAttribute('data-email', email);
   userElement.addEventListener('click', () => loadMessages(email));
 
-  const profileQuery = query(collection(db, 'profiles'), where('__name__', '==', email));
-  const profileSnapshot = await getDocs(profileQuery);
+  const modules = await ensureFirebaseModules();
+  const profileQuery = modules.query(modules.collection(db, 'profiles'), modules.where('__name__', '==', email));
+  const profileSnapshot = await modules.getDocs(profileQuery);
   let imageUrl = '../../images/user-default.png';
 
   if (!profileSnapshot.empty) {
@@ -268,14 +315,15 @@ async function loadMessages(userEmail) {
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
   }
 
-  const messagesQuery = query(
-    collection(db, 'messages'),
-    orderBy('timestamp'),
-    where('sender', 'in', [currentUserEmail, selectedUserEmail]),
-    where('recipient', 'in', [currentUserEmail, selectedUserEmail])
+  const modules = await ensureFirebaseModules();
+  const messagesQuery = modules.query(
+    modules.collection(db, 'messages'),
+    modules.orderBy('timestamp'),
+    modules.where('sender', 'in', [currentUserEmail, selectedUserEmail]),
+    modules.where('recipient', 'in', [currentUserEmail, selectedUserEmail])
   );
 
-  onSnapshot(messagesQuery, snapshot => {
+  modules.onSnapshot(messagesQuery, snapshot => {
     const newMessages = [];
 
     messagesDiv.innerHTML = '';
@@ -304,9 +352,10 @@ async function loadMessages(userEmail) {
 }
 
 async function updateReadStatus(messageId) {
-  const messageRef = doc(db, 'messages', messageId);
-  await updateDoc(messageRef, {
-    readBy: arrayUnion(currentUserEmail),
+  const modules = await ensureFirebaseModules();
+  const messageRef = modules.doc(db, 'messages', messageId);
+  await modules.updateDoc(messageRef, {
+    readBy: modules.arrayUnion(currentUserEmail),
   });
 }
 
@@ -337,19 +386,19 @@ function setupSearchListeners() {
 
 const LOCAL_STORAGE_SEARCH_CACHE_KEY = 'movieVerseSearchCache';
 
-function getCachedSearchResults(query) {
+function getCachedSearchResults(queryStr) {
   const cachedData = localStorage.getItem(LOCAL_STORAGE_SEARCH_CACHE_KEY);
   if (cachedData) {
     const searchCache = JSON.parse(cachedData);
-    return searchCache[query] ? searchCache[query].results : null;
+    return searchCache[queryStr] ? searchCache[queryStr].results : null;
   }
   return null;
 }
 
-function updateSearchCache(query, results) {
+function updateSearchCache(queryStr, results) {
   const cachedData = localStorage.getItem(LOCAL_STORAGE_SEARCH_CACHE_KEY);
   const searchCache = cachedData ? JSON.parse(cachedData) : {};
-  searchCache[query] = { results, lastUpdated: Date.now() };
+  searchCache[queryStr] = { results, lastUpdated: Date.now() };
   localStorage.setItem(LOCAL_STORAGE_SEARCH_CACHE_KEY, JSON.stringify(searchCache));
 }
 
@@ -387,19 +436,20 @@ async function performSearch(searchText, isNewSearch = false) {
     showSpinner();
     animateLoadingDots();
 
-    let userQuery = query(
-      collection(db, 'MovieVerseUsers'),
-      where('email', '>=', searchText),
-      where('email', '<=', searchText + '\uf8ff'),
-      orderBy('email'),
-      limit(initialFetchLimit)
+    const modules = await ensureFirebaseModules();
+    let userQuery = modules.query(
+      modules.collection(db, 'MovieVerseUsers'),
+      modules.where('email', '>=', searchText),
+      modules.where('email', '<=', searchText + '\uf8ff'),
+      modules.orderBy('email'),
+      modules.limit(initialFetchLimit)
     );
 
     if (!isNewSearch && lastVisible) {
-      userQuery = query(userQuery, startAfter(lastVisible));
+      userQuery = modules.query(userQuery, modules.startAfter(lastVisible));
     }
 
-    const querySnapshot = await getDocs(userQuery);
+    const querySnapshot = await modules.getDocs(userQuery);
 
     if (isNewSearch) {
       searchUserResults.innerHTML = '';
@@ -410,15 +460,15 @@ async function performSearch(searchText, isNewSearch = false) {
     }
 
     const results = [];
-    for (const doc of querySnapshot.docs) {
-      const user = doc.data();
+    for (const docSnap of querySnapshot.docs) {
+      const user = docSnap.data();
       const userDiv = document.createElement('div');
       userDiv.className = 'user-search-result';
       userDiv.style.cursor = 'pointer';
       userDiv.addEventListener('click', () => loadMessages(user.email));
 
-      const profileQuery = query(collection(db, 'profiles'), where('__name__', '==', user.email));
-      const profileSnapshot = await getDocs(profileQuery);
+      const profileQuery = modules.query(modules.collection(db, 'profiles'), modules.where('__name__', '==', user.email));
+      const profileSnapshot = await modules.getDocs(profileQuery);
       let imageUrl = '../../images/user-default.png';
       if (!profileSnapshot.empty) {
         const profileData = profileSnapshot.docs[0].data();
@@ -493,7 +543,7 @@ function clearUserCache() {
   localStorage.removeItem(LOCAL_STORAGE_USER_CACHE_KEY);
 }
 
-const inMemoryUserCache = {}; // In-memory cache for user data
+const inMemoryUserCache = {};
 
 async function loadUserList() {
   try {
@@ -503,21 +553,25 @@ async function loadUserList() {
     const userLimit = 10;
     const messageLimit = 30;
 
-    const sentMessagesQuery = query(
-      collection(db, 'messages'),
-      orderBy('timestamp', 'desc'),
-      where('sender', '==', currentUserEmail),
-      limit(messageLimit)
+    const modules = await ensureFirebaseModules();
+    const sentMessagesQuery = modules.query(
+      modules.collection(db, 'messages'),
+      modules.orderBy('timestamp', 'desc'),
+      modules.where('sender', '==', currentUserEmail),
+      modules.limit(messageLimit)
     );
 
-    const receivedMessagesQuery = query(
-      collection(db, 'messages'),
-      orderBy('timestamp', 'desc'),
-      where('recipient', '==', currentUserEmail),
-      limit(messageLimit)
+    const receivedMessagesQuery = modules.query(
+      modules.collection(db, 'messages'),
+      modules.orderBy('timestamp', 'desc'),
+      modules.where('recipient', '==', currentUserEmail),
+      modules.limit(messageLimit)
     );
 
-    const [sentMessagesSnapshot, receivedMessagesSnapshot] = await Promise.all([getDocs(sentMessagesQuery), getDocs(receivedMessagesQuery)]);
+    const [sentMessagesSnapshot, receivedMessagesSnapshot] = await Promise.all([
+      modules.getDocs(sentMessagesQuery),
+      modules.getDocs(receivedMessagesQuery),
+    ]);
 
     let userEmails = new Set();
     sentMessagesSnapshot.forEach(doc => userEmails.add(doc.data().recipient));
@@ -541,11 +595,11 @@ async function loadUserList() {
     }
 
     if (emailsToFetch.length > 0) {
-      const userQuery = query(collection(db, 'MovieVerseUsers'), where('email', 'in', emailsToFetch.slice(0, 10)));
+      const userQuery = modules.query(modules.collection(db, 'MovieVerseUsers'), modules.where('email', 'in', emailsToFetch.slice(0, 10)));
 
-      const userSnapshot = await getDocs(userQuery);
-      userSnapshot.forEach(doc => {
-        const userData = doc.data();
+      const userSnapshot = await modules.getDocs(userQuery);
+      userSnapshot.forEach(docSnap => {
+        const userData = docSnap.data();
         if (userData.email) {
           userData.lastUpdated = Date.now();
           users.push(userData);
@@ -591,8 +645,14 @@ async function loadUserList() {
       } else if (inMemoryUserCache[user.email] && inMemoryUserCache[user.email].profileImage) {
         imageUrl = inMemoryUserCache[user.email].profileImage;
       } else {
-        const profileQuery = query(collection(db, 'profiles'), where('__name__', '==', user.email));
-        const profileSnapshot = await getDocs(profileQuery);
+        const profileQuery = await (async () => {
+          const modules = await ensureFirebaseModules();
+          return modules.query(modules.collection(db, 'profiles'), modules.where('__name__', '==', user.email));
+        })();
+        const profileSnapshot = await (async () => {
+          const modules = await ensureFirebaseModules();
+          return modules.getDocs(profileQuery);
+        })();
         if (!profileSnapshot.empty) {
           const profileData = profileSnapshot.docs[0].data();
           imageUrl = profileData.profileImage || imageUrl;

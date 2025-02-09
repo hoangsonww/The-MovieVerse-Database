@@ -26,11 +26,13 @@ let isGameOver = false;
 
 // Handle block placement
 document.addEventListener('keydown', e => {
-  e.preventDefault();
-
   if ((e.key === ' ' || e.key === 'Enter') && !isGameOver) {
+    e.preventDefault();
+
     placeBlock();
   } else if (isGameOver && (e.key === ' ' || e.key === 'Enter')) {
+    e.preventDefault();
+
     resetGame();
   }
 });

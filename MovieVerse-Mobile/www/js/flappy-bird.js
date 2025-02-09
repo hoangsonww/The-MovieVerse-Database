@@ -46,7 +46,13 @@ function resetGame() {
 }
 
 // Add event listeners for jump or reset
-document.addEventListener('keydown', handleJumpOrReset);
+document.addEventListener('keydown', e => {
+  if (e.key === ' ') {
+    e.preventDefault();
+    handleJumpOrReset();
+  }
+});
+
 canvas.addEventListener('click', handleJumpOrReset);
 
 function createPipe() {

@@ -41,13 +41,15 @@ function resetGame() {
 
 // Listen for key presses to jump or restart the game
 document.addEventListener('keydown', e => {
-  e.preventDefault();
-
   if (isGameOver && (e.key === ' ' || e.key === 'Enter')) {
+    e.preventDefault();
+
     resetGame();
     return;
   }
   if (!isGameOver && e.key === ' ') {
+    e.preventDefault();
+
     star.velocityY = star.jumpForce;
   }
 });

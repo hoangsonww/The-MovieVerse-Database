@@ -44,10 +44,16 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function fetchTvLanguages() {
-  const url = `https://${getMovieVerseData()}/3/configuration/languages?${generateMovieNames()}${getMovieCode()}`;
+  const url = `https://api-movieverse.vercel.app/api/3/configuration/languages`;
 
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     let languages = await response.json();
     languages = languages.sort((a, b) => a.english_name.localeCompare(b.english_name));
     populateTvLanguageFilter(languages);
@@ -69,10 +75,16 @@ function populateTvLanguageFilter(languages) {
 }
 
 async function fetchLanguages() {
-  const url = `https://${getMovieVerseData()}/3/configuration/languages?${generateMovieNames()}${getMovieCode()}`;
+  const url = `https://api-movieverse.vercel.app/api/3/configuration/languages`;
 
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     let languages = await response.json();
     languages = languages.sort((a, b) => a.english_name.localeCompare(b.english_name));
     populateLanguageFilter(languages);
@@ -95,10 +107,16 @@ function populateLanguageFilter(languages) {
 
 async function fetchGenreMap() {
   const code = getMovieCode();
-  const url = `https://${getMovieVerseData()}/3/genre/movie/list?${generateMovieNames()}${code}`;
+  const url = `https://api-movieverse.vercel.app/api/3/genre/movie/list`;
 
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     const data = await response.json();
     localStorage.setItem('genreMap', JSON.stringify(data.genres));
     populateGenreFilter(data.genres);
@@ -109,10 +127,16 @@ async function fetchGenreMap() {
 
 async function fetchTvGenreMap() {
   const code = getMovieCode();
-  const url = `https://${getMovieVerseData()}/3/genre/tv/list?${generateMovieNames()}${code}`;
+  const url = `https://api-movieverse.vercel.app/api/3/genre/tv/list`;
 
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     const data = await response.json();
     localStorage.setItem('tvGenreMap', JSON.stringify(data.genres));
     populateTvGenreFilter(data.genres);
@@ -621,8 +645,8 @@ async function showResults(category) {
   document.getElementById('search-results-label').textContent = `Search Results for "${searchQuery}"`;
 
   const code = getMovieCode();
-  const baseFetchUrl = `https://${getMovieVerseData()}/3`;
-  let url = `${baseFetchUrl}/search/${category}?${generateMovieNames()}${code}&query=${encodeURIComponent(searchQuery)}`;
+  const baseFetchUrl = `https://api-movieverse.vercel.app/api/3`;
+  let url = `${baseFetchUrl}/search/${category}&query=${encodeURIComponent(searchQuery)}`;
   let sortValue = '';
 
   if (category === 'movie') {
@@ -634,7 +658,13 @@ async function showResults(category) {
   }
 
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     let data = await response.json();
 
     if (category === 'movie') {
@@ -678,8 +708,14 @@ async function showResults(category) {
       data.results.sort((a, b) => b.popularity - a.popularity);
 
       const personDetailsPromises = data.results.map(async person => {
-        const personDetailsUrl = `https://${getMovieVerseData()}/3/person/${person.id}?${generateMovieNames()}${code}`;
-        const personResponse = await fetch(personDetailsUrl);
+        const personDetailsUrl = `https://api-movieverse.vercel.app/api/3/person/${person.id}`;
+        const personResponse = await fetch(personDetailsUrl, {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
         const personDetails = await personResponse.json();
         person.biography = personDetails.biography || 'Click to view the details of this person.';
         return person;
@@ -775,14 +811,20 @@ const main = document.getElementById('movie-match-container1');
 async function getAdditionalImages(itemId, category) {
   let endpoint;
   if (category === 'movie') {
-    endpoint = `https://${getMovieVerseData()}/3/movie/${itemId}/images?${generateMovieNames()}${getMovieCode()}`;
+    endpoint = `https://api-movieverse.vercel.app/api/3/movie/${itemId}/images`;
   } else if (category === 'person') {
-    endpoint = `https://${getMovieVerseData()}/3/person/${itemId}/images?${generateMovieNames()}${getMovieCode()}`;
+    endpoint = `https://api-movieverse.vercel.app/api/3/person/${itemId}/images`;
   } else if (category === 'tv') {
-    endpoint = `https://${getMovieVerseData()}/3/tv/${itemId}/images?${generateMovieNames()}${getMovieCode()}`;
+    endpoint = `https://api-movieverse.vercel.app/api/3/tv/${itemId}/images`;
   }
 
-  const response = await fetch(endpoint);
+  const response = await fetch(endpoint, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  });
   const data = await response.json();
   return data.profiles ? data.profiles.map(image => image.file_path) : data.posters.map(image => image.file_path);
 }
@@ -882,8 +924,14 @@ async function showMovies(items, container, category) {
     movieEl.addEventListener('click', async () => {
       if (isPerson) {
         try {
-          const personDetailsUrl = `https://${getMovieVerseData()}/3/person/${id}?${generateMovieNames()}${getMovieCode()}`;
-          const response = await fetch(personDetailsUrl);
+          const personDetailsUrl = `https://api-movieverse.vercel.app/api/3/person/${id}`;
+          const response = await fetch(personDetailsUrl, {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          });
           const personDetails = await response.json();
           if (personDetails.known_for_department === 'Directing') {
             const directorVisits = JSON.parse(localStorage.getItem('directorVisits')) || {};

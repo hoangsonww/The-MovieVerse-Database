@@ -565,6 +565,33 @@
     </script>
 
     <script>
+      async function login(email, password) {
+        try {
+          const response = await fetch('https://api-movieverse.vercel.app/auth/login', {
+            method: 'POST',
+            headers: {
+              Accept: '*/*',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, password }),
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+
+          const data = await response.json();
+
+          if (data.token) {
+            localStorage.setItem('movieverseToken', data.token);
+          } else {
+            console.log('Login failed:', data.message);
+          }
+        } catch (error) {
+          console.log('Error logging in:', error);
+        }
+      }
+
       window.addEventListener('load', function () {
         adjustAnchorHeights();
       });
@@ -754,6 +781,8 @@
         document.getElementById('myModal').classList.remove('modal-visible');
       }
 
+      const token = localStorage.getItem('movieverseToken');
+
       document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('search').addEventListener('input', function (e) {
           showSpinner();
@@ -771,8 +800,15 @@
           }
 
           if (query) {
-            const searchURL = `https://${getMovieVerseData1()}/3/search/multi?${getMovieNames1()}${getMovieCode1()}&query=${encodeURIComponent(query)}`;
-            fetch(searchURL)
+            const searchURL = `https://api-movieverse.vercel.app/api/3/search/multi?query=${encodeURIComponent(query)}`;
+
+            fetch(searchURL, {
+              method: 'GET',
+              headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+              },
+            })
               .then(response => response.json())
               .then(data => {
                 const sortedResults = data.results.sort((a, b) => b.popularity - a.popularity);
@@ -872,8 +908,14 @@
             window.location.href = 'tv-details.html';
           } else if (item.media_type === 'person') {
             try {
-              const personDetailsUrl = `https://${getMovieVerseData1()}/3/person/${item.id}?${getMovieNames1()}${getMovieCode1()}`;
-              const response = await fetch(personDetailsUrl);
+              const personDetailsUrl = `https://api-movieverse.vercel.app/api/3/person/${item.id}`;
+              const response = await fetch(personDetailsUrl, {
+                method: 'GET',
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  'Content-Type': 'application/json',
+                },
+              });
               const personDetails = await response.json();
 
               if (personDetails.known_for_department === 'Directing') {
@@ -891,18 +933,6 @@
           }
         }
       });
-
-      function getMovieVerseData1(input) {
-        return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
-      }
-
-      function getMovieNames1(input) {
-        return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
-      }
-
-      function getMovieCode1() {
-        return atob(movieCode.part1) + atob(movieCode.part2) + atob(movieCode.part3);
-      }
 
       document.addEventListener('DOMContentLoaded', function () {
         const searchInput = document.getElementById('search');

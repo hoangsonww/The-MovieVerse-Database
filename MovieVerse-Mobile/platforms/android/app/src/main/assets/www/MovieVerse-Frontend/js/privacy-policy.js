@@ -22,6 +22,8 @@ function adjustNavBar() {
   }
 }
 
+const token = localStorage.getItem('movieverseToken');
+
 document.addEventListener('mousemove', function (event) {
   const sideNav = document.getElementById('side-nav');
   if (event.clientX < 10 && !sideNav.classList.contains('manual-toggle')) {
@@ -88,9 +90,15 @@ async function ensureGenreMapIsAvailable() {
 }
 
 async function fetchGenreMap() {
-  const url = `https://${getMovieVerseData()}/3/genre/movie/list?${generateMovieNames()}${getMovieCode()}`;
+  const url = `https://api-movieverse.vercel.app/api/3/genre/movie/list`;
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     const data = await response.json();
     const genreMap = data.genres.reduce((map, genre) => {
       map[genre.id] = genre.name;
@@ -421,14 +429,21 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     if (query) {
-      const searchURL = `https://${getMovieVerseData()}/3/search/multi?${generateMovieNames()}${getMovieCode()}&query=${encodeURIComponent(query)}`;
-      fetch(searchURL)
+      const searchURL = `https://api-movieverse.vercel.app/api/3/search/multi?query=${encodeURIComponent(query)}`;
+
+      fetch(searchURL, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      })
         .then(response => response.json())
         .then(data => {
           const sortedResults = data.results.sort((a, b) => b.popularity - a.popularity);
           displaySearchResults(sortedResults.slice(0, 5));
         })
-        .catch(err => console.log('Fetching error:', err));
+        .catch(err => console.error('Fetching error:', err));
     } else {
       searchInput.value = '';
       searchResultsContainer.innerHTML = '';
@@ -521,8 +536,14 @@ document.addEventListener('DOMContentLoaded', function () {
       window.location.href = 'tv-details.html';
     } else if (item.media_type === 'person') {
       try {
-        const personDetailsUrl = `https://${getMovieVerseData()}/3/person/${item.id}?${generateMovieNames()}${getMovieCode()}`;
-        const response = await fetch(personDetailsUrl);
+        const personDetailsUrl = `https://api-movieverse.vercel.app/api/3/person/${item.id}`;
+        const response = await fetch(personDetailsUrl, {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
         const personDetails = await response.json();
 
         if (personDetails.known_for_department === 'Directing') {
@@ -655,10 +676,16 @@ function generateMovieNames(input) {
 
 async function showMovieOfTheDay() {
   const year = new Date().getFullYear();
-  const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+  const url = `https://api-movieverse.vercel.app/api/3/discover/movie&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
 
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     const data = await response.json();
     const movies = data.results;
 

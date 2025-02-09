@@ -33,10 +33,16 @@ async function fetchMovies(startDate, endDate) {
     .padStart(2, '0')}-${startDate.getDate().toString().padStart(2, '0')}`;
   const formattedEndDate = `${endDate.getFullYear()}-${(endDate.getMonth() + 1).toString().padStart(2, '0')}-${endDate.getDate().toString().padStart(2, '0')}`;
 
-  const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&release_date.gte=${formattedStartDate}&release_date.lte=${formattedEndDate}`;
+  const url = `https://api-movieverse.vercel.app/api/3/discover/movie&release_date.gte=${formattedStartDate}&release_date.lte=${formattedEndDate}`;
 
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     const data = await response.json();
     return data.results;
   } catch (error) {
@@ -64,8 +70,14 @@ async function getMostVisitedMovieGenre() {
 }
 
 async function fetchGenreForMovie(movieId) {
-  const movieDetailsUrl = `https://${getMovieVerseData()}/3/movie/${movieId}?${generateMovieNames()}${getMovieCode()}`;
-  const response = await fetch(movieDetailsUrl);
+  const movieDetailsUrl = `https://api-movieverse.vercel.app/api/3/movie/${movieId}`;
+  const response = await fetch(movieDetailsUrl, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  });
   const movieDetails = await response.json();
   return movieDetails.genres[0] ? movieDetails.genres[0].id : null;
 }
@@ -81,14 +93,20 @@ async function fetchRecommendedReleases() {
     if (!genreId) {
       throw new Error('Genre ID is not valid.');
     }
-    url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=${genreId}`;
+    url = `https://api-movieverse.vercel.app/api/3/discover/movie&with_genres=${genreId}`;
   } catch (error) {
     console.log('Fetching recommended movies failed or data issues:', error);
-    url = `https://${getMovieVerseData()}/3/movie/popular?${generateMovieNames()}${getMovieCode()}&language=en-US&page=1`;
+    url = `https://api-movieverse.vercel.app/api/3/movie/popular&language=en-US&page=1`;
   }
 
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     const data = await response.json();
     populateList('recommendedReleases', data.results.slice(0, 5));
   } catch (error) {

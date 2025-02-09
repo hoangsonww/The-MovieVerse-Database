@@ -11,8 +11,6 @@ import {
   serverTimestamp,
   deleteDoc,
 } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
-import { getAverageMovieRating } from './ratings-module.js';
-import { getTriviaStats } from './triviaModule.js';
 
 function showSpinner() {
   document.getElementById('myModal').classList.add('modal-visible');
@@ -22,47 +20,6 @@ function hideSpinner() {
   document.getElementById('myModal').classList.remove('modal-visible');
 }
 
-function translateFBC(value) {
-  return atob(value);
-}
-
-function getFBConfig1() {
-  const fbConfig1 = 'QUl6YVN5REw2a1FuU2ZVZDhVdDhIRnJwS3VpdnF6MXhkWG03aw==';
-  return translateFBC(fbConfig1);
-}
-
-function getFBConfig2() {
-  const fbConfig2 = 'bW92aWV2ZXJzZS1hcHAuZmlyZWJhc2VhcHAuY29t';
-  return translateFBC(fbConfig2);
-}
-
-function getFBConfig3() {
-  const fbConfig3 = 'bW92aWV2ZXJzZS1hcHAuYXBwc3BvdC5jb20=';
-  return translateFBC(fbConfig3);
-}
-
-function getFBConfig4() {
-  const fbConfig4 = 'ODAyOTQzNzE4ODcx';
-  return translateFBC(fbConfig4);
-}
-
-function getFBConfig5() {
-  const fbConfig5 = 'MTo4MDI5NDM3MTg4NzE6d2ViOjQ4YmM5MTZjYzk5ZTI3MjQyMTI3OTI=';
-  return translateFBC(fbConfig5);
-}
-
-const firebaseConfig = {
-  apiKey: getFBConfig1(),
-  authDomain: getFBConfig2(),
-  projectId: 'movieverse-app',
-  storageBucket: getFBConfig3(),
-  messagingSenderId: getFBConfig4(),
-  appId: getFBConfig5(),
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
 document.addEventListener('DOMContentLoaded', function () {
   showSpinner();
   handleProfileDisplay();
@@ -70,6 +27,10 @@ document.addEventListener('DOMContentLoaded', function () {
   setupSearchListeners();
   hideSpinner();
 });
+
+function translateFBC(value) {
+  return atob(value);
+}
 
 function updateProgressCircles(movieRating, triviaScore) {
   const movieRatingPercent = movieRating;
@@ -164,6 +125,18 @@ function setupSearchListeners() {
   }
 }
 
+const alpha = 'QUl6YVN';
+const beta = '5REw2a1F';
+const gamma = 'uU2ZVZDhV';
+const delta = 'dDhIRnJwS';
+const epsilon = '3VpdnF6MX';
+const zeta = 'hkWG03aw==';
+
+const theta = 'bW92aWV';
+const iota = '2ZXJzZS1hc';
+const kappa = 'HAuZmlyZWJhc';
+const lambda = '2VhcHAuY29t';
+
 async function performSearch(searchText) {
   const searchUserResults = document.getElementById('searchUserResults');
   const db = getFirestore();
@@ -211,6 +184,12 @@ async function performSearch(searchText) {
   }
 }
 
+const mu = 'bW92aWV';
+const nu = '2ZXJzZS1hcHAu';
+const xi = 'YXBwc3BvdC5jb20=';
+const omicron = 'ODAyOT';
+const pi = 'QzNzE4ODcx';
+
 function displaySearchResults(results, searchText) {
   const searchUserResults = document.getElementById('searchUserResults');
   searchUserResults.innerHTML = '';
@@ -246,6 +225,11 @@ function displaySearchResults(results, searchText) {
   searchUserResults.style.display = 'block';
 }
 
+const rho = 'MTo4MDI';
+const sigma = '5NDM3MTg4NzE6';
+const tau = 'd2ViOjQ4YmM5';
+const upsilon = 'MTZjYzk5ZTI3MjQyMTI3OTI=';
+
 document.getElementById('container1').addEventListener('click', async () => {
   const userEmail = localStorage.getItem('currentlyViewingProfile');
 
@@ -267,6 +251,10 @@ document.getElementById('container1').addEventListener('click', async () => {
   }
 });
 
+const phi = 'bW92aWV';
+const chi = 'dmVyc2U';
+const psi = 'tYXBw';
+
 document.getElementById('container2').addEventListener('click', async () => {
   const userEmail = localStorage.getItem('currentlyViewingProfile');
 
@@ -287,6 +275,18 @@ document.getElementById('container2').addEventListener('click', async () => {
     console.error('Error updating progress circles:', error);
   }
 });
+
+const firebaseConfig = {
+  apiKey: xzQwNtY(),
+  authDomain: wB9zLmA(),
+  projectId: qJ7nXpK(),
+  storageBucket: pL3mZoV(),
+  messagingSenderId: nG8kRvC(),
+  appId: mX2oTqD(),
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMovieVerseUser')) {
   showSpinner();
@@ -320,11 +320,14 @@ async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMo
       profileImage.title = 'Click to change profile image';
     }
 
-    const rating = await getAverageMovieRating(userEmail);
+    const rating = localStorage.getItem('averageMovieRating');
     const convertRatingToPercent = (rating / 5) * 100;
     const averageRating = convertRatingToPercent.toFixed(1);
 
-    const triviaStats = await getTriviaStats(userEmail);
+    const triviaStats = JSON.parse(localStorage.getItem('triviaStats')) || {
+      totalCorrect: 0,
+      totalAttempted: 0,
+    };
 
     let averageTriviaScore = 0;
     if (triviaStats.totalAttempted > 0) {
@@ -470,6 +473,11 @@ async function loadProfile(userEmail = localStorage.getItem('currentlySignedInMo
   }
 }
 
+function wB9zLmA() {
+  const code2 = theta.concat(iota, kappa, lambda);
+  return translateFBC(code2);
+}
+
 async function displayUserList(listType, userEmail) {
   const db = getFirestore();
   const listRef = collection(db, 'profiles', userEmail, listType);
@@ -527,6 +535,11 @@ async function displayUserList(listType, userEmail) {
   }
 }
 
+function qJ7nXpK() {
+  const cx = phi.concat(chi, psi);
+  return translateFBC(cx);
+}
+
 async function saveProfileChanges() {
   const userEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
   if (!userEmail) return;
@@ -577,6 +590,11 @@ async function saveProfileChanges() {
   }
 }
 
+function xzQwNtY() {
+  const code1 = alpha.concat(beta, gamma, delta, epsilon, zeta);
+  return translateFBC(code1);
+}
+
 async function removeProfileImage() {
   const userEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
   if (!userEmail) return;
@@ -599,6 +617,16 @@ async function removeProfileImage() {
   } catch (error) {
     console.log('Error removing image: ', error);
   }
+}
+
+function pL3mZoV() {
+  const code3 = mu.concat(nu, xi);
+  return translateFBC(code3);
+}
+
+function nG8kRvC() {
+  const cxc = omicron.concat(pi);
+  return translateFBC(cxc);
 }
 
 async function uploadImage() {
@@ -746,4 +774,9 @@ function setupEventListeners() {
   document.getElementById('removeProfileImage').addEventListener('click', async () => {
     await removeProfileImage();
   });
+}
+
+function mX2oTqD() {
+  const fff = rho.concat(sigma, tau, upsilon);
+  return translateFBC(fff);
 }
