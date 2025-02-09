@@ -24,6 +24,14 @@ The backend of MovieVerse is built using the **microservices architecture**. Thi
 
 **Important**: Be sure to carefully read this file and the [README.md](databases/README.md) file in the `databases` directory for more information on the backend services of MovieVerse before you start developing.
 
+## Live Backend Services
+
+The backend services of MovieVerse are live and hosted on the cloud. You can access the live services using the following links:
+- **Django Backend**: [https://api-movieverse.vercel.app/](https://api-movieverse.vercel.app/)
+- **Documentation**: [https://api-movieverse.vercel.app/docs/](https://api-movieverse.vercel.app/docs/)
+- **Redoc**: [https://api-movieverse.vercel.app/redoc/](https://api-movieverse.vercel.app/redoc/)
+- **GraphQL**: [https://api-movieverse.vercel.app/graphql/](https://api-movieverse.vercel.app/graphql/)
+
 ## Architecture
 
 The microservices architecture of MovieVerse is designed to segregate the application into small, loosely coupled services. Each service is focused on a single business capability and can be developed, deployed, and scaled independently.

@@ -1,4 +1,4 @@
-# The MovieVerse App
+# The MovieVerse App - Your Digital Compass to the Cinematic Universe 🎬🍿
 
 <p align="center" style="cursor: pointer">
   <a href="https://movie-verse.com">
@@ -15,6 +15,7 @@ Welcome to **The MovieVerse** - your digital compass to the cinematic universe. 
 - [Introduction](#introduction)
   - [Disclaimer](#disclaimer)
 - [User Interface](#user-interface)
+- [Live URLs](#live-urls)
 - [Features & Usage](#features--usage)
   - [Search & Discover](#search--discover)
   - [User Interaction](#user-interaction)
@@ -42,7 +43,7 @@ Through The MovieVerse, users can search for movies, view detailed information, 
 
 ### Disclaimer
 
-**This open-source repository is not the official repository for The MovieVerse. The deployed repository is private for security reasons. This repository is only for educational purposes and to showcase the codebase of The MovieVerse, which may differ significantly from the official, private codebase.**
+> **This open-source repository is not the official repository for The MovieVerse. The deployed repository is private for security reasons. This repository is only for educational purposes and to showcase the codebase of The MovieVerse, which may differ significantly from the official, private codebase. However, this codebase is still functional and actively maintained.**
 
 ## User Interface
 
@@ -51,6 +52,20 @@ Through The MovieVerse, users can search for movies, view detailed information, 
     <img src="../images/MovieVerse-UI.png" alt="The MovieVerse App Interface" style="border-radius: 10px" width="100%"/>
   </a>
 </p>
+
+## Live URLs
+
+- **Official Website**: [https://movie-verse.com](https://movie-verse.com)
+- **Backend API**: [https://api-movieverse.vercel.app/](https://api-movieverse.vercel.app/)
+- **API Documentation**: [https://api-movieverse.vercel.app/docs](https://api-movieverse.vercel.app/docs)
+- **ReDoc Documentation**: [https://api-movieverse.vercel.app/redoc](https://api-movieverse.vercel.app/redocs)
+
+### Live Stasuses
+
+![Website Status](https://img.shields.io/website?down_color=red&down_message=Offline&label=Website&up_color=brightgreen&up_message=Online&url=https%3A%2F%2Fmovie-verse.com)
+![API Status](https://img.shields.io/website?down_color=red&down_message=Offline&label=API&up_color=brightgreen&up_message=Online&url=https%3A%2F%2Fapi-movieverse.vercel.app)
+![Database Status](https://img.shields.io/website?down_color=red&down_message=Offline&label=Database&up_color=brightgreen&up_message=Online&url=https%3A%2F%2Fmovie-verse.com)
+![Deployment Status](https://img.shields.io/badge/Deployment-Active-brightgreen)
 
 ## Features & Usage
 
@@ -83,6 +98,7 @@ Through The MovieVerse, users can search for movies, view detailed information, 
 - **Continuous Improvements**: The platform is ever-evolving with regular updates and new features.
 - **Free to Use**: The MovieVerse is completely free to use, with absolutely no hidden costs or subscriptions.
 - **Privacy & Security**: The MovieVerse is committed to protecting your privacy and ensuring a secure platform.
+- **Accessibility**: The platform is designed to be accessible to all users, including those with disabilities.
 
 **And So Much More!**
 
@@ -90,9 +106,9 @@ Through The MovieVerse, users can search for movies, view detailed information, 
 
 The MovieVerse is a full-stack application with a robust backend and a user-friendly frontend. The project is divided into the following **3 main** directories:
 
-1. `MovieVerse-Backend`: The [backend directory](../MovieVerse-Backend) contains the server-side code, including the API, database, and server configuration.
-2. `MovieVerse-Frontend`: The [frontend directory](../MovieVerse-Frontend) contains the client-side code, including the user interface, user experience, and client configuration.
-3. `MovieVerse-Mobile`: The [mobile app directory](../MovieVerse-Mobile) contains the mobile application code, built using Apache Cordova, including the mobile user interface, user experience, and mobile client configuration.
+1. `MovieVerse-Backend`: The [backend directory](../MovieVerse-Backend) contains the server-side code, including the API, database, and server configuration. ([Read more](../MovieVerse-Backend/README.md))
+2. `MovieVerse-Frontend`: The [frontend directory](../MovieVerse-Frontend) contains the client-side code, including the user interface, user experience, and client configuration. ([Read more](../MovieVerse-Frontend/README.md))
+3. `MovieVerse-Mobile`: The [mobile app directory](../MovieVerse-Mobile) contains the mobile application code, built using Apache Cordova, including the mobile user interface, user experience, and mobile client configuration. ([Read more](../MovieVerse-Mobile/README.md))
 
 There are also additional directories and files for project configuration, testing, and other utilities. The project is built using a variety of directories, including `.github`, `MovieVerse-Utilities`, `MovieVerse-Config`, `MovieVerse-Middleware`, `MovieVerse-Design`, `images`, and more. Each directory serves a specific purpose in the development, deployment, and maintenance of The MovieVerse application.
 
@@ -100,12 +116,14 @@ There are also additional directories and files for project configuration, testi
 
 The current deployment and production branch is the [main-deployment-branch](https://github.com/hoangsonww/The-MovieVerse-Database/tree/main-deployment-branch) and is being deployed to the official website at [movie-verse.com](https://movie-verse.com). The deployment process involves building the frontend, backend, and mobile app, configuring the server, and deploying the application to the server. The deployment process is automated using CI/CD pipelines and scripts to ensure a seamless deployment experience.
 
-The **official** app is currently using [Netlify](https://www.netlify.com/) for the frontend deployment and [Heroku](https://www.heroku.com) for the backend deployment. The deployment status is monitored regularly to ensure the application is up and running smoothly.
+The **official** app is currently using [Netlify](https://www.netlify.com/) for the frontend deployment and [Vercel](https://vercel.com) for the backend deployment. The deployment status is monitored regularly to ensure the application is up and running smoothly.
 
 **Deployment Status:**
 
 [![Netlify Status](https://img.shields.io/badge/Netlify-Deploy_successful-brightgreen)](https://movie-verse.com/)
-[![Heroku Status](https://img.shields.io/badge/Heroku-Running-brightgreen)](https://movie-verse.com/)
+[![Vercel Status](https://img.shields.io/badge/Vercel-Deploy_successful-brightgreen)](https://movie-verse.com/)
+[![API Status](https://img.shields.io/badge/API-Online-brightgreen)](https://movie-verse.com)
+[![Database Status](https://img.shields.io/badge/Database-Online-brightgreen)](https://movie-verse.com)
 [![CI/CD Status](https://img.shields.io/badge/CI/CD-Automated-brightgreen)](https://movie-verse.com)
 [![Docker Status](https://img.shields.io/badge/Docker-Ready-brightgreen)](https://movie-verse.com)
 [![Server Status](https://img.shields.io/badge/Server-Online-brightgreen)](https://movie-verse.com)
@@ -121,7 +139,27 @@ The **official** app is currently using [Netlify](https://www.netlify.com/) for 
 | [JavaScript](https://www.javascript.com/)                                                                                  | [Flask](https://flask.palletsprojects.com/en/1.1.x/)            | [Redis](https://redis.io/)                      | [Java (for Android)](https://www.java.com/en/)                    | [WebAssembly](https://webassembly.org/)                         |
 | [TypeScript](https://www.typescriptlang.org/)                                                                              | [Python](https://www.python.org/)                               |                                                 | [Android Studio](https://developer.android.com/studio)            | [Google Analytics](https://analytics.google.com/analytics/web/) |
 | [FontAwesome Icons](https://react-icons.github.io/react-icons/)                                                            | [JavaScript](https://www.javascript.com/)                       |                                                 | [XCode](https://developer.apple.com/xcode/)                       | [ESLint](https://eslint.org/)                                   |
-| [SASS](https://sass-lang.com/)                                                                                             | [RabbitMQ](https://www.rabbitmq.com/)                           |                                                 |                                                                   | [TensorFlow](https://www.tensorflow.org/)                       |
+| [Netlify](https://netlify.com)                                                                                             | [RabbitMQ](https://www.rabbitmq.com/)                           |                                                 |                                                                   | [Vercel](https://vercel.com)                                    |
+
+## API Documentation
+
+The MovieVerse API is fully documented and available for public use. You can access the API documentation at [https://api-movieverse.vercel.app/docs](https://api-movieverse.vercel.app/docs) or [https://api-movieverse.vercel.app/redoc](https://api-movieverse.vercel.app/redoc).
+
+### Swagger Documentation
+
+<p align="center" style="cursor: pointer">
+  <a href="https://api-movieverse.vercel.app/docs">
+    <img src="../images/MovieVerse-API-Swagger.png" alt="The MovieVerse API Swagger Documentation" style="border-radius: 10px" width="100%"/>
+  </a>
+</p>
+
+### ReDoc Documentation
+
+<p align="center" style="cursor: pointer">
+  <a href="https://api-movieverse.vercel.app/redoc">
+    <img src="../images/MovieVerse-API-ReDoc.png" alt="The MovieVerse API ReDoc Documentation" style="border-radius: 10px" width="100%"/>
+  </a>
+</p>
 
 ## Getting Started
 
@@ -227,7 +265,7 @@ The MovieVerse is committed to ensuring the security of the platform. Please ref
 
 Son Nguyen - [@hoangsonww](https://github.com/hoangsonww)
 
-Website: [https://movie-verse.com](https://movie-verse.com)
+Website: [https://sonnguyenhoang.com](https://sonnguyenhoang.com)
 
 Email: [Official MovieVerse Email](mailto:info@movie-verse.com)
 
@@ -241,6 +279,6 @@ Thank you for your understanding and support~ 🎬🍿
 
 ---
 
-Created with ❤️ in 2023-2024 by [Son Nguyen](https://github.com/hoangsonww).
+Created with ❤️ in 2023-2025 by [Son Nguyen](https://github.com/hoangsonww).
 
-© 2024 The MovieVerse. All Rights Reserved.
+© 2025 The MovieVerse. All Rights Reserved.

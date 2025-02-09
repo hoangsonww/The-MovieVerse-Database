@@ -1,38 +1,8 @@
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
-import { getFirestore, doc, setDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+import { app, db, firebaseReady } from './firebase.js';
+import { doc, setDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
 
-const code1 = 'QUl6YVN5RE' + 'w2a1FuU2ZV' + 'ZDhVdDhIR' + 'nJwS3Vpdn' + 'F6MXhkW' + 'G03aw==';
-
-const code2 = 'bW92aWV2' + 'ZXJzZS1' + 'hcHAuZm' + 'lyZWJhc2' + 'VhcHAu' + 'Y29t';
-
-const code3 = 'bW92aWV2' + 'ZXJzZS1hc' + 'HAuYXBwc' + '3BvdC' + '5jb20=';
-
-const code4 = 'ODAyOTQz' + 'NzE4ODcx';
-
-const code5 = 'MTo4MDI' + '5NDM3MTg' + '4NzE6d2V' + 'iOjQ4YmM' + '5MTZjYz' + 'k5ZTI3M' + 'jQyMTI' + '3OTI=';
-
-async function animateLoadingDots() {
-  const loadingTextElement = document.querySelector('#myModal p');
-  let dots = '';
-
-  while (document.getElementById('myModal').classList.contains('modal-visible')) {
-    loadingTextElement.textContent = `Loading chats${dots}`;
-    dots = dots.length < 3 ? dots + '.' : '.';
-    await new Promise(resolve => setTimeout(resolve, 500));
-  }
-}
-
-const firebaseConfig = {
-  apiKey: atob(code1),
-  authDomain: atob(code2),
-  projectId: 'movieverse-app',
-  storageBucket: atob(code3),
-  messagingSenderId: atob(code4),
-  appId: atob(code5),
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+// Wait for Firebase to be ready (if needed)
+await firebaseReady;
 
 export async function loadUserRatings(currentUserEmail) {
   if (currentUserEmail) {
@@ -44,6 +14,10 @@ export async function loadUserRatings(currentUserEmail) {
   }
 }
 
+let currentUserEmail1 = '';
+let movieId1 = '';
+let newRating1 = '';
+
 export async function updateAverageMovieRating(currentUserEmail, movieId, newRating) {
   if (!currentUserEmail) {
     console.error('No user signed in, using localStorage to save ratings.');
@@ -51,16 +25,21 @@ export async function updateAverageMovieRating(currentUserEmail, movieId, newRat
     savedRatings[movieId] = newRating;
     localStorage.setItem('movieRatings', JSON.stringify(savedRatings));
     updateLocalAverage(savedRatings);
+    currentUserEmail1 = currentUserEmail;
+    movieId1 = movieId;
+    newRating1 = newRating;
   } else {
     console.log('User signed in, saving ratings to Firebase.');
     const ratingsRef = doc(db, 'userRatings', currentUserEmail);
     const docSnap = await getDoc(ratingsRef);
     let ratings = docSnap.exists() ? docSnap.data().ratings || {} : {};
     ratings[movieId] = newRating;
-
     await setDoc(ratingsRef, { ratings: ratings }, { merge: true });
     updateFirebaseAverage(ratings, ratingsRef);
     updateLocalAverage(ratings);
+    currentUserEmail1 = currentUserEmail;
+    movieId1 = movieId;
+    newRating1 = newRating;
   }
 }
 
@@ -96,3 +75,7 @@ export async function getAverageMovieRating(currentUserEmail) {
     return docSnap.exists() && docSnap.data().averageRating ? docSnap.data().averageRating : 0;
   }
 }
+
+document.addEventListener('DOMContentLoaded', async () => {
+  await updateAverageMovieRating(currentUserEmail1, movieId1, newRating1);
+});

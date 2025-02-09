@@ -1,21 +1,8 @@
-const movieCode = {
-  part1: 'YzVhMjBjODY=',
-  part2: 'MWFjZjdiYjg=',
-  part3: 'ZDllOTg3ZGNjN2YxYjU1OA==',
-};
-
-function getMovieCode() {
-  return atob(movieCode.part1) + atob(movieCode.part2) + atob(movieCode.part3);
-}
-
-function generateMovieNames(input) {
-  return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
-}
-
+const token = localStorage.getItem('movieverseToken');
 const search = document.getElementById('search');
 const searchButton = document.getElementById('button-search');
 const form = document.getElementById('form1');
-const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
+const SEARCHPATH = `https://api-movieverse.vercel.app/api/3/search/movie&query=`;
 
 const main = document.getElementById('main');
 const IMGPATH = 'https://image.tmdb.org/t/p/w1280';
@@ -46,10 +33,16 @@ async function ensureGenreMapIsAvailable() {
 }
 
 async function fetchGenreMap() {
-  const url = `https://${getMovieVerseData()}/3/genre/movie/list?${generateMovieNames()}${getMovieCode()}`;
+  const url = `https://api-movieverse.vercel.app/api/3/genre/movie/list`;
 
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     const data = await response.json();
     const genreMap = data.genres.reduce((map, genre) => {
       map[genre.id] = genre.name;
@@ -589,19 +582,30 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 async function fetchMovieDetails(movieId) {
-  const code = `${getMovieCode()}`;
-  const url = `https://${getMovieVerseData()}/3/movie/27205?${generateMovieNames()}${code}&append_to_response=credits,keywords,similar`;
-  const url2 = `https://${getMovieVerseData()}/3/movie/27205?${generateMovieNames()}${code}&append_to_response=videos`;
-  const imdbUrl = `https://${getMovieVerseData()}/3/movie/27205?${generateMovieNames()}${code}&append_to_response=external_ids`;
+  const url = `https://api-movieverse.vercel.app/api/3/movie/27205&append_to_response=credits,keywords,similar`;
+  const url2 = `https://api-movieverse.vercel.app/api/3/movie/27205&append_to_response=videos`;
+  const imdbUrl = `https://api-movieverse.vercel.app/api/3/movie/27205&append_to_response=external_ids`;
 
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     const movie = await response.json();
     const imdbId = movie.imdb_id;
 
     fetchMovieRatings(imdbId, movie);
 
-    const response2 = await fetch(url2);
+    const response2 = await fetch(url2, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     const movie2 = await response2.json();
     const trailers = movie2.videos.results.filter(video => video.type === 'Trailer');
 
@@ -725,40 +729,8 @@ function getRatingDetails(rating) {
 }
 
 async function fetchMovieRatings(imdbId, tmdbMovieData) {
-  const omdbApiKey = '2ba8e536';
-  const omdbUrl = `https://www.omdbapi.com/?i=${imdbId}&apikey=${omdbApiKey}`;
-
   try {
-    const response = await fetch(omdbUrl);
-    const data = await response.json();
-
-    let imdbRating = data.imdbRating ? data.imdbRating : 'N/A';
-
-    if (imdbRating === 'N/A' && tmdbMovieData.vote_average) {
-      imdbRating = (tmdbMovieData.vote_average / 2).toFixed(1) * 2;
-    }
-
-    const rtRatingObj = data.Ratings.find(rating => rating.Source === 'Rotten Tomatoes');
-    let rtRating = rtRatingObj ? rtRatingObj.Value : 'N/A';
-
-    let metascore = data.Metascore ? `${data.Metascore}/100` : 'N/A';
-    let awards = data.Awards;
-    let rated = data.Rated ? data.Rated : 'Rating information unavailable';
-
-    if (awards === 'N/A') {
-      awards = 'No awards information available';
-    }
-
-    if (metascore === 'N/A/100') {
-      const metacriticsRatingValue = imdbRating !== 'N/A' ? parseFloat(imdbRating) : tmdbMovieData.vote_average / 2;
-      metascore = calculateFallbackMetacriticsRating(metacriticsRatingValue, tmdbMovieData.vote_average) + '/100';
-    }
-
-    if (rtRating === 'N/A') {
-      const imdbRatingValue = imdbRating !== 'N/A' ? parseFloat(imdbRating) : tmdbMovieData.vote_average / 2;
-      rtRating = calculateFallbackRTRating(imdbRatingValue, tmdbMovieData.vote_average);
-    }
-    populateMovieDetails(tmdbMovieData, imdbRating, rtRating, metascore, awards, rated);
+    populateMovieDetails(tmdbMovieData, 'N/A', 'N/A', 'N/A', 'N/A', 'N/A');
   } catch (error) {
     console.log('Error fetching movie ratings:', error);
     const fallbackImdbRating = (tmdbMovieData.vote_average / 2).toFixed(1) * 2;
@@ -1191,10 +1163,16 @@ function updateAverageMovieRating(movieId, newRating) {
 
 async function showMovieOfTheDay() {
   const year = new Date().getFullYear();
-  const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+  const url = `https://api-movieverse.vercel.app/api/3/discover/movie&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
 
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     const data = await response.json();
     const movies = data.results;
 
@@ -1225,10 +1203,6 @@ function updateUniqueCompaniesViewed(companyId) {
     viewedCompanies.push(companyId);
     localStorage.setItem('uniqueCompaniesViewed', JSON.stringify(viewedCompanies));
   }
-}
-
-function getMovieVerseData(input) {
-  return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
 }
 
 function fallbackMovieSelection() {
