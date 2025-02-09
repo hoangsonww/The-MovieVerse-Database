@@ -62,6 +62,7 @@ Through The MovieVerse, users can search for movies, view detailed information, 
 
 ### Live Stasuses
 
+![All Systems Operational](https://img.shields.io/badge/All_Systems-Operational-brightgreen)
 ![Website Status](https://img.shields.io/website?down_color=red&down_message=Offline&label=Website&up_color=brightgreen&up_message=Online&url=https%3A%2F%2Fmovie-verse.com)
 ![API Status](https://img.shields.io/website?down_color=red&down_message=Offline&label=API&up_color=brightgreen&up_message=Online&url=https%3A%2F%2Fapi-movieverse.vercel.app)
 ![Database Status](https://img.shields.io/website?down_color=red&down_message=Offline&label=Database&up_color=brightgreen&up_message=Online&url=https%3A%2F%2Fmovie-verse.com)
