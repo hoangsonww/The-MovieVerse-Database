@@ -280,19 +280,28 @@ document.querySelectorAll('.rating .star').forEach(star => {
   });
 
   star.addEventListener('mouseout', () => {
-    const movieId = localStorage.getItem('selectedTvSeriesId');
+    // Get tvSeriesId from URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const tvSeriesId = urlParams.get('tvSeriesId');
+
     const savedRatings = JSON.parse(localStorage.getItem('tvSeriesRatings')) || {};
-    const movieRating = savedRatings[movieId] || 0;
-    setStarRating(movieRating);
+    const tvSeriesRating = tvSeriesId ? savedRatings[tvSeriesId] || 0 : 0;
+    setStarRating(tvSeriesRating);
   });
 
   star.addEventListener('click', e => {
-    const tvSeriesId = localStorage.getItem('selectedTvSeriesId');
+    // Get tvSeriesId from URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const tvSeriesId = urlParams.get('tvSeriesId');
+
     if (!tvSeriesId) return;
+
     const rating = e.target.dataset.value;
     const savedRatings = JSON.parse(localStorage.getItem('tvSeriesRatings')) || {};
+
     savedRatings[tvSeriesId] = rating;
     localStorage.setItem('tvSeriesRatings', JSON.stringify(savedRatings));
+
     setStarRating(rating);
     window.location.reload();
   });
@@ -1738,8 +1747,8 @@ function selectActorId(actorId, actorName) {
 }
 
 function selectTvSeriesId(tvSeriesId) {
-  localStorage.setItem('selectedTvSeriesId', tvSeriesId);
-  window.location.href = 'tv-details.html';
+  // Navigate to TV details page with tvSeriesId as a query parameter
+  window.location.href = `tv-details.html?tvSeriesId=${tvSeriesId}`;
 }
 
 function selectCompanyId(companyId) {
@@ -1769,18 +1778,18 @@ function handleCreatorClick(creatorId, creatorName) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  const tvSeriesId = localStorage.getItem('selectedTvSeriesId');
-  if (tvSeriesId) {
-    fetchTvDetails(tvSeriesId);
-  } else {
-    fetchTvDetails(100088);
-  }
+  // Extract tvSeriesId from the URL query parameter
+  const urlParams = new URLSearchParams(window.location.search);
+  const tvSeriesId = urlParams.get('tvSeriesId') || 100088; // Default if no ID is found
+
+  fetchTvDetails(tvSeriesId);
 
   document.getElementById('clear-search-btn').style.display = 'none';
 
+  // Retrieve and apply TV series ratings
   const savedRatings = JSON.parse(localStorage.getItem('tvSeriesRatings')) || {};
-  const movieRating = savedRatings[tvSeriesId] || 0;
-  setStarRating(movieRating);
+  const tvSeriesRating = savedRatings[tvSeriesId] || 0;
+  setStarRating(tvSeriesRating);
 });
 
 async function showMovieOfTheDay() {
@@ -1794,8 +1803,9 @@ async function showMovieOfTheDay() {
 
     if (movies.length > 0) {
       const randomMovie = movies[Math.floor(Math.random() * movies.length)];
-      localStorage.setItem('selectedMovieId', randomMovie.id);
-      window.location.href = 'movie-details.html';
+
+      // Redirect to movie details page with movieId in the URL
+      window.location.href = `movie-details.html?movieId=${randomMovie.id}`;
     } else {
       fallbackMovieSelection();
     }
@@ -1811,8 +1821,9 @@ function fallbackMovieSelection() {
     424, 98,
   ];
   const randomFallbackMovie = fallbackMovies[Math.floor(Math.random() * fallbackMovies.length)];
-  localStorage.setItem('selectedMovieId', randomFallbackMovie);
-  window.location.href = 'movie-details.html';
+
+  // Redirect with movieId in URL
+  window.location.href = `movie-details.html?movieId=${randomFallbackMovie}`;
 }
 
 function applySettings() {

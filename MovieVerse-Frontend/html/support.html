@@ -878,8 +878,8 @@
             // Navigate to movie details page with movieId as a query parameter
             window.location.href = `movie-details.html?movieId=${item.id}`;
           } else if (item.media_type === 'tv') {
-            localStorage.setItem('selectedTvSeriesId', item.id);
-            window.location.href = 'tv-details.html';
+            // Navigate to TV details page with tvSeriesId as a query parameter
+            window.location.href = `tv-details.html?tvSeriesId=${item.id}`;
           } else if (item.media_type === 'person') {
             try {
               const personDetailsUrl = `https://${getMovieVerseData()}/3/person/${item.id}?${generateMovieNames()}${getMovieCode()}`;
@@ -1014,9 +1014,8 @@
 
       function fallbackMovieSelection() {
         const fallbackMovies = [
-          432413, 299534, 1726, 562, 118340, 455207, 493922, 447332, 22970,
-          530385, 27205, 264660, 120467, 603, 577922, 76341, 539, 419704,
-          515001, 118340, 424, 98
+          432413, 299534, 1726, 562, 118340, 455207, 493922, 447332, 22970, 530385, 27205, 264660, 120467, 603, 577922, 76341, 539, 419704, 515001,
+          118340, 424, 98,
         ];
         const randomFallbackMovie = fallbackMovies[Math.floor(Math.random() * fallbackMovies.length)];
 

@@ -1,35 +1,31 @@
 let alertShown = false;
 
 function showSpinner() {
-  document.getElementById("myModal").classList.add("modal-visible");
+  document.getElementById('myModal').classList.add('modal-visible');
 }
 
 function hideSpinner() {
-  document.getElementById("myModal").classList.remove("modal-visible");
+  document.getElementById('myModal').classList.remove('modal-visible');
 }
 
-document
-  .getElementById("start-year")
-  .addEventListener("keydown", function (event) {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      updateMovies();
-    }
-  });
+document.getElementById('start-year').addEventListener('keydown', function (event) {
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    updateMovies();
+  }
+});
 
-document
-  .getElementById("end-year")
-  .addEventListener("keydown", function (event) {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      updateMovies();
-    }
-  });
+document.getElementById('end-year').addEventListener('keydown', function (event) {
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    updateMovies();
+  }
+});
 
 const movieCode = {
-  part1: "YzVhMjBjODY=",
-  part2: "MWFjZjdiYjg=",
-  part3: "ZDllOTg3ZGNjN2YxYjU1OA==",
+  part1: 'YzVhMjBjODY=',
+  part2: 'MWFjZjdiYjg=',
+  part3: 'ZDllOTg3ZGNjN2YxYjU1OA==',
 };
 
 function getMovieCode() {
@@ -40,15 +36,15 @@ function generateMovieNames(input) {
   return String.fromCharCode(97, 112, 105, 95, 107, 101, 121, 61);
 }
 
-const IMGPATH = "https://image.tmdb.org/t/p/w500";
+const IMGPATH = 'https://image.tmdb.org/t/p/w500';
 const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
-const searchTitle = document.getElementById("select-text");
-const searchButton = document.getElementById("button-search");
-const search = document.getElementById("search");
-const main = document.getElementById("results");
+const searchTitle = document.getElementById('select-text');
+const searchButton = document.getElementById('button-search');
+const search = document.getElementById('search');
+const main = document.getElementById('results');
 
 async function ensureGenreMapIsAvailable() {
-  if (!localStorage.getItem("genreMap")) {
+  if (!localStorage.getItem('genreMap')) {
     await fetchGenreMap();
   }
 }
@@ -62,9 +58,9 @@ async function fetchGenreMap() {
       map[genre.id] = genre.name;
       return map;
     }, {});
-    localStorage.setItem("genreMap", JSON.stringify(genreMap));
+    localStorage.setItem('genreMap', JSON.stringify(genreMap));
   } catch (error) {
-    console.log("Error fetching genre map:", error);
+    console.log('Error fetching genre map:', error);
   }
 }
 
@@ -73,51 +69,49 @@ async function rotateUserStats() {
 
   const stats = [
     {
-      label: "Your Current Time",
+      label: 'Your Current Time',
       getValue: () => {
         const now = new Date();
         let hours = now.getHours();
         let minutes = now.getMinutes();
-        hours = hours < 10 ? "0" + hours : hours;
-        minutes = minutes < 10 ? "0" + minutes : minutes;
+        hours = hours < 10 ? '0' + hours : hours;
+        minutes = minutes < 10 ? '0' + minutes : minutes;
         return `${hours}:${minutes}`;
       },
     },
-    { label: "Most Visited Movie", getValue: getMostVisitedMovie },
-    { label: "Most Visited Director", getValue: getMostVisitedDirector },
-    { label: "Most Visited Actor", getValue: getMostVisitedActor },
+    { label: 'Most Visited Movie', getValue: getMostVisitedMovie },
+    { label: 'Most Visited Director', getValue: getMostVisitedDirector },
+    { label: 'Most Visited Actor', getValue: getMostVisitedActor },
     {
-      label: "Movies Discovered",
+      label: 'Movies Discovered',
       getValue: () => {
-        const viewedMovies =
-          JSON.parse(localStorage.getItem("uniqueMoviesViewed")) || [];
+        const viewedMovies = JSON.parse(localStorage.getItem('uniqueMoviesViewed')) || [];
         return viewedMovies.length;
       },
     },
     {
-      label: "Favorite Movies",
+      label: 'Favorite Movies',
       getValue: () => {
-        const favoritedMovies =
-          JSON.parse(localStorage.getItem("moviesFavorited")) || [];
+        const favoritedMovies = JSON.parse(localStorage.getItem('moviesFavorited')) || [];
         return favoritedMovies.length;
       },
     },
     {
-      label: "Favorite Genre",
+      label: 'Favorite Genre',
       getValue: () => {
         const mostCommonGenreCode = getMostCommonGenre();
-        const genreMapString = localStorage.getItem("genreMap");
+        const genreMapString = localStorage.getItem('genreMap');
         if (!genreMapString) {
-          console.log("No genre map found in localStorage.");
-          return "Not Available";
+          console.log('No genre map found in localStorage.');
+          return 'Not Available';
         }
 
         let genreMap;
         try {
           genreMap = JSON.parse(genreMapString);
         } catch (e) {
-          console.log("Error parsing genre map:", e);
-          return "Not Available";
+          console.log('Error parsing genre map:', e);
+          return 'Not Available';
         }
 
         let genreObject;
@@ -126,82 +120,75 @@ async function rotateUserStats() {
             acc[genre.id] = genre.name;
             return acc;
           }, {});
-        } else if (typeof genreMap === "object" && genreMap !== null) {
+        } else if (typeof genreMap === 'object' && genreMap !== null) {
           genreObject = genreMap;
         } else {
-          console.log(
-            "genreMap is neither an array nor a proper object:",
-            genreMap,
-          );
-          return "Not Available";
+          console.log('genreMap is neither an array nor a proper object:', genreMap);
+          return 'Not Available';
         }
 
-        return genreObject[mostCommonGenreCode] || "Not Available";
+        return genreObject[mostCommonGenreCode] || 'Not Available';
       },
     },
     {
-      label: "Watchlists Created",
-      getValue: () => localStorage.getItem("watchlistsCreated") || 0,
+      label: 'Watchlists Created',
+      getValue: () => localStorage.getItem('watchlistsCreated') || 0,
     },
     {
-      label: "Average Movie Rating",
-      getValue: () => localStorage.getItem("averageMovieRating") || "Not Rated",
+      label: 'Average Movie Rating',
+      getValue: () => localStorage.getItem('averageMovieRating') || 'Not Rated',
     },
     {
-      label: "Directors Discovered",
+      label: 'Directors Discovered',
       getValue: () => {
-        const viewedDirectors =
-          JSON.parse(localStorage.getItem("uniqueDirectorsViewed")) || [];
+        const viewedDirectors = JSON.parse(localStorage.getItem('uniqueDirectorsViewed')) || [];
         return viewedDirectors.length;
       },
     },
     {
-      label: "Actors Discovered",
+      label: 'Actors Discovered',
       getValue: () => {
-        const viewedActors =
-          JSON.parse(localStorage.getItem("uniqueActorsViewed")) || [];
+        const viewedActors = JSON.parse(localStorage.getItem('uniqueActorsViewed')) || [];
         return viewedActors.length;
       },
     },
-    { label: "Your Trivia Accuracy", getValue: getTriviaAccuracy },
+    { label: 'Your Trivia Accuracy', getValue: getTriviaAccuracy },
   ];
 
   let currentStatIndex = 0;
 
   function updateStatDisplay() {
     const currentStat = stats[currentStatIndex];
-    document.getElementById("stats-label").textContent =
-      currentStat.label + ":";
-    document.getElementById("stats-display").textContent =
-      currentStat.getValue();
+    document.getElementById('stats-label').textContent = currentStat.label + ':';
+    document.getElementById('stats-display').textContent = currentStat.getValue();
     currentStatIndex = (currentStatIndex + 1) % stats.length;
   }
 
   updateStatDisplay();
 
-  const localTimeDiv = document.getElementById("local-time");
+  const localTimeDiv = document.getElementById('local-time');
   let statRotationInterval = setInterval(updateStatDisplay, 3000);
 
-  localTimeDiv.addEventListener("click", () => {
+  localTimeDiv.addEventListener('click', () => {
     clearInterval(statRotationInterval);
     updateStatDisplay();
     statRotationInterval = setInterval(updateStatDisplay, 3000);
-    localTimeDiv.scrollIntoView({ behavior: "smooth" });
+    localTimeDiv.scrollIntoView({ behavior: 'smooth' });
   });
 }
 
 function updateMovieVisitCount(movieId, movieTitle) {
-  let movieVisits = JSON.parse(localStorage.getItem("movieVisits")) || {};
+  let movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
   if (!movieVisits[movieId]) {
     movieVisits[movieId] = { count: 0, title: movieTitle };
   }
   movieVisits[movieId].count += 1;
-  localStorage.setItem("movieVisits", JSON.stringify(movieVisits));
+  localStorage.setItem('movieVisits', JSON.stringify(movieVisits));
 }
 
 function getMostVisitedMovie() {
-  const movieVisits = JSON.parse(localStorage.getItem("movieVisits")) || {};
-  let mostVisitedMovie = "";
+  const movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
+  let mostVisitedMovie = '';
   let maxVisits = 0;
 
   for (const movieId in movieVisits) {
@@ -211,12 +198,12 @@ function getMostVisitedMovie() {
     }
   }
 
-  return mostVisitedMovie || "Not Available";
+  return mostVisitedMovie || 'Not Available';
 }
 
 function getMostVisitedActor() {
-  const actorVisits = JSON.parse(localStorage.getItem("actorVisits")) || {};
-  let mostVisitedActor = "";
+  const actorVisits = JSON.parse(localStorage.getItem('actorVisits')) || {};
+  let mostVisitedActor = '';
   let maxVisits = 0;
 
   for (const actorId in actorVisits) {
@@ -226,13 +213,12 @@ function getMostVisitedActor() {
     }
   }
 
-  return mostVisitedActor || "Not Available";
+  return mostVisitedActor || 'Not Available';
 }
 
 function getMostVisitedDirector() {
-  const directorVisits =
-    JSON.parse(localStorage.getItem("directorVisits")) || {};
-  let mostVisitedDirector = "";
+  const directorVisits = JSON.parse(localStorage.getItem('directorVisits')) || {};
+  let mostVisitedDirector = '';
   let maxVisits = 0;
 
   for (const directorId in directorVisits) {
@@ -242,30 +228,29 @@ function getMostVisitedDirector() {
     }
   }
 
-  return mostVisitedDirector || "Not Available";
+  return mostVisitedDirector || 'Not Available';
 }
 
 function getTriviaAccuracy() {
-  let triviaStats = JSON.parse(localStorage.getItem("triviaStats")) || {
+  let triviaStats = JSON.parse(localStorage.getItem('triviaStats')) || {
     totalCorrect: 0,
     totalAttempted: 0,
   };
   if (triviaStats.totalAttempted === 0) {
-    return "No trivia attempted";
+    return 'No trivia attempted';
   }
   let accuracy = (triviaStats.totalCorrect / triviaStats.totalAttempted) * 100;
   return `${accuracy.toFixed(1)}% accuracy`;
 }
 
 function getMostCommonGenre() {
-  const favoriteGenresArray =
-    JSON.parse(localStorage.getItem("favoriteGenres")) || [];
+  const favoriteGenresArray = JSON.parse(localStorage.getItem('favoriteGenres')) || [];
   const genreCounts = favoriteGenresArray.reduce((acc, genre) => {
     acc[genre] = (acc[genre] || 0) + 1;
     return acc;
   }, {});
 
-  let mostCommonGenre = "";
+  let mostCommonGenre = '';
   let maxCount = 0;
 
   for (const genre in genreCounts) {
@@ -275,10 +260,10 @@ function getMostCommonGenre() {
     }
   }
 
-  return mostCommonGenre || "Not Available";
+  return mostCommonGenre || 'Not Available';
 }
 
-document.addEventListener("DOMContentLoaded", rotateUserStats);
+document.addEventListener('DOMContentLoaded', rotateUserStats);
 
 async function getMovies(url) {
   clearMovieDetails();
@@ -310,49 +295,40 @@ async function getMovies(url) {
 }
 
 function clearMovieDetails() {
-  const movieDetailsContainer = document.getElementById(
-    "movie-details-container",
-  );
+  const movieDetailsContainer = document.getElementById('movie-details-container');
   if (movieDetailsContainer) {
-    movieDetailsContainer.innerHTML = "";
+    movieDetailsContainer.innerHTML = '';
   }
 }
 
-const form = document.getElementById("form1");
+const form = document.getElementById('form1');
 
-form.addEventListener("submit", (e) => {
+form.addEventListener('submit', e => {
   e.preventDefault();
-  const searchQuery = document.getElementById("search").value;
-  localStorage.setItem("searchQuery", searchQuery);
-  window.location.href = "search.html";
+  const searchQuery = document.getElementById('search').value;
+  localStorage.setItem('searchQuery', searchQuery);
+  window.location.href = 'search.html';
 });
 
 function handleSearch() {
-  const searchQuery = document.getElementById("search").value;
-  localStorage.setItem("searchQuery", searchQuery);
-  window.location.href = "search.html";
+  const searchQuery = document.getElementById('search').value;
+  localStorage.setItem('searchQuery', searchQuery);
+  window.location.href = 'search.html';
 }
 
 function updateMovies() {
   showSpinner();
-  let startYear = document.getElementById("start-year").value;
-  let endYear = document.getElementById("end-year").value;
+  let startYear = document.getElementById('start-year').value;
+  let endYear = document.getElementById('end-year').value;
   let currentYear = new Date().getFullYear();
-  if (
-    startYear &&
-    endYear &&
-    startYear <= endYear &&
-    endYear <= currentYear &&
-    startYear >= 1900 &&
-    startYear <= currentYear
-  ) {
+  if (startYear && endYear && startYear <= endYear && endYear <= currentYear && startYear >= 1900 && startYear <= currentYear) {
     fetchMoviesByTimePeriod(startYear, endYear);
     hideSpinner();
     alertShown = false;
   } else {
     if (!alertShown) {
       alert(
-        "Please ensure the start year is before the end year, the start year is later than the year 1900, and both are not later than the current year.",
+        'Please ensure the start year is before the end year, the start year is later than the year 1900, and both are not later than the current year.'
       );
       alertShown = true;
     }
@@ -361,28 +337,24 @@ function updateMovies() {
 }
 
 async function getAdditionalPosters(movieId) {
-  const response = await fetch(
-    `https://${getMovieVerseData()}/3/movie/${movieId}/images?${generateMovieNames()}${getMovieCode()}`,
-  );
+  const response = await fetch(`https://${getMovieVerseData()}/3/movie/${movieId}/images?${generateMovieNames()}${getMovieCode()}`);
   const data = await response.json();
-  return data.posters.map((poster) => poster.file_path);
+  return data.posters.map(poster => poster.file_path);
 }
 
 function rotateImages(imageElements, interval = 3000) {
-  const uniqueImageElements = Array.from(imageElements).filter(
-    (el, index, self) => index === self.findIndex((e) => e.src === el.src),
-  );
+  const uniqueImageElements = Array.from(imageElements).filter((el, index, self) => index === self.findIndex(e => e.src === el.src));
 
   if (uniqueImageElements.length <= 1) return;
 
   let currentIndex = 0;
-  uniqueImageElements[currentIndex].style.opacity = "1";
+  uniqueImageElements[currentIndex].style.opacity = '1';
 
   setTimeout(() => {
     setInterval(() => {
-      uniqueImageElements[currentIndex].style.opacity = "0";
+      uniqueImageElements[currentIndex].style.opacity = '0';
       currentIndex = (currentIndex + 1) % uniqueImageElements.length;
-      uniqueImageElements[currentIndex].style.opacity = "1";
+      uniqueImageElements[currentIndex].style.opacity = '1';
     }, interval);
   }, 0);
 }
@@ -392,20 +364,17 @@ function showMovies(movies, mainElement, startYear, endYear, append) {
 
   // Add header for the selected year range if not appending
   if (!append) {
-    mainElement.innerHTML = "";
-    const header = document.createElement("h2");
-    header.style.textAlign = "center";
-    header.style.marginTop = "20px";
-    header.style.marginBottom = "20px";
-    header.style.color = "#ff8623";
-    header.style.fontSize = "23px";
-    header.textContent =
-      startYear === endYear
-        ? `Movies released in ${startYear}`
-        : `Movies released between ${startYear} and ${endYear}`;
+    mainElement.innerHTML = '';
+    const header = document.createElement('h2');
+    header.style.textAlign = 'center';
+    header.style.marginTop = '20px';
+    header.style.marginBottom = '20px';
+    header.style.color = '#ff8623';
+    header.style.fontSize = '23px';
+    header.textContent = startYear === endYear ? `Movies released in ${startYear}` : `Movies released between ${startYear} and ${endYear}`;
 
-    const centerContainer1 = document.getElementById("center-container1");
-    centerContainer1.innerHTML = "";
+    const centerContainer1 = document.getElementById('center-container1');
+    centerContainer1.innerHTML = '';
     centerContainer1.appendChild(header);
     centerContainer1.appendChild(mainElement);
   }
@@ -423,33 +392,33 @@ function showMovies(movies, mainElement, startYear, endYear, append) {
           let allPosters = [movieEl.dataset.posterPath, ...additionalPosters];
           allPosters = allPosters.sort(() => 0.5 - Math.random()).slice(0, 10);
 
-          const movieImageContainer = movieEl.querySelector(".movie-images");
+          const movieImageContainer = movieEl.querySelector('.movie-images');
           const imagePromises = allPosters.map((poster, index) => {
             const img = new Image();
             img.src = `${IMGPATH + poster}`;
-            img.loading = index === 0 ? "eager" : "lazy";
+            img.loading = index === 0 ? 'eager' : 'lazy';
             img.alt = `${movieEl.dataset.title} poster ${index + 1}`;
             img.width = 300;
             img.height = 435;
-            img.style.position = "absolute";
+            img.style.position = 'absolute';
             img.style.top = 0;
             img.style.left = 0;
-            img.style.transition = "opacity 1s ease-in-out";
-            img.style.opacity = "0";
-            img.classList.add("poster-img");
+            img.style.transition = 'opacity 1s ease-in-out';
+            img.style.opacity = '0';
+            img.classList.add('poster-img');
             movieImageContainer.appendChild(img);
 
-            return new Promise((resolve) => {
+            return new Promise(resolve => {
               img.onload = () => resolve(img);
             });
           });
 
           // Wait for images to load or timeout after 3 seconds
-          const maxWait = new Promise((resolve) => setTimeout(resolve, 3000));
+          const maxWait = new Promise(resolve => setTimeout(resolve, 3000));
           await Promise.race([Promise.all(imagePromises), maxWait]);
 
           // Show the first poster image
-          movieImageContainer.querySelector(".poster-img").style.opacity = "1";
+          movieImageContainer.querySelector('.poster-img').style.opacity = '1';
 
           rotateImages(Array.from(movieImageContainer.children));
           observer.unobserve(movieEl);
@@ -457,42 +426,33 @@ function showMovies(movies, mainElement, startYear, endYear, append) {
       }
     },
     {
-      rootMargin: "50px 0px",
+      rootMargin: '50px 0px',
       threshold: 0.1,
-    },
+    }
   );
 
-  movies.forEach((movie) => {
-    let {
-      id,
-      poster_path,
-      title,
-      vote_average,
-      vote_count,
-      overview,
-      genre_ids,
-    } = movie;
+  movies.forEach(movie => {
+    let { id, poster_path, title, vote_average, vote_count, overview, genre_ids } = movie;
 
-    const movieEl = document.createElement("div");
-    movieEl.style.zIndex = "1000";
-    movieEl.classList.add("movie");
+    const movieEl = document.createElement('div');
+    movieEl.style.zIndex = '1000';
+    movieEl.classList.add('movie');
     movieEl.dataset.id = id;
     movieEl.dataset.posterPath = poster_path;
     movieEl.dataset.title = title;
 
     // Limit the title to 8 words, adding "..." if necessary
-    const words = title.split(" ");
+    const words = title.split(' ');
     if (words.length >= 8) {
-      words[7] = "...";
-      title = words.slice(0, 8).join(" ");
+      words[7] = '...';
+      title = words.slice(0, 8).join(' ');
     }
 
-    const voteAvg = vote_count === 0 ? "Unrated" : vote_average.toFixed(1);
-    const ratingClass =
-      vote_count === 0 ? "unrated" : getClassByRate(vote_average);
+    const voteAvg = vote_count === 0 ? 'Unrated' : vote_average.toFixed(1);
+    const ratingClass = vote_count === 0 ? 'unrated' : getClassByRate(vote_average);
 
-    if (overview === "") {
-      overview = "No overview available.";
+    if (overview === '') {
+      overview = 'No overview available.';
     }
 
     // Define HTML structure for the movie card
@@ -511,7 +471,7 @@ function showMovies(movies, mainElement, startYear, endYear, append) {
                 ${overview}
             </div>`;
 
-    movieEl.addEventListener("click", () => {
+    movieEl.addEventListener('click', () => {
       // Navigate to movie details page with movieId as a query parameter
       window.location.href = `MovieVerse-Frontend/html/movie-details.html?movieId=${id}`;
 
@@ -526,23 +486,23 @@ function showMovies(movies, mainElement, startYear, endYear, append) {
 
     // Observer for the slide-up animation
     const slideObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
+      entries => {
+        entries.forEach(entry => {
           if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
+            entry.target.classList.add('visible');
             slideObserver.unobserve(entry.target);
           }
         });
       },
       {
-        rootMargin: "50px 0px",
+        rootMargin: '50px 0px',
         threshold: 0.1,
-      },
+      }
     );
     slideObserver.observe(movieEl);
   });
 
-  const centerContainer1 = document.getElementById("center-container1");
+  const centerContainer1 = document.getElementById('center-container1');
   centerContainer1.appendChild(mainElement);
 
   createLoadMoreButton(startYear, endYear, mainElement);
@@ -550,9 +510,9 @@ function showMovies(movies, mainElement, startYear, endYear, append) {
 }
 
 // Inject CSS for sliding-up animation if it doesn't already exist
-if (!document.getElementById("slide-animation-style")) {
-  const style = document.createElement("style");
-  style.id = "slide-animation-style";
+if (!document.getElementById('slide-animation-style')) {
+  const style = document.createElement('style');
+  style.id = 'slide-animation-style';
   style.innerHTML = `
     .movie {
       opacity: 0;
@@ -568,22 +528,22 @@ if (!document.getElementById("slide-animation-style")) {
 }
 
 function createLoadMoreButton(startYear, endYear, mainElement) {
-  const existingButtonDiv = mainElement.querySelector(".load-more-container");
+  const existingButtonDiv = mainElement.querySelector('.load-more-container');
   if (existingButtonDiv) {
     mainElement.removeChild(existingButtonDiv);
   }
 
-  const buttonContainer = document.createElement("div");
-  buttonContainer.className = "load-more-container";
-  buttonContainer.style.width = "100%";
-  buttonContainer.style.textAlign = "center";
-  buttonContainer.style.marginTop = "20px";
+  const buttonContainer = document.createElement('div');
+  buttonContainer.className = 'load-more-container';
+  buttonContainer.style.width = '100%';
+  buttonContainer.style.textAlign = 'center';
+  buttonContainer.style.marginTop = '20px';
 
-  const moreButton = document.createElement("button");
-  moreButton.textContent = "Get More Movies in this Period";
-  moreButton.style.margin = "10px auto";
+  const moreButton = document.createElement('button');
+  moreButton.textContent = 'Get More Movies in this Period';
+  moreButton.style.margin = '10px auto';
 
-  moreButton.addEventListener("click", function () {
+  moreButton.addEventListener('click', function () {
     currentPage++;
     fetchMoviesByTimePeriod(startYear, endYear, true);
   });
@@ -602,26 +562,14 @@ async function fetchMoviesByTimePeriod(startYear, endYear, append = false) {
   const moviesToShow = data.results;
 
   if (append) {
-    showMovies(
-      moviesToShow,
-      document.getElementById("results"),
-      startYear,
-      endYear,
-      true,
-    );
+    showMovies(moviesToShow, document.getElementById('results'), startYear, endYear, true);
   } else {
-    showMovies(
-      moviesToShow,
-      document.getElementById("results"),
-      startYear,
-      endYear,
-      false,
-    );
+    showMovies(moviesToShow, document.getElementById('results'), startYear, endYear, false);
   }
   hideSpinner();
 }
 
-document.getElementById("load-movies").addEventListener("click", () => {
+document.getElementById('load-movies').addEventListener('click', () => {
   showSpinner();
   updateMovies();
   alertShown = false;
@@ -659,11 +607,11 @@ function calculateMoviesToDisplay() {
 
 function getClassByRate(vote) {
   if (vote >= 8) {
-    return "green";
+    return 'green';
   } else if (vote >= 5) {
-    return "orange";
+    return 'orange';
   } else {
-    return "red";
+    return 'red';
   }
 }
 
@@ -684,32 +632,30 @@ async function showMovieOfTheDay() {
       fallbackMovieSelection();
     }
   } catch (error) {
-    console.log("Error fetching movie:", error);
+    console.log('Error fetching movie:', error);
     fallbackMovieSelection();
   }
 }
 
 function fallbackMovieSelection() {
   const fallbackMovies = [
-    432413, 299534, 1726, 562, 118340, 455207, 493922, 447332, 22970, 530385,
-    27205, 264660, 120467, 603, 577922, 76341, 539, 419704, 515001, 118340, 424,
-    98,
+    432413, 299534, 1726, 562, 118340, 455207, 493922, 447332, 22970, 530385, 27205, 264660, 120467, 603, 577922, 76341, 539, 419704, 515001, 118340,
+    424, 98,
   ];
-  const randomFallbackMovie =
-    fallbackMovies[Math.floor(Math.random() * fallbackMovies.length)];
+  const randomFallbackMovie = fallbackMovies[Math.floor(Math.random() * fallbackMovies.length)];
 
   // Redirect with movieId in URL
   window.location.href = `movie-details.html?movieId=${randomFallbackMovie}`;
 }
 
 function handleSignInOut() {
-  const isSignedIn = JSON.parse(localStorage.getItem("isSignedIn")) || false;
+  const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
 
   if (isSignedIn) {
-    localStorage.setItem("isSignedIn", JSON.stringify(false));
-    alert("You have been signed out.");
+    localStorage.setItem('isSignedIn', JSON.stringify(false));
+    alert('You have been signed out.');
   } else {
-    window.location.href = "sign-in.html";
+    window.location.href = 'sign-in.html';
     return;
   }
 
@@ -717,49 +663,28 @@ function handleSignInOut() {
 }
 
 function getMovieVerseData(input) {
-  return String.fromCharCode(
-    97,
-    112,
-    105,
-    46,
-    116,
-    104,
-    101,
-    109,
-    111,
-    118,
-    105,
-    101,
-    100,
-    98,
-    46,
-    111,
-    114,
-    103,
-  );
+  return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
 }
 
 function updateSignInButtonState() {
-  const isSignedIn = JSON.parse(localStorage.getItem("isSignedIn")) || false;
+  const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
 
-  const signInText = document.getElementById("signInOutText");
-  const signInIcon = document.getElementById("signInIcon");
-  const signOutIcon = document.getElementById("signOutIcon");
+  const signInText = document.getElementById('signInOutText');
+  const signInIcon = document.getElementById('signInIcon');
+  const signOutIcon = document.getElementById('signOutIcon');
 
   if (isSignedIn) {
-    signInText.textContent = "Sign Out";
-    signInIcon.style.display = "none";
-    signOutIcon.style.display = "inline-block";
+    signInText.textContent = 'Sign Out';
+    signInIcon.style.display = 'none';
+    signOutIcon.style.display = 'inline-block';
   } else {
-    signInText.textContent = "Sign In";
-    signInIcon.style.display = "inline-block";
-    signOutIcon.style.display = "none";
+    signInText.textContent = 'Sign In';
+    signInIcon.style.display = 'inline-block';
+    signOutIcon.style.display = 'none';
   }
 }
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener('DOMContentLoaded', function () {
   updateSignInButtonState();
-  document
-    .getElementById("googleSignInBtn")
-    .addEventListener("click", handleSignInOut);
+  document.getElementById('googleSignInBtn').addEventListener('click', handleSignInOut);
 });
