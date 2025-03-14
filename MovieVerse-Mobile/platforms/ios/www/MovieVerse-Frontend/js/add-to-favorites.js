@@ -125,7 +125,8 @@ async function getMovieGenre(movieId) {
 
 export async function toggleFavorite() {
   let userEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
-  const movieId = localStorage.getItem('selectedMovieId');
+  const urlParams = new URLSearchParams(window.location.search);
+  const movieId = urlParams.get('movieId') || 1011985;
 
   if (!movieId) {
     console.log('Movie ID is missing');
