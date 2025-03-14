@@ -395,3 +395,39 @@ function resizeImage(file, maxSize, callback) {
 
   reader.readAsDataURL(file);
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+  const fileInput = document.getElementById('custom-bg-upload');
+  const nameField = document.getElementById('custom-bg-name');
+  const uploadBtn = document.getElementById('upload-bg-btn');
+  const deleteSelectedBtn = document.getElementById('delete-uploaded-btn');
+
+  // Set initial margin on delete button if no file is selected
+  if (fileInput.files.length === 0) {
+    deleteSelectedBtn.style.marginTop = '1rem';
+  }
+
+  fileInput.addEventListener('change', function () {
+    if (fileInput.files.length > 0) {
+      // Show the name field and upload button with a fade-in effect
+      nameField.style.display = 'block';
+      uploadBtn.style.display = 'inline-block';
+      setTimeout(() => {
+        nameField.style.opacity = '1';
+        uploadBtn.style.opacity = '1';
+      }, 50);
+      // Remove top margin from delete selected button
+      deleteSelectedBtn.style.marginTop = '';
+    } else {
+      // Fade out the name field and upload button, then hide them
+      nameField.style.opacity = '0';
+      uploadBtn.style.opacity = '0';
+      setTimeout(() => {
+        nameField.style.display = 'none';
+        uploadBtn.style.display = 'none';
+      }, 500);
+      // Add a top margin of 1rem to the delete selected button
+      deleteSelectedBtn.style.marginTop = '1rem';
+    }
+  });
+});
