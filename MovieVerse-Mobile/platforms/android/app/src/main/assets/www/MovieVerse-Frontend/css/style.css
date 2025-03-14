@@ -49,6 +49,10 @@ body {
   text-decoration: none;
 }
 
+.movie-description p {
+  color: inherit;
+}
+
 .cast-list {
   display: flex;
   flex-wrap: wrap;
@@ -1249,7 +1253,7 @@ header h1 {
   box-sizing: border-box;
   align-items: center;
   justify-content: center;
-  overflow-y: auto;
+  overflow: hidden;
 }
 
 .movie-left img {
