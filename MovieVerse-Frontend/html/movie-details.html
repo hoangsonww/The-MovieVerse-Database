@@ -527,7 +527,12 @@
       document.addEventListener('DOMContentLoaded', async () => {
         const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
         const savedRatings = await loadUserRatings(currentUserEmail);
-        const movieId = localStorage.getItem('selectedMovieId');
+
+        // Extract movieId from the URL query parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const movieId = urlParams.get('movieId') || 1011985; // Default if not provided
+
+        // Fetch the saved rating for this movie
         const movieRating = savedRatings[movieId] || 0;
         setStarRating(movieRating);
       });
@@ -543,6 +548,10 @@
       let isHovering = false;
 
       const stars = document.querySelectorAll('.rating .star');
+      // Get movieId from the URL query parameter
+      const urlParams = new URLSearchParams(window.location.search);
+      const movieId = urlParams.get('movieId') || 1011985; // Default movie ID if not found
+
       stars.forEach(star => {
         star.addEventListener('mouseover', e => {
           isHovering = true;
@@ -555,7 +564,6 @@
             if (!isHovering) {
               const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
               loadUserRatings(currentUserEmail).then(savedRatings => {
-                const movieId = localStorage.getItem('selectedMovieId');
                 const movieRating = savedRatings[movieId] || 0;
                 setStarRating(movieRating);
               });
@@ -565,8 +573,8 @@
 
         star.addEventListener('click', async e => {
           const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
-          const movieId = localStorage.getItem('selectedMovieId');
           const rating = e.target.dataset.value;
+
           await updateAverageMovieRating(currentUserEmail, movieId, rating);
           window.location.reload();
         });
@@ -754,8 +762,8 @@
           }
 
           if (item.media_type === 'movie') {
-            localStorage.setItem('selectedMovieId', item.id);
-            window.location.href = 'movie-details.html';
+            // Navigate to movie details page with movieId as a query parameter
+            window.location.href = `movie-details.html?movieId=${item.id}`;
           } else if (item.media_type === 'tv') {
             localStorage.setItem('selectedTvSeriesId', item.id);
             window.location.href = 'tv-details.html';

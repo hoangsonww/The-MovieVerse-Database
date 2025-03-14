@@ -1,37 +1,61 @@
 const movieCode = {
-  part1: 'YzVhMjBjODY=',
-  part2: 'MWFjZjdiYjg=',
-  part3: 'ZDllOTg3ZGNjN2YxYjU1OA==',
+  part1: "YzVhMjBjODY=",
+  part2: "MWFjZjdiYjg=",
+  part3: "ZDllOTg3ZGNjN2YxYjU1OA==",
 };
 
 function getMovieCode() {
   return atob(movieCode.part1) + atob(movieCode.part2) + atob(movieCode.part3);
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   const today = new Date();
-  fetchReleasesByCategory('releasesSinceLastVisit', new Date(localStorage.getItem('lastVisit')), today, true);
-  fetchReleasesByCategory('releasesThisMonth', new Date(today.getFullYear(), today.getMonth(), 1), today, false);
-  fetchReleasesByCategory('releasesThisYear', new Date(today.getFullYear(), 0, 1), today, false);
+  fetchReleasesByCategory(
+    "releasesSinceLastVisit",
+    new Date(localStorage.getItem("lastVisit")),
+    today,
+    true,
+  );
+  fetchReleasesByCategory(
+    "releasesThisMonth",
+    new Date(today.getFullYear(), today.getMonth(), 1),
+    today,
+    false,
+  );
+  fetchReleasesByCategory(
+    "releasesThisYear",
+    new Date(today.getFullYear(), 0, 1),
+    today,
+    false,
+  );
   fetchRecommendedReleases();
 });
 
-async function fetchReleasesByCategory(elementId, startDate, endDate, isLastVisit) {
+async function fetchReleasesByCategory(
+  elementId,
+  startDate,
+  endDate,
+  isLastVisit,
+) {
   const list = document.getElementById(elementId);
-  list.innerHTML = '';
+  list.innerHTML = "";
 
   let movies = await fetchMovies(startDate, endDate);
 
-  movies = movies.sort((a, b) => new Date(b.release_date) - new Date(a.release_date));
+  movies = movies.sort(
+    (a, b) => new Date(b.release_date) - new Date(a.release_date),
+  );
 
   populateList(elementId, movies.slice(0, 5));
 }
 
 async function fetchMovies(startDate, endDate) {
-  const formattedStartDate = `${startDate.getFullYear()}-${(startDate.getMonth() + 1)
+  const formattedStartDate = `${startDate.getFullYear()}-${(
+    startDate.getMonth() + 1
+  )
     .toString()
-    .padStart(2, '0')}-${startDate.getDate().toString().padStart(2, '0')}`;
-  const formattedEndDate = `${endDate.getFullYear()}-${(endDate.getMonth() + 1).toString().padStart(2, '0')}-${endDate.getDate().toString().padStart(2, '0')}`;
+    .padStart(2, "0")}-${startDate.getDate().toString().padStart(2, "0")}`;
+  const formattedEndDate = `${endDate.getFullYear()}-${(endDate.getMonth() + 1).toString().padStart(2, "0")}-${endDate.getDate().toString().padStart(2, "0")}`;
 
   const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&release_date.gte=${formattedStartDate}&release_date.lte=${formattedEndDate}`;
 
@@ -40,7 +64,7 @@ async function fetchMovies(startDate, endDate) {
     const data = await response.json();
     return data.results;
   } catch (error) {
-    console.log('Failed to fetch movies for', elementId + ':', error);
+    console.log("Failed to fetch movies for", elementId + ":", error);
     return [];
   }
 }
@@ -50,7 +74,7 @@ function generateMovieNames(input) {
 }
 
 async function getMostVisitedMovieGenre() {
-  const movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
+  const movieVisits = JSON.parse(localStorage.getItem("movieVisits")) || {};
   let mostVisitedGenre = null;
   let maxVisits = 0;
   for (const movieId in movieVisits) {
@@ -79,68 +103,70 @@ async function fetchRecommendedReleases() {
   try {
     const genreId = mostVisitedMovieGenre || mostCommonGenre;
     if (!genreId) {
-      throw new Error('Genre ID is not valid.');
+      throw new Error("Genre ID is not valid.");
     }
     url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=${genreId}`;
   } catch (error) {
-    console.log('Fetching recommended movies failed or data issues:', error);
+    console.log("Fetching recommended movies failed or data issues:", error);
     url = `https://${getMovieVerseData()}/3/movie/popular?${generateMovieNames()}${getMovieCode()}&language=en-US&page=1`;
   }
 
   try {
     const response = await fetch(url);
     const data = await response.json();
-    populateList('recommendedReleases', data.results.slice(0, 5));
+    populateList("recommendedReleases", data.results.slice(0, 5));
   } catch (error) {
-    console.log('Failed to fetch movies:', error);
+    console.log("Failed to fetch movies:", error);
   }
 }
 
 function populateList(elementId, movies) {
   const list = document.getElementById(elementId);
-  list.innerHTML = '';
-  movies.forEach(movie => {
-    const li = document.createElement('li');
-    li.style.cursor = 'pointer';
-    li.addEventListener('click', () => {
-      localStorage.setItem('selectedMovieId', movie.id.toString());
-      window.location.href = 'movie-details.html';
+  list.innerHTML = "";
+
+  movies.forEach((movie) => {
+    const li = document.createElement("li");
+    li.style.cursor = "pointer";
+
+    li.addEventListener("click", () => {
+      // Navigate to movie details page with movieId as a query parameter
+      window.location.href = `movie-details.html?movieId=${movie.id}`;
     });
 
-    const title = document.createElement('span');
+    const title = document.createElement("span");
     title.textContent = movie.title;
-    title.style.color = 'black';
+    title.style.color = "black";
     li.appendChild(title);
     list.appendChild(li);
   });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   populateActors();
   populateDirectors();
 });
 
 function populateActors() {
   const actors = [
-    { name: 'Robert Downey Jr.', id: 3223 },
-    { name: 'Scarlett Johansson', id: 1245 },
-    { name: 'Denzel Washington', id: 5292 },
-    { name: 'Meryl Streep', id: 5064 },
-    { name: 'Leonardo DiCaprio', id: 6193 },
-    { name: 'Sandra Bullock', id: 18277 },
-    { name: 'Tom Hanks', id: 31 },
+    { name: "Robert Downey Jr.", id: 3223 },
+    { name: "Scarlett Johansson", id: 1245 },
+    { name: "Denzel Washington", id: 5292 },
+    { name: "Meryl Streep", id: 5064 },
+    { name: "Leonardo DiCaprio", id: 6193 },
+    { name: "Sandra Bullock", id: 18277 },
+    { name: "Tom Hanks", id: 31 },
   ];
 
-  const list = document.getElementById('popularActors').querySelector('ul');
-  actors.forEach(actor => {
-    const li = document.createElement('li');
-    li.style.cursor = 'pointer';
-    li.addEventListener('click', () => {
-      localStorage.setItem('selectedActorId', actor.id.toString());
-      window.location.href = 'actor-details.html';
+  const list = document.getElementById("popularActors").querySelector("ul");
+  actors.forEach((actor) => {
+    const li = document.createElement("li");
+    li.style.cursor = "pointer";
+    li.addEventListener("click", () => {
+      localStorage.setItem("selectedActorId", actor.id.toString());
+      window.location.href = "actor-details.html";
     });
 
-    const name = document.createElement('span');
+    const name = document.createElement("span");
     name.textContent = actor.name;
     li.appendChild(name);
     list.appendChild(li);
@@ -149,25 +175,25 @@ function populateActors() {
 
 function populateDirectors() {
   const directors = [
-    { name: 'Steven Spielberg', id: 488 },
-    { name: 'Martin Scorsese', id: 1032 },
-    { name: 'Christopher Nolan', id: 525 },
-    { name: 'Quentin Tarantino', id: 138 },
-    { name: 'Kathryn Bigelow', id: 14392 },
-    { name: 'James Cameron', id: 2710 },
-    { name: 'Sofia Coppola', id: 1776 },
+    { name: "Steven Spielberg", id: 488 },
+    { name: "Martin Scorsese", id: 1032 },
+    { name: "Christopher Nolan", id: 525 },
+    { name: "Quentin Tarantino", id: 138 },
+    { name: "Kathryn Bigelow", id: 14392 },
+    { name: "James Cameron", id: 2710 },
+    { name: "Sofia Coppola", id: 1776 },
   ];
 
-  const list = document.getElementById('popularDirectors').querySelector('ul');
-  directors.forEach(director => {
-    const li = document.createElement('li');
-    li.style.cursor = 'pointer';
-    li.addEventListener('click', () => {
-      localStorage.setItem('selectedDirectorId', director.id.toString());
-      window.location.href = 'director-details.html';
+  const list = document.getElementById("popularDirectors").querySelector("ul");
+  directors.forEach((director) => {
+    const li = document.createElement("li");
+    li.style.cursor = "pointer";
+    li.addEventListener("click", () => {
+      localStorage.setItem("selectedDirectorId", director.id.toString());
+      window.location.href = "director-details.html";
     });
 
-    const name = document.createElement('span');
+    const name = document.createElement("span");
     name.textContent = director.name;
     li.appendChild(name);
 
