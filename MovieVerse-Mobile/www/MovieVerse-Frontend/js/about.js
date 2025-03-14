@@ -1,6 +1,6 @@
 async function showMovieOfTheDay() {
   const year = new Date().getFullYear();
-  const url = `https://${getMovieVerseData}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+  const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
 
   try {
     const response = await fetch(url);
@@ -9,8 +9,8 @@ async function showMovieOfTheDay() {
 
     if (movies.length > 0) {
       const randomMovie = movies[Math.floor(Math.random() * movies.length)];
-      localStorage.setItem('selectedMovieId', randomMovie.id);
-      window.location.href = 'movie-details.html';
+      // Redirect to movie details page with movieId in the URL
+      window.location.href = `movie-details.html?movieId=${randomMovie.id}`;
     } else {
       fallbackMovieSelection();
     }
@@ -45,8 +45,8 @@ function fallbackMovieSelection() {
   ];
   const randomFallbackMovie = fallbackMovies[Math.floor(Math.random() * fallbackMovies.length)];
 
-  localStorage.setItem('selectedMovieId', randomFallbackMovie);
-  window.location.href = 'movie-details.html';
+  // Redirect with movieId in URL
+  window.location.href = `movie-details.html?movieId=${randomFallbackMovie}`;
 }
 
 function handleSignInOut() {

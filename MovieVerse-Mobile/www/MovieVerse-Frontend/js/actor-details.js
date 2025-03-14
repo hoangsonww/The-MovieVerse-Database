@@ -590,8 +590,8 @@ async function populateActorDetails(actor, credits) {
 }
 
 function selectMovieId(movieId) {
-  localStorage.setItem('selectedMovieId', movieId);
-  window.location.href = 'movie-details.html';
+  // Navigate to movie details page with movieId as a query parameter
+  window.location.href = `movie-details.html?movieId=${movieId}`;
 }
 
 function calculateAge(birthday, deathday = null) {
@@ -874,8 +874,8 @@ async function showMovieOfTheDay() {
 
     if (movies.length > 0) {
       const randomMovie = movies[Math.floor(Math.random() * movies.length)];
-      localStorage.setItem('selectedMovieId', randomMovie.id);
-      window.location.href = 'movie-details.html';
+      // Redirect to movie details page with movieId in the URL
+      window.location.href = `movie-details.html?movieId=${randomMovie.id}`;
     } else {
       fallbackMovieSelection();
     }
@@ -891,8 +891,9 @@ function fallbackMovieSelection() {
     424, 98,
   ];
   const randomFallbackMovie = fallbackMovies[Math.floor(Math.random() * fallbackMovies.length)];
-  localStorage.setItem('selectedMovieId', randomFallbackMovie);
-  window.location.href = 'movie-details.html';
+
+  // Redirect with movieId in URL
+  window.location.href = `movie-details.html?movieId=${randomFallbackMovie}`;
 }
 
 function applySettings() {

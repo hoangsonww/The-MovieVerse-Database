@@ -722,8 +722,9 @@ async function showMovieOfTheDay() {
 
     if (movies.length > 0) {
       const randomMovie = movies[Math.floor(Math.random() * movies.length)];
-      localStorage.setItem('selectedMovieId', randomMovie.id);
-      window.location.href = 'movie-details.html';
+
+      // Redirect to movie details page with movieId in the URL
+      window.location.href = `movie-details.html?movieId=${randomMovie.id}`;
     } else {
       fallbackMovieSelection();
     }
@@ -733,18 +734,19 @@ async function showMovieOfTheDay() {
   }
 }
 
-function getMovieVerseData(input) {
-  return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
-}
-
 function fallbackMovieSelection() {
   const fallbackMovies = [
     432413, 299534, 1726, 562, 118340, 455207, 493922, 447332, 22970, 530385, 27205, 264660, 120467, 603, 577922, 76341, 539, 419704, 515001, 118340,
     424, 98,
   ];
   const randomFallbackMovie = fallbackMovies[Math.floor(Math.random() * fallbackMovies.length)];
-  localStorage.setItem('selectedMovieId', randomFallbackMovie);
-  window.location.href = 'movie-details.html';
+
+  // Redirect with movieId in URL
+  window.location.href = `movie-details.html?movieId=${randomFallbackMovie}`;
+}
+
+function getMovieVerseData(input) {
+  return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
 }
 
 function handleSignInOut() {

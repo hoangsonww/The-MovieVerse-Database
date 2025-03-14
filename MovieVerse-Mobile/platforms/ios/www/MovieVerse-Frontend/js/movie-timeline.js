@@ -472,11 +472,13 @@ function showMovies(movies, mainElement, startYear, endYear, append) {
             </div>`;
 
     movieEl.addEventListener('click', () => {
-      localStorage.setItem('selectedMovieId', id);
+      // Navigate to movie details page with movieId as a query parameter
+      window.location.href = `MovieVerse-Frontend/html/movie-details.html?movieId=${id}`;
+
+      // Update analytics and tracking functions
       updateUniqueMoviesViewed(id);
       updateFavoriteGenre(genre_ids);
       updateMovieVisitCount(id, title);
-      window.location.href = 'MovieVerse-Frontend/html/movie-details.html';
     });
 
     mainElement.appendChild(movieEl);
@@ -624,8 +626,8 @@ async function showMovieOfTheDay() {
 
     if (movies.length > 0) {
       const randomMovie = movies[Math.floor(Math.random() * movies.length)];
-      localStorage.setItem('selectedMovieId', randomMovie.id);
-      window.location.href = 'movie-details.html';
+      // Redirect to movie details page with movieId in the URL
+      window.location.href = `movie-details.html?movieId=${randomMovie.id}`;
     } else {
       fallbackMovieSelection();
     }
@@ -633,6 +635,17 @@ async function showMovieOfTheDay() {
     console.log('Error fetching movie:', error);
     fallbackMovieSelection();
   }
+}
+
+function fallbackMovieSelection() {
+  const fallbackMovies = [
+    432413, 299534, 1726, 562, 118340, 455207, 493922, 447332, 22970, 530385, 27205, 264660, 120467, 603, 577922, 76341, 539, 419704, 515001, 118340,
+    424, 98,
+  ];
+  const randomFallbackMovie = fallbackMovies[Math.floor(Math.random() * fallbackMovies.length)];
+
+  // Redirect with movieId in URL
+  window.location.href = `movie-details.html?movieId=${randomFallbackMovie}`;
 }
 
 function handleSignInOut() {
@@ -675,13 +688,3 @@ document.addEventListener('DOMContentLoaded', function () {
   updateSignInButtonState();
   document.getElementById('googleSignInBtn').addEventListener('click', handleSignInOut);
 });
-
-function fallbackMovieSelection() {
-  const fallbackMovies = [
-    432413, 299534, 1726, 562, 118340, 455207, 493922, 447332, 22970, 530385, 27205, 264660, 120467, 603, 577922, 76341, 539, 419704, 515001, 118340,
-    424, 98,
-  ];
-  const randomFallbackMovie = fallbackMovies[Math.floor(Math.random() * fallbackMovies.length)];
-  localStorage.setItem('selectedMovieId', randomFallbackMovie);
-  window.location.href = 'movie-details.html';
-}

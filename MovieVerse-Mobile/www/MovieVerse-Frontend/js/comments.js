@@ -18,7 +18,9 @@ commentForm.addEventListener('submit', async e => {
   const userName = document.getElementById('user-name').value;
   const userComment = document.getElementById('user-comment').value;
   const commentDate = new Date();
-  const movieId = localStorage.getItem('selectedMovieId');
+  // Extract movieId from the URL query parameter instead of localStorage
+  const urlParams = new URLSearchParams(window.location.search);
+  const movieId = urlParams.get('movieId') || 1011985; // Default movie ID if not found
 
   try {
     await addDoc(collection(db, 'comments'), {
@@ -82,7 +84,9 @@ async function fetchComments() {
     const commentsContainer = document.getElementById('comments-container');
     commentsContainer.innerHTML = '';
     commentsContainer.style.maxWidth = '100%';
-    const movieId = localStorage.getItem('selectedMovieId');
+    // Extract movieId from the URL query parameter instead of localStorage
+    const urlParams = new URLSearchParams(window.location.search);
+    const movieId = urlParams.get('movieId') || 1011985; // Default movie ID if not found
 
     const cachedComments = getCachedComments(movieId);
 

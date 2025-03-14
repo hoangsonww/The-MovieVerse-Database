@@ -312,13 +312,11 @@ document.addEventListener('DOMContentLoaded', () => {
   initialMainContent = document.getElementById('main').innerHTML;
   currentIndex = 0;
 
-  const movieId = localStorage.getItem('selectedMovieId');
-  if (movieId) {
-    fetchMovieDetails(movieId);
-  } else {
-    fetchMovieDetails(1011985);
-  }
+  // Parse movieId from the URL query parameter
+  const urlParams = new URLSearchParams(window.location.search);
+  const movieId = urlParams.get('movieId') || 1011985; // Use a default if not provided
 
+  fetchMovieDetails(movieId);
   hideSpinner();
 });
 
@@ -574,7 +572,7 @@ async function fetchMovieDetails(movieId) {
     const imdbId = movie.imdb_id;
 
     fetchMovieRatings(imdbId, movie);
-    updateBrowserURL(movie.title);
+    // updateBrowserURL(movie.title);
   } catch (error) {
     document.getElementById('movie-details-container').innerHTML = `
             <div style="display: flex; justify-content: center; align-items: center; text-align: center; margin-top: 40px; width: 100vw; height: 800px">
@@ -1760,7 +1758,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
       detailsContainer.appendChild(trailerButton);
     }
 
-    updateBrowserURL(movie.title);
+    // updateBrowserURL(movie.title);
   } catch (error) {
     document.getElementById('movie-details-container').innerHTML = `
             <div style="display: flex; justify-content: center; align-items: center; text-align: center; margin-top: 40px; width: 100vw; height: 800px">
@@ -1906,9 +1904,12 @@ function handleCompanyClick(companyId, companyName) {
 }
 
 function handleSimilarMovieClick(movieId, movieTitle) {
-  localStorage.setItem('selectedMovieId', movieId);
   document.title = `${movieTitle} - Movie Details`;
-  window.location.href = 'movie-details.html';
+
+  // Navigate to movie-details.html with the movieId as a query parameter
+  window.location.href = `movie-details.html?movieId=${movieId}`;
+
+  // Update visit count for analytics or tracking purposes
   updateMovieVisitCount(movieId, movieTitle);
 }
 
@@ -1963,12 +1964,13 @@ async function showMovieOfTheDay() {
 
     if (movies.length > 0) {
       const randomMovie = movies[Math.floor(Math.random() * movies.length)];
-      localStorage.setItem('selectedMovieId', randomMovie.id);
-      window.location.href = 'movie-details.html';
+      // Redirect to movie details page with movieId in the URL
+      window.location.href = `movie-details.html?movieId=${randomMovie.id}`;
     } else {
       fallbackMovieSelection();
     }
   } catch (error) {
+    console.log('Error fetching movie:', error);
     fallbackMovieSelection();
   }
 }
@@ -1995,8 +1997,9 @@ function fallbackMovieSelection() {
     424, 98,
   ];
   const randomFallbackMovie = fallbackMovies[Math.floor(Math.random() * fallbackMovies.length)];
-  localStorage.setItem('selectedMovieId', randomFallbackMovie);
-  window.location.href = 'movie-details.html';
+
+  // Redirect to movie details page with movieId in the URL
+  window.location.href = `movie-details.html?movieId=${randomFallbackMovie}`;
 }
 
 function getMovieVerseData(input) {

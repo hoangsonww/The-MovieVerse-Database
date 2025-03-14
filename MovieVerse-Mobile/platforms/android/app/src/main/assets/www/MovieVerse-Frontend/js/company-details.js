@@ -357,8 +357,8 @@ async function showMovieOfTheDay() {
 
     if (movies.length > 0) {
       const randomMovie = movies[Math.floor(Math.random() * movies.length)];
-      localStorage.setItem('selectedMovieId', randomMovie.id);
-      window.location.href = 'movie-details.html';
+      // Redirect to movie details page with movieId in the URL
+      window.location.href = `movie-details.html?movieId=${randomMovie.id}`;
     } else {
       fallbackMovieSelection();
     }
@@ -366,6 +366,17 @@ async function showMovieOfTheDay() {
     console.log('Error fetching movie:', error);
     fallbackMovieSelection();
   }
+}
+
+function fallbackMovieSelection() {
+  const fallbackMovies = [
+    432413, 299534, 1726, 562, 118340, 455207, 493922, 447332, 22970, 530385, 27205, 264660, 120467, 603, 577922, 76341, 539, 419704, 515001, 118340,
+    424, 98,
+  ];
+  const randomFallbackMovie = fallbackMovies[Math.floor(Math.random() * fallbackMovies.length)];
+
+  // Redirect with movieId in URL
+  window.location.href = `movie-details.html?movieId=${randomFallbackMovie}`;
 }
 
 function handleSignInOut() {
@@ -661,16 +672,6 @@ const twoLetterCountryCodes = [
   { name: 'Åland Islands', code: 'AX' },
 ];
 
-function fallbackMovieSelection() {
-  const fallbackMovies = [
-    432413, 299534, 1726, 562, 118340, 455207, 493922, 447332, 22970, 530385, 27205, 264660, 120467, 603, 577922, 76341, 539, 419704, 515001, 118340,
-    424, 98,
-  ];
-  const randomFallbackMovie = fallbackMovies[Math.floor(Math.random() * fallbackMovies.length)];
-  localStorage.setItem('selectedMovieId', randomFallbackMovie);
-  window.location.href = 'movie-details.html';
-}
-
 function displayCompanyMovies(movies) {
   const moviesList = document.getElementById('company-movies-list');
   moviesList.style.display = 'flex';
@@ -733,8 +734,8 @@ function displayCompanyMovies(movies) {
 }
 
 function selectMovieId(movieId) {
-  localStorage.setItem('selectedMovieId', movieId);
-  window.location.href = 'movie-details.html';
+  // Navigate to movie details page with movieId as a query parameter
+  window.location.href = `movie-details.html?movieId=${movieId}`;
 }
 
 function updateBrowserURL(title) {

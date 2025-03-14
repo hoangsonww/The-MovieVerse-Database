@@ -573,8 +573,6 @@ async function fetchTvDetails(tvSeriesId) {
     } else {
       populateTvSeriesDetails(tvSeriesDetails, 'IMDb rating');
     }
-
-    updateBrowserURL(tvSeriesDetails.name);
   } catch (error) {
     document.getElementById('movie-details-container').innerHTML = `
             <div style="display: flex; justify-content: center; align-items: center; text-align: center; margin-top: 40px; width: 100vw; height: 800px">
@@ -1864,11 +1862,11 @@ function applyTextColor(color) {
   });
 }
 
-function updateBrowserURL(title) {
-  const nameSlug = createNameSlug(title);
-  const newURL = window.location.protocol + '//' + window.location.host + window.location.pathname + '?' + nameSlug;
-  window.history.replaceState({ path: newURL }, '', newURL);
-}
+// function updateBrowserURL(title) {
+//   const nameSlug = createNameSlug(title);
+//   const newURL = window.location.protocol + '//' + window.location.host + window.location.pathname + '?' + nameSlug;
+//   window.history.replaceState({ path: newURL }, '', newURL);
+// }
 
 function createNameSlug(title) {
   return title

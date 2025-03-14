@@ -340,12 +340,13 @@ async function showMovieOfTheDay() {
 
     if (movies.length > 0) {
       const randomMovie = movies[Math.floor(Math.random() * movies.length)];
-      localStorage.setItem('selectedMovieId', randomMovie.id);
-      window.location.href = 'movie-details.html';
+      // Redirect to movie details page with movieId in the URL
+      window.location.href = `movie-details.html?movieId=${randomMovie.id}`;
     } else {
       fallbackMovieSelection();
     }
   } catch (error) {
+    console.log('Error fetching movie:', error);
     fallbackMovieSelection();
   }
 }
@@ -356,8 +357,9 @@ function fallbackMovieSelection() {
     424, 98,
   ];
   const randomFallbackMovie = fallbackMovies[Math.floor(Math.random() * fallbackMovies.length)];
-  localStorage.setItem('selectedMovieId', randomFallbackMovie);
-  window.location.href = 'movie-details.html';
+
+  // Redirect with movieId in URL
+  window.location.href = `movie-details.html?movieId=${randomFallbackMovie}`;
 }
 
 function openModal(modalId) {
@@ -1308,11 +1310,13 @@ async function createMovieCard(movie) {
                 </div>`;
 
   movieEl.addEventListener('click', () => {
-    localStorage.setItem('selectedMovieId', movie.id);
+    // Navigate to movie details page with movieId as a query parameter
+    window.location.href = `movie-details.html?movieId=${movie.id}`;
+
+    // Update analytics and tracking functions
     updateUniqueMoviesViewed(movie.id);
     updateFavoriteGenre(movie.genre_ids);
     updateMovieVisitCount(movie.id, movie.title);
-    window.location.href = 'movie-details.html';
   });
 
   const additionalImages = await getAdditionalMovieImages(movie.id);
@@ -1594,11 +1598,13 @@ async function createTVSeriesCard(tvSeries) {
                 </div>`;
 
   movieEl.addEventListener('click', () => {
-    localStorage.setItem('selectedTvSeriesId', tvSeries.id);
+    // Navigate to TV details page with tvSeriesId as a query parameter
+    window.location.href = `tv-details.html?tvSeriesId=${tvSeries.id}`;
+
+    // Update tracking and analytics functions
     updateMovieVisitCount(tvSeries.id, tvSeries.name);
     updateUniqueMoviesViewed(tvSeries.id);
-    updateFavoriteGenre(tvSeries.genres_ids);
-    window.location.href = 'tv-details.html';
+    updateFavoriteGenre(tvSeries.genre_ids);
   });
 
   const additionalImages = await getAdditionalTVSeriesImages(tvSeries.id);

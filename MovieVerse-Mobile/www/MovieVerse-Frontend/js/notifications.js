@@ -99,12 +99,14 @@ async function fetchRecommendedReleases() {
 function populateList(elementId, movies) {
   const list = document.getElementById(elementId);
   list.innerHTML = '';
+
   movies.forEach(movie => {
     const li = document.createElement('li');
     li.style.cursor = 'pointer';
+
     li.addEventListener('click', () => {
-      localStorage.setItem('selectedMovieId', movie.id.toString());
-      window.location.href = 'movie-details.html';
+      // Navigate to movie details page with movieId as a query parameter
+      window.location.href = `movie-details.html?movieId=${movie.id}`;
     });
 
     const title = document.createElement('span');

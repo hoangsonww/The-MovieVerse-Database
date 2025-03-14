@@ -621,8 +621,8 @@ async function ensureGenreMapIsAvailable() {
 }
 
 function selectMovieId(movieId) {
-  localStorage.setItem('selectedMovieId', movieId);
-  window.location.href = 'movie-details.html';
+  // Navigate to movie details page with movieId as a query parameter
+  window.location.href = `movie-details.html?movieId=${movieId}`;
 }
 
 async function fetchGenreMap() {

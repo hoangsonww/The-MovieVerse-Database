@@ -932,12 +932,16 @@ async function showMovies(items, container, category) {
           console.log('Error fetching person details:', error);
         }
       } else if (isMovie) {
-        localStorage.setItem('selectedMovieId', id);
-        window.location.href = 'movie-details.html?' + id;
+        // Navigate to movie details page with movieId as a query parameter
+        window.location.href = `movie-details.html?movieId=${id}`;
+
+        // Update movie visit count
         updateMovieVisitCount(id, title);
       } else if (isTvSeries) {
-        localStorage.setItem('selectedTvSeriesId', id);
-        window.location.href = 'tv-details.html?' + id;
+        // Navigate to TV details page with tvSeriesId as a query parameter
+        window.location.href = `tv-details.html?tvSeriesId=${id}`;
+
+        // Update tracking and analytics functions
         updateMovieVisitCount(id, title);
       }
     });

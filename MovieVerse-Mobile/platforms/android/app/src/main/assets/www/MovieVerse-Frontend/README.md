@@ -16,7 +16,7 @@ Welcome to the MovieVerse app, your ultimate guide to the world of movies! This 
 
 ## Overview
 
-The `MovieVerse-Frontend` directory contains the frontend codebase for the MovieVerse application. This directory includes all the necessary files, scripts, and stylesheets to create an interactive and engaging user experience. The frontend is built using a combination of HTML, CSS, Vue, JavaScript, and React components to provide a seamless browsing experience for users.
+The `MovieVerse-Frontend` directory contains the frontend codebase for the MovieVerse application. This directory includes all the necessary files, scripts, and stylesheets to create an interactive and engaging user experience. The frontend is built using a combination of pure HTML, CSS, and JavaScript, as well as React components to provide a seamless browsing experience for users.
 
 ## Directory Structure
 

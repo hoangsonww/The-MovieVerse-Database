@@ -52,6 +52,25 @@
       media="print"
       onload="this.media='all';"
     />
+    <script async src="https://fundingchoicesmessages.google.com/i/pub-6608388491200814?ers=1"></script>
+    <script>
+      (function () {
+        function signalGooglefcPresent() {
+          if (!window.frames['googlefcPresent']) {
+            if (document.body) {
+              const iframe = document.createElement('iframe');
+              iframe.style = 'width: 0; height: 0; border: none; z-index: -1000; left: -1000px; top: -1000px;';
+              iframe.style.display = 'none';
+              iframe.name = 'googlefcPresent';
+              document.body.appendChild(iframe);
+            } else {
+              setTimeout(signalGooglefcPresent, 0);
+            }
+          }
+        }
+        signalGooglefcPresent();
+      })();
+    </script>
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" /></noscript>
     <link rel="preload" href="https://movie-verse.com/fonts/Poppins-Light.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
     <link rel="preload" href="https://movie-verse.com/fonts/Poppins-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
@@ -1568,11 +1587,11 @@
 
         async function handleResultClick(item) {
           if (item.media_type === 'movie') {
-            localStorage.setItem('selectedMovieId', item.id);
-            window.location.href = 'MovieVerse-Frontend/html/movie-details.html';
+            // Navigate to movie details page with movieId as a query parameter
+            window.location.href = `MovieVerse-Frontend/html/movie-details.html?movieId=${item.id}`;
           } else if (item.media_type === 'tv') {
-            localStorage.setItem('selectedTvSeriesId', item.id);
-            window.location.href = 'MovieVerse-Frontend/html/tv-details.html';
+            // Navigate to TV details page with tvSeriesId as a query parameter
+            window.location.href = `MovieVerse-Frontend/html/tv-details.html?tvSeriesId=${item.id}`;
           } else if (item.media_type === 'person') {
             try {
               const personDetailsUrl = `https://${getMovieVerseData()}/3/person/${item.id}?${generateMovieNames()}${getMovieCode()}`;

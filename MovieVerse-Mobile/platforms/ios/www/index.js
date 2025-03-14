@@ -546,11 +546,11 @@ async function showMovies(movies, mainElement) {
             </div>`;
 
     movieEl.addEventListener('click', () => {
-      localStorage.setItem('selectedMovieId', id);
       updateUniqueMoviesViewed(id);
       updateFavoriteGenre(genre_ids);
       updateMovieVisitCount(id, title);
-      window.location.href = 'MovieVerse-Frontend/html/movie-details.html';
+      // Navigate to movie details page with the movieId as a query parameter
+      window.location.href = `MovieVerse-Frontend/html/movie-details.html?movieId=${id}`;
     });
 
     mainElement.appendChild(movieEl);
@@ -841,8 +841,8 @@ async function showMovieOfTheDay() {
 
     if (movies.length > 0) {
       const randomMovie = movies[Math.floor(Math.random() * movies.length)];
-      localStorage.setItem('selectedMovieId', randomMovie.id);
-      window.location.href = 'MovieVerse-Frontend/html/movie-details.html';
+      // Use the movieId from the randomly selected movie
+      window.location.href = `MovieVerse-Frontend/html/movie-details.html?movieId=${randomMovie.id}`;
     } else {
       fallbackMovieSelection();
     }
@@ -858,9 +858,8 @@ function fallbackMovieSelection() {
     424, 98,
   ];
   const randomFallbackMovie = fallbackMovies[Math.floor(Math.random() * fallbackMovies.length)];
-
-  localStorage.setItem('selectedMovieId', randomFallbackMovie);
-  window.location.href = 'MovieVerse-Frontend/html/movie-details.html';
+  // Pass the fallback movie id as a query parameter
+  window.location.href = `MovieVerse-Frontend/html/movie-details.html?movieId=${randomFallbackMovie}`;
 }
 
 function calculateMoviesToDisplay() {
@@ -1115,11 +1114,11 @@ function showMoviesDirectorSpotlight(movies) {
             </div>`;
 
     movieEl.addEventListener('click', () => {
-      localStorage.setItem('selectedMovieId', id);
       updateUniqueMoviesViewed(id);
       updateFavoriteGenre(genre_ids);
       updateMovieVisitCount(id, title);
-      window.location.href = 'MovieVerse-Frontend/html/movie-details.html';
+      // Navigate to movie details page with the movieId as a query parameter
+      window.location.href = `MovieVerse-Frontend/html/movie-details.html?movieId=${id}`;
     });
 
     director_main.appendChild(movieEl);

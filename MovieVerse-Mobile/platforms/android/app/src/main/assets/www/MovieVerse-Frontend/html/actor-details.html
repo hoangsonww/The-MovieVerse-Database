@@ -609,7 +609,7 @@
       document.getElementById('actor-image').addEventListener('click', function () {
         const imageUrl = this.src.replace('w1280', 'original');
         const modalHtml = `<div id="image-modal" style="z-index: 100020000; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; justify-content: center; align-items: center;">
-                                <img src="${imageUrl}" style="max-width: 95%; max-height: 95%; border-radius: 10px;">
+                                <img src="${imageUrl}" style="max-width: 95%; max-height: 95%; border-radius: 10px;" alt="Actor Image"/>
                                 <span style="position: absolute; top: 10px; right: 25px; font-size: 40px; cursor: pointer" id="removeBtn" onclick="document.getElementById('image-modal').remove();">&times;</span>
                             </div>`;
         document.body.insertAdjacentHTML('beforeend', modalHtml);
@@ -839,11 +839,11 @@
           }
 
           if (item.media_type === 'movie') {
-            localStorage.setItem('selectedMovieId', item.id);
-            window.location.href = 'movie-details.html';
+            // Navigate to movie details page with movieId as a query parameter
+            window.location.href = `movie-details.html?movieId=${item.id}`;
           } else if (item.media_type === 'tv') {
-            localStorage.setItem('selectedTvSeriesId', item.id);
-            window.location.href = 'tv-details.html';
+            // Navigate to TV details page with tvSeriesId as a query parameter
+            window.location.href = `tv-details.html?tvSeriesId=${item.id}`;
           } else if (item.media_type === 'person') {
             try {
               const personDetailsUrl = `https://${getMovieVerseData()}/3/person/${item.id}?${generateMovieNames()}${getMovieCode()}`;

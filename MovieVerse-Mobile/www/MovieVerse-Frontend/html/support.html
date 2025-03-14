@@ -875,11 +875,11 @@
           }
 
           if (item.media_type === 'movie') {
-            localStorage.setItem('selectedMovieId', item.id);
-            window.location.href = 'movie-details.html';
+            // Navigate to movie details page with movieId as a query parameter
+            window.location.href = `movie-details.html?movieId=${item.id}`;
           } else if (item.media_type === 'tv') {
-            localStorage.setItem('selectedTvSeriesId', item.id);
-            window.location.href = 'tv-details.html';
+            // Navigate to TV details page with tvSeriesId as a query parameter
+            window.location.href = `tv-details.html?tvSeriesId=${item.id}`;
           } else if (item.media_type === 'person') {
             try {
               const personDetailsUrl = `https://${getMovieVerseData()}/3/person/${item.id}?${generateMovieNames()}${getMovieCode()}`;
@@ -991,7 +991,7 @@
     <script>
       async function showMovieOfTheDay() {
         const year = new Date().getFullYear();
-        const url = `https://api.themoviedb.org/3/discover/movie?api_key=c5a20c861acf7bb8d9e987dcc7f1b558&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
+        const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
 
         try {
           const response = await fetch(url);
@@ -1000,8 +1000,9 @@
 
           if (movies.length > 0) {
             const randomMovie = movies[Math.floor(Math.random() * movies.length)];
-            localStorage.setItem('selectedMovieId', randomMovie.id);
-            window.location.href = 'movie-details.html';
+
+            // Redirect to movie details page with movieId in the URL
+            window.location.href = `movie-details.html?movieId=${randomMovie.id}`;
           } else {
             fallbackMovieSelection();
           }
@@ -1017,8 +1018,9 @@
           118340, 424, 98,
         ];
         const randomFallbackMovie = fallbackMovies[Math.floor(Math.random() * fallbackMovies.length)];
-        localStorage.setItem('selectedMovieId', randomFallbackMovie);
-        window.location.href = 'MovieVerse-Frontend/html/movie-details.html';
+
+        // Redirect with movieId in URL
+        window.location.href = `movie-details.html?movieId=${randomFallbackMovie}`;
       }
 
       function updateClock() {

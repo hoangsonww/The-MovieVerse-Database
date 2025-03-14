@@ -942,11 +942,11 @@
           }
 
           if (item.media_type === 'movie') {
-            localStorage.setItem('selectedMovieId', item.id);
-            window.location.href = 'movie-details.html';
+            // Navigate to movie details page with movieId as a query parameter
+            window.location.href = `movie-details.html?movieId=${item.id}`;
           } else if (item.media_type === 'tv') {
-            localStorage.setItem('selectedTvSeriesId', item.id);
-            window.location.href = 'tv-details.html';
+            // Navigate to TV details page with tvSeriesId as a query parameter
+            window.location.href = `tv-details.html?tvSeriesId=${item.id}`;
           } else if (item.media_type === 'person') {
             try {
               const personDetailsUrl = `https://${getMovieVerseData()}/3/person/${item.id}?${generateMovieNames()}${getMovieCode()}`;

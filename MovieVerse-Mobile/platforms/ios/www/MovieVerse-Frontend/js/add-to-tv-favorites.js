@@ -52,7 +52,9 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 export async function toggleFavoriteTVSeries() {
-  const tvSeriesId = localStorage.getItem('selectedTvSeriesId');
+  // Extract tvSeriesId from the URL query parameter instead of localStorage
+  const urlParams = new URLSearchParams(window.location.search);
+  const tvSeriesId = urlParams.get('tvSeriesId') || 100088; // Default TV series ID if not found
 
   try {
     let userEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
@@ -120,7 +122,9 @@ export async function toggleFavoriteTVSeries() {
 
 export async function checkAndUpdateFavoriteButtonTVSeries() {
   let userEmail = localStorage.getItem('currentlySignedInMovieVerseUser');
-  const tvSeriesId = localStorage.getItem('selectedTvSeriesId');
+  // Extract tvSeriesId from the URL query parameter instead of localStorage
+  const urlParams = new URLSearchParams(window.location.search);
+  const tvSeriesId = urlParams.get('tvSeriesId') || 100088; // Default TV series ID if not found
 
   try {
     if (!tvSeriesId) {
