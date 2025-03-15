@@ -935,12 +935,12 @@ async function populateTvSeriesDetails(tvSeries, imdbRating, rated) {
   if (tmdbRating === 'N/A') {
     detailsHTML += `<p style="color: inherit; font-size: inherit;">
                         <strong>TMDB Rating:</strong>
-                        <a href="https://www.themoviedb.org/tv/${tvSeries.id}" id="rating" target="_blank" style="color: inherit; font-size: inherit;">${tmdbRating}</a>
+                        <a href="https://www.themoviedb.org/tv/${tvSeries.id}" id="rating" target="_blank" style="color: inherit !important; font-size: inherit;">${tmdbRating}</a>
                     </p>`;
   } else {
     detailsHTML += `<p style="color: inherit; font-size: inherit;">
                         <strong>TMDB Rating:</strong>
-                        <a href="https://www.themoviedb.org/tv/${tvSeries.id}" id="rating" target="_blank" style="color: inherit; font-size: inherit;">${tmdbRating}/10.0</a>
+                        <a href="https://www.themoviedb.org/tv/${tvSeries.id}" id="rating" target="_blank" style="color: inherit !important; font-size: inherit;">${tmdbRating}/10.0</a>
                     </p>`;
   }
 
@@ -1613,7 +1613,15 @@ async function populateTvSeriesDetails(tvSeries, imdbRating, rated) {
     mediaContainer.style.width = 'calc(100% - 40px)';
   }
 
-  document.getElementById('movie-description').innerHTML = detailsHTML;
+  const movieDescription = document.getElementById('movie-description');
+  movieDescription.style.opacity = '0'; // Start with hidden content
+
+  // Set the new HTML content
+  movieDescription.innerHTML = detailsHTML;
+
+  // Apply fade-in animation
+  movieDescription.style.animation = 'fadeIn 1.5s ease-in-out';
+  movieDescription.style.opacity = '1';
   document.getElementById('movie-description').appendChild(mediaTitle);
   document.getElementById('movie-description').appendChild(mediaContainer);
 
