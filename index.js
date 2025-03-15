@@ -1,22 +1,22 @@
-const director_main = document.getElementById("director-spotlight");
-const form = document.getElementById("form");
-const search = document.getElementById("search");
-const searchButton = document.getElementById("button-search");
-const searchTitle = document.getElementById("search-title");
-const otherTitle = document.getElementById("other1");
+const director_main = document.getElementById('director-spotlight');
+const form = document.getElementById('form');
+const search = document.getElementById('search');
+const searchButton = document.getElementById('button-search');
+const searchTitle = document.getElementById('search-title');
+const otherTitle = document.getElementById('other1');
 
 function showSpinner() {
-  document.getElementById("myModal").classList.add("modal-visible");
+  document.getElementById('myModal').classList.add('modal-visible');
 }
 
 function hideSpinner() {
-  document.getElementById("myModal").classList.remove("modal-visible");
+  document.getElementById('myModal').classList.remove('modal-visible');
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-  const pagination = document.getElementById("most-popular-pagination");
-  const genresContainer = document.querySelector(".genres");
-  const mainContainer = document.getElementById("most-popular");
+document.addEventListener('DOMContentLoaded', function () {
+  const pagination = document.getElementById('most-popular-pagination');
+  const genresContainer = document.querySelector('.genres');
+  const mainContainer = document.getElementById('most-popular');
 
   function movePagination() {
     if (window.innerWidth <= 767) {
@@ -27,17 +27,15 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   movePagination();
-  window.addEventListener("resize", movePagination);
+  window.addEventListener('resize', movePagination);
 });
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener('DOMContentLoaded', function () {
   let currentPageMostPopular = 1;
 
   const totalPages = 320;
-  const mostPopularMain = document.getElementById("most-popular");
-  const paginationContainer = document.getElementById(
-    "most-popular-pagination",
-  );
+  const mostPopularMain = document.getElementById('most-popular');
+  const paginationContainer = document.getElementById('most-popular-pagination');
 
   const fetchAndUpdateMostPopular = () => {
     const mostPopularUrl = `https://${getMovieVerseData()}/3/movie/popular?${generateMovieNames()}${getMovieCode()}`;
@@ -46,16 +44,12 @@ document.addEventListener("DOMContentLoaded", function () {
   };
 
   const updatePaginationDisplay = () => {
-    paginationContainer.innerHTML = "";
+    paginationContainer.innerHTML = '';
 
-    const prevButton = createNavigationButton(
-      "<",
-      currentPageMostPopular > 1,
-      () => {
-        currentPageMostPopular--;
-        fetchAndUpdateMostPopular();
-      },
-    );
+    const prevButton = createNavigationButton('<', currentPageMostPopular > 1, () => {
+      currentPageMostPopular--;
+      fetchAndUpdateMostPopular();
+    });
     paginationContainer.appendChild(prevButton);
 
     let startPage = Math.max(currentPageMostPopular - 2, 1);
@@ -65,8 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (startPage > 1) {
       paginationContainer.appendChild(createPageButton(1));
-      if (startPage > 2)
-        paginationContainer.appendChild(createPageButton("..."));
+      if (startPage > 2) paginationContainer.appendChild(createPageButton('...'));
     }
 
     for (let i = startPage; i <= endPage; i++) {
@@ -74,27 +67,22 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     if (endPage < totalPages) {
-      if (endPage < totalPages - 1)
-        paginationContainer.appendChild(createPageButton("..."));
+      if (endPage < totalPages - 1) paginationContainer.appendChild(createPageButton('...'));
       paginationContainer.appendChild(createPageButton(totalPages));
     }
 
-    const nextButton = createNavigationButton(
-      ">",
-      currentPageMostPopular < totalPages,
-      () => {
-        currentPageMostPopular++;
-        fetchAndUpdateMostPopular();
-      },
-    );
+    const nextButton = createNavigationButton('>', currentPageMostPopular < totalPages, () => {
+      currentPageMostPopular++;
+      fetchAndUpdateMostPopular();
+    });
     paginationContainer.appendChild(nextButton);
   };
 
   const createNavigationButton = (text, enabled, clickHandler) => {
-    const button = document.createElement("button");
+    const button = document.createElement('button');
     button.innerHTML = text;
     button.disabled = !enabled;
-    button.className = "nav-button";
+    button.className = 'nav-button';
 
     if (enabled) {
       button.onclick = clickHandler;
@@ -103,12 +91,12 @@ document.addEventListener("DOMContentLoaded", function () {
     return button;
   };
 
-  const createPageButton = (pageNum) => {
-    const button = document.createElement("button");
+  const createPageButton = pageNum => {
+    const button = document.createElement('button');
     button.textContent = pageNum;
-    button.className = "page-button";
+    button.className = 'page-button';
 
-    if (pageNum === "...") {
+    if (pageNum === '...') {
       button.disabled = true;
     } else {
       button.onclick = function () {
@@ -117,7 +105,7 @@ document.addEventListener("DOMContentLoaded", function () {
       };
 
       if (pageNum === currentPageMostPopular) {
-        button.classList.add("active");
+        button.classList.add('active');
       }
     }
     return button;
@@ -126,12 +114,7 @@ document.addEventListener("DOMContentLoaded", function () {
   fetchAndUpdateMostPopular();
 });
 
-function setupPagination(
-  mainElementId,
-  paginationContainerId,
-  genresContainerId,
-  baseUrl,
-) {
+function setupPagination(mainElementId, paginationContainerId, genresContainerId, baseUrl) {
   let currentPage = 1;
   let totalPages = 10;
 
@@ -186,7 +169,7 @@ function setupPagination(
         mainElement.innerHTML = `<p>No movies found on this page.</p>`;
       }
     } catch (error) {
-      console.log("Error fetching data: ", error);
+      console.log('Error fetching data: ', error);
       mainElement.innerHTML = `<p>No movies found on this page.</p>`;
     } finally {
       hideSpinner();
@@ -195,9 +178,9 @@ function setupPagination(
   }
 
   const updatePaginationDisplay = () => {
-    paginationContainer.innerHTML = "";
+    paginationContainer.innerHTML = '';
 
-    const prevButton = createNavigationButton("<", currentPage > 1, () => {
+    const prevButton = createNavigationButton('<', currentPage > 1, () => {
       currentPage--;
       fetchAndUpdate();
     });
@@ -212,8 +195,7 @@ function setupPagination(
 
     if (startPage > 1) {
       paginationContainer.appendChild(createPageButton(1));
-      if (startPage > 2)
-        paginationContainer.appendChild(createPageButton("..."));
+      if (startPage > 2) paginationContainer.appendChild(createPageButton('...'));
     }
 
     for (let i = startPage; i <= endPage; i++) {
@@ -221,50 +203,45 @@ function setupPagination(
     }
 
     if (endPage < totalPages) {
-      if (endPage < totalPages - 1)
-        paginationContainer.appendChild(createPageButton("..."));
+      if (endPage < totalPages - 1) paginationContainer.appendChild(createPageButton('...'));
       paginationContainer.appendChild(createPageButton(totalPages));
     }
 
-    const nextButton = createNavigationButton(
-      ">",
-      currentPage < totalPages,
-      () => {
-        currentPage++;
-        fetchAndUpdate();
-      },
-    );
+    const nextButton = createNavigationButton('>', currentPage < totalPages, () => {
+      currentPage++;
+      fetchAndUpdate();
+    });
     paginationContainer.appendChild(nextButton);
   };
 
   function createNavigationButton(text, enabled, clickHandler) {
-    const button = document.createElement("button");
+    const button = document.createElement('button');
     button.textContent = text;
     button.disabled = !enabled;
-    button.className = "nav-button";
+    button.className = 'nav-button';
 
     if (enabled) {
-      button.addEventListener("click", clickHandler);
+      button.addEventListener('click', clickHandler);
     }
 
     return button;
   }
 
   function createPageButton(pageNum) {
-    const button = document.createElement("button");
+    const button = document.createElement('button');
     button.textContent = pageNum;
-    button.className = "page-button";
+    button.className = 'page-button';
 
-    if (pageNum === "...") {
+    if (pageNum === '...') {
       button.disabled = true;
     } else {
-      button.addEventListener("click", () => {
-        currentPage = typeof pageNum === "number" ? pageNum : currentPage;
+      button.addEventListener('click', () => {
+        currentPage = typeof pageNum === 'number' ? pageNum : currentPage;
         fetchAndUpdate();
       });
 
       if (pageNum === currentPage) {
-        button.classList.add("active");
+        button.classList.add('active');
       }
     }
     return button;
@@ -274,7 +251,7 @@ function setupPagination(
   fetchAndUpdate();
 
   let resizeTimer;
-  window.addEventListener("resize", () => {
+  window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(movePagination, 250);
   });
@@ -289,21 +266,16 @@ async function fetchAndDisplayMovies(url, count, mainElement) {
   showMovies(movies, mainElement);
 }
 
-document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener('DOMContentLoaded', async () => {
   let currentPageRecommended = 1;
   const totalPagesRecommended = 60;
-  const recommendedMain = document.getElementById("recommended");
-  const paginationContainerRecommended = document.getElementById(
-    "recommended-pagination",
-  );
-  const genresContainer = document.getElementById("recommendedDIV");
+  const recommendedMain = document.getElementById('recommended');
+  const paginationContainerRecommended = document.getElementById('recommended-pagination');
+  const genresContainer = document.getElementById('recommendedDIV');
 
   function movePagination() {
     if (window.innerWidth <= 767) {
-      recommendedMain.parentNode.insertBefore(
-        paginationContainerRecommended,
-        recommendedMain,
-      );
+      recommendedMain.parentNode.insertBefore(paginationContainerRecommended, recommendedMain);
     } else {
       genresContainer.appendChild(paginationContainerRecommended);
     }
@@ -316,7 +288,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const mostCommonGenre = getMostCommonGenre();
     const mostVisitedMovieGenre = await getMostVisitedMovieGenre();
 
-    recommendedMain.innerHTML = "";
+    recommendedMain.innerHTML = '';
 
     if (!mostVisitedMovieGenre || !mostCommonGenre) {
       recommendedMain.innerHTML = `<div style="display: flex; justify-content: center; align-items: center; height: 100%;">
@@ -331,29 +303,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     const commonGenreUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=${mostCommonGenre}&sort_by=popularity.desc&vote_count.gte=10&page=${currentPageRecommended}`;
     const visitedGenreUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=${mostVisitedMovieGenre}&sort_by=popularity.desc&vote_count.gte=10&page=${currentPageRecommended}`;
 
-    await fetchAndDisplayMovies(
-      commonGenreUrl,
-      totalMoviesToDisplay,
-      recommendedMain,
-    );
-    await fetchAndDisplayMovies(
-      visitedGenreUrl,
-      totalMoviesToDisplay,
-      recommendedMain,
-    );
+    await fetchAndDisplayMovies(commonGenreUrl, totalMoviesToDisplay, recommendedMain);
+    await fetchAndDisplayMovies(visitedGenreUrl, totalMoviesToDisplay, recommendedMain);
 
     updatePaginationDisplayRecommended();
     hideSpinner();
   }
 
   function updatePaginationDisplayRecommended() {
-    paginationContainerRecommended.innerHTML = "";
+    paginationContainerRecommended.innerHTML = '';
 
-    const prevButton = createNavigationButton(
-      "<",
-      currentPageRecommended > 1,
-      () => generateRecommendations(currentPageRecommended - 1),
-    );
+    const prevButton = createNavigationButton('<', currentPageRecommended > 1, () => generateRecommendations(currentPageRecommended - 1));
     paginationContainerRecommended.appendChild(prevButton);
 
     let startPage = Math.max(currentPageRecommended - 2, 1);
@@ -362,57 +322,43 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (endPage === totalPagesRecommended) startPage = Math.max(endPage - 4, 1);
 
     if (startPage > 1) {
-      paginationContainerRecommended.appendChild(
-        createPageButton(1, generateRecommendations),
-      );
-      if (startPage > 2)
-        paginationContainerRecommended.appendChild(createPageButton("..."));
+      paginationContainerRecommended.appendChild(createPageButton(1, generateRecommendations));
+      if (startPage > 2) paginationContainerRecommended.appendChild(createPageButton('...'));
     }
 
     for (let i = startPage; i <= endPage; i++) {
-      paginationContainerRecommended.appendChild(
-        createPageButton(
-          i,
-          generateRecommendations,
-          i === currentPageRecommended,
-        ),
-      );
+      paginationContainerRecommended.appendChild(createPageButton(i, generateRecommendations, i === currentPageRecommended));
     }
 
     if (endPage < totalPagesRecommended) {
-      if (endPage < totalPagesRecommended - 1)
-        paginationContainerRecommended.appendChild(createPageButton("..."));
-      paginationContainerRecommended.appendChild(
-        createPageButton(totalPagesRecommended, generateRecommendations),
-      );
+      if (endPage < totalPagesRecommended - 1) paginationContainerRecommended.appendChild(createPageButton('...'));
+      paginationContainerRecommended.appendChild(createPageButton(totalPagesRecommended, generateRecommendations));
     }
 
-    const nextButton = createNavigationButton(
-      ">",
-      currentPageRecommended < totalPagesRecommended,
-      () => generateRecommendations(currentPageRecommended + 1),
+    const nextButton = createNavigationButton('>', currentPageRecommended < totalPagesRecommended, () =>
+      generateRecommendations(currentPageRecommended + 1)
     );
     paginationContainerRecommended.appendChild(nextButton);
   }
 
   function createNavigationButton(text, enabled, clickHandler) {
-    const button = document.createElement("button");
+    const button = document.createElement('button');
     button.innerHTML = text;
     button.disabled = !enabled;
-    button.className = "nav-button";
+    button.className = 'nav-button';
     if (enabled) {
-      button.addEventListener("click", clickHandler);
+      button.addEventListener('click', clickHandler);
     }
     return button;
   }
 
   function createPageButton(pageNum, fetchFunction, isActive) {
-    const button = document.createElement("button");
+    const button = document.createElement('button');
     button.textContent = pageNum;
-    button.className = "page-button" + (isActive ? " active" : "");
+    button.className = 'page-button' + (isActive ? ' active' : '');
 
-    if (pageNum !== "...") {
-      button.addEventListener("click", () => fetchFunction(pageNum));
+    if (pageNum !== '...') {
+      button.addEventListener('click', () => fetchFunction(pageNum));
     } else {
       button.disabled = true;
     }
@@ -422,7 +368,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   movePagination();
   await generateRecommendations();
-  window.addEventListener("resize", movePagination);
+  window.addEventListener('resize', movePagination);
 });
 
 async function getMovies(url, mainElement, page = 1) {
@@ -453,37 +399,33 @@ async function getMovies(url, mainElement, page = 1) {
 }
 
 async function getAdditionalPosters(movieId) {
-  const response = await fetch(
-    `https://${getMovieVerseData()}/3/movie/${movieId}/images?${generateMovieNames()}${getMovieCode()}`,
-  );
+  const response = await fetch(`https://${getMovieVerseData()}/3/movie/${movieId}/images?${generateMovieNames()}${getMovieCode()}`);
   const data = await response.json();
-  return data.posters.map((poster) => poster.file_path);
+  return data.posters.map(poster => poster.file_path);
 }
 
 function rotateImages(imageElements, interval = 3000) {
-  const uniqueImageElements = Array.from(imageElements).filter(
-    (el, index, self) => index === self.findIndex((e) => e.src === el.src),
-  );
+  const uniqueImageElements = Array.from(imageElements).filter((el, index, self) => index === self.findIndex(e => e.src === el.src));
 
   if (uniqueImageElements.length <= 1) return;
 
   let currentIndex = 0;
-  uniqueImageElements[currentIndex].style.opacity = "1";
+  uniqueImageElements[currentIndex].style.opacity = '1';
 
   setTimeout(() => {
     setInterval(() => {
-      uniqueImageElements[currentIndex].style.opacity = "0";
+      uniqueImageElements[currentIndex].style.opacity = '0';
       currentIndex = (currentIndex + 1) % uniqueImageElements.length;
-      uniqueImageElements[currentIndex].style.opacity = "1";
+      uniqueImageElements[currentIndex].style.opacity = '1';
     }, interval);
   }, 0);
 }
 
 async function showMovies(movies, mainElement) {
-  mainElement.innerHTML = "";
+  mainElement.innerHTML = '';
 
   // Inject CSS for the sliding-up animation effect with delay support
-  const style = document.createElement("style");
+  const style = document.createElement('style');
   style.innerHTML = `
     .movie {
       opacity: 0;
@@ -499,23 +441,23 @@ async function showMovies(movies, mainElement) {
 
   // Observer to trigger the slide-up animation with a staggered delay
   const slideObserver = new IntersectionObserver(
-    (entries) => {
+    entries => {
       entries.forEach((entry, index) => {
         if (entry.isIntersecting) {
           const movieEl = entry.target;
 
           // Apply a staggered delay based on the card's index
           movieEl.style.transitionDelay = `${index * 100}ms`; // Adjust delay as needed
-          movieEl.classList.add("visible");
+          movieEl.classList.add('visible');
 
           slideObserver.unobserve(movieEl);
         }
       });
     },
     {
-      rootMargin: "50px 0px",
+      rootMargin: '50px 0px',
       threshold: 0.1,
-    },
+    }
   );
 
   // Observer for background image loading and rotation setup
@@ -529,7 +471,7 @@ async function showMovies(movies, mainElement) {
           // Fetch additional posters and set up rotation in the background
           const additionalPosters = await getAdditionalPosters(movieId);
           let allPosters = [movieEl.dataset.posterPath, ...additionalPosters];
-          const movieImageContainer = movieEl.querySelector(".movie-images");
+          const movieImageContainer = movieEl.querySelector('.movie-images');
 
           allPosters = allPosters.sort(() => 0.5 - Math.random()).slice(0, 10);
 
@@ -537,20 +479,20 @@ async function showMovies(movies, mainElement) {
           allPosters.forEach((poster, index) => {
             const img = new Image();
             img.src = `${IMGPATH + poster}`;
-            img.loading = index === 0 ? "eager" : "lazy";
+            img.loading = index === 0 ? 'eager' : 'lazy';
             img.alt = `${movieEl.dataset.title} poster ${index + 1}`;
             img.width = 300;
             img.height = 435;
-            img.style.position = "absolute";
+            img.style.position = 'absolute';
             img.style.top = 0;
             img.style.left = 0;
-            img.style.transition = "opacity 1s ease-in-out";
-            img.style.opacity = "0";
-            img.classList.add("poster-img");
+            img.style.transition = 'opacity 1s ease-in-out';
+            img.style.opacity = '0';
+            img.classList.add('poster-img');
             movieImageContainer.appendChild(img);
 
             img.onload = () => {
-              if (index === 0) img.style.opacity = "1"; // Show the first image
+              if (index === 0) img.style.opacity = '1'; // Show the first image
             };
           });
 
@@ -561,41 +503,32 @@ async function showMovies(movies, mainElement) {
       }
     },
     {
-      rootMargin: "50px 0px",
+      rootMargin: '50px 0px',
       threshold: 0.1,
-    },
+    }
   );
 
   movies.forEach((movie, index) => {
-    let {
-      id,
-      poster_path,
-      title,
-      vote_average,
-      vote_count,
-      overview,
-      genre_ids,
-    } = movie;
+    let { id, poster_path, title, vote_average, vote_count, overview, genre_ids } = movie;
 
-    const movieEl = document.createElement("div");
-    movieEl.style.zIndex = "1000";
-    movieEl.classList.add("movie");
+    const movieEl = document.createElement('div');
+    movieEl.style.zIndex = '1000';
+    movieEl.classList.add('movie');
     movieEl.dataset.id = id;
     movieEl.dataset.posterPath = poster_path;
     movieEl.dataset.title = title;
 
-    const words = title.split(" ");
+    const words = title.split(' ');
     if (words.length >= 8) {
-      words[7] = "...";
-      title = words.slice(0, 8).join(" ");
+      words[7] = '...';
+      title = words.slice(0, 8).join(' ');
     }
 
-    const voteAvg = vote_count === 0 ? "Unrated" : vote_average.toFixed(1);
-    const ratingClass =
-      vote_count === 0 ? "unrated" : getClassByRate(vote_average);
+    const voteAvg = vote_count === 0 ? 'Unrated' : vote_average.toFixed(1);
+    const ratingClass = vote_count === 0 ? 'unrated' : getClassByRate(vote_average);
 
-    if (overview === "") {
-      overview = "No overview available.";
+    if (overview === '') {
+      overview = 'No overview available.';
     }
 
     movieEl.innerHTML = `
@@ -613,7 +546,7 @@ async function showMovies(movies, mainElement) {
                 ${overview}
             </div>`;
 
-    movieEl.addEventListener("click", () => {
+    movieEl.addEventListener('click', () => {
       updateUniqueMoviesViewed(id);
       updateFavoriteGenre(genre_ids);
       updateMovieVisitCount(id, title);
@@ -633,24 +566,22 @@ async function showMovies(movies, mainElement) {
 
 function updateFavoriteGenre(genre_ids) {
   if (genre_ids && genre_ids.length > 0) {
-    const favoriteGenres =
-      JSON.parse(localStorage.getItem("favoriteGenres")) || [];
+    const favoriteGenres = JSON.parse(localStorage.getItem('favoriteGenres')) || [];
     favoriteGenres.push(genre_ids[0]);
-    localStorage.setItem("favoriteGenres", JSON.stringify(favoriteGenres));
+    localStorage.setItem('favoriteGenres', JSON.stringify(favoriteGenres));
   }
 }
 
 function updateUniqueMoviesViewed(movieId) {
-  let viewedMovies =
-    JSON.parse(localStorage.getItem("uniqueMoviesViewed")) || [];
+  let viewedMovies = JSON.parse(localStorage.getItem('uniqueMoviesViewed')) || [];
   if (!viewedMovies.includes(movieId)) {
     viewedMovies.push(movieId);
-    localStorage.setItem("uniqueMoviesViewed", JSON.stringify(viewedMovies));
+    localStorage.setItem('uniqueMoviesViewed', JSON.stringify(viewedMovies));
   }
 }
 
 async function ensureGenreMapIsAvailable() {
-  if (!localStorage.getItem("genreMap")) {
+  if (!localStorage.getItem('genreMap')) {
     await fetchGenreMap();
   }
 }
@@ -665,9 +596,9 @@ async function fetchGenreMap() {
       map[genre.id] = genre.name;
       return map;
     }, {});
-    localStorage.setItem("genreMap", JSON.stringify(genreMap));
+    localStorage.setItem('genreMap', JSON.stringify(genreMap));
   } catch (error) {
-    console.log("Error fetching genre map:", error);
+    console.log('Error fetching genre map:', error);
   }
 }
 
@@ -676,51 +607,49 @@ async function rotateUserStats() {
 
   const stats = [
     {
-      label: "Your Current Time",
+      label: 'Your Current Time',
       getValue: () => {
         const now = new Date();
         let hours = now.getHours();
         let minutes = now.getMinutes();
-        hours = hours < 10 ? "0" + hours : hours;
-        minutes = minutes < 10 ? "0" + minutes : minutes;
+        hours = hours < 10 ? '0' + hours : hours;
+        minutes = minutes < 10 ? '0' + minutes : minutes;
         return `${hours}:${minutes}`;
       },
     },
-    { label: "Most Visited Movie", getValue: getMostVisitedMovie },
-    { label: "Most Visited Director", getValue: getMostVisitedDirector },
-    { label: "Most Visited Actor", getValue: getMostVisitedActor },
+    { label: 'Most Visited Movie', getValue: getMostVisitedMovie },
+    { label: 'Most Visited Director', getValue: getMostVisitedDirector },
+    { label: 'Most Visited Actor', getValue: getMostVisitedActor },
     {
-      label: "Movies Discovered",
+      label: 'Movies Discovered',
       getValue: () => {
-        const viewedMovies =
-          JSON.parse(localStorage.getItem("uniqueMoviesViewed")) || [];
+        const viewedMovies = JSON.parse(localStorage.getItem('uniqueMoviesViewed')) || [];
         return viewedMovies.length;
       },
     },
     {
-      label: "Favorite Movies",
+      label: 'Favorite Movies',
       getValue: () => {
-        const favoritedMovies =
-          JSON.parse(localStorage.getItem("moviesFavorited")) || [];
+        const favoritedMovies = JSON.parse(localStorage.getItem('moviesFavorited')) || [];
         return favoritedMovies.length;
       },
     },
     {
-      label: "Favorite Genre",
+      label: 'Favorite Genre',
       getValue: () => {
         const mostCommonGenreCode = getMostCommonGenre();
-        const genreMapString = localStorage.getItem("genreMap");
+        const genreMapString = localStorage.getItem('genreMap');
         if (!genreMapString) {
-          console.log("No genre map found in localStorage.");
-          return "Not Available";
+          console.log('No genre map found in localStorage.');
+          return 'Not Available';
         }
 
         let genreMap;
         try {
           genreMap = JSON.parse(genreMapString);
         } catch (e) {
-          console.log("Error parsing genre map:", e);
-          return "Not Available";
+          console.log('Error parsing genre map:', e);
+          return 'Not Available';
         }
 
         let genreObject;
@@ -729,81 +658,74 @@ async function rotateUserStats() {
             acc[genre.id] = genre.name;
             return acc;
           }, {});
-        } else if (typeof genreMap === "object" && genreMap !== null) {
+        } else if (typeof genreMap === 'object' && genreMap !== null) {
           genreObject = genreMap;
         } else {
-          console.log(
-            "genreMap is neither an array nor a proper object:",
-            genreMap,
-          );
-          return "Not Available";
+          console.log('genreMap is neither an array nor a proper object:', genreMap);
+          return 'Not Available';
         }
 
-        return genreObject[mostCommonGenreCode] || "Not Available";
+        return genreObject[mostCommonGenreCode] || 'Not Available';
       },
     },
     {
-      label: "Watchlists Created",
-      getValue: () => localStorage.getItem("watchlistsCreated") || 0,
+      label: 'Watchlists Created',
+      getValue: () => localStorage.getItem('watchlistsCreated') || 0,
     },
     {
-      label: "Average Movie Rating",
-      getValue: () => localStorage.getItem("averageMovieRating") || "Not Rated",
+      label: 'Average Movie Rating',
+      getValue: () => localStorage.getItem('averageMovieRating') || 'Not Rated',
     },
     {
-      label: "Directors Discovered",
+      label: 'Directors Discovered',
       getValue: () => {
-        const viewedDirectors =
-          JSON.parse(localStorage.getItem("uniqueDirectorsViewed")) || [];
+        const viewedDirectors = JSON.parse(localStorage.getItem('uniqueDirectorsViewed')) || [];
         return viewedDirectors.length;
       },
     },
     {
-      label: "Actors Discovered",
+      label: 'Actors Discovered',
       getValue: () => {
-        const viewedActors =
-          JSON.parse(localStorage.getItem("uniqueActorsViewed")) || [];
+        const viewedActors = JSON.parse(localStorage.getItem('uniqueActorsViewed')) || [];
         return viewedActors.length;
       },
     },
-    { label: "Your Trivia Accuracy", getValue: getTriviaAccuracy },
+    { label: 'Your Trivia Accuracy', getValue: getTriviaAccuracy },
   ];
 
   let currentStatIndex = 0;
 
   function updateStatDisplay() {
     const currentStat = stats[currentStatIndex];
-    document.getElementById("stats-label").textContent =
-      currentStat.label + ":";
-    document.getElementById("stats-display").textContent =
-      currentStat.getValue();
+    document.getElementById('stats-label').textContent = currentStat.label + ':';
+    document.getElementById('stats-display').textContent = currentStat.getValue();
     currentStatIndex = (currentStatIndex + 1) % stats.length;
   }
 
   updateStatDisplay();
 
-  const localTimeDiv = document.getElementById("local-time");
+  const localTimeDiv = document.getElementById('local-time');
   let statRotationInterval = setInterval(updateStatDisplay, 3000);
-  localTimeDiv.addEventListener("click", () => {
+  localTimeDiv.addEventListener('click', () => {
     clearInterval(statRotationInterval);
     updateStatDisplay();
     statRotationInterval = setInterval(updateStatDisplay, 3000);
-    localTimeDiv.scrollIntoView({ behavior: "smooth" });
+    localTimeDiv.scrollIntoView({ behavior: 'smooth' });
   });
 }
 
 function updateMovieVisitCount(movieId, movieTitle) {
-  let movieVisits = JSON.parse(localStorage.getItem("movieVisits")) || {};
+  let movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
   if (!movieVisits[movieId]) {
     movieVisits[movieId] = { count: 0, title: movieTitle };
   }
   movieVisits[movieId].count += 1;
-  localStorage.setItem("movieVisits", JSON.stringify(movieVisits));
+  localStorage.setItem('movieVisits', JSON.stringify(movieVisits));
 }
 
 function getMostVisitedMovie() {
-  const movieVisits = JSON.parse(localStorage.getItem("movieVisits")) || {};
-  let mostVisitedMovie = "";
+  const movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
+  let mostVisitedMovie = '';
   let maxVisits = 0;
 
   for (const movieId in movieVisits) {
@@ -813,11 +735,11 @@ function getMostVisitedMovie() {
     }
   }
 
-  return mostVisitedMovie || "Not Available";
+  return mostVisitedMovie || 'Not Available';
 }
 
 async function getMostVisitedMovieGenre() {
-  const movieVisits = JSON.parse(localStorage.getItem("movieVisits")) || {};
+  const movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
   let mostVisitedGenre = null;
   let maxVisits = 0;
 
@@ -840,8 +762,8 @@ async function fetchGenreForMovie(movieId) {
 }
 
 function getMostVisitedActor() {
-  const actorVisits = JSON.parse(localStorage.getItem("actorVisits")) || {};
-  let mostVisitedActor = "";
+  const actorVisits = JSON.parse(localStorage.getItem('actorVisits')) || {};
+  let mostVisitedActor = '';
   let maxVisits = 0;
 
   for (const actorId in actorVisits) {
@@ -851,13 +773,12 @@ function getMostVisitedActor() {
     }
   }
 
-  return mostVisitedActor || "Not Available";
+  return mostVisitedActor || 'Not Available';
 }
 
 function getMostVisitedDirector() {
-  const directorVisits =
-    JSON.parse(localStorage.getItem("directorVisits")) || {};
-  let mostVisitedDirector = "";
+  const directorVisits = JSON.parse(localStorage.getItem('directorVisits')) || {};
+  let mostVisitedDirector = '';
   let maxVisits = 0;
 
   for (const directorId in directorVisits) {
@@ -866,16 +787,16 @@ function getMostVisitedDirector() {
       maxVisits = directorVisits[directorId].count;
     }
   }
-  return mostVisitedDirector || "Not Available";
+  return mostVisitedDirector || 'Not Available';
 }
 
 function getTriviaAccuracy() {
-  let triviaStats = JSON.parse(localStorage.getItem("triviaStats")) || {
+  let triviaStats = JSON.parse(localStorage.getItem('triviaStats')) || {
     totalCorrect: 0,
     totalAttempted: 0,
   };
   if (triviaStats.totalAttempted === 0) {
-    return "No trivia attempted";
+    return 'No trivia attempted';
   }
   let accuracy = (triviaStats.totalCorrect / triviaStats.totalAttempted) * 100;
 
@@ -883,14 +804,13 @@ function getTriviaAccuracy() {
 }
 
 function getMostCommonGenre() {
-  const favoriteGenresArray =
-    JSON.parse(localStorage.getItem("favoriteGenres")) || [];
+  const favoriteGenresArray = JSON.parse(localStorage.getItem('favoriteGenres')) || [];
   const genreCounts = favoriteGenresArray.reduce((acc, genre) => {
     acc[genre] = (acc[genre] || 0) + 1;
     return acc;
   }, {});
 
-  let mostCommonGenre = "";
+  let mostCommonGenre = '';
   let maxCount = 0;
 
   for (const genre in genreCounts) {
@@ -900,16 +820,16 @@ function getMostCommonGenre() {
     }
   }
 
-  return mostCommonGenre || "Not Available";
+  return mostCommonGenre || 'Not Available';
 }
 
 const movieCode = {
-  part1: "YzVhMjBjODY=",
-  part2: "MWFjZjdiYjg=",
-  part3: "ZDllOTg3ZGNjN2YxYjU1OA==",
+  part1: 'YzVhMjBjODY=',
+  part2: 'MWFjZjdiYjg=',
+  part3: 'ZDllOTg3ZGNjN2YxYjU1OA==',
 };
 
-document.addEventListener("DOMContentLoaded", rotateUserStats);
+document.addEventListener('DOMContentLoaded', rotateUserStats);
 
 async function showMovieOfTheDay() {
   const year = new Date().getFullYear();
@@ -928,19 +848,17 @@ async function showMovieOfTheDay() {
       fallbackMovieSelection();
     }
   } catch (error) {
-    console.log("Error fetching movie:", error);
+    console.log('Error fetching movie:', error);
     fallbackMovieSelection();
   }
 }
 
 function fallbackMovieSelection() {
   const fallbackMovies = [
-    432413, 299534, 1726, 562, 118340, 455207, 493922, 447332, 22970, 530385,
-    27205, 264660, 120467, 603, 577922, 76341, 539, 419704, 515001, 118340, 424,
-    98,
+    432413, 299534, 1726, 562, 118340, 455207, 493922, 447332, 22970, 530385, 27205, 264660, 120467, 603, 577922, 76341, 539, 419704, 515001, 118340,
+    424, 98,
   ];
-  const randomFallbackMovie =
-    fallbackMovies[Math.floor(Math.random() * fallbackMovies.length)];
+  const randomFallbackMovie = fallbackMovies[Math.floor(Math.random() * fallbackMovies.length)];
   // Pass the fallback movie id as a query parameter
   window.location.href = `MovieVerse-Frontend/html/movie-details.html?movieId=${randomFallbackMovie}`;
 }
@@ -976,77 +894,77 @@ function calculateMoviesToDisplay() {
 
 function getClassByRate(vote) {
   if (vote >= 8) {
-    return "green";
+    return 'green';
   } else if (vote >= 5) {
-    return "orange";
+    return 'orange';
   } else {
-    return "red";
+    return 'red';
   }
 }
 
-form.addEventListener("submit", (e) => {
+form.addEventListener('submit', e => {
   e.preventDefault();
-  const searchQuery = document.getElementById("search").value;
+  const searchQuery = document.getElementById('search').value;
 
-  localStorage.setItem("searchQuery", searchQuery);
-  window.location.href = "MovieVerse-Frontend/html/search.html";
+  localStorage.setItem('searchQuery', searchQuery);
+  window.location.href = 'MovieVerse-Frontend/html/search.html';
 });
 
 function toggleNav() {
-  const sideNav = document.getElementById("side-nav");
+  const sideNav = document.getElementById('side-nav');
 
-  sideNav.classList.toggle("manual-toggle");
+  sideNav.classList.toggle('manual-toggle');
   adjustNavBar();
 }
 
 function removeNavBar() {
-  const sideNav = document.getElementById("side-nav");
+  const sideNav = document.getElementById('side-nav');
 
-  if (sideNav.classList.contains("manual-toggle")) {
-    sideNav.classList.remove("manual-toggle");
+  if (sideNav.classList.contains('manual-toggle')) {
+    sideNav.classList.remove('manual-toggle');
   }
   adjustNavBar();
 }
 
 function adjustNavBar() {
-  const sideNav = document.getElementById("side-nav");
+  const sideNav = document.getElementById('side-nav');
 
-  if (sideNav.classList.contains("manual-toggle")) {
-    sideNav.style.left = "0px";
+  if (sideNav.classList.contains('manual-toggle')) {
+    sideNav.style.left = '0px';
   } else {
-    sideNav.style.left = "-250px";
+    sideNav.style.left = '-250px';
   }
 }
 
-document.addEventListener("mousemove", function (event) {
-  const sideNav = document.getElementById("side-nav");
+document.addEventListener('mousemove', function (event) {
+  const sideNav = document.getElementById('side-nav');
 
-  if (event.clientX < 10 && !sideNav.classList.contains("manual-toggle")) {
-    sideNav.style.left = "0";
+  if (event.clientX < 10 && !sideNav.classList.contains('manual-toggle')) {
+    sideNav.style.left = '0';
   }
 });
 
-document.addEventListener("click", function (event) {
-  const sideNav = document.getElementById("side-nav");
-  const navToggle = document.getElementById("nav-toggle");
-  const menuButton = document.getElementById("sticky-menu-button");
+document.addEventListener('click', function (event) {
+  const sideNav = document.getElementById('side-nav');
+  const navToggle = document.getElementById('nav-toggle');
+  const menuButton = document.getElementById('sticky-menu-button');
 
   if (
     !sideNav.contains(event.target) &&
     !navToggle.contains(event.target) &&
-    sideNav.classList.contains("manual-toggle") &&
+    sideNav.classList.contains('manual-toggle') &&
     !menuButton.contains(event.target)
   ) {
-    sideNav.classList.remove("manual-toggle");
+    sideNav.classList.remove('manual-toggle');
     adjustNavBar();
   }
 });
 
-document.getElementById("side-nav").addEventListener("mouseleave", function () {
-  const sideNav = document.getElementById("side-nav");
+document.getElementById('side-nav').addEventListener('mouseleave', function () {
+  const sideNav = document.getElementById('side-nav');
 
-  if (!sideNav.classList.contains("manual-toggle")) {
-    sideNav.style.left = "-250px";
+  if (!sideNav.classList.contains('manual-toggle')) {
+    sideNav.style.left = '-250px';
   }
 });
 
@@ -1055,32 +973,32 @@ const IMGPATH = `https://image.tmdb.org/t/p/w500`;
 const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
 
 const directors = [
-  { name: "Alfred Hitchcock", id: "2636" },
-  { name: "Steven Spielberg", id: "488" },
-  { name: "Martin Scorsese", id: "1032" },
-  { name: "Quentin Tarantino", id: "138" },
-  { name: "Christopher Nolan", id: "525" },
-  { name: "Stanley Kubrick", id: "240" },
-  { name: "Bong Joon-ho", id: "21684" },
-  { name: "David Fincher", id: "7467" },
-  { name: "James Cameron", id: "2710" },
-  { name: "Francis Ford Coppola", id: "1776" },
-  { name: "Tim Burton", id: "510" },
-  { name: "Ridley Scott", id: "578" },
-  { name: "Joel Coen", id: "1223" },
-  { name: "Spike Lee", id: "5281" },
-  { name: "Woody Allen", id: "1243" },
-  { name: "Peter Jackson", id: "108" },
-  { name: "Oliver Stone", id: "1152" },
-  { name: "David Lynch", id: "5602" },
-  { name: "Roman Polanski", id: "3556" },
-  { name: "Wes Anderson", id: "5655" },
-  { name: "Sergio Leone", id: "4385" },
-  { name: "Akira Kurosawa", id: "5026" },
-  { name: "Federico Fellini", id: "4415" },
-  { name: "John Ford", id: "8500" },
-  { name: "Fritz Lang", id: "68" },
-  { name: "Frank Capra", id: "2662" },
+  { name: 'Alfred Hitchcock', id: '2636' },
+  { name: 'Steven Spielberg', id: '488' },
+  { name: 'Martin Scorsese', id: '1032' },
+  { name: 'Quentin Tarantino', id: '138' },
+  { name: 'Christopher Nolan', id: '525' },
+  { name: 'Stanley Kubrick', id: '240' },
+  { name: 'Bong Joon-ho', id: '21684' },
+  { name: 'David Fincher', id: '7467' },
+  { name: 'James Cameron', id: '2710' },
+  { name: 'Francis Ford Coppola', id: '1776' },
+  { name: 'Tim Burton', id: '510' },
+  { name: 'Ridley Scott', id: '578' },
+  { name: 'Joel Coen', id: '1223' },
+  { name: 'Spike Lee', id: '5281' },
+  { name: 'Woody Allen', id: '1243' },
+  { name: 'Peter Jackson', id: '108' },
+  { name: 'Oliver Stone', id: '1152' },
+  { name: 'David Lynch', id: '5602' },
+  { name: 'Roman Polanski', id: '3556' },
+  { name: 'Wes Anderson', id: '5655' },
+  { name: 'Sergio Leone', id: '4385' },
+  { name: 'Akira Kurosawa', id: '5026' },
+  { name: 'Federico Fellini', id: '4415' },
+  { name: 'John Ford', id: '8500' },
+  { name: 'Fritz Lang', id: '68' },
+  { name: 'Frank Capra', id: '2662' },
 ];
 
 let currentDirectorIndex = 0;
@@ -1099,8 +1017,7 @@ setInterval(changeDirector, 3600000);
 
 function updateDirectorSpotlight() {
   const director = directors[currentDirectorIndex];
-  document.getElementById("spotlight-director-name").textContent =
-    director.name;
+  document.getElementById('spotlight-director-name').textContent = director.name;
 
   const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_people=${
     director.id
@@ -1109,26 +1026,7 @@ function updateDirectorSpotlight() {
 }
 
 function getMovieVerseData(input) {
-  return String.fromCharCode(
-    97,
-    112,
-    105,
-    46,
-    116,
-    104,
-    101,
-    109,
-    111,
-    118,
-    105,
-    101,
-    100,
-    98,
-    46,
-    111,
-    114,
-    103,
-  );
+  return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
 }
 
 function generateMovieNames(input) {
@@ -1152,10 +1050,10 @@ async function getDirectorSpotlight(url) {
 }
 
 function showMoviesDirectorSpotlight(movies) {
-  director_main.innerHTML = "";
+  director_main.innerHTML = '';
 
   // Inject CSS for the sliding-up animation effect with delay support
-  const style = document.createElement("style");
+  const style = document.createElement('style');
   style.innerHTML = `
     .movie {
       opacity: 0;
@@ -1171,40 +1069,39 @@ function showMoviesDirectorSpotlight(movies) {
 
   // Observer to trigger the slide-up animation with a staggered delay
   const slideObserver = new IntersectionObserver(
-    (entries) => {
+    entries => {
       entries.forEach((entry, index) => {
         if (entry.isIntersecting) {
           const movieEl = entry.target;
 
           // Apply a staggered delay based on the card's index
           movieEl.style.transitionDelay = `${index * 100}ms`; // Adjust delay as needed
-          movieEl.classList.add("visible");
+          movieEl.classList.add('visible');
 
           slideObserver.unobserve(movieEl);
         }
       });
     },
     {
-      rootMargin: "50px 0px",
+      rootMargin: '50px 0px',
       threshold: 0.1,
-    },
+    }
   );
 
   movies.forEach((movie, index) => {
     const { id, poster_path, title, vote_average, genre_ids } = movie;
-    const movieEl = document.createElement("div");
+    const movieEl = document.createElement('div');
 
-    movieEl.classList.add("movie");
-    movieEl.style.zIndex = "1000";
+    movieEl.classList.add('movie');
+    movieEl.style.zIndex = '1000';
 
     // Movie image and fallback in case the image is unavailable
     const movieImage = poster_path
       ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
       : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
 
-    const voteAvg = vote_average > 0 ? vote_average.toFixed(1) : "Unrated";
-    const ratingClass =
-      vote_average > 0 ? getClassByRate(vote_average) : "unrated";
+    const voteAvg = vote_average > 0 ? vote_average.toFixed(1) : 'Unrated';
+    const ratingClass = vote_average > 0 ? getClassByRate(vote_average) : 'unrated';
 
     movieEl.innerHTML = `
             ${movieImage}
@@ -1217,7 +1114,7 @@ function showMoviesDirectorSpotlight(movies) {
                 ${movie.overview}
             </div>`;
 
-    movieEl.addEventListener("click", () => {
+    movieEl.addEventListener('click', () => {
       updateUniqueMoviesViewed(id);
       updateFavoriteGenre(genre_ids);
       updateMovieVisitCount(id, title);
@@ -1233,13 +1130,13 @@ function showMoviesDirectorSpotlight(movies) {
 }
 
 function handleSignInOut() {
-  const isSignedIn = JSON.parse(localStorage.getItem("isSignedIn")) || false;
+  const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
 
   if (isSignedIn) {
-    localStorage.setItem("isSignedIn", JSON.stringify(false));
-    alert("You have been signed out.");
+    localStorage.setItem('isSignedIn', JSON.stringify(false));
+    alert('You have been signed out.');
   } else {
-    window.location.href = "MovieVerse-Frontend/html/sign-in.html";
+    window.location.href = 'MovieVerse-Frontend/html/sign-in.html';
     return;
   }
 
@@ -1247,223 +1144,221 @@ function handleSignInOut() {
 }
 
 function updateSignInButtonState() {
-  const isSignedIn = JSON.parse(localStorage.getItem("isSignedIn")) || false;
-  const signInText = document.getElementById("signInOutText");
-  const signInIcon = document.getElementById("signInIcon");
-  const signOutIcon = document.getElementById("signOutIcon");
+  const isSignedIn = JSON.parse(localStorage.getItem('isSignedIn')) || false;
+  const signInText = document.getElementById('signInOutText');
+  const signInIcon = document.getElementById('signInIcon');
+  const signOutIcon = document.getElementById('signOutIcon');
 
   if (isSignedIn) {
-    signInText.textContent = "Sign Out";
-    signInIcon.style.display = "none";
-    signOutIcon.style.display = "inline-block";
+    signInText.textContent = 'Sign Out';
+    signInIcon.style.display = 'none';
+    signOutIcon.style.display = 'inline-block';
   } else {
-    signInText.textContent = "Sign In";
-    signInIcon.style.display = "inline-block";
-    signOutIcon.style.display = "none";
+    signInText.textContent = 'Sign In';
+    signInIcon.style.display = 'inline-block';
+    signOutIcon.style.display = 'none';
   }
 
-  const mobileSignInText = document.getElementById("mobileSignInOutText");
-  const mobileSignInIcon = document.getElementById("mobileSignInIcon");
-  const mobileSignOutIcon = document.getElementById("mobileSignOutIcon");
+  const mobileSignInText = document.getElementById('mobileSignInOutText');
+  const mobileSignInIcon = document.getElementById('mobileSignInIcon');
+  const mobileSignOutIcon = document.getElementById('mobileSignOutIcon');
 
   if (isSignedIn) {
-    mobileSignInText.textContent = "Sign Out";
-    mobileSignInIcon.style.display = "none";
-    mobileSignOutIcon.style.display = "inline-block";
+    mobileSignInText.textContent = 'Sign Out';
+    mobileSignInIcon.style.display = 'none';
+    mobileSignOutIcon.style.display = 'inline-block';
   } else {
-    mobileSignInText.textContent = "Sign In";
-    mobileSignInIcon.style.display = "inline-block";
-    mobileSignOutIcon.style.display = "none";
+    mobileSignInText.textContent = 'Sign In';
+    mobileSignInIcon.style.display = 'inline-block';
+    mobileSignOutIcon.style.display = 'none';
   }
 }
 
 setupPagination(
-  "award-winning",
-  "award-winning-pagination",
-  "award-winning-div",
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=1000`,
+  'award-winning',
+  'award-winning-pagination',
+  'award-winning-div',
+  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=1000`
 );
 
 setupPagination(
-  "hidden-gems",
-  "hidden-gems-pagination",
-  "hidden-gems-div",
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&vote_average.gte=7&popularity.lte=10`,
+  'hidden-gems',
+  'hidden-gems-pagination',
+  'hidden-gems-div',
+  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&vote_average.gte=7&popularity.lte=10`
 );
 
 setupPagination(
-  "western",
-  "western-pagination",
-  "western-div",
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=37&sort_by=popularity.desc&vote_count.gte=8`,
+  'western',
+  'western-pagination',
+  'western-div',
+  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=37&sort_by=popularity.desc&vote_count.gte=8`
 );
 
 setupPagination(
-  "war",
-  "war-pagination",
-  "war-div",
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10752&sort_by=popularity.desc&vote_count.gte=8`,
+  'war',
+  'war-pagination',
+  'war-div',
+  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10752&sort_by=popularity.desc&vote_count.gte=8`
 );
 
 setupPagination(
-  "vietnamese",
-  "vietnamese-pagination",
-  "vietnamese-div",
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_original_language=vi&sort_by=popularity.desc`,
+  'vietnamese',
+  'vietnamese-pagination',
+  'vietnamese-div',
+  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_original_language=vi&sort_by=popularity.desc`
 );
 
 setupPagination(
-  "korean",
-  "korean-pagination",
-  "korean-div",
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_original_language=ko&sort_by=vote_average.desc,popularity.desc&vote_count.gte=10&vote_average.gte=8`,
+  'korean',
+  'korean-pagination',
+  'korean-div',
+  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_original_language=ko&sort_by=vote_average.desc,popularity.desc&vote_count.gte=10&vote_average.gte=8`
 );
 
 setupPagination(
-  "musical",
-  "musical-pagination",
-  "musical-div",
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10402&sort_by=popularity.desc&vote_count.gte=8`,
+  'musical',
+  'musical-pagination',
+  'musical-div',
+  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10402&sort_by=popularity.desc&vote_count.gte=8`
 );
 
 setupPagination(
-  "drama",
-  "drama-pagination",
-  "drama-div",
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=18&sort_by=popularity.desc&vote_count.gte=8`,
+  'drama',
+  'drama-pagination',
+  'drama-div',
+  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=18&sort_by=popularity.desc&vote_count.gte=8`
 );
 
 setupPagination(
-  "indian",
-  "indian-pagination",
-  "indian-div",
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_original_language=hi&sort_by=popularity.desc`,
+  'indian',
+  'indian-pagination',
+  'indian-div',
+  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_original_language=hi&sort_by=popularity.desc`
 );
 
 setupPagination(
-  "action",
-  "action-pagination",
-  "action-div",
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=28&sort_by=popularity.desc&vote_count.gte=8`,
+  'action',
+  'action-pagination',
+  'action-div',
+  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=28&sort_by=popularity.desc&vote_count.gte=8`
 );
 
 setupPagination(
-  "horror",
-  "horror-pagination",
-  "horror-div",
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=27&sort_by=popularity.desc&vote_count.gte=8`,
+  'horror',
+  'horror-pagination',
+  'horror-div',
+  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=27&sort_by=popularity.desc&vote_count.gte=8`
 );
 
 setupPagination(
-  "documentary",
-  "documentary-pagination",
-  "documentary-div",
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=99&sort_by=popularity.desc&vote_count.gte=8`,
+  'documentary',
+  'documentary-pagination',
+  'documentary-div',
+  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=99&sort_by=popularity.desc&vote_count.gte=8`
 );
 
 setupPagination(
-  "animation",
-  "animation-pagination",
-  "animation-div",
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=16&sort_by=popularity.desc&vote_count.gte=8`,
+  'animation',
+  'animation-pagination',
+  'animation-div',
+  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=16&sort_by=popularity.desc&vote_count.gte=8`
 );
 
 setupPagination(
-  "sci-fi",
-  "sci-fi-pagination",
-  "sci-fi-div",
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=878&sort_by=popularity.desc&vote_count.gte=8`,
+  'sci-fi',
+  'sci-fi-pagination',
+  'sci-fi-div',
+  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=878&sort_by=popularity.desc&vote_count.gte=8`
 );
 
 setupPagination(
-  "romantic",
-  "romantic-pagination",
-  "romantic-div",
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10749&sort_by=popularity.desc&vote_count.gte=8`,
+  'romantic',
+  'romantic-pagination',
+  'romantic-div',
+  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10749&sort_by=popularity.desc&vote_count.gte=8`
 );
 
 setupPagination(
-  "thriller",
-  "thriller-pagination",
-  "thriller-div",
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=53&sort_by=popularity.desc&vote_count.gte=8`,
+  'thriller',
+  'thriller-pagination',
+  'thriller-div',
+  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=53&sort_by=popularity.desc&vote_count.gte=8`
 );
 
 setupPagination(
-  "mystery",
-  "mystery-pagination",
-  "mystery-div",
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=9648&sort_by=popularity.desc&vote_count.gte=8`,
+  'mystery',
+  'mystery-pagination',
+  'mystery-div',
+  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=9648&sort_by=popularity.desc&vote_count.gte=8`
 );
 
 setupPagination(
-  "comedy",
-  "comedy-pagination",
-  "comedy-div",
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=35&sort_by=popularity.desc&vote_count.gte=8`,
+  'comedy',
+  'comedy-pagination',
+  'comedy-div',
+  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=35&sort_by=popularity.desc&vote_count.gte=8`
 );
 
 setupPagination(
-  "fantasy",
-  "fantasy-pagination",
-  "fantasy-div",
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=14&sort_by=popularity.desc&vote_count.gte=8`,
+  'fantasy',
+  'fantasy-pagination',
+  'fantasy-div',
+  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=14&sort_by=popularity.desc&vote_count.gte=8`
 );
 
 setupPagination(
-  "family",
-  "family-pagination",
-  "family-div",
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10751&sort_by=popularity.desc&vote_count.gte=8`,
+  'family',
+  'family-pagination',
+  'family-div',
+  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10751&sort_by=popularity.desc&vote_count.gte=8`
 );
 
 setupPagination(
-  "tv-series",
-  "tv-series-pagination",
-  "tv-series-div",
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10770&sort_by=popularity.desc&vote_count.gte=8`,
+  'tv-series',
+  'tv-series-pagination',
+  'tv-series-div',
+  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10770&sort_by=popularity.desc&vote_count.gte=8`
 );
 
 setupPagination(
-  "crime",
-  "crime-pagination",
-  "crime-div",
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=80&sort_by=popularity.desc&vote_count.gte=8`,
+  'crime',
+  'crime-pagination',
+  'crime-div',
+  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=80&sort_by=popularity.desc&vote_count.gte=8`
 );
 
 setupPagination(
-  "classic",
-  "classic-pagination",
-  "classic-div",
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=popularity.desc&release_date.lte=1980`,
+  'classic',
+  'classic-pagination',
+  'classic-div',
+  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=popularity.desc&release_date.lte=1980`
 );
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener('DOMContentLoaded', function () {
   updateSignInButtonState();
-  document
-    .getElementById("googleSignInBtn")
-    .addEventListener("click", handleSignInOut);
+  document.getElementById('googleSignInBtn').addEventListener('click', handleSignInOut);
 });
 
 function handleSearch() {
-  const searchQuery = document.getElementById("search").value;
+  const searchQuery = document.getElementById('search').value;
 
-  localStorage.setItem("searchQuery", searchQuery);
-  window.location.href = "MovieVerse-Frontend/html/search.html";
+  localStorage.setItem('searchQuery', searchQuery);
+  window.location.href = 'MovieVerse-Frontend/html/search.html';
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  const notificationBtn = document.getElementById("notificationBtn");
+document.addEventListener('DOMContentLoaded', () => {
+  const notificationBtn = document.getElementById('notificationBtn');
 
-  notificationBtn.addEventListener("click", () => {
-    window.location.href = "MovieVerse-Frontend/html/notifications.html";
+  notificationBtn.addEventListener('click', () => {
+    window.location.href = 'MovieVerse-Frontend/html/notifications.html';
   });
 });
 
-document.addEventListener("DOMContentLoaded", function () {
-  const stickyMenuButton = document.getElementById("sticky-menu-button");
+document.addEventListener('DOMContentLoaded', function () {
+  const stickyMenuButton = document.getElementById('sticky-menu-button');
 
-  stickyMenuButton.style.display = "none";
+  stickyMenuButton.style.display = 'none';
 
   // Function to check if the device is mobile
   function isMobileDevice() {
@@ -1473,12 +1368,12 @@ document.addEventListener("DOMContentLoaded", function () {
   // Function to toggle visibility based on scroll position and device type
   function toggleStickyMenuButton() {
     if (isMobileDevice() && window.scrollY > 0) {
-      stickyMenuButton.style.display = "flex";
+      stickyMenuButton.style.display = 'flex';
     } else {
-      stickyMenuButton.style.display = "none";
+      stickyMenuButton.style.display = 'none';
     }
   }
 
-  window.addEventListener("scroll", toggleStickyMenuButton);
-  window.addEventListener("resize", toggleStickyMenuButton);
+  window.addEventListener('scroll', toggleStickyMenuButton);
+  window.addEventListener('resize', toggleStickyMenuButton);
 });
