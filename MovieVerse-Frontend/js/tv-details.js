@@ -1342,6 +1342,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating, rated) {
   const images = mediaData.backdrops;
 
   const detailsContainer = document.getElementById('movie-description');
+  detailsContainer.style.fontSize = 'inherit';
 
   let mediaContainer = document.getElementById('media-container');
   if (!mediaContainer) {
