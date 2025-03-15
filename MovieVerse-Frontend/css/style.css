@@ -221,6 +221,7 @@ body {
   font-size: 12px;
   margin: 0;
   word-break: break-word;
+  color: white !important;
 }
 
 #movie-match-btn {
