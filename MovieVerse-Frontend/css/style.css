@@ -49,10 +49,6 @@ body {
   text-decoration: none;
 }
 
-.movie-description p {
-  color: inherit;
-}
-
 .cast-list {
   display: flex;
   flex-wrap: wrap;
@@ -100,7 +96,6 @@ body {
   word-break: break-word;
   white-space: normal;
   text-align: center;
-  color: white !important;
 }
 
 .actor-role {
@@ -222,7 +217,6 @@ body {
   font-size: 12px;
   margin: 0;
   word-break: break-word;
-  color: white !important;
 }
 
 #movie-match-btn {
@@ -2334,6 +2328,7 @@ strong {
   border-radius: 8px;
   color: white;
   margin: 10px;
+  transition: all 0.3s ease-in;
 }
 
 #movie-match-container1 {

@@ -829,6 +829,8 @@ function createTrailerButton(trailerUrl) {
 
   trailerButton.classList.add('trailer-button');
   trailerButton.style.font = 'inherit';
+  trailerButton.style.color = 'inherit';
+  trailerButton.style.fontSize = 'inherit';
 
   return trailerButton;
 }
@@ -1064,12 +1066,14 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
   }
 
   const ratingHTML = `
-    <div class="rating-container" title="Your rating also counts - it might take a while for us to update!">
+    <div class="rating-container" title="Your rating also counts - it might take a while for us to update!" style="color: inherit; font-size: inherit;">
       <strong>MovieVerse Rating:</strong>
       <div class="rating-bar" onclick="handleRatingClick()">
         <div class="rating-fill" style="width: 0; background-color: ${ratingColor};" id="rating-fill"></div>
       </div>
-      <span class="rating-text"><strong>${scaledRating}/5.0</strong> (<strong id="user-votes">${voteCount}</strong> votes)</span>
+      <span class="rating-text" style="color: inherit; font-size: inherit;">
+        <strong>${scaledRating}/5.0</strong> (<strong id="user-votes">${voteCount}</strong> votes)
+      </span>
     </div>
   `;
 
@@ -1089,24 +1093,28 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
   const tmdbRating = movie.vote_average.toFixed(1);
 
   document.getElementById('movie-description').innerHTML += `
-        <p><strong>Description: </strong>${overview}</p>
-        ${originalTitle}
-        <p><strong>Tagline:</strong> ${tagline}</p>
-        <p><strong>Genres:</strong> ${genres}</p>
-        ${ratedElement}
-        ${movieStatus}
-        <p><strong>Release Date:</strong> ${releaseDateWithTimeAgo}</p>
-        <p><strong>Runtime:</strong> ${runtime}</p>
-        <p><strong>Budget:</strong> ${budget}</p>
-        <p><strong>Revenue:</strong> ${revenue}</p>
-        <p><strong>Languages:</strong> ${languages}</p>
-        <p><strong>Countries of Production:</strong> ${countries}</p>
-        <p><strong>Popularity Score:</strong> <span class="${isPopular ? 'popular' : ''}">${popularityText}</span></p>
-        ${ratingHTML}
-        ${awardsElement}
-        <p><strong>TMDb Rating:</strong> <a href="https://www.themoviedb.org/movie/${movie.id}" id="rating" target="_blank">${tmdbRating}/10.0</a></p>
-        ${metascoreElement}
-    `;
+      <p style="color: inherit; font-size: inherit;"><strong>Description: </strong>${overview}</p>
+      ${originalTitle.replace('<p', '<p style="color: inherit; font-size: inherit;"')}
+      <p style="color: inherit; font-size: inherit;"><strong>Tagline:</strong> ${tagline}</p>
+      <p style="color: inherit; font-size: inherit;"><strong>Genres:</strong> ${genres}</p>
+      ${ratedElement.replace('<p', '<p style="color: inherit; font-size: inherit;"')}
+      ${movieStatus.replace('<p', '<p style="color: inherit; font-size: inherit;"')}
+      <p style="color: inherit; font-size: inherit;"><strong>Release Date:</strong> ${releaseDateWithTimeAgo}</p>
+      <p style="color: inherit; font-size: inherit;"><strong>Runtime:</strong> ${runtime}</p>
+      <p style="color: inherit; font-size: inherit;"><strong>Budget:</strong> ${budget}</p>
+      <p style="color: inherit; font-size: inherit;"><strong>Revenue:</strong> ${revenue}</p>
+      <p style="color: inherit; font-size: inherit;"><strong>Languages:</strong> ${languages}</p>
+      <p style="color: inherit; font-size: inherit;"><strong>Countries of Production:</strong> ${countries}</p>
+      <p style="color: inherit; font-size: inherit;"><strong>Popularity Score:</strong> <span class="${isPopular ? 'popular' : ''}">${popularityText}</span></p>
+      ${ratingHTML.replace('<p', '<p style="color: inherit; font-size: inherit;"')}
+      ${awardsElement.replace('<p', '<p style="color: inherit; font-size: inherit;"')}
+      <p style="color: inherit; font-size: inherit;"><strong>TMDb Rating:</strong> <a href="https://www.themoviedb.org/movie/${movie.id}" id="rating" target="_blank">${tmdbRating}/10.0</a></p>
+      ${metascoreElement.replace('<p', '<p style="color: inherit; font-size: inherit;"')}
+  `;
+  const savedFontSize = localStorage.getItem('fontSize');
+  if (savedFontSize) {
+    document.getElementById('movie-description').style.fontSize = savedFontSize;
+  }
 
   if (movie.credits && movie.credits.crew) {
     const directors = movie.credits.crew.filter(member => member.job === 'Director');
@@ -1119,6 +1127,9 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
       const directorTitle = document.createElement('p');
       directorTitle.innerHTML = '<strong>Director:</strong>';
       directorTitle.style.padding = '0';
+      directorTitle.style.color = 'inherit';
+      directorTitle.style.fontSize = 'inherit';
+      directorTitle.style.marginTop = '0';
       directorSection.appendChild(directorTitle);
 
       const directorList = document.createElement('div');
@@ -1129,6 +1140,8 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         directorLink.classList.add('director-link');
         directorLink.href = 'javascript:void(0);';
         directorLink.style.textDecoration = 'none';
+        directorLink.style.color = 'inherit';
+        directorLink.style.fontSize = 'inherit';
         directorLink.setAttribute('onclick', `handleDirectorClick(${director.id}, '${director.name.replace(/'/g, "\\'")}');`);
 
         const directorItem = document.createElement('div');
@@ -1155,8 +1168,9 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         const directorName = document.createElement('p');
         directorName.classList.add('actor-name');
         directorName.textContent = director.name;
-        directorDetails.appendChild(directorName);
+        directorName.style.color = 'inherit';
 
+        directorDetails.appendChild(directorName);
         directorItem.appendChild(directorDetails);
         directorLink.appendChild(directorItem);
         directorList.appendChild(directorLink);
@@ -1167,6 +1181,8 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     } else {
       const noDirectorsElement = document.createElement('p');
       noDirectorsElement.innerHTML = `<strong>Director:</strong> Information not available`;
+      noDirectorsElement.style.color = 'inherit';
+      noDirectorsElement.style.fontSize = 'inherit';
       document.getElementById('movie-description').appendChild(noDirectorsElement);
     }
   }
@@ -1174,8 +1190,11 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
   const castSection = document.createElement('div');
   castSection.classList.add('cast-section');
 
+  // Create Cast Title
   const castTitle = document.createElement('p');
   castTitle.innerHTML = '<strong>Notable Cast:</strong>';
+  castTitle.style.color = 'inherit';
+  castTitle.style.fontSize = 'inherit';
   castSection.appendChild(castTitle);
 
   if (movie.credits && movie.credits.cast.length > 0) {
@@ -1185,12 +1204,14 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     castList.style.flexWrap = 'wrap';
     castList.style.justifyContent = 'center';
     castList.style.gap = '3px';
+
     const topTwelveCast = movie.credits.cast.slice(0, 12);
 
     topTwelveCast.forEach(actor => {
       const castItemLink = document.createElement('a');
       castItemLink.classList.add('actor-link');
       castItemLink.href = 'javascript:void(0);';
+      castItemLink.style.color = 'inherit';
       castItemLink.setAttribute('onclick', `selectActorId(${actor.id}, '${actor.name.replace(/'/g, "\\'")}');`);
 
       const castItem = document.createElement('div');
@@ -1214,15 +1235,19 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
       const actorDetails = document.createElement('div');
       actorDetails.classList.add('cast-details');
 
+      // Actor Name
       const actorName = document.createElement('p');
       actorName.classList.add('actor-name');
       actorName.textContent = actor.name;
+      actorName.style.color = 'inherit';
       actorDetails.appendChild(actorName);
 
+      // Actor Role
       const character = actor.character ? ` (as ${actor.character})` : '';
       const actorRole = document.createElement('p');
       actorRole.classList.add('actor-role');
       actorRole.textContent = character;
+      actorRole.style.color = 'inherit';
       actorDetails.appendChild(actorRole);
 
       castItem.appendChild(actorDetails);
@@ -1232,7 +1257,11 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
 
     castSection.appendChild(castList);
   } else {
-    castSection.appendChild(document.createTextNode('None available.'));
+    const noCastElement = document.createElement('p');
+    noCastElement.textContent = 'None available.';
+    noCastElement.style.color = 'inherit';
+    noCastElement.style.fontSize = 'inherit';
+    castSection.appendChild(noCastElement);
   }
 
   document.getElementById('movie-description').appendChild(castSection);
@@ -1241,8 +1270,11 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     const similarMoviesSection = document.createElement('div');
     similarMoviesSection.classList.add('similar-movies-section');
 
+    // Similar Movies Title
     const similarMoviesTitle = document.createElement('p');
     similarMoviesTitle.innerHTML = '<strong>Similar Movies:</strong>';
+    similarMoviesTitle.style.color = 'inherit';
+    similarMoviesTitle.style.fontSize = 'inherit';
     similarMoviesSection.appendChild(similarMoviesTitle);
 
     const similarMoviesList = document.createElement('div');
@@ -1255,10 +1287,12 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     let topTenSimilarMovies = movie.similar.results;
     topTenSimilarMovies = topTenSimilarMovies.sort((a, b) => b.popularity - a.popularity);
     topTenSimilarMovies = topTenSimilarMovies.slice(0, 18);
+
     topTenSimilarMovies.forEach(similarMovie => {
       const similarMovieLink = document.createElement('a');
       similarMovieLink.classList.add('similar-movie-link');
       similarMovieLink.href = 'javascript:void(0);';
+      similarMovieLink.style.color = 'inherit';
       similarMovieLink.setAttribute('onclick', `handleSimilarMovieClick(${similarMovie.id}, '${similarMovie.title.replace(/'/g, "\\'")}');`);
 
       const similarMovieItem = document.createElement('div');
@@ -1283,14 +1317,16 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
       const similarMovieDetails = document.createElement('div');
       similarMovieDetails.classList.add('cast-details');
 
+      // Similar Movie Title
       const similarMovieTitle = document.createElement('p');
       similarMovieTitle.classList.add('actor-name');
+      similarMovieTitle.style.color = 'inherit';
+
       const titleWords = similarMovie.title.split(' ');
       const truncatedTitle = titleWords.length > 5 ? titleWords.slice(0, 5).join(' ') + ' ...' : similarMovie.title;
       similarMovieTitle.textContent = truncatedTitle;
 
       similarMovieDetails.appendChild(similarMovieTitle);
-
       similarMovieItem.appendChild(similarMovieDetails);
       similarMovieLink.appendChild(similarMovieItem);
       similarMoviesList.appendChild(similarMovieLink);
@@ -1301,6 +1337,8 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
   } else {
     const noSimilarMoviesElement = document.createElement('p');
     noSimilarMoviesElement.innerHTML = `<strong>Similar Movies:</strong> None available`;
+    noSimilarMoviesElement.style.color = 'inherit';
+    noSimilarMoviesElement.style.fontSize = 'inherit';
     document.getElementById('movie-description').appendChild(noSimilarMoviesElement);
   }
 
@@ -1308,8 +1346,10 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     const companiesSection = document.createElement('div');
     companiesSection.classList.add('companies-section');
 
+    // Production Companies Title
     const companiesTitle = document.createElement('p');
     companiesTitle.innerHTML = '<strong>Production Companies:</strong>';
+    companiesTitle.style.color = 'inherit';
     companiesSection.appendChild(companiesTitle);
 
     const companiesList = document.createElement('div');
@@ -1325,6 +1365,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
       const companyLink = document.createElement('a');
       companyLink.classList.add('company-link');
       companyLink.href = 'javascript:void(0);';
+      companyLink.style.color = 'inherit';
       companyLink.setAttribute('onclick', `handleCompanyClick(${company.id}, '${company.name.replace(/'/g, "\\'")}');`);
 
       const companyItem = document.createElement('div');
@@ -1351,9 +1392,11 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
       const companyDetails = document.createElement('div');
       companyDetails.classList.add('company-details');
 
+      // Company Name
       const companyName = document.createElement('p');
       companyName.classList.add('company-name');
       companyName.textContent = company.name;
+      companyName.style.color = 'inherit';
       companyDetails.appendChild(companyName);
 
       companyItem.appendChild(companyDetails);
@@ -1366,20 +1409,26 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
   } else {
     const noCompaniesElement = document.createElement('p');
     noCompaniesElement.innerHTML = `<strong>Production Companies:</strong> Information not available`;
+    noCompaniesElement.style.color = 'inherit';
+    noCompaniesElement.style.fontSize = 'inherit';
     document.getElementById('movie-description').appendChild(noCompaniesElement);
   }
 
   document.getElementById('movie-description').innerHTML += `
-        <p><strong>Streaming Options:</strong> ${streamingHTML}</p>`;
+    <p style="color: inherit; font-size: inherit;"><strong>Streaming Options:</strong> ${streamingHTML}</p>`;
 
   const homepage = document.createElement('p');
   homepage.innerHTML = movie.homepage
-    ? `<strong>Homepage:</strong> <a id="rating-link" href="${movie.homepage}" target="_blank">Visit Homepage</a>`
+    ? `<strong>Homepage:</strong> <a id="rating-link" href="${movie.homepage}" target="_blank" style="color: inherit; font-size: inherit;">Visit Homepage</a>`
     : `<strong>Homepage:</strong> Information unavailable`;
+  homepage.style.color = 'inherit';
+  homepage.style.fontSize = 'inherit';
   movieDescription.appendChild(homepage);
 
   const keywordsElement = document.createElement('p');
   keywordsElement.innerHTML = `<strong>Keywords:</strong> ${keywords}`;
+  keywordsElement.style.color = 'inherit';
+  keywordsElement.style.fontSize = 'inherit';
   movieDescription.appendChild(keywordsElement);
 
   createImdbRatingCircle(imdbRating, imdbLink);
@@ -1399,7 +1448,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         align-items: center;
         justify-content: center;
         position: relative;
-        width: 90vw; 
+        width: 90vw;
         max-width: 450px;
         margin: 20px auto;
         overflow: hidden;
@@ -1409,11 +1458,13 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
 
   const mediaTitle = document.createElement('p');
   mediaTitle.textContent = 'Media:';
-  mediaTitle.style = `
-        font-weight: bold;
-        align-self: start;
-        margin-bottom: 5px;
-    `;
+  mediaTitle.style.fontWeight = 'bold';
+  mediaTitle.style.alignSelf = 'start';
+  mediaTitle.style.marginBottom = '5px';
+
+  // Ensure it inherits font size and color
+  mediaTitle.style.color = 'inherit';
+  mediaTitle.style.fontSize = 'inherit';
 
   detailsContainer.appendChild(mediaTitle);
   detailsContainer.appendChild(mediaContainer);
@@ -1421,7 +1472,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
   const imageWrapper = document.createElement('div');
   imageWrapper.style = `
         width: 100%;
-        max-height: 210px; 
+        max-height: 210px;
         border-radius: 16px;
         overflow: hidden;
         display: flex;
@@ -1524,7 +1575,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
   prevButton.innerHTML = '<i class="fas fa-arrow-left"></i>';
   prevButton.style = `
         position: absolute;
-        left: 5px; 
+        left: 5px;
         top: 50%;
         transform: translateY(-50%);
         background-color: #7378c5;
@@ -1545,7 +1596,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
   nextButton.innerHTML = '<i class="fas fa-arrow-right"></i>';
   nextButton.style = `
         position: absolute;
-        right: 5px; 
+        right: 5px;
         top: 50%;
         transform: translateY(-50%);
         background-color: #7378c5;
@@ -1622,7 +1673,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
             width: 8px;
             height: 8px;
             margin: 0 5px;
-            background-color: ${index === currentIndex ? '#ff8623' : '#bbb'}; 
+            background-color: ${index === currentIndex ? '#ff8623' : '#bbb'};
             border-radius: 50%;
             cursor: pointer;
             margin-bottom: 5px;

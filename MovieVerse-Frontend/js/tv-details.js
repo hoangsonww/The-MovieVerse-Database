@@ -844,35 +844,35 @@ async function populateTvSeriesDetails(tvSeries, imdbRating, rated) {
     }
   })();
 
-  let detailsHTML = `<p><strong>Overview:</strong> ${tvSeries.overview || 'Overview not available.'}</p>`;
+  let detailsHTML = `<p style="color: inherit; font-size: inherit;"><strong>Overview:</strong> ${tvSeries.overview || 'Overview not available.'}</p>`;
 
-  detailsHTML += `<p><strong>Original Title:</strong> ${tvSeries.original_name || 'Not available'}</p>`;
+  detailsHTML += `<p style="color: inherit; font-size: inherit;"><strong>Original Title:</strong> ${tvSeries.original_name || 'Not available'}</p>`;
 
-  detailsHTML += `<p><strong>Tagline:</strong> ${tvSeries.tagline || 'Not available'}</p>`;
+  detailsHTML += `<p style="color: inherit; font-size: inherit;"><strong>Tagline:</strong> ${tvSeries.tagline || 'Not available'}</p>`;
 
   const genres = tvSeries.genres && tvSeries.genres.length ? tvSeries.genres.map(genre => genre.name).join(', ') : 'Genres not available';
 
-  detailsHTML += `<p><strong>Genres:</strong> ${genres}</p>`;
+  detailsHTML += `<p style="color: inherit; font-size: inherit;"><strong>Genres:</strong> ${genres}</p>`;
 
   const ratingDetails = getRatingDetails(rated);
   const ratedElement = rated
-    ? `<p id="movie-rated-element"><strong>Rated:</strong> <span style="color: ${ratingDetails.color};"><strong>${ratingDetails.text}</strong>${ratingDetails.description}</span></p>`
+    ? `<p id="movie-rated-element" style="color: inherit; font-size: inherit;"><strong>Rated:</strong> <span style="color: ${ratingDetails.color};"><strong>${ratingDetails.text}</strong>${ratingDetails.description}</span></p>`
     : '';
 
   detailsHTML += ratedElement;
 
-  detailsHTML += `<p><strong>First Air Date:</strong> ${tvSeries.first_air_date || 'Not available'}</p>`;
+  detailsHTML += `<p style="color: inherit; font-size: inherit;"><strong>First Air Date:</strong> ${tvSeries.first_air_date || 'Not available'}</p>`;
 
-  detailsHTML += `<p><strong>Last Air Date:</strong> ${tvSeries.last_air_date || 'Not available'}</p>`;
+  detailsHTML += `<p style="color: inherit; font-size: inherit;"><strong>Last Air Date:</strong> ${tvSeries.last_air_date || 'Not available'}</p>`;
 
-  detailsHTML += `<p><strong>Status:</strong> ${tvSeries.status || 'Not available'}</p>`;
+  detailsHTML += `<p style="color: inherit; font-size: inherit;"><strong>Status:</strong> ${tvSeries.status || 'Not available'}</p>`;
 
   const type = tvSeries.type || 'Not available';
-  detailsHTML += `<p><strong>Type:</strong> ${type}</p>`;
+  detailsHTML += `<p style="color: inherit; font-size: inherit;"><strong>Type:</strong> ${type}</p>`;
 
   const networks =
     tvSeries.networks && tvSeries.networks.length ? tvSeries.networks.map(network => network.name).join(', ') : 'Information not available';
-  detailsHTML += `<p><strong>Networks:</strong> ${networks}</p>`;
+  detailsHTML += `<p style="color: inherit; font-size: inherit;"><strong>Networks:</strong> ${networks}</p>`;
 
   const voteAverage = tvSeries.vote_average ? tvSeries.vote_average.toFixed(1) : 'N/A';
   const voteCount = tvSeries.vote_count ? tvSeries.vote_count : '0';
@@ -909,63 +909,84 @@ async function populateTvSeriesDetails(tvSeries, imdbRating, rated) {
     if (imdbRating && imdbRating !== null && imdbRating !== undefined) {
       const imdbId = tvSeries.external_ids.imdb_id;
       const imdbUrl = `https://www.imdb.com/title/${imdbId}/`;
-      detailsHTML += `<p title="Click to go to this TV series' IMDB page"><strong>IMDb Rating:</strong> <strong><a id="ratingImdb" href="${imdbUrl}" target="_blank">${imdbRating}</a></strong></p>`;
+      detailsHTML += `<p style="color: inherit; font-size: inherit;" title="Click to go to this TV series' IMDB page">
+                            <strong>IMDb Rating:</strong> <strong>
+                                <a id="ratingImdb" href="${imdbUrl}" target="_blank" style="color: inherit; font-size: inherit;">${imdbRating}</a>
+                            </strong>
+                        </p>`;
     } else {
       const imdbId = tvSeries.external_ids.imdb_id;
       const imdbUrl = `https://www.imdb.com/title/${imdbId}/`;
-      detailsHTML += `<p title="Click to go to this TV series' IMDB page"><strong>IMDb Rating:</strong> <strong><a id="ratingImdb" href="${imdbUrl}" target="_blank">View on IMDb</a></strong></p>`;
+      detailsHTML += `<p style="color: inherit; font-size: inherit;" title="Click to go to this TV series' IMDB page">
+                            <strong>IMDb Rating:</strong> <strong>
+                                <a id="ratingImdb" href="${imdbUrl}" target="_blank" style="color: inherit; font-size: inherit;">View on IMDb</a>
+                            </strong>
+                        </p>`;
     }
   } else {
-    detailsHTML += `<p title="Click to go to this TV series' IMDB page"><strong>IMDb Rating:</strong> <strong>IMDb rating not available</strong></p>`;
+    detailsHTML += `<p style="color: inherit; font-size: inherit;" title="Click to go to this TV series' IMDB page">
+                        <strong>IMDb Rating:</strong> <strong>IMDb rating not available</strong>
+                    </p>`;
   }
 
   let tmdbRating = tvSeries.vote_average ? tvSeries.vote_average.toFixed(1) : 'N/A';
   if (tmdbRating === 'N/A') {
-    detailsHTML += `<p><strong>TMDB Rating:</strong> <a href="https://www.themoviedb.org/tv/${tvSeries.id}" id="rating" target="_blank">${tmdbRating}</a></p>`;
+    detailsHTML += `<p style="color: inherit; font-size: inherit;">
+                        <strong>TMDB Rating:</strong>
+                        <a href="https://www.themoviedb.org/tv/${tvSeries.id}" id="rating" target="_blank" style="color: inherit; font-size: inherit;">${tmdbRating}</a>
+                    </p>`;
   } else {
-    detailsHTML += `<p><strong>TMDB Rating:</strong> <a href="https://www.themoviedb.org/tv/${tvSeries.id}" id="rating" target="_blank">${tmdbRating}/10.0</a></p>`;
+    detailsHTML += `<p style="color: inherit; font-size: inherit;">
+                        <strong>TMDB Rating:</strong>
+                        <a href="https://www.themoviedb.org/tv/${tvSeries.id}" id="rating" target="_blank" style="color: inherit; font-size: inherit;">${tmdbRating}/10.0</a>
+                    </p>`;
   }
 
-  const homepage = tvSeries.homepage ? `<a id="homepage" href="${tvSeries.homepage}" target="_blank">Visit homepage</a>` : 'Not available';
-  detailsHTML += `<p><strong>Homepage:</strong> ${homepage}</p>`;
+  const homepage = tvSeries.homepage
+    ? `<a id="homepage" href="${tvSeries.homepage}" target="_blank" style="color: inherit; font-size: inherit;">Visit homepage</a>`
+    : 'Not available';
+  detailsHTML += `<p style="color: inherit; font-size: inherit;"><strong>Homepage:</strong> ${homepage}</p>`;
 
   if (tvSeries.origin_country && tvSeries.origin_country.length > 0) {
     const countryNames = tvSeries.origin_country.map(code => getCountryName(code)).join(', ');
-    detailsHTML += `<p><strong>Country of Origin:</strong> ${countryNames}</p>`;
+    detailsHTML += `<p style="color: inherit; font-size: inherit;"><strong>Country of Origin:</strong> ${countryNames}</p>`;
   } else {
-    detailsHTML += `<p><strong>Country of Origin:</strong> Information not available</p>`;
+    detailsHTML += `<p style="color: inherit; font-size: inherit;"><strong>Country of Origin:</strong> Information not available</p>`;
   }
 
   const languageName = getLanguageName(tvSeries.original_language);
-  detailsHTML += `<p><strong>Original Language:</strong> ${languageName}</p>`;
+  detailsHTML += `<p style="color: inherit; font-size: inherit;"><strong>Original Language:</strong> ${languageName}</p>`;
 
   const productionCountries =
     tvSeries.production_countries && tvSeries.production_countries.length > 0
       ? tvSeries.production_countries.map(country => getCountryName(country.iso_3166_1)).join(', ')
       : 'Information not available';
-  detailsHTML += `<p><strong>Production Countries:</strong> ${productionCountries}</p>`;
+  detailsHTML += `<p style="color: inherit; font-size: inherit;"><strong>Production Countries:</strong> ${productionCountries}</p>`;
 
-  detailsHTML += `<p><strong>Seasons:</strong> ${tvSeries.number_of_seasons || 0}, <strong>Episodes:</strong> ${tvSeries.number_of_episodes || 0}</p>`;
+  detailsHTML += `<p style="color: inherit; font-size: inherit;">
+                    <strong>Seasons:</strong> ${tvSeries.number_of_seasons || 0},
+                    <strong>Episodes:</strong> ${tvSeries.number_of_episodes || 0}
+                </p>`;
 
   const popularity = tvSeries.popularity ? tvSeries.popularity.toFixed(2) : 'N/A';
   const isPopular = tvSeries.popularity > 50 ? 'popular' : 'not popular';
-  detailsHTML += `<p><strong>Popularity Score:</strong> ${popularity} (This TV series is <strong>${isPopular}</strong>)</p>`;
+  detailsHTML += `<p style="color: inherit; font-size: inherit;">
+                    <strong>Popularity Score:</strong> ${popularity} (This TV series is <strong>${isPopular}</strong>)
+                </p>`;
 
   if (tvSeries.last_episode_to_air) {
     const lastEpisode = tvSeries.last_episode_to_air;
 
-    detailsHTML += `<div class="last-episode">
-                            <strong>Last Episode:</strong> <em>${lastEpisode.name || 'Title not available'}</em> - ${
-                              lastEpisode.overview || 'Overview not available.'
-                            }
-                        </div>`;
+    detailsHTML += `<div class="last-episode" style="color: inherit; font-size: inherit;">
+                        <strong>Last Episode:</strong> <em>${lastEpisode.name || 'Title not available'}</em> -
+                        ${lastEpisode.overview || 'Overview not available.'}
+                    </div>`;
 
     if (lastEpisode.still_path) {
       detailsHTML += `<div class="last-episode-image-container" id="last-episode-image-container">
-                                <img src="${IMGPATH + lastEpisode.still_path}" alt="${
-                                  lastEpisode.name
-                                } Still Image" class="last-episode-image" id="last-episode-image" alt="Last Episode Image">
-                            </div>`;
+                            <img src="${IMGPATH + lastEpisode.still_path}" alt="${lastEpisode.name} Still Image"
+                                 class="last-episode-image" id="last-episode-image" style="filter: inherit; object-fit: inherit;">
+                        </div>`;
     }
   }
 
@@ -973,8 +994,11 @@ async function populateTvSeriesDetails(tvSeries, imdbRating, rated) {
     const creatorsSection = document.createElement('div');
     creatorsSection.classList.add('creators-section');
 
+    // Creators Title
     const creatorsTitle = document.createElement('p');
     creatorsTitle.innerHTML = '<strong>Creators:</strong>';
+    creatorsTitle.style.color = 'inherit';
+    creatorsTitle.style.fontSize = 'inherit';
     creatorsSection.appendChild(creatorsTitle);
 
     const creatorsList = document.createElement('div');
@@ -988,6 +1012,8 @@ async function populateTvSeriesDetails(tvSeries, imdbRating, rated) {
       const creatorLink = document.createElement('a');
       creatorLink.classList.add('creator-link');
       creatorLink.href = 'javascript:void(0);';
+      creatorLink.style.color = 'inherit';
+      creatorLink.style.fontSize = 'inherit';
       creatorLink.setAttribute('onclick', `handleCreatorClick(${creator.id}, '${creator.name.replace(/'/g, "\\'")}');`);
 
       const creatorItem = document.createElement('div');
@@ -1011,9 +1037,11 @@ async function populateTvSeriesDetails(tvSeries, imdbRating, rated) {
       const creatorDetails = document.createElement('div');
       creatorDetails.classList.add('creator-details');
 
+      // Creator Name
       const creatorName = document.createElement('p');
       creatorName.classList.add('creator-name');
       creatorName.textContent = creator.name;
+      creatorName.style.color = 'inherit';
       creatorDetails.appendChild(creatorName);
 
       creatorItem.appendChild(creatorDetails);
@@ -1026,6 +1054,8 @@ async function populateTvSeriesDetails(tvSeries, imdbRating, rated) {
   } else {
     const noCreatorsElement = document.createElement('p');
     noCreatorsElement.innerHTML = `<strong>Creators:</strong> Information not available`;
+    noCreatorsElement.style.color = 'inherit';
+    noCreatorsElement.style.fontSize = 'inherit';
     detailsHTML += noCreatorsElement.outerHTML;
   }
 
@@ -1033,8 +1063,10 @@ async function populateTvSeriesDetails(tvSeries, imdbRating, rated) {
     const castSection = document.createElement('div');
     castSection.classList.add('cast-section');
 
+    // Cast Title
     const castTitle = document.createElement('p');
     castTitle.innerHTML = '<strong>Notable Cast:</strong>';
+    castTitle.style.color = 'inherit';
     castSection.appendChild(castTitle);
 
     const castList = document.createElement('div');
@@ -1048,6 +1080,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating, rated) {
       const castMemberLink = document.createElement('a');
       castMemberLink.classList.add('cast-member-link');
       castMemberLink.href = 'javascript:void(0);';
+      castMemberLink.style.color = 'inherit';
       castMemberLink.setAttribute('onclick', `selectActorId(${castMember.id}, '${castMember.name.replace(/'/g, "\\'")}');`);
 
       const castMemberItem = document.createElement('div');
@@ -1071,15 +1104,19 @@ async function populateTvSeriesDetails(tvSeries, imdbRating, rated) {
       const castMemberDetails = document.createElement('div');
       castMemberDetails.classList.add('cast-member-details');
 
+      // Cast Member Name
       const castMemberName = document.createElement('p');
       castMemberName.classList.add('cast-member-name');
       castMemberName.textContent = castMember.name;
+      castMemberName.style.color = 'inherit';
       castMemberDetails.appendChild(castMemberName);
 
+      // Cast Member Role
       const castMemberRole = document.createElement('p');
       castMemberRole.classList.add('cast-member-role');
       castMemberRole.textContent = castMember.character ? `(as ${castMember.character})` : '';
       castMemberRole.style.fontStyle = 'italic';
+      castMemberRole.style.color = 'inherit';
       castMemberDetails.appendChild(castMemberRole);
 
       castMemberItem.appendChild(castMemberDetails);
@@ -1092,6 +1129,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating, rated) {
   } else {
     const noCastElement = document.createElement('p');
     noCastElement.innerHTML = `<strong>Cast:</strong> Information not available`;
+    noCastElement.style.color = 'inherit';
     detailsHTML += noCastElement.outerHTML;
   }
 
@@ -1099,8 +1137,10 @@ async function populateTvSeriesDetails(tvSeries, imdbRating, rated) {
     const similarTvSeriesSection = document.createElement('div');
     similarTvSeriesSection.classList.add('similar-tv-series-section');
 
+    // Similar TV Series Title
     const similarTvSeriesTitle = document.createElement('p');
     similarTvSeriesTitle.innerHTML = '<strong>Similar TV Series:</strong>';
+    similarTvSeriesTitle.style.color = 'inherit';
     similarTvSeriesSection.appendChild(similarTvSeriesTitle);
 
     const similarTvSeriesList = document.createElement('div');
@@ -1117,6 +1157,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating, rated) {
       const similarTvLink = document.createElement('a');
       similarTvLink.classList.add('similar-tv-link');
       similarTvLink.href = 'javascript:void(0);';
+      similarTvLink.style.color = 'inherit';
       similarTvLink.setAttribute('onclick', `selectTvSeriesId(${similarTv.id});`);
 
       const similarTvItem = document.createElement('div');
@@ -1140,8 +1181,10 @@ async function populateTvSeriesDetails(tvSeries, imdbRating, rated) {
       const similarTvDetails = document.createElement('div');
       similarTvDetails.classList.add('similar-tv-details');
 
+      // Similar TV Series Name
       const similarTvName = document.createElement('p');
       similarTvName.classList.add('similar-tv-name');
+      similarTvName.style.color = 'inherit';
       const tvNameWords = similarTv.name.split(' ');
       const truncatedTvName = tvNameWords.length > 5 ? tvNameWords.slice(0, 5).join(' ') + ' ...' : similarTv.name;
       similarTvName.textContent = truncatedTvName;
@@ -1158,6 +1201,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating, rated) {
   } else {
     const noSimilarTvSeriesElement = document.createElement('p');
     noSimilarTvSeriesElement.innerHTML = `<strong>Similar TV Series:</strong> Information not available`;
+    noSimilarTvSeriesElement.style.color = 'inherit';
     detailsHTML += noSimilarTvSeriesElement.outerHTML;
   }
 
@@ -1165,8 +1209,10 @@ async function populateTvSeriesDetails(tvSeries, imdbRating, rated) {
     const companiesSection = document.createElement('div');
     companiesSection.classList.add('companies-section');
 
+    // Production Companies Title
     const companiesTitle = document.createElement('p');
     companiesTitle.innerHTML = '<strong>Production Companies:</strong>';
+    companiesTitle.style.color = 'inherit';
     companiesSection.appendChild(companiesTitle);
 
     const companiesList = document.createElement('div');
@@ -1182,6 +1228,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating, rated) {
       const companyLink = document.createElement('a');
       companyLink.classList.add('company-link');
       companyLink.href = 'javascript:void(0);';
+      companyLink.style.color = 'inherit';
       companyLink.setAttribute('onclick', `selectCompanyId(${company.id});`);
 
       const companyItem = document.createElement('div');
@@ -1205,9 +1252,11 @@ async function populateTvSeriesDetails(tvSeries, imdbRating, rated) {
       const companyDetails = document.createElement('div');
       companyDetails.classList.add('company-details');
 
+      // Company Name
       const companyName = document.createElement('p');
       companyName.classList.add('company-name');
       companyName.textContent = company.name;
+      companyName.style.color = 'inherit';
       companyDetails.appendChild(companyName);
 
       companyItem.appendChild(companyDetails);
@@ -1220,6 +1269,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating, rated) {
   } else {
     const noCompaniesElement = document.createElement('p');
     noCompaniesElement.innerHTML = `<strong>Production Companies:</strong> Information not available`;
+    noCompaniesElement.style.color = 'inherit';
     detailsHTML += noCompaniesElement.outerHTML;
   }
 
@@ -1257,31 +1307,31 @@ async function populateTvSeriesDetails(tvSeries, imdbRating, rated) {
                 break;
             }
 
-            return `<a href="${providerLink}" target="_blank" title="Watch on ${provider.provider_name}" style="display: inline-flex; align-items: flex-end; vertical-align: bottom;" class="streaming-logo">
-        <img src="https://image.tmdb.org/t/p/original${provider.logo_path}" alt="${provider.provider_name}" style="width: 50px; margin-left: 10px;">
-    </a>`;
+            return `<a href="${providerLink}" target="_blank" title="Watch on ${provider.provider_name}" style="display: inline-flex; align-items: flex-end; vertical-align: bottom; color: inherit;" class="streaming-logo">
+                            <img src="https://image.tmdb.org/t/p/original${provider.logo_path}" alt="${provider.provider_name}" style="width: 50px; margin-left: 10px;">
+                          </a>`;
           })
           .join('') +
-        `<a href="https://www.justwatch.com/us/search?q=${tvSeriesTitleEncoded}" target="_blank" title="View more streaming options on JustWatch" class="streaming-logo" style="display: inline-flex; align-items: center; vertical-align: bottom">
-        <img src="../../images/justwatchlogo.webp" alt="JustWatch" style="width: 50px;">
-    </a>`
+        `<a href="https://www.justwatch.com/us/search?q=${tvSeriesTitleEncoded}" target="_blank" title="View more streaming options on JustWatch" class="streaming-logo" style="display: inline-flex; align-items: center; vertical-align: bottom; color: inherit;">
+            <img src="../../images/justwatchlogo.webp" alt="JustWatch" style="width: 50px;">
+          </a>`
       : 'No streaming options available.';
 
-  detailsHTML += `<p><strong>Streaming Options:</strong> ${streamingHTML}</p>`;
+  detailsHTML += `<p style="color: inherit;"><strong>Streaming Options:</strong> ${streamingHTML}</p>`;
 
   let keywordsHTML = tvSeries.keywords
     ? tvSeries.keywords.results
         .map(
           kw =>
-            `<a class="keyword-link" href="javascript:void(0);" onclick="handleKeywordClick('${kw.name.replace(/'/g, "\\'")}')" title="Click to search for movies with the keyword '${kw.name}'">${kw.name}</a>`
+            `<a class="keyword-link" href="javascript:void(0);" onclick="handleKeywordClick('${kw.name.replace(/'/g, "\\'")}')" title="Click to search for movies with the keyword '${kw.name}'" style="color: inherit;">${kw.name}</a>`
         )
         .join(', ')
     : 'None Available';
 
   if (tvSeries.keywords && tvSeries.keywords.results && tvSeries.keywords.results.length) {
-    detailsHTML += `<p><strong>Keywords:</strong> ${keywordsHTML}</p>`;
+    detailsHTML += `<p style="color: inherit;"><strong>Keywords:</strong> ${keywordsHTML}</p>`;
   } else {
-    detailsHTML += `<p><strong>Keywords:</strong> None Available</p>`;
+    detailsHTML += `<p style="color: inherit;"><strong>Keywords:</strong> None Available</p>`;
   }
 
   const mediaUrl = `https://${getMovieVerseData()}/3/tv/${tvSeries.id}/images?${generateMovieNames()}${getMovieCode()}`;
@@ -1525,7 +1575,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating, rated) {
             width: 8px;
             height: 8px;
             margin: 0 5px;
-            background-color: ${index === currentIndex ? '#ff8623' : '#bbb'}; 
+            background-color: ${index === currentIndex ? '#ff8623' : '#bbb'};
             border-radius: 50%;
             cursor: pointer;
             margin-bottom: 5px;
@@ -1597,24 +1647,34 @@ async function populateTvSeriesDetails(tvSeries, imdbRating, rated) {
     trailerButton.textContent = 'Watch Trailer';
     trailerButton.id = 'trailer-button';
     trailerButton.style = `
-            background-color: #7378c5;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-top: 10px; 
-            font: inherit;
-          `;
+    background-color: #7378c5;
+    color: inherit;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+    font: inherit;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+`;
+
+    // Add hover effect dynamically
+    trailerButton.addEventListener('mouseover', () => {
+      trailerButton.style.backgroundColor = '#ff8623';
+    });
+
+    trailerButton.addEventListener('mouseout', () => {
+      trailerButton.style.backgroundColor = '#7378c5';
+    });
 
     const iframeContainer = document.createElement('div');
     iframeContainer.id = 'trailer-iframe-container';
     iframeContainer.style = `
-            display: none; 
+            display: none;
             overflow: hidden;
             margin-top: 10px;
-            max-height: 0; 
-            transition: max-height 0.5s ease-in-out; 
+            max-height: 0;
+            transition: max-height 0.5s ease-in-out;
             border: none;
             border-radius: 8px;
           `;
