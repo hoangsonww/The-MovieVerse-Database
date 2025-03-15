@@ -1175,7 +1175,7 @@ async function getDirectorSpotlight(url) {
   }
 }
 
-function showMoviesDirectorSpotlight(movies) {
+async function showMoviesDirectorSpotlight(movies) {
   director_main.innerHTML = "";
 
   // Inject CSS for the sliding-up animation effect with delay support
@@ -1199,11 +1199,8 @@ function showMoviesDirectorSpotlight(movies) {
       entries.forEach((entry, index) => {
         if (entry.isIntersecting) {
           const movieEl = entry.target;
-
-          // Apply a staggered delay based on the card's index
-          movieEl.style.transitionDelay = `${index * 100}ms`; // Adjust delay as needed
+          movieEl.style.transitionDelay = `${index * 100}ms`;
           movieEl.classList.add("visible");
-
           slideObserver.unobserve(movieEl);
         }
       });
@@ -1214,45 +1211,126 @@ function showMoviesDirectorSpotlight(movies) {
     },
   );
 
+  // Observer for background image loading and rotation setup
+  const imageObserver = new IntersectionObserver(
+    async (entries, observer) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          const movieEl = entry.target;
+          const movieId = movieEl.dataset.id;
+          const movieImageContainer = movieEl.querySelector(".movie-images");
+
+          // If there's no valid poster_path, do not run rotation
+          if (!movieEl.dataset.posterPath || typeof IMGPATH === "undefined") {
+            movieImageContainer.innerHTML = `<div style="color: inherit; font-weight: bold; text-align: center; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;">Image Not Available</div>`;
+            observer.unobserve(movieEl);
+            continue;
+          }
+
+          // Fetch additional posters and set up rotation in the background
+          const additionalPosters = await getAdditionalPosters(movieId);
+          let allPosters = [movieEl.dataset.posterPath, ...additionalPosters];
+
+          // Shuffle and limit to 10 posters
+          allPosters = allPosters.sort(() => 0.5 - Math.random()).slice(0, 10);
+
+          // Load images in the background
+          allPosters.forEach((poster, index) => {
+            const img = new Image();
+            img.src = `${IMGPATH + poster}`;
+            img.loading = index === 0 ? "eager" : "lazy";
+            img.alt = `${movieEl.dataset.title} poster ${index + 1}`;
+            img.width = 300;
+            img.height = 435;
+            img.style.position = "absolute";
+            img.style.top = 0;
+            img.style.left = 0;
+            img.style.transition = "opacity 1s ease-in-out";
+            img.style.opacity = "0";
+            img.classList.add("poster-img");
+            movieImageContainer.appendChild(img);
+
+            img.onload = () => {
+              if (index === 0) img.style.opacity = "1";
+            };
+          });
+
+          // Start rotating images in the background only if there are valid images
+          if (allPosters.length > 1) {
+            rotateImages(Array.from(movieImageContainer.children));
+          }
+
+          observer.unobserve(movieEl);
+        }
+      }
+    },
+    {
+      rootMargin: "50px 0px",
+      threshold: 0.1,
+    },
+  );
+
   movies.forEach((movie, index) => {
-    const { id, poster_path, title, vote_average, genre_ids } = movie;
+    let {
+      id,
+      poster_path,
+      title,
+      vote_average,
+      vote_count,
+      overview,
+      genre_ids,
+    } = movie;
+
     const movieEl = document.createElement("div");
-
-    movieEl.classList.add("movie");
     movieEl.style.zIndex = "1000";
+    movieEl.classList.add("movie");
+    movieEl.dataset.id = id;
+    movieEl.dataset.posterPath = poster_path;
+    movieEl.dataset.title = title;
 
-    // Movie image and fallback in case the image is unavailable
-    const movieImage = poster_path
-      ? `<img src="${IMGPATH + poster_path}" alt="${title}" style="cursor: pointer;" />`
-      : `<div class="no-image" style="text-align: center; padding: 20px;">Image Not Available</div>`;
+    const words = title.split(" ");
+    if (words.length >= 8) {
+      words[7] = "...";
+      title = words.slice(0, 8).join(" ");
+    }
 
-    const voteAvg = vote_average > 0 ? vote_average.toFixed(1) : "Unrated";
+    const voteAvg = vote_count === 0 ? "Unrated" : vote_average.toFixed(1);
     const ratingClass =
-      vote_average > 0 ? getClassByRate(vote_average) : "unrated";
+      vote_count === 0 ? "unrated" : getClassByRate(vote_average);
+
+    if (overview === "") {
+      overview = "No overview available.";
+    }
 
     movieEl.innerHTML = `
-            ${movieImage}
-            <div class="movie-info" style="display: flex; justify-content: space-between; align-items: start; cursor: pointer;">
-                <h3 style="flex: 1; text-align: left; margin-right: 5px;">${title}</h3>
-                <span class="${ratingClass}" style="white-space: nowrap;">${voteAvg}</span>
-            </div>
-            <div class="overview" style="cursor: pointer;">
-                <h4>Overview: </h4>
-                ${movie.overview}
-            </div>`;
+      <div class="movie-image-container">
+        <div class="movie-images" style="position: relative; width: 100%; height: 435px; overflow: hidden; display: flex; align-items: center; justify-content: center; background-color: #333;">
+          ${
+            typeof IMGPATH !== "undefined" && poster_path
+              ? `<img src="${IMGPATH + poster_path}" loading="lazy" alt="${title} poster" width="150" height="225" style="position: absolute; top: 0; left: 0; transition: opacity 1s ease-in-out; opacity: 1;" onerror="this.onerror=null; this.parentNode.innerHTML='<div style=\\'color: inherit; font-weight: bold; text-align: center;\\'>Image Not Available</div>';">`
+              : `<div style="color: inherit; font-weight: bold; text-align: center;">Image Not Available</div>`
+          }
+        </div>
+      </div>
+      <div class="movie-info" style="display: flex; justify-content: space-between; align-items: start; cursor: pointer;">
+          <h3 style="text-align: left; margin-right: 10px; flex: 1;">${title}</h3>
+          <span class="${ratingClass}" style="white-space: nowrap;">${voteAvg}</span>
+      </div>
+      <div class="overview" style="cursor: pointer;">
+          <h4>Overview: </h4>
+          ${overview}
+      </div>`;
 
     movieEl.addEventListener("click", () => {
       updateUniqueMoviesViewed(id);
       updateFavoriteGenre(genre_ids);
       updateMovieVisitCount(id, title);
-      // Navigate to movie details page with the movieId as a query parameter
       window.location.href = `MovieVerse-Frontend/html/movie-details.html?movieId=${id}`;
     });
 
     director_main.appendChild(movieEl);
-
-    // Observe for the slide-up animation
     slideObserver.observe(movieEl);
+    imageObserver.observe(movieEl);
   });
 }
 
