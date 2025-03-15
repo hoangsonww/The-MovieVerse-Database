@@ -415,7 +415,6 @@ async function populateCreateModalWithFavorites() {
 
       let moviesLabel = document.createElement('label');
       moviesLabel.textContent = 'Select favorite movies to include in watchlist:';
-      moviesLabel.style.color = 'inherit';
       container.appendChild(moviesLabel);
 
       let moviesContainer = document.createElement('div');
@@ -424,7 +423,7 @@ async function populateCreateModalWithFavorites() {
       container.appendChild(moviesContainer);
 
       if (moviesFavorited.length === 0) {
-        moviesContainer.innerHTML = '<p style="margin-top: 20px; color: inherit;">No Favorite Movies Added Yet.</p>';
+        moviesContainer.innerHTML = '<p style="margin-top: 20px">No Favorite Movies Added Yet.</p>';
       } else {
         for (const movieId of moviesFavorited) {
           const movieTitle = await getMovieTitle(movieId);
@@ -434,7 +433,6 @@ async function populateCreateModalWithFavorites() {
 
       let tvSeriesLabel = document.createElement('label');
       tvSeriesLabel.textContent = 'Select favorite TV series to include in watchlist:';
-      tvSeriesLabel.style.color = 'inherit';
       container.appendChild(tvSeriesLabel);
 
       let tvSeriesContainer = document.createElement('div');
@@ -443,7 +441,7 @@ async function populateCreateModalWithFavorites() {
       container.appendChild(tvSeriesContainer);
 
       if (favoritesTVSeries.length === 0) {
-        tvSeriesContainer.innerHTML = '<p style="margin-top: 20px; color: inherit;">No Favorite TV Series Added Yet.</p>';
+        tvSeriesContainer.innerHTML = '<p style="margin-top: 20px">No Favorite TV Series Added Yet.</p>';
       } else {
         for (const seriesId of favoritesTVSeries) {
           const seriesTitle = await getTVSeriesTitle(seriesId);
@@ -474,7 +472,6 @@ async function populateCreateModalWithFavorites() {
 
       let moviesLabel = document.createElement('label');
       moviesLabel.textContent = 'Select favorite movies to include in watchlist:';
-      moviesLabel.style.color = 'inherit';
       container.appendChild(moviesLabel);
 
       let moviesContainer = document.createElement('div');
@@ -483,7 +480,7 @@ async function populateCreateModalWithFavorites() {
       container.appendChild(moviesContainer);
 
       if (moviesFavorited.length === 0) {
-        moviesContainer.innerHTML = '<p style="margin-top: 20px; color: inherit;">No Favorite Movies Added Yet.</p>';
+        moviesContainer.innerHTML = '<p style="margin-top: 20px">No Favorite Movies Added Yet.</p>';
       } else {
         for (const movieId of moviesFavorited) {
           const movieTitle = await getMovieTitle(movieId);
@@ -493,7 +490,6 @@ async function populateCreateModalWithFavorites() {
 
       let tvSeriesLabel = document.createElement('label');
       tvSeriesLabel.textContent = 'Select favorite TV series to include in watchlist:';
-      tvSeriesLabel.style.color = 'inherit';
       container.appendChild(tvSeriesLabel);
 
       let tvSeriesContainer = document.createElement('div');
@@ -502,7 +498,7 @@ async function populateCreateModalWithFavorites() {
       container.appendChild(tvSeriesContainer);
 
       if (favoritesTVSeries.length === 0) {
-        tvSeriesContainer.innerHTML = '<p style="margin-top: 20px; color: inherit;">No Favorite TV Series Added Yet.</p>';
+        tvSeriesContainer.innerHTML = '<p style="margin-top: 20px">No Favorite TV Series Added Yet.</p>';
       } else {
         for (const seriesId of favoritesTVSeries) {
           const seriesTitle = await getTVSeriesTitle(seriesId);
@@ -510,7 +506,7 @@ async function populateCreateModalWithFavorites() {
         }
       }
     } else {
-      container.innerHTML = '<p style="text-align: center; color: inherit;">No favorites found. Please add some favorites first.</p>';
+      container.innerHTML = '<p style="text-align: center">No favorites found. Please add some favorites first.</p>';
     }
   } catch (error) {
     if (error.code === 'resource-exhausted') {
@@ -529,7 +525,6 @@ async function populateCreateModalWithFavorites() {
 
       let moviesLabel = document.createElement('label');
       moviesLabel.textContent = 'Select favorite movies to include in watchlist:';
-      moviesLabel.style.color = 'inherit';
       container.appendChild(moviesLabel);
 
       let moviesContainer = document.createElement('div');
@@ -538,7 +533,7 @@ async function populateCreateModalWithFavorites() {
       container.appendChild(moviesContainer);
 
       if (moviesFavorited.length === 0) {
-        moviesContainer.innerHTML = '<p style="margin-top: 20px; color: inherit;">No Favorite Movies Added Yet.</p>';
+        moviesContainer.innerHTML = '<p style="margin-top: 20px">No Favorite Movies Added Yet.</p>';
       } else {
         for (const movieId of moviesFavorited) {
           const movieTitle = await getMovieTitle(movieId);
@@ -548,7 +543,6 @@ async function populateCreateModalWithFavorites() {
 
       let tvSeriesLabel = document.createElement('label');
       tvSeriesLabel.textContent = 'Select favorite TV series to include in watchlist:';
-      tvSeriesLabel.style.color = 'inherit';
       container.appendChild(tvSeriesLabel);
 
       let tvSeriesContainer = document.createElement('div');
@@ -557,7 +551,7 @@ async function populateCreateModalWithFavorites() {
       container.appendChild(tvSeriesContainer);
 
       if (favoritesTVSeries.length === 0) {
-        tvSeriesContainer.innerHTML = '<p style="margin-top: 20px; color: inherit;">No Favorite TV Series Added Yet.</p>';
+        tvSeriesContainer.innerHTML = '<p style="margin-top: 20px">No Favorite TV Series Added Yet.</p>';
       } else {
         for (const seriesId of favoritesTVSeries) {
           const seriesTitle = await getTVSeriesTitle(seriesId);
@@ -745,7 +739,7 @@ async function populateEditModal() {
       noWatchlistMsg.textContent = 'No Watch Lists Available for Edit';
       noWatchlistMsg.style.textAlign = 'center';
       noWatchlistMsg.style.marginTop = '30px';
-      noWatchlistMsg.style.color = 'white'; // fallback; you can change this if needed
+      noWatchlistMsg.style.color = 'white';
       editForm.appendChild(noWatchlistMsg);
       return;
     }
@@ -753,47 +747,37 @@ async function populateEditModal() {
     const selectLabel = document.createElement('label');
     selectLabel.textContent = 'Select A Watch List:';
     selectLabel.setAttribute('for', 'watchlist-select');
-    selectLabel.style.color = 'inherit';
     editForm.appendChild(selectLabel);
 
     const select = document.createElement('select');
     select.id = 'watchlist-select';
     select.style.font = 'inherit';
-    select.style.color = 'inherit';
     watchlists.forEach(watchlist => {
       const option = document.createElement('option');
       option.value = watchlist.id;
       option.textContent = watchlist.name;
-      option.style.color = 'inherit';
       select.appendChild(option);
     });
 
     const nameLabel = document.createElement('label');
     nameLabel.textContent = 'Watch List Name:';
-    nameLabel.style.color = 'inherit';
-
     const nameInput = document.createElement('input');
     nameInput.type = 'text';
     nameInput.id = 'edit-watchlist-name';
     nameInput.style.font = 'inherit';
-    nameInput.style.color = 'inherit';
     nameInput.placeholder = 'New Watchlist Name';
 
     const descLabel = document.createElement('label');
     descLabel.textContent = 'Description:';
-    descLabel.style.color = 'inherit';
-
     const descInput = document.createElement('textarea');
     descInput.id = 'edit-watchlist-description';
     descInput.style.font = 'inherit';
-    descInput.style.color = 'inherit';
     descInput.placeholder = 'New Watchlist Description';
 
     const moviesContainer = document.createElement('div');
     moviesContainer.id = 'edit-movies-container';
     const moviesLabel = document.createElement('label');
     moviesLabel.textContent = 'Select favorite movies to include in watchlist:';
-    moviesLabel.style.color = 'inherit';
     editForm.appendChild(select);
     editForm.appendChild(nameLabel);
     editForm.appendChild(nameInput);
@@ -807,7 +791,6 @@ async function populateEditModal() {
     const tvSeriesLabel = document.createElement('label');
     tvSeriesLabel.textContent = 'Select favorite TV series to include in watchlist:';
     tvSeriesLabel.style.marginTop = '20px';
-    tvSeriesLabel.style.color = 'inherit';
     editForm.appendChild(tvSeriesLabel);
     editForm.appendChild(tvSeriesContainer);
 
@@ -821,7 +804,7 @@ async function populateEditModal() {
       initialTVSeriesSelection = watchlist.tvSeries.slice();
 
       if (!moviesFavorited || moviesFavorited.length === 0) {
-        moviesContainer.innerHTML = '<p style="margin-top: 20px; color: inherit;">No Favorite Movies Added Yet.</p>';
+        moviesContainer.innerHTML = '<p style="margin-top: 20px">No Favorite Movies Added Yet.</p>';
       } else {
         for (const movieId of moviesFavorited) {
           const movieTitle = await getMovieTitle(movieId);
@@ -831,7 +814,7 @@ async function populateEditModal() {
       }
 
       if (!favoritesTVSeries || favoritesTVSeries.length === 0) {
-        tvSeriesContainer.innerHTML = '<p style="margin-top: 20px; color: inherit;">No Favorite TV Series Added Yet.</p>';
+        tvSeriesContainer.innerHTML = '<p style="margin-top: 20px">No Favorite TV Series Added Yet.</p>';
       } else {
         for (const seriesId of favoritesTVSeries) {
           const seriesTitle = await getTVSeriesTitle(seriesId);
@@ -857,14 +840,12 @@ async function populateEditModal() {
     const submitButton = document.createElement('button');
     submitButton.type = 'submit';
     submitButton.textContent = 'Save Changes';
-    submitButton.style.color = 'inherit';
     editForm.appendChild(submitButton);
 
     const cancelButton = document.createElement('button');
     cancelButton.type = 'button';
     cancelButton.textContent = 'Cancel Changes';
     cancelButton.style.marginTop = '20px';
-    cancelButton.style.color = 'inherit';
     cancelButton.onclick = () => closeModal('edit-watchlist-modal');
     editForm.appendChild(cancelButton);
   } catch (error) {
@@ -890,45 +871,37 @@ async function populateEditModal() {
       const selectLabel = document.createElement('label');
       selectLabel.textContent = 'Select A Watch List:';
       selectLabel.setAttribute('for', 'watchlist-select');
-      selectLabel.style.color = 'inherit';
       editForm.appendChild(selectLabel);
 
       const select = document.createElement('select');
       select.id = 'watchlist-select';
       select.style.font = 'inherit';
-      select.style.color = 'inherit';
       watchlists.forEach(watchlist => {
         const option = document.createElement('option');
         option.value = watchlist.id;
         option.textContent = watchlist.name;
-        option.style.color = 'inherit';
         select.appendChild(option);
       });
 
       const nameLabel = document.createElement('label');
       nameLabel.textContent = 'Watch List Name:';
-      nameLabel.style.color = 'inherit';
       const nameInput = document.createElement('input');
       nameInput.type = 'text';
       nameInput.id = 'edit-watchlist-name';
       nameInput.style.font = 'inherit';
-      nameInput.style.color = 'inherit';
       nameInput.placeholder = 'New Watchlist Name';
 
       const descLabel = document.createElement('label');
       descLabel.textContent = 'Description:';
-      descLabel.style.color = 'inherit';
       const descInput = document.createElement('textarea');
       descInput.id = 'edit-watchlist-description';
       descInput.style.font = 'inherit';
-      descInput.style.color = 'inherit';
       descInput.placeholder = 'New Watchlist Description';
 
       const moviesContainer = document.createElement('div');
       moviesContainer.id = 'edit-movies-container';
       const moviesLabel = document.createElement('label');
       moviesLabel.textContent = 'Select favorite movies to include in watchlist:';
-      moviesLabel.style.color = 'inherit';
       editForm.appendChild(select);
       editForm.appendChild(nameLabel);
       editForm.appendChild(nameInput);
@@ -942,7 +915,6 @@ async function populateEditModal() {
       const tvSeriesLabel = document.createElement('label');
       tvSeriesLabel.textContent = 'Select favorite TV series to include in watchlist:';
       tvSeriesLabel.style.marginTop = '20px';
-      tvSeriesLabel.style.color = 'inherit';
       editForm.appendChild(tvSeriesLabel);
       editForm.appendChild(tvSeriesContainer);
 
@@ -956,7 +928,7 @@ async function populateEditModal() {
         initialTVSeriesSelection = watchlist.tvSeries.slice();
 
         if (!moviesFavorited || moviesFavorited.length === 0) {
-          moviesContainer.innerHTML = '<p style="margin-top: 20px; color: inherit;">No Favorite Movies Added Yet.</p>';
+          moviesContainer.innerHTML = '<p style="margin-top: 20px">No Favorite Movies Added Yet.</p>';
         } else {
           for (const movieId of moviesFavorited) {
             const movieTitle = await getMovieTitle(movieId);
@@ -966,7 +938,7 @@ async function populateEditModal() {
         }
 
         if (!favoritesTVSeries || favoritesTVSeries.length === 0) {
-          tvSeriesContainer.innerHTML = '<p style="margin-top: 20px; color: inherit;">No Favorite TV Series Added Yet.</p>';
+          tvSeriesContainer.innerHTML = '<p style="margin-top: 20px">No Favorite TV Series Added Yet.</p>';
         } else {
           for (const seriesId of favoritesTVSeries) {
             const seriesTitle = await getTVSeriesTitle(seriesId);
@@ -992,14 +964,12 @@ async function populateEditModal() {
       const submitButton = document.createElement('button');
       submitButton.type = 'submit';
       submitButton.textContent = 'Save Changes';
-      submitButton.style.color = 'inherit';
       editForm.appendChild(submitButton);
 
       const cancelButton = document.createElement('button');
       cancelButton.type = 'button';
       cancelButton.textContent = 'Cancel Changes';
       cancelButton.style.marginTop = '20px';
-      cancelButton.style.color = 'inherit';
       cancelButton.onclick = () => closeModal('edit-watchlist-modal');
       editForm.appendChild(cancelButton);
     }
@@ -1548,7 +1518,6 @@ async function displayFavoritesSection(titleText, items, displaySection) {
     const description = document.createElement('p');
     description.textContent = `A collection of your ${titleTextNew}.`;
     description.className = 'watchlist-description';
-    description.style.color = 'inherit'; // Ensure text color inherits user preference
 
     favoritesDiv.appendChild(title);
     favoritesDiv.appendChild(description);
@@ -1557,23 +1526,7 @@ async function displayFavoritesSection(titleText, items, displaySection) {
     container.className = 'movies-container';
 
     const cards = await Promise.all(items.map(titleText === 'Favorite Movies' ? fetchMovieDetails : fetchTVSeriesDetails));
-
-    // Ensure all cards also inherit text color
-    cards.forEach(card => {
-      card.style.color = 'inherit'; // Apply color inheritance to each card
-      container.appendChild(card);
-    });
-
-    // 📌 Reapply User Preferred Color After DOM Update
-    setTimeout(() => {
-      const savedTextColor = localStorage.getItem('textColor');
-      if (savedTextColor) {
-        description.style.color = savedTextColor; // Ensure description uses user-preferred color
-        cards.forEach(card => {
-          card.style.color = savedTextColor; // Apply user-preferred text color to all cards
-        });
-      }
-    }, 0);
+    cards.forEach(card => container.appendChild(card));
 
     favoritesDiv.appendChild(container);
     displaySection.appendChild(favoritesDiv);
@@ -1857,15 +1810,6 @@ function createWatchListDiv(watchlist) {
   const description = document.createElement('p');
   description.textContent = watchlist.description;
   description.className = 'watchlist-description';
-  description.style.color = 'inherit'; // Ensure text color is inherited
-
-  // 📌 Reapply User Preferred Color After DOM Update
-  setTimeout(() => {
-    const savedTextColor = localStorage.getItem('textColor');
-    if (savedTextColor) {
-      description.style.color = savedTextColor; // Apply user-preferred text color
-    }
-  }, 0);
 
   watchlistDiv.appendChild(title);
   watchlistDiv.appendChild(description);
