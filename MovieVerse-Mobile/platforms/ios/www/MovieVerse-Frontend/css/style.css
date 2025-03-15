@@ -49,10 +49,6 @@ body {
   text-decoration: none;
 }
 
-.movie-description p {
-  color: inherit;
-}
-
 .cast-list {
   display: flex;
   flex-wrap: wrap;
@@ -2332,6 +2328,7 @@ strong {
   border-radius: 8px;
   color: white;
   margin: 10px;
+  transition: all 0.3s ease-in;
 }
 
 #movie-match-container1 {

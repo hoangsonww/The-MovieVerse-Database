@@ -267,12 +267,18 @@ function initializeChatbot() {
 }
 
 async function sendMessage(message) {
-  chatbotBody.innerHTML += `<div style="text-align: right; margin-bottom: 10px; color: white;"><span style="color: #ff8623">You:</span> ${message}</div>`;
+  chatbotBody.innerHTML += `<div style="text-align: right; margin-bottom: 10px; color: inherit;">
+                              <span style="color: #ff8623;">You:</span> ${message}
+                            </div>`;
   const botReply = await movieVerseResponse(message);
+
   setTimeout(() => {
-    chatbotBody.innerHTML += `<div style="text-align: left; margin-bottom: 10px; color: #fff;"><span style="color: #ff8623">MovieVerse Assistant:</span> ${botReply}</div>`;
+    chatbotBody.innerHTML += `<div style="text-align: left; margin-bottom: 10px; color: inherit;">
+                                <span style="color: #ff8623;">MovieVerse Assistant:</span> ${botReply}
+                              </div>`;
     scrollToBottom();
   }, 1000);
+
   scrollToBottom();
 }
 
@@ -280,16 +286,16 @@ function sendInitialInstructions() {
   const initialMessage = `
         <div style="text-align: left">
             <span style="color: #ff8623;">MovieVerse Assistant:</span>
-            <span style="display: inline-block; text-align: left; color: #fff;">
+            <span style="display: inline-block; text-align: left; color: inherit;">
                 Welcome to MovieVerse Assistant 🍿! Here's how to get started:
             </span>
         </div>
-        <ul style="text-align: left; margin-bottom: 10px; color: #fff;">
+        <ul style="text-align: left; margin-bottom: 10px; color: inherit;">
             <li>To quickly find the trailer of a movie, type "Show trailer for [movie name]".</li>
             <li>You can also ask about genres, top-rated movies, latest movies, get a recommended movie, and any general questions!</li>
-            <li>💡<b>Tip:</b> To get the best results, try to avoid phrasing requests like "Show trailer for ...", as they might trigger specific functions instead of a broader search.</li> 
+            <li>💡<b>Tip:</b> To get the best results, try to avoid phrasing requests like "Show trailer for ...", as they might trigger specific functions instead of a broader search.</li>
         </ul>
-        <div style="text-align: left; color: #fff;">How may I assist you today? 🎬🍿</div>
+        <div style="text-align: left; color: inherit;">How may I assist you today? 🎬🍿</div>
     `;
   chatbotBody.innerHTML += `<div>${initialMessage}</div>`;
   scrollToBottom();

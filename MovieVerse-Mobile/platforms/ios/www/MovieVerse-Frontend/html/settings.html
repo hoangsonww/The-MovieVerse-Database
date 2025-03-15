@@ -525,7 +525,7 @@
       <!-- Text Color Setting -->
       <div class="settings-section">
         <h2>Change Text Color</h2>
-        <label for="text-color-input">Text Color:</label>
+        <label for="text-color-input" style="font: inherit">Text Color:</label>
         <input type="color" style="min-height: 50px" id="text-color-input" />
       </div>
 
@@ -546,10 +546,16 @@
       <div class="settings-section" style="margin-top: 30px">
         <details style="cursor: pointer; border: 1px solid #ccc; border-radius: 4px; padding: 10px">
           <summary style="font-weight: bold">Disclaimer</summary>
+
           <p style="margin-top: 10px; font-size: 0.9em; line-height: 1.4">
-            Please note: When setting a custom background image or text color, ensure that there is enough contrast for comfortable readability. Some
-            minor texts or UI elements may not be affected by these settings due to intentional design choices. Adjust the settings carefully.
+            Please note: When setting a custom background image or text color, ensure that there is enough contrast for comfortable readability.
           </p>
+
+          <p style="font-size: 0.9em; line-height: 1.4">
+            Some minor texts or UI elements may not be affected by these settings due to intentional design choices. Adjust the settings carefully.
+          </p>
+
+          <p style="font-size: 0.9em; line-height: 1.4">If you encounter any issues, please reset to the default settings. 🍿</p>
         </details>
       </div>
     </main>
