@@ -25,6 +25,8 @@ Welcome to **The MovieVerse** - your digital compass to the cinematic universe. 
 - [Project Structure](#project-structure)
 - [Deployment](#deployment)
 - [Technology Stack](#technology-stack)
+- [API Documentation](#api-documentation)
+- [App Architecture](#architecture)
 - [Getting Started](#getting-started)
 - [Privacy Policy](#privacy-policy)
 - [Terms of Service](#terms-of-service)
@@ -161,6 +163,187 @@ The MovieVerse API is fully documented and available for public use. You can acc
     <img src="../images/MovieVerse-API-ReDoc.png" alt="The MovieVerse API ReDoc Documentation" style="border-radius: 10px" width="100%"/>
   </a>
 </p>
+
+## Architecture
+
+### Movie Data Flow Architecture
+
+```
+      +----------------+       +--------------------------+
+      |                |       |                          |
+      |    Various     |       |    Public API Sources    |
+      |  Data Sources  |       |   (TMDB API, IMDB API)   |
+      |                |       |                          |   
+      +--------+-------+       +-------------+------------+
+               |                             |
+               |                             |
+               v                             v
+      +------------------+       +--------------------------+
+      |                  |       |                          |
+      | Custom Crawler   |       |    API Fetcher Service   |
+      | (Crawls on       |       |  (via Axios, Fetch API)  |
+      |  Wikipedia,      |       |                          |
+      | Rotten Tomatoes, |       +-------------+------------+
+      | and other sites) |                     |
+      |                  |                     |
+      +--------+---------+                     |
+               |                               |
+               +--------------+----------------+
+                              |
+                              v
+                  +-----------------------+
+                  |                       |
+                  |   Data Processing     |
+                  | (Cleaning, Filtering, |
+                  |   Structuring, and    |
+                  |    Storing Data)      |
+                  |                       |
+                  +-----------+-----------+
+                              |
+                              |
+                +--------------------------------+
+                |        AI/ML Processing        |
+                |  - Sentiment Analysis          |
+                |  - Anomaly Detection           |
+                |  - Data Enrichment             |
+                |  - Predictive Analytics        |
+                |  - Clustering & Categorization |
+                +--------------------------------+
+                              |
+                              |
+         +--------------------+------------------+
+         |                                       |
+         v                                       v
++----------------------------+       +----------------------------+
+|    PostgreSQL / MySQL      |       |          MongoDB           |
+|  (Structured Movie Data)   |       |  (Flexible Movie Metadata) |
+|  - Titles, Ratings         |       |  - Reviews, Comments       |
+|  - Cast & Crew             |       |  - Dynamic Movie Metadata  |
+|  - Box Office, Budgets     |       |  - JSON-based Documents    |
+|  - and more...             |       |  - and more...             |
++----------------------------+       +----------------------------+
+                 \                        /
+                  \                      /
+                   \                    /
+                    \                  /
+                     \                /
+                      v              v
+           +----------------------------------+       +-------------------------+
+           |        Django Backend API        |       |    Flask (For Testing)  |
+           |   (Unified Movie Data Access)    |       |  - Sample API Endpoints |
+           |  - Combines SQL & NoSQL Data     | <---> |  - Lightweight Testing  |
+           |  - Provides REST/GraphQL API     |       |  - Quick Prototyping    |
+           |  - Handles Authentication        |       +-------------------------+
+           |  - Business Logic Processing     |
+           +----------------------------------+
+                            |
+                            v
+                  +---------------------+
+                  |                     |
+                  |      Frontend       |
+                  |  (Consumer of API)  |
+                  |                     |
+                  +---------------------+
+```
+
+### User Data Flow Architecture
+
+```
+      +-----------------------+
+      |     User Frontend     |
+      |   (Sign Up, Login,    |
+      |   Profile Updates,    |
+      |   Game Scores, etc.)  |
+      +-----------+-----------+
+                  |
+                  v
+      +----------------------------+
+      |  Firebase Authentication   |
+      |  (User Sign-In, Sign-Up,   |
+      |   Password Management,     |
+      |   Token Generation)        |
+      +-----------+----------------+
+                  |
+                  v
+      +-----------------------------+
+      |     Firebase Firestore      |
+      |  (User Profiles, Game Data, |
+      |   Leaderboards, Quiz Scores |
+      |   Preferences, Settings)    |
+      +-----------+-----------------+
+                  |
+                  v
+      +----------------------------+
+      |  Firebase Cloud Functions  |
+      |  (Server-side Processing,  |
+      |   Security Rules,          |
+      |   Automated Tasks)         |
+      +-----------+----------------+
+                  |
+                  |
+                  v
+      +----------------------------+
+      |    Frontend (Dashboard)    |
+      |  (Displays User Data,      |
+      |   Scores, Leaderboards,    |
+      |   Profile Info)            |
+      +----------------------------+
+```
+
+### AI/ML Service for Recommending Movies
+
+```
+      +------------------------+
+      |      User Frontend     |
+      |   (User Interaction,   |
+      |  Preferences, Ratings, |
+      |    User Watchlists)    |
+      +-----------+------------+
+                  |
+                  v
+      +----------------------------+
+      |     Django Backend API     |
+      |    (Handles Requests,      |
+      |   User Data Processing,    |
+      |        API Layer)          |
+      +-----------+----------------+
+                  |
+                  v
+      +----------------------------+
+      |       Data Pipeline        |
+      |    (Extracts User Data,    |
+      |   Prepares Feature Set)    |
+      +-----------+----------------+
+                  |
+                  v
+      +----------------------------+
+      |   AI/ML Model Processing   |
+      |  (Collaborative Filtering, |
+      |   Content-Based Filtering, |
+      |   Hybrid Approach)         |
+      +-----------+----------------+
+                  |
+                  v
+      +----------------------------+
+      |    Recommendation Engine   |
+      |  (Generates Personalized   |
+      |   Movie Suggestions)       |
+      +-----------+----------------+
+                  |
+                  v
+      +----------------------------+
+      |   Response to Django API   |
+      |   (Returns Recommended     |
+      |     Movies for User)       |
+      +-----------+----------------+
+                  |
+                  v
+      +----------------------------+
+      |    Frontend UI Displays    |
+      |  (Recommended Movies,      |
+      |  Personalized Experience)  |
+      +----------------------------+
+```
 
 ## Getting Started
 
