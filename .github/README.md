@@ -166,6 +166,8 @@ The MovieVerse API is fully documented and available for public use. You can acc
 
 ## Architecture
 
+Here are the detailed flowcharts illustrating the high-level architecture of our app:
+
 ### Movie Data Flow Architecture
 
 ```
@@ -199,7 +201,7 @@ The MovieVerse API is fully documented and available for public use. You can acc
                   |    Storing Data)      |
                   |                       |
                   +-----------------------+
-
+                              |
                               |
                               |
                 +--------------------------------+
@@ -209,6 +211,7 @@ The MovieVerse API is fully documented and available for public use. You can acc
                 |  - Data Enrichment             |
                 |  - Predictive Analytics        |
                 |  - Clustering & Categorization |
+                |  - and more...                 |
                 +--------------------------------+
                               |
                               |
