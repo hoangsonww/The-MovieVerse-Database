@@ -69,7 +69,7 @@ Through The MovieVerse, users can search for movies, view detailed information, 
 ![API Status](https://img.shields.io/website?down_color=red&down_message=Offline&label=API&up_color=brightgreen&up_message=Online&url=https%3A%2F%2Fapi-movieverse.vercel.app)
 ![Database Status](https://img.shields.io/website?down_color=red&down_message=Offline&label=Database&up_color=brightgreen&up_message=Online&url=https%3A%2F%2Fmovie-verse.com)
 ![Deployment Status](https://img.shields.io/badge/Deployment-Active-brightgreen)
-![Active Users](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/hoangsonww/c79b2e8b60b4877748d05dbf0853e032/raw/4321de58e915f7bed0a41ba439502aa8a30d52d1/active-users.json)
+![Active Users](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/hoangsonww/c79b2e8b60b4877748d05dbf0853e032/raw/active-users.json)
 
 ## Features & Usage
 
