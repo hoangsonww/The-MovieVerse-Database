@@ -6,7 +6,7 @@
   </a>
 </p>
 
-Welcome to **The MovieVerse** - your digital compass to the cinematic universe. Created by [Son Nguyen](https://github.com/hoangsonww) and currently serving more than **1 MILLION USERS**, this application is completely **free-to-use**, designed to function as a bridge connecting movie enthusiasts with an extensive collection of films across various genres and periods. Dive into an ocean of narratives, where stories come to life, right at your fingertips with **MovieVerse** 🎬🍿!
+Welcome to **The MovieVerse** - your digital compass to the cinematic universe. Created by [Son Nguyen](https://github.com/hoangsonww) and currently serving more than **1 MILLION USERS** (with more than 350,000 active users per month), this application is completely **free-to-use**, designed to function as a bridge connecting movie enthusiasts with an extensive collection of films across various genres and periods. Dive into an ocean of narratives, where stories come to life, right at your fingertips with **MovieVerse** 🎬🍿!
 
 **This app is currently available at [movie-verse.com](https://movie-verse.com).**
 
@@ -69,6 +69,7 @@ Through The MovieVerse, users can search for movies, view detailed information, 
 ![API Status](https://img.shields.io/website?down_color=red&down_message=Offline&label=API&up_color=brightgreen&up_message=Online&url=https%3A%2F%2Fapi-movieverse.vercel.app)
 ![Database Status](https://img.shields.io/website?down_color=red&down_message=Offline&label=Database&up_color=brightgreen&up_message=Online&url=https%3A%2F%2Fmovie-verse.com)
 ![Deployment Status](https://img.shields.io/badge/Deployment-Active-brightgreen)
+![Active Users](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/hoangsonww/c79b2e8b60b4877748d05dbf0853e032/raw/4321de58e915f7bed0a41ba439502aa8a30d52d1/active-users.json)
 
 ## Features & Usage
 
@@ -123,13 +124,14 @@ The **official** app is currently using [Netlify](https://www.netlify.com/) for 
 
 **Deployment Status:**
 
-[![Netlify Status](https://img.shields.io/badge/Netlify-Deploy_successful-brightgreen)](https://movie-verse.com/)
-[![Vercel Status](https://img.shields.io/badge/Vercel-Deploy_successful-brightgreen)](https://movie-verse.com/)
-[![API Status](https://img.shields.io/badge/API-Online-brightgreen)](https://movie-verse.com)
-[![Database Status](https://img.shields.io/badge/Database-Online-brightgreen)](https://movie-verse.com)
-[![CI/CD Status](https://img.shields.io/badge/CI/CD-Automated-brightgreen)](https://movie-verse.com)
-[![Docker Status](https://img.shields.io/badge/Docker-Ready-brightgreen)](https://movie-verse.com)
-[![Server Status](https://img.shields.io/badge/Server-Online-brightgreen)](https://movie-verse.com)
+[![Netlify](https://img.shields.io/badge/Netlify-Deploy_successful-brightgreen?logo=netlify)](https://movie-verse.com/)
+[![Vercel](https://img.shields.io/badge/Vercel-Deploy_successful-brightgreen?logo=vercel)](https://movie-verse.com/)
+[![Django API](https://img.shields.io/badge/Django_API-Online-brightgreen?logo=django)](https://movie-verse.com)
+[![MongoDB](https://img.shields.io/badge/MongoDB-Online-brightgreen?logo=mongodb)](https://movie-verse.com)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Online-brightgreen?logo=postgresql)](https://movie-verse.com)
+[![Redis](https://img.shields.io/badge/Redis-Active-brightgreen?logo=redis)](https://movie-verse.com)
+[![CI/CD](https://img.shields.io/badge/CI/CD-Automated-brightgreen?logo=githubactions)](https://movie-verse.com)
+[![Docker](https://img.shields.io/badge/Docker-Ready-brightgreen?logo=docker)](https://movie-verse.com)
 
 ## Technology Stack
 
@@ -138,8 +140,8 @@ The **official** app is currently using [Netlify](https://www.netlify.com/) for 
 | [VanillaJS](http://vanilla-js.com/)                                                                                              | [BeautifulSoup](https://pypi.org/project/beautifulsoup4/)                               | [MongoDB](https://www.mongodb.com/)             | [Apache Cordova](https://cordova.apache.org/)                     | [Webpack](https://webpack.js.org/)                              |
 | [Multi-Page Application](https://medium.com/@NeotericEU/single-page-application-vs-multiple-page-application-2591588efe58) | [Transformers](https://en.wikipedia.org/wiki/Transformer_(deep_learning_architecture))                               | [MySQL](https://www.mysql.com/)                 | [React Native](https://reactnative.dev/)                          | [Babel](https://babeljs.io/)                                    |
 | [HTML5](https://html.com/)                                                                                                 | [Django](https://www.djangoproject.com/)                        | [Google Firebase](https://firebase.google.com/) | [Swift (for iOS development)](https://developer.apple.com/swift/) | [Docker](https://www.docker.com/)                               |
-| [CSS3](https://www.w3.org/Style/CSS/Overview.en.html)                                                                      | [Django REST Framework](https://www.django-rest-framework.org/) | [PostgreSQL](http://www.postgresql.org)         | [Kotlin (for Android)](https://kotlinlang.org/)                   | [Emscripten](https://emscripten.org/)                           |
-| [JavaScript](https://www.javascript.com/)                                                                                  | [Flask](https://flask.palletsprojects.com/en/1.1.x/)            | [Redis](https://redis.io/)                      | [Java (for Android)](https://www.java.com/en/)                    | [WebAssembly](https://webassembly.org/)                         |
+| [CSS3](https://www.w3.org/Style/CSS/Overview.en.html)                                                                      | [Django REST Framework](https://www.django-rest-framework.org/) | [PostgreSQL](http://www.postgresql.org)         | [Kotlin (for Android)](https://kotlinlang.org/)                   | [ElasticSearch](https://www.elastic.co/elasticsearch)                           |
+| [JavaScript](https://www.javascript.com/)                                                                                  | [Flask](https://flask.palletsprojects.com/en/1.1.x/)            | [Redis](https://redis.io/)                      | [Java (for Android)](https://www.java.com/en/)                    | [WebAssembly & Emscripten (with C)](https://webassembly.org/)                         |
 | [TypeScript](https://www.typescriptlang.org/)                                                                              | [Python](https://www.python.org/)                               |                                                 | [Android Studio](https://developer.android.com/studio)            | [Google Analytics](https://analytics.google.com/analytics/web/) |
 | [FontAwesome Icons](https://react-icons.github.io/react-icons/)                                                            | [PyTorch](https://pytorch.org/)                       |                                                 | [XCode](https://developer.apple.com/xcode/)                       | [ESLint & Prettier](https://eslint.org/)                                   |
 | [Netlify](https://netlify.com)                                                                                             | [RabbitMQ](https://www.rabbitmq.com/)                           |                                                 |                                                                   | [Vercel](https://vercel.com)                                    |
