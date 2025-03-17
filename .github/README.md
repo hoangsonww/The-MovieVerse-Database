@@ -178,17 +178,17 @@ The MovieVerse API is fully documented and available for public use. You can acc
                |                             |
                |                             |
                v                             v
-      +------------------+       +--------------------------+
-      |                  |       |                          |
-      | Custom Crawler   |       |    API Fetcher Service   |
-      | (Crawls on       |       |  (via Axios, Fetch API)  |
-      |  Wikipedia,      |       |                          |
-      | Rotten Tomatoes, |       +-------------+------------+
-      | and other sites) |                     |
-      |                  |                     |
-      +--------+---------+                     |
-               |                               |
-               +--------------+----------------+
+      +------------------+       +--------------------------+       +-----------------------+
+      |                  |       |                          |       |                       |
+      | Custom Crawler   |       |    API Fetcher Service   |       |   Manual Data Entry   |
+      | (Crawls on       |       |  (via Axios, Fetch API)  |       |  (Adminstrators &     |
+      |  Wikipedia,      |       |                          |       |   Maintainers Only)   |
+      | Rotten Tomatoes, |       +-------------+------------+       |                       |
+      | and other URLs)  |                     |                    +-----------------------+    
+      |                  |                     |                                |
+      +--------+---------+                     |                                |
+               |                               |                                |
+               +--------------+-------------------------------------------------+
                               |
                               v
                   +-----------------------+
@@ -198,7 +198,8 @@ The MovieVerse API is fully documented and available for public use. You can acc
                   |   Structuring, and    |
                   |    Storing Data)      |
                   |                       |
-                  +-----------+-----------+
+                  +-----------------------+
+
                               |
                               |
                 +--------------------------------+
