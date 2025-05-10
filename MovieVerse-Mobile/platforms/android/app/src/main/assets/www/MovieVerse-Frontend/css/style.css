@@ -724,6 +724,20 @@ header h1 {
   z-index: 999;
 }
 
+.app-btn-container {
+  display: flex;
+  flex-wrap: wrap; /* allow wrapping on small screens */
+  justify-content: center; /* center-align the row */
+  gap: 12px; /* consistent spacing between buttons */
+  margin-top: 40px; /* same top margin you had before */
+}
+
+.app-btn-container .app-btn {
+  margin-top: 0; /* reset any inline top-margin */
+  flex: 1 1 auto; /* buttons can grow/shrink as needed */
+  max-width: 200px; /* optional: constrain very wide buttons */
+}
+
 .movie-card {
   display: flex;
   background: #fff;
@@ -2442,6 +2456,30 @@ strong {
   transition: 0.1s linear;
 }
 
+#back-to-blogs-btn {
+  background-color: #7378c5;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  font: inherit;
+  font-size: 14px;
+  z-index: 1000000002 !important;
+}
+
+#back-to-blogs-btn i {
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+
+#back-to-blogs-btn:hover {
+  background-color: #ff8623;
+  transition: 0.1s linear;
+}
+
 #leaderboard-btn {
   background-color: #7378c5;
   color: white;
@@ -2540,7 +2578,25 @@ strong {
   }
 }
 
+#blog-button {
+  background-color: #7378c5;
+  bottom: 205px;
+  right: 10px;
+  color: black;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  position: fixed;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+#blog-button:hover {
+  background-color: #ff8623;
+  transition: 0.1s ease-in;
+}
+
 #chat-button,
+#blog-button,
 #games-button,
 #settings-btn,
 #movie-of-the-day-btn,
@@ -2560,6 +2616,7 @@ strong {
 
 @media all and (min-width: 768px) {
   #chat-button,
+  #blog-button,
   #games-button,
   #settings-btn,
   #movie-of-the-day-btn,
@@ -3912,11 +3969,43 @@ body {
   box-sizing: border-box;
 }
 
+/* in your style.css */
 .mobile-sign-in-container {
+  animation: fadeIn 1.5s ease-in-out;
   display: flex;
+  flex-wrap: wrap; /* wrap onto new lines as needed */
+  justify-content: space-evenly; /* even spacing across the row */
+  align-items: center;
+  padding: 12px; /* inner breathing room */
+  gap: 12px; /* consistent gap between items */
+}
+
+.mobile-sign-in-container .nav-btn {
+  flex: 1 1 45%; /* try to fit two buttons per row */
+  max-width: 45%; /* prevent them from getting too wide */
+  background-color: #7378c5;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 16px;
+  font-size: 16px;
+  display: inline-flex; /* for icon + text alignment */
+  align-items: center;
   justify-content: center;
-  margin-top: 12px;
-  margin-bottom: 10px;
+  gap: 8px; /* space between icon & text */
+  transition: background-color 0.2s;
+}
+
+.mobile-sign-in-container .nav-btn:hover {
+  background-color: #ff8623;
+}
+
+/* stack to single column on very narrow screens */
+@media (max-width: 480px) {
+  .mobile-sign-in-container .nav-btn {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
 }
 
 #mobileGoogleSignInBtn {

@@ -226,7 +226,24 @@
         background-color: #ff8623;
         transition: 0.1s ease-in;
       }
+      #blog-button {
+        background-color: #7378c5;
+        bottom: 205px;
+        right: 10px;
+        color: black;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        font: inherit;
+        position: fixed;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      }
+      #blog-button:hover {
+        background-color: #ff8623;
+        transition: 0.1s ease-in;
+      }
       #chat-button,
+      #blog-button,
       #games-button,
       #settings-btn,
       #movie-of-the-day-btn,
@@ -244,6 +261,7 @@
       }
       @media (min-width: 768px) {
         #chat-button,
+        #blog-button,
         #games-button,
         #settings-btn,
         #movie-of-the-day-btn,
@@ -265,6 +283,7 @@
           display: flex;
         }
         #chat-button,
+        #blog-button,
         #games-button,
         #settings-btn,
         #movie-of-the-day-btn,
@@ -497,6 +516,31 @@
           display: block;
         }
       }
+      #mobileBlogBtn {
+        background-color: #7378c5;
+        border: none;
+        color: white;
+        height: 40px;
+        text-align: center;
+        font: inherit;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 8px;
+        padding: 0 10px;
+        margin-left: 5px;
+      }
+      #mobileBlogBtn {
+        display: none;
+      }
+      #mobileBlogBtn:hover {
+        background-color: #ff8623;
+        transition: 0.2s ease-in-out;
+      }
+      @media (max-width: 900px) {
+        #mobileBlogBtn {
+          display: block;
+        }
+      }
     </style>
   </head>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
@@ -583,7 +627,7 @@
     <nav id="side-nav" class="side-nav" style="z-index: 10000000">
       <a id="heading-href" class="notranslate" style="cursor: pointer; text-align: center">
         <div id="my-heading1" style="margin-bottom: 15px; margin-left: 0; margin-top: 15px !important; font-size: 2.1em; font-weight: bold">
-          The Mo<span class="highlight2">vieV</span>erse Menu
+          The Mo<span class="highlight2">vieV</span>erse
         </div>
       </a>
       <div id="button-container">
@@ -656,6 +700,15 @@
       >
         <span id="mobileGamesText">Games</span>
         <i class="fas fa-gamepad" id="mobileGamesIcon"></i>
+      </button>
+      <button
+        id="mobileBlogBtn"
+        class="nav-btn"
+        onclick="window.location.href='MovieVerse-Frontend/html/games.html'"
+        title="Check out our movie blogs!"
+      >
+        <span id="mobileGamesText">Blogs</span>
+        <i class="fas fa-blog" id="mobileBlogIcon"></i>
       </button>
     </div>
     <div id="myModal" class="modal-overlay">
@@ -1062,10 +1115,18 @@
     <button
       id="chat-button"
       onclick="window.location.href='MovieVerse-Frontend/html/chat.html'"
-      style="bottom: 360px; right: 10px; z-index: 1001"
+      style="bottom: 395px; right: 10px; z-index: 1001"
       title="Chat with fellow MovieVerse users!"
     >
       Chat
+    </button>
+    <button
+      id="blog-button"
+      onclick="window.location.href='MovieVerse-Frontend/html/blogs.html'"
+      style="bottom: 360px; right: 10px; z-index: 1001"
+      title="Read our latest blogs and articles about movies!"
+    >
+      Blogs
     </button>
     <button
       id="games-button"
@@ -1159,8 +1220,8 @@
       <p id="footer">© <span id="year"></span> The MovieVerse. All rights reserved.</p>
       <p>
         Learn more
-        <a href="MovieVerse-Frontend/html/about.html" id="githubLink10">about The MovieVerse</a>
-        and
+        <a href="MovieVerse-Frontend/html/about.html" id="githubLink10">about The MovieVerse</a>, its
+        <a href="MovieVerse-Frontend/html/blogs.html" id="githubLink10">blogs</a>, and
         <a href="MovieVerse-Frontend/html/notifications.html" id="githubLink8">what we offer.</a>
       </p>
       <p style="font-size: 0.1px">
@@ -1274,6 +1335,7 @@
         isAnimating = true;
         const buttonIds = [
           'chat-button',
+          'blog-button',
           'games-button',
           'settings-btn',
           'movie-of-the-day-btn',
@@ -1311,6 +1373,7 @@
         if (window.innerWidth < 767) {
           const buttonIds = [
             'chat-button',
+            'blog-button',
             'games-button',
             'settings-btn',
             'movie-of-the-day-btn',

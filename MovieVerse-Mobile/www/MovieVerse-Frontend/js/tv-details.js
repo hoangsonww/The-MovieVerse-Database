@@ -894,14 +894,16 @@ async function populateTvSeriesDetails(tvSeries, imdbRating, rated) {
   }
 
   const ratingHTML = `
-    <div class="rating-container" title="Your rating also counts - it might take a while for us to update!">
+    <div class="rating-container" title="Your rating also counts - it might take a while for us to update!" style="color: inherit;">
       <strong>MovieVerse Rating:</strong>
-      <div class="rating-bar" onclick="handleRatingClick()">
+      <div class="rating-bar" onclick="handleRatingClick()" style="color: inherit;">
         <div class="rating-fill" style="width: 0; background-color: ${ratingColor};" id="rating-fill"></div>
       </div>
-      <span class="rating-text"><strong>${scaledRating}/5.0</strong> (<strong id="user-votes">${voteCount}</strong> votes)</span>
+      <span class="rating-text" style="color: inherit;">
+        <strong>${scaledRating}/5.0</strong> (<strong id="user-votes">${voteCount}</strong> votes)
+      </span>
     </div>
-  `;
+`;
 
   detailsHTML += ratingHTML;
 
@@ -933,12 +935,12 @@ async function populateTvSeriesDetails(tvSeries, imdbRating, rated) {
   if (tmdbRating === 'N/A') {
     detailsHTML += `<p style="color: inherit; font-size: inherit;">
                         <strong>TMDB Rating:</strong>
-                        <a href="https://www.themoviedb.org/tv/${tvSeries.id}" id="rating" target="_blank" style="color: inherit; font-size: inherit;">${tmdbRating}</a>
+                        <a href="https://www.themoviedb.org/tv/${tvSeries.id}" id="rating" target="_blank" style="color: inherit !important; font-size: inherit;">${tmdbRating}</a>
                     </p>`;
   } else {
     detailsHTML += `<p style="color: inherit; font-size: inherit;">
                         <strong>TMDB Rating:</strong>
-                        <a href="https://www.themoviedb.org/tv/${tvSeries.id}" id="rating" target="_blank" style="color: inherit; font-size: inherit;">${tmdbRating}/10.0</a>
+                        <a href="https://www.themoviedb.org/tv/${tvSeries.id}" id="rating" target="_blank" style="color: inherit !important; font-size: inherit;">${tmdbRating}/10.0</a>
                     </p>`;
   }
 
@@ -1340,6 +1342,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating, rated) {
   const images = mediaData.backdrops;
 
   const detailsContainer = document.getElementById('movie-description');
+  detailsContainer.style.fontSize = 'inherit';
 
   let mediaContainer = document.getElementById('media-container');
   if (!mediaContainer) {
@@ -1611,7 +1614,15 @@ async function populateTvSeriesDetails(tvSeries, imdbRating, rated) {
     mediaContainer.style.width = 'calc(100% - 40px)';
   }
 
-  document.getElementById('movie-description').innerHTML = detailsHTML;
+  const movieDescription = document.getElementById('movie-description');
+  movieDescription.style.opacity = '0'; // Start with hidden content
+
+  // Set the new HTML content
+  movieDescription.innerHTML = detailsHTML;
+
+  // Apply fade-in animation
+  movieDescription.style.animation = 'fadeIn 1.5s ease-in-out';
+  movieDescription.style.opacity = '1';
   document.getElementById('movie-description').appendChild(mediaTitle);
   document.getElementById('movie-description').appendChild(mediaContainer);
 

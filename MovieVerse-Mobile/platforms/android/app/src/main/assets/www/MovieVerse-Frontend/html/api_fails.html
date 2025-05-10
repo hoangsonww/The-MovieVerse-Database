@@ -98,6 +98,22 @@
           background-position: top center;
         }
       }
+      #blog-button {
+        background-color: #7378c5;
+        bottom: 205px;
+        right: 10px;
+        color: black;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        font: inherit;
+        position: fixed;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      }
+      #blog-button:hover {
+        background-color: #ff8623;
+        transition: 0.1s ease-in;
+      }
     </style>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
     <script>
@@ -545,10 +561,18 @@
       <button
         id="chat-button"
         onclick="window.location.href='chat.html'"
-        style="bottom: 335px; right: 10px; z-index: 1001"
+        style="bottom: 370px; right: 10px; z-index: 1001"
         title="Chat with fellow MovieVerse users!"
       >
         Chat
+      </button>
+      <button
+        id="blog-button"
+        onclick="window.location.href='blogs.html'"
+        style="bottom: 335px; right: 10px; z-index: 1001"
+        title="Read our latest blogs and articles!"
+      >
+        Blogs
       </button>
       <button
         id="games-button"
@@ -806,6 +830,7 @@
 
         const buttonIds = [
           'chat-button',
+          'blog-button',
           'games-button',
           'settings-btn',
           'movie-of-the-day-btn',
@@ -844,6 +869,7 @@
         if (window.innerWidth < 767) {
           const buttonIds = [
             'chat-button',
+            'blog-button',
             'games-button',
             'settings-btn',
             'movie-of-the-day-btn',

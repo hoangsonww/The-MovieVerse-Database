@@ -1,0 +1,1005 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>The Art and Evolution of Cinematic Sound Design – The MovieVerse</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A thorough dive into the craft of sound design in film: from early optical tracks to immersive Dolby Atmos and future AI-driven audio."
+    />
+    <link rel="canonical" href="https://movie-verse.com/MovieVerse-Frontend/html/sound-design.html" />
+    <meta property="og:title" content="The Art and Evolution of Cinematic Sound Design – The MovieVerse" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="article" />
+    <meta http-equiv="content-language" content="en" />
+    <meta
+      property="og:description"
+      content="A thorough dive into the craft of sound design in film: from early optical tracks to immersive Dolby Atmos and future AI-driven audio."
+    />
+    <meta property="og:url" content="https://movie-verse.com/MovieVerse-Frontend/html/sound-design.html" />
+    <meta property="og:site_name" content="The MovieVerse" />
+    <meta property="og:image" content="https://movie-verse.com/images/placeholder.png" />
+    <meta property="og:favicon" content="./images/favicon.ico" />
+    <meta name="keywords" content="sound design, Foley, audio mixing, cinema, Dolby Atmos, film sound" />
+    <meta name="author" content="Son Nguyen Hoang" />
+    <meta name="robots" content="index, follow" />
+    <meta name="rating" content="General" />
+    <meta name="revisit-after" content="3 days" />
+    <meta name="distribution" content="global" />
+    <meta name="language" content="en" />
+    <meta name="theme-color" content="#7378c5" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@MovieVerse" />
+    <meta name="twitter:creator" content="@hoangsonw" />
+    <meta name="twitter:title" content="The Art and Evolution of Cinematic Sound Design – The MovieVerse" />
+    <meta
+      name="twitter:description"
+      content="A thorough dive into the craft of sound design in film: from early optical tracks to immersive Dolby Atmos and future AI-driven audio."
+    />
+    <meta name="twitter:image" content="https://movie-verse.com/images/placeholder.png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="manifest" href="../../manifest.json" />
+    <link rel="icon" type="image/x-icon" href="../../images/favicon.ico" />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'G-CQKJ67FXZ4');
+    </script>
+    <style>
+      body {
+        font-family: 'Poppins', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #1e1e2e;
+        color: #ffffff;
+        text-align: center;
+        overflow-x: hidden;
+        min-height: 100vh;
+        background-image: url('../../images/universe-1.webp');
+        background-repeat: repeat-y;
+        background-size: 100% auto;
+      }
+      h2,
+      h3,
+      h4 {
+        margin: 20px 0 10px;
+        color: #ff8623;
+        animation: fadeInDown 1s ease-in-out;
+      }
+      p,
+      li {
+        animation: fadeInDown 1s ease-in-out;
+        line-height: 1.6;
+      }
+      main {
+        padding: 20px;
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: left;
+      }
+      ul {
+        list-style: disc inside;
+        margin: 10px 0 20px;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @media (max-width: 600px) {
+        main {
+          padding: 10px;
+        }
+      }
+      #translate_control {
+        position: fixed;
+        left: 10px;
+        bottom: 10px;
+        z-index: 1000000;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+      }
+      @media (max-width: 767px) {
+        #translate_control {
+          bottom: 70px;
+        }
+      }
+      .translate-trigger {
+        background: #7378c5;
+        color: #fff;
+        padding: 10px;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+      .translate-trigger:hover {
+        background: #ff8623;
+        transition: 0.1s;
+      }
+      #google_translate_element {
+        display: none;
+        position: fixed;
+        left: 10px;
+        bottom: 60px;
+        background: #7378c5;
+        border: none;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        padding: 5px;
+        border-radius: 8px;
+        z-index: 100000000;
+        color: #fff;
+      }
+      .goog-te-combo {
+        background: #7378c5 !important;
+        color: #fff !important;
+        border: 0.5px solid #fff !important;
+        border-radius: 8px !important;
+        font-size: 15px !important;
+        padding-left: 5px !important;
+      }
+      .skiptranslate {
+        color: #fff !important;
+      }
+      #games-button {
+        background-color: #7378c5;
+        bottom: 265px;
+        right: 10px;
+        color: black;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        font: inherit;
+        position: fixed;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      }
+      #games-button:hover {
+        background-color: #ff8623;
+        transition: 0.1s ease-in;
+      }
+      #games-button {
+        transition:
+          transform 0.5s ease,
+          opacity 0.5s ease;
+        transform: translateY(20px);
+        opacity: 0;
+        display: none;
+      }
+      @media all and (min-width: 768px) {
+        #games-button {
+          display: block;
+        }
+        #c1 {
+          padding: 0 !important;
+        }
+      }
+      .goog-te-banner-frame {
+        opacity: 0.8 !important;
+        background: #f4f4f4 !important;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="google_translate_element"></div>
+    <div id="translate_control"><div class="translate-trigger">Translate</div></div>
+    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script>
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement(
+          { pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.VERTICAL, autoDisplay: false },
+          'google_translate_element'
+        );
+      }
+      document.querySelector('.translate-trigger').addEventListener('click', () => {
+        const el = document.getElementById('google_translate_element');
+        el.style.display = el.style.display === 'block' ? 'none' : 'block';
+      });
+    </script>
+
+    <!-- HEADER -->
+    <header style="margin-bottom: -50px; margin-top: -5px">
+      <h1 id="my-heading" style="margin-bottom: -10px" class="notranslate">
+        <a id="indexLink" href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer">
+          The Mo<span class="highlight" id="highlight">vieV</span>erse
+        </a>
+      </h1>
+      <div id="local-time" style="cursor: pointer; margin-left: 40px" title="Click to view more of your stats!">
+        <p id="stats-label" class="clock" style="font-size: 16px"></p>
+        <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold"></div>
+      </div>
+      <button class="back-btn notranslate" onclick="window.location.href='../../index.html'">Home</button>
+      <button class="about notranslate" onclick="window.location.href='about.html'">About</button>
+      <button class="favorites-btn notranslate" onclick="window.location.href='favorites.html'" title="View your favorites & watchlists">
+        Favorites
+      </button>
+      <button id="nav-toggle" class="nav-toggle notranslate" title="Toggle side navbar" onclick="toggleNav()">
+        <i class="fas fa-bars"></i>
+      </button>
+      <button id="googleSignInBtn" class="nav-btn notranslate" onclick="handleSignInOut()" title="Sign In/Out">
+        <span id="signInOutText">Sign In</span><i class="fas fa-sign-in-alt" id="signInIcon"></i
+        ><i class="fas fa-sign-out-alt" id="signOutIcon" style="display: none"></i>
+      </button>
+      <button id="profileBtn" class="nav-btn notranslate" onclick="window.location.href='user-profile.html'" title="Go to your profile">
+        <span id="profileText">Profile</span><i class="fas fa-user" id="profileIcon"></i>
+      </button>
+      <form id="form1" style="animation: fadeIn 1.5s ease-in-out">
+        <div class="search-container">
+          <input
+            type="text"
+            id="search"
+            placeholder="Search For Films, Actors..."
+            class="search"
+            title="Search for movies, actors, TV series, and more!"
+          />
+          <button type="button" id="button-search" onclick="handleSearch()">Search</button>
+        </div>
+        <div id="search-results" class="search-results"></div>
+        <div class="buttons-container">
+          <button type="button" id="view-all-results" style="display: none">View more results</button>
+          <button type="button" id="clear-search" style="display: none">Clear</button>
+        </div>
+      </form>
+    </header>
+
+    <nav id="side-nav" class="side-nav" style="text-align: left; z-index: 1000000">
+      <a id="heading-href" style="cursor: pointer" href="../../index.html" title="Click to go back to the home page">
+        <div id="my-heading1" style="margin-bottom: 15px; margin-left: 0; margin-top: 15px; font-size: 2.1em; font-weight: bold">
+          The Mo<span class="highlight2">vieV</span>erse
+        </div>
+      </a>
+      <div id="button-container">
+        <button id="button-remove" title="Close the navbar" onclick="removeNavBar()">Close</button>
+      </div>
+      <ul>
+        <li><a href="#the-art-and-evolution-of-cinematic-sound-design">Introduction</a></li>
+        <li><a href="#the-birth-of-film-sound">1. The Birth of Film Sound (1890s–1920s)</a></li>
+        <li><a href="#foley-and-effects-libraries">1.1 Foley and Effects Libraries</a></li>
+        <li><a href="#multi-track-mixing">1.2 Multi-Track Mixing</a></li>
+        <li><a href="#golden-age-of-studio-audiography">2. The Golden Age of Studio Audiography (1930s–1950s)</a></li>
+        <li><a href="#surround-sound-immersion">3. Surround Sound & Immersion (1970s–1990s)</a></li>
+        <li><a href="#digital-audio-workstations">4. Digital Audio Workstations & Sound Editing (1990s–2010s)</a></li>
+        <li><a href="#immersive-audio">5. Immersive Audio & Object-Based Mixing (2010s–Present)</a></li>
+        <li><a href="#ai-and-future-trends">6. AI and Future Trends</a></li>
+        <li><a href="#crafting-emotional-impact">7. Crafting Emotional Impact</a></li>
+        <li><a href="#conclusion">8. Conclusion</a></li>
+      </ul>
+    </nav>
+
+    <main style="margin-top: 30px; padding: 1rem; text-align: left">
+      <h2 id="the-art-and-evolution-of-cinematic-sound-design">The Art and Evolution of Cinematic Sound Design</h2>
+      <div />
+
+      <h3 id="the-birth-of-film-sound">1. The Birth of Film Sound (1890s–1920s)</h3>
+      <p>
+        Early motion pictures were silent, relying on intertitles and live music to convey mood and narrative. The introduction of synchronized sound
+        transformed film from a visual medium to a multi-sensory experience. Innovations like the Vitaphone system paired recorded audio discs with
+        film, while the Movietone process etched soundwaves directly onto film strips.
+      </p>
+
+      <h4 id="optical-soundtracks">1.1 Optical Soundtracks</h4>
+      <p>
+        Optical sound revolutionized cinematic audio by capturing waveforms photographically. These soundtracks, read by light-sensitive sensors in
+        projectors, allowed for more synchronized and higher-quality audio.
+      </p>
+      <ul>
+        <li><strong>Method:</strong> Photographic recording of audio waveform alongside picture frames.</li>
+        <li><strong>Milestone:</strong> <em>The Jazz Singer</em> (1927) introduced the public to synchronized dialogue and music.</li>
+      </ul>
+
+      <h3 id="golden-age-of-studio-audiography">2. The Golden Age of Studio Audiography (1930s–1950s)</h3>
+      <p>
+        Hollywood's studio era marked a golden age of audio experimentation. Studios established entire sound departments, each with specialists in
+        dialogue capture, re-recording, Foley, and music mixing. The goal was simple: immerse audiences completely.
+      </p>
+
+      <h4 id="foley-and-effects-libraries">2.1 Foley and Effects Libraries</h4>
+      <ul>
+        <li>
+          <strong>Foley Artists:</strong> Named after Jack Foley, these technicians recreated lifelike sound effects in sync with actors’ movements.
+        </li>
+        <li><strong>Effects Libraries:</strong> Catalogs of reusable sounds, from thunder to gunfire, became standardized for faster production.</li>
+      </ul>
+
+      <h4 id="multi-track-mixing">2.2 Multi-Track Mixing</h4>
+      <ul>
+        <li><strong>Innovation:</strong> Enabled layering of dialogue, score, and effects on separate audio tracks.</li>
+        <li><strong>Impact:</strong> Allowed mixers to balance narrative clarity with emotional depth.</li>
+      </ul>
+
+      <h3 id="surround-sound-immersion">3. Surround Sound & Immersion (1970s–1990s)</h3>
+      <p>
+        The rise of immersive audio technologies paralleled the blockbuster era. Surround sound expanded the audio canvas beyond stereo, placing the
+        viewer directly in the action.
+      </p>
+
+      <h4 id="dolby-stereo">3.1 Dolby Stereo</h4>
+      <ul>
+        <li><strong>Format:</strong> Four channels matrixed into two optical tracks for playback in equipped theaters.</li>
+        <li><strong>Example:</strong> <em>Star Wars</em> (1977) exploited the format to build sweeping spatial soundscapes.</li>
+      </ul>
+
+      <h4 id="5-1-surround-sound">3.2 5.1 Surround Sound</h4>
+      <ul>
+        <li><strong>Configuration:</strong> Left, center, right, surround left/right, and subwoofer (LFE).</li>
+        <li><strong>Benefit:</strong> Delivered pinpoint audio placement and deepened realism, particularly in action sequences.</li>
+      </ul>
+
+      <h3 id="digital-audio-workstations">4. Digital Audio Workstations & Sound Editing (1990s–2010s)</h3>
+      <p>
+        DAWs like Pro Tools introduced non-linear, non-destructive editing that transformed post-production. With infinite tracks, automation, and
+        plugins, sound designers gained unprecedented control.
+      </p>
+
+      <h4 id="pro-tools-revolution">4.1 Pro Tools Revolution</h4>
+      <ul>
+        <li><strong>Capabilities:</strong> Real-time waveform editing, crossfades, time-stretching, and automation curves.</li>
+        <li><strong>Workflow:</strong> Editors could manipulate hundreds of layers for nuanced soundscapes.</li>
+      </ul>
+
+      <h4 id="sound-libraries-sampling">4.2 Sound Libraries & Sampling</h4>
+      <ul>
+        <li><strong>Digital Archives:</strong> Extensive databases of high-quality sounds became accessible from anywhere.</li>
+        <li>
+          <strong>Creative Sampling:</strong> Designers used pitch-shifting, convolution reverb, and granular synthesis to create alien, surreal, or
+          abstract audio textures.
+        </li>
+      </ul>
+
+      <h3 id="immersive-audio">5. Immersive Audio & Object-Based Mixing (2010s–Present)</h3>
+      <p>
+        Formats like Dolby Atmos and DTS:X moved beyond channels to spatialized audio objects, allowing mixers to place sounds dynamically in 3D
+        space.
+      </p>
+
+      <h4 id="dolby-atmos">5.1 Dolby Atmos</h4>
+      <ul>
+        <li><strong>Structure:</strong> Up to 128 simultaneous objects with metadata for directional placement.</li>
+        <li><strong>Impact:</strong> Viewers can hear a helicopter above or footsteps circling behind, enhancing immersion.</li>
+      </ul>
+
+      <h4 id="virtual-reality-spatial-audio">5.2 Virtual Reality & Spatial Audio</h4>
+      <ul>
+        <li><strong>Technologies:</strong> Binaural audio, ambisonics, and head-tracking systems.</li>
+        <li><strong>Challenge:</strong> Maintaining real-time synchronicity between movement and sound to avoid breaking immersion.</li>
+      </ul>
+
+      <h3 id="ai-and-future-trends">6. AI and Future Trends</h3>
+      <p>
+        Artificial Intelligence is reshaping post-production. From automating cleanup to generating procedural effects, AI augments speed and
+        creativity while prompting ethical and artistic questions.
+      </p>
+
+      <h4 id="automated-dialogue-replacement">6.1 Automated Dialogue Replacement</h4>
+      <ul>
+        <li><strong>AI Tools:</strong> Separate and enhance dialogue from noisy field recordings without reshoots.</li>
+        <li><strong>Advantage:</strong> Retains authentic performance while cutting ADR time significantly.</li>
+      </ul>
+
+      <h4 id="procedural-sound-generation">6.2 Procedural Sound Generation</h4>
+      <ul>
+        <li><strong>Concept:</strong> Real-time generation of sound based on physical models and simulations.</li>
+        <li><strong>Future:</strong> Dynamic soundscapes that adjust to narrative beats or user interaction in interactive cinema.</li>
+      </ul>
+
+      <h3 id="crafting-emotional-impact">7. Crafting Emotional Impact</h3>
+      <p>
+        Sound design is more than tech — it’s storytelling. The best soundtracks enhance the unspoken, underscore emotion, and make the invisible
+        felt. A single breath, pause, or tone shift can define a scene’s power.
+      </p>
+
+      <ul>
+        <li><strong>Silence as Sound:</strong> Used strategically to increase tension, anticipation, or emotional gravity.</li>
+        <li><strong>Leitmotifs:</strong> Recurring sounds or themes associated with characters, emotions, or ideas.</li>
+        <li><strong>Frequency Sculpting:</strong> Boosting or cutting specific frequencies to highlight emotion or suppress distractions.</li>
+        <li><strong>Dynamic Range:</strong> Skillful control of loud/quiet passages creates emotional peaks and valleys.</li>
+        <li><strong>Perspective Shifts:</strong> Changing how sound is filtered (e.g., muffled underwater, echo in cavern) to reflect POV.</li>
+      </ul>
+
+      <h3 id="conclusion">8. Conclusion</h3>
+      <p>
+        From Edison’s kinetophone to AI-powered real-time spatialization, sound design has journeyed through mechanical, magnetic, digital, and neural
+        phases. It remains essential to cinema not just as accompaniment, but as a character of its own—immersing, evoking, and amplifying
+        storytelling. As tools evolve, the emotional core of sound design continues to resonate louder than ever.
+      </p>
+    </main>
+
+    <button title="Back to Games" id="back-to-blogs-btn">
+      <i class="fas fa-arrow-left" style="margin-right: 5px; font-size: 12px"></i>
+      <span>Back to Blogs</span>
+    </button>
+
+    <button
+      id="chat-button"
+      onclick="window.location.href='chat.html'"
+      style="bottom: 370px; right: 10px; z-index: 1001"
+      title="Chat with fellow MovieVerse users!"
+    >
+      Chat
+    </button>
+    <button
+      id="blog-button"
+      onclick="window.location.href='blogs.html'"
+      style="bottom: 335px; right: 10px; z-index: 1001"
+      title="Read our latest blogs and articles!"
+    >
+      Blogs
+    </button>
+    <button
+      id="games-button"
+      onclick="window.location.href='games.html'"
+      style="bottom: 300px; right: 10px; z-index: 1001"
+      title="Play fun movie-related games!"
+    >
+      Games
+    </button>
+    <button id="settings-btn" style="position: fixed; bottom: 265px; right: 10px">Settings</button>
+    <button
+      id="movie-of-the-day-btn"
+      onclick="showMovieOfTheDay()"
+      title="Get a recommended movie to watch for today!"
+      style="bottom: 230px; right: 10px"
+    >
+      Surprise Me!
+    </button>
+    <button
+      id="movie-match-btn3"
+      onclick="window.location.href='movie-match.html'"
+      title="Find a movie that matches your mood, genre, and time period!"
+      style="bottom: 195px; right: 10px"
+    >
+      Movie Match
+    </button>
+    <button
+      id="movie-timeline-btn"
+      onclick="window.location.href='movie-timeline.html'"
+      title="Explore movies through different eras!"
+      style="bottom: 160px; right: 10px"
+    >
+      Movie Timeline
+    </button>
+    <button
+      id="discussions-btn"
+      onclick="window.location.href='chatbot.html'"
+      style="bottom: 125px; right: 10px"
+      title="Chat with our intelligent chatbot!"
+    >
+      MovieVerse Chatbot
+    </button>
+    <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 90px; right: 10px" title="Test your movie knowledge">
+      MovieVerse Trivia
+    </button>
+
+    <div id="mobile-bottom-bar" class="mobile-bottom-bar">
+      <a href="chat.html" class="bottom-bar-item">
+        <i class="fas fa-comments"></i>
+        <span>Chat</span>
+      </a>
+      <a href="settings.html" class="bottom-bar-item">
+        <i class="fas fa-cog"></i>
+        <span>Settings</span>
+      </a>
+      <a href="#" class="bottom-bar-item" onclick="showMovieOfTheDay()">
+        <i class="fas fa-surprise"></i>
+        <span>Surprise Me</span>
+      </a>
+      <a href="movie-match.html" class="bottom-bar-item">
+        <i class="fas fa-film"></i>
+        <span>Match</span>
+      </a>
+      <a href="movie-timeline.html" class="bottom-bar-item">
+        <i class="fas fa-clock"></i>
+        <span>Timeline</span>
+      </a>
+      <a href="chatbot.html" class="bottom-bar-item">
+        <i class="fas fa-robot"></i>
+        <span>Chatbot</span>
+      </a>
+      <a href="trivia.html" class="bottom-bar-item">
+        <i class="fas fa-question-circle"></i>
+        <span>Trivia</span>
+      </a>
+    </div>
+
+    <button id="menu-btn" style="position: fixed; bottom: 10px; right: 10px; z-index: 1001" title="Toggle Menu Buttons">
+      <i class="fas fa-ellipsis-h"></i><br />
+      <span>Menu</span>
+    </button>
+
+    <script src="../js/actor-details.js"></script>
+
+    <script>
+      window.addEventListener('load', function () {
+        adjustAnchorHeights();
+      });
+
+      window.addEventListener('resize', adjustAnchorHeights);
+
+      function adjustAnchorHeights() {
+        const bottomBarAnchors = document.querySelectorAll('.mobile-bottom-bar a');
+        let maxHeight = 0;
+
+        bottomBarAnchors.forEach(anchor => {
+          anchor.style.height = 'auto';
+          const anchorHeight = anchor.getBoundingClientRect().height;
+          maxHeight = Math.max(maxHeight, anchorHeight);
+        });
+
+        bottomBarAnchors.forEach(anchor => {
+          anchor.style.height = `${maxHeight}px`;
+        });
+      }
+
+      let lastScrollY = window.scrollY;
+
+      window.addEventListener('scroll', () => {
+        const currentScrollY = window.scrollY;
+
+        if (currentScrollY > lastScrollY && currentScrollY > 0) {
+          document.querySelector('.mobile-bottom-bar').classList.add('hide-bar');
+        } else {
+          document.querySelector('.mobile-bottom-bar').classList.remove('hide-bar');
+        }
+
+        lastScrollY = currentScrollY;
+      });
+
+      let isAnimating = false;
+
+      document.getElementById('menu-btn').addEventListener('click', () => {
+        if (isAnimating) return;
+
+        isAnimating = true;
+
+        const buttonIds = [
+          'chat-button',
+          'blog-button',
+          'games-button',
+          'settings-btn',
+          'movie-of-the-day-btn',
+          'movie-match-btn3',
+          'movie-timeline-btn',
+          'discussions-btn',
+          'trivia-btn',
+        ];
+
+        buttonIds.forEach((id, index) => {
+          const button = document.getElementById(id);
+          if (button.style.display === 'none' || !button.style.display) {
+            button.style.display = 'block';
+            setTimeout(() => {
+              button.style.opacity = '1';
+              button.style.transform = 'translateY(0)';
+            }, 50 * index);
+          } else {
+            button.style.opacity = '0';
+            button.style.transform = 'translateY(20px)';
+          }
+
+          setTimeout(
+            () => {
+              button.style.display = button.style.opacity === '1' ? 'block' : 'none';
+              if (index === buttonIds.length - 1) {
+                isAnimating = false;
+              }
+            },
+            500 + 50 * index
+          );
+        });
+      });
+    </script>
+
+    <script>
+      document.getElementById('settings-btn').addEventListener('click', () => {
+        window.location.href = 'settings.html';
+      });
+
+      document.addEventListener('DOMContentLoaded', () => {
+        applySettings();
+
+        function applySettings() {
+          const savedBg = localStorage.getItem('backgroundImage');
+          const savedTextColor = localStorage.getItem('textColor');
+          const savedFontSize = localStorage.getItem('fontSize');
+
+          if (savedBg) {
+            document.body.style.backgroundImage = `url('${savedBg}')`;
+          }
+          if (savedTextColor) {
+            document.querySelectorAll('h1, h2, h3, p, a, span, div, button, input, select, textarea, label, li').forEach(element => {
+              element.style.color = savedTextColor;
+            });
+          }
+          if (savedFontSize) {
+            const size = savedFontSize === 'small' ? '12px' : savedFontSize === 'medium' ? '16px' : '20px';
+            document.body.style.fontSize = size;
+          }
+        }
+      });
+
+      window.addEventListener('resize', () => {
+        if (window.innerWidth < 767) {
+          const buttonIds = [
+            'chat-button',
+            'blog-button',
+            'games-button',
+            'settings-btn',
+            'movie-of-the-day-btn',
+            'movie-match-btn3',
+            'movie-timeline-btn',
+            'discussions-btn',
+            'trivia-btn',
+          ];
+
+          buttonIds.forEach(id => {
+            const button = document.getElementById(id);
+            button.style.display = 'none';
+            button.style.opacity = '0';
+            button.style.transform = 'translateY(20px)';
+          });
+        }
+      });
+    </script>
+
+    <footer style="text-align: center">
+      <a href="../../index.html" style="text-align: center; cursor: pointer; text-decoration: none">
+        <p style="text-align: center; cursor: pointer; text-decoration: none">© <span id="year"></span> The MovieVerse. All rights reserved.</p>
+      </a>
+    </footer>
+
+    <script>
+      const currentYear = new Date().getFullYear();
+      document.getElementById('year').textContent = currentYear;
+    </script>
+
+    <div id="myModal" class="modal-overlay">
+      <div class="spinner"></div>
+    </div>
+
+    <script>
+      document.getElementById('back-to-blogs-btn').addEventListener('click', function () {
+        window.location.href = 'blogs.html';
+      });
+
+      document.addEventListener('DOMContentLoaded', function () {
+        const searchBar = document.getElementById('search');
+        const searchButton = document.getElementById('button-search');
+        const myHeading = document.getElementById('my-heading');
+        const localTime = document.getElementById('local-time');
+
+        function toggleVisibility() {
+          const query = searchBar.value.trim();
+          if (query) {
+            if (window.innerWidth > 800) {
+              myHeading.style.visibility = 'hidden';
+              myHeading.style.opacity = '0';
+              localTime.style.visibility = 'hidden';
+              localTime.style.opacity = '0';
+            }
+          } else {
+            myHeading.style.visibility = 'visible';
+            myHeading.style.opacity = '1';
+            localTime.style.visibility = 'visible';
+            localTime.style.opacity = '1';
+          }
+        }
+        searchBar.addEventListener('input', toggleVisibility);
+        toggleVisibility();
+      });
+    </script>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const searchInput = document.getElementById('search');
+        const viewAllResultsBtn = document.getElementById('view-all-results');
+        const clearSearchBtn = document.getElementById('clear-search');
+        const searchResultsContainer = document.getElementById('search-results');
+        const myHeading = document.getElementById('my-heading');
+        const localTime = document.getElementById('local-time');
+        const searchButton = document.getElementById('button-search');
+
+        function toggleButtons() {
+          const query = searchInput.value.trim();
+          viewAllResultsBtn.style.display = query ? 'inline-block' : 'none';
+          clearSearchBtn.style.display = query ? 'inline-block' : 'none';
+        }
+
+        clearSearchBtn.addEventListener('click', function () {
+          searchInput.value = '';
+          searchResultsContainer.innerHTML = '';
+          toggleButtons();
+          searchInput.focus();
+
+          myHeading.style.visibility = 'visible';
+          myHeading.style.opacity = '1';
+          localTime.style.visibility = 'visible';
+          localTime.style.opacity = '1';
+        });
+
+        toggleButtons();
+        searchInput.addEventListener('input', toggleButtons);
+      });
+    </script>
+
+    <script>
+      function showSpinner() {
+        document.getElementById('myModal').classList.add('modal-visible');
+      }
+
+      function hideSpinner() {
+        document.getElementById('myModal').classList.remove('modal-visible');
+      }
+
+      document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('search').addEventListener('input', function (e) {
+          showSpinner();
+          const viewAllResultsBtn = document.getElementById('view-all-results');
+          const searchInput = document.getElementById('search');
+          const query = e.target.value.trim();
+          const searchResultsContainer = document.getElementById('search-results');
+
+          viewAllResultsBtn.style.display = query ? 'block' : 'none';
+
+          function toggleButtons() {
+            viewAllResultsBtn.style.display = query ? 'inline-block' : 'none';
+            const clearSearchBtn = document.getElementById('clear-search');
+            clearSearchBtn.style.display = query ? 'inline-block' : 'none';
+          }
+
+          if (query) {
+            const searchURL = `https://${getMovieVerseData()}/3/search/multi?${generateMovieNames()}${getMovieCode()}&query=${encodeURIComponent(query)}`;
+            fetch(searchURL)
+              .then(response => response.json())
+              .then(data => {
+                const sortedResults = data.results.sort((a, b) => b.popularity - a.popularity);
+                displaySearchResults(sortedResults.slice(0, 5));
+              })
+              .catch(err => console.log('Fetching error:', err));
+          } else {
+            searchInput.value = '';
+            searchResultsContainer.innerHTML = '';
+            toggleButtons();
+            searchInput.focus();
+          }
+
+          searchInput.addEventListener('input', function () {
+            if (searchInput.value.trim()) {
+              viewAllResultsBtn.style.display = 'block';
+            } else {
+              viewAllResultsBtn.style.display = 'none';
+            }
+          });
+
+          viewAllResultsBtn.addEventListener('click', function () {
+            const searchQuery = searchInput.value.trim();
+            if (searchQuery) {
+              localStorage.setItem('searchQuery', searchQuery);
+              window.location.href = 'search.html';
+            } else {
+              alert('Please enter a search query.');
+            }
+          });
+
+          hideSpinner();
+        });
+
+        function displaySearchResults(results) {
+          showSpinner();
+          const resultsContainer = document.getElementById('search-results');
+          resultsContainer.innerHTML = '';
+
+          results.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'search-result-card';
+            card.style.cursor = 'pointer';
+
+            const imagePath =
+              item.poster_path || item.profile_path ? `https://image.tmdb.org/t/p/w500${item.poster_path || item.profile_path}` : null;
+
+            if (imagePath) {
+              const image = document.createElement('img');
+              image.src = imagePath;
+              image.className = 'result-image';
+              card.appendChild(image);
+            } else {
+              const placeholder = document.createElement('div');
+              placeholder.className = 'result-image-placeholder';
+              placeholder.textContent = 'Image Not Available';
+              placeholder.style.textAlign = 'center';
+              placeholder.style.padding = '10px';
+              card.appendChild(placeholder);
+            }
+
+            const details = document.createElement('div');
+            details.className = 'result-details';
+
+            const name = document.createElement('div');
+            name.className = 'result-name';
+            name.textContent = item.title || item.name;
+            details.appendChild(name);
+
+            const type = document.createElement('div');
+            type.className = 'result-type';
+            type.textContent = item.media_type === 'movie' ? 'Movie' : item.media_type === 'tv' ? 'TV Series' : 'Person';
+            details.appendChild(type);
+
+            card.appendChild(details);
+            resultsContainer.appendChild(card);
+
+            card.addEventListener('click', () => handleResultClick(item));
+          });
+
+          hideSpinner();
+        }
+
+        async function handleResultClick(item) {
+          console.log('Clicked item:', item.media_type, item.id);
+
+          if (!item.media_type) {
+            console.log('Media type is undefined');
+            return;
+          }
+
+          if (item.media_type === 'movie') {
+            // Navigate to movie details page with movieId as a query parameter
+            window.location.href = `movie-details.html?movieId=${item.id}`;
+          } else if (item.media_type === 'tv') {
+            // Navigate to TV details page with tvSeriesId as a query parameter
+            window.location.href = `tv-details.html?tvSeriesId=${item.id}`;
+          } else if (item.media_type === 'person') {
+            try {
+              const personDetailsUrl = `https://${getMovieVerseData()}/3/person/${item.id}?${generateMovieNames()}${getMovieCode()}`;
+              const response = await fetch(personDetailsUrl);
+              const personDetails = await response.json();
+
+              if (personDetails.known_for_department === 'Directing') {
+                localStorage.setItem('selectedDirectorId', item.id);
+                window.location.href = 'director-details.html?' + item.id;
+              } else {
+                localStorage.setItem('selectedActorId', item.id);
+                window.location.href = 'actor-details.html?' + item.id;
+              }
+            } catch (error) {
+              console.log('Error fetching person details:', error);
+            }
+          } else {
+            console.log('Unknown media type:', item.media_type);
+          }
+        }
+      });
+
+      document.addEventListener('DOMContentLoaded', function () {
+        const searchInput = document.getElementById('search');
+        const viewAllResultsBtn = document.getElementById('view-all-results');
+        const clearSearchBtn = document.getElementById('clear-search');
+        const searchResultsContainer = document.getElementById('search-results');
+        let selectedIndex = -1;
+
+        function clearSelection() {
+          const results = searchResultsContainer.getElementsByClassName('search-result-card');
+          if (selectedIndex >= 0 && selectedIndex < results.length) {
+            results[selectedIndex].style.backgroundColor = '';
+          } else if (selectedIndex === results.length) {
+            viewAllResultsBtn.style.backgroundColor = '';
+          } else if (selectedIndex === results.length + 1) {
+            clearSearchBtn.style.backgroundColor = '';
+          }
+        }
+
+        function moveSelection(direction) {
+          const results = searchResultsContainer.getElementsByClassName('search-result-card');
+          const totalElements = results.length + 2;
+          clearSelection();
+
+          if (direction === 'down') {
+            selectedIndex = (selectedIndex + 1) % totalElements;
+          } else if (direction === 'up') {
+            selectedIndex = (selectedIndex - 1 + totalElements) % totalElements;
+          }
+
+          if (selectedIndex < results.length) {
+            results[selectedIndex].style.backgroundColor = '#ff8623';
+            results[selectedIndex].scrollIntoView({ block: 'nearest' });
+          } else if (selectedIndex === results.length) {
+            viewAllResultsBtn.style.backgroundColor = '#ff8623';
+            viewAllResultsBtn.scrollIntoView({ block: 'nearest' });
+          } else if (selectedIndex === results.length + 1) {
+            clearSearchBtn.style.backgroundColor = '#ff8623';
+            clearSearchBtn.scrollIntoView({ block: 'nearest' });
+          }
+        }
+
+        searchInput.addEventListener('keydown', function (e) {
+          if (e.key === 'ArrowDown' || (e.key === 'Tab' && !e.shiftKey)) {
+            e.preventDefault();
+            moveSelection('down');
+          } else if (e.key === 'ArrowUp' || (e.key === 'Tab' && e.shiftKey)) {
+            e.preventDefault();
+            moveSelection('up');
+          } else if (e.key === 'Enter') {
+            e.preventDefault();
+            if (selectedIndex >= 0 && selectedIndex < searchResultsContainer.getElementsByClassName('search-result-card').length) {
+              searchResultsContainer.getElementsByClassName('search-result-card')[selectedIndex].click();
+            } else if (selectedIndex === searchResultsContainer.getElementsByClassName('search-result-card').length) {
+              viewAllResultsBtn.click();
+            } else if (selectedIndex === searchResultsContainer.getElementsByClassName('search-result-card').length + 1) {
+              clearSearchBtn.click();
+            } else {
+              const query = searchInput.value.trim();
+              localStorage.setItem('searchQuery', query);
+              window.location.href = 'search.html';
+            }
+          }
+        });
+
+        searchInput.addEventListener('blur', clearSelection);
+      });
+    </script>
+
+    <script>
+      const sideNav = document.getElementById('side-nav');
+      const navToggle = document.getElementById('nav-toggle');
+      const removeBtn = document.getElementById('button-remove');
+
+      function adjustNavBar() {
+        if (sideNav.classList.contains('manual-toggle')) {
+          sideNav.style.left = '0';
+        } else {
+          sideNav.style.left = '-250px';
+        }
+      }
+
+      navToggle.addEventListener('click', () => {
+        sideNav.classList.toggle('manual-toggle');
+        adjustNavBar();
+      });
+
+      removeBtn.addEventListener('click', () => {
+        sideNav.classList.remove('manual-toggle');
+        adjustNavBar();
+      });
+
+      // show on hover when hidden
+      document.addEventListener('mousemove', e => {
+        if (e.clientX < 20 && !sideNav.classList.contains('manual-toggle')) {
+          sideNav.style.left = '0';
+        }
+      });
+      sideNav.addEventListener('mouseleave', () => {
+        if (!sideNav.classList.contains('manual-toggle')) {
+          sideNav.style.left = '-250px';
+        }
+      });
+
+      // click outside to close
+      document.addEventListener('click', e => {
+        if (!sideNav.contains(e.target) && !navToggle.contains(e.target) && sideNav.classList.contains('manual-toggle')) {
+          sideNav.classList.remove('manual-toggle');
+          adjustNavBar();
+        }
+      });
+
+      // initialize position
+      adjustNavBar();
+    </script>
+  </body>
+</html>

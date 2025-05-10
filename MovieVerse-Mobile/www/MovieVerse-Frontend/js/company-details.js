@@ -687,6 +687,7 @@ function displayCompanyMovies(movies) {
     movieLink.href = 'javascript:void(0);';
     movieLink.style.marginRight = '0';
     movieLink.style.marginTop = '10px';
+    movieLink.style.color = 'inherit'; // Inherit text color
     movieLink.setAttribute('onclick', `selectMovieId(${movie.id});`);
 
     const movieItem = document.createElement('div');
@@ -715,6 +716,7 @@ function displayCompanyMovies(movies) {
 
     const movieTitle = document.createElement('p');
     movieTitle.classList.add('movie-title');
+    movieTitle.style.color = 'inherit'; // Inherit text color
     const movieTitleWords = movie.title.split(' ');
     const truncatedMovieTitle = movieTitleWords.length > 5 ? movieTitleWords.slice(0, 5).join(' ') + ' ...' : movie.title;
 

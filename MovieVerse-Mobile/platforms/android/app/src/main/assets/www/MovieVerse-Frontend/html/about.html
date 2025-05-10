@@ -139,6 +139,22 @@
         font: inherit;
         color: white;
       }
+      #blog-button {
+        background-color: #7378c5;
+        bottom: 205px;
+        right: 10px;
+        color: black;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        font: inherit;
+        position: fixed;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      }
+      #blog-button:hover {
+        background-color: #ff8623;
+        transition: 0.1s ease-in;
+      }
       .goog-te-combo {
         background-color: #7378c5 !important;
         color: white !important;
@@ -288,10 +304,18 @@
       <button
         id="chat-button"
         onclick="window.location.href='chat.html'"
-        style="bottom: 335px; right: 10px; z-index: 1001"
+        style="bottom: 370px; right: 10px; z-index: 1001"
         title="Chat with fellow MovieVerse users!"
       >
         Chat
+      </button>
+      <button
+        id="blog-button"
+        onclick="window.location.href='blogs.html'"
+        style="bottom: 335px; right: 10px; z-index: 1001"
+        title="Read our latest blogs and articles!"
+      >
+        Blogs
       </button>
       <button
         id="games-button"
@@ -341,7 +365,7 @@
     <nav id="side-nav" class="side-nav" style="z-index: 1000000">
       <a id="heading-href" style="cursor: pointer" href="../../index.html" title="Click to go back to the home page">
         <div id="my-heading1" style="margin-bottom: 15px; margin-left: 0; margin-top: 15px; font-size: 2.1em; font-weight: bold">
-          The Mo<span class="highlight2">vieV</span>erse Menu
+          The Mo<span class="highlight2">vieV</span>erse
         </div>
       </a>
       <div id="button-container">
@@ -451,6 +475,25 @@
           <strong>IMDb, Metacritics, and Rotten Tomatoes Ratings:</strong> Aside from ratings from our users, you can also view IMDb, Metacritics, and
           RT ratings for each movie directly <a id="githubLink1" href="movie-details.html">within our app</a>.
         </li>
+        <li>
+          <i style="margin-right: 3px" class="fas fa-globe"></i>
+          <strong>Multi-Language Support:</strong> The MovieVerse is available in multiple languages, ensuring accessibility for users worldwide.
+        </li>
+        <li>
+          <i style="margin-right: 3px" class="fas fa-user"></i>
+          <strong>Account Creation:</strong> Create an account to save your favorite movies, directors, and actors, and access personalized features.
+        </li>
+        <!-- blog -->
+        <li>
+          <i style="margin-right: 3px" class="fas fa-blog"></i>
+          <strong>Blog:</strong> Stay updated with the latest news and trends in the movie industry through our blog section, featuring articles,
+          reviews, and insights.
+        </li>
+        <!--games -->
+        <li>
+          <i style="margin-right: 3px" class="fas fa-gamepad"></i>
+          <strong>Games:</strong> Enjoy fun movie-related minigames and quizzes to test your knowledge and have fun with friends.
+        </li>
       </ul>
       <h3 id="subheading2" style="animation: fadeIn 1.5s ease-in-out; cursor: pointer">Explore Our Other Apps:</h3>
       <p style="color: white; text-align: center; margin-bottom: 12px; animation: fadeIn 1.5s ease-in-out">
@@ -539,18 +582,17 @@
         If you are also interested in the website's creator and developer, feel free to visit my
         <a style="text-decoration: underline" id="githubLink" href="https://www.linkedin.com/in/hoangsonw/">LinkedIn profile</a> or
         <a style="text-decoration: underline" id="githubLink" href="https://sonnguyenhoang.com">personal website</a>.
-
-        <button onclick="window.location.href='analytics.html'" style="border: none; margin-top: 40px" class="app-btn">MovieVerse Analytics</button>
-        <button onclick="window.location.href='https://api-movieverse.vercel.app/'" style="border: none; margin-top: 40px" class="app-btn">
-          MovieVerse API
-        </button>
-        <button onclick="window.location.href='terms-of-service.html'" style="border: none; margin-top: 40px" class="app-btn">
-          Terms of Service
-        </button>
-        <button onclick="window.location.href='privacy-policy.html';" style="border: none; margin-top: 40px" class="app-btn">Privacy Policy</button>
-        <button onclick="window.location.href='support.html'" style="border: none; margin-top: 40px" class="app-btn">Contact Support</button>
-        <button onclick="window.location.href='feedback.html'" style="border: none; margin-top: 40px" class="app-btn">Submit Feedback</button>
       </p>
+
+      <div class="app-btn-container" style="animation: fadeIn 1.5s ease-in-out; text-align: center">
+        <button onclick="window.location.href='analytics.html'" class="app-btn" style="border: none">MovieVerse Analytics</button>
+        <button onclick="window.location.href='https://api-movieverse.vercel.app/'" class="app-btn" style="border: none">MovieVerse API</button>
+        <button onclick="window.location.href='terms-of-service.html'" class="app-btn" style="border: none">Terms of Service</button>
+        <button onclick="window.location.href='privacy-policy.html'" class="app-btn" style="border: none">Privacy Policy</button>
+        <button onclick="window.location.href='blogs.html'" class="app-btn" style="border: none">MovieVerse Blogs</button>
+        <button onclick="window.location.href='support.html'" class="app-btn" style="border: none">Contact Support</button>
+        <button onclick="window.location.href='feedback.html'" class="app-btn" style="border: none">Submit Feedback</button>
+      </div>
     </main>
     <div
       id="ad-container2"
@@ -664,6 +706,7 @@
 
         const buttonIds = [
           'chat-button',
+          'blog-button',
           'games-button',
           'settings-btn',
           'movie-of-the-day-btn',
@@ -702,6 +745,7 @@
         if (window.innerWidth < 767) {
           const buttonIds = [
             'chat-button',
+            'blog-button',
             'games-button',
             'settings-btn',
             'movie-of-the-day-btn',

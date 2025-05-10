@@ -426,13 +426,22 @@
     </div>
 
     <script src="../js/actor-details.js"></script>
+
     <button
       id="chat-button"
       onclick="window.location.href='chat.html'"
-      style="bottom: 335px; right: 10px; z-index: 1001"
+      style="bottom: 370px; right: 10px; z-index: 1001"
       title="Chat with fellow MovieVerse users!"
     >
       Chat
+    </button>
+    <button
+      id="blog-button"
+      onclick="window.location.href='blogs.html'"
+      style="bottom: 335px; right: 10px; z-index: 1001"
+      title="Read our movie blogs and articles!"
+    >
+      Blogs
     </button>
     <button
       id="games-button"
@@ -520,7 +529,7 @@
       <span>How to Play</span>
     </button>
 
-    <button title="Back to Games" id="leaderboard-btn">
+    <button title="Leaderboard" id="leaderboard-btn">
       <i class="fas fa-trophy"></i><br />
       <span>Leaderboard</span>
     </button>
@@ -622,6 +631,7 @@
 
         const buttonIds = [
           'chat-button',
+          'blog-button',
           'games-button',
           'settings-btn',
           'movie-of-the-day-btn',
@@ -689,6 +699,7 @@
         if (window.innerWidth < 767) {
           const buttonIds = [
             'chat-button',
+            'blog-button',
             'games-button',
             'settings-btn',
             'movie-of-the-day-btn',
@@ -997,5 +1008,6 @@
         searchInput.addEventListener('blur', clearSelection);
       });
     </script>
+    <script src="../js/actor-details.js"></script>
   </body>
 </html>

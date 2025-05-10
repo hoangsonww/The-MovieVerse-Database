@@ -595,10 +595,18 @@
     <button
       id="chat-button"
       onclick="window.location.href='chat.html'"
-      style="bottom: 335px; right: 10px; z-index: 1001"
+      style="bottom: 370px; right: 10px; z-index: 1001"
       title="Chat with fellow MovieVerse users!"
     >
       Chat
+    </button>
+    <button
+      id="blog-button"
+      onclick="window.location.href='blogs.html'"
+      style="bottom: 335px; right: 10px; z-index: 1001"
+      title="Read our blogs and articles!"
+    >
+      Blogs
     </button>
     <button
       id="games-button"
@@ -703,6 +711,7 @@
         isAnimating = true;
         const buttonIds = [
           'chat-button',
+          'blog-button',
           'games-button',
           'settings-btn',
           'movie-of-the-day-btn',
@@ -773,6 +782,7 @@
         if (window.innerWidth < 767) {
           const buttonIds = [
             'chat-button',
+            'blog-button',
             'games-button',
             'settings-btn',
             'movie-of-the-day-btn',

@@ -328,7 +328,7 @@ function updateDirectorVisitCount(directorId, directorName) {
 document.addEventListener('DOMContentLoaded', () => {
   initialMainContent = document.getElementById('main').innerHTML;
 
-  const movieId = localStorage.getItem('selectedMovieId');
+  const movieId = 27205;
   if (movieId) {
     fetchMovieDetails(movieId);
   } else {

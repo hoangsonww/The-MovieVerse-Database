@@ -298,6 +298,35 @@
           display: block;
         }
       }
+      #blog-button {
+        background-color: #7378c5;
+        bottom: 265px;
+        right: 10px;
+        color: black;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        font: inherit;
+        position: fixed;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      }
+      #blog-button:hover {
+        background-color: #ff8623;
+        transition: 0.1s ease-in;
+      }
+      #blog-button {
+        transition:
+          transform 0.5s ease,
+          opacity 0.5s ease;
+        transform: translateY(20px);
+        opacity: 0;
+        display: none;
+      }
+      @media all and (min-width: 768px) {
+        #blog-button {
+          display: block;
+        }
+      }
     </style>
   </head>
   <body>
@@ -399,7 +428,7 @@
     <nav id="side-nav" class="side-nav" style="z-index: 1000000">
       <a id="heading-href" style="cursor: pointer; text-decoration: none" href="../../index.html" title="Click to go back to the home page">
         <div id="my-heading1" style="margin-bottom: 15px; margin-left: 0; margin-top: 15px; font-size: 2.1em; font-weight: bold">
-          The Mo<span class="highlight2">vieV</span>erse Menu
+          The Mo<span class="highlight2">vieV</span>erse
         </div>
       </a>
       <div id="button-container">
@@ -567,10 +596,18 @@
     <button
       id="chat-button"
       onclick="window.location.href='chat.html'"
-      style="bottom: 370px; right: 10px; z-index: 1001"
+      style="bottom: 405px; right: 10px; z-index: 1001"
       title="Chat with fellow MovieVerse users!"
     >
       Chat
+    </button>
+    <button
+      id="blog-button"
+      onclick="window.location.href='blogs.html'"
+      style="bottom: 370px; right: 10px; z-index: 1001"
+      title="Read our movie blogs and articles!"
+    >
+      Blogs
     </button>
     <button
       id="games-button"
@@ -939,6 +976,7 @@
 
         const buttonIds = [
           'chat-button',
+          'blog-button',
           'games-button',
           'settings-btn',
           'movie-of-the-day-btn',
@@ -978,6 +1016,7 @@
         if (window.innerWidth < 767) {
           const buttonIds = [
             'chat-button',
+            'blog-button',
             'games-button',
             'settings-btn',
             'movie-of-the-day-btn',

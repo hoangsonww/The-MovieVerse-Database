@@ -1439,6 +1439,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
   const images = mediaData.backdrops.slice(0, 80);
 
   const detailsContainer = document.getElementById('movie-description');
+  detailsContainer.style.fontSize = 'inherit';
 
   const mediaContainer = document.createElement('div');
   mediaContainer.id = 'media-container';
