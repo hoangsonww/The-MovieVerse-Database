@@ -726,16 +726,23 @@ header h1 {
 
 .app-btn-container {
   display: flex;
-  flex-wrap: wrap; /* allow wrapping on small screens */
-  justify-content: center; /* center-align the row */
-  gap: 12px; /* consistent spacing between buttons */
-  margin-top: 40px; /* same top margin you had before */
+  flex-wrap: wrap;
+  /* allow wrapping on small screens */
+  justify-content: center;
+  /* center-align the row */
+  gap: 12px;
+  /* consistent spacing between buttons */
+  margin-top: 40px;
+  /* same top margin you had before */
 }
 
 .app-btn-container .app-btn {
-  margin-top: 0; /* reset any inline top-margin */
-  flex: 1 1 auto; /* buttons can grow/shrink as needed */
-  max-width: 200px; /* optional: constrain very wide buttons */
+  margin-top: 0;
+  /* reset any inline top-margin */
+  flex: 1 1 auto;
+  /* buttons can grow/shrink as needed */
+  max-width: 200px;
+  /* optional: constrain very wide buttons */
 }
 
 .movie-card {
@@ -1047,6 +1054,7 @@ header h1 {
     opacity: 0;
     transform: translateY(20px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0);
@@ -1077,6 +1085,7 @@ header h1 {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -1088,6 +1097,7 @@ header h1 {
     opacity: 0;
     transform: translateY(-30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -1095,6 +1105,7 @@ header h1 {
 }
 
 @keyframes bounce {
+
   0%,
   20%,
   50%,
@@ -1102,9 +1113,11 @@ header h1 {
   100% {
     transform: translateY(0);
   }
+
   40% {
     transform: translateY(-10px);
   }
+
   60% {
     transform: translateY(-5px);
   }
@@ -1351,6 +1364,7 @@ header h1 {
   .movie-image {
     height: auto;
   }
+
   #actor-image {
     height: auto;
   }
@@ -1360,6 +1374,7 @@ header h1 {
   .movie-image {
     height: auto;
   }
+
   #actor-image {
     height: auto;
   }
@@ -1735,6 +1750,7 @@ header h1 {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
@@ -2590,6 +2606,7 @@ strong {
   position: fixed;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
+
 #blog-button:hover {
   background-color: #ff8623;
   transition: 0.1s ease-in;
@@ -2615,6 +2632,7 @@ strong {
 }
 
 @media all and (min-width: 768px) {
+
   #chat-button,
   #blog-button,
   #games-button,
@@ -2858,7 +2876,7 @@ strong {
 }
 
 @media all and (max-width: 767px) {
-  .genres + main + .pagination {
+  .genres+main+.pagination {
     text-align: center;
   }
 
@@ -3202,13 +3220,14 @@ ol li:hover {
   width: 100%;
 }
 
-#chatbotBody > div {
+#chatbotBody>div {
   margin-bottom: 10px;
   padding: 5px 10px;
   border-radius: 5px;
 }
 
 @media all and (max-width: 705px) {
+
   #search-title,
   #alt-title {
     display: none;
@@ -3216,18 +3235,19 @@ ol li:hover {
 }
 
 @media all and (max-height: 930px) {
+
   #search-title,
   #alt-title {
     display: none;
   }
 }
 
-#chatbotBody > div[text-align='right'] {
+#chatbotBody>div[text-align='right'] {
   background-color: #ff8623;
   align-self: flex-end;
 }
 
-#chatbotBody > div[text-align='left'] {
+#chatbotBody>div[text-align='left'] {
   background-color: #7378c5;
   align-self: flex-start;
 }
@@ -3969,43 +3989,11 @@ body {
   box-sizing: border-box;
 }
 
-/* in your style.css */
 .mobile-sign-in-container {
-  animation: fadeIn 1.5s ease-in-out;
   display: flex;
-  flex-wrap: wrap; /* wrap onto new lines as needed */
-  justify-content: space-evenly; /* even spacing across the row */
-  align-items: center;
-  padding: 12px; /* inner breathing room */
-  gap: 12px; /* consistent gap between items */
-}
-
-.mobile-sign-in-container .nav-btn {
-  flex: 1 1 45%; /* try to fit two buttons per row */
-  max-width: 45%; /* prevent them from getting too wide */
-  background-color: #7378c5;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  padding: 10px 16px;
-  font-size: 16px;
-  display: inline-flex; /* for icon + text alignment */
-  align-items: center;
   justify-content: center;
-  gap: 8px; /* space between icon & text */
-  transition: background-color 0.2s;
-}
-
-.mobile-sign-in-container .nav-btn:hover {
-  background-color: #ff8623;
-}
-
-/* stack to single column on very narrow screens */
-@media (max-width: 480px) {
-  .mobile-sign-in-container .nav-btn {
-    flex: 1 1 100%;
-    max-width: 100%;
-  }
+  margin-top: 12px;
+  margin-bottom: 10px;
 }
 
 #mobileGoogleSignInBtn {
@@ -4019,6 +4007,7 @@ body {
   cursor: pointer;
   border-radius: 8px;
   padding: 0 10px;
+  margin: 0;
 }
 
 #mobileProfileBtn {
@@ -4032,7 +4021,7 @@ body {
   cursor: pointer;
   border-radius: 8px;
   padding: 0 10px;
-  margin-left: 5px;
+  margin: 0 !important;
 }
 
 #mobileGamesBtn {
@@ -4046,7 +4035,26 @@ body {
   cursor: pointer;
   border-radius: 8px;
   padding: 0 10px;
-  margin-left: 5px;
+  margin: 0 !important;
+}
+
+#mobileBlogBtn {
+  background-color: #7378c5;
+  border: none;
+  color: white;
+  height: 40px;
+  text-align: center;
+  font: inherit;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 0 10px;
+  margin: 0;
+}
+
+#mobileBlogBtn:hover {
+  background-color: #ff8623;
+  transition: 0.1s ease-in;
 }
 
 #googleSignInBtn:hover {
@@ -4055,6 +4063,16 @@ body {
 }
 
 #mobileGoogleSignInBtn:hover {
+  background-color: #ff8623;
+  transition: 0.1s ease-in;
+}
+
+#mobileProfileBtn:hover {
+  background-color: #ff8623;
+  transition: 0.1s ease-in;
+}
+
+#mobileGamesBtn:hover {
   background-color: #ff8623;
   transition: 0.1s ease-in;
 }
@@ -4305,7 +4323,7 @@ body {
 }
 
 .rating .star:hover,
-.rating .star:hover ~ .star {
+.rating .star:hover~.star {
   color: gold;
 }
 
@@ -4313,18 +4331,23 @@ body {
   0% {
     transform: translateX(0);
   }
+
   20% {
     transform: translateX(-5px);
   }
+
   40% {
     transform: translateX(5px);
   }
+
   60% {
     transform: translateX(-5px);
   }
+
   80% {
     transform: translateX(5px);
   }
+
   100% {
     transform: translateX(0);
   }
@@ -4633,6 +4656,7 @@ canvas {
   .card {
     max-width: 100%;
   }
+
   .container {
     flex-direction: column;
     align-items: center;
