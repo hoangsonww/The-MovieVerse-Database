@@ -42,6 +42,65 @@
     />
     <meta name="twitter:image" content="https://movie-verse.com/images/image.webp" />
     <meta name="referrer" content="no-referrer-when-downgrade" />
+
+    <!-- 1) Organization (site-wide) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "The MovieVerse",
+        "url": "https://movie-verse.com/",
+        "logo": "https://movie-verse.com/images/image-192x192.png"
+      }
+    </script>
+
+    <!-- 2) Settings Page + Breadcrumb -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "url": "https://movie-verse.com/MovieVerse-Frontend/html/settings.html",
+        "name": "App Settings - The MovieVerse",
+        "description": "Customize your MovieVerse experience. Adjust settings such as app background, text color, and font size to match your preferences.",
+        "inLanguage": "en",
+        "breadcrumb": {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://movie-verse.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Settings",
+              "item": "https://movie-verse.com/MovieVerse-Frontend/html/settings.html"
+            }
+          ]
+        }
+      }
+    </script>
+
+    <!-- 3) WebApplication (since you have a manifest) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "The MovieVerse",
+        "url": "https://movie-verse.com/",
+        "applicationCategory": "Entertainment",
+        "operatingSystem": "All",
+        "browserRequirements": "Requires JavaScript",
+        "screenshot": "https://movie-verse.com/images/image.png",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <link rel="manifest" href="../../manifest.json" />
     <style>

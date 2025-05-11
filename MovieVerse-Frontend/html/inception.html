@@ -42,6 +42,115 @@
     />
     <meta name="twitter:image" content="https://movie-verse.com/images/image.png" />
     <meta name="referrer" content="no-referrer-when-downgrade" />
+    <!-- 1. Organization (Knowledge Graph) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "The MovieVerse",
+        "url": "https://movie-verse.com/",
+        "logo": "https://movie-verse.com/images/image-192x192.png"
+      }
+    </script>
+
+    <!-- 2. WebSite SearchBox -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "url": "https://movie-verse.com/",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://movie-verse.com/MovieVerse-Frontend/html/search.html?search_query={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    </script>
+
+    <!-- 3. BreadcrumbList (Home → Movies → Inception) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://movie-verse.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Movies",
+            "item": "https://movie-verse.com/MovieVerse-Frontend/html/movies.html"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Inception",
+            "item": "https://movie-verse.com/MovieVerse-Frontend/html/inception.html"
+          }
+        ]
+      }
+    </script>
+
+    <!-- 4. Movie -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Movie",
+        "name": "Inception",
+        "image": "https://movie-verse.com/images/inception.jpg",
+        "description": "Explore details, reviews, and insights on Inception, a groundbreaking sci-fi film directed by Christopher Nolan, on The MovieVerse.",
+        "url": "https://movie-verse.com/MovieVerse-Frontend/html/inception.html",
+        "datePublished": "2010-07-16",
+        "director": {
+          "@type": "Person",
+          "name": "Christopher Nolan"
+        },
+        "actor": [
+          { "@type": "Person", "name": "Leonardo DiCaprio" },
+          { "@type": "Person", "name": "Joseph Gordon-Levitt" },
+          { "@type": "Person", "name": "Elliot Page" }
+        ],
+        "genre": ["Action", "Sci-Fi", "Thriller"],
+        "duration": "PT2H28M",
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.8",
+          "bestRating": "5",
+          "ratingCount": "1500000"
+        }
+      }
+    </script>
+
+    <!-- 5. WebPage -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "@id": "https://movie-verse.com/MovieVerse-Frontend/html/inception.html",
+        "url": "https://movie-verse.com/MovieVerse-Frontend/html/inception.html",
+        "name": "Movie Details - Explore Inception by Christopher Nolan",
+        "description": "Explore details, reviews, and insights on Inception, a groundbreaking sci-fi film directed by Christopher Nolan, on The MovieVerse.",
+        "inLanguage": "en",
+        "isPartOf": {
+          "@type": "WebSite",
+          "url": "https://movie-verse.com/"
+        },
+        "breadcrumb": {
+          "@id": "https://movie-verse.com/MovieVerse-Frontend/html/inception.html#breadcrumb"
+        }
+      }
+    </script>
+
+    <!-- 6. PWA & Icon Hints -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="apple-touch-icon" sizes="192x192" href="https://movie-verse.com/images/image-192x192.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="https://movie-verse.com/images/image-192x192.png" />
+    <meta name="msapplication-TileImage" content="https://movie-verse.com/images/image-192x192.png" />
     <link rel="icon" type="image/x-icon" href="../../images/favicon.ico" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <link rel="manifest" href="../../manifest.json" />

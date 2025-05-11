@@ -39,6 +39,88 @@
       name="twitter:description"
       content="Dive into the career of Leonardo DiCaprio, featuring his filmography, latest movies, and achievements, on The MovieVerse."
     />
+    <!-- 1) Organization -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "The MovieVerse",
+        "url": "https://movie-verse.com/",
+        "logo": "https://movie-verse.com/images/image-192x192.png"
+      }
+    </script>
+
+    <!-- 2) WebPage + Breadcrumb -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "url": "https://movie-verse.com/MovieVerse-Frontend/html/leonardo-dicaprio.html",
+        "name": "Actor Details - Leonardo DiCaprio",
+        "description": "Dive into the career of Leonardo DiCaprio, featuring his filmography, latest movies, and achievements, on The MovieVerse.",
+        "inLanguage": "en",
+        "breadcrumb": {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://movie-verse.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Actors",
+              "item": "https://movie-verse.com/MovieVerse-Frontend/html/actors.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Leonardo DiCaprio",
+              "item": "https://movie-verse.com/MovieVerse-Frontend/html/leonardo-dicaprio.html"
+            }
+          ]
+        }
+      }
+    </script>
+
+    <!-- 3) Person (Leo) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Leonardo DiCaprio",
+        "url": "https://movie-verse.com/MovieVerse-Frontend/html/leonardo-dicaprio.html",
+        "image": "https://movie-verse.com/images/leonardo-dicaprio.jpg",
+        "description": "Leonardo DiCaprio is an Academy Award–winning actor known for his starring roles in Titanic, Inception, The Revenant and more.",
+        "sameAs": ["https://en.wikipedia.org/wiki/Leonardo_DiCaprio", "https://twitter.com/LeoDiCaprio"],
+        "jobTitle": "Actor",
+        "knowsAbout": ["Acting", "Film production", "Environmental activism"]
+      }
+    </script>
+
+    <!-- 4) Filmography as an ordered ItemList -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "Leonardo DiCaprio Filmography",
+        "itemListOrder": "https://schema.org/ItemListOrderAscending",
+        "numberOfItems": 5,
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@type": "Movie",
+              "name": "Inception",
+              "url": "https://movie-verse.com/MovieVerse-Frontend/html/inception.html"
+            }
+          }
+        ]
+      }
+    </script>
     <meta name="twitter:image" content="https://movie-verse.com/images/image.png" />
     <meta name="referrer" content="no-referrer-when-downgrade" />
     <script src="../js/leonardo-dicarprio.js" defer></script>

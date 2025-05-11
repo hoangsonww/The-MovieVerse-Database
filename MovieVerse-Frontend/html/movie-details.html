@@ -54,6 +54,100 @@
       gtag('js', new Date());
       gtag('config', 'G-CQKJ67FXZ4');
     </script>
+    <!-- 1) Organization (same on every page) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "The MovieVerse",
+        "url": "https://movie-verse.com/",
+        "logo": "https://movie-verse.com/images/image-192x192.png"
+      }
+    </script>
+
+    <!-- 2) WebPage + Breadcrumb -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "url": "https://movie-verse.com/MovieVerse-Frontend/html/inception.html",
+        "name": "Movie Details - The MovieVerse",
+        "description": "Explore in-depth movie details including cast, synopsis, ratings, and community comments and reviews on more than 1 million movies at The MovieVerse.",
+        "inLanguage": "en",
+        "breadcrumb": {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://movie-verse.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Movies",
+              "item": "https://movie-verse.com/MovieVerse-Frontend/html/movie-details.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Movie Details",
+              "item": "https://movie-verse.com/MovieVerse-Frontend/html/inception.html"
+            }
+          ]
+        }
+      }
+    </script>
+
+    <!-- 3) Movie with AggregateRating + sample Review -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Movie",
+        "name": "Your Movie Title Here",
+        "url": "https://movie-verse.com/MovieVerse-Frontend/html/inception.html",
+        "image": "https://movie-verse.com/images/inception.jpg",
+        "description": "A brief synopsis of the movie goes here.",
+        "datePublished": "2023-08-15",
+        "genre": ["Action", "Sci-Fi"],
+        "duration": "PT2H28M",
+        "director": {
+          "@type": "Person",
+          "name": "Director Name"
+        },
+        "actor": [
+          {
+            "@type": "Person",
+            "name": "Lead Actor"
+          },
+          {
+            "@type": "Person",
+            "name": "Supporting Actor"
+          }
+        ],
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.2",
+          "ratingCount": "3872"
+        },
+        "review": {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "MovieVerse User"
+          },
+          "datePublished": "2024-01-10",
+          "reviewBody": "An exhilarating ride from start to finish—stunning visuals and a gripping storyline!",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        }
+      }
+    </script>
     <style>
       @font-face {
         font-family: 'Poppins';

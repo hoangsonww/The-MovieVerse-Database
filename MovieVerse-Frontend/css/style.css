@@ -1105,7 +1105,6 @@ header h1 {
 }
 
 @keyframes bounce {
-
   0%,
   20%,
   50%,
@@ -2632,7 +2631,6 @@ strong {
 }
 
 @media all and (min-width: 768px) {
-
   #chat-button,
   #blog-button,
   #games-button,
@@ -2876,7 +2874,7 @@ strong {
 }
 
 @media all and (max-width: 767px) {
-  .genres+main+.pagination {
+  .genres + main + .pagination {
     text-align: center;
   }
 
@@ -3220,14 +3218,13 @@ ol li:hover {
   width: 100%;
 }
 
-#chatbotBody>div {
+#chatbotBody > div {
   margin-bottom: 10px;
   padding: 5px 10px;
   border-radius: 5px;
 }
 
 @media all and (max-width: 705px) {
-
   #search-title,
   #alt-title {
     display: none;
@@ -3235,19 +3232,18 @@ ol li:hover {
 }
 
 @media all and (max-height: 930px) {
-
   #search-title,
   #alt-title {
     display: none;
   }
 }
 
-#chatbotBody>div[text-align='right'] {
+#chatbotBody > div[text-align='right'] {
   background-color: #ff8623;
   align-self: flex-end;
 }
 
-#chatbotBody>div[text-align='left'] {
+#chatbotBody > div[text-align='left'] {
   background-color: #7378c5;
   align-self: flex-start;
 }
@@ -4007,7 +4003,6 @@ body {
   cursor: pointer;
   border-radius: 8px;
   padding: 0 10px;
-  margin: 0;
 }
 
 #mobileProfileBtn {
@@ -4021,7 +4016,6 @@ body {
   cursor: pointer;
   border-radius: 8px;
   padding: 0 10px;
-  margin: 0 !important;
 }
 
 #mobileGamesBtn {
@@ -4035,7 +4029,6 @@ body {
   cursor: pointer;
   border-radius: 8px;
   padding: 0 10px;
-  margin: 0 !important;
 }
 
 #mobileBlogBtn {
@@ -4049,7 +4042,6 @@ body {
   cursor: pointer;
   border-radius: 8px;
   padding: 0 10px;
-  margin: 0;
 }
 
 #mobileBlogBtn:hover {
@@ -4323,7 +4315,7 @@ body {
 }
 
 .rating .star:hover,
-.rating .star:hover~.star {
+.rating .star:hover ~ .star {
   color: gold;
 }
 

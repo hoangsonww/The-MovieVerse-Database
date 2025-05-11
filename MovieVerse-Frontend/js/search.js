@@ -617,12 +617,19 @@ async function showResults(category) {
   localStorage.setItem('selectedCategory', category);
   currentCategory = category;
 
-  const searchQuery = localStorage.getItem('searchQuery') || '';
+  const params = new URLSearchParams(window.location.search);
+  const urlQuery = params.get('search_query');
+  let searchQuery = urlQuery || localStorage.getItem('searchQuery') || '';
+  if (urlQuery) {
+    localStorage.setItem('searchQuery', urlQuery);
+  }
+
   document.getElementById('search-results-label').textContent = `Search Results for "${searchQuery}"`;
 
   const code = getMovieCode();
   const baseFetchUrl = `https://${getMovieVerseData()}/3`;
-  let url = `${baseFetchUrl}/search/${category}?${generateMovieNames()}${code}&query=${encodeURIComponent(searchQuery)}`;
+  let url = `${baseFetchUrl}/search/${category}` + `?${generateMovieNames()}${code}` + `&query=${encodeURIComponent(searchQuery)}`;
+
   let sortValue = '';
 
   if (category === 'movie') {
