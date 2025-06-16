@@ -106,6 +106,14 @@ Through The MovieVerse, users can search for movies, view detailed information, 
 
 **And So Much More!**
 
+### Google Analytics Stats
+
+As a result of all this hard work, our app is currently attracting more than **300,000** active users per month, with a total of over **1.5 million** users in the past 12 months!
+
+<p align="center" style="cursor: pointer">
+  <img src="../images/movieverse-analytics.png" alt="The MovieVerse Analytics" style="border-radius: 10px" width="100%"/>
+</p>
+
 ## Project Structure
 
 The MovieVerse is a full-stack application with a robust backend and a user-friendly frontend. The project is divided into the following **3 main** directories:
@@ -177,7 +185,7 @@ Here are the detailed flowcharts illustrating the high-level architecture of our
       |                |       |                          |
       |    Various     |       |    Public API Sources    |
       |  Data Sources  |       |   (TMDB API, IMDB API)   |
-      |                |       |                          |   
+      |                |       |                          |
       +--------+-------+       +-------------+------------+
                |                             |
                |                             |
@@ -188,7 +196,7 @@ Here are the detailed flowcharts illustrating the high-level architecture of our
       | (Crawls on       |       |  (via Axios, Fetch API)  |       |  (Adminstrators &     |
       |  Wikipedia,      |       |                          |       |   Maintainers Only)   |
       | Rotten Tomatoes, |       +-------------+------------+       |                       |
-      | and other URLs)  |                     |                    +-----------------------+    
+      | and other URLs)  |                     |                    +-----------------------+
       |                  |                     |                                |
       +--------+---------+                     |                                |
                |                               |                                |
@@ -368,7 +376,7 @@ To get started with The MovieVerse, follow these _very simple_ steps:
     cd MovieVerse-Backend
     pip install -r requirements.txt
     ```
-7. Start the backend servers and services (refer to the [README.md](../MovieVerse-Backend/README.md) file in the `MovieVerse-Backend` directory for more information). 
+7. Start the backend servers and services (refer to the [README.md](../MovieVerse-Backend/README.md) file in the `MovieVerse-Backend` directory for more information).
 Or, for your convenience, you may simply run the following command, provided that you already have MySQL, PostgreSQL, Redis, MongoDB, and RabbitMQ running on your system:
     ```bash
     npm run backend
