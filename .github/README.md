@@ -45,6 +45,7 @@ Through The MovieVerse, users can search for movies, view detailed information, 
 
 ### Disclaimer
 
+> [!IMPORTANT]
 > **This open-source repository is not the official repository for The MovieVerse. The deployed repository is private for security reasons. This repository is only for educational purposes and to showcase the codebase of The MovieVerse, which may differ significantly from the official, private codebase. However, this codebase is still functional and actively maintained.**
 
 ## User Interface
@@ -426,10 +427,11 @@ Or, for your convenience, you may simply run the following command, provided tha
     ```bash
     git push origin feature/AmazingFeature
     ```
-15. Open a Pull Request (if you want to merge your changes to our official app). Enjoy coding and [let me know](https://github.com/hoangsonww/The-MovieVerse-Database/discussions) if you have any questions!
-16. If you'd also like to access full, advanced features of the app's development, please [contact me](https://github.com/hoangsonww/The-MovieVerse-Database/discussions) for the `.env` file and additional configurations.
+15. Open a Pull Request (if you want to merge your changes to our official app) - we'll review your changes and merge them to this public repository first. If everything works well, we might ask you to also join our private official codebase and create another PR there so that your changes are fully live. Enjoy coding and [let me know](https://github.com/hoangsonww/The-MovieVerse-Database/discussions) if you have any questions!
+16. If you'd also like to access full, advanced features of the app's development, please [contact me](https://github.com/hoangsonww/The-MovieVerse-Database/discussions) for the `.env` file and additional configurations, and we'll also decide if you need access to or can access our private official codebase.
 
-**Note:** Although the primary branch of this repo is `main`, the active deployment branch is `main-deployment-branch`. Therefore, refer to the `main-deployment-branch` for the latest updates and changes as we always push code to the deployment branch before merging it into the main branch.
+> [!IMPORTANT]
+> **Note:** Although the primary branch of this repo is `main`, the active deployment branch is `main-deployment-branch`. Therefore, refer to the `main-deployment-branch` for the latest updates and changes as we always merge code to the deployment branch first before merging it into the main branch.
 
 ## Privacy Policy
 
@@ -469,11 +471,12 @@ Email: [Official MovieVerse Email](mailto:info@movie-verse.com)
 
 ## Special Note
 
-Please note that the **MovieVerse** is an ever-evolving platform, and more updates are underway. I am continually enhancing the user experience and adding new features to help you navigate the vast sea of cinema with ease and excitement!
-
-Additionally, I'd also like to express special gratitude to [The Movie Database (TMDb)](https://www.themoviedb.org/) for providing additional movie data that greatly enriches The MovieVerse experience!
-
-Thank you for your understanding and support~ 🎬🍿
+> [!NOTE]
+> Please note that the **MovieVerse** is an ever-evolving platform, and more updates are underway. I am continually enhancing the user experience and adding new features to help you navigate the vast sea of cinema with ease and excitement!
+>
+> Additionally, I'd also like to express special gratitude to [The Movie Database (TMDb)](https://www.themoviedb.org/) for providing additional movie data that greatly enriches The MovieVerse experience!
+>
+> Thank you for your understanding and support~ 🎬🍿
 
 ---
 
