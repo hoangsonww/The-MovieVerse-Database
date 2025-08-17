@@ -127,7 +127,7 @@ There are also additional directories and files for project configuration, testi
 
 ## Deployment
 
-The current deployment and production branch is the [main-deployment-branch](https://github.com/hoangsonww/The-MovieVerse-Database/tree/main-deployment-branch) and is being deployed to the official website at [movie-verse.com](https://movie-verse.com). The deployment process involves building the frontend, backend, and mobile app, configuring the server, and deploying the application to the server. The deployment process is automated using CI/CD pipelines and scripts to ensure a seamless deployment experience.
+The official website is currently deployed LIVE at **[movie-verse.com](https://movie-verse.com)**. The deployment process involves building the frontend, backend, and mobile app, configuring the server, and deploying the application to the server. The deployment process is automated using CI/CD pipelines and scripts to ensure a seamless deployment experience.
 
 The **official** app is currently using [Netlify](https://www.netlify.com/) for the frontend deployment and [Vercel](https://vercel.com) for the backend deployment. The deployment status is monitored regularly to ensure the application is up and running smoothly.
 
@@ -429,9 +429,6 @@ Or, for your convenience, you may simply run the following command, provided tha
     ```
 15. Open a Pull Request (if you want to merge your changes to our official app) - we'll review your changes and merge them to this public repository first. If everything works well, we might ask you to also join our private official codebase and create another PR there so that your changes are fully live. Enjoy coding and [let me know](https://github.com/hoangsonww/The-MovieVerse-Database/discussions) if you have any questions!
 16. If you'd also like to access full, advanced features of the app's development, please [contact me](https://github.com/hoangsonww/The-MovieVerse-Database/discussions) for the `.env` file and additional configurations, and we'll also decide if you need access to or can access our private official codebase.
-
-> [!IMPORTANT]
-> **Note:** Although the primary branch of this repo is `main`, the active deployment branch is `main-deployment-branch`. Therefore, refer to the `main-deployment-branch` for the latest updates and changes as we always merge code to the deployment branch first before merging it into the main branch.
 
 ## Privacy Policy
 
