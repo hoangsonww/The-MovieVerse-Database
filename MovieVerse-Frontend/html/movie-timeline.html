@@ -43,8 +43,322 @@
     <meta name="twitter:image" content="https://movie-verse.com/images/image.png" />
     <meta name="referrer" content="no-referrer-when-downgrade" />
     <link rel="icon" type="image/x-icon" href="../../images/favicon.ico" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <link rel="manifest" href="../../manifest.json" />
+
+    <style>
+      @font-face {
+        font-family: 'Poppins';
+        src: url('https://movie-verse.com/fonts/Poppins-Light.ttf') format('truetype');
+        font-weight: 300;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Poppins';
+        src: url('https://movie-verse.com/fonts/Poppins-Regular.ttf') format('truetype');
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Poppins';
+        src: url('https://movie-verse.com/fonts/Poppins-Medium.ttf') format('truetype');
+        font-weight: 500;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Poppins';
+        src: url('https://movie-verse.com/fonts/Poppins-SemiBold.ttf') format('truetype');
+        font-weight: 600;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Poppins';
+        src: url('https://movie-verse.com/fonts/Poppins-Bold.ttf') format('truetype');
+        font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      /* Apply Poppins to all elements except icons */
+      * {
+        font-family: 'Poppins', sans-serif !important;
+      }
+
+      /* Ensure Font Awesome icons work properly */
+      .fas,
+      .far,
+      .fab,
+      .fa {
+        font-family: 'Font Awesome 6 Free' !important;
+        font-weight: 900 !important;
+      }
+
+      i[class*='fa-'] {
+        font-family: 'Font Awesome 6 Free' !important;
+        font-weight: 900 !important;
+        display: inline-block;
+        font-style: normal;
+        font-variant: normal;
+        text-rendering: auto;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      /* Specific fixes for era button icons */
+      .era-btn i {
+        margin-right: 5px !important;
+        vertical-align: middle;
+      }
+
+      body {
+        font-family: 'Poppins', sans-serif !important;
+        color: #e0e0e0 !important;
+      }
+
+      /* Ensure no black text */
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      p,
+      span,
+      div,
+      button,
+      input,
+      select,
+      textarea,
+      label,
+      a {
+        color: inherit;
+      }
+
+      /* Style improvements for timeline elements */
+      .era-btn {
+        font-family: 'Poppins', sans-serif !important;
+        font-weight: 500;
+        letter-spacing: 0.3px;
+        text-transform: none;
+      }
+
+      input[type='number'] {
+        font-family: 'Poppins', sans-serif !important;
+        font-weight: 400;
+      }
+
+      #load-movies {
+        font-family: 'Poppins', sans-serif !important;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+      }
+
+      #clear-search-btn {
+        font-family: 'Poppins', sans-serif !important;
+        font-weight: 500;
+      }
+
+      /* Timeline specific text styling */
+      #era-title {
+        font-family: 'Poppins', sans-serif !important;
+        font-weight: 600;
+        color: #fff !important;
+      }
+
+      #era-description {
+        font-family: 'Poppins', sans-serif !important;
+        font-weight: 300;
+        line-height: 1.7;
+        color: #d0d0d0 !important;
+      }
+
+      /* Results styling */
+      #results h2 {
+        font-family: 'Poppins', sans-serif !important;
+        font-weight: 600;
+        color: #fff !important;
+      }
+
+      .movie-card h3 {
+        font-family: 'Poppins', sans-serif !important;
+        font-weight: 500;
+        color: #fff !important;
+      }
+
+      .movie-card p {
+        font-family: 'Poppins', sans-serif !important;
+        font-weight: 400;
+        color: #ccc !important;
+      }
+
+      /* Additional timeline styling */
+      .timeline-container {
+        font-family: 'Poppins', sans-serif !important;
+      }
+
+      #select-text {
+        font-family: 'Poppins', sans-serif !important;
+        font-weight: 600;
+        color: #fff !important;
+      }
+
+      /* Style year inputs */
+      .year-input {
+        font-family: 'Poppins', sans-serif !important;
+        color: #fff !important;
+        font-weight: 400;
+      }
+
+      .year-input::placeholder {
+        color: rgba(255, 255, 255, 0.5) !important;
+        font-weight: 300;
+      }
+
+      /* Timeline markers text */
+      #timeline-markers span {
+        font-family: 'Poppins', sans-serif !important;
+        font-weight: 500;
+        color: #b0b0b0 !important;
+      }
+
+      /* Header elements */
+      header h1,
+      header button,
+      header input {
+        font-family: 'Poppins', sans-serif !important;
+      }
+
+      /* Search form */
+      #form1 input {
+        font-family: 'Poppins', sans-serif !important;
+        font-weight: 400;
+      }
+
+      #form1 button {
+        font-family: 'Poppins', sans-serif !important;
+        font-weight: 500;
+      }
+
+      /* Enhanced button hover effects */
+      .era-btn:hover {
+        transform: translateY(-2px) scale(1.03);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+      }
+
+      #load-movies:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+      }
+
+      #clear-search-btn:hover {
+        background: rgba(255, 255, 255, 0.15) !important;
+        transform: scale(1.02);
+      }
+
+      /* Timeline scrollbar styling */
+      #timeline-scroll::-webkit-scrollbar {
+        height: 8px;
+      }
+
+      #timeline-scroll::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 4px;
+      }
+
+      #timeline-scroll::-webkit-scrollbar-thumb {
+        background: linear-gradient(90deg, #667eea, #764ba2);
+        border-radius: 4px;
+      }
+
+      #timeline-scroll::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(90deg, #764ba2, #667eea);
+      }
+
+      /* Animation for timeline elements */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .timeline-container > * {
+        animation: fadeInUp 0.6s ease-out forwards;
+      }
+
+      /* Responsive font sizes */
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 32px !important;
+        }
+
+        .era-btn {
+          font-size: 12px !important;
+          padding: 10px 20px !important;
+        }
+
+        #select-text {
+          font-size: 22px !important;
+        }
+      }
+
+      /* Glass effect for containers */
+      .center-container {
+        backdrop-filter: blur(15px) !important;
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.08), rgba(118, 75, 162, 0.08)) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+      }
+
+      #era-info {
+        backdrop-filter: blur(20px) !important;
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2) !important;
+      }
+
+      /* Input focus effects */
+      input[type='number']:focus {
+        outline: none;
+        border-color: #667eea !important;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2) !important;
+        transform: scale(1.02);
+      }
+
+      /* Better text shadows for readability */
+      h1,
+      h2,
+      h3 {
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      /* Era button active state */
+      .era-btn:active {
+        transform: scale(0.98);
+      }
+
+      /* Timeline navigation buttons */
+      #timeline-prev:hover,
+      #timeline-next:hover {
+        background: rgba(255, 255, 255, 0.3) !important;
+        transform: translateY(-50%) scale(1.1);
+      }
+    </style>
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -416,33 +730,370 @@
     </header>
 
     <div class="timeline-container" style="animation: fadeIn 1.5s ease-in-out; margin-bottom: 345px">
-      <div class="center-container">
-        <div style="font-weight: bold; font-size: 27px" id="select-text">Select a Period</div>
-        <div class="year-input-container">
-          <input
-            type="number"
-            id="start-year"
-            class="year-input"
-            title="Enter any year from 1900 until now"
-            placeholder="Start Year"
-            min="1900"
-            max="${new Date().getFullYear()}"
-            style="font: inherit; margin-bottom: 20px"
-          />
-          <input
-            type="number"
-            id="end-year"
-            class="year-input"
-            placeholder="End Year"
-            title="Enter any year from 1900 until now"
-            min="1900"
-            max="${new Date().getFullYear()}"
-            style="font: inherit; margin-bottom: 20px"
-          />
-          <button id="load-movies" onclick="updateMovies()" title="Get Movies in the Chosen Period!">Get Movies in This Period</button>
-        </div>
-        <button id="clear-search-btn" style="display: none; color: white">Clear Search Results</button>
+      <!-- Enhanced Timeline Header -->
+      <div style="text-align: center; margin: 40px 0">
+        <h1
+          style="
+            font-size: 42px;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+          "
+        >
+          Cinema Timeline Explorer
+        </h1>
+        <p style="color: #aaa; font-size: 18px; max-width: 600px; margin: 0 auto">
+          Journey through the evolution of cinema, from silent films to modern blockbusters
+        </p>
       </div>
+
+      <!-- Era Quick Select Buttons -->
+      <div
+        id="era-selector"
+        style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin: 30px auto; max-width: 900px; padding: 0 20px"
+      >
+        <button
+          class="era-btn"
+          onclick="selectEra(1920, 1929)"
+          style="
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+          "
+        >
+          <i class="fas fa-film" style="margin-right: 5px"></i>Silent Era (1920s)
+        </button>
+        <button
+          class="era-btn"
+          onclick="selectEra(1930, 1939)"
+          style="
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+          "
+        >
+          <i class="fas fa-star" style="margin-right: 5px"></i>Golden Age (1930s)
+        </button>
+        <button
+          class="era-btn"
+          onclick="selectEra(1940, 1949)"
+          style="
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+          "
+        >
+          <i class="fas fa-globe" style="margin-right: 5px"></i>War Era (1940s)
+        </button>
+        <button
+          class="era-btn"
+          onclick="selectEra(1950, 1959)"
+          style="
+            background: linear-gradient(135deg, #43e97b, #38f9d7);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+          "
+        >
+          <i class="fas fa-tv" style="margin-right: 5px"></i>Television Age (1950s)
+        </button>
+        <button
+          class="era-btn"
+          onclick="selectEra(1960, 1969)"
+          style="
+            background: linear-gradient(135deg, #fa709a, #fee140);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+          "
+        >
+          <i class="fas fa-peace" style="margin-right: 5px"></i>New Wave (1960s)
+        </button>
+        <button
+          class="era-btn"
+          onclick="selectEra(1970, 1979)"
+          style="
+            background: linear-gradient(135deg, #30cfd0, #330867);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+          "
+        >
+          <i class="fas fa-video" style="margin-right: 5px"></i>New Hollywood (1970s)
+        </button>
+        <button
+          class="era-btn"
+          onclick="selectEra(1980, 1989)"
+          style="
+            background: linear-gradient(135deg, #a8edea, #fed6e3);
+            color: #444;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            font-weight: 500;
+          "
+        >
+          <i class="fas fa-rocket" style="margin-right: 5px"></i>Blockbuster Era (1980s)
+        </button>
+        <button
+          class="era-btn"
+          onclick="selectEra(1990, 1999)"
+          style="
+            background: linear-gradient(135deg, #ff9a56, #ff6a88);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+          "
+        >
+          <i class="fas fa-desktop" style="margin-right: 5px"></i>Digital Dawn (1990s)
+        </button>
+        <button
+          class="era-btn"
+          onclick="selectEra(2000, 2009)"
+          style="
+            background: linear-gradient(135deg, #ffecd2, #fcb69f);
+            color: #444;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            font-weight: 500;
+          "
+        >
+          <i class="fas fa-magic" style="margin-right: 5px"></i>CGI Revolution (2000s)
+        </button>
+        <button
+          class="era-btn"
+          onclick="selectEra(2010, 2019)"
+          style="
+            background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
+            color: #444;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            font-weight: 500;
+          "
+        >
+          <i class="fas fa-mask" style="margin-right: 5px"></i>Superhero Age (2010s)
+        </button>
+        <button
+          class="era-btn"
+          onclick="selectEra(2020, new Date().getFullYear())"
+          style="
+            background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
+            color: #444;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            font-weight: 500;
+          "
+        >
+          <i class="fas fa-wifi" style="margin-right: 5px"></i>Streaming Era (2020s)
+        </button>
+      </div>
+
+      <!-- Visual Timeline Bar -->
+      <div id="visual-timeline" style="max-width: 1200px; margin: 40px auto; padding: 0 20px">
+        <div
+          style="
+            position: relative;
+            height: 80px;
+            background: linear-gradient(90deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border-radius: 40px;
+            overflow: hidden;
+          "
+        >
+          <div
+            id="timeline-track"
+            style="position: absolute; top: 50%; transform: translateY(-50%); width: 100%; height: 4px; background: rgba(255, 255, 255, 0.2)"
+          ></div>
+
+          <!-- Timeline Markers -->
+          <div
+            id="timeline-markers"
+            style="position: absolute; width: 100%; height: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 40px"
+          >
+            <!-- Markers will be added dynamically -->
+          </div>
+
+          <!-- Selection Range -->
+          <div
+            id="selection-range"
+            style="
+              position: absolute;
+              top: 50%;
+              transform: translateY(-50%);
+              height: 6px;
+              background: linear-gradient(90deg, #667eea, #764ba2);
+              border-radius: 3px;
+              transition: all 0.3s;
+              display: none;
+            "
+          ></div>
+        </div>
+      </div>
+
+      <div
+        class="center-container"
+        style="
+          background: rgba(255, 255, 255, 0.05);
+          backdrop-filter: blur(10px);
+          border-radius: 20px;
+          padding: 30px;
+          margin: 20px auto;
+          max-width: 600px;
+        "
+      >
+        <div style="font-weight: bold; font-size: 27px; margin-bottom: 20px; text-align: center" id="select-text">Custom Period Selection</div>
+        <div class="year-input-container" style="display: flex; gap: 15px; align-items: center; justify-content: center; flex-wrap: wrap">
+          <div style="position: relative">
+            <input
+              type="number"
+              id="start-year"
+              class="year-input"
+              title="Enter any year from 1900 until now"
+              placeholder="Start Year"
+              min="1900"
+              max="${new Date().getFullYear()}"
+              style="
+                font: inherit;
+                padding: 12px 20px;
+                border-radius: 10px;
+                border: 2px solid rgba(102, 126, 234, 0.3);
+                background: rgba(255, 255, 255, 0.1);
+                color: white;
+                width: 150px;
+                transition: all 0.3s;
+              "
+              oninput="updateTimelineSelection()"
+            />
+            <span style="position: absolute; top: -8px; left: 10px; background: #1a1a2e; padding: 0 5px; font-size: 12px; color: #667eea">From</span>
+          </div>
+
+          <span style="font-size: 24px; color: #667eea">→</span>
+
+          <div style="position: relative">
+            <input
+              type="number"
+              id="end-year"
+              class="year-input"
+              placeholder="End Year"
+              title="Enter any year from 1900 until now"
+              min="1900"
+              max="${new Date().getFullYear()}"
+              style="
+                font: inherit;
+                padding: 12px 20px;
+                border-radius: 10px;
+                border: 2px solid rgba(118, 75, 162, 0.3);
+                background: rgba(255, 255, 255, 0.1);
+                color: white;
+                width: 150px;
+                transition: all 0.3s;
+              "
+              oninput="updateTimelineSelection()"
+            />
+            <span style="position: absolute; top: -8px; left: 10px; background: #1a1a2e; padding: 0 5px; font-size: 12px; color: #764ba2">To</span>
+          </div>
+        </div>
+        <button
+          id="load-movies"
+          onclick="updateMovies()"
+          title="Get Movies in the Chosen Period!"
+          style="
+            margin: 20px auto;
+            display: block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+          "
+        >
+          <i class="fas fa-search" style="margin-right: 8px"></i>Explore This Period
+        </button>
+        <button
+          id="clear-search-btn"
+          style="
+            display: none;
+            margin: 10px auto;
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 10px 30px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+          "
+        >
+          <i class="fas fa-times" style="margin-right: 5px"></i>Clear Results
+        </button>
+      </div>
+
+      <!-- Era Info Display -->
+      <div
+        id="era-info"
+        style="
+          display: none;
+          max-width: 800px;
+          margin: 30px auto;
+          padding: 25px;
+          background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+          border-radius: 15px;
+          backdrop-filter: blur(10px);
+        "
+      >
+        <h3 id="era-title" style="margin-bottom: 15px; font-size: 24px"></h3>
+        <p id="era-description" style="color: #ccc; line-height: 1.6"></p>
+      </div>
+
       <div class="center-container1" id="center-container1">
         <main id="results" style="scroll-behavior: smooth">
           <!-- Movies will be dynamically loaded here -->

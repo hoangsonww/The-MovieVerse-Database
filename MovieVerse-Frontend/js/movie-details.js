@@ -571,6 +571,14 @@ async function fetchMovieDetails(movieId) {
     const movie = await response.json();
     const imdbId = movie.imdb_id;
 
+    // Fetch and display franchise timeline if movie belongs to a collection
+    if (movie.belongs_to_collection) {
+      fetchCollectionTimeline(movie.belongs_to_collection.id, movieId);
+    }
+
+    // Display the Movie Stats Dashboard with animated data
+    displayMovieStatsDashboard(movie);
+
     fetchMovieRatings(imdbId, movie);
     // updateBrowserURL(movie.title);
   } catch (error) {
@@ -1092,24 +1100,441 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
       : `<p><strong>Original Title:</strong> ${movie.title}</p>`;
   const tmdbRating = movie.vote_average.toFixed(1);
 
+  // Create a modern dashboard-style layout for movie information
   document.getElementById('movie-description').innerHTML += `
-      <p style="color: inherit; font-size: inherit;"><strong>Description: </strong>${overview}</p>
-      ${originalTitle.replace('<p', '<p style="color: inherit; font-size: inherit;"')}
-      <p style="color: inherit; font-size: inherit;"><strong>Tagline:</strong> ${tagline}</p>
-      <p style="color: inherit; font-size: inherit;"><strong>Genres:</strong> ${genres}</p>
-      ${ratedElement.replace('<p', '<p style="color: inherit; font-size: inherit;"')}
-      ${movieStatus.replace('<p', '<p style="color: inherit; font-size: inherit;"')}
-      <p style="color: inherit; font-size: inherit;"><strong>Release Date:</strong> ${releaseDateWithTimeAgo}</p>
-      <p style="color: inherit; font-size: inherit;"><strong>Runtime:</strong> ${runtime}</p>
-      <p style="color: inherit; font-size: inherit;"><strong>Budget:</strong> ${budget}</p>
-      <p style="color: inherit; font-size: inherit;"><strong>Revenue:</strong> ${revenue}</p>
-      <p style="color: inherit; font-size: inherit;"><strong>Languages:</strong> ${languages}</p>
-      <p style="color: inherit; font-size: inherit;"><strong>Countries of Production:</strong> ${countries}</p>
-      <p style="color: inherit; font-size: inherit;"><strong>Popularity Score:</strong> <span class="${isPopular ? 'popular' : ''}">${popularityText}</span></p>
-      ${ratingHTML.replace('<p', '<p style="color: inherit; font-size: inherit;"')}
-      ${awardsElement.replace('<p', '<p style="color: inherit; font-size: inherit;"')}
-      <p style="color: inherit; font-size: inherit;"><strong>TMDb Rating:</strong> <a href="https://www.themoviedb.org/movie/${movie.id}" id="rating" target="_blank">${tmdbRating}/10.0</a></p>
-      ${metascoreElement.replace('<p', '<p style="color: inherit; font-size: inherit;"')}
+      <!-- Movie Overview Section -->
+      <div class="movie-info-dashboard" style="margin-top: 20px;">
+        <!-- Description Card -->
+        <div class="info-card overview-card" style="background: linear-gradient(135deg, rgba(30, 30, 45, 0.6) 0%, rgba(50, 50, 70, 0.3) 100%); border-radius: 15px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); transition: all 0.3s ease;">
+          <h3 style="color: #ff8623; font-size: 16px; margin: 0 0 12px 0; display: flex; align-items: center;">
+            <i class="fas fa-info-circle" style="margin-right: 8px;"></i>
+            Overview
+          </h3>
+          <p style="color: #e0e0e0; line-height: 1.6; margin: 0;">${overview}</p>
+          ${
+            tagline
+              ? `<p style="color: #a0a0a0; font-style: italic; margin-top: 10px; font-size: 14px;">
+            <i class="fas fa-quote-left" style="margin-right: 5px; opacity: 0.5;"></i>
+            ${tagline}
+            <i class="fas fa-quote-right" style="margin-left: 5px; opacity: 0.5;"></i>
+          </p>`
+              : ''
+          }
+        </div>
+
+        <!-- Key Details Grid -->
+        <div class="details-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-bottom: 20px;">
+          <!-- Title & Original Title -->
+          <div class="detail-card" style="background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 15px; border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease; cursor: pointer;">
+            <div style="display: flex; align-items: center; margin-bottom: 8px;">
+              <i class="fas fa-film" style="color: #7378c5; margin-right: 10px; font-size: 20px;"></i>
+              <span style="color: #888; font-size: 12px; text-transform: uppercase;">Title</span>
+            </div>
+            <p style="color: #fff; font-size: 14px; margin: 0; font-weight: 500;">${movie.title}</p>
+            ${
+              movie.original_title !== movie.title
+                ? `
+              <p style="color: #a0a0a0; font-size: 12px; margin: 5px 0 0 0;">
+                <span style="opacity: 0.7;">Original:</span> ${movie.original_title}
+              </p>`
+                : ''
+            }
+          </div>
+
+          <!-- Release Info -->
+          <div class="detail-card" style="background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 15px; border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease; cursor: pointer;">
+            <div style="display: flex; align-items: center; margin-bottom: 8px;">
+              <i class="fas fa-calendar-alt" style="color: #ff8623; margin-right: 10px; font-size: 20px;"></i>
+              <span style="color: #888; font-size: 12px; text-transform: uppercase;">Release</span>
+            </div>
+            <p style="color: #fff; font-size: 14px; margin: 0; font-weight: 500;">${releaseDate}</p>
+            <p style="color: #a0a0a0; font-size: 12px; margin: 5px 0 0 0;">${timeAgoString} ago</p>
+          </div>
+
+          <!-- Runtime -->
+          <div class="detail-card" style="background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 15px; border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease; cursor: pointer;">
+            <div style="display: flex; align-items: center; margin-bottom: 8px;">
+              <i class="fas fa-clock" style="color: #4CAF50; margin-right: 10px; font-size: 20px;"></i>
+              <span style="color: #888; font-size: 12px; text-transform: uppercase;">Duration</span>
+            </div>
+            <p style="color: #fff; font-size: 14px; margin: 0; font-weight: 500;">${runtime}</p>
+            ${movie.runtime > 0 ? `<p style="color: #a0a0a0; font-size: 12px; margin: 5px 0 0 0;">${Math.floor(movie.runtime / 60)}h ${movie.runtime % 60}m</p>` : ''}
+          </div>
+
+          <!-- Status -->
+          <div class="detail-card" style="background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 15px; border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease; cursor: pointer;">
+            <div style="display: flex; align-items: center; margin-bottom: 8px;">
+              <i class="fas fa-check-circle" style="color: ${movie.status === 'Released' ? '#4CAF50' : '#ff8623'}; margin-right: 10px; font-size: 20px;"></i>
+              <span style="color: #888; font-size: 12px; text-transform: uppercase;">Status</span>
+            </div>
+            <p style="color: ${movie.status === 'Released' ? '#4CAF50' : '#ff8623'}; font-size: 14px; margin: 0; font-weight: 600;">${movie.status}</p>
+          </div>
+        </div>
+
+        <!-- Genres Section -->
+        <div class="genres-section" style="background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 15px; margin-bottom: 15px; border: 1px solid rgba(255, 255, 255, 0.1);">
+          <div style="display: flex; align-items: center; margin-bottom: 12px;">
+            <i class="fas fa-tags" style="color: #7378c5; margin-right: 10px; font-size: 18px;"></i>
+            <span style="color: #888; font-size: 12px; text-transform: uppercase;">Genres</span>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+            ${movie.genres
+              .map(
+                genre => `
+              <span class="genre-tag" style="background: linear-gradient(135deg, rgba(115, 120, 197, 0.3) 0%, rgba(115, 120, 197, 0.1) 100%); color: #fff; padding: 6px 14px; border-radius: 20px; font-size: 13px; border: 1px solid rgba(115, 120, 197, 0.3); transition: all 0.3s ease; cursor: pointer; display: inline-block;">
+                ${genre.name}
+              </span>
+            `
+              )
+              .join('')}
+          </div>
+        </div>
+
+        <!-- Financial Performance -->
+        <div class="financial-section" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 15px;">
+          <!-- Budget Card -->
+          <div class="finance-card" style="background: linear-gradient(135deg, rgba(115, 120, 197, 0.1) 0%, rgba(115, 120, 197, 0.05) 100%); border-radius: 12px; padding: 15px; border: 1px solid rgba(115, 120, 197, 0.2); transition: all 0.3s ease; cursor: pointer;">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div>
+                <div style="display: flex; align-items: center; margin-bottom: 5px;">
+                  <i class="fas fa-wallet" style="color: #7378c5; margin-right: 8px;"></i>
+                  <span style="color: #888; font-size: 11px; text-transform: uppercase;">Budget</span>
+                </div>
+                <p style="color: #fff; font-size: 18px; margin: 0; font-weight: 600;">${budget}</p>
+              </div>
+              <i class="fas fa-arrow-down" style="color: #7378c5; opacity: 0.3; font-size: 24px;"></i>
+            </div>
+          </div>
+
+          <!-- Revenue Card -->
+          <div class="finance-card" style="background: linear-gradient(135deg, rgba(255, 134, 35, 0.1) 0%, rgba(255, 134, 35, 0.05) 100%); border-radius: 12px; padding: 15px; border: 1px solid rgba(255, 134, 35, 0.2); transition: all 0.3s ease; cursor: pointer;">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div>
+                <div style="display: flex; align-items: center; margin-bottom: 5px;">
+                  <i class="fas fa-chart-line" style="color: #ff8623; margin-right: 8px;"></i>
+                  <span style="color: #888; font-size: 11px; text-transform: uppercase;">Revenue</span>
+                </div>
+                <p style="color: #fff; font-size: 18px; margin: 0; font-weight: 600;">${revenue}</p>
+              </div>
+              <i class="fas fa-arrow-up" style="color: #ff8623; opacity: 0.3; font-size: 24px;"></i>
+            </div>
+          </div>
+
+          <!-- ROI Card -->
+          ${
+            movie.budget > 0 && movie.revenue > 0
+              ? `
+          <div class="finance-card" style="background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(76, 175, 80, 0.05) 100%); border-radius: 12px; padding: 15px; border: 1px solid rgba(76, 175, 80, 0.2); transition: all 0.3s ease; cursor: pointer;">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div>
+                <div style="display: flex; align-items: center; margin-bottom: 5px;">
+                  <i class="fas fa-percentage" style="color: #4CAF50; margin-right: 8px;"></i>
+                  <span style="color: #888; font-size: 11px; text-transform: uppercase;">ROI</span>
+                </div>
+                <p style="color: ${((movie.revenue - movie.budget) / movie.budget) * 100 > 0 ? '#4CAF50' : '#f44336'}; font-size: 18px; margin: 0; font-weight: 600;">
+                  ${(((movie.revenue - movie.budget) / movie.budget) * 100).toFixed(0)}%
+                </p>
+              </div>
+              <i class="fas fa-trending-${((movie.revenue - movie.budget) / movie.budget) * 100 > 0 ? 'up' : 'down'}"
+                 style="color: ${((movie.revenue - movie.budget) / movie.budget) * 100 > 0 ? '#4CAF50' : '#f44336'}; opacity: 0.3; font-size: 24px;"></i>
+            </div>
+          </div>`
+              : ''
+          }
+        </div>
+
+        <!-- Ratings Section -->
+        <div class="ratings-section" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; margin-bottom: 15px;">
+          <!-- TMDB Rating -->
+          <a href="https://www.themoviedb.org/movie/${movie.id}" target="_blank" style="text-decoration: none;">
+            <div class="rating-badge" style="background: linear-gradient(135deg, rgba(33, 150, 243, 0.1) 0%, rgba(33, 150, 243, 0.05) 100%); border-radius: 10px; padding: 12px; text-align: center; border: 1px solid rgba(33, 150, 243, 0.2); transition: all 0.3s ease; cursor: pointer;">
+              <i class="fas fa-star" style="color: #2196F3; font-size: 20px; margin-bottom: 5px;"></i>
+              <p style="color: #fff; font-size: 16px; margin: 0; font-weight: 600;">${tmdbRating}</p>
+              <p style="color: #888; font-size: 10px; margin: 3px 0 0 0;">TMDB</p>
+            </div>
+          </a>
+
+          <!-- MovieVerse Rating -->
+          ${
+            ratingHTML
+              ? `
+          <div class="rating-badge" style="background: linear-gradient(135deg, rgba(255, 134, 35, 0.1) 0%, rgba(255, 134, 35, 0.05) 100%); border-radius: 10px; padding: 12px; text-align: center; border: 1px solid rgba(255, 134, 35, 0.2); transition: all 0.3s ease;">
+            <i class="fas fa-star-half-alt" style="color: #ff8623; font-size: 20px; margin-bottom: 5px;"></i>
+            ${ratingHTML.replace(/<p.*?>(.*?)<\/p>/, '<p style="color: #fff; font-size: 16px; margin: 0; font-weight: 600;">$1</p>')}
+            <p style="color: #888; font-size: 10px; margin: 3px 0 0 0;">MovieVerse</p>
+          </div>`
+              : ''
+          }
+
+          <!-- Metascore -->
+          ${
+            metascoreElement && !metascoreElement.includes('unavailable')
+              ? `
+          <div class="rating-badge" style="background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(76, 175, 80, 0.05) 100%); border-radius: 10px; padding: 12px; text-align: center; border: 1px solid rgba(76, 175, 80, 0.2); transition: all 0.3s ease;">
+            <i class="fas fa-chart-bar" style="color: #4CAF50; font-size: 20px; margin-bottom: 5px;"></i>
+            ${metascoreElement.replace(/<p.*?>.*?Metascore:.*?(\d+).*?<\/p>/, '<p style="color: #fff; font-size: 16px; margin: 0; font-weight: 600;">$1</p>')}
+            <p style="color: #888; font-size: 10px; margin: 3px 0 0 0;">Metascore</p>
+          </div>`
+              : ''
+          }
+        </div>
+
+        <!-- Additional Info Row -->
+        <div class="additional-info" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; margin-bottom: 15px;">
+          <!-- Rating Badge -->
+          ${
+            rated
+              ? `
+          <div class="info-badge" style="background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 15px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease; cursor: pointer;">
+            <i class="fas fa-shield-alt" style="color: ${ratingDetails.color}; font-size: 24px; margin-bottom: 8px;"></i>
+            <p style="color: ${ratingDetails.color}; font-size: 14px; margin: 0; font-weight: 600;">${rated}</p>
+            <p style="color: #a0a0a0; font-size: 11px; margin: 3px 0 0 0;">Content Rating</p>
+          </div>`
+              : ''
+          }
+
+          <!-- Languages -->
+          <div class="info-badge" style="background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 15px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease; cursor: pointer;">
+            <i class="fas fa-language" style="color: #2196F3; font-size: 24px; margin-bottom: 8px;"></i>
+            <p style="color: #fff; font-size: 14px; margin: 0; font-weight: 600;">${movie.spoken_languages ? movie.spoken_languages.map(lang => lang.english_name || lang.name).join(', ') : 'N/A'}</p>
+            <p style="color: #a0a0a0; font-size: 11px; margin: 3px 0 0 0;">Languages</p>
+          </div>
+
+          <!-- Countries -->
+          <div class="info-badge" style="background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 15px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease; cursor: pointer;">
+            <i class="fas fa-globe" style="color: #9C27B0; font-size: 24px; margin-bottom: 8px;"></i>
+            <p style="color: #fff; font-size: 14px; margin: 0; font-weight: 600;">${movie.production_countries ? movie.production_countries.map(c => c.iso_3166_1).join(', ') : 'N/A'}</p>
+            <p style="color: #a0a0a0; font-size: 11px; margin: 3px 0 0 0;">Countries</p>
+          </div>
+
+          <!-- Popularity -->
+          <div class="info-badge" style="background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 15px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease; cursor: pointer;">
+            <i class="fas fa-fire" style="color: #ff8623; font-size: 24px; margin-bottom: 8px;"></i>
+            <p style="color: #fff; font-size: 14px; margin: 0; font-weight: 600;">${Math.round(popularityScore)}</p>
+            <p style="color: #a0a0a0; font-size: 11px; margin: 3px 0 0 0;">Popularity</p>
+          </div>
+
+          <!-- Vote Count -->
+          <div class="info-badge" style="background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 15px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease; cursor: pointer;">
+            <i class="fas fa-users" style="color: #4CAF50; font-size: 24px; margin-bottom: 8px;"></i>
+            <p style="color: #fff; font-size: 14px; margin: 0; font-weight: 600;">${movie.vote_count ? movie.vote_count.toLocaleString() : '0'}</p>
+            <p style="color: #a0a0a0; font-size: 11px; margin: 3px 0 0 0;">User Votes</p>
+          </div>
+
+          <!-- Adult Content -->
+          ${
+            movie.adult !== undefined
+              ? `
+          <div class="info-badge" style="background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 15px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease; cursor: pointer;">
+            <i class="fas fa-${movie.adult ? 'exclamation-triangle' : 'check-circle'}" style="color: ${movie.adult ? '#f44336' : '#4CAF50'}; font-size: 24px; margin-bottom: 8px;"></i>
+            <p style="color: ${movie.adult ? '#f44336' : '#4CAF50'}; font-size: 14px; margin: 0; font-weight: 600;">${movie.adult ? '18+' : 'All Ages'}</p>
+            <p style="color: #a0a0a0; font-size: 11px; margin: 3px 0 0 0;">Content Type</p>
+          </div>`
+              : ''
+          }
+        </div>
+
+        <!-- Extended Information Section -->
+        <div class="extended-info" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-bottom: 15px;">
+          <!-- Production Companies -->
+          ${
+            movie.production_companies && movie.production_companies.length > 0
+              ? `
+          <div class="detail-card" style="background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 15px; border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease;">
+            <div style="display: flex; align-items: center; margin-bottom: 10px;">
+              <i class="fas fa-building" style="color: #FF9800; margin-right: 10px; font-size: 18px;"></i>
+              <span style="color: #888; font-size: 12px; text-transform: uppercase;">Production Companies</span>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+              ${movie.production_companies
+                .slice(0, 5)
+                .map(
+                  company => `
+                <span style="background: rgba(255, 152, 0, 0.1); color: #FF9800; padding: 5px 12px; border-radius: 15px; font-size: 12px; border: 1px solid rgba(255, 152, 0, 0.2);">
+                  ${company.name}
+                </span>
+              `
+                )
+                .join('')}
+              ${
+                movie.production_companies.length > 5
+                  ? `
+                <span style="color: #888; font-size: 12px; padding: 5px;">+${movie.production_companies.length - 5} more</span>
+              `
+                  : ''
+              }
+            </div>
+          </div>`
+              : ''
+          }
+
+          <!-- Keywords -->
+          ${
+            movie.keywords && movie.keywords.keywords && movie.keywords.keywords.length > 0
+              ? `
+          <div class="detail-card" style="background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 15px; border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease;">
+            <div style="display: flex; align-items: center; margin-bottom: 10px;">
+              <i class="fas fa-hashtag" style="color: #E91E63; margin-right: 10px; font-size: 18px;"></i>
+              <span style="color: #888; font-size: 12px; text-transform: uppercase;">Keywords</span>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+              ${movie.keywords.keywords
+                .slice(0, 8)
+                .map(
+                  keyword => `
+                <span style="background: rgba(233, 30, 99, 0.1); color: #E91E63; padding: 4px 10px; border-radius: 12px; font-size: 11px; border: 1px solid rgba(233, 30, 99, 0.2);">
+                  ${keyword.name}
+                </span>
+              `
+                )
+                .join('')}
+              ${
+                movie.keywords.keywords.length > 8
+                  ? `
+                <span style="color: #888; font-size: 11px; padding: 4px;">+${movie.keywords.keywords.length - 8} more</span>
+              `
+                  : ''
+              }
+            </div>
+          </div>`
+              : ''
+          }
+
+          <!-- Spoken Languages Details -->
+          ${
+            movie.spoken_languages && movie.spoken_languages.length > 0
+              ? `
+          <div class="detail-card" style="background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 15px; border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease;">
+            <div style="display: flex; align-items: center; margin-bottom: 10px;">
+              <i class="fas fa-comments" style="color: #00BCD4; margin-right: 10px; font-size: 18px;"></i>
+              <span style="color: #888; font-size: 12px; text-transform: uppercase;">Spoken Languages</span>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+              ${movie.spoken_languages
+                .map(
+                  lang => `
+                <span style="background: rgba(0, 188, 212, 0.1); color: #00BCD4; padding: 5px 12px; border-radius: 15px; font-size: 12px; border: 1px solid rgba(0, 188, 212, 0.2);">
+                  ${lang.english_name || lang.name}
+                </span>
+              `
+                )
+                .join('')}
+            </div>
+          </div>`
+              : ''
+          }
+
+          <!-- Homepage & External Links -->
+          ${
+            movie.homepage || movie.imdb_id
+              ? `
+          <div class="detail-card" style="background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 15px; border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease;">
+            <div style="display: flex; align-items: center; margin-bottom: 10px;">
+              <i class="fas fa-link" style="color: #673AB7; margin-right: 10px; font-size: 18px;"></i>
+              <span style="color: #888; font-size: 12px; text-transform: uppercase;">External Links</span>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+              ${
+                movie.homepage
+                  ? `
+                <a href="${movie.homepage}" target="_blank" style="text-decoration: none;">
+                  <span style="background: rgba(103, 58, 183, 0.1); color: #673AB7; padding: 6px 14px; border-radius: 15px; font-size: 12px; border: 1px solid rgba(103, 58, 183, 0.2); display: inline-flex; align-items: center; transition: all 0.3s ease; cursor: pointer;">
+                    <i class="fas fa-globe" style="margin-right: 6px;"></i>
+                    Official Website
+                  </span>
+                </a>`
+                  : ''
+              }
+              ${
+                movie.imdb_id
+                  ? `
+                <a href="https://www.imdb.com/title/${movie.imdb_id}" target="_blank" style="text-decoration: none;">
+                  <span style="background: rgba(255, 193, 7, 0.1); color: #FFC107; padding: 6px 14px; border-radius: 15px; font-size: 12px; border: 1px solid rgba(255, 193, 7, 0.2); display: inline-flex; align-items: center; transition: all 0.3s ease; cursor: pointer;">
+                    <i class="fab fa-imdb" style="margin-right: 6px;"></i>
+                    IMDb
+                  </span>
+                </a>`
+                  : ''
+              }
+            </div>
+          </div>`
+              : ''
+          }
+        </div>
+
+        <!-- Additional Stats Grid -->
+        <div class="stats-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 15px;">
+          <!-- Original Language -->
+          <div class="stat-item" style="background: linear-gradient(135deg, rgba(0, 150, 136, 0.1) 0%, rgba(0, 150, 136, 0.05) 100%); border-radius: 10px; padding: 12px; text-align: center; border: 1px solid rgba(0, 150, 136, 0.2);">
+            <i class="fas fa-flag" style="color: #009688; font-size: 20px; margin-bottom: 6px;"></i>
+            <p style="color: #fff; font-size: 13px; margin: 0; font-weight: 500;">${movie.original_language ? movie.original_language.toUpperCase() : 'N/A'}</p>
+            <p style="color: #a0a0a0; font-size: 10px; margin: 2px 0 0 0;">Original Language</p>
+          </div>
+
+          <!-- Video Available -->
+          <div class="stat-item" style="background: linear-gradient(135deg, rgba(255, 87, 34, 0.1) 0%, rgba(255, 87, 34, 0.05) 100%); border-radius: 10px; padding: 12px; text-align: center; border: 1px solid rgba(255, 87, 34, 0.2);">
+            <i class="fas fa-video" style="color: #FF5722; font-size: 20px; margin-bottom: 6px;"></i>
+            <p style="color: #fff; font-size: 13px; margin: 0; font-weight: 500;">${movie.video ? 'Available' : 'Not Available'}</p>
+            <p style="color: #a0a0a0; font-size: 10px; margin: 2px 0 0 0;">Video</p>
+          </div>
+
+          <!-- Collection -->
+          ${
+            movie.belongs_to_collection
+              ? `
+          <div class="stat-item" style="background: linear-gradient(135deg, rgba(156, 39, 176, 0.1) 0%, rgba(156, 39, 176, 0.05) 100%); border-radius: 10px; padding: 12px; text-align: center; border: 1px solid rgba(156, 39, 176, 0.2);">
+            <i class="fas fa-layer-group" style="color: #9C27B0; font-size: 20px; margin-bottom: 6px;"></i>
+            <p style="color: #fff; font-size: 13px; margin: 0; font-weight: 500;">Part of Series</p>
+            <p style="color: #a0a0a0; font-size: 10px; margin: 2px 0 0 0;">Collection</p>
+          </div>`
+              : ''
+          }
+
+          <!-- Awards if available -->
+          ${
+            awardsElement && !awardsElement.includes('unavailable')
+              ? `
+          <div class="stat-item" style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 215, 0, 0.05) 100%); border-radius: 10px; padding: 12px; text-align: center; border: 1px solid rgba(255, 215, 0, 0.2);">
+            <i class="fas fa-trophy" style="color: #FFD700; font-size: 20px; margin-bottom: 6px;"></i>
+            <p style="color: #fff; font-size: 13px; margin: 0; font-weight: 500;">Awards</p>
+            <p style="color: #a0a0a0; font-size: 10px; margin: 2px 0 0 0;">Available</p>
+          </div>`
+              : ''
+          }
+        </div>
+      </div>
+
+      <style>
+        .detail-card:hover, .finance-card:hover, .info-badge:hover, .rating-badge:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+          background: rgba(255, 255, 255, 0.08) !important;
+        }
+
+        .genre-tag:hover {
+          transform: scale(1.05);
+          background: linear-gradient(135deg, rgba(115, 120, 197, 0.5) 0%, rgba(115, 120, 197, 0.2) 100%) !important;
+        }
+
+        .overview-card:hover {
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        @media (max-width: 768px) {
+          .details-grid {
+            grid-template-columns: 1fr !important;
+          }
+          .financial-section {
+            grid-template-columns: 1fr !important;
+          }
+          .ratings-section {
+            grid-template-columns: repeat(3, 1fr) !important;
+          }
+          .additional-info {
+            grid-template-columns: repeat(3, 1fr) !important;
+          }
+        }
+      </style>
   `;
   const savedFontSize = localStorage.getItem('fontSize');
   if (savedFontSize) {
@@ -2079,4 +2504,449 @@ function applyTextColor(color) {
   document.querySelectorAll('h1, h2, h3, p, a, span, div, button, input, select, textarea, label, li').forEach(element => {
     element.style.color = color;
   });
+}
+
+// Visual Timeline Slider functionality for movie collections/franchises
+async function fetchCollectionTimeline(collectionId, currentMovieId) {
+  const code = `${getMovieCode()}`;
+  const url = `https://${getMovieVerseData()}/3/collection/${collectionId}?${generateMovieNames()}${code}`;
+
+  // Show loading state
+  const container = document.getElementById('franchise-timeline-container');
+  const loadingDiv = document.getElementById('timeline-loading');
+  const slider = document.getElementById('timeline-slider');
+
+  if (container && loadingDiv && slider) {
+    container.style.display = 'block';
+    loadingDiv.style.display = 'block';
+    slider.style.display = 'none';
+  }
+
+  try {
+    const response = await fetch(url);
+    const collection = await response.json();
+
+    if (collection.parts && collection.parts.length > 1) {
+      // Sort movies by release date
+      const sortedMovies = collection.parts.sort((a, b) => {
+        const dateA = a.release_date ? new Date(a.release_date) : new Date('9999-12-31');
+        const dateB = b.release_date ? new Date(b.release_date) : new Date('9999-12-31');
+        return dateA - dateB;
+      });
+
+      // Hide loading, show timeline
+      if (loadingDiv && slider) {
+        loadingDiv.style.display = 'none';
+        slider.style.display = 'flex';
+      }
+
+      displayTimeline(sortedMovies, currentMovieId, collection.name);
+    } else {
+      // Hide timeline if collection has only one movie
+      if (container) {
+        container.style.display = 'none';
+      }
+    }
+  } catch (error) {
+    console.log('Error fetching collection:', error);
+    // Hide timeline on error
+    if (container) {
+      container.style.display = 'none';
+    }
+  }
+}
+
+function displayTimeline(movies, currentMovieId, collectionName) {
+  const container = document.getElementById('franchise-timeline-container');
+  const slider = document.getElementById('timeline-slider');
+  const collectionTitle = document.getElementById('collection-title');
+
+  // Update title with collection name
+  if (collectionTitle) {
+    collectionTitle.textContent = collectionName || 'Movie Collection Timeline';
+  }
+
+  // Clear existing content
+  slider.innerHTML = '';
+
+  // Create timeline items with better error handling
+  movies.forEach((movie, index) => {
+    const releaseYear = movie.release_date ? new Date(movie.release_date).getFullYear() : 'TBA';
+    const isActive = movie.id === parseInt(currentMovieId);
+
+    const timelineItem = document.createElement('div');
+    timelineItem.className = `timeline-item ${isActive ? 'active' : ''}`;
+
+    // Create poster with fallback
+    const posterWrapper = document.createElement('div');
+    posterWrapper.className = 'timeline-poster-wrapper';
+
+    if (movie.poster_path) {
+      const img = document.createElement('img');
+      img.className = 'timeline-poster';
+      img.src = `https://image.tmdb.org/t/p/w300${movie.poster_path}`;
+      img.alt = movie.title || 'Movie poster';
+      img.loading = 'lazy';
+
+      // Handle image load errors
+      img.onerror = function () {
+        this.style.display = 'none';
+        const fallback = document.createElement('div');
+        fallback.className = 'timeline-poster-fallback';
+        fallback.innerHTML = `
+          <i class="fas fa-film"></i>
+          <span style="font-size: 11px; text-align: center; padding: 0 10px;">${movie.title || 'No Title'}</span>
+        `;
+        posterWrapper.appendChild(fallback);
+      };
+
+      posterWrapper.appendChild(img);
+    } else {
+      // No poster path available
+      const fallback = document.createElement('div');
+      fallback.className = 'timeline-poster-fallback';
+      fallback.innerHTML = `
+        <i class="fas fa-film"></i>
+        <span style="font-size: 11px; text-align: center; padding: 0 10px;">${movie.title || 'No Title'}</span>
+      `;
+      posterWrapper.appendChild(fallback);
+    }
+
+    timelineItem.appendChild(posterWrapper);
+
+    // Add timeline dot
+    const dot = document.createElement('div');
+    dot.className = 'timeline-dot';
+    timelineItem.appendChild(dot);
+
+    // Add year
+    const year = document.createElement('div');
+    year.className = 'timeline-year';
+    year.textContent = releaseYear;
+    timelineItem.appendChild(year);
+
+    // Add title
+    const title = document.createElement('div');
+    title.className = 'timeline-title';
+    title.textContent = movie.title || 'Untitled';
+    title.title = movie.title || 'Untitled'; // Tooltip for long titles
+    timelineItem.appendChild(title);
+
+    // Add click event to navigate to movie
+    timelineItem.addEventListener('click', () => {
+      if (!isActive) {
+        window.location.href = `movie-details.html?movieId=${movie.id}`;
+      }
+    });
+
+    // Add hover effect with proper z-index management
+    timelineItem.addEventListener('mouseenter', () => {
+      // Set high z-index for hovered item to prevent clipping
+      timelineItem.style.zIndex = '1000';
+      timelineItem.style.position = 'relative';
+
+      // Ensure container doesn't clip the scaled element
+      const container = document.getElementById('franchise-timeline-container');
+      if (container) {
+        container.style.overflow = 'visible';
+      }
+    });
+
+    timelineItem.addEventListener('mouseleave', () => {
+      // Reset z-index after hover
+      timelineItem.style.zIndex = isActive ? '10' : '2';
+      timelineItem.style.position = 'relative';
+    });
+
+    slider.appendChild(timelineItem);
+  });
+
+  // Show the timeline container with animation
+  container.style.display = 'block';
+  container.style.opacity = '0';
+  container.style.overflow = 'visible'; // Ensure no clipping
+  setTimeout(() => {
+    container.style.transition = 'opacity 0.5s ease';
+    container.style.opacity = '1';
+  }, 50);
+
+  // Initialize navigation buttons
+  initializeTimelineNavigation();
+
+  // Update progress bar
+  updateTimelineProgress();
+
+  // Scroll to current movie with delay for smooth animation
+  setTimeout(() => {
+    const activeItem = slider.querySelector('.timeline-item.active');
+    if (activeItem) {
+      activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      // Update progress after scroll
+      setTimeout(updateTimelineProgress, 500);
+    }
+  }, 300);
+}
+
+function initializeTimelineNavigation() {
+  const slider = document.getElementById('timeline-slider');
+  const prevBtn = document.getElementById('timeline-prev');
+  const nextBtn = document.getElementById('timeline-next');
+
+  if (!slider || !prevBtn || !nextBtn) return;
+
+  // Remove existing listeners to prevent duplicates
+  const newPrevBtn = prevBtn.cloneNode(true);
+  const newNextBtn = nextBtn.cloneNode(true);
+  prevBtn.parentNode.replaceChild(newPrevBtn, prevBtn);
+  nextBtn.parentNode.replaceChild(newNextBtn, nextBtn);
+
+  // Check scroll position and update button states
+  function updateNavButtons() {
+    const isAtStart = slider.scrollLeft <= 10;
+    const isAtEnd = slider.scrollLeft >= slider.scrollWidth - slider.clientWidth - 10;
+
+    newPrevBtn.disabled = isAtStart;
+    newNextBtn.disabled = isAtEnd;
+  }
+
+  // Calculate scroll amount based on visible items
+  function getScrollAmount() {
+    const itemWidth = slider.querySelector('.timeline-item')?.offsetWidth || 160;
+    const gap = 50; // Gap between items
+    return (itemWidth + gap) * 2; // Scroll 2 items at a time
+  }
+
+  // Scroll functions with smooth animation
+  newPrevBtn.addEventListener('click', () => {
+    const scrollAmount = getScrollAmount();
+    slider.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    setTimeout(() => {
+      updateNavButtons();
+      updateTimelineProgress();
+    }, 300);
+  });
+
+  newNextBtn.addEventListener('click', () => {
+    const scrollAmount = getScrollAmount();
+    slider.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    setTimeout(() => {
+      updateNavButtons();
+      updateTimelineProgress();
+    }, 300);
+  });
+
+  // Update buttons on scroll
+  let scrollTimeout;
+  slider.addEventListener('scroll', () => {
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+      updateNavButtons();
+      updateTimelineProgress();
+    }, 50);
+  });
+
+  // Keyboard navigation
+  document.addEventListener('keydown', e => {
+    if (container && container.style.display !== 'none') {
+      if (e.key === 'ArrowLeft' && !newPrevBtn.disabled) {
+        newPrevBtn.click();
+      } else if (e.key === 'ArrowRight' && !newNextBtn.disabled) {
+        newNextBtn.click();
+      }
+    }
+  });
+
+  // Initial button state
+  updateNavButtons();
+}
+
+// Update progress bar based on scroll position
+function updateTimelineProgress() {
+  const slider = document.getElementById('timeline-slider');
+  const progressBar = document.getElementById('timeline-progress');
+
+  if (!slider || !progressBar) return;
+
+  const scrollPercentage = (slider.scrollLeft / (slider.scrollWidth - slider.clientWidth)) * 100;
+  progressBar.style.width = `${Math.max(0, Math.min(100, scrollPercentage))}%`;
+}
+
+// Display Movie Stats Dashboard with animated charts and data
+function displayMovieStatsDashboard(movie) {
+  const dashboard = document.getElementById('movie-stats-dashboard');
+  if (!dashboard) return;
+
+  // Show the dashboard
+  dashboard.style.display = 'block';
+  dashboard.style.opacity = '0';
+
+  // Calculate and display popularity (normalize to 0-100 scale)
+  const popularity = Math.min(100, Math.round((movie.popularity / 1000) * 100));
+
+  setTimeout(() => {
+    dashboard.style.transition = 'opacity 0.5s ease';
+    dashboard.style.opacity = '1';
+
+    // Animate popularity arc
+    animatePopularity(popularity);
+
+    // Display revenue data
+    displayRevenueChart(movie.budget || 0, movie.revenue || 0);
+
+    // Display ratings
+    displayRatings(movie.vote_average || 0, movie.vote_count || 0);
+
+    // Display additional stats
+    displayAdditionalStats(movie);
+  }, 100);
+}
+
+function animatePopularity(value) {
+  const popularityValue = document.getElementById('popularity-value');
+
+  if (popularityValue) {
+    // Animate the number with a smooth count-up effect
+    animateNumber(popularityValue, 0, value, 2000);
+  }
+}
+
+function displayRevenueChart(budget, revenue) {
+  const budgetBar = document.getElementById('budget-bar');
+  const revenueBar = document.getElementById('revenue-bar');
+  const budgetLabel = document.getElementById('budget-label');
+  const revenueLabel = document.getElementById('revenue-label');
+  const roiValue = document.getElementById('roi-value');
+
+  if (budgetBar && revenueBar) {
+    const maxValue = Math.max(budget, revenue, 1);
+    const budgetHeight = Math.max((budget / maxValue) * 100, 5); // Minimum 5% height for visibility
+    const revenueHeight = Math.max((revenue / maxValue) * 100, 5);
+
+    setTimeout(() => {
+      budgetBar.style.height = `${budgetHeight}%`;
+      revenueBar.style.height = `${revenueHeight}%`;
+
+      // Add value labels with proper formatting
+      const budgetFormatted = formatCurrency(budget);
+      const revenueFormatted = formatCurrency(revenue);
+
+      budgetBar.setAttribute('title', `Budget: $${budgetFormatted}`);
+      revenueBar.setAttribute('title', `Revenue: $${revenueFormatted}`);
+
+      // Show labels above bars
+      if (budgetLabel && revenueLabel) {
+        budgetLabel.textContent = `$${budgetFormatted}`;
+        revenueLabel.textContent = `$${revenueFormatted}`;
+        budgetLabel.style.opacity = '1';
+        revenueLabel.style.opacity = '1';
+      }
+
+      // Calculate ROI
+      if (budget > 0 && roiValue) {
+        const roi = Math.round(((revenue - budget) / budget) * 100);
+        roiValue.textContent = `${roi > 0 ? '+' : ''}${roi}%`;
+        roiValue.style.color = roi > 0 ? '#4CAF50' : roi < 0 ? '#f44336' : '#888';
+      }
+    }, 800);
+  }
+}
+
+function displayRatings(rating, voteCount) {
+  const tmdbBar = document.getElementById('tmdb-rating-bar');
+  const tmdbText = document.getElementById('tmdb-rating-text');
+  const voteBar = document.getElementById('vote-count-bar');
+  const voteText = document.getElementById('vote-count-text');
+
+  if (tmdbBar && tmdbText) {
+    const ratingPercentage = (rating / 10) * 100;
+    setTimeout(() => {
+      tmdbBar.style.width = `${ratingPercentage}%`;
+      animateNumber(tmdbText, 0, rating, 1500, 1);
+    }, 1000);
+  }
+
+  if (voteBar && voteText) {
+    // Normalize vote count to percentage (assuming 10000 votes is 100%)
+    const votePercentage = Math.min(100, (voteCount / 10000) * 100);
+    setTimeout(() => {
+      voteBar.style.width = `${votePercentage}%`;
+      voteText.textContent = formatNumber(voteCount);
+    }, 1200);
+  }
+}
+
+function displayAdditionalStats(movie) {
+  // Release Status
+  const releaseStatus = document.getElementById('release-status');
+  if (releaseStatus) {
+    const status = movie.status || 'Unknown';
+    releaseStatus.textContent = status;
+    releaseStatus.style.color = status === 'Released' ? '#4CAF50' : '#ff8623';
+  }
+
+  // Runtime
+  const runtimeStat = document.getElementById('runtime-stat');
+  if (runtimeStat && movie.runtime) {
+    const hours = Math.floor(movie.runtime / 60);
+    const minutes = movie.runtime % 60;
+    runtimeStat.textContent = hours > 0 ? `${hours}h ${minutes}m` : `${minutes} min`;
+  }
+
+  // Languages
+  const languageCount = document.getElementById('language-count');
+  if (languageCount && movie.spoken_languages) {
+    languageCount.textContent = movie.spoken_languages.length;
+  }
+
+  // Countries
+  const countryCount = document.getElementById('country-count');
+  if (countryCount && movie.production_countries) {
+    countryCount.textContent = movie.production_countries.length;
+  }
+}
+
+// Helper function to animate numbers
+function animateNumber(element, start, end, duration, decimals = 0) {
+  const range = end - start;
+  const startTime = Date.now();
+
+  function update() {
+    const now = Date.now();
+    const progress = Math.min((now - startTime) / duration, 1);
+    const value = start + range * easeOutQuad(progress);
+    element.textContent = value.toFixed(decimals);
+
+    if (progress < 1) {
+      requestAnimationFrame(update);
+    }
+  }
+
+  update();
+}
+
+// Easing function for smooth animation
+function easeOutQuad(t) {
+  return t * (2 - t);
+}
+
+// Format currency
+function formatCurrency(value) {
+  if (value >= 1000000000) {
+    return (value / 1000000000).toFixed(1) + 'B';
+  } else if (value >= 1000000) {
+    return (value / 1000000).toFixed(1) + 'M';
+  } else if (value >= 1000) {
+    return (value / 1000).toFixed(1) + 'K';
+  }
+  return value.toString();
+}
+
+// Format large numbers
+function formatNumber(value) {
+  if (value >= 1000000) {
+    return (value / 1000000).toFixed(1) + 'M';
+  } else if (value >= 1000) {
+    return (value / 1000).toFixed(1) + 'K';
+  }
+  return value.toLocaleString();
 }

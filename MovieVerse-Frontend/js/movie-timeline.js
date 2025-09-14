@@ -8,6 +8,157 @@ function hideSpinner() {
   document.getElementById('myModal').classList.remove('modal-visible');
 }
 
+// Era information
+const eraInfo = {
+  '1920s': {
+    title: 'The Silent Era (1920s)',
+    description:
+      "The dawn of cinema featuring silent films, pioneering directors like Charlie Chaplin and Buster Keaton, and the birth of Hollywood as the world's film capital.",
+  },
+  '1930s': {
+    title: 'The Golden Age (1930s)',
+    description:
+      'Introduction of sound revolutionized cinema. This era saw the rise of the studio system, glamorous stars, and genres like musicals and gangster films.',
+  },
+  '1940s': {
+    title: 'The War Era (1940s)',
+    description:
+      'World War II influenced film themes. Film noir emerged, and Hollywood produced propaganda films while maintaining escapist entertainment.',
+  },
+  '1950s': {
+    title: 'The Television Age (1950s)',
+    description:
+      'Cinema competed with television through widescreen formats, technicolor, and epic productions. The rise of method acting and international cinema.',
+  },
+  '1960s': {
+    title: 'The New Wave (1960s)',
+    description:
+      'Revolutionary filmmaking from French New Wave influenced global cinema. Counter-culture themes and the breakdown of censorship codes.',
+  },
+  '1970s': {
+    title: 'New Hollywood (1970s)',
+    description: 'Young directors brought artistic vision to mainstream cinema. The birth of the blockbuster with Jaws and Star Wars.',
+  },
+  '1980s': {
+    title: 'The Blockbuster Era (1980s)',
+    description: 'High-concept films, action heroes, and teen comedies dominated. The rise of home video changed film distribution forever.',
+  },
+  '1990s': {
+    title: 'The Digital Dawn (1990s)',
+    description: 'Independent cinema flourished. CGI began transforming visual effects, and the first fully computer-animated features appeared.',
+  },
+  '2000s': {
+    title: 'The CGI Revolution (2000s)',
+    description: 'Digital filmmaking became standard. Superhero films began their dominance, and franchises became the focus of major studios.',
+  },
+  '2010s': {
+    title: 'The Superhero Age (2010s)',
+    description:
+      'Marvel Cinematic Universe redefined franchises. Streaming services began producing original content, changing the industry landscape.',
+  },
+  '2020s': {
+    title: 'The Streaming Era (2020s)',
+    description: 'Pandemic accelerated streaming dominance. Theatrical windows shortened, and global content became more accessible than ever.',
+  },
+};
+
+// Initialize timeline markers
+function initializeTimeline() {
+  const markersContainer = document.getElementById('timeline-markers');
+  const decades = [1920, 1940, 1960, 1980, 2000, 2020];
+
+  markersContainer.innerHTML = '';
+  decades.forEach(year => {
+    const marker = document.createElement('div');
+    marker.style.cssText = 'display: flex; flex-direction: column; align-items: center; cursor: pointer;';
+    marker.innerHTML = `
+      <div style="width: 12px; height: 12px; background: white; border-radius: 50%; margin-bottom: 5px;"></div>
+      <span style="font-size: 11px; color: #aaa;">${year}s</span>
+    `;
+    marker.onclick = () => selectEra(year, year + 9);
+    markersContainer.appendChild(marker);
+  });
+}
+
+// Select an era
+function selectEra(startYear, endYear) {
+  document.getElementById('start-year').value = startYear;
+  document.getElementById('end-year').value = endYear;
+
+  // Update visual timeline selection
+  updateTimelineSelection();
+
+  // Show era information
+  const decade = Math.floor(startYear / 10) * 10 + 's';
+  if (eraInfo[decade]) {
+    const eraInfoDiv = document.getElementById('era-info');
+    document.getElementById('era-title').textContent = eraInfo[decade].title;
+    document.getElementById('era-description').textContent = eraInfo[decade].description;
+    eraInfoDiv.style.display = 'block';
+
+    // Animate appearance
+    eraInfoDiv.style.opacity = '0';
+    setTimeout(() => {
+      eraInfoDiv.style.transition = 'opacity 0.5s';
+      eraInfoDiv.style.opacity = '1';
+    }, 100);
+  }
+
+  // Highlight selected era button
+  document.querySelectorAll('.era-btn').forEach(btn => {
+    btn.style.transform = 'scale(1)';
+    btn.style.boxShadow = 'none';
+  });
+
+  event.target.closest('.era-btn').style.transform = 'scale(1.05)';
+  event.target.closest('.era-btn').style.boxShadow = '0 5px 20px rgba(0,0,0,0.3)';
+
+  // Automatically load movies
+  updateMovies();
+}
+
+// Update visual timeline selection
+function updateTimelineSelection() {
+  const startYear = parseInt(document.getElementById('start-year').value) || 1920;
+  const endYear = parseInt(document.getElementById('end-year').value) || new Date().getFullYear();
+  const minYear = 1920;
+  const maxYear = new Date().getFullYear();
+  const range = maxYear - minYear;
+
+  const selectionRange = document.getElementById('selection-range');
+  if (startYear && endYear && startYear <= endYear) {
+    const startPercent = ((startYear - minYear) / range) * 100;
+    const endPercent = ((endYear - minYear) / range) * 100;
+
+    selectionRange.style.left = startPercent + '%';
+    selectionRange.style.width = endPercent - startPercent + '%';
+    selectionRange.style.display = 'block';
+  } else {
+    selectionRange.style.display = 'none';
+  }
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', () => {
+  initializeTimeline();
+
+  // Add hover effects to era buttons
+  document.querySelectorAll('.era-btn').forEach(btn => {
+    btn.addEventListener('mouseenter', function () {
+      if (!this.style.transform.includes('1.05')) {
+        this.style.transform = 'scale(1.02)';
+        this.style.boxShadow = '0 3px 10px rgba(0,0,0,0.2)';
+      }
+    });
+    btn.addEventListener('mouseleave', function () {
+      if (!this.style.transform.includes('1.05')) {
+        this.style.transform = 'scale(1)';
+        this.style.boxShadow = 'none';
+      }
+    });
+  });
+});
+
 document.getElementById('start-year').addEventListener('keydown', function (event) {
   if (event.key === 'Enter') {
     event.preventDefault();
@@ -473,7 +624,7 @@ function showMovies(movies, mainElement, startYear, endYear, append) {
 
     movieEl.addEventListener('click', () => {
       // Navigate to movie details page with movieId as a query parameter
-      window.location.href = `MovieVerse-Frontend/html/movie-details.html?movieId=${id}`;
+      window.location.href = `movie-details.html?movieId=${id}`;
 
       // Update analytics and tracking functions
       updateUniqueMoviesViewed(id);

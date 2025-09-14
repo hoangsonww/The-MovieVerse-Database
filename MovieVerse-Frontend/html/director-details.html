@@ -156,6 +156,117 @@
         font-style: normal;
         font-display: swap;
       }
+
+      /* Animation for spinner */
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Director Stats Dashboard Styles */
+      .stat-card {
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+      }
+
+      .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      /* Influence value animation */
+      @keyframes glow {
+        0% {
+          text-shadow: 0 0 30px rgba(255, 134, 35, 0.3);
+        }
+        50% {
+          text-shadow:
+            0 0 40px rgba(255, 134, 35, 0.5),
+            0 0 60px rgba(255, 134, 35, 0.2);
+        }
+        100% {
+          text-shadow: 0 0 30px rgba(255, 134, 35, 0.3);
+        }
+      }
+
+      #director-influence-value {
+        animation: glow 3s ease-in-out infinite;
+      }
+
+      /* Bar hover effects */
+      #avg-budget-bar:hover,
+      #avg-revenue-bar:hover {
+        filter: brightness(1.2);
+        transform: scaleY(1.02);
+      }
+
+      #avg-budget-bar,
+      #avg-revenue-bar {
+        transition:
+          height 1.5s ease,
+          filter 0.3s ease,
+          transform 0.3s ease;
+      }
+
+      .mini-stat {
+        transition: all 0.3s ease;
+      }
+
+      .mini-stat:hover {
+        transform: translateY(-3px);
+        background: rgba(255, 255, 255, 0.08) !important;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      .mini-stat:hover i {
+        transform: scale(1.2);
+      }
+
+      /* Timeline Styles */
+      #filmography-slider::-webkit-scrollbar {
+        display: none;
+      }
+
+      .timeline-item {
+        position: relative;
+        min-width: 160px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        opacity: 0.7;
+        padding-top: 20px;
+        padding-bottom: 40px;
+        margin: 0;
+      }
+
+      .timeline-item.active {
+        opacity: 1;
+        transform: scale(1.05);
+      }
+
+      .timeline-item:hover {
+        transform: translateY(-10px);
+        opacity: 1;
+        z-index: 100;
+      }
+
+      .timeline-nav-btn:hover {
+        background: linear-gradient(135deg, #ff8623 0%, #ff6b00 100%) !important;
+        transform: translateY(-50%) scale(1.08);
+        box-shadow: 0 6px 20px rgba(255, 134, 35, 0.4) !important;
+      }
+
+      .timeline-nav-btn:active {
+        transform: translateY(-50%) scale(1.02);
+      }
+
+      .timeline-nav-btn:disabled {
+        opacity: 0.2;
+        cursor: not-allowed;
+        background: linear-gradient(135deg, #4a4a5a 0%, #3a3a4a 100%) !important;
+      }
       body {
         font-family: 'Poppins', sans-serif;
       }
@@ -447,6 +558,377 @@
       <!-- Right side for Description and Info -->
       <div class="director-right" id="director-description" style="animation: fadeIn 1.5s ease-in-out">
         <!-- Director details will be populated here -->
+      </div>
+    </div>
+
+    <!-- Interactive Director Analytics Dashboard -->
+    <div
+      id="director-stats-dashboard"
+      style="
+        display: none;
+        margin: 40px auto;
+        padding: 30px;
+        max-width: 1200px;
+        background: linear-gradient(135deg, rgba(30, 30, 45, 0.8) 0%, rgba(50, 50, 70, 0.5) 100%);
+        border-radius: 20px;
+        backdrop-filter: blur(12px);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        margin-top: 0 !important;
+      "
+    >
+      <div class="stats-header" style="text-align: center; margin-bottom: 30px">
+        <h2 style="color: #f5f5f5; font-size: 26px; font-weight: 600; margin: 0; letter-spacing: 1px">
+          <i class="fas fa-film" style="color: #7378c5; margin-right: 10px"></i>
+          Director Analytics Dashboard
+        </h2>
+        <p style="color: #a0a0a0; margin-top: 8px; font-size: 14px">Career statistics and insights</p>
+      </div>
+
+      <div class="stats-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-bottom: 30px">
+        <!-- Influence Score -->
+        <div
+          class="stat-card"
+          style="background: rgba(255, 255, 255, 0.05); border-radius: 15px; padding: 20px; border: 1px solid rgba(255, 255, 255, 0.1)"
+        >
+          <h3 style="color: #ff8623; font-size: 16px; margin: 0 0 10px 0; display: flex; align-items: center; justify-content: center">
+            <i class="fas fa-star" style="margin-right: 8px"></i>
+            Director Influence
+          </h3>
+          <div class="influence-container" style="height: 140px; display: flex; flex-direction: column; justify-content: center; align-items: center">
+            <div style="text-align: center">
+              <div style="display: flex; align-items: baseline; justify-content: center">
+                <span
+                  id="director-influence-value"
+                  style="
+                    font-size: 72px;
+                    font-weight: 800;
+                    background: linear-gradient(135deg, #ff8623, #ff6b00);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    background-clip: text;
+                    text-shadow: 0 0 30px rgba(255, 134, 35, 0.3);
+                  "
+                  >0</span
+                >
+                <span style="font-size: 36px; color: #888; margin-left: 4px; font-weight: 600">%</span>
+              </div>
+              <span style="font-size: 13px; color: #999; margin-top: 8px; display: block; text-transform: uppercase; letter-spacing: 2px"
+                >Industry Impact</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Box Office Performance -->
+        <div
+          class="stat-card"
+          style="background: rgba(255, 255, 255, 0.05); border-radius: 15px; padding: 20px; border: 1px solid rgba(255, 255, 255, 0.1)"
+        >
+          <h3 style="color: #7378c5; font-size: 16px; margin: 0 0 15px 0; display: flex; align-items: center">
+            <i class="fas fa-dollar-sign" style="margin-right: 8px"></i>
+            Career Box Office
+          </h3>
+          <div
+            class="revenue-bars"
+            style="display: flex; align-items: flex-end; justify-content: center; height: 120px; gap: 25px; padding: 0 20px; margin-top: 25px"
+          >
+            <div
+              style="
+                width: 80px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                height: 100%;
+                justify-content: flex-end;
+                position: relative;
+              "
+            >
+              <span
+                id="avg-budget-label"
+                style="position: absolute; top: -20px; color: #ccc; font-size: 10px; white-space: nowrap; opacity: 0; transition: opacity 0.5s ease"
+              ></span>
+              <div
+                id="avg-budget-bar"
+                style="
+                  width: 100%;
+                  background: linear-gradient(180deg, #7378c5 0%, #5a5fa0 100%);
+                  border-radius: 5px 5px 0 0;
+                  transition: height 1.5s ease;
+                  height: 0;
+                  min-height: 5px;
+                  cursor: pointer;
+                "
+                data-value="0"
+                title="Average budget per film"
+              ></div>
+              <span style="color: #888; font-size: 11px; margin-top: 5px">Avg Budget</span>
+            </div>
+            <div
+              style="
+                width: 80px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                height: 100%;
+                justify-content: flex-end;
+                position: relative;
+              "
+            >
+              <span
+                id="avg-revenue-label"
+                style="position: absolute; top: -20px; color: #ccc; font-size: 10px; white-space: nowrap; opacity: 0; transition: opacity 0.5s ease"
+              ></span>
+              <div
+                id="avg-revenue-bar"
+                style="
+                  width: 100%;
+                  background: linear-gradient(180deg, #ff8623 0%, #ff6b00 100%);
+                  border-radius: 5px 5px 0 0;
+                  transition: height 1.5s ease;
+                  height: 0;
+                  min-height: 5px;
+                  cursor: pointer;
+                "
+                data-value="0"
+                title="Average revenue per film"
+              ></div>
+              <span style="color: #888; font-size: 11px; margin-top: 5px">Avg Revenue</span>
+            </div>
+          </div>
+          <div id="revenue-values" style="text-align: center; margin-top: 15px">
+            <p style="color: #ccc; font-size: 14px; margin: 5px 0">
+              Avg ROI: <span id="avg-roi-value" style="color: #ff8623; font-weight: 600">0%</span>
+            </p>
+          </div>
+        </div>
+
+        <!-- Genre Distribution -->
+        <div
+          class="stat-card"
+          style="background: rgba(255, 255, 255, 0.05); border-radius: 15px; padding: 20px; border: 1px solid rgba(255, 255, 255, 0.1)"
+        >
+          <h3 style="color: #4caf50; font-size: 16px; margin: 0 0 15px 0; display: flex; align-items: center">
+            <i class="fas fa-theater-masks" style="margin-right: 8px"></i>
+            Genre Expertise
+          </h3>
+          <div id="director-genre-chart" style="display: flex; flex-direction: column; gap: 8px">
+            <!-- Will be populated dynamically with horizontal bars -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Stats Row -->
+      <div class="stats-row" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px">
+        <div
+          class="mini-stat"
+          style="
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+          "
+        >
+          <i class="fas fa-video" style="color: #7378c5; font-size: 24px"></i>
+          <p style="color: #888; font-size: 12px; margin: 8px 0 4px">Films Directed</p>
+          <p id="films-directed" style="color: #fff; font-size: 16px; font-weight: 600; margin: 0">0</p>
+        </div>
+        <div
+          class="mini-stat"
+          style="
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+          "
+        >
+          <i class="fas fa-calendar-alt" style="color: #ff8623; font-size: 24px"></i>
+          <p style="color: #888; font-size: 12px; margin: 8px 0 4px">Career Span</p>
+          <p id="career-span" style="color: #fff; font-size: 16px; font-weight: 600; margin: 0">0 years</p>
+        </div>
+        <div
+          class="mini-stat"
+          style="
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+          "
+        >
+          <i class="fas fa-star-half-alt" style="color: #4caf50; font-size: 24px"></i>
+          <p style="color: #888; font-size: 12px; margin: 8px 0 4px">Avg Rating</p>
+          <p id="dir-avg-rating" style="color: #fff; font-size: 16px; font-weight: 600; margin: 0">0.0</p>
+        </div>
+        <div
+          class="mini-stat"
+          style="
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+          "
+        >
+          <i class="fas fa-trophy" style="color: #2196f3; font-size: 24px"></i>
+          <p style="color: #888; font-size: 12px; margin: 8px 0 4px">Total Revenue</p>
+          <p id="total-revenue" style="color: #fff; font-size: 16px; font-weight: 600; margin: 0">$0</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Visual Filmography Timeline -->
+    <div
+      id="filmography-timeline-container"
+      style="
+        display: none;
+        margin: 50px auto;
+        padding: 30px 20px;
+        max-width: 1400px;
+        background: linear-gradient(135deg, rgba(20, 20, 35, 0.7) 0%, rgba(40, 40, 60, 0.4) 100%);
+        border-radius: 20px;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      "
+    >
+      <div class="timeline-header" style="text-align: center; margin-bottom: 40px">
+        <h2 style="color: #f5f5f5; font-size: 28px; font-weight: 600; margin: 0; letter-spacing: 1px">
+          <i class="fas fa-film" style="color: #ff8623; margin-right: 10px"></i>
+          <span id="timeline-title">Directorial Journey</span>
+        </h2>
+        <p style="color: #a0a0a0; margin-top: 8px; font-size: 14px">Navigate through the director's filmography</p>
+      </div>
+
+      <div id="timeline-wrapper" style="position: relative; padding: 80px 50px 60px 50px; overflow: visible">
+        <!-- Timeline Line -->
+        <div
+          class="timeline-line"
+          style="
+            position: absolute;
+            top: 50%;
+            left: 50px;
+            right: 50px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #7378c5 20%, #ff8623 80%, transparent);
+            opacity: 0.5;
+            z-index: 1;
+          "
+        ></div>
+
+        <!-- Loading State -->
+        <div id="timeline-loading" style="display: none; text-align: center; padding: 40px">
+          <div
+            class="spinner"
+            style="
+              border: 3px solid rgba(255, 255, 255, 0.1);
+              border-top-color: #ff8623;
+              border-radius: 50%;
+              width: 40px;
+              height: 40px;
+              animation: spin 0.8s linear infinite;
+              margin: 0 auto;
+            "
+          ></div>
+          <p style="color: #a0a0a0; margin-top: 20px">Loading filmography...</p>
+        </div>
+
+        <!-- Timeline Controls -->
+        <button
+          id="timeline-prev"
+          class="timeline-nav-btn"
+          style="
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #7378c5 0%, #5a5fa0 100%);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(115, 120, 197, 0.3);
+          "
+        >
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <button
+          id="timeline-next"
+          class="timeline-nav-btn"
+          style="
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #7378c5 0%, #5a5fa0 100%);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(115, 120, 197, 0.3);
+          "
+        >
+          <i class="fas fa-chevron-right"></i>
+        </button>
+
+        <!-- Timeline Container -->
+        <div
+          id="filmography-slider"
+          style="
+            display: flex;
+            gap: 50px;
+            overflow-x: auto;
+            overflow-y: visible;
+            scroll-behavior: smooth;
+            padding: 40px 60px 50px 60px;
+            position: relative;
+            z-index: 2;
+            scrollbar-width: none;
+            align-items: center;
+            min-height: 380px;
+          "
+        >
+          <!-- Movie items will be dynamically inserted here -->
+        </div>
+      </div>
+
+      <!-- Timeline Progress Bar -->
+      <div style="margin: 0 50px; height: 4px; background: rgba(255, 255, 255, 0.1); border-radius: 2px; overflow: hidden">
+        <div
+          id="timeline-progress"
+          style="height: 100%; background: linear-gradient(90deg, #7378c5, #ff8623); width: 0%; transition: width 0.3s ease"
+        ></div>
+      </div>
+
+      <!-- Timeline Legend -->
+      <div id="timeline-legend" style="text-align: center; margin-top: 25px">
+        <span style="color: #808080; font-size: 13px; letter-spacing: 0.5px"
+          >Scroll horizontally or use arrow keys to explore • Click on any film to view details</span
+        >
       </div>
     </div>
 

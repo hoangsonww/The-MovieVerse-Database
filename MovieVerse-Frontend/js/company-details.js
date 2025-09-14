@@ -302,19 +302,88 @@ async function fetchCompanyDetails(companyId) {
     const fullCountryName = twoLetterCountryCodes.find(country => country.code === company.origin_country)?.name;
 
     document.getElementById('company-name').textContent = company.name || 'Information Unavailable';
-    document.getElementById('company-headquarters').textContent = company.headquarters || 'Information Unavailable';
-    document.getElementById('company-country').textContent = fullCountryName || 'Information Unavailable';
     document.title = `${company.name} - Company Details`;
 
-    const homepage = company.homepage || '#';
-    const companyWebsite = document.getElementById('company-website');
+    // Transform company info into dashboard-style cards
+    const companyRight = document.querySelector('.company-right');
+    companyRight.innerHTML = `
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px;">
+        <!-- Company Overview Card -->
+        <div style="background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(78, 205, 196, 0.1)); backdrop-filter: blur(10px); border-radius: 15px; padding: 20px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);">
+          <h3 style="margin-bottom: 15px; font-size: 18px; color: #4ecdc4;">
+            <i class="fas fa-building" style="margin-right: 8px;"></i>Company Overview
+          </h3>
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <p id="company-description" class="company-description" style="font-size: 14px; line-height: 1.6; color: #ccc;">
+              ${company.description || 'A leading production company in the entertainment industry.'}
+            </p>
+          </div>
+        </div>
 
-    if (homepage !== '#') {
-      companyWebsite.href = homepage;
-      companyWebsite.textContent = homepage;
-    } else {
-      companyWebsite.textContent = 'Information Unavailable';
-    }
+        <!-- Headquarters Card -->
+        <div style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1)); backdrop-filter: blur(10px); border-radius: 15px; padding: 20px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);">
+          <h3 style="margin-bottom: 15px; font-size: 18px; color: #667eea;">
+            <i class="fas fa-map-marker-alt" style="margin-right: 8px;"></i>Location Details
+          </h3>
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <div>
+              <span style="color: #aaa; font-size: 13px;">Headquarters:</span>
+              <p style="margin: 5px 0; font-size: 15px; font-weight: 500;">${company.headquarters || 'Information Unavailable'}</p>
+            </div>
+            <div>
+              <span style="color: #aaa; font-size: 13px;">Country:</span>
+              <p style="margin: 5px 0; font-size: 15px; font-weight: 500;">${fullCountryName || 'Information Unavailable'}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact Info Card -->
+        <div style="background: linear-gradient(135deg, rgba(255, 217, 61, 0.1), rgba(252, 74, 74, 0.1)); backdrop-filter: blur(10px); border-radius: 15px; padding: 20px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);">
+          <h3 style="margin-bottom: 15px; font-size: 18px; color: #ffd93d;">
+            <i class="fas fa-globe" style="margin-right: 8px;"></i>Digital Presence
+          </h3>
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <div>
+              <span style="color: #aaa; font-size: 13px;">Official Website:</span>
+              ${
+                company.homepage
+                  ? `<p style="margin: 5px 0;"><a href="${company.homepage}" target="_blank" style="color: #4ecdc4; text-decoration: none; font-size: 15px;">${new URL(company.homepage).hostname}</a></p>`
+                  : `<p style="margin: 5px 0; font-size: 15px;">Not Available</p>`
+              }
+            </div>
+            <div>
+              <span style="color: #aaa; font-size: 13px;">Company ID:</span>
+              <p style="margin: 5px 0; font-size: 15px; font-weight: 500;">#${company.id}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Parent Company Card (if exists) -->
+        ${
+          company.parent_company
+            ? `
+        <div style="background: linear-gradient(135deg, rgba(168, 230, 207, 0.1), rgba(220, 237, 193, 0.1)); backdrop-filter: blur(10px); border-radius: 15px; padding: 20px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);">
+          <h3 style="margin-bottom: 15px; font-size: 18px; color: #a8e6cf;">
+            <i class="fas fa-sitemap" style="margin-right: 8px;"></i>Corporate Structure
+          </h3>
+          <div>
+            <span style="color: #aaa; font-size: 13px;">Parent Company:</span>
+            <p style="margin: 5px 0; font-size: 15px; font-weight: 500;">${company.parent_company.name}</p>
+            ${
+              company.parent_company.logo_path
+                ? `<img src="https://image.tmdb.org/t/p/w92${company.parent_company.logo_path}" alt="${company.parent_company.name}" style="margin-top: 10px; max-height: 40px;">`
+                : ''
+            }
+          </div>
+        </div>
+        `
+            : ''
+        }
+      </div>
+
+      <p style="text-align: center; font-size: 20px; margin-top: 30px;"><strong>Produced Movies:</strong></p>
+      <div style="text-align: center" id="company-movies-list" class="movies-list"></div>
+    `;
 
     updateBrowserURL(company.name);
     hideSpinner();
@@ -330,7 +399,7 @@ async function fetchCompanyDetails(companyId) {
 }
 
 async function fetchCompanyMovies(companyId) {
-  const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_companies=${companyId}`;
+  const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_companies=${companyId}&sort_by=release_date.desc`;
   try {
     const response = await fetch(url);
     const data = await response.json();
@@ -340,7 +409,21 @@ async function fetchCompanyMovies(companyId) {
       companyMoviesContainer.innerHTML = `<p>No movies found for this company.</p>`;
       return;
     }
-    displayCompanyMovies(data.results);
+
+    // Fetch additional pages to get more movies for statistics
+    const allMovies = [...data.results];
+    const totalPages = Math.min(data.total_pages, 5); // Limit to 5 pages for performance
+
+    for (let page = 2; page <= totalPages; page++) {
+      const pageUrl = `${url}&page=${page}`;
+      const pageResponse = await fetch(pageUrl);
+      const pageData = await pageResponse.json();
+      allMovies.push(...pageData.results);
+    }
+
+    displayCompanyMovies(allMovies.slice(0, 20)); // Display first 20 movies
+    displayCompanyStatsDashboard(allMovies, companyId);
+    displayProductionTimeline(allMovies);
   } catch (error) {
     console.log('Error fetching movies:', error);
   }
@@ -751,4 +834,225 @@ function createNameSlug(title) {
     .toLowerCase()
     .replace(/ /g, '-')
     .replace(/[^\w-]/g, '');
+}
+
+async function displayCompanyStatsDashboard(movies, companyId) {
+  const dashboard = document.getElementById('company-stats-dashboard');
+  if (!dashboard) return;
+
+  // Show the dashboard
+  dashboard.style.display = 'block';
+  dashboard.style.opacity = '0';
+
+  // Calculate statistics
+  const totalFilms = movies.length;
+  const avgRating = movies.reduce((sum, m) => sum + (m.vote_average || 0), 0) / totalFilms;
+
+  // Calculate total revenue (fetch detailed info for top movies)
+  let totalRevenue = 0;
+  const topMovies = movies.slice(0, 10); // Get top 10 movies for revenue calculation
+
+  for (const movie of topMovies) {
+    try {
+      const detailUrl = `https://${getMovieVerseData()}/3/movie/${movie.id}?${generateMovieNames()}${getMovieCode()}`;
+      const response = await fetch(detailUrl);
+      const details = await response.json();
+      totalRevenue += details.revenue || 0;
+    } catch (error) {
+      console.log('Error fetching movie details:', error);
+    }
+  }
+
+  // Calculate genre distribution
+  const genreCount = {};
+  movies.forEach(movie => {
+    if (movie.genre_ids) {
+      movie.genre_ids.forEach(genreId => {
+        genreCount[genreId] = (genreCount[genreId] || 0) + 1;
+      });
+    }
+  });
+
+  // Get genre names
+  const genreMap = JSON.parse(localStorage.getItem('genreMap')) || {};
+  const topGenres = Object.entries(genreCount)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 5)
+    .map(([id, count]) => ({
+      name: genreMap[id] || 'Unknown',
+      count: count,
+      percentage: ((count / totalFilms) * 100).toFixed(1),
+    }));
+
+  // Get years active
+  const years = movies
+    .map(m => (m.release_date ? new Date(m.release_date).getFullYear() : null))
+    .filter(y => y)
+    .sort();
+  const yearsActive = years.length > 0 ? `${years[0]} - ${years[years.length - 1]}` : 'N/A';
+
+  // Update dashboard elements
+  document.getElementById('totalFilms').textContent = totalFilms;
+  document.getElementById('avgRating').textContent = avgRating.toFixed(1) + ' ⭐';
+  document.getElementById('topGenre').textContent = topGenres[0]?.name || 'N/A';
+  document.getElementById('yearsActive').textContent = yearsActive;
+
+  // Animate revenue meter
+  const revenuePercentage = Math.min((totalRevenue / 10000000000) * 100, 100); // Scale to $10B max
+  setTimeout(() => {
+    const revenueFill = document.getElementById('revenueFill');
+    revenueFill.style.transition = 'width 2s ease-out';
+    revenueFill.style.width = revenuePercentage * 1.8 + 'px';
+
+    const revenueText = document.getElementById('revenueText');
+    let currentRevenue = 0;
+    const increment = revenuePercentage / 50;
+    const interval = setInterval(() => {
+      currentRevenue += increment;
+      if (currentRevenue >= revenuePercentage) {
+        currentRevenue = revenuePercentage;
+        clearInterval(interval);
+      }
+      revenueText.textContent = currentRevenue.toFixed(0) + '%';
+    }, 40);
+  }, 500);
+
+  // Create genre distribution chart
+  const genreChart = document.getElementById('genreChart');
+  genreChart.innerHTML = '';
+
+  topGenres.forEach((genre, index) => {
+    const genreBar = document.createElement('div');
+    genreBar.style.cssText = 'display: flex; align-items: center; gap: 10px;';
+
+    const label = document.createElement('span');
+    label.style.cssText = 'font-size: 12px; color: #aaa; min-width: 80px;';
+    label.textContent = genre.name;
+
+    const barContainer = document.createElement('div');
+    barContainer.style.cssText = 'flex: 1; height: 20px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden;';
+
+    const bar = document.createElement('div');
+    bar.style.cssText = `height: 100%; width: 0%; background: linear-gradient(90deg, #667eea, #764ba2); border-radius: 10px; transition: width 1.5s ease-out;`;
+
+    const percentage = document.createElement('span');
+    percentage.style.cssText = 'font-size: 12px; color: white; min-width: 40px; text-align: right;';
+    percentage.textContent = genre.percentage + '%';
+
+    barContainer.appendChild(bar);
+    genreBar.appendChild(label);
+    genreBar.appendChild(barContainer);
+    genreBar.appendChild(percentage);
+    genreChart.appendChild(genreBar);
+
+    // Animate bar
+    setTimeout(
+      () => {
+        bar.style.width = genre.percentage + '%';
+      },
+      500 + index * 100
+    );
+  });
+
+  // Fade in dashboard
+  requestAnimationFrame(() => {
+    dashboard.style.transition = 'opacity 1s ease-in';
+    dashboard.style.opacity = '1';
+  });
+}
+
+function displayProductionTimeline(movies) {
+  const timelineContainer = document.getElementById('production-timeline-container');
+  if (!timelineContainer || movies.length === 0) return;
+
+  // Show the timeline
+  timelineContainer.style.display = 'block';
+  timelineContainer.style.opacity = '0';
+
+  // Sort movies by release date
+  const sortedMovies = movies
+    .filter(m => m.release_date)
+    .sort((a, b) => new Date(b.release_date) - new Date(a.release_date))
+    .slice(0, 15); // Show top 15 recent movies
+
+  const timelineScroll = document.getElementById('timeline-scroll');
+  timelineScroll.innerHTML = '';
+
+  sortedMovies.forEach((movie, index) => {
+    const releaseDate = new Date(movie.release_date);
+    const year = releaseDate.getFullYear();
+    const month = releaseDate.toLocaleString('default', { month: 'short' });
+
+    const timelineItem = document.createElement('div');
+    timelineItem.style.cssText = `
+      min-width: 200px;
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 15px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      position: relative;
+      opacity: 0;
+      transform: translateY(20px);
+    `;
+
+    timelineItem.innerHTML = `
+      <div style="position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: linear-gradient(90deg, #667eea, #764ba2); color: white; padding: 2px 10px; border-radius: 10px; font-size: 11px;">
+        ${month} ${year}
+      </div>
+      ${
+        movie.poster_path
+          ? `<img src="https://image.tmdb.org/t/p/w92${movie.poster_path}" alt="${movie.title}" style="width: 100%; height: 120px; object-fit: cover; border-radius: 10px; margin-bottom: 10px;">`
+          : `<div style="width: 100%; height: 120px; background: rgba(255,255,255,0.1); border-radius: 10px; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; color: #666;">No Image</div>`
+      }
+      <h4 style="font-size: 13px; margin: 5px 0; line-height: 1.3;">${movie.title}</h4>
+      <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+        <span style="font-size: 11px; color: #4ecdc4;">⭐ ${movie.vote_average.toFixed(1)}</span>
+        <span style="font-size: 11px; color: #ffd93d;">👁 ${movie.popularity.toFixed(0)}</span>
+      </div>
+    `;
+
+    timelineItem.addEventListener('click', () => {
+      selectMovieId(movie.id);
+    });
+
+    timelineItem.addEventListener('mouseenter', () => {
+      timelineItem.style.transform = 'translateY(-5px) scale(1.02)';
+      timelineItem.style.boxShadow = '0 10px 30px rgba(102, 126, 234, 0.3)';
+    });
+
+    timelineItem.addEventListener('mouseleave', () => {
+      timelineItem.style.transform = 'translateY(0) scale(1)';
+      timelineItem.style.boxShadow = 'none';
+    });
+
+    timelineScroll.appendChild(timelineItem);
+
+    // Animate item appearance
+    setTimeout(() => {
+      timelineItem.style.transition = 'all 0.6s ease';
+      timelineItem.style.opacity = '1';
+      timelineItem.style.transform = 'translateY(0)';
+    }, 100 * index);
+  });
+
+  // Setup navigation arrows
+  const prevBtn = document.getElementById('timeline-prev');
+  const nextBtn = document.getElementById('timeline-next');
+
+  prevBtn.addEventListener('click', () => {
+    timelineScroll.scrollBy({ left: -220, behavior: 'smooth' });
+  });
+
+  nextBtn.addEventListener('click', () => {
+    timelineScroll.scrollBy({ left: 220, behavior: 'smooth' });
+  });
+
+  // Fade in timeline
+  setTimeout(() => {
+    timelineContainer.style.transition = 'opacity 1s ease-in';
+    timelineContainer.style.opacity = '1';
+  }, 300);
 }
