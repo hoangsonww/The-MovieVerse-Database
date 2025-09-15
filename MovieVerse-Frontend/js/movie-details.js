@@ -2675,16 +2675,6 @@ function displayTimeline(movies, currentMovieId, collectionName) {
 
   // Update progress bar
   updateTimelineProgress();
-
-  // Scroll to current movie with delay for smooth animation
-  setTimeout(() => {
-    const activeItem = slider.querySelector('.timeline-item.active');
-    if (activeItem) {
-      activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-      // Update progress after scroll
-      setTimeout(updateTimelineProgress, 500);
-    }
-  }, 300);
 }
 
 function initializeTimelineNavigation() {
