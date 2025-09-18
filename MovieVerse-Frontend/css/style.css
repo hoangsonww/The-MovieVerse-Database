@@ -4654,3 +4654,252 @@ canvas {
     align-items: center;
   }
 }
+
+/* Overflow fixes for dashboard and stats sections on detail pages */
+.stats-container {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  padding: 0 10px;
+}
+
+.stat-card {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  word-wrap: break-word;
+  box-sizing: border-box;
+}
+
+.influence-container,
+.popularity-container {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+  .stats-container {
+    grid-template-columns: 1fr !important;
+    gap: 15px !important;
+    padding: 0 5px;
+  }
+
+  .stat-card {
+    min-width: unset !important;
+    padding: 15px !important;
+  }
+
+  .stat-card h3 {
+    font-size: 14px !important;
+    flex-wrap: wrap;
+  }
+
+  .stat-card canvas {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-container {
+    gap: 10px !important;
+    margin-bottom: 20px !important;
+  }
+
+  .stat-card {
+    padding: 10px !important;
+    border-radius: 10px !important;
+  }
+
+  .stat-card h3 {
+    font-size: 13px !important;
+  }
+
+  .influence-container,
+  .popularity-container {
+    height: auto !important;
+    min-height: 100px;
+  }
+}
+
+/* Ensure all detail pages don't overflow horizontally */
+#director-details-container,
+#actor-details-container,
+#company-details-container,
+#movie-details-container,
+#tv-details-container {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+/* Prevent any inline grid styles from causing overflow */
+[style*='grid-template-columns: repeat(auto-fit'] {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+}
+
+/* Fix for very small screens */
+@media (max-width: 375px) {
+  .stats-container {
+    padding: 0 3px !important;
+  }
+
+  .stat-card {
+    padding: 8px !important;
+    font-size: 12px !important;
+  }
+
+  .stat-card h3 {
+    font-size: 12px !important;
+  }
+
+  .stat-card h3 i {
+    margin-right: 4px !important;
+  }
+}
+
+/* Info sections text wrapping and overflow fixes */
+#director-details-container p,
+#actor-details-container p,
+#company-details-container p,
+#movie-details-container p,
+#tv-details-container p {
+  word-wrap: break-word !important;
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
+  hyphens: auto !important;
+  max-width: 100% !important;
+}
+
+/* Biography and description sections */
+#director-details-container div[style*='Biography'],
+#actor-details-container div[style*='Biography'],
+#movie-details-container div[style*='Overview'],
+#tv-details-container div[style*='Overview'] {
+  overflow: visible !important;
+  word-wrap: break-word !important;
+  word-break: break-word !important;
+}
+
+/* Personal Information Grid - force responsive layout */
+div[style*='grid-template-columns: repeat(auto-fit, minmax(250px'] {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr)) !important;
+  width: 100% !important;
+  overflow: visible !important;
+}
+
+/* Info cards within grids */
+div[style*='background: rgba(255, 255, 255, 0.05)'] {
+  overflow: visible !important;
+  word-wrap: break-word !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+
+/* Ensure all spans and text elements wrap */
+#director-details-container span,
+#actor-details-container span,
+#company-details-container span,
+#movie-details-container span,
+#tv-details-container span {
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+  display: inline-block !important;
+  max-width: 100% !important;
+}
+
+/* Also Known As tags */
+div[style*='flex-wrap: wrap'] span[style*='border-radius: 20px'] {
+  white-space: normal !important;
+  word-break: break-word !important;
+  max-width: calc(100% - 24px) !important;
+}
+
+/* Flex containers in info sections */
+div[style*='display: flex'][style*='justify-content: space-between'] {
+  flex-wrap: wrap !important;
+  gap: 5px !important;
+}
+
+div[style*='display: flex'][style*='justify-content: space-between'] > span:last-child {
+  text-align: right !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  word-break: break-word !important;
+}
+
+/* Media queries for info sections */
+@media (max-width: 768px) {
+  /* Force single column on mobile */
+  div[style*='grid-template-columns: repeat(auto-fit'] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Adjust padding for info cards */
+  div[style*='padding: 18px'] {
+    padding: 12px !important;
+  }
+
+  /* Smaller font sizes */
+  #director-details-container p,
+  #actor-details-container p,
+  #company-details-container p,
+  #movie-details-container p,
+  #tv-details-container p {
+    font-size: 13px !important;
+    line-height: 1.6 !important;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Even smaller padding on very small screens */
+  div[style*='padding: 20px'] {
+    padding: 10px !important;
+  }
+
+  div[style*='padding: 18px'] {
+    padding: 10px !important;
+  }
+
+  /* Adjust font sizes */
+  h3[style*='font-size: 16px'] {
+    font-size: 14px !important;
+  }
+
+  h4[style*='font-size: 13px'] {
+    font-size: 12px !important;
+  }
+
+  span[style*='font-size: 14px'] {
+    font-size: 12px !important;
+  }
+
+  span[style*='font-size: 13px'] {
+    font-size: 11px !important;
+  }
+}
+
+/* Prevent any element from causing horizontal scroll */
+#director-details-container *,
+#actor-details-container *,
+#company-details-container *,
+#movie-details-container *,
+#tv-details-container * {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Long text elements should always wrap */
+[style*='line-height'] {
+  overflow-wrap: break-word !important;
+  word-wrap: break-word !important;
+  hyphens: auto !important;
+}
