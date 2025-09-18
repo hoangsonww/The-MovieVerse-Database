@@ -865,12 +865,12 @@ async function showMovies(items, container, category) {
       movieContentHTML += `<div style="text-align: center; padding: 20px;">Image Unavailable</div>`;
     }
 
-    movieContentHTML += `</div><div class="movie-info" style="display: flex; justify-content: space-between; align-items: start; cursor: pointer;">`;
+    movieContentHTML += `</div><div class="movie-info" style="display: flex; align-items: flex-start; cursor: pointer;">`;
     movieContentHTML += `<h3 style="text-align: left; flex-grow: 1; margin: 0; margin-right: 10px">${title}</h3>`;
 
     if ((isMovie || isTvSeries) && hasVoteAverage) {
       const voteAverage = item.vote_average.toFixed(1);
-      movieContentHTML += `<span class="${getClassByRate(item.vote_average)}">${voteAverage}</span>`;
+      movieContentHTML += `<span class="${getClassByRate(item.vote_average)}" style="white-space: nowrap; display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; margin-left: auto;">${voteAverage}</span>`;
     }
 
     movieContentHTML += `</div>`;

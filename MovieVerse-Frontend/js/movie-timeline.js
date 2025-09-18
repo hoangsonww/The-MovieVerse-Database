@@ -613,9 +613,9 @@ function showMovies(movies, mainElement, startYear, endYear, append) {
                   <img src="${IMGPATH + poster_path}" loading="lazy" alt="${title} poster" width="150" height="225" style="position: absolute; top: 0; left: 0; transition: opacity 1s ease-in-out; opacity: 1;">
                 </div>
             </div>
-            <div class="movie-info" style="display: flex; justify-content: space-between; align-items: start; cursor: pointer;">
+            <div class="movie-info" style="display: flex; align-items: flex-start; cursor: pointer;">
                 <h3 style="text-align: left; margin-right: 10px; flex: 1;">${title}</h3>
-                <span class="${ratingClass}" style="white-space: nowrap;">${voteAvg}</span>
+                <span class="${ratingClass}" style="white-space: nowrap; display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; margin-left: auto;">${voteAvg}</span>
             </div>
             <div class="overview" style="cursor: pointer;">
                 <h4>Overview: </h4>
