@@ -557,9 +557,9 @@ async function showMovies(movies, mainElement) {
             }
         </div>
     </div>
-    <div class="movie-info" style="display: flex; justify-content: space-between; align-items: start; cursor: pointer;">
-        <h3 style="text-align: left; margin-right: 10px; flex: 1;">${title}</h3>
-        <span class="${ratingClass}" style="white-space: nowrap;">${voteAvg}</span>
+    <div class="movie-info" style="display: flex; align-items: flex-start; cursor: pointer;">
+        <h3 style="text-align: left; margin-right: 10px; flex: 1 1 auto;">${title}</h3>
+        <span class="${ratingClass}" style="white-space: nowrap; display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; margin-left: auto;">${voteAvg}</span>
     </div>
     <div class="overview" style="cursor: pointer;">
         <h4>Overview: </h4>
