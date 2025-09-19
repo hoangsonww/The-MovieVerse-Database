@@ -49,6 +49,13 @@ function handleSearch() {
   window.location.href = 'search.html';
 }
 
+function scrollToKeywordsSection() {
+  const keywordsSection = document.getElementById('keywords-section');
+  if (keywordsSection) {
+    keywordsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
 async function ensureGenreMapIsAvailable() {
   if (!localStorage.getItem('genreMap')) {
     await fetchGenreMap();
@@ -1337,6 +1344,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
   movieDescription.appendChild(homepage);
 
   const keywordsElement = document.createElement('p');
+  keywordsElement.id = 'keywords-section';
   keywordsElement.innerHTML = `<strong>Keywords:</strong> ${keywords}`;
   movieDescription.appendChild(keywordsElement);
 

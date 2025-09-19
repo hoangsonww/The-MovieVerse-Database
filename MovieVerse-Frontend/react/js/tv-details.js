@@ -37,6 +37,13 @@ function handleSearch() {
   window.location.href = 'search.html';
 }
 
+function scrollToKeywordsSection() {
+  const keywordsSection = document.getElementById('keywords-section');
+  if (keywordsSection) {
+    keywordsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
 async function ensureGenreMapIsAvailable() {
   if (!localStorage.getItem('genreMap')) {
     await fetchGenreMap();
@@ -1030,9 +1037,9 @@ async function populateTvSeriesDetails(tvSeries, imdbRating) {
     : 'None Available';
 
   if (tvSeries.keywords && tvSeries.keywords.results && tvSeries.keywords.results.length) {
-    detailsHTML += `<p><strong>Keywords:</strong> ${keywordsHTML}</p>`;
+    detailsHTML += `<p id="keywords-section"><strong>Keywords:</strong> ${keywordsHTML}</p>`;
   } else {
-    detailsHTML += `<p><strong>Keywords:</strong> None Available</p>`;
+    detailsHTML += `<p id="keywords-section"><strong>Keywords:</strong> None Available</p>`;
   }
 
   const mediaUrl = `https://${getMovieVerseData()}/3/tv/${tvSeries.id}/images?${generateMovieNames()}${getMovieCode()}`;
