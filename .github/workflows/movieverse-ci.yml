@@ -148,13 +148,15 @@ jobs:
     name: "🐳 Stage 3 · Docker Image"
     needs: [build-js, build-html, build-css]
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     continue-on-error: true
     steps:
       - uses: actions/checkout@v4
       - name: Build MovieVerse CI image
         run: |
           if [ -f Dockerfile ]; then
-            docker build -t movieverse/ci:latest -f Dockerfile . || true
+            echo "Building Docker image with plain progress output..."
+            docker build --progress=plain -t movieverse/ci:latest -f Dockerfile . || true
             docker save movieverse/ci:latest -o movieverse-ci-image.tar || true
           else
             echo "Skipping Docker build: Dockerfile not found"
