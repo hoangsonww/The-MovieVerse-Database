@@ -4771,6 +4771,7 @@ canvas {
 #company-details-container p,
 #movie-details-container p,
 #tv-details-container p {
+  font-size: 1rem !important;
   word-wrap: break-word !important;
   word-break: break-word !important;
   overflow-wrap: break-word !important;
@@ -4854,7 +4855,7 @@ div[style*='display: flex'][style*='justify-content: space-between'] > span:last
   #company-details-container p,
   #movie-details-container p,
   #tv-details-container p {
-    font-size: 13px !important;
+    font-size: 1rem !important;
     line-height: 1.6 !important;
   }
 }
