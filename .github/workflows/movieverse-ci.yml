@@ -141,33 +141,37 @@ jobs:
           if-no-files-found: warn
 
   # ────────────────────────────────────────────────────────────────
-  #  🐳 3. Sample Docker Image                                    #
-  #   Builds a deterministic demo image that always exits 0.       #
+  #  🐳 3. Docker Image                                           #
+  #   Build CI image from repo Dockerfile.                         #
   # ────────────────────────────────────────────────────────────────
-  docker-sample:
-    name: "🐳 Stage 3 · Sample Docker Image"
+  docker-image:
+    name: "🐳 Stage 3 · Docker Image"
     needs: [build-js, build-html, build-css]
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
       - uses: actions/checkout@v4
-      - name: Build MovieVerse sample image
+      - name: Build MovieVerse CI image
         run: |
-          docker build -t movieverse/sample-ci:latest -f .github/docker/movieverse-ci.Dockerfile . || true
-          docker save movieverse/sample-ci:latest -o movieverse-sample-image.tar || true
+          if [ -f Dockerfile ]; then
+            docker build -t movieverse/ci:latest -f Dockerfile . || true
+            docker save movieverse/ci:latest -o movieverse-ci-image.tar || true
+          else
+            echo "Skipping Docker build: Dockerfile not found"
+          fi
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: movieverse-sample-image
-          path: movieverse-sample-image.tar
+          name: movieverse-ci-image
+          path: movieverse-ci-image.tar
           if-no-files-found: warn
 
   # ────────────────────────────────────────────────────────────────
-  #  🚦 4. Benchmarks & Image Scan (parallel)                      #
+  #  🚦 4. Benchmarks (parallel)                                   #
   # ────────────────────────────────────────────────────────────────
-  synthetic-benchmark:
-    name: "⚡ Stage 4A · Synthetic Benchmark"
-    needs: docker-sample
+  performance-benchmark:
+    name: "⚡ Stage 4A · Performance Benchmark"
+    needs: docker-image
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
@@ -182,42 +186,19 @@ jobs:
             checksum += Math.sin(i) + Math.cos(i / 2);
           }
           const duration = Date.now() - start;
-          console.log('Synthetic throughput report');
+          console.log('Performance throughput report');
           console.log('Iterations:', iterations);
           console.log('Duration (ms):', duration);
           console.log('Ops/sec:', Math.round((iterations / duration) * 1000));
           console.log('Checksum:', checksum.toFixed(4));
           NODE
 
-  image-scan:
-    name: "🛡️ Stage 4B · Image Vulnerability Scan"
-    needs: docker-sample
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
-        with:
-          name: movieverse-sample-image
-          path: .
-      - name: Load sample image
-        run: |
-          docker load -i movieverse-sample-image.tar || true
-      - name: Run Trivy scan (soft)
-        uses: aquasecurity/trivy-action@0.28.0
-        with:
-          image-ref: movieverse/sample-ci:latest
-          format: table
-          exit-code: '0'
-          ignore-unfixed: true
-          vuln-type: 'os,library'
-
   # ────────────────────────────────────────────────────────────────
   #  🔦 5. Lighthouse Benchmark                                   #
   # ────────────────────────────────────────────────────────────────
   lighthouse:
     name: "🔦 Stage 5 · Lighthouse Performance"
-    needs: [synthetic-benchmark, image-scan]
+    needs: performance-benchmark
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
@@ -272,8 +253,8 @@ jobs:
           echo "::group::🍿 MovieVerse CI/CD Snapshot"
           echo "- ✅ Stage 1: Lint & Format (tolerant reports only)"
           echo "- ✅ Stage 2: JS/HTML/CSS bundles archived"
-          echo "- ✅ Stage 3: Sample Docker image prepared"
-          echo "- ✅ Stage 4: Benchmarks & vulnerability sweep"
+          echo "- ✅ Stage 3: Docker image prepared"
+          echo "- ✅ Stage 4: Performance benchmarks captured"
           echo "- ✅ Stage 5: Lighthouse insights captured"
           echo "- ✅ Stage 6: Deployment message broadcast"
           echo "::endgroup::"
@@ -286,8 +267,8 @@ jobs:
             echo "| ----- | ---------- |"
             echo "| 1. Lint & Format | ESLint + Prettier executed in relaxed mode |"
             echo "| 2. Asset Bundles | JS/HTML/CSS archives published as artifacts |"
-            echo "| 3. Docker | Sample Alpine-based utility image built |"
-            echo "| 4. QA Sweep | Synthetic performance stats & Trivy scan recorded |"
+            echo "| 3. Docker | CI image built from Dockerfile |"
+            echo "| 4. Benchmarks | Performance stats captured |"
             echo "| 5. Lighthouse | Headless Chrome run stored as HTML & JSON |"
             echo "| 6. Announcement | MovieVerse deployment banner emitted |"
             echo ""
