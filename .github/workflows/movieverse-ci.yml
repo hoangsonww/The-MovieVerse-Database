@@ -153,8 +153,8 @@ jobs:
       - name: Build MovieVerse CI image
         run: |
           if [ -f Dockerfile ]; then
-            echo "Building Docker image with plain progress output..."
-            docker build --progress=plain -t movieverse/ci:latest -f Dockerfile . || true
+            echo "Building Docker image quietly..."
+            docker build -q -t movieverse/ci:latest -f Dockerfile . || true
             if docker image inspect movieverse/ci:latest >/dev/null 2>&1; then
               docker save movieverse/ci:latest -o movieverse-ci-image.tar || true
             else
