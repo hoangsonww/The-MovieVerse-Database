@@ -152,28 +152,11 @@ jobs:
       - uses: actions/checkout@v4
       - name: Build MovieVerse CI image
         run: |
-          set +e
+          set -e
           TAR=movieverse-ci-image.tar
           rm -f "$TAR"
-
-          # Try repository Dockerfile first (quiet)
-          if [ -f Dockerfile ]; then
-            docker build -q -t movieverse/ci:latest -f Dockerfile . >/dev/null 2>&1 && \
-            docker save movieverse/ci:latest -o "$TAR"
-          fi
-
-          # Fallback: build a minimal image from scratch (no network needed)
-          if [ ! -s "$TAR" ]; then
-            cat > /tmp/Dockerfile.min <<'EOF'
-            FROM scratch
-            LABEL org.opencontainers.image.title="movieverse-ci-placeholder"
-            LABEL org.opencontainers.image.description="Placeholder image for CI artifacts"
-            EOF
-            docker build -q -t movieverse/ci:latest -f /tmp/Dockerfile.min /tmp >/dev/null 2>&1 && \
-            docker save movieverse/ci:latest -o "$TAR"
-          fi
-
-          [ -s "$TAR" ] && echo "Image archive prepared: $TAR"
+          docker build -q -t movieverse/ci:latest -f .github/docker/Dockerfile .github/docker >/dev/null 2>&1
+          docker save movieverse/ci:latest -o "$TAR"
       - uses: actions/upload-artifact@v4
         if: ${{ always() && hashFiles('movieverse-ci-image.tar') != '' }}
         with:
