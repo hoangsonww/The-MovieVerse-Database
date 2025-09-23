@@ -1430,7 +1430,7 @@ header h1 {
   border-radius: 8px;
   text-decoration: none;
   color: black;
-  font-size: 14px;
+  font-size: 1rem;
   transition:
     background-color 0.3s,
     color 0.3s;
@@ -4777,6 +4777,14 @@ canvas {
   overflow-wrap: break-word !important;
   hyphens: auto !important;
   max-width: 100% !important;
+}
+
+#director-details-container span,
+#actor-details-container span,
+#company-details-container span,
+#movie-details-container span,
+#tv-details-container span {
+  font-size: 1rem !important;
 }
 
 /* Biography and description sections */

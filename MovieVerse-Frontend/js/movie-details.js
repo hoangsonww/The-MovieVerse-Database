@@ -1181,7 +1181,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         <!-- Genres Section -->
         <div class="genres-section" style="background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 15px; margin-bottom: 15px; border: 1px solid rgba(255, 255, 255, 0.1);">
           <div style="display: flex; align-items: center; margin-bottom: 12px;">
-            <i class="fas fa-tags" style="color: #7378c5; margin-right: 10px; font-size: 18px;"></i>
+            <i class="fas fa-tags" style="color: #7378c5; margin-right: 10px; font-size: 1rem;"></i>
             <span style="color: #888; font-size: 12px; text-transform: uppercase;">Genres</span>
           </div>
           <div style="display: flex; flex-wrap: wrap; gap: 8px;">
@@ -1205,9 +1205,9 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
               <div>
                 <div style="display: flex; align-items: center; margin-top: 5px;">
                   <i class="fas fa-wallet" style="color: #7378c5; margin-right: 8px;"></i>
-                  <span style="color: #888; font-size: 11px; text-transform: uppercase;">Budget</span>
+                  <span style="color: #888; font-size: 14px; text-transform: uppercase;">Budget</span>
                 </div>
-                <p style="color: #fff; font-size: 18px; margin: 0; font-weight: 600;">${budget}</p>
+                <p style="color: #fff; font-size: 1rem; margin: 0; font-weight: 600;">${budget}</p>
               </div>
               <i class="fas fa-arrow-down" style="color: #7378c5; opacity: 0.3; font-size: 24px;"></i>
             </div>
@@ -1219,9 +1219,9 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
               <div>
                 <div style="display: flex; align-items: center; margin-top: 5px;">
                   <i class="fas fa-chart-line" style="color: #ff8623; margin-right: 8px;"></i>
-                  <span style="color: #888; font-size: 11px; text-transform: uppercase;">Revenue</span>
+                  <span style="color: #888; font-size: 14px; text-transform: uppercase;">Revenue</span>
                 </div>
-                <p style="color: #fff; font-size: 18px; margin: 0; font-weight: 600;">${revenue}</p>
+                <p style="color: #fff; font-size: 1rem; margin: 0; font-weight: 600;">${revenue}</p>
               </div>
               <i class="fas fa-arrow-up" style="color: #ff8623; opacity: 0.3; font-size: 24px;"></i>
             </div>
@@ -1236,9 +1236,9 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
               <div>
                 <div style="display: flex; align-items: center; margin-top: 5px;">
                   <i class="fas fa-percentage" style="color: #4CAF50; margin-right: 8px;"></i>
-                  <span style="color: #888; font-size: 11px; text-transform: uppercase;">ROI</span>
+                  <span style="color: #888; font-size: 14px; text-transform: uppercase;">ROI</span>
                 </div>
-                <p style="color: ${((movie.revenue - movie.budget) / movie.budget) * 100 > 0 ? '#4CAF50' : '#f44336'}; font-size: 18px; margin: 0; font-weight: 600;">
+                <p style="color: ${((movie.revenue - movie.budget) / movie.budget) * 100 > 0 ? '#4CAF50' : '#f44336'}; font-size: 1rem; margin: 0; font-weight: 600;">
                   ${(((movie.revenue - movie.budget) / movie.budget) * 100).toFixed(0)}%
                 </p>
               </div>
@@ -1295,7 +1295,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
           <div class="info-badge" style="background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 15px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease; cursor: pointer;">
             <i class="fas fa-shield-alt" style="color: ${ratingDetails.color}; font-size: 24px"></i>
             <p style="color: ${ratingDetails.color}; font-size: 14px; margin: 0; font-weight: 600;">${rated}</p>
-            <p style="color: #a0a0a0; font-size: 11px; margin: 3px 0 0 0;">Content Rating</p>
+            <p style="color: #a0a0a0; font-size: 14px; margin: 3px 0 0 0;">Content Rating</p>
           </div>`
               : ''
           }
@@ -1304,28 +1304,28 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
           <div class="info-badge" style="background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 15px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease; cursor: pointer;">
             <i class="fas fa-language" style="color: #2196F3; font-size: 24px"></i>
             <p style="color: #fff; font-size: 14px; margin: 0; font-weight: 600;">${movie.spoken_languages ? movie.spoken_languages.map(lang => lang.english_name || lang.name).join(', ') : 'N/A'}</p>
-            <p style="color: #a0a0a0; font-size: 11px; margin: 3px 0 0 0;">Languages</p>
+            <p style="color: #a0a0a0; font-size: 14px; margin: 3px 0 0 0;">Languages</p>
           </div>
 
           <!-- Countries -->
           <div class="info-badge" style="background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 15px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease; cursor: pointer;">
             <i class="fas fa-globe" style="color: #9C27B0; font-size: 24px"></i>
             <p style="color: #fff; font-size: 14px; margin: 0; font-weight: 600;">${movie.production_countries ? movie.production_countries.map(c => c.iso_3166_1).join(', ') : 'N/A'}</p>
-            <p style="color: #a0a0a0; font-size: 11px; margin: 3px 0 0 0;">Countries</p>
+            <p style="color: #a0a0a0; font-size: 14px; margin: 3px 0 0 0;">Countries</p>
           </div>
 
           <!-- Popularity -->
           <div class="info-badge" style="background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 15px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease; cursor: pointer;">
             <i class="fas fa-fire" style="color: #ff8623; font-size: 24px"></i>
             <p style="color: #fff; font-size: 14px; margin: 0; font-weight: 600;">${Math.round(popularityScore)}</p>
-            <p style="color: #a0a0a0; font-size: 11px; margin: 3px 0 0 0;">Popularity</p>
+            <p style="color: #a0a0a0; font-size: 14px; margin: 3px 0 0 0;">Popularity</p>
           </div>
 
           <!-- Vote Count -->
           <div class="info-badge" style="background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 15px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease; cursor: pointer;">
             <i class="fas fa-users" style="color: #4CAF50; font-size: 24px"></i>
             <p style="color: #fff; font-size: 14px; margin: 0; font-weight: 600;">${movie.vote_count ? movie.vote_count.toLocaleString() : '0'}</p>
-            <p style="color: #a0a0a0; font-size: 11px; margin: 3px 0 0 0;">User Votes</p>
+            <p style="color: #a0a0a0; font-size: 14px; margin: 3px 0 0 0;">User Votes</p>
           </div>
 
           <!-- Adult Content -->
@@ -1335,7 +1335,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
           <div class="info-badge" style="background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 15px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease; cursor: pointer;">
             <i class="fas fa-${movie.adult ? 'exclamation-triangle' : 'check-circle'}" style="color: ${movie.adult ? '#f44336' : '#4CAF50'}; font-size: 24px"></i>
             <p style="color: ${movie.adult ? '#f44336' : '#4CAF50'}; font-size: 14px; margin: 0; font-weight: 600;">${movie.adult ? '18+' : 'All Ages'}</p>
-            <p style="color: #a0a0a0; font-size: 11px; margin: 3px 0 0 0;">Content Type</p>
+            <p style="color: #a0a0a0; font-size: 14px; margin: 3px 0 0 0;">Content Type</p>
           </div>`
               : ''
           }
@@ -1349,7 +1349,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
               ? `
           <div class="detail-card" style="background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 15px; border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease;">
             <div style="display: flex; align-items: center; margin-bottom: 10px;">
-              <i class="fas fa-building" style="color: #FF9800; margin-right: 10px; font-size: 18px;"></i>
+              <i class="fas fa-building" style="color: #FF9800; margin-right: 10px; font-size: 1rem;"></i>
               <span style="color: #888; font-size: 12px; text-transform: uppercase;">Production Companies</span>
             </div>
             <div style="display: flex; flex-wrap: wrap; gap: 8px;">
@@ -1381,7 +1381,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
               ? `
           <div class="detail-card" id="keywords-info-card" style="background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 15px; border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease; cursor: pointer;" onclick="scrollToKeywordsSection()">
             <div style="display: flex; align-items: center; margin-bottom: 10px;">
-              <i class="fas fa-hashtag" style="color: #E91E63; margin-right: 10px; font-size: 18px;"></i>
+              <i class="fas fa-hashtag" style="color: #E91E63; margin-right: 10px; font-size: 1rem;"></i>
               <span style="color: #888; font-size: 12px; text-transform: uppercase;">Keywords</span>
             </div>
             <div style="display: flex; flex-wrap: wrap; gap: 6px;">
@@ -1389,7 +1389,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
                 .slice(0, 8)
                 .map(
                   keyword => `
-                <span style="background: rgba(233, 30, 99, 0.1); color: #E91E63; padding: 4px 10px; border-radius: 12px; font-size: 11px; border: 1px solid rgba(233, 30, 99, 0.2);">
+                <span style="background: rgba(233, 30, 99, 0.1); color: #E91E63; padding: 4px 10px; border-radius: 12px; font-size: 14px; border: 1px solid rgba(233, 30, 99, 0.2);">
                   ${keyword.name}
                 </span>
               `
@@ -1398,7 +1398,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
               ${
                 movie.keywords.keywords.length > 8
                   ? `
-                <span style="color: #888; font-size: 11px; padding: 4px;">+${movie.keywords.keywords.length - 8} more</span>
+                <span style="color: #888; font-size: 14px; padding: 4px;">+${movie.keywords.keywords.length - 8} more</span>
               `
                   : ''
               }
@@ -1413,7 +1413,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
               ? `
           <div class="detail-card" style="background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 15px; border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease;">
             <div style="display: flex; align-items: center; margin-bottom: 10px;">
-              <i class="fas fa-comments" style="color: #00BCD4; margin-right: 10px; font-size: 18px;"></i>
+              <i class="fas fa-comments" style="color: #00BCD4; margin-right: 10px; font-size: 1rem;"></i>
               <span style="color: #888; font-size: 12px; text-transform: uppercase;">Spoken Languages</span>
             </div>
             <div style="display: flex; flex-wrap: wrap; gap: 8px;">
@@ -1437,7 +1437,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
               ? `
           <div class="detail-card" style="background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 15px; border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease;">
             <div style="display: flex; align-items: center; margin-bottom: 10px;">
-              <i class="fas fa-link" style="color: #673AB7; margin-right: 10px; font-size: 18px;"></i>
+              <i class="fas fa-link" style="color: #673AB7; margin-right: 10px; font-size: 1rem;"></i>
               <span style="color: #888; font-size: 12px; text-transform: uppercase;">External Links</span>
             </div>
             <div style="display: flex; flex-wrap: wrap; gap: 10px;">
@@ -2603,7 +2603,7 @@ function displayTimeline(movies, currentMovieId, collectionName) {
         fallback.className = 'timeline-poster-fallback';
         fallback.innerHTML = `
           <i class="fas fa-film"></i>
-          <span style="font-size: 11px; text-align: center; padding: 0 10px;">${movie.title || 'No Title'}</span>
+          <span style="font-size: 14px; text-align: center; padding: 0 10px;">${movie.title || 'No Title'}</span>
         `;
         posterWrapper.appendChild(fallback);
       };
@@ -2615,7 +2615,7 @@ function displayTimeline(movies, currentMovieId, collectionName) {
       fallback.className = 'timeline-poster-fallback';
       fallback.innerHTML = `
         <i class="fas fa-film"></i>
-        <span style="font-size: 11px; text-align: center; padding: 0 10px;">${movie.title || 'No Title'}</span>
+        <span style="font-size: 14px; text-align: center; padding: 0 10px;">${movie.title || 'No Title'}</span>
       `;
       posterWrapper.appendChild(fallback);
     }

@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(for:*)",
+      "Bash(do)",
+      "Bash(if [ -f \"/Users/davidnguyen/WebstormProjects/The-MovieVerse-Database/MovieVerse-Frontend/html/$blog.html\" ])",
+      "Bash(then)",
+      "Bash(else)",
+      "Bash(echo:*)",
+      "Bash(fi)",
+      "Bash(done)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

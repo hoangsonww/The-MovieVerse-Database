@@ -1084,8 +1084,8 @@ async function populateTvSeriesDetails(tvSeries, imdbRating, rated) {
                 : `<div style="width: 25px; height: 25px; background: rgba(255,255,255,0.1); border-radius: 4px; display: flex; align-items: center; justify-content: center;"><span style="font-size: 10px; color: rgba(255,255,255,0.4);">N/A</span></div>`
             }
             <div style="flex: 1;">
-              <div style="color: #fff; font-size: 12px; font-weight: 500;">${company.name}</div>
-              ${company.origin_country ? `<div style="color: rgba(255,255,255,0.5); font-size: 10px;">${getCountryName(company.origin_country)}</div>` : ''}
+              <div style="color: #fff; font-size: 14px; font-weight: 500;">${company.name}</div>
+              ${company.origin_country ? `<div style="color: rgba(255,255,255,0.5); font-size: 12px;">${getCountryName(company.origin_country)}</div>` : ''}
             </div>
           </div>`
             )

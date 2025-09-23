@@ -844,6 +844,27 @@ async function displayCompanyStatsDashboard(movies, companyId) {
   dashboard.style.display = 'block';
   dashboard.style.opacity = '0';
 
+  // Ensure genre map is available and normalized
+  await ensureGenreMapIsAvailable();
+  let storedGenreMap = {};
+  try {
+    const raw = localStorage.getItem('genreMap');
+    storedGenreMap = raw ? JSON.parse(raw) : {};
+  } catch (e) {
+    storedGenreMap = {};
+  }
+  // Normalize to id -> name mapping (handles array or object forms)
+  const idToGenreName = Array.isArray(storedGenreMap)
+    ? storedGenreMap.reduce((acc, g) => {
+        if (g && g.id !== undefined && g.name) acc[String(g.id)] = g.name;
+        return acc;
+      }, {})
+    : Object.keys(storedGenreMap || {}).reduce((acc, k) => {
+        const v = storedGenreMap[k];
+        acc[String(k)] = typeof v === 'string' ? v : (v && v.name) || '';
+        return acc;
+      }, {});
+
   // Calculate statistics
   const totalFilms = movies.length;
   const avgRating = movies.reduce((sum, m) => sum + (m.vote_average || 0), 0) / totalFilms;
@@ -864,23 +885,27 @@ async function displayCompanyStatsDashboard(movies, companyId) {
   }
 
   // Calculate genre distribution
-  const genreCount = {};
+  // Support both `genre_ids: number[]` and `genres: {id,name}[]` shapes
+  const genreNameCounts = {};
   movies.forEach(movie => {
-    if (movie.genre_ids) {
-      movie.genre_ids.forEach(genreId => {
-        genreCount[genreId] = (genreCount[genreId] || 0) + 1;
-      });
-    }
+    const ids = Array.isArray(movie.genre_ids)
+      ? movie.genre_ids
+      : Array.isArray(movie.genres)
+        ? movie.genres.map(g => g && g.id).filter(id => id !== undefined && id !== null)
+        : [];
+    ids.forEach(genreId => {
+      const name = idToGenreName[String(genreId)] || 'Unknown';
+      genreNameCounts[name] = (genreNameCounts[name] || 0) + 1;
+    });
   });
 
-  // Get genre names
-  const genreMap = JSON.parse(localStorage.getItem('genreMap')) || {};
-  const topGenres = Object.entries(genreCount)
+  // Prepare top genres by name (merging duplicate Unknown into one)
+  const topGenres = Object.entries(genreNameCounts)
     .sort((a, b) => b[1] - a[1])
     .slice(0, 5)
-    .map(([id, count]) => ({
-      name: genreMap[id] || 'Unknown',
-      count: count,
+    .map(([name, count]) => ({
+      name,
+      count,
       percentage: ((count / totalFilms) * 100).toFixed(1),
     }));
 
