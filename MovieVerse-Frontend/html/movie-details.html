@@ -931,14 +931,16 @@
             <div class="modal-content">
               <div class="modal-header">
                 <h3>Add a Comment for This Movie</h3>
-                <span class="close">&times;</span>
               </div>
               <p style="font-size: 15px; margin-bottom: 20px">Your review is much appreciated!</p>
               <form id="comment-form">
                 <input type="text" id="user-name" placeholder="Your nickname (Required)" required />
                 <textarea id="user-comment" placeholder="Your comment (Required)" required></textarea>
-                <button id="post-comment-btn" type="submit" title="Post your comment for this movie">Post Comment</button>
-                <p style="font-size: 14px; margin-top: 30px">
+                <div class="comment-actions" style="display: flex; gap: 10px; flex-wrap: wrap;">
+                  <button id="post-comment-btn" type="submit" title="Post your comment for this movie">Post Comment</button>
+                  <button id="cancel-comment-btn" type="button" title="Close this form">Cancel</button>
+                </div>
+                <p style="font-size: 14px !important; margin-top: 30px">
                   <em
                     >All comments will be posted anonymously, using the nickname you provided and not your profile name, so you can freely express
                     your opinions!</em

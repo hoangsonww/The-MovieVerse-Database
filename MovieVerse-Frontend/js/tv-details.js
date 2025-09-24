@@ -1261,10 +1261,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating, rated) {
               <div class="rating-bar" onclick="handleRatingClick()" style="height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; cursor: pointer;">
                 <div class="rating-fill" style="width: 0; background: linear-gradient(90deg, #ffc107, #ff9800); height: 100%; transition: width 2s ease;" id="rating-fill"></div>
               </div>
-              <div style="display: flex; justify-content: space-between; margin-top: 10px;">
-                <span style="color: rgba(255,255,255,0.5); font-size: 12px;">${tvSeries.vote_count || 0} votes</span>
-                <span style="color: rgba(255,255,255,0.5); font-size: 12px;">Click to rate</span>
-              </div>
+              <span style="color: rgba(255,255,255,0.5); font-size: 12px;">${tvSeries.vote_count || 0} votes</span>
             </div>
           </div>
 
@@ -1313,18 +1310,36 @@ async function populateTvSeriesDetails(tvSeries, imdbRating, rated) {
 
   if (tvSeries.last_episode_to_air) {
     const lastEpisode = tvSeries.last_episode_to_air;
+    const airDate = lastEpisode.air_date
+      ? new Date(lastEpisode.air_date).toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        })
+      : "Unknown date";
 
-    detailsHTML += `<div class="last-episode" style="color: inherit; font-size: inherit; margin-top: 20px">
-                        <strong>Last Episode:</strong> <em>${lastEpisode.name || "Title not available"}</em> -
-                        ${lastEpisode.overview || "Overview not available."}
-                    </div>`;
-
-    if (lastEpisode.still_path) {
-      detailsHTML += `<div class="last-episode-image-container" id="last-episode-image-container">
-                            <img src="${IMGPATH + lastEpisode.still_path}" alt="${lastEpisode.name} Still Image"
-                                 class="last-episode-image" id="last-episode-image" style="filter: inherit; object-fit: inherit;">
-                        </div>`;
-    }
+    detailsHTML += `
+      <div class="last-episode-card" style="background: rgba(255,255,255,0.05); border-radius: 15px; padding: 20px; border: 1px solid rgba(255,255,255,0.1); margin-top: 20px; font-size: 1rem;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+          <h3 style="margin: 0; color: #fff; font-size: 1rem; display: flex; align-items: center;">
+            <i class="fas fa-tv" style="color: #ff8623; margin-right: 8px;"></i>
+            Last Episode
+          </h3>
+          <span style="color: rgba(255,255,255,0.6); font-size: 1rem;">${airDate}</span>
+        </div>
+        <div style="display: flex; gap: 16px; align-items: flex-start; flex-wrap: wrap;">
+          ${
+            lastEpisode.still_path
+              ? `<img src="${IMGPATH + lastEpisode.still_path}" alt="${lastEpisode.name || "Episode"} Still Image" id="last-episode-image" style="border-radius: 12px; max-width: 320px; width: 100%; height: auto; object-fit: contain;" />`
+              : ""
+          }
+          <div style="flex: 1; min-width: 240px;">
+            <div style="color: #fff; font-weight: 600; margin-bottom: 6px;">${lastEpisode.name || "Title not available"}</div>
+            <div style="color: #a0a0a0; margin-bottom: 10px;">S${lastEpisode.season_number ?? "?"}E${lastEpisode.episode_number ?? "?"} • ${airDate}</div>
+            <p style="margin: 0; color: #ddd;">${lastEpisode.overview || "Overview not available."}</p>
+          </div>
+        </div>
+      </div>`;
   }
 
   if (tvSeries.created_by && tvSeries.created_by.length > 0) {
@@ -2005,9 +2020,8 @@ async function populateTvSeriesDetails(tvSeries, imdbRating, rated) {
     }, 100);
   });
 
-  document
-    .getElementById("last-episode-image")
-    .addEventListener("click", function () {
+  const lastEpImg = document.getElementById("last-episode-image");
+  if (lastEpImg) lastEpImg.addEventListener("click", function () {
       let imageUrl = this.src.replace("w780", "w1280");
 
       const modalHtml = `

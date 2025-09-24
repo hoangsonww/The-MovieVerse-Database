@@ -1353,7 +1353,7 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
   const mediaUrl = `https://${getMovieVerseData()}/3/movie/${movie.id}/images?${generateMovieNames()}${getMovieCode()}`;
   const mediaResponse = await fetch(mediaUrl);
   const mediaData = await mediaResponse.json();
-  const images = mediaData.backdrops;
+  const images = Array.isArray(mediaData.backdrops) ? mediaData.backdrops.filter(b => b && b.file_path) : [];
 
   const detailsContainer = document.getElementById('movie-description');
 
@@ -1365,10 +1365,10 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
         align-items: center;
         justify-content: center;
         position: relative;
-        width: 90vw; 
-        max-width: 450px;
-        margin: 20px auto;
-        overflow: hidden;
+        width: 100%;
+        max-width: 100%;
+        margin: 20px 0;
+        overflow: visible;
         box-sizing: border-box;
         border-radius: 16px;
     `;
@@ -1387,9 +1387,8 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
   const imageWrapper = document.createElement('div');
   imageWrapper.style = `
         width: 100%;
-        max-height: 210px; 
         border-radius: 16px;
-        overflow: hidden;
+        overflow: visible;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -1572,26 +1571,27 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
   const indicatorContainer = document.createElement('div');
   indicatorContainer.style = `
         display: flex;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
         justify-content: center;
-        margin-top: 15px;
+        gap: 8px;
+        margin-top: 12px;
+        width: 100%;
+        padding: 6px 4px;
     `;
-
-  const maxDotsPerLine = 10;
-  let currentLine = document.createElement('div');
-  currentLine.style.display = 'flex';
 
   images.forEach((_, index) => {
     const dot = document.createElement('div');
     dot.className = 'indicator';
     dot.style = `
+            min-width: 8px;
+            min-height: 8px;
             width: 8px;
             height: 8px;
-            margin: 0 5px;
-            background-color: ${index === currentIndex ? '#ff8623' : '#bbb'}; 
+            background-color: ${index === currentIndex ? '#ff8623' : '#bbb'};
             border-radius: 50%;
             cursor: pointer;
-            margin-bottom: 5px;
         `;
     dot.addEventListener('click', () => {
       navigateMedia(images, imageElement, index - currentIndex);
@@ -1599,19 +1599,8 @@ async function populateMovieDetails(movie, imdbRating, rtRating, metascore, awar
     });
     dot.addEventListener('mouseover', () => (dot.style.backgroundColor = '#6a6a6a'));
     dot.addEventListener('mouseout', () => (dot.style.backgroundColor = index === currentIndex ? '#ff8623' : '#bbb'));
-
-    currentLine.appendChild(dot);
-
-    if ((index + 1) % maxDotsPerLine === 0 && index !== images.length - 1) {
-      indicatorContainer.appendChild(currentLine);
-      currentLine = document.createElement('div');
-      currentLine.style.display = 'flex';
-    }
+    indicatorContainer.appendChild(dot);
   });
-
-  if (currentLine.children.length > 0) {
-    indicatorContainer.appendChild(currentLine);
-  }
 
   mediaContainer.appendChild(indicatorContainer);
 

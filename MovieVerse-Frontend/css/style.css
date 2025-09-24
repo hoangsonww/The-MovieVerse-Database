@@ -558,6 +558,47 @@ input[type='range'] {
   cursor: pointer;
 }
 
+/* Enhanced close button styling for comment modals */
+#comment-modal .modal-header {
+  position: static; /* don't establish a positioning context */
+  padding-right: 0; /* avoid shifting content */
+}
+
+/* Place the close icon outside the content box, with no background box */
+#comment-modal .modal-content { position: relative; }
+#comment-modal .modal-content .close {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  z-index: 2;
+  font-size: 40px; /* bigger icon itself */
+  line-height: 1;
+  color: #444;
+  background: transparent !important; /* remove box */
+  border: none;
+  border-radius: 0;
+  width: auto;
+  height: auto;
+  padding: 0;
+  cursor: pointer;
+  transition: transform 0.1s ease, color 0.2s ease;
+  font-weight: 700;
+}
+
+#comment-modal .modal-content .close:hover,
+#comment-modal .modal-content .close:focus {
+  color: #000;
+  transform: scale(1.05);
+}
+
+@media (max-width: 480px) {
+  #comment-modal .modal-content .close {
+    top: -10px;
+    right: -10px;
+    font-size: 36px; /* keep icon large on mobile */
+  }
+}
+
 .close {
   color: #aaa;
   float: right;
@@ -3031,6 +3072,27 @@ strong {
 
 .modal-content button:hover {
   background-color: #ff8623;
+}
+
+/* Arrange post and cancel buttons inline and tidy margins */
+.modal-content .comment-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.modal-content .comment-actions button {
+  margin: 10px 0; /* override block auto-centering */
+}
+
+/* Cancel button subtle style */
+#cancel-comment-btn {
+  background-color: transparent;
+  border: 1px solid #7378c5;
+  color: #fff;
+}
+#cancel-comment-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .modal-content {

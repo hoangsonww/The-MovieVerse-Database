@@ -2013,8 +2013,8 @@ async function populateMovieDetails(
         align-items: center;
         justify-content: center;
         position: relative;
-        width: 90vw;
-        max-width: 450px;
+        width: 450px;
+        max-width: 100%;
         margin: 20px auto;
         overflow: hidden;
         box-sizing: border-box;
@@ -2048,13 +2048,13 @@ async function populateMovieDetails(
 
   const imageElement = document.createElement("img");
   imageElement.style = `
-        width: 100%;
-        height: auto;
+        max-width: 100%;
+        max-height: 210px;
         transition: opacity 0.5s ease-in-out;
         opacity: 1;
+        border-radius: 16px;
         cursor: pointer;
         object-fit: contain;
-        border-radius: 16px;
     `;
 
   imageWrapper.appendChild(imageElement);
