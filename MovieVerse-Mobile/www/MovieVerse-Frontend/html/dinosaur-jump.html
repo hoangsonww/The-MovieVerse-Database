@@ -40,6 +40,85 @@
       content="Dinosaur Jump is a fun and interactive game where you help the dinosaur jump over the cacti and survive as long as possible!"
     />
     <meta name="twitter:image" content="https://movie-verse.com/images/image.png" />
+    <!-- 1. Sitelinks SearchBox -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "url": "https://movie-verse.com/",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://movie-verse.com/MovieVerse-Frontend/html/search.html?search_query={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    </script>
+
+    <!-- 2. Organization -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "The MovieVerse",
+        "url": "https://movie-verse.com/",
+        "logo": "https://movie-verse.com/images/image-192x192.png"
+      }
+    </script>
+
+    <!-- 3. BreadcrumbList -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://movie-verse.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Games",
+            "item": "https://movie-verse.com/MovieVerse-Frontend/html/games.html"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Dinosaur Jump",
+            "item": "https://movie-verse.com/MovieVerse-Frontend/html/dinosaur-jump.html"
+          }
+        ]
+      }
+    </script>
+
+    <!-- 4. WebPage -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "@id": "https://movie-verse.com/MovieVerse-Frontend/html/dinosaur-jump.html",
+        "url": "https://movie-verse.com/MovieVerse-Frontend/html/dinosaur-jump.html",
+        "name": "Dinosaur Jump - The MovieVerse",
+        "description": "Dinosaur Jump is a fun and interactive game where you help the dinosaur jump over the cacti and survive as long as possible!",
+        "inLanguage": "en",
+        "isPartOf": {
+          "@type": "WebSite",
+          "url": "https://movie-verse.com/"
+        },
+        "breadcrumb": {
+          "@id": "https://movie-verse.com/MovieVerse-Frontend/html/dinosaur-jump.html#breadcrumb"
+        }
+      }
+    </script>
+
+    <!-- 5. PWA & Icon Hints -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="apple-touch-icon" sizes="192x192" href="https://movie-verse.com/images/image-192x192.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="https://movie-verse.com/images/image-192x192.png" />
+    <meta name="msapplication-TileImage" content="https://movie-verse.com/images/image-192x192.png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <link rel="manifest" href="../../manifest.json" />
     <link rel="icon" type="image/x-icon" href="../../images/favicon.ico" />

@@ -39,6 +39,95 @@
       content="Your ultimate guide to watching Christopher Nolan's Inception: where to stream, best formats, bonus content, and top tips."
     />
     <meta name="twitter:image" content="https://movie-verse.com/images/image.png" />
+    <!-- 1. Sitelinks Search Box -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "url": "https://movie-verse.com/",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://movie-verse.com/MovieVerse-Frontend/html/search.html?search_query={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    </script>
+
+    <!-- 2. Organization with social profiles -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "The MovieVerse",
+        "url": "https://movie-verse.com/",
+        "logo": "https://movie-verse.com/images/image-192x192.png"
+      }
+    </script>
+
+    <!-- 3. BreadcrumbList for this page -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://movie-verse.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Blog",
+            "item": "https://movie-verse.com/MovieVerse-Frontend/html/blogs.html"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "How to Watch “Inception”",
+            "item": "https://movie-verse.com/MovieVerse-Frontend/html/blog-inception.html"
+          }
+        ]
+      }
+    </script>
+
+    <!-- 4. Article schema -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://movie-verse.com/MovieVerse-Frontend/html/blog-inception.html"
+        },
+        "headline": "How to Watch “Inception” – The MovieVerse",
+        "description": "Your ultimate guide to watching Christopher Nolan's Inception: where to stream, best formats, bonus content, and top tips.",
+        "author": {
+          "@type": "Person",
+          "name": "Son Nguyen Hoang"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "The MovieVerse",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://movie-verse.com/images/image-192x192.png"
+          }
+        },
+        "datePublished": "2025-05-12",
+        "dateModified": "2025-05-12",
+        "image": "https://movie-verse.com/images/image-192x192.png"
+      }
+    </script>
+
+    <!-- 5. Mobile-app and icon hints -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="apple-touch-icon" sizes="192x192" href="https://movie-verse.com/images/image-192x192.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="https://movie-verse.com/images/image-192x192.png" />
+    <meta name="msapplication-TileImage" content="https://movie-verse.com/images/image-192x192.png" />
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <link rel="manifest" href="../../manifest.json" />
     <link rel="icon" type="image/x-icon" href="../../images/favicon.ico" />
@@ -204,18 +293,50 @@
 
   <body>
     <div id="google_translate_element"></div>
-    <div id="translate_control"><div class="translate-trigger">Translate</div></div>
+    <div id="translate_control">
+      <div class="translate-trigger">Translate</div>
+    </div>
+
     <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <script>
       function googleTranslateElementInit() {
         new google.translate.TranslateElement(
-          { pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.VERTICAL, autoDisplay: false },
+          {
+            pageLanguage: 'en',
+            layout: google.translate.TranslateElement.InlineLayout.VERTICAL,
+            autoDisplay: false,
+          },
           'google_translate_element'
         );
       }
-      document.querySelector('.translate-trigger').addEventListener('click', () => {
-        const el = document.getElementById('google_translate_element');
-        el.style.display = el.style.display === 'block' ? 'none' : 'block';
+
+      document.querySelector('.translate-trigger').addEventListener('click', function () {
+        const translateEl = document.getElementById('google_translate_element');
+        translateEl.style.display = translateEl.style.display === 'block' ? 'none' : 'block';
+      });
+
+      document.addEventListener('DOMContentLoaded', function () {
+        let lastScrollTop = window.scrollY;
+        const translateControl = document.getElementById('translate_control');
+        const translateEl = document.getElementById('google_translate_element');
+
+        window.addEventListener(
+          'scroll',
+          function () {
+            let scrollTop = window.scrollY;
+
+            if (window.innerWidth <= 767) {
+              if (scrollTop > lastScrollTop && scrollTop > 0) {
+                translateControl.style.display = 'none';
+                translateEl.style.display = 'none';
+              } else {
+                translateControl.style.display = 'block';
+              }
+              lastScrollTop = scrollTop;
+            }
+          },
+          { passive: true }
+        );
       });
     </script>
 

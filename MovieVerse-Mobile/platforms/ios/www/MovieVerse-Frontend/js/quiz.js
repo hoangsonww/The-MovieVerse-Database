@@ -1,5 +1,9 @@
 import { updateTriviaStats } from './triviaModule.js';
 
+let currentQuestionIndex = 0;
+let isAnswerSubmitted = false;
+let selectedAnswers = {};
+
 const questionBank = [
   {
     question: 'What movie won the Academy Award for Best Picture in 2020?',
@@ -676,39 +680,111 @@ function generateRandomQuestions() {
   const shuffledQuestions = questionBank.sort(() => 0.5 - Math.random());
   let selectedQuestions = shuffledQuestions.slice(0, questionsToDisplay);
 
+  currentQuestionIndex = 0;
+  isAnswerSubmitted = false;
+  selectedAnswers = {};
+
   const quizContainer = document.getElementById('quiz-container');
   quizContainer.innerHTML = '';
 
   selectedQuestions.forEach((question, index) => {
     const questionElement = document.createElement('div');
+    questionElement.className = 'question-container';
     questionElement.innerHTML = `
         <h2 class="question-header" id="${index}">Question ${index + 1}:</h2>
-        <p>${question.question}</p>
-        ${question.options.map((option, i) => `<label><input type="radio" name="q${index}" value="${option}"> ${option}</label><br>`).join('')}
-        <br>`;
+        <p class="question">${question.question}</p>
+        <div class="answers">
+          ${question.options
+            .map(
+              (option, i) => `
+            <div class="answer-option" data-question="${index}" data-value="${option}">
+              <input type="radio" name="q${index}" value="${option}" id="q${index}_${i}">
+              <label for="q${index}_${i}">${option}</label>
+            </div>
+          `
+            )
+            .join('')}
+        </div>`;
     quizContainer.appendChild(questionElement);
 
     const headerElement = questionElement.querySelector(`h2`);
+    const answerOptions = questionElement.querySelectorAll('.answer-option');
+
+    answerOptions.forEach(option => {
+      option.addEventListener('click', function () {
+        if (!isAnswerSubmitted) {
+          const radioInput = option.querySelector('input[type="radio"]');
+          radioInput.checked = true;
+
+          answerOptions.forEach(opt => opt.classList.remove('selected'));
+          option.classList.add('selected');
+
+          selectedAnswers[index] = option.dataset.value;
+
+          setTimeout(() => {
+            option.style.animation = 'none';
+            option.offsetHeight;
+            option.style.animation = null;
+          }, 600);
+        }
+      });
+
+      option.addEventListener('mouseenter', function () {
+        if (!isAnswerSubmitted && !option.classList.contains('selected')) {
+          this.style.transform = 'translateX(5px) scale(1.02)';
+        }
+      });
+
+      option.addEventListener('mouseleave', function () {
+        if (!isAnswerSubmitted && !option.classList.contains('selected')) {
+          this.style.transform = 'translateX(0) scale(1)';
+        }
+      });
+    });
 
     headerElement.addEventListener('click', function (e) {
       e.preventDefault();
-
       headerElement.scrollIntoView({ behavior: 'smooth' });
     });
 
     headerElement.addEventListener('mouseover', function () {
-      headerElement.style.color = 'orange';
+      headerElement.style.color = '#ff6b00';
+      headerElement.style.transform = 'scale(1.02)';
     });
 
     headerElement.addEventListener('mouseout', function () {
       headerElement.style.color = '#ff8623';
+      headerElement.style.transform = 'scale(1)';
     });
 
     headerElement.style.cursor = 'pointer';
+    headerElement.style.transition = 'all 0.3s ease';
   });
 }
 
-document.getElementById('regenerate-questions').addEventListener('click', generateRandomQuestions);
+document.getElementById('regenerate-questions').addEventListener('click', function () {
+  const regenerateButton = this;
+  regenerateButton.style.animation = 'none';
+  regenerateButton.offsetHeight;
+  regenerateButton.style.animation = 'rotate 0.5s ease';
+
+  setTimeout(() => {
+    generateRandomQuestions();
+
+    const quizContainer = document.getElementById('quiz-container');
+    quizContainer.scrollIntoView({ behavior: 'smooth' });
+  }, 250);
+});
+
+const style = document.createElement('style');
+style.textContent = `
+  @keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+`;
+document.head.appendChild(style);
+
 generateRandomQuestions();
 
 async function showMovieOfTheDay() {
@@ -810,33 +886,79 @@ document.getElementById('quiz-form').addEventListener('submit', function (event)
 function calculateAndDisplayResults() {
   let score = 0;
   const totalQuestions = 10;
+  isAnswerSubmitted = true;
 
-  questionBank.forEach((question, index) => {
-    const selectedAnswer = document.querySelector(`input[name="q${index}"]:checked`);
-    if (selectedAnswer && selectedAnswer.value === question.answer) {
+  const quizContainer = document.getElementById('quiz-container');
+  const questionContainers = quizContainer.querySelectorAll('.question-container');
+  const selectedQuestions = questionBank.slice(0, totalQuestions);
+
+  questionContainers.forEach((container, index) => {
+    const answerOptions = container.querySelectorAll('.answer-option');
+    const selectedAnswer = container.querySelector(`input[name="q${index}"]:checked`);
+    const correctAnswer = selectedQuestions[index].answer;
+
+    answerOptions.forEach(option => {
+      const optionValue = option.dataset.value;
+
+      if (optionValue === correctAnswer) {
+        option.classList.add('correct');
+        option.style.animation = 'correctPulse 0.6s ease';
+      } else if (selectedAnswer && selectedAnswer.value === optionValue) {
+        option.classList.add('incorrect');
+        option.style.animation = 'incorrectShake 0.6s ease';
+      }
+
+      option.style.pointerEvents = 'none';
+    });
+
+    if (selectedAnswer && selectedAnswer.value === correctAnswer) {
       score++;
     }
   });
 
   const currentUserEmail = localStorage.getItem('currentlySignedInMovieVerseUser') || null;
-
   updateTriviaStats(currentUserEmail, score, totalQuestions);
 
-  displayResults(score);
+  setTimeout(() => {
+    displayResults(score);
+  }, 1000);
 }
 
 function displayResults(score) {
   let accuracy = (score / 10) * 100;
   let progress = 0;
 
-  document.getElementById('progress-circle').style.setProperty('--progress', `${progress}%`);
-  document.getElementById('correct-answers').textContent = score;
-  document.getElementById('result-text').textContent = `Your score is ${score} out of 10 (${accuracy.toFixed(1)}% accuracy)`;
+  const progressCircle = document.getElementById('progress-circle');
+  const correctAnswersEl = document.getElementById('correct-answers');
+  const resultText = document.getElementById('result-text');
+
+  progressCircle.style.setProperty('--progress', `${progress}%`);
+  correctAnswersEl.textContent = `${score}/10`;
+
+  let motivationalMessage = '';
+  if (accuracy === 100) {
+    motivationalMessage = "Perfect score! You're a true movie expert! 🎬";
+  } else if (accuracy >= 80) {
+    motivationalMessage = 'Excellent work! You really know your movies! 🌟';
+  } else if (accuracy >= 60) {
+    motivationalMessage = 'Good job! Your movie knowledge is impressive! 👍';
+  } else if (accuracy >= 40) {
+    motivationalMessage = 'Not bad! Keep watching and learning! 📽️';
+  } else {
+    motivationalMessage = 'Keep practicing! Every movie buff starts somewhere! 🎭';
+  }
+
+  resultText.innerHTML = `
+    <div style="margin-bottom: 10px;">Your score: <strong>${score} out of 10</strong></div>
+    <div style="margin-bottom: 10px;">Accuracy: <strong>${accuracy.toFixed(1)}%</strong></div>
+    <div style="font-size: 18px; color: #ff8623;">${motivationalMessage}</div>
+  `;
 
   const interval = setInterval(() => {
     if (progress < accuracy) {
-      progress++;
-      document.getElementById('progress-circle').style.setProperty('--progress', `${progress}%`);
+      progress += 2;
+      if (progress > accuracy) progress = accuracy;
+      progressCircle.style.setProperty('--progress', `${progress}%`);
     } else {
       clearInterval(interval);
     }

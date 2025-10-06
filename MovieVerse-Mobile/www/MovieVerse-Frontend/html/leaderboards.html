@@ -41,6 +41,100 @@
     />
     <meta name="twitter:image" content="https://movie-verse.com/images/image.png" />
     <meta name="referrer" content="no-referrer-when-downgrade" />
+    <!-- 1) Organization -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "The MovieVerse",
+        "url": "https://movie-verse.com/",
+        "logo": "https://movie-verse.com/images/image-192x192.png"
+      }
+    </script>
+
+    <!-- 2) WebPage with Breadcrumb -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "url": "https://movie-verse.com/MovieVerse-Frontend/html/leaderboards.html",
+        "name": "Game Leaderboards - The MovieVerse",
+        "description": "Game leaderboards for The MovieVerse. Check out the global leaderboards of our games and see how you rank against other players!",
+        "inLanguage": "en",
+        "breadcrumb": {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://movie-verse.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Games",
+              "item": "https://movie-verse.com/MovieVerse-Frontend/html/games.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Leaderboards",
+              "item": "https://movie-verse.com/MovieVerse-Frontend/html/leaderboards.html"
+            }
+          ]
+        }
+      }
+    </script>
+
+    <!-- 3) Leaderboards as ItemList -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "Global Game Leaderboards",
+        "itemListOrder": "https://schema.org/ItemListOrderDescending",
+        "numberOfItems": 6,
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "url": "https://movie-verse.com/MovieVerse-Frontend/html/leaderboards.html#dinosaur-jump",
+            "name": "Dinosaur Jump Leaderboard"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "url": "https://movie-verse.com/MovieVerse-Frontend/html/leaderboards.html#flappy-bird",
+            "name": "Flappy Bird Leaderboard"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "url": "https://movie-verse.com/MovieVerse-Frontend/html/leaderboards.html#catch-popcorn",
+            "name": "Catch the Popcorn Leaderboard"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "url": "https://movie-verse.com/MovieVerse-Frontend/html/leaderboards.html#falling-star",
+            "name": "Falling Star Leaderboard"
+          },
+          {
+            "@type": "ListItem",
+            "position": 5,
+            "url": "https://movie-verse.com/MovieVerse-Frontend/html/leaderboards.html#space-invaders",
+            "name": "Space Invaders Leaderboard"
+          },
+          {
+            "@type": "ListItem",
+            "position": 6,
+            "url": "https://movie-verse.com/MovieVerse-Frontend/html/leaderboards.html#stack-blocks",
+            "name": "Stack the Blocks Leaderboard"
+          }
+        ]
+      }
+    </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <link rel="manifest" href="../../manifest.json" />
     <link rel="icon" type="image/x-icon" href="../../images/favicon.ico" />

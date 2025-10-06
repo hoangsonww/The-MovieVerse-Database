@@ -51,6 +51,33 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+function showNotification(message, type = 'success') {
+  const existingToast = document.querySelector('.notification-toast');
+  if (existingToast) {
+    existingToast.remove();
+  }
+
+  const toast = document.createElement('div');
+  toast.className = `notification-toast ${type}`;
+  toast.innerHTML = `
+    <span class="notification-icon">${type === 'success' ? '✓' : type === 'remove' ? '✗' : '♥️'}</span>
+    <span class="notification-message">${message}</span>
+  `;
+
+  document.body.appendChild(toast);
+
+  setTimeout(() => {
+    toast.classList.add('show');
+  }, 10);
+
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => {
+      toast.remove();
+    }, 300);
+  }, 3000);
+}
+
 export async function toggleFavoriteTVSeries() {
   // Extract tvSeriesId from the URL query parameter instead of localStorage
   const urlParams = new URLSearchParams(window.location.search);
@@ -73,8 +100,18 @@ export async function toggleFavoriteTVSeries() {
         favoritesTVSeries.push(tvSeriesId);
       }
       localStorage.setItem('favoritesTVSeries', JSON.stringify(favoritesTVSeries));
+
+      const isAdding = favoritesTVSeries.includes(tvSeriesId);
+      showNotification(
+        isAdding ? 'TV Series added to favorites!' : 'TV Series removed from favorites',
+        isAdding ? 'success' : 'remove'
+      );
+
       console.log('Favorites TV Series updated successfully in localStorage');
       await checkAndUpdateFavoriteButtonTVSeries();
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
       return;
     }
 
@@ -99,9 +136,18 @@ export async function toggleFavoriteTVSeries() {
     }
 
     await updateDoc(userDocRef, { favoritesTVSeries });
+
+    const isAdding = favoritesTVSeries.includes(tvSeriesId);
+    showNotification(
+      isAdding ? 'TV Series added to favorites!' : 'TV Series removed from favorites',
+      isAdding ? 'success' : 'remove'
+    );
+
     console.log('Favorites TV Series updated successfully in Firestore');
     await checkAndUpdateFavoriteButtonTVSeries();
-    window.location.reload();
+    setTimeout(() => {
+      window.location.reload();
+    }, 1500);
   } catch (error) {
     if (error.code === 'resource-exhausted') {
       console.log('Firebase quota exceeded. Using localStorage for favorites.');
@@ -112,11 +158,20 @@ export async function toggleFavoriteTVSeries() {
         favoritesTVSeries.push(tvSeriesId);
       }
       localStorage.setItem('favoritesTVSeries', JSON.stringify(favoritesTVSeries));
+
+      const isAdding = favoritesTVSeries.includes(tvSeriesId);
+      showNotification(
+        isAdding ? 'TV Series added to favorites!' : 'TV Series removed from favorites',
+        isAdding ? 'success' : 'remove'
+      );
+
       console.log('Favorites TV Series updated successfully in localStorage');
     } else {
       console.error('An error occurred:', error);
     }
-    window.location.reload();
+    setTimeout(() => {
+      window.location.reload();
+    }, 1500);
   }
 }
 
@@ -164,10 +219,8 @@ function updateFavoriteButtonTVSeries(tvSeriesId, favoritesTVSeries) {
   if (favoritesTVSeries.includes(tvSeriesId)) {
     favoriteBtn.classList.add('favorited');
     favoriteBtn.title = 'Remove from Favorites';
-    favoriteBtn.style.backgroundColor = 'grey';
   } else {
     favoriteBtn.classList.remove('favorited');
     favoriteBtn.title = 'Add to Favorites';
-    favoriteBtn.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
   }
 }

@@ -93,6 +93,12 @@ async function fetchActorDetails(actorId) {
     } else {
       updateBrowserURL(actor.name);
       populateActorDetails(actor, credits);
+
+      // Display Actor Stats Dashboard
+      displayActorStatsDashboard(actor, credits);
+
+      // Display Career Timeline
+      displayCareerTimeline(credits);
     }
     hideSpinner();
   } catch (error) {
@@ -208,25 +214,122 @@ async function populateActorDetails(actor, credits) {
     ageOrStatus = 'Unknown';
   }
 
+  // Transform to dashboard-style layout
   actorDescription.innerHTML = `
-        <p><strong>Biography:</strong> ${actor.biography || 'Information Unavailable'}</p>
-        <p><strong>Also Known As:</strong> ${actor.also_known_as.join(', ') || 'Information Unavailable'}</p>
-        <p><strong>Date of Birth:</strong> ${actor.birthday || 'Information Unavailable'}</p>
-        <p><strong>Date of Death:</strong> ${actor.deathday || 'Information Unavailable'}</p>
-        <p><strong>Age:</strong> ${ageOrStatus}</p>
-        <p><strong>Place of Birth:</strong> ${actor.place_of_birth || 'Information Unavailable'}</p>
-        <p><strong>Known For:</strong> ${actor.known_for_department || 'Information Unavailable'}</p>
-        <p><strong>Height:</strong> ${actor.height || 'Information Unavailable'}</p>
-    `;
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 20px 0;">
 
-  const gender = document.createElement('div');
-  gender.innerHTML = `<p><strong>Gender:</strong> ${actor.gender === 1 ? 'Female' : actor.gender === 2 ? 'Male' : 'Information Unavailable'}</p>`;
-  actorDescription.appendChild(gender);
+      <!-- Biography Card -->
+      <div style="grid-column: 1 / -1; background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%); backdrop-filter: blur(10px); border-radius: 20px; padding: 25px; border: 1px solid rgba(255,255,255,0.2);">
+        <h3 style="margin: 0 0 15px 0; color: #fff; font-size: 18px; display: flex; align-items: center;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="margin-right: 10px;">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="currentColor"/>
+          </svg>
+          Biography
+        </h3>
+        <p style="margin: 0; line-height: 1.6; color: rgba(255,255,255,0.9); font-size: 14px;">${actor.biography || 'Biography information is not available for this person.'}</p>
+      </div>
 
-  const popularity = document.createElement('div');
-  const isPopular = actor.popularity > 30 ? 'popular' : 'not popular';
-  popularity.innerHTML = `<p><strong>Popularity Score:</strong> ${actor.popularity.toFixed(2)} (This actor is <strong>${isPopular}</strong>)</p>`;
-  actorDescription.appendChild(popularity);
+      <!-- Personal Info Card -->
+      <div style="background: linear-gradient(135deg, rgba(115,120,197,0.1) 0%, rgba(115,120,197,0.05) 100%); backdrop-filter: blur(10px); border-radius: 20px; padding: 20px; border: 1px solid rgba(115,120,197,0.3);">
+        <h3 style="margin: 0 0 15px 0; color: #7378c5; font-size: 16px;">Personal Information</h3>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="color: rgba(255,255,255,0.6); font-size: 12px;">Full Name</span>
+            <span style="color: #fff; font-size: 13px; font-weight: 500;">${actor.name}</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="color: rgba(255,255,255,0.6); font-size: 12px;">Date of Birth</span>
+            <span style="color: #fff; font-size: 13px; font-weight: 500;">${actor.birthday ? new Date(actor.birthday).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : 'Unknown'}</span>
+          </div>
+          ${
+            actor.deathday
+              ? `
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="color: rgba(255,255,255,0.6); font-size: 12px;">Date of Death</span>
+            <span style="color: #ff6b6b; font-size: 13px; font-weight: 500;">${new Date(actor.deathday).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
+          </div>`
+              : ''
+          }
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="color: rgba(255,255,255,0.6); font-size: 12px;">Age</span>
+            <span style="color: ${actor.deathday ? '#ff6b6b' : '#51cf66'}; font-size: 13px; font-weight: 600;">${ageOrStatus}</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="color: rgba(255,255,255,0.6); font-size: 12px;">Gender</span>
+            <span style="color: #fff; font-size: 13px; font-weight: 500;">${actor.gender === 1 ? 'Female' : actor.gender === 2 ? 'Male' : 'Not Specified'}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Career Info Card -->
+      <div style="background: linear-gradient(135deg, rgba(255,193,7,0.1) 0%, rgba(255,193,7,0.05) 100%); backdrop-filter: blur(10px); border-radius: 20px; padding: 20px; border: 1px solid rgba(255,193,7,0.3);">
+        <h3 style="margin: 0 0 15px 0; color: #ffc107; font-size: 16px;">Career Details</h3>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="color: rgba(255,255,255,0.6); font-size: 12px;">Known For</span>
+            <span style="color: #ffc107; font-size: 13px; font-weight: 600;">${actor.known_for_department || 'Acting'}</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="color: rgba(255,255,255,0.6); font-size: 12px;">Place of Birth</span>
+            <span style="color: #fff; font-size: 13px; font-weight: 500; text-align: right; max-width: 150px;">${actor.place_of_birth || 'Unknown'}</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="color: rgba(255,255,255,0.6); font-size: 12px;">Popularity</span>
+            <span style="color: ${actor.popularity > 30 ? '#51cf66' : '#ff6b6b'}; font-size: 13px; font-weight: 600;">${actor.popularity.toFixed(1)}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Also Known As Card -->
+      ${
+        actor.also_known_as && actor.also_known_as.length > 0
+          ? `
+      <div style="background: linear-gradient(135deg, rgba(156,39,176,0.1) 0%, rgba(156,39,176,0.05) 100%); backdrop-filter: blur(10px); border-radius: 20px; padding: 20px; border: 1px solid rgba(156,39,176,0.3);">
+        <h3 style="margin: 0 0 15px 0; color: #9c27b0; font-size: 16px;">Also Known As</h3>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+          ${actor.also_known_as
+            .map(
+              name =>
+                `<span style="background: rgba(255,255,255,0.1); padding: 6px 12px; border-radius: 15px; font-size: 12px; color: #fff; border: 1px solid rgba(255,255,255,0.2);">${name}</span>`
+            )
+            .join('')}
+        </div>
+      </div>`
+          : ''
+      }
+
+      <!-- External Links Card -->
+      <div style="background: linear-gradient(135deg, rgba(33,150,243,0.1) 0%, rgba(33,150,243,0.05) 100%); backdrop-filter: blur(10px); border-radius: 20px; padding: 20px; border: 1px solid rgba(33,150,243,0.3);">
+        <h3 style="margin: 0 0 15px 0; color: #2196F3; font-size: 16px;">External Links</h3>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          ${
+            actor.imdb_id
+              ? `
+          <a href="https://www.imdb.com/name/${actor.imdb_id}/" target="_blank" style="display: flex; align-items: center; gap: 10px; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 10px; text-decoration: none; color: inherit; transition: all 0.3s ease;" onmouseover="this.style.background='rgba(33,150,243,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#f5c518">
+              <rect width="24" height="24" rx="4" fill="#f5c518"/>
+              <text x="12" y="16" font-family="Arial" font-size="10" font-weight="bold" text-anchor="middle" fill="black">IMDb</text>
+            </svg>
+            <span style="color: #fff; font-size: 13px;">View on IMDb</span>
+          </a>`
+              : ''
+          }
+          ${
+            actor.homepage
+              ? `
+          <a href="${actor.homepage}" target="_blank" style="display: flex; align-items: center; gap: 10px; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 10px; text-decoration: none; color: inherit; transition: all 0.3s ease;" onmouseover="this.style.background='rgba(33,150,243,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+            </svg>
+            <span style="color: #fff; font-size: 13px;">Official Website</span>
+          </a>`
+              : ''
+          }
+        </div>
+      </div>
+    </div>
+  `;
 
   const filmographyHeading = document.createElement('p');
   filmographyHeading.innerHTML = '<strong>Filmography:</strong> ';
@@ -917,4 +1020,238 @@ function applyTextColor(color) {
   document.querySelectorAll('h1, h2, h3, p, a, span, div, button, input, select, textarea, label, li').forEach(element => {
     element.style.color = color;
   });
+}
+
+// Actor Stats Dashboard functionality
+function displayActorStatsDashboard(actor, credits) {
+  const dashboard = document.getElementById('actor-stats-dashboard');
+  if (!dashboard) return;
+
+  // Show the dashboard
+  dashboard.style.display = 'block';
+  dashboard.style.opacity = '0';
+
+  // Calculate and display popularity (normalize to 0-100 scale)
+  const popularity = Math.min(100, Math.round((actor.popularity / 100) * 100));
+
+  setTimeout(() => {
+    dashboard.style.transition = 'opacity 0.5s ease';
+    dashboard.style.opacity = '1';
+
+    // Animate popularity arc
+    animateActorPopularity(popularity);
+
+    // Display career stats
+    displayCareerStats(credits);
+
+    // Display genre distribution
+    displayGenreDistribution(credits);
+  }, 100);
+}
+
+function animateActorPopularity(value) {
+  const popularityFill = document.getElementById('actor-popularity-fill');
+  const popularityValue = document.getElementById('actor-popularity-value');
+  const arcLength = 283;
+
+  if (popularityFill && popularityValue) {
+    setTimeout(() => {
+      const dashLength = (value / 100) * arcLength;
+      popularityFill.style.strokeDashoffset = arcLength - dashLength;
+
+      // Animate the percentage text
+      let current = 0;
+      const increment = value / 50;
+      const timer = setInterval(() => {
+        current += increment;
+        if (current >= value) {
+          current = value;
+          clearInterval(timer);
+        }
+        popularityValue.textContent = Math.round(current) + '%';
+      }, 30);
+    }, 300);
+  }
+}
+
+function displayCareerStats(credits) {
+  const totalFilms = credits.cast ? credits.cast.length : 0;
+
+  // Calculate years active
+  let earliestYear = new Date().getFullYear();
+  let latestYear = 0;
+
+  if (credits.cast) {
+    credits.cast.forEach(movie => {
+      if (movie.release_date) {
+        const year = new Date(movie.release_date).getFullYear();
+        if (year < earliestYear) earliestYear = year;
+        if (year > latestYear) latestYear = year;
+      }
+    });
+  }
+
+  const yearsActive = latestYear > 0 ? `${earliestYear} - ${latestYear > 0 ? latestYear : 'Present'}` : 'N/A';
+
+  // Calculate average rating
+  let totalRating = 0;
+  let ratedMovies = 0;
+
+  if (credits.cast) {
+    credits.cast.forEach(movie => {
+      if (movie.vote_average > 0) {
+        totalRating += movie.vote_average;
+        ratedMovies++;
+      }
+    });
+  }
+
+  const avgRating = ratedMovies > 0 ? (totalRating / ratedMovies).toFixed(1) : 'N/A';
+
+  // Update the stats
+  document.getElementById('total-films').textContent = totalFilms;
+  document.getElementById('years-active').textContent = yearsActive;
+  document.getElementById('avg-rating').textContent = avgRating + '/10';
+}
+
+function displayGenreDistribution(credits) {
+  const genreChart = document.getElementById('genre-chart');
+  if (!genreChart) return;
+
+  // Count genres
+  const genreCounts = {};
+  const genreNames = {
+    28: 'Action',
+    12: 'Adventure',
+    16: 'Animation',
+    35: 'Comedy',
+    80: 'Crime',
+    99: 'Documentary',
+    18: 'Drama',
+    10751: 'Family',
+    14: 'Fantasy',
+    36: 'History',
+    27: 'Horror',
+    10402: 'Music',
+    9648: 'Mystery',
+    10749: 'Romance',
+    878: 'Sci-Fi',
+    10770: 'TV Movie',
+    53: 'Thriller',
+    10752: 'War',
+    37: 'Western',
+  };
+
+  if (credits.cast) {
+    credits.cast.forEach(movie => {
+      if (movie.genre_ids) {
+        movie.genre_ids.forEach(genreId => {
+          const genreName = genreNames[genreId] || 'Other';
+          genreCounts[genreName] = (genreCounts[genreName] || 0) + 1;
+        });
+      }
+    });
+  }
+
+  // Sort and get top 5 genres
+  const sortedGenres = Object.entries(genreCounts)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 5);
+
+  // Display genre bars
+  genreChart.innerHTML = '';
+  const maxCount = sortedGenres[0] ? sortedGenres[0][1] : 1;
+
+  sortedGenres.forEach(([genre, count]) => {
+    const percentage = (count / maxCount) * 100;
+    const genreBar = document.createElement('div');
+    genreBar.style.display = 'flex';
+    genreBar.style.alignItems = 'center';
+    genreBar.style.gap = '10px';
+
+    genreBar.innerHTML = `
+      <span style="color: rgba(255,255,255,0.7); font-size: 11px; min-width: 60px;">${genre}</span>
+      <div style="flex: 1; height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden;">
+        <div style="width: 0%; height: 100%; background: linear-gradient(90deg, #7378c5, #ff6b6b); transition: width 1.5s ease;"
+             data-width="${percentage}%"></div>
+      </div>
+      <span style="color: rgba(255,255,255,0.5); font-size: 10px; min-width: 25px;">${count}</span>
+    `;
+
+    genreChart.appendChild(genreBar);
+  });
+
+  // Animate the bars after a short delay
+  setTimeout(() => {
+    genreChart.querySelectorAll('[data-width]').forEach(bar => {
+      bar.style.width = bar.getAttribute('data-width');
+    });
+  }, 300);
+}
+
+// Career Timeline functionality
+function displayCareerTimeline(credits) {
+  const container = document.getElementById('career-timeline-container');
+  const slider = document.getElementById('timeline-slider');
+  const loadingDiv = document.getElementById('timeline-loading');
+
+  if (!container || !slider || !credits.cast || credits.cast.length === 0) return;
+
+  // Show container
+  container.style.display = 'block';
+
+  // Sort movies by release date
+  const sortedMovies = credits.cast
+    .filter(movie => movie.release_date)
+    .sort((a, b) => new Date(b.release_date) - new Date(a.release_date))
+    .slice(0, 20); // Show top 20 most recent
+
+  // Build timeline HTML
+  let timelineHTML = '';
+  sortedMovies.forEach(movie => {
+    const year = new Date(movie.release_date).getFullYear();
+    const rating = movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A';
+
+    timelineHTML += `
+      <div style="min-width: 200px; margin: 0 15px; cursor: pointer; transition: transform 0.3s ease;"
+           onclick="selectMovieId(${movie.id})"
+           onmouseover="this.style.transform='scale(1.05)'"
+           onmouseout="this.style.transform='scale(1)'">
+        <div style="background: rgba(255,255,255,0.05); border-radius: 15px; padding: 15px; border: 1px solid rgba(255,255,255,0.1);">
+          ${
+            movie.poster_path
+              ? `
+            <img src="https://image.tmdb.org/t/p/w185${movie.poster_path}"
+                 style="width: 100%; height: 250px; object-fit: cover; border-radius: 10px; margin-bottom: 10px;"
+                 alt="${movie.title}">
+          `
+              : `
+            <div style="width: 100%; height: 250px; background: rgba(255,255,255,0.1); border-radius: 10px; margin-bottom: 10px; display: flex; align-items: center; justify-content: center;">
+              <span style="color: rgba(255,255,255,0.3);">No Image</span>
+            </div>
+          `
+          }
+          <h4 style="color: #fff; font-size: 14px; margin: 10px 0 5px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${movie.title}</h4>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="color: #7378c5; font-size: 12px;">${year}</span>
+            <span style="color: #ffd93d; font-size: 12px;">★ ${rating}</span>
+          </div>
+          ${
+            movie.character
+              ? `
+            <p style="color: rgba(255,255,255,0.6); font-size: 11px; margin-top: 5px; font-style: italic;">as ${movie.character}</p>
+          `
+              : ''
+          }
+        </div>
+      </div>
+    `;
+  });
+
+  // Hide loading and show timeline
+  if (loadingDiv && slider) {
+    loadingDiv.style.display = 'none';
+    slider.innerHTML = timelineHTML;
+    slider.style.display = 'flex';
+  }
 }

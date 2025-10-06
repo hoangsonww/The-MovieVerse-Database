@@ -41,6 +41,78 @@
     />
     <meta name="twitter:image" content="https://movie-verse.com/images/image.png" />
     <meta name="referrer" content="no-referrer-when-downgrade" />
+    <!-- 1. Sitelinks Search Box -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "url": "https://movie-verse.com/",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://movie-verse.com/MovieVerse-Frontend/html/search.html?search_query={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    </script>
+
+    <!-- 2. Organization with social profiles -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "The MovieVerse",
+        "url": "https://movie-verse.com/",
+        "logo": "https://movie-verse.com/images/image-512x512.png"
+      }
+    </script>
+
+    <!-- 3. Breadcrumb for this page -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://movie-verse.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Actor Details",
+            "item": "https://movie-verse.com/MovieVerse-Frontend/html/actor-details.html"
+          }
+        ]
+      }
+    </script>
+
+    <!-- 4. WebPage schema -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "url": "https://movie-verse.com/MovieVerse-Frontend/html/actor-details.html",
+        "name": "Actor Details - The MovieVerse",
+        "description": "Discover detailed insights into your favorite actors on The MovieVerse. Explore filmographies, biographies, and more to learn about the stars of cinema.",
+        "inLanguage": "en-US",
+        "isPartOf": {
+          "@type": "WebSite",
+          "url": "https://movie-verse.com/"
+        },
+        "breadcrumb": {
+          "@id": "https://movie-verse.com/MovieVerse-Frontend/html/actor-details.html#breadcrumb"
+        }
+      }
+    </script>
+
+    <!-- 5. Mobile-app and icon hints -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="apple-touch-icon" sizes="192x192" href="https://movie-verse.com/images/image-192x192.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="https://movie-verse.com/images/image-192x192.png" />
+    <meta name="msapplication-TileImage" content="https://movie-verse.com/images/image-192x192.png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <link rel="manifest" href="../../manifest.json" />
     <link rel="icon" type="image/x-icon" href="../../images/favicon.ico" />
@@ -350,6 +422,106 @@
       <!-- Right side for Description and Info -->
       <div class="actor-right" id="actor-description" style="animation: fadeIn 1.5s ease-in-out">
         <!-- Actor details will be populated here -->
+      </div>
+    </div>
+
+    <!-- Actor Stats Dashboard -->
+    <div
+      id="actor-stats-dashboard"
+      style="
+        display: none;
+        margin: 40px auto;
+        max-width: 1200px;
+        padding: 30px;
+        background: linear-gradient(135deg, rgba(115, 120, 197, 0.1) 0%, rgba(115, 120, 197, 0.05) 100%);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        border: 1px solid rgba(115, 120, 197, 0.3);
+      "
+    >
+      <h2 style="text-align: center; color: #7378c5; margin-bottom: 30px; font-size: 28px">Career Statistics</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px">
+        <!-- Popularity Meter -->
+        <div style="background: rgba(255, 255, 255, 0.05); border-radius: 15px; padding: 20px; text-align: center">
+          <h3 style="color: #fff; margin-bottom: 15px; font-size: 16px">Popularity</h3>
+          <svg viewBox="0 0 100 100" style="width: 120px; height: 120px; margin: 0 auto">
+            <circle cx="50" cy="50" r="45" stroke="rgba(255,255,255,0.1)" stroke-width="8" fill="none" />
+            <circle
+              id="actor-popularity-fill"
+              cx="50"
+              cy="50"
+              r="45"
+              stroke="url(#actor-gradient)"
+              stroke-width="8"
+              fill="none"
+              stroke-dasharray="283"
+              stroke-dashoffset="283"
+              stroke-linecap="round"
+              style="transform: rotate(-90deg); transform-origin: center; transition: stroke-dashoffset 2s ease"
+            />
+            <defs>
+              <linearGradient id="actor-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color: #7378c5; stop-opacity: 1" />
+                <stop offset="100%" style="stop-color: #ff6b6b; stop-opacity: 1" />
+              </linearGradient>
+            </defs>
+            <text id="actor-popularity-value" x="50" y="55" text-anchor="middle" style="fill: #fff; font-size: 24px; font-weight: bold">0%</text>
+          </svg>
+        </div>
+
+        <!-- Career Overview -->
+        <div style="background: rgba(255, 255, 255, 0.05); border-radius: 15px; padding: 20px">
+          <h3 style="color: #fff; margin-bottom: 15px; font-size: 16px">Career Overview</h3>
+          <div id="career-stats" style="display: flex; flex-direction: column; gap: 10px">
+            <div style="display: flex; justify-content: space-between">
+              <span style="color: rgba(255, 255, 255, 0.7)">Total Films:</span>
+              <span id="total-films" style="color: #fff; font-weight: bold">0</span>
+            </div>
+            <div style="display: flex; justify-content: space-between">
+              <span style="color: rgba(255, 255, 255, 0.7)">Years Active:</span>
+              <span id="years-active" style="color: #fff; font-weight: bold">0</span>
+            </div>
+            <div style="display: flex; justify-content: space-between">
+              <span style="color: rgba(255, 255, 255, 0.7)">Avg Rating:</span>
+              <span id="avg-rating" style="color: #ffd93d; font-weight: bold">0.0</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Genre Distribution -->
+        <div style="background: rgba(255, 255, 255, 0.05); border-radius: 15px; padding: 20px">
+          <h3 style="color: #fff; margin-bottom: 15px; font-size: 16px">Top Genres</h3>
+          <div id="genre-chart" style="display: flex; flex-direction: column; gap: 8px">
+            <!-- Will be populated dynamically -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Career Timeline -->
+    <div
+      id="career-timeline-container"
+      style="
+        display: none;
+        margin: 50px auto;
+        padding: 30px 20px;
+        max-width: 1400px;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      "
+    >
+      <h2 id="timeline-title" style="text-align: center; color: #fff; margin-bottom: 30px; font-size: 24px">
+        <span style="color: #7378c5">Career Timeline</span>
+      </h2>
+      <div id="timeline-loading" style="text-align: center; color: rgba(255, 255, 255, 0.6); padding: 20px">
+        <div style="display: inline-block; padding: 10px 20px; background: rgba(255, 255, 255, 0.1); border-radius: 10px">
+          Loading career timeline...
+        </div>
+      </div>
+      <div id="timeline-slider" style="display: none; overflow-x: auto; padding: 20px 0; position: relative">
+        <!-- Timeline will be populated here -->
       </div>
     </div>
 

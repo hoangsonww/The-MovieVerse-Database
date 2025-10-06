@@ -42,6 +42,65 @@
     />
     <meta name="twitter:image" content="https://movie-verse.com/images/image.webp" />
     <meta name="referrer" content="no-referrer-when-downgrade" />
+
+    <!-- 1) Organization (site-wide) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "The MovieVerse",
+        "url": "https://movie-verse.com/",
+        "logo": "https://movie-verse.com/images/image-192x192.png"
+      }
+    </script>
+
+    <!-- 2) Settings Page + Breadcrumb -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "url": "https://movie-verse.com/MovieVerse-Frontend/html/settings.html",
+        "name": "App Settings - The MovieVerse",
+        "description": "Customize your MovieVerse experience. Adjust settings such as app background, text color, and font size to match your preferences.",
+        "inLanguage": "en",
+        "breadcrumb": {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://movie-verse.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Settings",
+              "item": "https://movie-verse.com/MovieVerse-Frontend/html/settings.html"
+            }
+          ]
+        }
+      }
+    </script>
+
+    <!-- 3) WebApplication (since you have a manifest) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "The MovieVerse",
+        "url": "https://movie-verse.com/",
+        "applicationCategory": "Entertainment",
+        "operatingSystem": "All",
+        "browserRequirements": "Requires JavaScript",
+        "screenshot": "https://movie-verse.com/images/image.png",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <link rel="manifest" href="../../manifest.json" />
     <style>
@@ -109,6 +168,35 @@
           background-size: auto;
           background-position: top center;
         }
+      }
+
+      /* Enhanced animations and interactions */
+      .settings-section h2 i {
+        transition: transform 0.3s ease;
+      }
+      .settings-section:hover h2 i {
+        transform: rotate(360deg);
+      }
+
+      /* Smooth toggle settings hover */
+      .toggle-setting:hover {
+        background: rgba(255, 255, 255, 0.08) !important;
+        transform: translateX(5px);
+      }
+
+      /* Preview text animation */
+      @keyframes textPulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.7;
+        }
+      }
+
+      #size-preview-text {
+        animation: textPulse 2s ease-in-out infinite;
       }
       #reset-button {
         display: block;
@@ -1324,6 +1412,126 @@
       <span>Menu</span>
     </button>
     <script>
+      // Enhanced Settings Page Functionality
+      document.addEventListener('DOMContentLoaded', function () {
+        // Add color preset functionality
+        const colorPresets = document.querySelectorAll('.color-preset');
+        const colorInput = document.getElementById('text-color-input');
+
+        colorPresets.forEach(preset => {
+          preset.addEventListener('click', function () {
+            const color = this.getAttribute('data-color');
+            colorInput.value = color;
+            colorInput.dispatchEvent(new Event('change'));
+
+            // Animate selection
+            this.style.animation = 'pulse 0.5s ease';
+            setTimeout(() => {
+              this.style.animation = '';
+            }, 500);
+          });
+        });
+
+        // Font size preview
+        const fontSizeSelect = document.getElementById('font-size-select');
+        const previewText = document.getElementById('size-preview-text');
+
+        if (fontSizeSelect && previewText) {
+          fontSizeSelect.addEventListener('change', function () {
+            const sizes = {
+              small: '14px',
+              medium: '16px',
+              large: '20px',
+            };
+            previewText.style.fontSize = sizes[this.value] || '16px';
+          });
+        }
+
+        // Add smooth transitions for settings changes
+        const bgSelect = document.getElementById('background-select');
+        if (bgSelect) {
+          bgSelect.addEventListener('change', function () {
+            document.body.style.transition = 'background-image 0.5s ease';
+            showNotification('Background updated successfully!', 'success');
+          });
+        }
+
+        // Add visual feedback for toggles
+        const toggleInputs = document.querySelectorAll('input[type="checkbox"]');
+        toggleInputs.forEach(toggle => {
+          toggle.addEventListener('change', function () {
+            const label = this.closest('.toggle-setting');
+            if (label) {
+              label.style.animation = 'pulse 0.3s ease';
+              setTimeout(() => {
+                label.style.animation = '';
+              }, 300);
+            }
+          });
+        });
+
+        // Notification function
+        function showNotification(message, type = 'info') {
+          const notification = document.createElement('div');
+          notification.className = 'settings-notification';
+          notification.textContent = message;
+          notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: ${type === 'success' ? 'linear-gradient(135deg, #27bd27, #20a020)' : 'linear-gradient(135deg, #7378c5, #5a5f9e)'};
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            z-index: 10000;
+            animation: slideInRight 0.5s ease;
+          `;
+
+          document.body.appendChild(notification);
+
+          setTimeout(() => {
+            notification.style.animation = 'slideOutRight 0.5s ease';
+            setTimeout(() => {
+              document.body.removeChild(notification);
+            }, 500);
+          }, 3000);
+        }
+
+        // Add CSS animations
+        const style = document.createElement('style');
+        style.textContent = `
+          @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+          }
+
+          @keyframes slideInRight {
+            from {
+              transform: translateX(100%);
+              opacity: 0;
+            }
+            to {
+              transform: translateX(0);
+              opacity: 1;
+            }
+          }
+
+          @keyframes slideOutRight {
+            from {
+              transform: translateX(0);
+              opacity: 1;
+            }
+            to {
+              transform: translateX(100%);
+              opacity: 0;
+            }
+          }
+        `;
+        document.head.appendChild(style);
+      });
+
       window.addEventListener('load', function () {
         adjustAnchorHeights();
       });

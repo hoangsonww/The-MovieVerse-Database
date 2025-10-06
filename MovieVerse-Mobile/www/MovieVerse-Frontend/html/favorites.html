@@ -44,6 +44,79 @@
     />
     <meta name="twitter:image" content="https://movie-verse.com/images/image.png" />
     <meta name="referrer" content="no-referrer-when-downgrade" />
+    <!-- 1. Sitelinks SearchBox -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "url": "https://movie-verse.com/",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://movie-verse.com/MovieVerse-Frontend/html/search.html?search_query={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    </script>
+
+    <!-- 2. Organization -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "The MovieVerse",
+        "url": "https://movie-verse.com/",
+        "logo": "https://movie-verse.com/images/image-192x192.png"
+      }
+    </script>
+
+    <!-- 3. BreadcrumbList -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://movie-verse.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Favorites & Watchlists",
+            "item": "https://movie-verse.com/MovieVerse-Frontend/html/favorites.html"
+          }
+        ]
+      }
+    </script>
+
+    <!-- 4. WebPage -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "@id": "https://movie-verse.com/MovieVerse-Frontend/html/favorites.html",
+        "url": "https://movie-verse.com/MovieVerse-Frontend/html/favorites.html",
+        "name": "Favorites & Watchlists - The MovieVerse",
+        "description": "Manage your favorite movies and watchlists on The MovieVerse. Keep track of movies you love and organize your watchlists for future viewing.",
+        "inLanguage": "en",
+        "isPartOf": {
+          "@type": "WebSite",
+          "url": "https://movie-verse.com/"
+        },
+        "breadcrumb": {
+          "@id": "https://movie-verse.com/MovieVerse-Frontend/html/favorites.html#breadcrumb"
+        }
+      }
+    </script>
+
+    <!-- 5. PWA & Icon Hints -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="apple-touch-icon" sizes="192x192" href="https://movie-verse.com/images/image-192x192.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="https://movie-verse.com/images/image-192x192.png" />
+    <meta name="msapplication-TileImage" content="https://movie-verse.com/images/image-192x192.png" />
     <script src="../js/favorites.js" type="module"></script>
     <link rel="manifest" href="../../manifest.json" />
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>

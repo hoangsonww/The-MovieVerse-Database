@@ -617,12 +617,19 @@ async function showResults(category) {
   localStorage.setItem('selectedCategory', category);
   currentCategory = category;
 
-  const searchQuery = localStorage.getItem('searchQuery') || '';
+  const params = new URLSearchParams(window.location.search);
+  const urlQuery = params.get('search_query');
+  let searchQuery = urlQuery || localStorage.getItem('searchQuery') || '';
+  if (urlQuery) {
+    localStorage.setItem('searchQuery', urlQuery);
+  }
+
   document.getElementById('search-results-label').textContent = `Search Results for "${searchQuery}"`;
 
   const code = getMovieCode();
   const baseFetchUrl = `https://${getMovieVerseData()}/3`;
-  let url = `${baseFetchUrl}/search/${category}?${generateMovieNames()}${code}&query=${encodeURIComponent(searchQuery)}`;
+  let url = `${baseFetchUrl}/search/${category}` + `?${generateMovieNames()}${code}` + `&query=${encodeURIComponent(searchQuery)}`;
+
   let sortValue = '';
 
   if (category === 'movie') {
@@ -858,12 +865,12 @@ async function showMovies(items, container, category) {
       movieContentHTML += `<div style="text-align: center; padding: 20px;">Image Unavailable</div>`;
     }
 
-    movieContentHTML += `</div><div class="movie-info" style="display: flex; justify-content: space-between; align-items: start; cursor: pointer;">`;
+    movieContentHTML += `</div><div class="movie-info" style="display: flex; align-items: flex-start; cursor: pointer;">`;
     movieContentHTML += `<h3 style="text-align: left; flex-grow: 1; margin: 0; margin-right: 10px">${title}</h3>`;
 
     if ((isMovie || isTvSeries) && hasVoteAverage) {
       const voteAverage = item.vote_average.toFixed(1);
-      movieContentHTML += `<span class="${getClassByRate(item.vote_average)}">${voteAverage}</span>`;
+      movieContentHTML += `<span class="${getClassByRate(item.vote_average)}" style="white-space: nowrap; display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; margin-left: auto;">${voteAverage}</span>`;
     }
 
     movieContentHTML += `</div>`;

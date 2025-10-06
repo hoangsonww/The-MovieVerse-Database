@@ -11,16 +11,41 @@ import {
 } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
 import { app, db } from './firebase.js';
 
+function showCommentToast(message, kind = 'remove') {
+  const toast = document.createElement('div');
+  toast.className = `notification-toast ${kind}`;
+  toast.innerHTML = `
+    <span class="notification-icon"><i class="fas ${kind === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i></span>
+    <span class="notification-message">${message}</span>
+  `;
+  document.body.appendChild(toast);
+  requestAnimationFrame(() => toast.classList.add('show'));
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => toast.remove(), 300);
+  }, 2500);
+}
+
 const commentForm = document.getElementById('comment-form');
 
 commentForm.addEventListener('submit', async e => {
   e.preventDefault();
-  const userName = document.getElementById('user-name').value;
-  const userComment = document.getElementById('user-comment').value;
+  const nameEl = document.getElementById('user-name');
+  const commentEl = document.getElementById('user-comment');
+  const userName = (nameEl.value || '').trim();
+  const userComment = (commentEl.value || '').trim();
   const commentDate = new Date();
-  // Extract movieId from the URL query parameter instead of localStorage
   const urlParams = new URLSearchParams(window.location.search);
-  const movieId = urlParams.get('movieId') || 1011985; // Default movie ID if not found
+  const movieId = urlParams.get('movieId') || 1011985;
+
+  if (!userName || !userComment) {
+    showCommentToast('Please enter a nickname and a comment.', 'remove');
+    if (!userName) nameEl.focus(); else commentEl.focus();
+    return;
+  }
+
+  const submitBtn = document.getElementById('post-comment-btn');
+  submitBtn.disabled = true;
 
   try {
     await addDoc(collection(db, 'comments'), {
@@ -32,26 +57,31 @@ commentForm.addEventListener('submit', async e => {
     commentForm.reset();
     clearCommentCache(movieId);
     fetchComments();
+    if (modal) modal.style.display = 'none';
+    showCommentToast('Comment posted!', 'success');
   } catch (error) {
     console.log('Error adding comment: ', error);
+    showCommentToast('Failed to post comment. Please try again.', 'remove');
+  } finally {
+    submitBtn.disabled = false;
   }
 });
 
 let modal = document.getElementById('comment-modal');
 let btn = document.getElementById('toggle-comment-modal');
-let span = document.getElementsByClassName('close')[0];
 
 btn.onclick = function () {
   modal.style.display = 'block';
 };
 
-span.onclick = function () {
-  modal.style.display = 'none';
-};
+const cancelBtn = document.getElementById('cancel-comment-btn');
+if (cancelBtn) {
+  cancelBtn.onclick = function () {
+    modal.style.display = 'none';
+  };
+}
 
-document.getElementById('post-comment-btn').onclick = function () {
-  modal.style.display = 'none';
-};
+// Close modal only after successful submit (handled in submit listener)
 
 window.onclick = function (event) {
   if (event.target == modal) {

@@ -49,6 +49,66 @@
     <meta name="twitter:image" content="https://movie-verse.com/images/image.png" />
     <meta name="referrer" content="no-referrer-when-downgrade" />
     <meta name="theme-color" content="#7378c5" />
+
+    <!-- 1) Organization -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "The MovieVerse",
+        "url": "https://movie-verse.com/",
+        "logo": "https://movie-verse.com/images/image-192x192.png"
+      }
+    </script>
+
+    <!-- 2) WebPage + Breadcrumb -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "url": "https://movie-verse.com/MovieVerse-Frontend/html/privacy-policy.html",
+        "name": "Privacy Policy - The MovieVerse",
+        "description": "Read The MovieVerse's Privacy Policy to understand how we collect, use, and protect your data while you explore your favorite movies, directors, and actors.",
+        "inLanguage": "en",
+        "breadcrumb": {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://movie-verse.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Privacy Policy",
+              "item": "https://movie-verse.com/MovieVerse-Frontend/html/privacy-policy.html"
+            }
+          ]
+        }
+      }
+    </script>
+
+    <!-- 3) CreativeWork (Privacy Policy) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "CreativeWork",
+        "name": "Privacy Policy",
+        "url": "https://movie-verse.com/MovieVerse-Frontend/html/privacy-policy.html",
+        "description": "Read The MovieVerse's Privacy Policy to understand how we collect, use, and protect your data while you explore your favorite movies, directors, and actors.",
+        "datePublished": "2025-05-01",
+        "author": {
+          "@type": "Organization",
+          "name": "The MovieVerse",
+          "url": "https://movie-verse.com/"
+        },
+        "about": {
+          "@type": "DataPolicy"
+        }
+      }
+    </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <style>
       @font-face {

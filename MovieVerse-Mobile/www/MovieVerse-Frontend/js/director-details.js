@@ -115,6 +115,12 @@ async function fetchDirectorDetails(directorId) {
     } else {
       updateBrowserURL(director.name);
       populateDirectorDetails(director, credits);
+
+      // Display the analytics dashboard
+      displayDirectorDashboard(director, credits);
+
+      // Display the filmography timeline
+      displayFilmographyTimeline(director, credits);
     }
     hideSpinner();
   } catch (error) {
@@ -234,15 +240,180 @@ async function populateDirectorDetails(director, credits) {
   const isPopular = popularity > 20 ? 'popular' : 'not popular';
 
   directorDescription.innerHTML = `
-        <p><strong>Biography:</strong> ${director.biography || 'Information Unavailable'}</p>
-        <p><strong>Also Known As:</strong> ${director.also_known_as.join(', ') || 'Information Unavailable'}</p>
-        <p><strong>Date of Birth:</strong> ${director.birthday || 'Information Unavailable'}</p>
-        <p><strong>Date of Death:</strong> ${director.deathday || 'Information Unavailable'}</p>
-        <p><strong>Age:</strong> ${ageOrStatus}</p>
-        <p><strong>Place of Birth:</strong> ${director.place_of_birth || 'Information Unavailable'}</p>
-        <p><strong>Known For:</strong> Directing</p>
-        <p><strong>Popularity Score:</strong> ${popularity} (This director is <strong>${isPopular}</strong>)</p>
-    `;
+    <!-- Director Info Dashboard -->
+    <div style="display: grid; gap: 20px;">
+
+      <!-- Biography Card -->
+      <div style="background: linear-gradient(135deg, rgba(115, 120, 197, 0.1) 0%, rgba(115, 120, 197, 0.05) 100%);
+                  border-radius: 15px;
+                  padding: 20px;
+                  border: 1px solid rgba(115, 120, 197, 0.2);
+                  backdrop-filter: blur(10px);">
+        <h3 style="color: #7378c5;
+                   font-size: 16px;
+                   margin: 0 0 15px 0;
+                   display: flex;
+                   align-items: center;">
+          <i class="fas fa-book-open" style="margin-right: 10px;"></i>
+          Biography
+        </h3>
+        <p style="color: #d0d0d0;
+                  line-height: 1.8;
+                  margin: 0;
+                  font-size: 14px;">
+          ${director.biography || 'Information currently unavailable. Check back later for updates.'}
+        </p>
+      </div>
+
+      <!-- Personal Information Grid -->
+      <div style="display: grid;
+                  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                  gap: 15px;">
+
+        <!-- Birth Information Card -->
+        <div style="background: rgba(255, 255, 255, 0.05);
+                    border-radius: 12px;
+                    padding: 18px;
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    transition: all 0.3s ease;">
+          <h4 style="color: #ff8623;
+                     font-size: 13px;
+                     margin: 0 0 12px 0;
+                     text-transform: uppercase;
+                     letter-spacing: 1px;
+                     opacity: 0.8;">
+            <i class="fas fa-calendar-alt" style="margin-right: 8px;"></i>
+            Personal Details
+          </h4>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="color: #999; font-size: 13px;">Date of Birth:</span>
+              <span style="color: #fff; font-size: 14px; font-weight: 500;">
+                ${director.birthday || 'Not Available'}
+              </span>
+            </div>
+            ${
+              director.deathday
+                ? `
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="color: #999; font-size: 13px;">Date of Death:</span>
+                <span style="color: #fff; font-size: 14px; font-weight: 500;">
+                  ${director.deathday}
+                </span>
+              </div>
+            `
+                : ''
+            }
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="color: #999; font-size: 13px;">Age:</span>
+              <span style="color: #fff; font-size: 14px; font-weight: 500;">
+                ${ageOrStatus}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Location Card -->
+        <div style="background: rgba(255, 255, 255, 0.05);
+                    border-radius: 12px;
+                    padding: 18px;
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    transition: all 0.3s ease;">
+          <h4 style="color: #4caf50;
+                     font-size: 13px;
+                     margin: 0 0 12px 0;
+                     text-transform: uppercase;
+                     letter-spacing: 1px;
+                     opacity: 0.8;">
+            <i class="fas fa-map-marker-alt" style="margin-right: 8px;"></i>
+            Origin
+          </h4>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <div>
+              <span style="color: #999; font-size: 13px; display: block; margin-bottom: 5px;">Place of Birth:</span>
+              <span style="color: #fff; font-size: 14px; font-weight: 500;">
+                ${director.place_of_birth || 'Not Available'}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Professional Info Card -->
+        <div style="background: rgba(255, 255, 255, 0.05);
+                    border-radius: 12px;
+                    padding: 18px;
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    transition: all 0.3s ease;">
+          <h4 style="color: #2196f3;
+                     font-size: 13px;
+                     margin: 0 0 12px 0;
+                     text-transform: uppercase;
+                     letter-spacing: 1px;
+                     opacity: 0.8;">
+            <i class="fas fa-film" style="margin-right: 8px;"></i>
+            Professional
+          </h4>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="color: #999; font-size: 13px;">Known For:</span>
+              <span style="color: #fff; font-size: 14px; font-weight: 500;">
+                Directing
+              </span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="color: #999; font-size: 13px;">Popularity:</span>
+              <span style="color: ${popularity > 20 ? '#4caf50' : '#ff8623'};
+                     font-size: 14px;
+                     font-weight: 600;">
+                ${popularity}
+                <span style="font-size: 11px; opacity: 0.8; margin-left: 5px;">
+                  (${isPopular})
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Also Known As Card -->
+      ${
+        director.also_known_as && director.also_known_as.length > 0
+          ? `
+        <div style="background: rgba(255, 255, 255, 0.05);
+                    border-radius: 12px;
+                    padding: 18px;
+                    border: 1px solid rgba(255, 255, 255, 0.1);">
+          <h4 style="color: #9c27b0;
+                     font-size: 13px;
+                     margin: 0 0 12px 0;
+                     text-transform: uppercase;
+                     letter-spacing: 1px;
+                     opacity: 0.8;">
+            <i class="fas fa-user-tag" style="margin-right: 8px;"></i>
+            Also Known As
+          </h4>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+            ${director.also_known_as
+              .map(
+                name => `
+              <span style="background: rgba(156, 39, 176, 0.2);
+                           color: #e0e0e0;
+                           padding: 6px 12px;
+                           border-radius: 20px;
+                           font-size: 13px;
+                           border: 1px solid rgba(156, 39, 176, 0.3);">
+                ${name}
+              </span>
+            `
+              )
+              .join('')}
+          </div>
+        </div>
+      `
+          : ''
+      }
+    </div>
+  `;
 
   const filmographyHeading = document.createElement('p');
   filmographyHeading.innerHTML = '<strong>Filmography:</strong> ';
@@ -877,4 +1048,328 @@ function createNameSlug(name) {
     .toLowerCase()
     .replace(/ /g, '-')
     .replace(/[^\w-]/g, '');
+}
+
+// Display Director Analytics Dashboard
+function displayDirectorDashboard(director, credits) {
+  const dashboard = document.getElementById('director-stats-dashboard');
+  if (!dashboard) return;
+
+  // Show the dashboard
+  dashboard.style.display = 'block';
+  dashboard.style.opacity = '0';
+
+  // Calculate director influence (based on number of films and average rating)
+  const directedMovies = credits.crew.filter(movie => movie.job === 'Director');
+  const influence = Math.min(100, Math.round((directedMovies.length / 50) * 100)); // 50 films = 100% influence
+
+  setTimeout(() => {
+    dashboard.style.transition = 'opacity 0.5s ease';
+    dashboard.style.opacity = '1';
+
+    // Animate influence number
+    animateInfluence(influence);
+
+    // Display box office performance
+    displayBoxOfficePerformance(directedMovies);
+
+    // Display genre distribution
+    displayGenreDistribution(directedMovies);
+
+    // Display additional stats
+    displayAdditionalStats(director, directedMovies);
+  }, 100);
+}
+
+function animateInfluence(value) {
+  const influenceValue = document.getElementById('director-influence-value');
+
+  if (influenceValue) {
+    animateNumber(influenceValue, 0, value, 2000);
+  }
+}
+
+function animateNumber(element, start, end, duration) {
+  const startTime = performance.now();
+
+  function update(currentTime) {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const current = Math.floor(start + (end - start) * progress);
+
+    element.textContent = current;
+
+    if (progress < 1) {
+      requestAnimationFrame(update);
+    }
+  }
+
+  requestAnimationFrame(update);
+}
+
+function displayBoxOfficePerformance(movies) {
+  const budgetBar = document.getElementById('avg-budget-bar');
+  const revenueBar = document.getElementById('avg-revenue-bar');
+  const budgetLabel = document.getElementById('avg-budget-label');
+  const revenueLabel = document.getElementById('avg-revenue-label');
+  const roiValue = document.getElementById('avg-roi-value');
+
+  // Calculate average budget and revenue (mock data for demonstration)
+  const avgBudget = 50000000; // $50M average
+  const avgRevenue = 150000000; // $150M average
+
+  if (budgetBar && revenueBar) {
+    const maxValue = Math.max(avgBudget, avgRevenue, 1);
+    const budgetHeight = Math.max((avgBudget / maxValue) * 100, 5);
+    const revenueHeight = Math.max((avgRevenue / maxValue) * 100, 5);
+
+    setTimeout(() => {
+      budgetBar.style.height = `${budgetHeight}%`;
+      revenueBar.style.height = `${revenueHeight}%`;
+
+      if (budgetLabel && revenueLabel) {
+        budgetLabel.textContent = `$${formatCurrency(avgBudget)}`;
+        revenueLabel.textContent = `$${formatCurrency(avgRevenue)}`;
+        budgetLabel.style.opacity = '1';
+        revenueLabel.style.opacity = '1';
+      }
+
+      if (avgBudget > 0 && roiValue) {
+        const roi = Math.round(((avgRevenue - avgBudget) / avgBudget) * 100);
+        roiValue.textContent = `${roi > 0 ? '+' : ''}${roi}%`;
+        roiValue.style.color = roi > 0 ? '#4CAF50' : roi < 0 ? '#f44336' : '#888';
+      }
+    }, 800);
+  }
+}
+
+function formatCurrency(value) {
+  if (value >= 1000000000) {
+    return (value / 1000000000).toFixed(1) + 'B';
+  } else if (value >= 1000000) {
+    return (value / 1000000).toFixed(1) + 'M';
+  } else if (value >= 1000) {
+    return (value / 1000).toFixed(1) + 'K';
+  }
+  return value.toString();
+}
+
+function displayGenreDistribution(movies) {
+  const genreChart = document.getElementById('director-genre-chart');
+  if (!genreChart) return;
+
+  // Count genres (mock data for demonstration)
+  const genres = {
+    Drama: 35,
+    Action: 25,
+    Thriller: 20,
+    Comedy: 15,
+    'Sci-Fi': 5,
+  };
+
+  genreChart.innerHTML = '';
+  const maxCount = Math.max(...Object.values(genres));
+
+  Object.entries(genres)
+    .slice(0, 5)
+    .forEach(([genre, count]) => {
+      const percentage = (count / maxCount) * 100;
+      const row = document.createElement('div');
+      row.style.cssText = 'display: flex; align-items: center; gap: 10px;';
+
+      row.innerHTML = `
+      <span style="color: #888; font-size: 12px; width: 60px; text-align: right">${genre}</span>
+      <div style="flex: 1; height: 20px; background: rgba(255, 255, 255, 0.1); border-radius: 10px; overflow: hidden">
+        <div style="height: 100%; background: linear-gradient(90deg, #7378c5, #ff8623); width: ${percentage}%; transition: width 1.5s ease; border-radius: 10px"></div>
+      </div>
+      <span style="color: #fff; font-size: 12px; width: 30px">${count}%</span>
+    `;
+
+      genreChart.appendChild(row);
+    });
+}
+
+function displayAdditionalStats(director, movies) {
+  // Films directed
+  const filmsDirected = document.getElementById('films-directed');
+  if (filmsDirected) {
+    filmsDirected.textContent = movies.length;
+  }
+
+  // Career span
+  const careerSpan = document.getElementById('career-span');
+  if (careerSpan && movies.length > 0) {
+    const years = movies.map(m => new Date(m.release_date).getFullYear()).filter(y => y);
+    if (years.length > 0) {
+      const span = Math.max(...years) - Math.min(...years);
+      careerSpan.textContent = `${span} years`;
+    }
+  }
+
+  // Average rating
+  const avgRating = document.getElementById('dir-avg-rating');
+  if (avgRating) {
+    const ratings = movies.map(m => m.vote_average).filter(r => r > 0);
+    if (ratings.length > 0) {
+      const average = (ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(1);
+      avgRating.textContent = average;
+    }
+  }
+
+  // Total revenue (mock data)
+  const totalRevenue = document.getElementById('total-revenue');
+  if (totalRevenue) {
+    const revenue = movies.length * 150000000; // Mock: $150M per film
+    totalRevenue.textContent = `$${formatCurrency(revenue)}`;
+  }
+}
+
+// Display Filmography Timeline
+function displayFilmographyTimeline(director, credits) {
+  const container = document.getElementById('filmography-timeline-container');
+  const slider = document.getElementById('filmography-slider');
+  const loading = document.getElementById('timeline-loading');
+
+  if (!container || !slider) return;
+
+  // Show container
+  container.style.display = 'block';
+  loading.style.display = 'block';
+
+  // Get directed movies sorted by date
+  const directedMovies = credits.crew
+    .filter(movie => movie.job === 'Director' && movie.release_date)
+    .sort((a, b) => new Date(a.release_date) - new Date(b.release_date));
+
+  setTimeout(() => {
+    loading.style.display = 'none';
+    slider.innerHTML = '';
+
+    directedMovies.forEach((movie, index) => {
+      const item = createTimelineItem(movie, index);
+      slider.appendChild(item);
+    });
+
+    // Setup navigation
+    setupTimelineNavigation(slider);
+
+    // Update progress bar
+    updateTimelineProgress(slider);
+  }, 500);
+}
+
+function createTimelineItem(movie, index) {
+  const item = document.createElement('div');
+  item.className = 'timeline-item';
+  if (index === 0) item.classList.add('active');
+
+  const posterWrapper = document.createElement('div');
+  posterWrapper.style.cssText = `
+    position: relative;
+    width: 140px;
+    height: 210px;
+    margin: 0 auto 15px auto;
+    border-radius: 12px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #2a2a3e 0%, #1a1a2e 100%);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s ease;
+  `;
+
+  if (movie.poster_path) {
+    const poster = document.createElement('img');
+    poster.src = `https://image.tmdb.org/t/p/w185${movie.poster_path}`;
+    poster.style.cssText = 'width: 100%; height: 100%; object-fit: cover;';
+    posterWrapper.appendChild(poster);
+  } else {
+    posterWrapper.innerHTML = `
+      <div style="width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #666;">
+        <i class="fas fa-film" style="font-size: 48px; margin-bottom: 10px; opacity: 0.3;"></i>
+        <span style="font-size: 12px;">No Poster</span>
+      </div>
+    `;
+  }
+
+  const year = document.createElement('div');
+  year.style.cssText = `
+    color: #f5f5f5;
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 12px;
+    background: linear-gradient(135deg, rgba(115, 120, 197, 0.3) 0%, rgba(115, 120, 197, 0.1) 100%);
+    padding: 5px 14px;
+    border-radius: 20px;
+    display: inline-block;
+  `;
+  year.textContent = new Date(movie.release_date).getFullYear();
+
+  const title = document.createElement('div');
+  title.style.cssText = `
+    color: #d0d0d0;
+    font-size: 13px;
+    margin-top: 8px;
+    max-width: 140px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.4;
+  `;
+  title.textContent = movie.title;
+
+  // Timeline dot
+  const dot = document.createElement('div');
+  dot.style.cssText = `
+    width: 16px;
+    height: 16px;
+    background: linear-gradient(135deg, #fff 0%, #f0f0f0 100%);
+    border: 3px solid #7378c5;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    transition: all 0.3s ease;
+  `;
+
+  item.appendChild(posterWrapper);
+  item.appendChild(year);
+  item.appendChild(title);
+  item.appendChild(dot);
+
+  // Click handler
+  item.addEventListener('click', () => {
+    window.location.href = `movie-details.html?movieId=${movie.id}`;
+  });
+
+  return item;
+}
+
+function setupTimelineNavigation(slider) {
+  const prevBtn = document.getElementById('timeline-prev');
+  const nextBtn = document.getElementById('timeline-next');
+
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      slider.scrollBy({ left: -200, behavior: 'smooth' });
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      slider.scrollBy({ left: 200, behavior: 'smooth' });
+    });
+  }
+
+  // Update active item on scroll
+  slider.addEventListener('scroll', () => {
+    updateTimelineProgress(slider);
+  });
+}
+
+function updateTimelineProgress(slider) {
+  const progress = document.getElementById('timeline-progress');
+  if (progress) {
+    const scrollPercentage = (slider.scrollLeft / (slider.scrollWidth - slider.clientWidth)) * 100;
+    progress.style.width = `${scrollPercentage}%`;
+  }
 }

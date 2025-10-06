@@ -103,11 +103,9 @@ function updateFavoriteButton(movieId, favorites) {
 
   if (favorites.includes(movieId)) {
     favoriteButton.classList.add('favorited');
-    favoriteButton.style.backgroundColor = 'grey';
     favoriteButton.title = 'Remove from favorites';
   } else {
     favoriteButton.classList.remove('favorited');
-    favoriteButton.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
     favoriteButton.title = 'Add to favorites';
   }
 }
@@ -121,6 +119,33 @@ async function getMovieGenre(movieId) {
   const response = await fetch(tmdbUrl);
   const movieData = await response.json();
   return movieData.genres.length > 0 ? movieData.genres[0].name : 'Unknown';
+}
+
+function showNotification(message, type = 'success') {
+  const existingToast = document.querySelector('.notification-toast');
+  if (existingToast) {
+    existingToast.remove();
+  }
+
+  const toast = document.createElement('div');
+  toast.className = `notification-toast ${type}`;
+  toast.innerHTML = `
+    <span class="notification-icon">${type === 'success' ? '✓' : type === 'remove' ? '✗' : '♥️'}</span>
+    <span class="notification-message">${message}</span>
+  `;
+
+  document.body.appendChild(toast);
+
+  setTimeout(() => {
+    toast.classList.add('show');
+  }, 10);
+
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => {
+      toast.remove();
+    }, 300);
+  }, 3000);
 }
 
 export async function toggleFavorite() {
@@ -159,8 +184,16 @@ export async function toggleFavorite() {
       localStorage.setItem('moviesFavorited', JSON.stringify(favoritesMovies));
       localStorage.setItem('favoriteGenres', JSON.stringify(favoriteGenres));
 
+      const isAdding = favoritesMovies.includes(movieId);
+      showNotification(
+        isAdding ? 'Movie added to favorites!' : 'Movie removed from favorites',
+        isAdding ? 'success' : 'remove'
+      );
+
       console.log('Favorites movies updated successfully in localStorage');
-      window.location.reload();
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
       return;
     }
 
@@ -206,6 +239,13 @@ export async function toggleFavorite() {
 
       await updateDoc(userDocRef, { favoritesMovies });
       localStorage.setItem('favoriteGenres', JSON.stringify(favoriteGenres));
+
+      const isAdding = favoritesMovies.includes(movieId);
+      showNotification(
+        isAdding ? 'Movie added to favorites!' : 'Movie removed from favorites',
+        isAdding ? 'success' : 'remove'
+      );
+
       console.log('Favorites movies updated successfully in Firestore');
     }
 
@@ -233,8 +273,17 @@ export async function toggleFavorite() {
 
       localStorage.setItem('moviesFavorited', JSON.stringify(favoritesMovies));
       localStorage.setItem('favoriteGenres', JSON.stringify(favoriteGenres));
+
+      const isAdding = favoritesMovies.includes(movieId);
+      showNotification(
+        isAdding ? 'Movie added to favorites!' : 'Movie removed from favorites',
+        isAdding ? 'success' : 'remove'
+      );
+
       console.log('Favorites movies updated successfully in localStorage');
-      window.location.reload();
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
       return;
     } else {
       console.error('An error occurred:', error);
@@ -242,7 +291,9 @@ export async function toggleFavorite() {
 
     updateMoviesFavorited(movieId);
   }
-  window.location.reload();
+  setTimeout(() => {
+    window.location.reload();
+  }, 1500);
 }
 
 function updateMoviesFavorited(movieId) {
