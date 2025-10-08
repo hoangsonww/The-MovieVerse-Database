@@ -46,7 +46,7 @@ Through The MovieVerse, users can search for movies, view detailed information, 
 ### Disclaimer
 
 > [!IMPORTANT]
-> **This open-source repository is not the official repository for The MovieVerse. The deployed repository is private for security reasons. This repository is only for educational purposes and to showcase the codebase of The MovieVerse, which may differ significantly from the official, private codebase. However, this codebase is still functional and actively maintained.**
+> **This open-source repository is not the production repository for The MovieVerse. The deployed repository is private for security reasons. This repository is only for educational purposes and to showcase _parts_ of codebase of The MovieVerse, which may differ significantly from the official, private codebase. However, this codebase is still functional (if you would like to run the app locally) and actively maintained.**
 
 ## User Interface
 
@@ -125,6 +125,9 @@ The MovieVerse is a full-stack application with a robust backend and a user-frie
 
 There are also additional directories and files for project configuration, testing, and other utilities. The project is built using a variety of directories, including `.github`, `MovieVerse-Utilities`, `MovieVerse-Config`, `MovieVerse-Middleware`, `MovieVerse-Design`, `images`, and more. Each directory serves a specific purpose in the development, deployment, and maintenance of The MovieVerse application.
 
+> [!NOTE]
+> As a reminder, this repository is not the official production repository for The MovieVerse. The official codebase is private for security reasons. This repository is only for educational purposes and to showcase _parts_ of the codebase of The MovieVerse, which may differ significantly from the official, private codebase. However, this codebase is still functional (if you would like to run the app locally) and actively maintained.
+
 ## Deployment
 
 The official website is currently deployed LIVE at **[movie-verse.com](https://movie-verse.com)**. The deployment process involves building the frontend, backend, and mobile app, configuring the server, and deploying the application to the server. The deployment process is automated using CI/CD pipelines and scripts to ensure a seamless deployment experience.
@@ -137,6 +140,8 @@ The **official** app is currently using [Netlify](https://www.netlify.com/) for 
 [![Vercel](https://img.shields.io/badge/Vercel-Deploy_successful-brightgreen?logo=vercel)](https://movie-verse.com/)
 [![Django API](https://img.shields.io/badge/Django_API-Online-brightgreen?logo=django)](https://movie-verse.com)
 [![MongoDB](https://img.shields.io/badge/MongoDB-Online-brightgreen?logo=mongodb)](https://movie-verse.com)
+[![AI/ML Services](https://img.shields.io/badge/AI/ML_Services-Active-brightgreen?logo=python)](https://movie-verse.com)
+[![MySQL](https://img.shields.io/badge/MySQL-Online-brightgreen?logo=mysql)](https://movie-verse.com)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Online-brightgreen?logo=postgresql)](https://movie-verse.com)
 [![Redis](https://img.shields.io/badge/Redis-Active-brightgreen?logo=redis)](https://movie-verse.com)
 [![CI/CD](https://img.shields.io/badge/CI/CD-Automated-brightgreen?logo=githubactions)](https://movie-verse.com)
@@ -159,6 +164,35 @@ The **official** app is currently using [Netlify](https://www.netlify.com/) for 
 
 The MovieVerse API is fully documented and available for public use. You can access the API documentation at [https://api-movieverse.vercel.app/docs](https://api-movieverse.vercel.app/docs) or [https://api-movieverse.vercel.app/redoc](https://api-movieverse.vercel.app/redoc).
 
+```mermaid
+flowchart TD
+    A[User / Client App] -->|Sends Request| B[Vercel Serverless Function<br/>Proxy Layer]
+    B -->|Forwards Securely| C[AWS API Server<br/>Private, Restricted Access]
+    C -->|Processes Data & Responds| B
+    B -->|Returns Response| A
+
+    subgraph Documentation Portals
+        D1[Swagger UI<br/><a href='https://api-movieverse.vercel.app/docs'>/docs</a>]
+        D2[ReDoc UI<br/><a href='https://api-movieverse.vercel.app/redocs'>/redocs</a>]
+    end
+
+    A -.->|Accesses API Reference| D1
+    A -.->|Accesses API Reference| D2
+
+    classDef main fill:#1f2937,stroke:#facc15,stroke-width:2px,color:#fff;
+    classDef proxy fill:#2563eb,stroke:#93c5fd,stroke-width:2px,color:#fff;
+    classDef private fill:#047857,stroke:#6ee7b7,stroke-width:2px,color:#fff;
+    classDef doc fill:#9333ea,stroke:#c084fc,stroke-width:2px,color:#fff;
+
+    class A main;
+    class B proxy;
+    class C private;
+    class D1,D2 doc;
+```
+
+> [!NOTE]
+> All API requests are proxied through a Vercel serverless function to ensure security and performance. The actual API server is hosted with AWS and is not intended to be directly accessible to the public. Please respect this design choice to maintain the integrity and security of the application!
+
 ### Swagger Documentation
 
 <p align="center" style="cursor: pointer">
@@ -167,17 +201,24 @@ The MovieVerse API is fully documented and available for public use. You can acc
   </a>
 </p>
 
+Access the Swagger UI documentation at: [https://api-movieverse.vercel.app/docs](https://api-movieverse.vercel.app/docs)
+
 ### ReDoc Documentation
 
 <p align="center" style="cursor: pointer">
-  <a href="https://api-movieverse.vercel.app/redoc">
+  <a href="https://api-movieverse.vercel.app/redocs">
     <img src="../images/MovieVerse-API-ReDoc.png" alt="The MovieVerse API ReDoc Documentation" style="border-radius: 10px" width="100%"/>
   </a>
 </p>
 
+Access the ReDoc documentation at: [https://api-movieverse.vercel.app/redocs](https://api-movieverse.vercel.app/redocs)
+
+> [!CAUTION]
+> The backend API server may be down at times due to maintenance, updates, or other reasons. If you encounter any issues accessing the API, please check back later or contact the maintainer for assistance.
+
 ## Architecture
 
-Here are the detailed flowcharts illustrating the high-level architecture of our app:
+Here are some detailed flowcharts illustrating the high-level architecture of our app:
 
 ### Movie Data Flow Architecture
 
