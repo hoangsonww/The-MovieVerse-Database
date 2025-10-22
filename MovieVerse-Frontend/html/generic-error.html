@@ -307,53 +307,10 @@
           you're ready to jump back into MovieVerse.
         </p>
         <div class="error-card__actions">
-          <a class="error-card__link" id="return-link" href="../../index.html">Return to previous page</a>
+          <a class="error-card__link" href="https://movie-verse.com/">Return to home</a>
           <p class="error-card__hint">Still stuck? Refresh this page or start from the home screen.</p>
         </div>
       </div>
     </main>
-    <script>
-      (function () {
-        const fallbackHref = '../../index.html';
-        let previousUrl = (function () {
-          try {
-            return sessionStorage.getItem('mv-last-safe-url');
-          } catch (error) {
-            return null;
-          }
-        })();
-
-        const referrer = document.referrer && document.referrer !== window.location.href ? document.referrer : '';
-        const returnLink = document.getElementById('return-link');
-
-        if (previousUrl) {
-          returnLink.href = previousUrl;
-        } else if (referrer) {
-          returnLink.href = referrer;
-        } else {
-          returnLink.href = fallbackHref;
-        }
-
-        try {
-          sessionStorage.removeItem('mv-last-safe-url');
-        } catch (error) {
-          // Ignore storage errors
-        }
-
-        returnLink.addEventListener('click', event => {
-          if (previousUrl) {
-            event.preventDefault();
-            window.location.href = previousUrl;
-            previousUrl = null;
-            return;
-          }
-
-          if (!referrer && window.history.length > 1) {
-            event.preventDefault();
-            window.history.back();
-          }
-        });
-      })();
-    </script>
   </body>
 </html>
