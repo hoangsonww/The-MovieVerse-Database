@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>AI Cinematic Assistant - The MovieVerse</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta property="og:title" content="AI Cinematic Assistant - The MovieVerse" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="website" />
+    <meta http-equiv="content-language" content="en" />
+    <meta
+      property="og:description"
+      content="Your personalized AI-powered movie assistant. Get smart recommendations, trivia, and curated watchlists."
+    />
+    <meta property="og:url" content="https://movie-verse.com/MovieVerse-Frontend/html/ai-assistant.html" />
+    <meta property="og:site_name" content="AI Cinematic Assistant - The MovieVerse" />
+    <meta property="og:image" content="https://movie-verse.com/images/image.png" />
+    <meta property="og:favicon" content="./images/favicon.ico" />
+    <meta name="keywords" content="ai assistant, movie recommendations, cinema trivia, watchlist, personalized movies" />
+    <meta name="author" content="Son Nguyen Hoang" />
+    <meta
+      name="description"
+      content="Your personalized AI-powered movie assistant. Get smart recommendations, trivia, and curated watchlists."
+    />
+    <link rel="canonical" href="https://movie-verse.com/MovieVerse-Frontend/html/ai-assistant.html" />
+    <meta name="robots" content="index, follow" />
+    <meta name="rating" content="General" />
+    <meta name="revisit-after" content="3 days" />
+    <meta name="distribution" content="global" />
+    <meta http-equiv="content-language" content="en" />
+    <meta name="language" content="en" />
+    <meta name="theme-color" content="#7378c5" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@MovieVerse" />
+    <meta name="twitter:creator" content="@hoangsonw" />
+    <meta name="twitter:title" content="AI Cinematic Assistant - The MovieVerse" />
+    <meta
+      name="twitter:description"
+      content="Your personalized AI-powered movie assistant. Get smart recommendations, trivia, and curated watchlists."
+    />
+    <meta name="twitter:image" content="https://movie-verse.com/images/image.png" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="icon" href="../../images/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/ai-assistant.css" />
+    <link rel="manifest" href="../../manifest.json" />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CQKJ67FXZ4"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'G-CQKJ67FXZ4');
+    </script>
+    <style>
+      @font-face {
+        font-family: 'Poppins';
+        src: url('https://movie-verse.com/fonts/Poppins-Light.ttf') format('truetype');
+        font-weight: 200;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Poppins';
+        src: url('https://movie-verse.com/fonts/Poppins-Regular.ttf') format('truetype');
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Poppins';
+        src: url('https://movie-verse.com/fonts/Poppins-SemiBold.ttf') format('truetype');
+        font-weight: 600;
+        font-style: normal;
+        font-display: swap;
+      }
+      body {
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        color: white;
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+      }
+      .main-content {
+        padding-top: 80px;
+        padding-bottom: 40px;
+      }
+    </style>
+  </head>
+  <body>
+    <header style="position: fixed; top: 0; width: 100%; z-index: 1000; background: rgba(26, 26, 46, 0.95); backdrop-filter: blur(10px); padding: 15px 0; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);">
+      <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px;">
+        <a href="../../index.html" style="text-decoration: none; color: #667eea; font-size: 1.5em; font-weight: 600;">
+          🎬 The MovieVerse
+        </a>
+        <nav style="display: flex; gap: 20px; align-items: center;">
+          <a href="../../index.html" style="color: white; text-decoration: none; transition: color 0.3s;">Home</a>
+          <a href="./chatbot.html" style="color: white; text-decoration: none; transition: color 0.3s;">Chatbot</a>
+          <a href="./user-profile.html" style="color: white; text-decoration: none; transition: color 0.3s;">Profile</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <div id="assistant-container"></div>
+    </main>
+
+    <footer style="background: rgba(26, 26, 46, 0.95); padding: 30px 0; text-align: center; margin-top: 60px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+      <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+        <p style="margin: 0 0 10px 0; color: rgba(255, 255, 255, 0.7);">
+          &copy; 2024 The MovieVerse. All rights reserved.
+        </p>
+        <div style="display: flex; gap: 20px; justify-content: center; margin-top: 15px;">
+          <a href="./about.html" style="color: #667eea; text-decoration: none;">About</a>
+          <a href="./privacy-policy.html" style="color: #667eea; text-decoration: none;">Privacy</a>
+          <a href="./terms-of-service.html" style="color: #667eea; text-decoration: none;">Terms</a>
+        </div>
+      </div>
+    </footer>
+
+    <script type="module">
+      import MovieVerseAssistant from '../react/js/ai-assistant.js';
+
+      document.addEventListener('DOMContentLoaded', async () => {
+        const assistant = new MovieVerseAssistant();
+        await assistant.initializeAssistantPanel('assistant-container');
+
+        // Add click handlers for movie cards
+        document.addEventListener('click', (e) => {
+          const movieCard = e.target.closest('[data-movie-id]');
+          if (movieCard) {
+            const movieId = movieCard.getAttribute('data-movie-id');
+            window.location.href = `./movie-details.html?id=${movieId}`;
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

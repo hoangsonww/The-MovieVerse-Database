@@ -16,4 +16,9 @@ urlpatterns = [
     path('search/', views.search, name='search'),
     path('movies/<int:movie_id>/', views.movie_detail, name='movie_detail'),
     path('api/', include(router.urls)),
+    # AI Agent endpoints
+    path('api/agent/what-to-watch/', views.agent_what_to_watch, name='agent_what_to_watch'),
+    path('api/agent/trivia/', views.agent_trivia, name='agent_trivia'),
+    path('api/agent/rewatch-reminder/', views.agent_rewatch_reminder, name='agent_rewatch_reminder'),
+    path('api/agent/weekly-watchlist/', views.agent_weekly_watchlist, name='agent_weekly_watchlist'),
 ]

@@ -1,0 +1,306 @@
+/**
+ * AI Assistant Styles for MovieVerse
+ */
+
+.assistant-panel {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.assistant-header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 30px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 15px;
+    color: white;
+}
+
+.assistant-header h2 {
+    margin: 0 0 10px 0;
+    font-size: 2.5em;
+    font-weight: 600;
+}
+
+.assistant-header p {
+    margin: 0;
+    font-size: 1.1em;
+    opacity: 0.9;
+}
+
+.assistant-section {
+    margin-bottom: 40px;
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.assistant-section h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #667eea;
+    font-size: 1.8em;
+    font-weight: 600;
+}
+
+.assistant-controls {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+
+.assistant-controls select,
+.assistant-controls button {
+    padding: 12px 20px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.assistant-controls select {
+    flex: 1;
+    min-width: 150px;
+}
+
+.assistant-controls button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    font-weight: 600;
+}
+
+.assistant-controls button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.assistant-controls select:focus,
+.assistant-controls button:focus {
+    outline: 2px solid #667eea;
+    outline-offset: 2px;
+}
+
+.assistant-recommendations,
+.assistant-reminders,
+.assistant-weekly {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.assistant-movie-card,
+.assistant-reminder-card,
+.weekly-movie-card {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.assistant-movie-card:hover,
+.assistant-reminder-card:hover,
+.weekly-movie-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border-color: #667eea;
+}
+
+.assistant-movie-poster,
+.assistant-reminder-poster,
+.weekly-movie-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.assistant-movie-info,
+.assistant-reminder-info {
+    padding: 15px;
+}
+
+.assistant-movie-title,
+.assistant-reminder-title {
+    margin: 0 0 10px 0;
+    font-size: 1.2em;
+    font-weight: 600;
+    color: #fff;
+}
+
+.assistant-movie-rating,
+.assistant-movie-runtime {
+    display: inline-block;
+    margin-right: 15px;
+    font-size: 0.9em;
+    color: #ffd700;
+}
+
+.assistant-movie-reason {
+    margin: 10px 0;
+    padding: 8px 12px;
+    background: rgba(102, 126, 234, 0.2);
+    border-radius: 6px;
+    font-size: 0.9em;
+    color: #a8b8ff;
+    font-style: italic;
+}
+
+.assistant-movie-overview {
+    margin: 10px 0 0 0;
+    font-size: 0.9em;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.assistant-reminder-reason {
+    margin: 5px 0 0 0;
+    font-size: 0.9em;
+    color: rgba(255, 255, 255, 0.8);
+    font-style: italic;
+}
+
+.assistant-trivia-container {
+    margin-bottom: 20px;
+}
+
+.assistant-trivia {
+    padding: 25px;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+    border-radius: 12px;
+    border: 1px solid rgba(102, 126, 234, 0.3);
+}
+
+.assistant-trivia .trivia-icon {
+    font-size: 3em;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.assistant-trivia h3 {
+    margin: 0 0 15px 0;
+    color: #fff;
+    font-size: 1.5em;
+    text-align: center;
+}
+
+.assistant-trivia .trivia-message {
+    font-size: 1.1em;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
+    text-align: center;
+}
+
+.assistant-trivia .trivia-poster {
+    display: block;
+    margin: 20px auto 0;
+    max-width: 200px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.trivia-facts {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.trivia-facts li {
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    border-left: 3px solid #667eea;
+}
+
+.weekly-watchlist h4 {
+    margin: 0 0 10px 0;
+    font-size: 1.5em;
+    color: #667eea;
+}
+
+.weekly-description {
+    margin: 0 0 20px 0;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.weekly-movies {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 15px;
+}
+
+.weekly-movie-title {
+    padding: 10px;
+    margin: 0;
+    font-size: 0.9em;
+    text-align: center;
+    color: #fff;
+}
+
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: rgba(255, 255, 255, 0.6);
+    font-style: italic;
+}
+
+.no-results,
+.error {
+    text-align: center;
+    padding: 40px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.error {
+    color: #ff6b6b;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .assistant-header h2 {
+        font-size: 2em;
+    }
+
+    .assistant-section h3 {
+        font-size: 1.5em;
+    }
+
+    .assistant-controls {
+        flex-direction: column;
+    }
+
+    .assistant-controls select,
+    .assistant-controls button {
+        width: 100%;
+    }
+
+    .assistant-recommendations,
+    .assistant-reminders {
+        grid-template-columns: 1fr;
+    }
+
+    .weekly-movies {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
+}
+
+/* Dark mode enhancements */
+@media (prefers-color-scheme: dark) {
+    .assistant-section {
+        background: rgba(0, 0, 0, 0.3);
+    }
+
+    .assistant-movie-card,
+    .assistant-reminder-card,
+    .weekly-movie-card {
+        background: rgba(0, 0, 0, 0.4);
+    }
+}
