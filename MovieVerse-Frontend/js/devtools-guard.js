@@ -7,9 +7,30 @@
   const WIDTH_THRESHOLD = 160;
   const HEIGHT_THRESHOLD = 160;
   const CHECK_INTERVAL_MS = 500;
+  const isMobileClient = (() => {
+    try {
+      const ua = navigator.userAgent || "";
+      if (
+        /Android|iPhone|iPad|iPod|Mobile|IEMobile|BlackBerry|Opera Mini/i.test(ua)
+      ) {
+        return true;
+      }
+      const platform = navigator.platform || "";
+      if (platform === "MacIntel" && navigator.maxTouchPoints > 1) {
+        return true; // iPadOS spoofs a desktop UA but still reports touch support.
+      }
+    } catch (error) {
+      // If detection fails, fall back to running the guard.
+    }
+    return false;
+  })();
 
   const currentPath = window.location.pathname || "";
   if (SAFE_PAGE_NAMES.has(currentPath.split("/").pop() || "")) {
+    return;
+  }
+
+  if (isMobileClient) {
     return;
   }
 
