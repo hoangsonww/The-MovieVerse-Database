@@ -40,6 +40,65 @@
     />
     <meta name="twitter:image" content="https://movie-verse.com/images/image.png" />
     <meta name="referrer" content="no-referrer-when-downgrade" />
+    <script>
+      (function guardErrorPage() {
+        const blockedKeys = new Set([
+          'F12',
+          'F11',
+          'F10',
+          'F9',
+          'F8',
+          'I',
+          'J',
+          'C',
+          'K',
+          'U',
+          'S',
+          'E',
+          'M',
+          'O',
+          'P',
+          'F',
+          'L',
+          'D',
+        ]);
+
+        const blockKey = (event) => {
+          const key = event.key ? event.key.toUpperCase() : '';
+          const code = event.code ? event.code.toUpperCase() : '';
+          const ctrlOrMeta = event.ctrlKey || event.metaKey;
+          const shift = event.shiftKey;
+          const alt = event.altKey;
+          const isFunctionKey = key.startsWith('F');
+          const blockedCombo =
+            ctrlOrMeta ||
+            alt ||
+            shift ||
+            blockedKeys.has(key) ||
+            blockedKeys.has(code.replace('KEY', ''));
+
+          if (isFunctionKey || blockedCombo) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            event.stopPropagation();
+          }
+        };
+
+        ['keydown', 'keypress', 'keyup'].forEach((type) => {
+          window.addEventListener(type, blockKey, { capture: true });
+          document.addEventListener(type, blockKey, { capture: true });
+        });
+
+        const blockContext = (event) => {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          event.stopPropagation();
+        };
+
+        document.addEventListener('contextmenu', blockContext, { capture: true });
+        window.addEventListener('contextmenu', blockContext, { capture: true });
+      })();
+    </script>
     <!-- 1. Sitelinks Search Box -->
     <script type="application/ld+json">
       {
@@ -347,6 +406,23 @@
         </div>
       </div>
     </main>
+    <script>
+      (function attachGuard() {
+        function injectGuard(src) {
+          var script = document.createElement('script');
+          script.src = src;
+          script.async = false;
+          document.head.appendChild(script);
+        }
+
+        if (!window.__MV_DEVTOOLS_GUARD_ACTIVE__) {
+          injectGuard('/MovieVerse-Frontend/js/devtools-guard.js');
+        }
+        if (!window.__MV_DEVTOOLS_GUARD_ACTIVE__) {
+          injectGuard('../js/devtools-guard.js');
+        }
+      })();
+    </script>
     <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <script>
       function googleTranslateElementInit() {
