@@ -334,7 +334,7 @@
         }
       }
     </style>
-      <script src="../js/devtools-guard.js"></script>
+    <script src="../js/devtools-guard.js"></script>
 </head>
 
   <body>
@@ -446,8 +446,15 @@
       <div id="chatbotContainer">
         <div id="chatbotHeader">The MovieVerse Assistant</div>
         <div id="chatbotBody"></div>
-        <input id="chatbotInput" type="text" placeholder="Ask me about anything..." title="Type your message here" />
-        <button id="sendButton" title="Send this message">Send</button>
+        <div class="chatbot-controls">
+          <input id="chatbotInput" type="text" placeholder="Ask me about anything..." title="Type your message here" />
+          <div class="chatbot-actions">
+            <button id="clearChatButton" title="Clear conversation" aria-label="Clear conversation">
+              <i class="fas fa-trash-alt" aria-hidden="true"></i>
+            </button>
+            <button id="sendButton" title="Send this message">Send</button>
+          </div>
+        </div>
       </div>
     </main>
     <div

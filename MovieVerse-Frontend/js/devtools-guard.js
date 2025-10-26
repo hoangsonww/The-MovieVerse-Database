@@ -4,8 +4,6 @@
   const ERROR_PAGE_NAME = "generic-error.html";
   const ERROR_PAGE_PATH = "/MovieVerse-Frontend/html/generic-error.html";
   const SAFE_PAGE_NAMES = new Set([ERROR_PAGE_NAME, "api_fails.html"]);
-  const WIDTH_THRESHOLD = 160;
-  const HEIGHT_THRESHOLD = 160;
   const CHECK_INTERVAL_MS = 500;
   const isMobileClient = (() => {
     try {
@@ -60,30 +58,6 @@
       // Ignore storage errors (e.g., Safari private mode)
     }
     window.location.replace(redirectTarget);
-  }
-
-  function dimensionsSuggestDevTools() {
-    if (
-      typeof window.outerWidth !== "number" ||
-      typeof window.outerHeight !== "number"
-    ) {
-      return false;
-    }
-    const widthDiff = Math.abs(window.outerWidth - window.innerWidth);
-    const heightDiff = Math.abs(window.outerHeight - window.innerHeight);
-    return widthDiff > WIDTH_THRESHOLD || heightDiff > HEIGHT_THRESHOLD;
-  }
-
-  function installDimensionChecks() {
-    const handler = () => {
-      if (dimensionsSuggestDevTools()) {
-        triggerRedirect();
-      }
-    };
-    window.addEventListener("resize", handler, { passive: true });
-    window.addEventListener("orientationchange", handler, { passive: true });
-    setInterval(handler, CHECK_INTERVAL_MS);
-    handler();
   }
 
   function installConsoleDetection() {
@@ -150,22 +124,6 @@
     );
   }
 
-  function installFocusGuards() {
-    window.addEventListener(
-      "blur",
-      () => {
-        setTimeout(() => {
-          if (dimensionsSuggestDevTools()) {
-            triggerRedirect();
-          }
-        }, 150);
-      },
-      { passive: true },
-    );
-  }
-
-  installDimensionChecks();
   installConsoleDetection();
   installKeyGuards();
-  installFocusGuards();
 })();

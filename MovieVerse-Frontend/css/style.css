@@ -3238,26 +3238,6 @@ ol li:hover {
   border: 1px solid #ff8623;
 }
 
-#sendButton {
-  padding: 10px;
-  margin-top: 10px;
-  border-radius: 8px;
-  font-family: inherit;
-  font-size: 1rem;
-  color: white;
-  background-color: #ff8623;
-  border: none;
-  cursor: pointer;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-#sendButton:hover {
-  background-color: #7f4caf;
-  transition: 0.1s linear;
-}
-
 #chatbotInput {
   width: 100%;
   padding: 10px 20px;
@@ -3267,8 +3247,8 @@ ol li:hover {
   font-size: 1rem;
   background-color: transparent;
   color: white;
-  margin-top: 10px;
   box-sizing: border-box;
+  flex: 1;
 }
 
 .highlight1 {
@@ -3288,6 +3268,68 @@ ol li:hover {
   margin-bottom: 10px;
   padding: 5px 10px;
   border-radius: 5px;
+}
+
+.chatbot-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.chatbot-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#sendButton {
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 1rem;
+  color: white;
+  background-color: #ff8623;
+  border: none;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+#sendButton:hover {
+  background-color: #7f4caf;
+  transform: translateY(-1px);
+}
+
+#clearChatButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 134, 35, 0.4);
+  background: transparent;
+  color: #ff8623;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    border-color 0.2s ease;
+  font-size: 1rem;
+}
+
+#clearChatButton:hover,
+#clearChatButton:focus-visible {
+  background: rgba(255, 134, 35, 0.18);
+  border-color: rgba(255, 134, 35, 0.6);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+#clearChatButton i {
+  pointer-events: none;
 }
 
 @media all and (max-width: 705px) {

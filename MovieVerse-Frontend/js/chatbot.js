@@ -1,15 +1,275 @@
-import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory } from '@google/generative-ai';
+import {
+  GoogleGenerativeAI,
+  HarmBlockThreshold,
+  HarmCategory,
+} from "@google/generative-ai";
 
-const chatbotBody = document.getElementById('chatbotBody');
-const movieee = `https://${getMovieVerseData()}/3`;
-
+const CHAT_HISTORY_STORAGE_KEY = "mv-chatbot-history";
+const chatbotBody = document.getElementById("chatbotBody");
 let initialMainContent;
 let conversationHistory = [];
 
+function createIntroEntry() {
+  const introPlainText = [
+    "Welcome to MovieVerse Assistant 🍿! Here's how to get started:",
+    "- To quickly find the trailer of a movie, type \"Show trailer for [movie name]\".",
+    "- Ask about genres, top-rated or latest movies, get recommendations, or any general questions.",
+    "- Tip: Broader wording can yield richer answers; highly specific commands may trigger utilities instead.",
+  ].join("\n");
+  const introHtml = `
+        <div style="text-align: left">
+            <span style="color: #ff8623;">MovieVerse Assistant:</span>
+            <span style="display: inline-block; text-align: left; color: inherit;">
+                Welcome to MovieVerse Assistant 🍿! Here's how to get started:
+            </span>
+        </div>
+        <ul style="text-align: left; margin-bottom: 10px; color: inherit;">
+            <li>To quickly find the trailer of a movie, type "Show trailer for [movie name]".</li>
+            <li>Ask about genres, top-rated or latest movies, get recommendations, or any general questions.</li>
+            <li><b>Tip:</b> Broader wording can yield richer answers; highly specific commands may trigger utilities instead.</li>
+        </ul>
+        <div style="text-align: left; color: inherit;">How may I assist you today? 🎬🍿</div>
+    `;
+  return {
+    role: "model",
+    parts: [{ text: introPlainText }],
+    meta: { format: "html", html: introHtml, intro: true, skipHistory: true },
+  };
+}
+
+function saveConversationHistory() {
+  try {
+    localStorage.setItem(
+      CHAT_HISTORY_STORAGE_KEY,
+      JSON.stringify(conversationHistory),
+    );
+  } catch (error) {
+    console.error("Failed to save chat history:", error);
+  }
+}
+
+function loadConversationHistory() {
+  const stored = localStorage.getItem(CHAT_HISTORY_STORAGE_KEY);
+  if (!stored) {
+    conversationHistory = [];
+    return false;
+  }
+
+  try {
+    const parsed = JSON.parse(stored);
+    if (Array.isArray(parsed)) {
+      const cleanedHistory = [];
+      parsed.forEach((entry) => {
+        if (!entry || typeof entry !== "object") {
+          return;
+        }
+        const role = entry.role === "user" ? "user" : "model";
+        const partsArray = Array.isArray(entry.parts)
+          ? entry.parts
+              .map((part) =>
+                part && typeof part.text === "string"
+                  ? { text: part.text }
+                  : null,
+              )
+              .filter(Boolean)
+          : [];
+        const meta =
+          entry.meta && typeof entry.meta === "object"
+            ? { ...entry.meta }
+            : undefined;
+
+        if (!partsArray.length && !(meta && meta.format === "html")) {
+          return;
+        }
+
+        const currentText = partsArray
+          .map((part) => part.text)
+          .join("\n")
+          .trim();
+        const last = cleanedHistory[cleanedHistory.length - 1];
+        const lastText = last
+          ? (Array.isArray(last.parts)
+              ? last.parts.map((part) => part.text).join("\n").trim()
+              : "")
+          : "";
+
+        const metaSignature = JSON.stringify(meta || null);
+        const lastMetaSignature = JSON.stringify(last?.meta || null);
+
+        if (
+          last &&
+          last.role === role &&
+          currentText &&
+          currentText === lastText &&
+          metaSignature === lastMetaSignature
+        ) {
+          return;
+        }
+
+        cleanedHistory.push({
+          role,
+          parts: partsArray,
+          meta,
+        });
+      });
+      conversationHistory = cleanedHistory;
+      saveConversationHistory();
+      return cleanedHistory.length > 0;
+    }
+  } catch (error) {
+    console.error("Failed to load chat history:", error);
+  }
+
+  conversationHistory = [];
+  return false;
+}
+
+function ensureIntroEntryPresent() {
+  const hasIntro = conversationHistory.some(
+    (entry) => entry.meta && entry.meta.intro,
+  );
+  if (!hasIntro) {
+    conversationHistory.unshift(createIntroEntry());
+    saveConversationHistory();
+  }
+}
+
+function buildModelHistory() {
+  return conversationHistory
+    .filter((entry) => !(entry.meta && entry.meta.skipHistory))
+    .map((entry) => ({
+      role: entry.role,
+      parts: Array.isArray(entry.parts)
+        ? entry.parts.map((part) => ({
+            text: typeof part.text === "string" ? part.text : "",
+          }))
+        : [],
+    }));
+}
+
+function appendMessageElement(role, text) {
+  const wrapper = document.createElement("div");
+  wrapper.style.textAlign = role === "user" ? "right" : "left";
+  wrapper.style.marginBottom = "10px";
+  wrapper.style.color = "inherit";
+
+  const label = document.createElement("span");
+  label.style.color = "#ff8623";
+  label.textContent = role === "user" ? "You:" : "MovieVerse Assistant:";
+  wrapper.appendChild(label);
+
+  const contentSpan = document.createElement("span");
+  contentSpan.style.color = "inherit";
+  contentSpan.style.marginLeft = "4px";
+  const lines = String(text).split(/\r?\n/);
+  lines.forEach((line, index) => {
+    if (index > 0) {
+      contentSpan.appendChild(document.createElement("br"));
+    }
+    contentSpan.appendChild(document.createTextNode(line));
+  });
+  wrapper.appendChild(contentSpan);
+
+  chatbotBody.appendChild(wrapper);
+}
+
+function renderConversation() {
+  chatbotBody.innerHTML = "";
+  conversationHistory.forEach((entry) => {
+    if (!entry) {
+      return;
+    }
+
+    if (entry.meta && entry.meta.format === "html" && entry.meta.html) {
+      const container = document.createElement("div");
+      container.style.textAlign = "left";
+      container.style.color = "inherit";
+      container.innerHTML = entry.meta.html;
+      chatbotBody.appendChild(container);
+      return;
+    }
+
+    if (entry.meta && entry.meta.type === "trailer-button") {
+      const button = document.createElement("button");
+      button.className = "trailer-button";
+      button.textContent =
+        entry.meta.label || "Watch trailer";
+      button.addEventListener("click", () => {
+        if (entry.meta && entry.meta.url) {
+          window.open(entry.meta.url, "_blank", "noopener");
+        }
+      });
+      chatbotBody.appendChild(button);
+      return;
+    }
+
+    const text = Array.isArray(entry.parts)
+      ? entry.parts
+          .map((part) =>
+            part && typeof part.text === "string" ? part.text : "",
+          )
+          .join("\n")
+      : "";
+    const displayText =
+      entry.role === "model" ? removeMarkdown(text) : text;
+    appendMessageElement(entry.role, displayText);
+  });
+  scrollToBottom();
+}
+
+function addUserMessage(text) {
+  const safeText =
+    typeof text === "string" ? text.trim() : "";
+  conversationHistory.push({
+    role: "user",
+    parts: [{ text: safeText }],
+  });
+  saveConversationHistory();
+  renderConversation();
+}
+
+function addAssistantMessage(text, meta) {
+  const normalizedText =
+    typeof text === "string" ? text.trim() : "";
+  const safeText =
+    normalizedText.length > 0
+      ? normalizedText
+      : "I'm here if you need anything else about MovieVerse!";
+  const entry = {
+    role: "model",
+    parts: [{ text: safeText }],
+  };
+  if (meta) {
+    entry.meta = meta;
+  }
+  conversationHistory.push(entry);
+  saveConversationHistory();
+  renderConversation();
+}
+
+function addAssistantTrailerButton(label, url) {
+  const safeLabel =
+    typeof label === "string" && label.trim().length
+      ? label.trim()
+      : "Watch trailer";
+  conversationHistory.push({
+    role: "model",
+    parts: [{ text: safeLabel }],
+    meta: {
+      type: "trailer-button",
+      label: safeLabel,
+      url,
+      skipHistory: true,
+    },
+  });
+  saveConversationHistory();
+  renderConversation();
+}
+
 const movieCode = {
-  part1: 'YzVhMjBjODY=',
-  part2: 'MWFjZjdiYjg=',
-  part3: 'ZDllOTg3ZGNjN2YxYjU1OA==',
+  part1: "YzVhMjBjODY=",
+  part2: "MWFjZjdiYjg=",
+  part3: "ZDllOTg3ZGNjN2YxYjU1OA==",
 };
 
 function getMovieCode() {
@@ -21,20 +281,39 @@ function generateMovieNames(input) {
 }
 
 function getMovieVerseData(input) {
-  return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
+  return String.fromCharCode(
+    97,
+    112,
+    105,
+    46,
+    116,
+    104,
+    101,
+    109,
+    111,
+    118,
+    105,
+    101,
+    100,
+    98,
+    46,
+    111,
+    114,
+    103,
+  );
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-  initialMainContent = document.getElementById('main').innerHTML;
+document.addEventListener("DOMContentLoaded", function () {
+  initialMainContent = document.getElementById("main").innerHTML;
   initializeChatbot();
-  document.getElementById('clear-search-btn').style.display = 'none';
+  document.getElementById("clear-search-btn").style.display = "none";
 });
 
-const searchTitle = document.getElementById('search-title');
+const searchTitle = document.getElementById("search-title");
 const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
 
 async function ensureGenreMapIsAvailable() {
-  if (!localStorage.getItem('genreMap')) {
+  if (!localStorage.getItem("genreMap")) {
     await fetchGenreMap();
   }
 }
@@ -48,9 +327,9 @@ async function fetchGenreMap() {
       map[genre.id] = genre.name;
       return map;
     }, {});
-    localStorage.setItem('genreMap', JSON.stringify(genreMap));
+    localStorage.setItem("genreMap", JSON.stringify(genreMap));
   } catch (error) {
-    console.log('Error fetching genre map:', error);
+    console.log("Error fetching genre map:", error);
   }
 }
 
@@ -59,49 +338,51 @@ async function rotateUserStats() {
 
   const stats = [
     {
-      label: 'Your Current Time',
+      label: "Your Current Time",
       getValue: () => {
         const now = new Date();
         let hours = now.getHours();
         let minutes = now.getMinutes();
-        hours = hours < 10 ? '0' + hours : hours;
-        minutes = minutes < 10 ? '0' + minutes : minutes;
+        hours = hours < 10 ? "0" + hours : hours;
+        minutes = minutes < 10 ? "0" + minutes : minutes;
         return `${hours}:${minutes}`;
       },
     },
-    { label: 'Most Visited Movie', getValue: getMostVisitedMovie },
-    { label: 'Most Visited Director', getValue: getMostVisitedDirector },
-    { label: 'Most Visited Actor', getValue: getMostVisitedActor },
+    { label: "Most Visited Movie", getValue: getMostVisitedMovie },
+    { label: "Most Visited Director", getValue: getMostVisitedDirector },
+    { label: "Most Visited Actor", getValue: getMostVisitedActor },
     {
-      label: 'Movies Discovered',
+      label: "Movies Discovered",
       getValue: () => {
-        const viewedMovies = JSON.parse(localStorage.getItem('uniqueMoviesViewed')) || [];
+        const viewedMovies =
+          JSON.parse(localStorage.getItem("uniqueMoviesViewed")) || [];
         return viewedMovies.length;
       },
     },
     {
-      label: 'Favorite Movies',
+      label: "Favorite Movies",
       getValue: () => {
-        const favoritedMovies = JSON.parse(localStorage.getItem('moviesFavorited')) || [];
+        const favoritedMovies =
+          JSON.parse(localStorage.getItem("moviesFavorited")) || [];
         return favoritedMovies.length;
       },
     },
     {
-      label: 'Favorite Genre',
+      label: "Favorite Genre",
       getValue: () => {
         const mostCommonGenreCode = getMostCommonGenre();
-        const genreMapString = localStorage.getItem('genreMap');
+        const genreMapString = localStorage.getItem("genreMap");
         if (!genreMapString) {
-          console.log('No genre map found in localStorage.');
-          return 'Not Available';
+          console.log("No genre map found in localStorage.");
+          return "Not Available";
         }
 
         let genreMap;
         try {
           genreMap = JSON.parse(genreMapString);
         } catch (e) {
-          console.log('Error parsing genre map:', e);
-          return 'Not Available';
+          console.log("Error parsing genre map:", e);
+          return "Not Available";
         }
 
         let genreObject;
@@ -110,66 +391,74 @@ async function rotateUserStats() {
             acc[genre.id] = genre.name;
             return acc;
           }, {});
-        } else if (typeof genreMap === 'object' && genreMap !== null) {
+        } else if (typeof genreMap === "object" && genreMap !== null) {
           genreObject = genreMap;
         } else {
-          console.log('genreMap is neither an array nor a proper object:', genreMap);
-          return 'Not Available';
+          console.log(
+            "genreMap is neither an array nor a proper object:",
+            genreMap,
+          );
+          return "Not Available";
         }
 
-        return genreObject[mostCommonGenreCode] || 'Not Available';
+        return genreObject[mostCommonGenreCode] || "Not Available";
       },
     },
     {
-      label: 'Watchlists Created',
-      getValue: () => localStorage.getItem('watchlistsCreated') || 0,
+      label: "Watchlists Created",
+      getValue: () => localStorage.getItem("watchlistsCreated") || 0,
     },
     {
-      label: 'Average Movie Rating',
-      getValue: () => localStorage.getItem('averageMovieRating') || 'Not Rated',
+      label: "Average Movie Rating",
+      getValue: () => localStorage.getItem("averageMovieRating") || "Not Rated",
     },
     {
-      label: 'Directors Discovered',
+      label: "Directors Discovered",
       getValue: () => {
-        const viewedDirectors = JSON.parse(localStorage.getItem('uniqueDirectorsViewed')) || [];
+        const viewedDirectors =
+          JSON.parse(localStorage.getItem("uniqueDirectorsViewed")) || [];
         return viewedDirectors.length;
       },
     },
     {
-      label: 'Actors Discovered',
+      label: "Actors Discovered",
       getValue: () => {
-        const viewedActors = JSON.parse(localStorage.getItem('uniqueActorsViewed')) || [];
+        const viewedActors =
+          JSON.parse(localStorage.getItem("uniqueActorsViewed")) || [];
         return viewedActors.length;
       },
     },
-    { label: 'Your Trivia Accuracy', getValue: getTriviaAccuracy },
+    { label: "Your Trivia Accuracy", getValue: getTriviaAccuracy },
   ];
 
   let currentStatIndex = 0;
 
   function updateStatDisplay() {
     const currentStat = stats[currentStatIndex];
-    document.getElementById('stats-label').textContent = currentStat.label + ':';
-    document.getElementById('stats-display').textContent = currentStat.getValue();
+    document.getElementById("stats-label").textContent =
+      currentStat.label + ":";
+    document.getElementById("stats-display").textContent =
+      currentStat.getValue();
     currentStatIndex = (currentStatIndex + 1) % stats.length;
   }
 
   updateStatDisplay();
 
-  const localTimeDiv = document.getElementById('local-time');
+  const localTimeDiv = document.getElementById("local-time");
   let statRotationInterval = setInterval(updateStatDisplay, 3000);
 
-  localTimeDiv.addEventListener('click', () => {
+  localTimeDiv.addEventListener("click", () => {
     clearInterval(statRotationInterval);
     updateStatDisplay();
     statRotationInterval = setInterval(updateStatDisplay, 3000);
-    localTimeDiv.scrollIntoView({ behavior: 'smooth' });
+    localTimeDiv.scrollIntoView({ behavior: "smooth" });
   });
 }
 
 function getMostVisitedDirector() {
-  const directorVisits = JSON.parse(localStorage.getItem('directorVisits')) || {};
-  let mostVisitedDirector = '';
+  const directorVisits =
+    JSON.parse(localStorage.getItem("directorVisits")) || {};
+  let mostVisitedDirector = "";
   let maxVisits = 0;
 
   for (const directorId in directorVisits) {
@@ -179,12 +468,12 @@ function getMostVisitedDirector() {
     }
   }
 
-  return mostVisitedDirector || 'Not Available';
+  return mostVisitedDirector || "Not Available";
 }
 
 function getMostVisitedMovie() {
-  const movieVisits = JSON.parse(localStorage.getItem('movieVisits')) || {};
-  let mostVisitedMovie = '';
+  const movieVisits = JSON.parse(localStorage.getItem("movieVisits")) || {};
+  let mostVisitedMovie = "";
   let maxVisits = 0;
 
   for (const movieId in movieVisits) {
@@ -194,13 +483,13 @@ function getMostVisitedMovie() {
     }
   }
 
-  return mostVisitedMovie || 'Not Available';
+  return mostVisitedMovie || "Not Available";
 }
 
 function getMostVisitedActor() {
-  const actorVisits = JSON.parse(localStorage.getItem('actorVisits')) || {};
+  const actorVisits = JSON.parse(localStorage.getItem("actorVisits")) || {};
 
-  let mostVisitedActor = '';
+  let mostVisitedActor = "";
   let maxVisits = 0;
 
   for (const actorId in actorVisits) {
@@ -210,17 +499,17 @@ function getMostVisitedActor() {
     }
   }
 
-  return mostVisitedActor || 'Not Available';
+  return mostVisitedActor || "Not Available";
 }
 
 function getTriviaAccuracy() {
-  let triviaStats = JSON.parse(localStorage.getItem('triviaStats')) || {
+  let triviaStats = JSON.parse(localStorage.getItem("triviaStats")) || {
     totalCorrect: 0,
     totalAttempted: 0,
   };
 
   if (triviaStats.totalAttempted === 0) {
-    return 'No trivia attempted';
+    return "No trivia attempted";
   }
 
   let accuracy = (triviaStats.totalCorrect / triviaStats.totalAttempted) * 100;
@@ -228,13 +517,14 @@ function getTriviaAccuracy() {
 }
 
 function getMostCommonGenre() {
-  const favoriteGenresArray = JSON.parse(localStorage.getItem('favoriteGenres')) || [];
+  const favoriteGenresArray =
+    JSON.parse(localStorage.getItem("favoriteGenres")) || [];
   const genreCounts = favoriteGenresArray.reduce((acc, genre) => {
     acc[genre] = (acc[genre] || 0) + 1;
     return acc;
   }, {});
 
-  let mostCommonGenre = '';
+  let mostCommonGenre = "";
   let maxCount = 0;
 
   for (const genre in genreCounts) {
@@ -244,79 +534,72 @@ function getMostCommonGenre() {
     }
   }
 
-  return mostCommonGenre || 'Not Available';
+  return mostCommonGenre || "Not Available";
 }
 
-document.addEventListener('DOMContentLoaded', rotateUserStats);
+document.addEventListener("DOMContentLoaded", rotateUserStats);
 
 function initializeChatbot() {
-  const chatbotInput = document.getElementById('chatbotInput');
-  sendInitialInstructions();
-  chatbotInput.addEventListener('keydown', function (event) {
-    if (event.key === 'Enter') {
+  const chatbotInput = document.getElementById("chatbotInput");
+  loadConversationHistory();
+  ensureIntroEntryPresent();
+  renderConversation();
+
+  chatbotInput.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
       sendMessage(chatbotInput.value);
-      chatbotInput.value = '';
+      chatbotInput.value = "";
     }
   });
 
-  const sendButton = document.getElementById('sendButton');
-  sendButton.addEventListener('click', function () {
+  const sendButton = document.getElementById("sendButton");
+  sendButton.addEventListener("click", function () {
     sendMessage(chatbotInput.value);
-    chatbotInput.value = '';
+    chatbotInput.value = "";
   });
+
+  const clearChatButton = document.getElementById("clearChatButton");
+  if (clearChatButton && !clearChatButton.dataset.bound) {
+    clearChatButton.addEventListener("click", () => {
+      localStorage.removeItem(CHAT_HISTORY_STORAGE_KEY);
+      conversationHistory = [];
+      window.location.reload();
+    });
+    clearChatButton.dataset.bound = "true";
+  }
 }
 
 async function sendMessage(message) {
-  chatbotBody.innerHTML += `<div style="text-align: right; margin-bottom: 10px; color: inherit;">
-                              <span style="color: #ff8623;">You:</span> ${message}
-                            </div>`;
-  const botReply = await movieVerseResponse(message);
+  const trimmedMessage = message.trim();
+  if (!trimmedMessage) {
+    return;
+  }
 
-  setTimeout(() => {
-    chatbotBody.innerHTML += `<div style="text-align: left; margin-bottom: 10px; color: inherit;">
-                                <span style="color: #ff8623;">MovieVerse Assistant:</span> ${botReply}
-                              </div>`;
-    scrollToBottom();
-  }, 1000);
+  addUserMessage(trimmedMessage);
 
-  scrollToBottom();
-}
+  const botReply = await movieVerseResponse(trimmedMessage);
 
-function sendInitialInstructions() {
-  const initialMessage = `
-        <div style="text-align: left">
-            <span style="color: #ff8623;">MovieVerse Assistant:</span>
-            <span style="display: inline-block; text-align: left; color: inherit;">
-                Welcome to MovieVerse Assistant 🍿! Here's how to get started:
-            </span>
-        </div>
-        <ul style="text-align: left; margin-bottom: 10px; color: inherit;">
-            <li>To quickly find the trailer of a movie, type "Show trailer for [movie name]".</li>
-            <li>You can also ask about genres, top-rated movies, latest movies, get a recommended movie, and any general questions!</li>
-            <li>💡<b>Tip:</b> To get the best results, try to avoid phrasing requests like "Show trailer for ...", as they might trigger specific functions instead of a broader search.</li>
-        </ul>
-        <div style="text-align: left; color: inherit;">How may I assist you today? 🎬🍿</div>
-    `;
-  chatbotBody.innerHTML += `<div>${initialMessage}</div>`;
-  scrollToBottom();
+  addAssistantMessage(botReply);
 }
 
 function scrollToBottom() {
   chatbotBody.scrollTop = chatbotBody.scrollHeight;
 }
 
-document.getElementById('clear-search-btn').addEventListener('click', function () {
-  document.getElementById('main').innerHTML = initialMainContent;
-  initializeChatbot();
-  searchTitle.innerHTML = '';
-  this.style.display = 'none';
-});
+document
+  .getElementById("clear-search-btn")
+  .addEventListener("click", function () {
+    document.getElementById("main").innerHTML = initialMainContent;
+    initializeChatbot();
+    searchTitle.innerHTML = "";
+    this.style.display = "none";
+  });
 
-form.addEventListener('submit', e => {
+form.addEventListener("submit", (e) => {
   e.preventDefault();
-  const searchQuery = document.getElementById('search').value;
-  localStorage.setItem('searchQuery', searchQuery);
-  window.location.href = 'search.html';
+  const searchQuery = document.getElementById("search").value;
+  localStorage.setItem("searchQuery", searchQuery);
+  window.location.href = "search.html";
 });
 
 async function fetchMovieTrailer(movieName) {
@@ -328,15 +611,23 @@ async function fetchMovieTrailer(movieName) {
     if (movie) {
       const trailerUrl = await getTrailerUrl(movie.id);
       if (trailerUrl) {
-        createTrailerButton(trailerUrl, movie.title);
+        addAssistantTrailerButton(
+          `Watch Trailer for ${movie.title}`,
+          trailerUrl,
+        );
       } else {
-        chatbotBody.innerHTML += '<div>No trailer available for this movie.</div>';
+        addAssistantMessage("No trailer available for this movie.");
       }
     } else {
-      chatbotBody.innerHTML += '<div>Movie not found. Please try another search.</div>';
+      addAssistantMessage(
+        "Movie not found. Please try another search.",
+      );
     }
   } catch (error) {
-    console.log('Error fetching movie trailer:', error);
+    console.log("Error fetching movie trailer:", error);
+    addAssistantMessage(
+      "There was a problem fetching the trailer. Please try again later.",
+    );
   }
 }
 
@@ -346,53 +637,48 @@ async function getTrailerUrl(movieId) {
   try {
     const response = await fetch(trailerApiUrl);
     const data = await response.json();
-    const trailer = data.results.find(video => video.type === 'Trailer' && video.site === 'YouTube');
+    const trailer = data.results.find(
+      (video) => video.type === "Trailer" && video.site === "YouTube",
+    );
     return trailer ? `https://www.youtube.com/watch?v=${trailer.key}` : null;
   } catch (error) {
-    console.log('Error fetching trailer:', error);
+    console.log("Error fetching trailer:", error);
     return null;
   }
-}
-
-function createTrailerButton(trailerUrl, movieTitle) {
-  const buttonId = 'trailerButton';
-  chatbotBody.innerHTML += `
-        <button id="trailerButton">Watch Trailer for ${movieTitle}</button>
-    `;
-  chatbotBody.addEventListener('click', function (event) {
-    if (event.target && event.target.id === buttonId) {
-      window.open(trailerUrl, '_blank');
-    }
-  });
 }
 
 async function movieVerseResponse(message) {
   const lowerMessage = message.toLowerCase();
 
-  if (lowerMessage.startsWith('show trailer for ')) {
-    const movieName = lowerMessage.replace('show trailer for ', '');
+  if (lowerMessage.startsWith("show trailer for ")) {
+    const movieName = lowerMessage.replace("show trailer for ", "");
     fetchMovieTrailer(movieName);
     return `Searching for the trailer of "${movieName}". Please wait...`;
   }
 
-  if (lowerMessage.startsWith('hello') || lowerMessage.startsWith('hi') || lowerMessage.startsWith('hey')) {
-    return 'Hello! How can I assist you with MovieVerse today?';
-  } else if (lowerMessage.startsWith('bye') || lowerMessage.startsWith('goodbye')) {
-    return 'Goodbye! Thank you for using MovieVerse Assistant and have a nice day!';
+  if (
+    lowerMessage.startsWith("hello") ||
+    lowerMessage.startsWith("hi") ||
+    lowerMessage.startsWith("hey")
+  ) {
+    return "Hello! How can I assist you with MovieVerse today?";
+  } else if (
+    lowerMessage.startsWith("bye") ||
+    lowerMessage.startsWith("goodbye")
+  ) {
+    return "Goodbye! Thank you for using MovieVerse Assistant and have a nice day!";
   } else {
     showSpinner();
     animateLoadingDots();
 
-    let fullResponse = '';
+    let fullResponse = "";
     try {
       const genAI = new GoogleGenerativeAI(getAIResponse());
       const model = genAI.getGenerativeModel({
-        model: 'gemini-1.5-flash',
+        model: "gemini-2.0-flash-lite",
         systemInstruction:
           "You are MovieVerse Assistant - an AI Chatbot of the MovieVerse App. You are here to help users with movie-related or any other general queries. You are trained and powered by MovieVerse AI and Google to provide the best assistance. You can also provide information about movies, actors, directors, genres, and companies, or recommend movies to users. If the user asks anything about you or your information, you must by default identify yourself as MovieVerse Assistant, trained by The MovieVerse creator - Son Nguyen, and you're here to provide assistance for any movie-related or any other general inquiries. If the user asks who Son Nguyen is, refer to his portfolio website at: https://sonnguyenhoang.com, LinkedIn at: https://www.linkedin.com/in/hoangsonw, and GitHub at: https://github.com/hoangsonww. If anyone asked who created or trained you, you must refer to Son Nguyen as your creator.",
       });
-
-      conversationHistory.push({ role: 'user', parts: [{ text: message }] });
 
       const chatSession = model.startChat({
         generationConfig: {
@@ -400,7 +686,7 @@ async function movieVerseResponse(message) {
           topP: 0.95,
           topK: 64,
           maxOutputTokens: 8192,
-          responseMimeType: 'text/plain',
+          responseMimeType: "text/plain",
         },
         safetySettings: [
           {
@@ -420,19 +706,15 @@ async function movieVerseResponse(message) {
             threshold: HarmBlockThreshold.BLOCK_NONE,
           },
         ],
-        history: conversationHistory,
+        history: buildModelHistory(),
       });
 
       const result = await chatSession.sendMessage(message);
       fullResponse = result.response.text();
-      conversationHistory.push({
-        role: 'model',
-        parts: [{ text: fullResponse }],
-      });
     } catch (error) {
-      console.error('Error fetching response:', error.message);
+      console.error("Error fetching response:", error.message);
       fullResponse =
-        'An error occurred while generating the response, possibly due to high traffic or safety concerns. Please understand that I am trained by MovieVerse to provide safe and helpful responses within my limitations. I apologize for any inconvenience caused. Please try again with a different query or contact MovieVerse support for further assistance.';
+        "An error occurred while generating the response, possibly due to high traffic or safety concerns. Please understand that I am trained by MovieVerse to provide safe and helpful responses within my limitations. I apologize for any inconvenience caused. Please try again with a different query or contact MovieVerse support for further assistance.";
     }
 
     hideSpinner();
@@ -441,13 +723,15 @@ async function movieVerseResponse(message) {
 }
 
 async function animateLoadingDots() {
-  const loadingTextElement = document.querySelector('#myModal p');
-  let dots = '';
+  const loadingTextElement = document.querySelector("#myModal p");
+  let dots = "";
 
-  while (document.getElementById('myModal').classList.contains('modal-visible')) {
+  while (
+    document.getElementById("myModal").classList.contains("modal-visible")
+  ) {
     loadingTextElement.textContent = `Loading response${dots}`;
-    dots = dots.length < 3 ? dots + '.' : '.';
-    await new Promise(resolve => setTimeout(resolve, 500));
+    dots = dots.length < 3 ? dots + "." : ".";
+    await new Promise((resolve) => setTimeout(resolve, 500));
   }
 }
 
@@ -455,22 +739,28 @@ function removeMarkdown(text) {
   const converter = new showdown.Converter();
   const html = converter.makeHtml(text);
 
-  const tempDiv = document.createElement('div');
+  const tempDiv = document.createElement("div");
   tempDiv.innerHTML = html;
-  return tempDiv.textContent || tempDiv.innerText || '';
+  return tempDiv.textContent || tempDiv.innerText || "";
 }
 
 function getAIResponse() {
-  const response = 'QUl6YVN' + '5QnRIdGJIVW' + 'N6enExT1p3Z' + 'XB0TXNOd' + 'Fdlal9s' + 'U0lWcWZ3';
+  const response =
+    "QUl6YVN" +
+    "5QnRIdGJIVW" +
+    "N6enExT1p3Z" +
+    "XB0TXNOd" +
+    "Fdlal9s" +
+    "U0lWcWZ3";
   return atob(response);
 }
 
 function showSpinner() {
-  document.getElementById('myModal').classList.add('modal-visible');
+  document.getElementById("myModal").classList.add("modal-visible");
 }
 
 function hideSpinner() {
-  document.getElementById('myModal').classList.remove('modal-visible');
+  document.getElementById("myModal").classList.remove("modal-visible");
 }
 
 async function showMovieOfTheDay() {
@@ -490,17 +780,19 @@ async function showMovieOfTheDay() {
       fallbackMovieSelection();
     }
   } catch (error) {
-    console.log('Error fetching movie:', error);
+    console.log("Error fetching movie:", error);
     fallbackMovieSelection();
   }
 }
 
 function fallbackMovieSelection() {
   const fallbackMovies = [
-    432413, 299534, 1726, 562, 118340, 455207, 493922, 447332, 22970, 530385, 27205, 264660, 120467, 603, 577922, 76341, 539, 419704, 515001, 118340,
-    424, 98,
+    432413, 299534, 1726, 562, 118340, 455207, 493922, 447332, 22970, 530385,
+    27205, 264660, 120467, 603, 577922, 76341, 539, 419704, 515001, 118340, 424,
+    98,
   ];
-  const randomFallbackMovie = fallbackMovies[Math.floor(Math.random() * fallbackMovies.length)];
+  const randomFallbackMovie =
+    fallbackMovies[Math.floor(Math.random() * fallbackMovies.length)];
 
   // Redirect with movieId in URL
   window.location.href = `movie-details.html?movieId=${randomFallbackMovie}`;
