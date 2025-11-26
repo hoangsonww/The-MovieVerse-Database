@@ -1,0 +1,97 @@
+global:
+  resolve_timeout: 5m
+  slack_api_url: 'SLACK_WEBHOOK_URL_PLACEHOLDER'
+
+# Templates for notifications
+templates:
+  - '/etc/alertmanager/templates/*.tmpl'
+
+# Route tree
+route:
+  receiver: 'default-receiver'
+  group_by: ['alertname', 'cluster', 'service']
+  group_wait: 10s
+  group_interval: 10s
+  repeat_interval: 12h
+  routes:
+    # Critical alerts
+    - match:
+        severity: critical
+      receiver: 'critical-alerts'
+      continue: true
+      group_wait: 0s
+      repeat_interval: 5m
+
+    # Canary-specific alerts
+    - match:
+        component: canary
+      receiver: 'canary-alerts'
+      continue: true
+
+    # Deployment alerts
+    - match:
+        component: deployment
+      receiver: 'deployment-alerts'
+
+    # Infrastructure alerts
+    - match:
+        component: infrastructure
+      receiver: 'infrastructure-alerts'
+
+# Inhibition rules
+inhibit_rules:
+  - source_match:
+      severity: 'critical'
+    target_match:
+      severity: 'warning'
+    equal: ['alertname', 'cluster', 'service']
+
+# Receivers
+receivers:
+  - name: 'default-receiver'
+    slack_configs:
+      - channel: '#movieverse-alerts'
+        title: 'MovieVerse Alert'
+        text: '{{ range .Alerts }}{{ .Annotations.description }}{{ end }}'
+        send_resolved: true
+
+  - name: 'critical-alerts'
+    slack_configs:
+      - channel: '#movieverse-critical'
+        title: '🚨 CRITICAL: {{ .GroupLabels.alertname }}'
+        text: '{{ range .Alerts }}{{ .Annotations.description }}{{ end }}'
+        send_resolved: true
+        color: 'danger'
+    pagerduty_configs:
+      - service_key: 'PAGERDUTY_SERVICE_KEY_PLACEHOLDER'
+        description: '{{ .GroupLabels.alertname }}: {{ range .Alerts }}{{ .Annotations.summary }}{{ end }}'
+
+  - name: 'canary-alerts'
+    slack_configs:
+      - channel: '#movieverse-deployments'
+        title: '⚠️ Canary Alert: {{ .GroupLabels.alertname }}'
+        text: '{{ range .Alerts }}{{ .Annotations.description }}{{ end }}'
+        send_resolved: true
+        color: 'warning'
+
+  - name: 'deployment-alerts'
+    slack_configs:
+      - channel: '#movieverse-deployments'
+        title: 'Deployment Alert: {{ .GroupLabels.alertname }}'
+        text: '{{ range .Alerts }}{{ .Annotations.description }}{{ end }}'
+        send_resolved: true
+
+  - name: 'infrastructure-alerts'
+    slack_configs:
+      - channel: '#movieverse-infrastructure'
+        title: 'Infrastructure Alert: {{ .GroupLabels.alertname }}'
+        text: '{{ range .Alerts }}{{ .Annotations.description }}{{ end }}'
+        send_resolved: true
+    email_configs:
+      - to: 'devops@movie-verse.com'
+        from: 'alertmanager@movie-verse.com'
+        smarthost: 'smtp.gmail.com:587'
+        auth_username: 'alertmanager@movie-verse.com'
+        auth_password: 'EMAIL_PASSWORD_PLACEHOLDER'
+        headers:
+          Subject: 'MovieVerse Infrastructure Alert: {{ .GroupLabels.alertname }}'

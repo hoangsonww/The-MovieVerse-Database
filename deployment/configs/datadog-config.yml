@@ -1,0 +1,63 @@
+# Datadog Agent Configuration for MovieVerse
+
+api_key: DATADOG_API_KEY_PLACEHOLDER
+site: datadoghq.com
+
+# Logging
+log_level: info
+logs_enabled: true
+
+# APM Configuration
+apm_config:
+  enabled: true
+  env: production
+  receiver_port: 8126
+
+# Process Collection
+process_config:
+  enabled: true
+
+# Container Collection
+container_collection:
+  enabled: true
+
+# Kubernetes Integration
+kubernetes_kubeconfig_path: /root/.kube/config
+kubernetes_collect_metadata_tags: true
+kubernetes_metadata_tag_update_freq: 60
+kubernetes_apiserver_client_timeout: 10
+
+# Log Collection
+logs_config:
+  container_collect_all: true
+  processing_rules:
+    - type: exclude_at_match
+      name: exclude_healthcheck
+      pattern: /health
+    - type: mask_sequences
+      name: mask_api_keys
+      pattern: api[_-]key.*
+      replace_placeholder: "[REDACTED]"
+
+# Integrations
+confd_path: /etc/datadog-agent/conf.d
+checks_tag_cardinality: orchestrator
+
+# Custom tags
+tags:
+  - env:production
+  - service:movieverse
+  - cluster:movieverse-prod
+
+# Service checks
+service_discovery_backend: docker
+
+# Network monitoring
+network_config:
+  enabled: true
+
+# Live processes
+process_config:
+  enabled: true
+  container_collection:
+    enabled: true
