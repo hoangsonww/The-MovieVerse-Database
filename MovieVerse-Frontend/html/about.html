@@ -280,6 +280,58 @@
         background-color: #ff8623;
         transition: 0.1s ease-in;
       }
+
+      .useful-links-section {
+        margin: 30px 0;
+        animation: fadeIn 1.5s ease-in-out;
+      }
+
+      .useful-links-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 14px;
+        margin-top: 18px;
+      }
+
+      .link-card {
+        background: rgba(17, 24, 39, 0.7);
+        border: 1px solid #7378c5;
+        border-radius: 12px;
+        padding: 14px 16px;
+        color: white;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+      }
+
+      .link-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 16px 32px rgba(0, 0, 0, 0.3);
+        border-color: #ff8623;
+      }
+
+      .link-card i {
+        font-size: 20px;
+        color: #ff8623;
+        display: flex;
+        align-items: center;
+      }
+
+      .link-title {
+        font-weight: 600;
+        text-align: left;
+      }
+
+      .link-desc {
+        font-size: 14px;
+        color: #e5e7eb;
+        margin-top: 4px;
+        line-height: 1.4;
+        text-align: left;
+      }
     </style>
       <script src="../js/devtools-guard.js"></script>
 </head>
@@ -577,30 +629,46 @@
       </p>
       <ul style="animation: fadeIn 1.5s ease-in-out; align-content: center; color: white">
         <li>
-          <p style="color: black; text-align: center">Get AI-generated insights and summaries and organize your documents easily with DocuThinker.</p>
-          <button onclick="window.location.href='https://docuthinker.vercel.app/';" class="app-btn">DocuThinker App</button>
-        </li>
-        <li>
-          <p style="color: black; text-align: center">Stay ahead of the weather with WeatherMate, your personal weather forecasting assistant.</p>
-          <button onclick="window.location.href='https://the-weathermate.vercel.app/';" class="app-btn">The WeatherMate App</button>
+          <p style="color: black; text-align: center">
+            🧠 <strong>DocuThinker</strong> — Your AI research room: uploads become crisp, searchable summaries with key takeaways, tasks, and next
+            steps so creative teams align faster.
+          </p>
+          <button onclick="window.location.href='https://docuthinker.vercel.app/';" class="app-btn">DocuThinker AI</button>
         </li>
         <li>
           <p style="color: black; text-align: center">
-            Organize your thoughts effortlessly with StickyNotes, a simple yet effective note-taking app that can also help you focus on your tasks by
-            setting reminders and pomodoro timers.
+            🏠 <strong>EstateWise</strong> — Plan relocations with secure AI chat that blends graph search, RAG, and multi-agent reasoning to surface the
+            right listings, track conversations, and even extend into VS Code.
           </p>
-          <button onclick="window.location.href='https://stickynotes-app.onrender.com/';" class="app-btn">The StickyNotes App</button>
-        </li>
-        <li>
-          <p style="color: black; text-align: center">Embark on a culinary adventure with RecipeGenie, your go-to database for delightful recipes.</p>
-          <button onclick="window.location.href='https://recipe-genie.netlify.app/';" class="app-btn">RecipeGenie Database</button>
+          <button onclick="window.location.href='https://estatewise.vercel.app/';" class="app-btn">EstateWise AI</button>
         </li>
         <li>
           <p style="color: black; text-align: center">
-            Keep track of your tasks and boost productivity with the Next.js ToDo App, a straightforward task manager with cloud storage and
-            synchronization.
+            🐾 <strong>PetSwipe</strong> — Swipe through shelter pets with instant matches, live data, and AI nudges that help you discover, favorite,
+            and adopt without losing track of any companion.
           </p>
-          <button onclick="window.location.href='https://todo-app-nextjs-stack.vercel.app/';" class="app-btn">Next.js ToDo App</button>
+          <button onclick="window.location.href='https://petswipe.vercel.app/';" class="app-btn">PetSwipe App</button>
+        </li>
+        <li>
+          <p style="color: black; text-align: center">
+            🔎 <strong>SynthoraAI</strong> — An automated news desk that crawls sources, summarizes with AI, and delivers concise digests and emails
+            with a responsive reader for on-the-go briefing.
+          </p>
+          <button onclick="window.location.href='https://synthoraai.vercel.app/';" class="app-btn">SynthoraAI App</button>
+        </li>
+        <li>
+          <p style="color: black; text-align: center">
+            🤝 <strong>Collabify</strong> — A streamlined project room to track tasks, roles, and releases with secure auth, bilingual (EN/VN) UI, and a
+            cleaner board than traditional kanban tools.
+          </p>
+          <button onclick="window.location.href='https://collabify-pm.vercel.app/';" class="app-btn">Collabify App</button>
+        </li>
+        <li>
+          <p style="color: black; text-align: center">
+            📦 <strong>Boxed</strong> — Turn gear and props into a searchable, shareable inventory with photos, tags, and packed status, then ask
+            BoxedAI to recall where everything lives before your next shoot.
+          </p>
+          <button onclick="window.location.href='https://boxed-app.vercel.app/';" class="app-btn">Boxed App</button>
         </li>
       </ul>
       <h3 id="subheading" style="animation: fadeIn 1.5s ease-in-out; cursor: pointer">Our Vision:</h3>
@@ -628,43 +696,97 @@
         </em>
       </p>
       <div style="border: 0; height: 1px; border-top: 1px solid #7378c5; margin: 20px auto; width: 100%; animation: fadeIn 1.5s ease-in-out"></div>
-      <h3 id="subheading4" style="animation: fadeIn 1.5s ease-in-out; cursor: pointer">Useful Links:</h3>
-      <p style="animation: fadeIn 1.5s ease-in-out; color: white; text-align: center">
-        <strong>Here are some links that you might find useful:</strong>
-        <br />
-        You can explore the
-        <a href="analytics.html" style="text-decoration: underline" id="githubLink">analytics page</a>
-        of our database, visit our <a href="https://api-movieverse.vercel.app/" style="text-decoration: underline" id="githubLink">API page</a>, read
-        our <a style="text-decoration: underline" id="githubLink" href="terms-of-service.html">terms of service</a>, and review our
-        <a style="text-decoration: underline" id="githubLink" href="privacy-policy.html">privacy policy</a>. Feel free to
-        <a style="text-decoration: underline" id="githubLink" href="support.html">reach out</a>
-        to us or
-        <a style="text-decoration: underline" id="githubLink" href="feedback.html">submit feedback</a>
-        if you have any questions or concerns!
-      </p>
-      <br />
-      <p style="animation: fadeIn 1.5s ease-in-out; color: white; text-align: center">
-        You're also encouraged to
-        <a style="text-decoration: underline" id="githubLink" href="create-account.html">create an account</a>
-        and join our
-        <a style="text-decoration: underline" id="githubLink" href="sign-in.html">community</a>
-        to enjoy personalized movie recommendations, create/share watch lists, and more. We look forward to having you on board!
-      </p>
-      <br />
-      <p style="animation: fadeIn 1.5s ease-in-out; color: white; text-align: center">
-        If you are also interested in the website's creator and developer, feel free to visit my
-        <a style="text-decoration: underline" id="githubLink" href="https://www.linkedin.com/in/hoangsonw/">LinkedIn profile</a> or
-        <a style="text-decoration: underline" id="githubLink" href="https://sonnguyenhoang.com">personal website</a>.
-      </p>
-
-      <div class="app-btn-container" style="animation: fadeIn 1.5s ease-in-out; text-align: center">
-        <button onclick="window.location.href='analytics.html'" class="app-btn" style="border: none">MovieVerse Analytics</button>
-        <button onclick="window.location.href='https://api-movieverse.vercel.app/'" class="app-btn" style="border: none">MovieVerse API</button>
-        <button onclick="window.location.href='terms-of-service.html'" class="app-btn" style="border: none">Terms of Service</button>
-        <button onclick="window.location.href='privacy-policy.html'" class="app-btn" style="border: none">Privacy Policy</button>
-        <button onclick="window.location.href='blogs.html'" class="app-btn" style="border: none">MovieVerse Blogs</button>
-        <button onclick="window.location.href='support.html'" class="app-btn" style="border: none">Contact Support</button>
-        <button onclick="window.location.href='feedback.html'" class="app-btn" style="border: none">Submit Feedback</button>
+      <div class="useful-links-section">
+        <h3 id="subheading4" style="cursor: pointer; text-align: center">Useful Links</h3>
+        <p style="color: white; text-align: center; margin-bottom: 12px">
+          Quick access to the most requested areas of The MovieVerse.
+        </p>
+        <div class="useful-links-grid">
+          <a href="https://github.com/hoangsonww/The-MovieVerse-Database" class="link-card">
+            <i class="fab fa-github" aria-hidden="true"></i>
+            <div>
+              <div class="link-title">Repository</div>
+              <div class="link-desc">Explore the MovieVerse codebase, issues, and releases.</div>
+            </div>
+          </a>
+          <a href="https://api-movieverse.vercel.app/" class="link-card">
+            <i class="fas fa-code" aria-hidden="true"></i>
+            <div>
+              <div class="link-title">API & Docs</div>
+              <div class="link-desc">Explore endpoints, schemas, and examples for developers.</div>
+            </div>
+          </a>
+          <a href="https://www.linkedin.com/in/hoangsonw/" class="link-card">
+            <i class="fab fa-linkedin" aria-hidden="true"></i>
+            <div>
+              <div class="link-title">About the Creator</div>
+              <div class="link-desc">Connect on LinkedIn or visit the personal site for more.</div>
+            </div>
+          </a>
+          <a href="https://sonnguyenhoang.com" class="link-card">
+            <i class="fas fa-user-astronaut" aria-hidden="true"></i>
+            <div>
+              <div class="link-title">Portfolio</div>
+              <div class="link-desc">See other projects and the journey behind MovieVerse.</div>
+            </div>
+          </a>
+          <a href="analytics.html" class="link-card">
+            <i class="fas fa-chart-line" aria-hidden="true"></i>
+            <div>
+              <div class="link-title">Analytics</div>
+              <div class="link-desc">See statistics and trends about movies, directors, and actors.</div>
+            </div>
+          </a>
+          <a href="blogs.html" class="link-card">
+            <i class="fas fa-newspaper" aria-hidden="true"></i>
+            <div>
+              <div class="link-title">Blogs</div>
+              <div class="link-desc">Feature spotlights, production notes, and film insights.</div>
+            </div>
+          </a>
+          <a href="support.html" class="link-card">
+            <i class="fas fa-life-ring" aria-hidden="true"></i>
+            <div>
+              <div class="link-title">Support</div>
+              <div class="link-desc">Need help? Reach the team for questions or issues.</div>
+            </div>
+          </a>
+          <a href="feedback.html" class="link-card">
+            <i class="fas fa-comment-dots" aria-hidden="true"></i>
+            <div>
+              <div class="link-title">Feedback</div>
+              <div class="link-desc">Tell us what to improve-feature requests welcome.</div>
+            </div>
+          </a>
+          <a href="create-account.html" class="link-card">
+            <i class="fas fa-user-plus" aria-hidden="true"></i>
+            <div>
+              <div class="link-title">Create Account</div>
+              <div class="link-desc">Unlock watchlists, recommendations, and personalization.</div>
+            </div>
+          </a>
+          <a href="sign-in.html" class="link-card">
+            <i class="fas fa-sign-in-alt" aria-hidden="true"></i>
+            <div>
+              <div class="link-title">Sign In</div>
+              <div class="link-desc">Return to your saved lists and continue exploring.</div>
+            </div>
+          </a>
+          <a href="terms-of-service.html" class="link-card">
+            <i class="fas fa-balance-scale" aria-hidden="true"></i>
+            <div>
+              <div class="link-title">Terms of Service</div>
+              <div class="link-desc">Review how we operate and the ground rules for use.</div>
+            </div>
+          </a>
+          <a href="privacy-policy.html" class="link-card">
+            <i class="fas fa-shield-alt" aria-hidden="true"></i>
+            <div>
+              <div class="link-title">Privacy Policy</div>
+              <div class="link-desc">Learn how your data is protected across MovieVerse.</div>
+            </div>
+          </a>
+        </div>
       </div>
     </main>
     <div
