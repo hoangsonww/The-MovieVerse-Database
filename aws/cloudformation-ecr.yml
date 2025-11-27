@@ -1,0 +1,114 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'MovieVerse ECR Repository for Docker Images'
+
+Parameters:
+  EnvironmentName:
+    Description: Environment name prefix
+    Type: String
+    Default: movieverse-prod
+
+  RepositoryName:
+    Description: ECR repository name
+    Type: String
+    Default: movieverse
+
+Resources:
+  ECRRepository:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: !Ref RepositoryName
+      ImageScanningConfiguration:
+        ScanOnPush: true
+      ImageTagMutability: MUTABLE
+      LifecyclePolicy:
+        LifecyclePolicyText: |
+          {
+            "rules": [
+              {
+                "rulePriority": 1,
+                "description": "Keep last 10 production images",
+                "selection": {
+                  "tagStatus": "tagged",
+                  "tagPrefixList": ["prod"],
+                  "countType": "imageCountMoreThan",
+                  "countNumber": 10
+                },
+                "action": {
+                  "type": "expire"
+                }
+              },
+              {
+                "rulePriority": 2,
+                "description": "Keep last 5 staging images",
+                "selection": {
+                  "tagStatus": "tagged",
+                  "tagPrefixList": ["staging"],
+                  "countType": "imageCountMoreThan",
+                  "countNumber": 5
+                },
+                "action": {
+                  "type": "expire"
+                }
+              },
+              {
+                "rulePriority": 3,
+                "description": "Expire untagged images older than 7 days",
+                "selection": {
+                  "tagStatus": "untagged",
+                  "countType": "sinceImagePushed",
+                  "countUnit": "days",
+                  "countNumber": 7
+                },
+                "action": {
+                  "type": "expire"
+                }
+              }
+            ]
+          }
+      EncryptionConfiguration:
+        EncryptionType: AES256
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName}-ECR-Repository
+        - Key: Environment
+          Value: !Ref EnvironmentName
+
+  ECRRepositoryPolicy:
+    Type: AWS::ECR::RepositoryPolicy
+    Properties:
+      RepositoryName: !Ref ECRRepository
+      PolicyText:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: AllowPushPull
+            Effect: Allow
+            Principal:
+              AWS:
+                - !Sub 'arn:aws:iam::${AWS::AccountId}:root'
+            Action:
+              - 'ecr:GetDownloadUrlForLayer'
+              - 'ecr:BatchGetImage'
+              - 'ecr:BatchCheckLayerAvailability'
+              - 'ecr:PutImage'
+              - 'ecr:InitiateLayerUpload'
+              - 'ecr:UploadLayerPart'
+              - 'ecr:CompleteLayerUpload'
+
+Outputs:
+  RepositoryUri:
+    Description: ECR Repository URI
+    Value: !GetAtt ECRRepository.RepositoryUri
+    Export:
+      Name: !Sub ${EnvironmentName}-ECRRepositoryUri
+
+  RepositoryArn:
+    Description: ECR Repository ARN
+    Value: !GetAtt ECRRepository.Arn
+    Export:
+      Name: !Sub ${EnvironmentName}-ECRRepositoryArn
+
+  RepositoryName:
+    Description: ECR Repository Name
+    Value: !Ref ECRRepository
+    Export:
+      Name: !Sub ${EnvironmentName}-ECRRepositoryName

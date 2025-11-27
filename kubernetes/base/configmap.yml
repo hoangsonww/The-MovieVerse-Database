@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: movieverse-config
+  namespace: movieverse
+data:
+  redis-host: "redis.movieverse.svc.cluster.local"
+  redis-port: "6379"
+  mongodb-host: "mongodb.movieverse.svc.cluster.local"
+  mongodb-port: "27017"
+  mysql-host: "mysql.movieverse.svc.cluster.local"
+  mysql-port: "3306"
+  postgresql-host: "postgresql.movieverse.svc.cluster.local"
+  postgresql-port: "5432"
+  log-level: "info"
+  max-connections: "100"

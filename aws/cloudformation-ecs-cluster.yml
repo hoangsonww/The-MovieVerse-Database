@@ -1,0 +1,472 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'MovieVerse ECS Cluster with Blue-Green Deployment Support'
+
+Parameters:
+  EnvironmentName:
+    Description: Environment name prefix
+    Type: String
+    Default: movieverse-prod
+
+  ImageTag:
+    Description: Docker image tag
+    Type: String
+    Default: latest
+
+  DesiredCount:
+    Description: Desired number of tasks
+    Type: Number
+    Default: 2
+
+  MinCapacity:
+    Description: Minimum number of tasks for autoscaling
+    Type: Number
+    Default: 2
+
+  MaxCapacity:
+    Description: Maximum number of tasks for autoscaling
+    Type: Number
+    Default: 10
+
+  ContainerPort:
+    Description: Container port
+    Type: Number
+    Default: 5000
+
+  HealthCheckPath:
+    Description: Health check path
+    Type: String
+    Default: /
+
+  ECRRepositoryName:
+    Description: ECR repository name
+    Type: String
+    Default: movieverse
+
+Resources:
+  # ECS Cluster
+  ECSCluster:
+    Type: AWS::ECS::Cluster
+    Properties:
+      ClusterName: !Sub ${EnvironmentName}-cluster
+      ClusterSettings:
+        - Name: containerInsights
+          Value: enabled
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName}-ECS-Cluster
+
+  # CloudWatch Log Group
+  LogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /ecs/${EnvironmentName}
+      RetentionInDays: 30
+
+  # Task Execution Role
+  TaskExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub ${EnvironmentName}-TaskExecutionRole
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ecs-tasks.amazonaws.com
+            Action: 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy'
+      Policies:
+        - PolicyName: ECRAccess
+          PolicyDocument:
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'ecr:GetAuthorizationToken'
+                  - 'ecr:BatchCheckLayerAvailability'
+                  - 'ecr:GetDownloadUrlForLayer'
+                  - 'ecr:BatchGetImage'
+                Resource: '*'
+        - PolicyName: CloudWatchLogs
+          PolicyDocument:
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'logs:CreateLogStream'
+                  - 'logs:PutLogEvents'
+                Resource: !GetAtt LogGroup.Arn
+
+  # Task Role
+  TaskRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub ${EnvironmentName}-TaskRole
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ecs-tasks.amazonaws.com
+            Action: 'sts:AssumeRole'
+      Policies:
+        - PolicyName: CloudWatchMetrics
+          PolicyDocument:
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'cloudwatch:PutMetricData'
+                Resource: '*'
+        - PolicyName: DynamoDBAccess
+          PolicyDocument:
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'dynamodb:*'
+                Resource: '*'
+
+  # Security Group for ECS Tasks
+  ECSSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: !Sub ${EnvironmentName}-ECS-SG
+      GroupDescription: Security group for ECS tasks
+      VpcId:
+        Fn::ImportValue: !Sub ${EnvironmentName}-VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: !Ref ContainerPort
+          ToPort: !Ref ContainerPort
+          SourceSecurityGroupId: !Ref ALBSecurityGroup
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName}-ECS-SecurityGroup
+
+  # Security Group for ALB
+  ALBSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: !Sub ${EnvironmentName}-ALB-SG
+      GroupDescription: Security group for Application Load Balancer
+      VpcId:
+        Fn::ImportValue: !Sub ${EnvironmentName}-VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName}-ALB-SecurityGroup
+
+  # Application Load Balancer
+  ApplicationLoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Name: !Sub ${EnvironmentName}-ALB
+      Type: application
+      Scheme: internet-facing
+      IpAddressType: ipv4
+      Subnets:
+        - Fn::ImportValue: !Sub ${EnvironmentName}-PublicSubnet1
+        - Fn::ImportValue: !Sub ${EnvironmentName}-PublicSubnet2
+      SecurityGroups:
+        - !Ref ALBSecurityGroup
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName}-ALB
+
+  # Target Group - Blue (Production)
+  TargetGroupBlue:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Name: !Sub ${EnvironmentName}-TG-Blue
+      Port: !Ref ContainerPort
+      Protocol: HTTP
+      TargetType: ip
+      VpcId:
+        Fn::ImportValue: !Sub ${EnvironmentName}-VPC
+      HealthCheckEnabled: true
+      HealthCheckIntervalSeconds: 30
+      HealthCheckPath: !Ref HealthCheckPath
+      HealthCheckProtocol: HTTP
+      HealthCheckTimeoutSeconds: 5
+      HealthyThresholdCount: 2
+      UnhealthyThresholdCount: 3
+      Matcher:
+        HttpCode: 200-299
+      TargetGroupAttributes:
+        - Key: deregistration_delay.timeout_seconds
+          Value: '30'
+        - Key: stickiness.enabled
+          Value: 'true'
+        - Key: stickiness.type
+          Value: lb_cookie
+        - Key: stickiness.lb_cookie.duration_seconds
+          Value: '86400'
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName}-TargetGroup-Blue
+
+  # Target Group - Green (Staging)
+  TargetGroupGreen:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Name: !Sub ${EnvironmentName}-TG-Green
+      Port: !Ref ContainerPort
+      Protocol: HTTP
+      TargetType: ip
+      VpcId:
+        Fn::ImportValue: !Sub ${EnvironmentName}-VPC
+      HealthCheckEnabled: true
+      HealthCheckIntervalSeconds: 30
+      HealthCheckPath: !Ref HealthCheckPath
+      HealthCheckProtocol: HTTP
+      HealthCheckTimeoutSeconds: 5
+      HealthyThresholdCount: 2
+      UnhealthyThresholdCount: 3
+      Matcher:
+        HttpCode: 200-299
+      TargetGroupAttributes:
+        - Key: deregistration_delay.timeout_seconds
+          Value: '30'
+        - Key: stickiness.enabled
+          Value: 'true'
+        - Key: stickiness.type
+          Value: lb_cookie
+        - Key: stickiness.lb_cookie.duration_seconds
+          Value: '86400'
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName}-TargetGroup-Green
+
+  # ALB Listener - Production
+  ALBListenerProduction:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      LoadBalancerArn: !Ref ApplicationLoadBalancer
+      Port: 80
+      Protocol: HTTP
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref TargetGroupBlue
+
+  # ALB Listener - Test (for Green environment testing)
+  ALBListenerTest:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      LoadBalancerArn: !Ref ApplicationLoadBalancer
+      Port: 8080
+      Protocol: HTTP
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref TargetGroupGreen
+
+  # Task Definition
+  TaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: !Sub ${EnvironmentName}-task
+      NetworkMode: awsvpc
+      RequiresCompatibilities:
+        - FARGATE
+      Cpu: '512'
+      Memory: '1024'
+      ExecutionRoleArn: !GetAtt TaskExecutionRole.Arn
+      TaskRoleArn: !GetAtt TaskRole.Arn
+      ContainerDefinitions:
+        - Name: movieverse-app
+          Image: !Sub ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/${ECRRepositoryName}:${ImageTag}
+          PortMappings:
+            - ContainerPort: !Ref ContainerPort
+              Protocol: tcp
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Ref LogGroup
+              awslogs-region: !Ref AWS::Region
+              awslogs-stream-prefix: ecs
+          Environment:
+            - Name: NODE_ENV
+              Value: production
+            - Name: PORT
+              Value: !Ref ContainerPort
+          HealthCheck:
+            Command:
+              - CMD-SHELL
+              - !Sub curl -f http://localhost:${ContainerPort}${HealthCheckPath} || exit 1
+            Interval: 30
+            Timeout: 5
+            Retries: 3
+            StartPeriod: 60
+
+  # ECS Service - Blue (Production)
+  ECSServiceBlue:
+    Type: AWS::ECS::Service
+    DependsOn: ALBListenerProduction
+    Properties:
+      ServiceName: !Sub ${EnvironmentName}-service-blue
+      Cluster: !Ref ECSCluster
+      TaskDefinition: !Ref TaskDefinition
+      DesiredCount: !Ref DesiredCount
+      LaunchType: FARGATE
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: DISABLED
+          Subnets:
+            - Fn::ImportValue: !Sub ${EnvironmentName}-PrivateSubnet1
+            - Fn::ImportValue: !Sub ${EnvironmentName}-PrivateSubnet2
+          SecurityGroups:
+            - !Ref ECSSecurityGroup
+      LoadBalancers:
+        - ContainerName: movieverse-app
+          ContainerPort: !Ref ContainerPort
+          TargetGroupArn: !Ref TargetGroupBlue
+      HealthCheckGracePeriodSeconds: 60
+      DeploymentConfiguration:
+        MaximumPercent: 200
+        MinimumHealthyPercent: 100
+        DeploymentCircuitBreaker:
+          Enable: true
+          Rollback: true
+      DeploymentController:
+        Type: CODE_DEPLOY
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName}-ECS-Service-Blue
+
+  # Auto Scaling Target
+  ServiceScalingTarget:
+    Type: AWS::ApplicationAutoScaling::ScalableTarget
+    Properties:
+      MaxCapacity: !Ref MaxCapacity
+      MinCapacity: !Ref MinCapacity
+      ResourceId: !Sub service/${ECSCluster}/${ECSServiceBlue.Name}
+      RoleARN: !Sub arn:aws:iam::${AWS::AccountId}:role/aws-service-role/ecs.application-autoscaling.amazonaws.com/AWSServiceRoleForApplicationAutoScaling_ECSService
+      ScalableDimension: ecs:service:DesiredCount
+      ServiceNamespace: ecs
+
+  # Auto Scaling Policy - CPU
+  ServiceScalingPolicyCPU:
+    Type: AWS::ApplicationAutoScaling::ScalingPolicy
+    Properties:
+      PolicyName: !Sub ${EnvironmentName}-cpu-scaling
+      PolicyType: TargetTrackingScaling
+      ScalingTargetId: !Ref ServiceScalingTarget
+      TargetTrackingScalingPolicyConfiguration:
+        PredefinedMetricSpecification:
+          PredefinedMetricType: ECSServiceAverageCPUUtilization
+        TargetValue: 70.0
+        ScaleInCooldown: 300
+        ScaleOutCooldown: 60
+
+  # Auto Scaling Policy - Memory
+  ServiceScalingPolicyMemory:
+    Type: AWS::ApplicationAutoScaling::ScalingPolicy
+    Properties:
+      PolicyName: !Sub ${EnvironmentName}-memory-scaling
+      PolicyType: TargetTrackingScaling
+      ScalingTargetId: !Ref ServiceScalingTarget
+      TargetTrackingScalingPolicyConfiguration:
+        PredefinedMetricSpecification:
+          PredefinedMetricType: ECSServiceAverageMemoryUtilization
+        TargetValue: 80.0
+        ScaleInCooldown: 300
+        ScaleOutCooldown: 60
+
+  # CodeDeploy Application
+  CodeDeployApplication:
+    Type: AWS::CodeDeploy::Application
+    Properties:
+      ApplicationName: !Sub ${EnvironmentName}-app
+      ComputePlatform: ECS
+
+  # CodeDeploy Service Role
+  CodeDeployServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub ${EnvironmentName}-CodeDeployRole
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: codedeploy.amazonaws.com
+            Action: 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/AWSCodeDeployRoleForECS'
+
+  # CodeDeploy Deployment Group
+  CodeDeployDeploymentGroup:
+    Type: AWS::CodeDeploy::DeploymentGroup
+    Properties:
+      ApplicationName: !Ref CodeDeployApplication
+      DeploymentGroupName: !Sub ${EnvironmentName}-deployment-group
+      ServiceRoleArn: !GetAtt CodeDeployServiceRole.Arn
+      DeploymentConfigName: CodeDeployDefault.ECSAllAtOnce
+      DeploymentStyle:
+        DeploymentType: BLUE_GREEN
+        DeploymentOption: WITH_TRAFFIC_CONTROL
+      BlueGreenDeploymentConfiguration:
+        TerminateBlueInstancesOnDeploymentSuccess:
+          Action: TERMINATE
+          TerminationWaitTimeInMinutes: 5
+        DeploymentReadyOption:
+          ActionOnTimeout: CONTINUE_DEPLOYMENT
+      ECSServices:
+        - ClusterName: !Ref ECSCluster
+          ServiceName: !GetAtt ECSServiceBlue.Name
+      LoadBalancerInfo:
+        TargetGroupPairInfoList:
+          - TargetGroups:
+              - Name: !GetAtt TargetGroupBlue.TargetGroupName
+              - Name: !GetAtt TargetGroupGreen.TargetGroupName
+            ProdTrafficRoute:
+              ListenerArns:
+                - !Ref ALBListenerProduction
+            TestTrafficRoute:
+              ListenerArns:
+                - !Ref ALBListenerTest
+
+Outputs:
+  ClusterName:
+    Description: ECS Cluster Name
+    Value: !Ref ECSCluster
+    Export:
+      Name: !Sub ${EnvironmentName}-ClusterName
+
+  ServiceName:
+    Description: ECS Service Name
+    Value: !GetAtt ECSServiceBlue.Name
+    Export:
+      Name: !Sub ${EnvironmentName}-ServiceName
+
+  LoadBalancerDNS:
+    Description: Load Balancer DNS Name
+    Value: !GetAtt ApplicationLoadBalancer.DNSName
+    Export:
+      Name: !Sub ${EnvironmentName}-LoadBalancerDNS
+
+  TargetGroupBlueArn:
+    Description: Blue Target Group ARN
+    Value: !Ref TargetGroupBlue
+    Export:
+      Name: !Sub ${EnvironmentName}-TargetGroupBlueArn
+
+  TargetGroupGreenArn:
+    Description: Green Target Group ARN
+    Value: !Ref TargetGroupGreen
+    Export:
+      Name: !Sub ${EnvironmentName}-TargetGroupGreenArn
+
+  CodeDeployApplication:
+    Description: CodeDeploy Application Name
+    Value: !Ref CodeDeployApplication
+    Export:
+      Name: !Sub ${EnvironmentName}-CodeDeployApplication
+
+  CodeDeployDeploymentGroup:
+    Description: CodeDeploy Deployment Group Name
+    Value: !Ref CodeDeployDeploymentGroup
+    Export:
+      Name: !Sub ${EnvironmentName}-CodeDeployDeploymentGroup

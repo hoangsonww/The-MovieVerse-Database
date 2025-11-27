@@ -1,0 +1,105 @@
+{
+  "family": "movieverse-prod-task-blue",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "512",
+  "memory": "1024",
+  "executionRoleArn": "arn:aws:iam::ACCOUNT_ID:role/movieverse-prod-TaskExecutionRole",
+  "taskRoleArn": "arn:aws:iam::ACCOUNT_ID:role/movieverse-prod-TaskRole",
+  "containerDefinitions": [
+    {
+      "name": "movieverse-app",
+      "image": "ACCOUNT_ID.dkr.ecr.REGION.amazonaws.com/movieverse:blue",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 5000,
+          "protocol": "tcp"
+        }
+      ],
+      "environment": [
+        {
+          "name": "NODE_ENV",
+          "value": "production"
+        },
+        {
+          "name": "PORT",
+          "value": "5000"
+        },
+        {
+          "name": "VERSION",
+          "value": "blue"
+        }
+      ],
+      "secrets": [
+        {
+          "name": "DB_PASSWORD",
+          "valueFrom": "arn:aws:secretsmanager:REGION:ACCOUNT_ID:secret:movieverse/prod/db-password"
+        },
+        {
+          "name": "API_KEY",
+          "valueFrom": "arn:aws:secretsmanager:REGION:ACCOUNT_ID:secret:movieverse/prod/api-key"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/movieverse-prod",
+          "awslogs-region": "REGION",
+          "awslogs-stream-prefix": "blue"
+        }
+      },
+      "healthCheck": {
+        "command": [
+          "CMD-SHELL",
+          "curl -f http://localhost:5000/health || exit 1"
+        ],
+        "interval": 30,
+        "timeout": 5,
+        "retries": 3,
+        "startPeriod": 60
+      }
+    },
+    {
+      "name": "datadog-agent",
+      "image": "public.ecr.aws/datadog/agent:latest",
+      "essential": false,
+      "environment": [
+        {
+          "name": "DD_SITE",
+          "value": "datadoghq.com"
+        },
+        {
+          "name": "ECS_FARGATE",
+          "value": "true"
+        },
+        {
+          "name": "DD_APM_ENABLED",
+          "value": "true"
+        },
+        {
+          "name": "DD_LOGS_ENABLED",
+          "value": "true"
+        },
+        {
+          "name": "DD_TAGS",
+          "value": "env:production service:movieverse version:blue"
+        }
+      ],
+      "secrets": [
+        {
+          "name": "DD_API_KEY",
+          "valueFrom": "arn:aws:secretsmanager:REGION:ACCOUNT_ID:secret:datadog/api-key"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/movieverse-prod",
+          "awslogs-region": "REGION",
+          "awslogs-stream-prefix": "datadog"
+        }
+      }
+    }
+  ]
+}

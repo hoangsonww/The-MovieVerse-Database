@@ -222,183 +222,63 @@ Here are some detailed flowcharts illustrating the high-level architecture of ou
 
 ### Movie Data Flow Architecture
 
-```
-      +----------------+       +--------------------------+
-      |                |       |                          |
-      |    Various     |       |    Public API Sources    |
-      |  Data Sources  |       |   (TMDB API, IMDB API)   |
-      |                |       |                          |
-      +--------+-------+       +-------------+------------+
-               |                             |
-               |                             |
-               v                             v
-      +------------------+       +--------------------------+       +-----------------------+
-      |                  |       |                          |       |                       |
-      | Custom Crawler   |       |    API Fetcher Service   |       |   Manual Data Entry   |
-      | (Crawls on       |       |  (via Axios, Fetch API)  |       |  (Adminstrators &     |
-      |  Wikipedia,      |       |                          |       |   Maintainers Only)   |
-      | Rotten Tomatoes, |       +-------------+------------+       |                       |
-      | and other URLs)  |                     |                    +-----------------------+
-      |                  |                     |                                |
-      +--------+---------+                     |                                |
-               |                               |                                |
-               +--------------+-------------------------------------------------+
-                              |
-                              v
-                  +-----------------------+
-                  |                       |
-                  |   Data Processing     |
-                  | (Cleaning, Filtering, |
-                  |   Structuring, and    |
-                  |    Storing Data)      |
-                  |                       |
-                  +-----------------------+
-                              |
-                              |
-                              |
-                +--------------------------------+
-                |        AI/ML Processing        |
-                |  - Sentiment Analysis          |
-                |  - Anomaly Detection           |
-                |  - Data Enrichment             |
-                |  - Predictive Analytics        |
-                |  - Clustering & Categorization |
-                |  - and more...                 |
-                +--------------------------------+
-                              |
-                              |
-         +--------------------+------------------+
-         |                                       |
-         v                                       v
-+----------------------------+       +----------------------------+
-|    PostgreSQL / MySQL      |       |          MongoDB           |
-|  (Structured Movie Data)   |       |  (Flexible Movie Metadata) |
-|  - Titles, Ratings         |       |  - Reviews, Comments       |
-|  - Cast & Crew             |       |  - Dynamic Movie Metadata  |
-|  - Box Office, Budgets     |       |  - JSON-based Documents    |
-|  - and more...             |       |  - and more...             |
-+----------------------------+       +----------------------------+
-                 \                        /
-                  \                      /
-                   \                    /
-                    \                  /
-                     \                /
-                      v              v
-           +----------------------------------+       +-------------------------+
-           |        Django Backend API        |       |    Flask (For Testing)  |
-           |   (Unified Movie Data Access)    |       |  - Sample API Endpoints |
-           |  - Combines SQL & NoSQL Data     | <---> |  - Lightweight Testing  |
-           |  - Provides REST/GraphQL API     |       |  - Quick Prototyping    |
-           |  - Handles Authentication        |       +-------------------------+
-           |  - Business Logic Processing     |
-           +----------------------------------+
-                            |
-                            v
-                  +---------------------+
-                  |                     |
-                  |      Frontend       |
-                  |  (Consumer of API)  |
-                  |                     |
-                  +---------------------+
+```mermaid
+flowchart LR
+    subgraph Sources
+        Various["Various Data Sources"]
+        PublicAPIs["Public API Sources<br/>TMDB, IMDB, etc."]
+        Manual["Manual Data Entry<br/>(Admins & Maintainers)"]
+    end
+
+    Crawler["Custom Crawler<br/>(Wikipedia, Rotten Tomatoes, etc.)"]
+    Fetcher["API Fetcher Service<br/>(Axios/Fetch)"]
+    Processing["Data Processing<br/>(clean, filter, structure, store)"]
+    AI["AI/ML Processing<br/>Sentiment, Anomaly, Enrichment,<br/>Predictive, Clustering, etc."]
+    SQLDB["PostgreSQL / MySQL<br/>Structured Movie Data"]
+    Mongo["MongoDB<br/>Flexible Movie Metadata"]
+    Django["Django Backend API<br/>Unified Movie Data Access"]
+    Flask["Flask (Testing)<br/>Sample endpoints / prototyping"]
+    Frontend["Frontend<br/>(API consumer)"]
+
+    Various --> Crawler --> Processing
+    PublicAPIs --> Fetcher --> Processing
+    Manual --> Processing
+    Processing --> AI --> SQLDB
+    AI --> Mongo
+    SQLDB & Mongo --> Django
+    Django <--> Flask
+    Django --> Frontend
+
+    classDef db fill:#0ea5e9,stroke:#0369a1,color:#fff
+    class SQLDB,Mongo db
 ```
 
 ### User Data Flow Architecture
 
-```
-      +-----------------------+
-      |     User Frontend     |
-      |   (Sign Up, Login,    |
-      |   Profile Updates,    |
-      |   Game Scores, etc.)  |
-      +-----------+-----------+
-                  |
-                  v
-      +----------------------------+
-      |  Firebase Authentication   |
-      |  (User Sign-In, Sign-Up,   |
-      |   Password Management,     |
-      |   Token Generation)        |
-      +-----------+----------------+
-                  |
-                  v
-      +-----------------------------+
-      |     Firebase Firestore      |
-      |  (User Profiles, Game Data, |
-      |   Leaderboards, Quiz Scores |
-      |   Preferences, Settings)    |
-      +-----------+-----------------+
-                  |
-                  v
-      +----------------------------+
-      |  Firebase Cloud Functions  |
-      |  (Server-side Processing,  |
-      |   Security Rules,          |
-      |   Automated Tasks)         |
-      +-----------+----------------+
-                  |
-                  |
-                  v
-      +----------------------------+
-      |    Frontend (Dashboard)    |
-      |  (Displays User Data,      |
-      |   Scores, Leaderboards,    |
-      |   Profile Info)            |
-      +----------------------------+
+```mermaid
+flowchart TD
+    UserUI["User Frontend<br/>Sign up/login, profiles, game scores"]
+    Auth["Firebase Authentication<br/>Sign-in, password mgmt, tokens"]
+    Store["Firebase Firestore<br/>Profiles, game data, leaderboards, prefs"]
+    Functions["Firebase Cloud Functions<br/>Server-side processing, rules, automation"]
+    Dashboard["Frontend Dashboard<br/>User data, scores, leaderboards"]
+
+    UserUI --> Auth --> Store --> Functions --> Dashboard
 ```
 
 ### AI/ML Service for Recommending Movies
 
-```
-      +------------------------+
-      |      User Frontend     |
-      |   (User Interaction,   |
-      |  Preferences, Ratings, |
-      |    User Watchlists)    |
-      +-----------+------------+
-                  |
-                  v
-      +----------------------------+
-      |     Django Backend API     |
-      |    (Handles Requests,      |
-      |   User Data Processing,    |
-      |        API Layer)          |
-      +-----------+----------------+
-                  |
-                  v
-      +----------------------------+
-      |       Data Pipeline        |
-      |    (Extracts User Data,    |
-      |   Prepares Feature Set)    |
-      +-----------+----------------+
-                  |
-                  v
-      +----------------------------+
-      |   AI/ML Model Processing   |
-      |  (Collaborative Filtering, |
-      |   Content-Based Filtering, |
-      |   Hybrid Approach)         |
-      +-----------+----------------+
-                  |
-                  v
-      +----------------------------+
-      |    Recommendation Engine   |
-      |  (Generates Personalized   |
-      |   Movie Suggestions)       |
-      +-----------+----------------+
-                  |
-                  v
-      +----------------------------+
-      |   Response to Django API   |
-      |   (Returns Recommended     |
-      |     Movies for User)       |
-      +-----------+----------------+
-                  |
-                  v
-      +----------------------------+
-      |    Frontend UI Displays    |
-      |  (Recommended Movies,      |
-      |  Personalized Experience)  |
-      +----------------------------+
+```mermaid
+flowchart TD
+    UserFront["User Frontend<br/>Interactions, prefs, ratings, watchlists"]
+    DjangoAPI["Django Backend API<br/>Request handling & user data processing"]
+    Pipeline["Data Pipeline<br/>Extract user data, build features"]
+    Model["AI/ML Processing<br/>Collaborative + Content-based + Hybrid"]
+    Engine["Recommendation Engine<br/>Personalized movie suggestions"]
+    Response["Response to API<br/>Recommended movies"]
+    UI["Frontend UI<br/>Displays personalized recs"]
+
+    UserFront --> DjangoAPI --> Pipeline --> Model --> Engine --> Response --> UI
 ```
 
 ## Getting Started

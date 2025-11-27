@@ -1,0 +1,78 @@
+apiVersion: flagger.app/v1beta1
+kind: Canary
+metadata:
+  name: movieverse
+  namespace: movieverse
+spec:
+  # deployment reference
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: movieverse-stable
+  # HPA reference (optional)
+  autoscalerRef:
+    apiVersion: autoscaling/v2
+    kind: HorizontalPodAutoscaler
+    name: movieverse-stable-hpa
+  # service definition
+  service:
+    port: 80
+    targetPort: 5000
+    name: movieverse
+  # canary analysis
+  analysis:
+    # schedule interval (default 60s)
+    interval: 1m
+    # max number of failed metric checks before rollback
+    threshold: 5
+    # max traffic percentage routed to canary
+    maxWeight: 50
+    # canary increment step
+    stepWeight: 10
+    # validation (optional)
+    metrics:
+    - name: request-success-rate
+      # minimum req success rate (non 5xx responses)
+      thresholdRange:
+        min: 99
+      interval: 1m
+    - name: request-duration
+      # maximum req duration P99
+      thresholdRange:
+        max: 500
+      interval: 1m
+    # testing (optional)
+    webhooks:
+    - name: smoke-test
+      type: pre-rollout
+      url: http://flagger-loadtester.test/
+      timeout: 15s
+      metadata:
+        type: bash
+        cmd: "curl -sd 'test' http://movieverse-canary/health | grep OK"
+    - name: load-test
+      type: rollout
+      url: http://flagger-loadtester.test/
+      timeout: 5s
+      metadata:
+        type: cmd
+        cmd: "hey -z 1m -q 10 -c 2 http://movieverse-canary/"
+    - name: acceptance-test
+      type: post-rollout
+      url: http://flagger-loadtester.test/
+      timeout: 30s
+      metadata:
+        type: bash
+        cmd: "curl -sd 'test' http://movieverse/health | grep OK"
+  # alerting (optional)
+  alerts:
+  - name: "canary deployment"
+    severity: info
+    providerRef:
+      name: slack
+      namespace: flagger
+  - name: "canary rollback"
+    severity: error
+    providerRef:
+      name: slack
+      namespace: flagger

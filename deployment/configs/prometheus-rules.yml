@@ -1,0 +1,138 @@
+groups:
+  - name: movieverse_alerts
+    interval: 30s
+    rules:
+      # High error rate alert
+      - alert: HighErrorRate
+        expr: |
+          (
+            sum(rate(http_requests_total{status=~"5.."}[5m])) by (version, track)
+            /
+            sum(rate(http_requests_total[5m])) by (version, track)
+          ) * 100 > 5
+        for: 2m
+        labels:
+          severity: critical
+          component: application
+        annotations:
+          summary: "High error rate detected"
+          description: "Error rate is {{ $value }}% for {{ $labels.version }}/{{ $labels.track }}"
+
+      # High latency alert
+      - alert: HighLatency
+        expr: |
+          histogram_quantile(0.99,
+            sum(rate(http_request_duration_seconds_bucket[5m])) by (le, version, track)
+          ) > 1
+        for: 5m
+        labels:
+          severity: warning
+          component: application
+        annotations:
+          summary: "High latency detected"
+          description: "P99 latency is {{ $value }}s for {{ $labels.version }}/{{ $labels.track }}"
+
+      # Canary vs Stable error rate comparison
+      - alert: CanaryHighErrorRate
+        expr: |
+          (
+            sum(rate(http_requests_total{status=~"5..", track="canary"}[5m]))
+            /
+            sum(rate(http_requests_total{track="canary"}[5m]))
+          )
+          >
+          (
+            sum(rate(http_requests_total{status=~"5..", track="stable"}[5m]))
+            /
+            sum(rate(http_requests_total{track="stable"}[5m]))
+          ) * 1.5
+        for: 3m
+        labels:
+          severity: critical
+          component: canary
+        annotations:
+          summary: "Canary error rate higher than stable"
+          description: "Canary error rate is 50% higher than stable deployment"
+
+      # Pod restart alert
+      - alert: PodRestartingTooOften
+        expr: |
+          rate(kube_pod_container_status_restarts_total[15m]) > 0
+        for: 5m
+        labels:
+          severity: warning
+          component: infrastructure
+        annotations:
+          summary: "Pod is restarting frequently"
+          description: "Pod {{ $labels.pod }} in namespace {{ $labels.namespace }} has restarted {{ $value }} times"
+
+      # Memory usage alert
+      - alert: HighMemoryUsage
+        expr: |
+          (
+            container_memory_usage_bytes{pod=~"movieverse.*"}
+            /
+            container_spec_memory_limit_bytes{pod=~"movieverse.*"}
+          ) * 100 > 90
+        for: 5m
+        labels:
+          severity: warning
+          component: infrastructure
+        annotations:
+          summary: "High memory usage"
+          description: "Memory usage is {{ $value }}% for pod {{ $labels.pod }}"
+
+      # CPU usage alert
+      - alert: HighCPUUsage
+        expr: |
+          (
+            rate(container_cpu_usage_seconds_total{pod=~"movieverse.*"}[5m])
+            /
+            container_spec_cpu_quota{pod=~"movieverse.*"}
+          ) * 100 > 90
+        for: 5m
+        labels:
+          severity: warning
+          component: infrastructure
+        annotations:
+          summary: "High CPU usage"
+          description: "CPU usage is {{ $value }}% for pod {{ $labels.pod }}"
+
+      # Service down alert
+      - alert: ServiceDown
+        expr: up{job="movieverse-app"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          component: application
+        annotations:
+          summary: "Service is down"
+          description: "MovieVerse service {{ $labels.instance }} is down"
+
+      # Database connection pool exhausted
+      - alert: DatabaseConnectionPoolExhausted
+        expr: |
+          (
+            database_connections_active
+            /
+            database_connections_max
+          ) * 100 > 90
+        for: 5m
+        labels:
+          severity: warning
+          component: database
+        annotations:
+          summary: "Database connection pool nearly exhausted"
+          description: "Database connection pool is {{ $value }}% full"
+
+      # Deployment stuck
+      - alert: DeploymentStuck
+        expr: |
+          kube_deployment_status_replicas_unavailable{deployment=~"movieverse.*"} > 0
+        for: 10m
+        labels:
+          severity: critical
+          component: deployment
+        annotations:
+          summary: "Deployment has unavailable replicas"
+          description: "Deployment {{ $labels.deployment }} has {{ $value }} unavailable replicas"
