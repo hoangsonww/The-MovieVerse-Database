@@ -92,5 +92,126 @@ class MovieVerseBackendTests(TestCase):
         self.assertEqual(Review.objects.count(), 1)
 
 
+class AIAgentTests(TestCase):
+    """Tests for AI Agent endpoints"""
+
+    def setUp(self):
+        self.client = Client()
+        self.api_client = APIClient()
+
+        # Create test data
+        self.genre_action = Genre.objects.create(genreId=1, name="Action")
+        self.genre_comedy = Genre.objects.create(genreId=2, name="Comedy")
+
+        self.movie1 = Movie.objects.create(
+            movieId=1,
+            title="Action Movie",
+            overview="An exciting action film",
+            runtime=120,
+            releaseDate="2023-01-01",
+            voteAverage=8.5,
+            genres=[self.genre_action]
+        )
+
+        self.movie2 = Movie.objects.create(
+            movieId=2,
+            title="Comedy Movie",
+            overview="A hilarious comedy",
+            runtime=95,
+            releaseDate="2023-06-01",
+            voteAverage=7.8,
+            genres=[self.genre_comedy]
+        )
+
+        self.user = User.objects.create(
+            username="testuser",
+            email="test@example.com",
+            passwordHash="hashed_password"
+        )
+
+        self.review = Review.objects.create(
+            userId=self.user.id,
+            movieId=self.movie1.movieId,
+            rating=5,
+            reviewText="Loved it!"
+        )
+
+    def test_what_to_watch_endpoint(self):
+        """Test the what-to-watch endpoint"""
+        response = self.api_client.get('/api/agent/what-to-watch/')
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertTrue(data['success'])
+        self.assertIn('recommendations', data)
+        self.assertIsInstance(data['recommendations'], list)
+
+    def test_what_to_watch_with_mood(self):
+        """Test what-to-watch with mood filter"""
+        response = self.api_client.get('/api/agent/what-to-watch/?mood=action')
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertTrue(data['success'])
+        self.assertEqual(data['context']['mood'], 'action')
+
+    def test_what_to_watch_with_time(self):
+        """Test what-to-watch with time constraint"""
+        response = self.api_client.get('/api/agent/what-to-watch/?time_available=90')
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertTrue(data['success'])
+        self.assertEqual(data['context']['time_available'], 90)
+
+    def test_trivia_endpoint(self):
+        """Test the trivia endpoint"""
+        response = self.api_client.get('/api/agent/trivia/')
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertTrue(data['success'])
+        self.assertIn('trivia', data)
+
+    def test_trivia_on_this_day(self):
+        """Test trivia with on_this_day context"""
+        response = self.api_client.get('/api/agent/trivia/?context=on_this_day')
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertTrue(data['success'])
+        self.assertIn('trivia', data)
+
+    def test_trivia_for_specific_movie(self):
+        """Test trivia for a specific movie"""
+        response = self.api_client.get(f'/api/agent/trivia/?movie_id={self.movie1.movieId}')
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertTrue(data['success'])
+        self.assertEqual(data['trivia']['type'], 'movie_specific')
+
+    def test_rewatch_reminder_requires_user(self):
+        """Test that rewatch-reminder requires user_id"""
+        response = self.api_client.get('/api/agent/rewatch-reminder/')
+        self.assertEqual(response.status_code, 400)
+        data = response.json()
+        self.assertFalse(data['success'])
+        self.assertIn('error', data)
+
+    def test_rewatch_reminder_with_user(self):
+        """Test rewatch-reminder with user_id"""
+        response = self.api_client.get(f'/api/agent/rewatch-reminder/?user_id={self.user.id}')
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertTrue(data['success'])
+        self.assertIn('reminders', data)
+        self.assertIsInstance(data['reminders'], list)
+
+    def test_weekly_watchlist_endpoint(self):
+        """Test the weekly-watchlist endpoint"""
+        response = self.api_client.get('/api/agent/weekly-watchlist/')
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertTrue(data['success'])
+        self.assertIn('watchlist', data)
+        self.assertIn('theme', data['watchlist'])
+        self.assertIn('movies', data['watchlist'])
+
+
 if __name__ == "__main__":
     unittest.main()
