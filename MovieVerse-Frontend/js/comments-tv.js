@@ -41,7 +41,8 @@ commentForm.addEventListener('submit', async e => {
 
   if (!userName || !userComment) {
     showCommentToast('Please enter a nickname and a comment.', 'remove');
-    if (!userName) nameEl.focus(); else commentEl.focus();
+    if (!userName) nameEl.focus();
+    else commentEl.focus();
     return;
   }
 

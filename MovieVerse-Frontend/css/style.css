@@ -565,7 +565,9 @@ input[type='range'] {
 }
 
 /* Place the close icon outside the content box, with no background box */
-#comment-modal .modal-content { position: relative; }
+#comment-modal .modal-content {
+  position: relative;
+}
 #comment-modal .modal-content .close {
   position: absolute;
   top: -12px;
@@ -581,7 +583,9 @@ input[type='range'] {
   height: auto;
   padding: 0;
   cursor: pointer;
-  transition: transform 0.1s ease, color 0.2s ease;
+  transition:
+    transform 0.1s ease,
+    color 0.2s ease;
   font-weight: 700;
 }
 

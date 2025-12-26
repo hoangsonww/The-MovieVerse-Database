@@ -42,40 +42,16 @@
     <meta name="referrer" content="no-referrer-when-downgrade" />
     <script>
       (function guardErrorPage() {
-        const blockedKeys = new Set([
-          'F12',
-          'F11',
-          'F10',
-          'F9',
-          'F8',
-          'I',
-          'J',
-          'C',
-          'K',
-          'U',
-          'S',
-          'E',
-          'M',
-          'O',
-          'P',
-          'F',
-          'L',
-          'D',
-        ]);
+        const blockedKeys = new Set(['F12', 'F11', 'F10', 'F9', 'F8', 'I', 'J', 'C', 'K', 'U', 'S', 'E', 'M', 'O', 'P', 'F', 'L', 'D']);
 
-        const blockKey = (event) => {
+        const blockKey = event => {
           const key = event.key ? event.key.toUpperCase() : '';
           const code = event.code ? event.code.toUpperCase() : '';
           const ctrlOrMeta = event.ctrlKey || event.metaKey;
           const shift = event.shiftKey;
           const alt = event.altKey;
           const isFunctionKey = key.startsWith('F');
-          const blockedCombo =
-            ctrlOrMeta ||
-            alt ||
-            shift ||
-            blockedKeys.has(key) ||
-            blockedKeys.has(code.replace('KEY', ''));
+          const blockedCombo = ctrlOrMeta || alt || shift || blockedKeys.has(key) || blockedKeys.has(code.replace('KEY', ''));
 
           if (isFunctionKey || blockedCombo) {
             event.preventDefault();
@@ -84,12 +60,12 @@
           }
         };
 
-        ['keydown', 'keypress', 'keyup'].forEach((type) => {
+        ['keydown', 'keypress', 'keyup'].forEach(type => {
           window.addEventListener(type, blockKey, { capture: true });
           document.addEventListener(type, blockKey, { capture: true });
         });
 
-        const blockContext = (event) => {
+        const blockContext = event => {
           event.preventDefault();
           event.stopImmediatePropagation();
           event.stopPropagation();
@@ -372,20 +348,8 @@
       <div class="error-card__content">
         <div class="error-card__icon" aria-hidden="true">
           <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M12 8V12"
-              stroke="#0B0B19"
-              stroke-width="1.6"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M12 16H12.01"
-              stroke="#0B0B19"
-              stroke-width="1.6"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
+            <path d="M12 8V12" stroke="#0B0B19" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M12 16H12.01" stroke="#0B0B19" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
             <path
               d="M9.326 4.317L2.32 16.496C1.625 17.7 2.524 19.25 3.994 19.25H20.006C21.476 19.25 22.375 17.7 21.68 16.496L14.674 4.317C13.903 2.983 12.097 2.983 11.326 4.317H11.326Z"
               stroke="#0B0B19"
@@ -397,8 +361,8 @@
         </div>
         <h1 class="error-card__title">Heads up!</h1>
         <p class="error-card__message">
-          We detected unusual activity and paused your current session. Close any debugging tools or simply continue when
-          you're ready to jump back into MovieVerse.
+          We detected unusual activity and paused your current session. Close any debugging tools or simply continue when you're ready to jump back
+          into MovieVerse.
         </p>
         <div class="error-card__actions">
           <a class="error-card__link" href="https://movie-verse.com/">Return to home</a>

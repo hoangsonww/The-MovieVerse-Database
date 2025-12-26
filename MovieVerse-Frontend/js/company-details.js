@@ -856,7 +856,7 @@ async function displayCompanyStatsDashboard(movies, companyId) {
   // Normalize to id -> name mapping (handles array or object forms)
   const idToGenreName = Array.isArray(storedGenreMap)
     ? storedGenreMap.reduce((acc, g) => {
-        if (g && (g.id !== undefined) && g.name) acc[String(g.id)] = g.name;
+        if (g && g.id !== undefined && g.name) acc[String(g.id)] = g.name;
         return acc;
       }, {})
     : Object.keys(storedGenreMap || {}).reduce((acc, k) => {

@@ -216,10 +216,19 @@
       }
 
       @keyframes heartBeat {
-        0%, 100% { transform: scale(1); }
-        25% { transform: scale(1.1); }
-        50% { transform: scale(0.95); }
-        75% { transform: scale(1.05); }
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        25% {
+          transform: scale(1.1);
+        }
+        50% {
+          transform: scale(0.95);
+        }
+        75% {
+          transform: scale(1.05);
+        }
       }
 
       .notification-toast {
@@ -795,8 +804,8 @@
         }
       }
     </style>
-      <script src="../js/devtools-guard.js"></script>
-</head>
+    <script src="../js/devtools-guard.js"></script>
+  </head>
   <body>
     <div id="google_translate_element"></div>
     <div id="translate_control">
@@ -937,7 +946,7 @@
               <form id="comment-form">
                 <input type="text" id="user-name" placeholder="Your nickname (Required)" required />
                 <textarea id="user-comment" placeholder="Your comment (Required)" required></textarea>
-                <div class="comment-actions" style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <div class="comment-actions" style="display: flex; gap: 10px; flex-wrap: wrap">
                   <button id="post-comment-btn" type="submit" title="Post your comment for this movie">Post Comment</button>
                   <button id="cancel-comment-btn" type="button" title="Close this form">Cancel</button>
                 </div>

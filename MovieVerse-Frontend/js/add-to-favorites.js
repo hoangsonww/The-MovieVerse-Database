@@ -185,10 +185,7 @@ export async function toggleFavorite() {
       localStorage.setItem('favoriteGenres', JSON.stringify(favoriteGenres));
 
       const isAdding = favoritesMovies.includes(movieId);
-      showNotification(
-        isAdding ? 'Movie added to favorites!' : 'Movie removed from favorites',
-        isAdding ? 'success' : 'remove'
-      );
+      showNotification(isAdding ? 'Movie added to favorites!' : 'Movie removed from favorites', isAdding ? 'success' : 'remove');
 
       console.log('Favorites movies updated successfully in localStorage');
       setTimeout(() => {
@@ -241,10 +238,7 @@ export async function toggleFavorite() {
       localStorage.setItem('favoriteGenres', JSON.stringify(favoriteGenres));
 
       const isAdding = favoritesMovies.includes(movieId);
-      showNotification(
-        isAdding ? 'Movie added to favorites!' : 'Movie removed from favorites',
-        isAdding ? 'success' : 'remove'
-      );
+      showNotification(isAdding ? 'Movie added to favorites!' : 'Movie removed from favorites', isAdding ? 'success' : 'remove');
 
       console.log('Favorites movies updated successfully in Firestore');
     }
@@ -275,10 +269,7 @@ export async function toggleFavorite() {
       localStorage.setItem('favoriteGenres', JSON.stringify(favoriteGenres));
 
       const isAdding = favoritesMovies.includes(movieId);
-      showNotification(
-        isAdding ? 'Movie added to favorites!' : 'Movie removed from favorites',
-        isAdding ? 'success' : 'remove'
-      );
+      showNotification(isAdding ? 'Movie added to favorites!' : 'Movie removed from favorites', isAdding ? 'success' : 'remove');
 
       console.log('Favorites movies updated successfully in localStorage');
       setTimeout(() => {

@@ -102,10 +102,7 @@ export async function toggleFavoriteTVSeries() {
       localStorage.setItem('favoritesTVSeries', JSON.stringify(favoritesTVSeries));
 
       const isAdding = favoritesTVSeries.includes(tvSeriesId);
-      showNotification(
-        isAdding ? 'TV Series added to favorites!' : 'TV Series removed from favorites',
-        isAdding ? 'success' : 'remove'
-      );
+      showNotification(isAdding ? 'TV Series added to favorites!' : 'TV Series removed from favorites', isAdding ? 'success' : 'remove');
 
       console.log('Favorites TV Series updated successfully in localStorage');
       await checkAndUpdateFavoriteButtonTVSeries();
@@ -138,10 +135,7 @@ export async function toggleFavoriteTVSeries() {
     await updateDoc(userDocRef, { favoritesTVSeries });
 
     const isAdding = favoritesTVSeries.includes(tvSeriesId);
-    showNotification(
-      isAdding ? 'TV Series added to favorites!' : 'TV Series removed from favorites',
-      isAdding ? 'success' : 'remove'
-    );
+    showNotification(isAdding ? 'TV Series added to favorites!' : 'TV Series removed from favorites', isAdding ? 'success' : 'remove');
 
     console.log('Favorites TV Series updated successfully in Firestore');
     await checkAndUpdateFavoriteButtonTVSeries();
@@ -160,10 +154,7 @@ export async function toggleFavoriteTVSeries() {
       localStorage.setItem('favoritesTVSeries', JSON.stringify(favoritesTVSeries));
 
       const isAdding = favoritesTVSeries.includes(tvSeriesId);
-      showNotification(
-        isAdding ? 'TV Series added to favorites!' : 'TV Series removed from favorites',
-        isAdding ? 'success' : 'remove'
-      );
+      showNotification(isAdding ? 'TV Series added to favorites!' : 'TV Series removed from favorites', isAdding ? 'success' : 'remove');
 
       console.log('Favorites TV Series updated successfully in localStorage');
     } else {
