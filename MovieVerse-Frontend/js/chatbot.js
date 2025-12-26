@@ -8,6 +8,12 @@ const CHAT_HISTORY_STORAGE_KEY = "mv-chatbot-history";
 const chatbotBody = document.getElementById("chatbotBody");
 let initialMainContent;
 let conversationHistory = [];
+const GEMINI_MODEL_FALLBACK = "gemini-2.0-flash-lite";
+const GEMINI_MODEL_LIST_ENDPOINT =
+  "https://generativelanguage.googleapis.com/v1/models";
+let geminiModelNames = null;
+let geminiModelsFetchPromise = null;
+let geminiModelRotationIndex = 0;
 
 function createIntroEntry() {
   const introPlainText = [
@@ -673,44 +679,7 @@ async function movieVerseResponse(message) {
 
     let fullResponse = "";
     try {
-      const genAI = new GoogleGenerativeAI(getAIResponse());
-      const model = genAI.getGenerativeModel({
-        model: "gemini-2.0-flash-lite",
-        systemInstruction:
-          "You are MovieVerse Assistant - an AI Chatbot of the MovieVerse App. You are here to help users with movie-related or any other general queries. You are trained and powered by MovieVerse AI and Google to provide the best assistance. You can also provide information about movies, actors, directors, genres, and companies, or recommend movies to users. If the user asks anything about you or your information, you must by default identify yourself as MovieVerse Assistant, trained by The MovieVerse creator - Son Nguyen, and you're here to provide assistance for any movie-related or any other general inquiries. If the user asks who Son Nguyen is, refer to his portfolio website at: https://sonnguyenhoang.com, LinkedIn at: https://www.linkedin.com/in/hoangsonw, and GitHub at: https://github.com/hoangsonww. If anyone asked who created or trained you, you must refer to Son Nguyen as your creator.",
-      });
-
-      const chatSession = model.startChat({
-        generationConfig: {
-          temperature: 1,
-          topP: 0.95,
-          topK: 64,
-          maxOutputTokens: 8192,
-          responseMimeType: "text/plain",
-        },
-        safetySettings: [
-          {
-            category: HarmCategory.HARM_CATEGORY_HARASSMENT,
-            threshold: HarmBlockThreshold.BLOCK_NONE,
-          },
-          {
-            category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
-            threshold: HarmBlockThreshold.BLOCK_NONE,
-          },
-          {
-            category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
-            threshold: HarmBlockThreshold.BLOCK_NONE,
-          },
-          {
-            category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
-            threshold: HarmBlockThreshold.BLOCK_NONE,
-          },
-        ],
-        history: buildModelHistory(),
-      });
-
-      const result = await chatSession.sendMessage(message);
-      fullResponse = result.response.text();
+      fullResponse = await generateGeminiResponse(message);
     } catch (error) {
       console.error("Error fetching response:", error.message);
       fullResponse =
@@ -742,6 +711,139 @@ function removeMarkdown(text) {
   const tempDiv = document.createElement("div");
   tempDiv.innerHTML = html;
   return tempDiv.textContent || tempDiv.innerText || "";
+}
+
+function isEligibleGeminiModel(model) {
+  if (!model || typeof model.name !== "string") {
+    return false;
+  }
+  const modelName = model.name.toLowerCase();
+  if (!modelName.includes("gemini")) {
+    return false;
+  }
+  if (modelName.includes("embedding") || modelName.includes("pro")) {
+    return false;
+  }
+  if (
+    Array.isArray(model.supportedGenerationMethods) &&
+    !model.supportedGenerationMethods.includes("generateContent")
+  ) {
+    return false;
+  }
+  return true;
+}
+
+function normalizeGeminiModelName(name) {
+  if (typeof name !== "string") {
+    return "";
+  }
+  return name.replace(/^models\//, "");
+}
+
+async function fetchGeminiModelNames() {
+  if (Array.isArray(geminiModelNames) && geminiModelNames.length > 0) {
+    return geminiModelNames;
+  }
+  if (geminiModelsFetchPromise) {
+    return geminiModelsFetchPromise;
+  }
+
+  geminiModelsFetchPromise = (async () => {
+    const apiKey = getAIResponse();
+    const response = await fetch(
+      `${GEMINI_MODEL_LIST_ENDPOINT}?key=${apiKey}`,
+    );
+    if (!response.ok) {
+      throw new Error(`Model list request failed with ${response.status}`);
+    }
+    const data = await response.json();
+    const models = Array.isArray(data.models) ? data.models : [];
+    const filtered = models
+      .filter((model) => isEligibleGeminiModel(model))
+      .map((model) => normalizeGeminiModelName(model.name))
+      .filter(Boolean);
+    const unique = Array.from(new Set(filtered));
+    geminiModelNames =
+      unique.length > 0 ? unique : [GEMINI_MODEL_FALLBACK];
+    return geminiModelNames;
+  })()
+    .catch((error) => {
+      console.error("Error fetching Gemini models:", error);
+      geminiModelNames = [GEMINI_MODEL_FALLBACK];
+      return geminiModelNames;
+    })
+    .finally(() => {
+      geminiModelsFetchPromise = null;
+    });
+
+  return geminiModelsFetchPromise;
+}
+
+function createGeminiChatSession(modelName) {
+  const genAI = new GoogleGenerativeAI(getAIResponse());
+  const model = genAI.getGenerativeModel({
+    model: modelName,
+    systemInstruction:
+      "You are MovieVerse Assistant - an AI Chatbot of the MovieVerse App. You are here to help users with movie-related or any other general queries. You are trained and powered by MovieVerse AI and Google to provide the best assistance. You can also provide information about movies, actors, directors, genres, and companies, or recommend movies to users. If the user asks anything about you or your information, you must by default identify yourself as MovieVerse Assistant, trained by The MovieVerse creator - Son Nguyen, and you're here to provide assistance for any movie-related or any other general inquiries. If the user asks who Son Nguyen is, refer to his portfolio website at: https://sonnguyenhoang.com, LinkedIn at: https://www.linkedin.com/in/hoangsonw, and GitHub at: https://github.com/hoangsonww. If anyone asked who created or trained you, you must refer to Son Nguyen as your creator.",
+  });
+
+  return model.startChat({
+    generationConfig: {
+      temperature: 1,
+      topP: 0.95,
+      topK: 64,
+      maxOutputTokens: 8192,
+      responseMimeType: "text/plain",
+    },
+    safetySettings: [
+      {
+        category: HarmCategory.HARM_CATEGORY_HARASSMENT,
+        threshold: HarmBlockThreshold.BLOCK_NONE,
+      },
+      {
+        category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
+        threshold: HarmBlockThreshold.BLOCK_NONE,
+      },
+      {
+        category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
+        threshold: HarmBlockThreshold.BLOCK_NONE,
+      },
+      {
+        category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+        threshold: HarmBlockThreshold.BLOCK_NONE,
+      },
+    ],
+    history: buildModelHistory(),
+  });
+}
+
+async function generateGeminiResponse(message) {
+  const models = await fetchGeminiModelNames();
+  if (!Array.isArray(models) || models.length === 0) {
+    throw new Error("No Gemini models available");
+  }
+
+  const startIndex = geminiModelRotationIndex % models.length;
+  let lastError = null;
+
+  for (let offset = 0; offset < models.length; offset++) {
+    const modelIndex = (startIndex + offset) % models.length;
+    const modelName = models[modelIndex];
+    try {
+      const chatSession = createGeminiChatSession(modelName);
+      const result = await chatSession.sendMessage(message);
+      geminiModelRotationIndex = (modelIndex + 1) % models.length;
+      return result.response.text();
+    } catch (error) {
+      lastError = error;
+      console.error(
+        `Error fetching response from ${modelName}:`,
+        error,
+      );
+    }
+  }
+
+  throw lastError || new Error("No Gemini models succeeded");
 }
 
 function getAIResponse() {
