@@ -4,7 +4,7 @@ const CHAT_HISTORY_STORAGE_KEY = 'mv-chatbot-history';
 const chatbotBody = document.getElementById('chatbotBody');
 let initialMainContent;
 let conversationHistory = [];
-const GEMINI_MODEL_FALLBACK = 'gemini-2.0-flash-lite';
+const GEMINI_MODEL_FALLBACK = 'gemini-2.5-flash';
 const GEMINI_MODEL_LIST_ENDPOINT = 'https://generativelanguage.googleapis.com/v1/models';
 let geminiModelNames = null;
 let geminiModelsFetchPromise = null;
