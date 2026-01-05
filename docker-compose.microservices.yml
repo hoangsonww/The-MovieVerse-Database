@@ -1,0 +1,597 @@
+version: "3.9"
+
+services:
+  nginx:
+    image: nginx:1.25-alpine
+    container_name: movieverse-nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./infrastructure/nginx/microservices.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - auth-service
+      - user-service
+      - movie-service
+      - review-service
+      - recommendation-service
+      - search-service
+      - metadata-service
+      - notification-service
+    networks:
+      - edge
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost/healthz || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  auth-service:
+    build:
+      context: .
+      dockerfile: MovieVerse-Backend/services/Dockerfile
+      args:
+        SERVICE_MODULE: movieverse_services.auth_service.main
+    image: movieverse/auth-service:latest
+    environment:
+      MOVIEVERSE_SERVICE_NAME: auth-service
+      MOVIEVERSE_PORT: 8000
+      MOVIEVERSE_POSTGRES_DSN: postgresql+psycopg2://movieverse:movieverse@postgres:5432/movieverse
+      MOVIEVERSE_REDIS_URL: redis://redis:6379/0
+      MOVIEVERSE_RABBITMQ_URL: amqp://movieverse:movieverse@rabbitmq:5672/
+      MOVIEVERSE_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      MOVIEVERSE_JWT_SECRET: ${MOVIEVERSE_JWT_SECRET:-movieverse}
+    networks:
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test:
+        ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/healthz')\""]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    depends_on:
+      - postgres
+      - redis
+
+  user-service:
+    build:
+      context: .
+      dockerfile: MovieVerse-Backend/services/Dockerfile
+      args:
+        SERVICE_MODULE: movieverse_services.user_service.main
+    image: movieverse/user-service:latest
+    environment:
+      MOVIEVERSE_SERVICE_NAME: user-service
+      MOVIEVERSE_PORT: 8000
+      MOVIEVERSE_POSTGRES_DSN: postgresql+psycopg2://movieverse:movieverse@postgres:5432/movieverse
+      MOVIEVERSE_REDIS_URL: redis://redis:6379/1
+      MOVIEVERSE_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    networks:
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test:
+        ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/healthz')\""]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    depends_on:
+      - postgres
+      - redis
+
+  movie-service:
+    build:
+      context: .
+      dockerfile: MovieVerse-Backend/services/Dockerfile
+      args:
+        SERVICE_MODULE: movieverse_services.movie_service.main
+    image: movieverse/movie-service:latest
+    environment:
+      MOVIEVERSE_SERVICE_NAME: movie-service
+      MOVIEVERSE_PORT: 8000
+      MOVIEVERSE_MYSQL_DSN: mysql+pymysql://movieverse:movieverse@mysql:3306/movieverse
+      MOVIEVERSE_REDIS_URL: redis://redis:6379/2
+      MOVIEVERSE_RABBITMQ_URL: amqp://movieverse:movieverse@rabbitmq:5672/
+      MOVIEVERSE_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    networks:
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test:
+        ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/healthz')\""]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    depends_on:
+      - mysql
+      - kafka
+
+  review-service:
+    build:
+      context: .
+      dockerfile: MovieVerse-Backend/services/Dockerfile
+      args:
+        SERVICE_MODULE: movieverse_services.review_service.main
+    image: movieverse/review-service:latest
+    environment:
+      MOVIEVERSE_SERVICE_NAME: review-service
+      MOVIEVERSE_PORT: 8000
+      MOVIEVERSE_POSTGRES_DSN: postgresql+psycopg2://movieverse:movieverse@postgres:5432/movieverse
+      MOVIEVERSE_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      MOVIEVERSE_RABBITMQ_URL: amqp://movieverse:movieverse@rabbitmq:5672/
+    networks:
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test:
+        ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/healthz')\""]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    depends_on:
+      - postgres
+      - rabbitmq
+      - kafka
+
+  recommendation-service:
+    build:
+      context: .
+      dockerfile: MovieVerse-Backend/services/Dockerfile
+      args:
+        SERVICE_MODULE: movieverse_services.recommendation_service.main
+    image: movieverse/recommendation-service:latest
+    environment:
+      MOVIEVERSE_SERVICE_NAME: recommendation-service
+      MOVIEVERSE_PORT: 8000
+      MOVIEVERSE_REDIS_URL: redis://redis:6379/3
+      MOVIEVERSE_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      MOVIEVERSE_RABBITMQ_URL: amqp://movieverse:movieverse@rabbitmq:5672/
+      MOVIEVERSE_AI_SERVICE_URL: http://ai-api:9000
+    networks:
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test:
+        ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/healthz')\""]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    depends_on:
+      - redis
+      - ai-api
+
+  search-service:
+    build:
+      context: .
+      dockerfile: MovieVerse-Backend/services/Dockerfile
+      args:
+        SERVICE_MODULE: movieverse_services.search_service.main
+    image: movieverse/search-service:latest
+    environment:
+      MOVIEVERSE_SERVICE_NAME: search-service
+      MOVIEVERSE_PORT: 8000
+      MOVIEVERSE_OPENSEARCH_URL: http://opensearch:9200
+      MOVIEVERSE_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    networks:
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test:
+        ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/healthz')\""]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    depends_on:
+      - opensearch
+
+  search-indexer-service:
+    build:
+      context: .
+      dockerfile: MovieVerse-Backend/services/Dockerfile
+      args:
+        SERVICE_MODULE: movieverse_services.search_indexer_service.main
+    image: movieverse/search-indexer-service:latest
+    environment:
+      MOVIEVERSE_SERVICE_NAME: search-indexer-service
+      MOVIEVERSE_PORT: 8000
+      MOVIEVERSE_MYSQL_DSN: mysql+pymysql://movieverse:movieverse@mysql:3306/movieverse
+      MOVIEVERSE_POSTGRES_DSN: postgresql+psycopg2://movieverse:movieverse@postgres:5432/movieverse
+      MOVIEVERSE_OPENSEARCH_URL: http://opensearch:9200
+      MOVIEVERSE_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    networks:
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test:
+        ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/healthz')\""]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    depends_on:
+      - mysql
+      - postgres
+      - opensearch
+      - kafka
+
+  search-indexer-worker:
+    build:
+      context: .
+      dockerfile: MovieVerse-Backend/services/Dockerfile
+      args:
+        SERVICE_MODULE: movieverse_services.search_indexer_service.main
+    image: movieverse/search-indexer-worker:latest
+    command: ["python", "-m", "movieverse_services.search_indexer_service.consumer"]
+    environment:
+      MOVIEVERSE_SERVICE_NAME: search-indexer-worker
+      MOVIEVERSE_MYSQL_DSN: mysql+pymysql://movieverse:movieverse@mysql:3306/movieverse
+      MOVIEVERSE_POSTGRES_DSN: postgresql+psycopg2://movieverse:movieverse@postgres:5432/movieverse
+      MOVIEVERSE_OPENSEARCH_URL: http://opensearch:9200
+      MOVIEVERSE_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    networks:
+      - backend
+    restart: unless-stopped
+    depends_on:
+      - mysql
+      - postgres
+      - opensearch
+      - kafka
+
+  metadata-service:
+    build:
+      context: .
+      dockerfile: MovieVerse-Backend/services/Dockerfile
+      args:
+        SERVICE_MODULE: movieverse_services.metadata_service.main
+    image: movieverse/metadata-service:latest
+    environment:
+      MOVIEVERSE_SERVICE_NAME: metadata-service
+      MOVIEVERSE_PORT: 8000
+      MOVIEVERSE_MONGO_URI: mongodb://movieverse:movieverse@mongodb:27017
+      MOVIEVERSE_MONGO_DB: movieverse
+    networks:
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test:
+        ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/healthz')\""]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    depends_on:
+      - mongodb
+
+  crawler-service:
+    build:
+      context: .
+      dockerfile: MovieVerse-Backend/services/Dockerfile
+      args:
+        SERVICE_MODULE: movieverse_services.crawler_service.main
+    image: movieverse/crawler-service:latest
+    environment:
+      MOVIEVERSE_SERVICE_NAME: crawler-service
+      MOVIEVERSE_PORT: 8000
+      MOVIEVERSE_RABBITMQ_URL: amqp://movieverse:movieverse@rabbitmq:5672/
+      MOVIEVERSE_CRAWLER_QUEUE_NAME: movieverse.crawler
+      MOVIEVERSE_MOVIE_SERVICE_URL: http://movie-service:8000
+      MOVIEVERSE_REVIEW_SERVICE_URL: http://review-service:8000
+      MOVIEVERSE_SEARCH_SERVICE_URL: http://search-service:8000
+      MOVIEVERSE_METADATA_SERVICE_URL: http://metadata-service:8000
+      MOVIEVERSE_AI_SERVICE_URL: http://ai-api:9000
+      MOVIEVERSE_TMDB_API_KEY: ${MOVIEVERSE_TMDB_API_KEY:-}
+    networks:
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test:
+        ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/healthz')\""]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    depends_on:
+      - rabbitmq
+      - movie-service
+      - review-service
+      - metadata-service
+      - ai-api
+
+  crawler-worker:
+    build:
+      context: .
+      dockerfile: MovieVerse-Backend/services/Dockerfile
+      args:
+        SERVICE_MODULE: movieverse_services.crawler_service.main
+    image: movieverse/crawler-worker:latest
+    command: ["python", "-m", "movieverse_services.crawler_service.consumer"]
+    environment:
+      MOVIEVERSE_SERVICE_NAME: crawler-worker
+      MOVIEVERSE_RABBITMQ_URL: amqp://movieverse:movieverse@rabbitmq:5672/
+      MOVIEVERSE_CRAWLER_QUEUE_NAME: movieverse.crawler
+      MOVIEVERSE_MOVIE_SERVICE_URL: http://movie-service:8000
+      MOVIEVERSE_REVIEW_SERVICE_URL: http://review-service:8000
+      MOVIEVERSE_SEARCH_SERVICE_URL: http://search-service:8000
+      MOVIEVERSE_METADATA_SERVICE_URL: http://metadata-service:8000
+      MOVIEVERSE_AI_SERVICE_URL: http://ai-api:9000
+      MOVIEVERSE_TMDB_API_KEY: ${MOVIEVERSE_TMDB_API_KEY:-}
+    networks:
+      - backend
+    restart: unless-stopped
+    depends_on:
+      - rabbitmq
+      - movie-service
+      - review-service
+      - metadata-service
+      - ai-api
+
+  data-platform-service:
+    build:
+      context: .
+      dockerfile: MovieVerse-Backend/services/Dockerfile
+      args:
+        SERVICE_MODULE: movieverse_services.data_platform_service.main
+    image: movieverse/data-platform-service:latest
+    environment:
+      MOVIEVERSE_SERVICE_NAME: data-platform-service
+      MOVIEVERSE_PORT: 8000
+      MOVIEVERSE_TMDB_API_KEY: ${MOVIEVERSE_TMDB_API_KEY:-}
+      MOVIEVERSE_SEED_TOKEN: ${MOVIEVERSE_SEED_TOKEN:-}
+      MOVIEVERSE_POSTGRES_DSN: postgresql+psycopg2://movieverse:movieverse@postgres:5432/movieverse
+      MOVIEVERSE_MYSQL_DSN: mysql+pymysql://movieverse:movieverse@mysql:3306/movieverse
+      MOVIEVERSE_MONGO_URI: mongodb://movieverse:movieverse@mongodb:27017
+      MOVIEVERSE_REDIS_URL: redis://redis:6379/0
+      MOVIEVERSE_RABBITMQ_URL: amqp://movieverse:movieverse@rabbitmq:5672/
+      MOVIEVERSE_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      MOVIEVERSE_AUTH_SERVICE_URL: http://auth-service:8000
+      MOVIEVERSE_MOVIE_SERVICE_URL: http://movie-service:8000
+      MOVIEVERSE_REVIEW_SERVICE_URL: http://review-service:8000
+      MOVIEVERSE_SEARCH_SERVICE_URL: http://search-service:8000
+      MOVIEVERSE_METADATA_SERVICE_URL: http://metadata-service:8000
+    networks:
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test:
+        ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/healthz')\""]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    depends_on:
+      - postgres
+      - mysql
+      - mongodb
+      - redis
+      - rabbitmq
+      - kafka
+      - auth-service
+      - movie-service
+      - review-service
+      - search-service
+      - metadata-service
+
+  notification-service:
+    build:
+      context: .
+      dockerfile: MovieVerse-Backend/services/Dockerfile
+      args:
+        SERVICE_MODULE: movieverse_services.notification_service.main
+    image: movieverse/notification-service:latest
+    environment:
+      MOVIEVERSE_SERVICE_NAME: notification-service
+      MOVIEVERSE_PORT: 8000
+      MOVIEVERSE_RABBITMQ_URL: amqp://movieverse:movieverse@rabbitmq:5672/
+      MOVIEVERSE_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    networks:
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test:
+        ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/healthz')\""]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    depends_on:
+      - postgres
+      - rabbitmq
+
+  notification-worker:
+    build:
+      context: .
+      dockerfile: MovieVerse-Backend/services/Dockerfile
+      args:
+        SERVICE_MODULE: movieverse_services.notification_service.main
+    image: movieverse/notification-worker:latest
+    command: ["python", "-m", "movieverse_services.notification_service.consumer"]
+    environment:
+      MOVIEVERSE_SERVICE_NAME: notification-worker
+      MOVIEVERSE_POSTGRES_DSN: postgresql+psycopg2://movieverse:movieverse@postgres:5432/movieverse
+      MOVIEVERSE_RABBITMQ_URL: amqp://movieverse:movieverse@rabbitmq:5672/
+    depends_on:
+      - rabbitmq
+      - postgres
+    networks:
+      - backend
+    restart: unless-stopped
+
+  ai-api:
+    build:
+      context: .
+      dockerfile: MovieVerse-AI/Dockerfile
+    image: movieverse/ai-api:latest
+    environment:
+      MOVIEVERSE_AI_POSTGRES_DSN: postgresql+psycopg2://movieverse:movieverse@postgres:5432/movieverse
+      MOVIEVERSE_AI_MYSQL_DSN: mysql+pymysql://movieverse:movieverse@mysql:3306/movieverse
+      MOVIEVERSE_AI_MONGO_URI: mongodb://movieverse:movieverse@mongodb:27017
+      MOVIEVERSE_AI_REDIS_URL: redis://redis:6379/0
+      MOVIEVERSE_AI_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      MOVIEVERSE_AI_MLFLOW_TRACKING_URI: http://mlflow:5000
+      MOVIEVERSE_AI_S3_ENDPOINT_URL: http://minio:9000
+      MOVIEVERSE_AI_S3_BUCKET: movieverse-ml
+      MOVIEVERSE_AI_S3_ACCESS_KEY: ${MOVIEVERSE_AI_S3_ACCESS_KEY:-movieverse}
+      MOVIEVERSE_AI_S3_SECRET_KEY: ${MOVIEVERSE_AI_S3_SECRET_KEY:-movieverse}
+    volumes:
+      - ai-models:/opt/movieverse-ai/models
+      - ai-index:/opt/movieverse-ai/index
+      - ./MovieVerse-AI/feature_repo:/opt/movieverse-ai/feature_repo
+    networks:
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test:
+        ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:9000/healthz')\""]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    depends_on:
+      - postgres
+      - redis
+      - kafka
+
+  rabbitmq:
+    image: rabbitmq:3.12-management
+    container_name: movieverse-rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: movieverse
+      RABBITMQ_DEFAULT_PASS: movieverse
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    networks:
+      - backend
+    restart: unless-stopped
+
+  zookeeper:
+    image: bitnami/zookeeper:3.9
+    container_name: movieverse-zookeeper
+    environment:
+      ALLOW_ANONYMOUS_LOGIN: "yes"
+    volumes:
+      - zookeeper-data:/bitnami/zookeeper
+    networks:
+      - backend
+    restart: unless-stopped
+
+  kafka:
+    image: bitnami/kafka:3.6
+    container_name: movieverse-kafka
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_CFG_LISTENERS: PLAINTEXT://:9092
+      KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      ALLOW_PLAINTEXT_LISTENER: "yes"
+      KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE: "true"
+    depends_on:
+      - zookeeper
+    volumes:
+      - kafka-data:/bitnami/kafka
+    networks:
+      - backend
+    restart: unless-stopped
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: movieverse-kafka-ui
+    ports:
+      - "8085:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: movieverse
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+    depends_on:
+      - kafka
+    networks:
+      - backend
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: movieverse-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - backend
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:15
+    container_name: movieverse-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: movieverse
+      POSTGRES_PASSWORD: movieverse
+      POSTGRES_DB: movieverse
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - backend
+    restart: unless-stopped
+
+  mysql:
+    image: mysql:8
+    container_name: movieverse-mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: movieverse
+      MYSQL_DATABASE: movieverse
+      MYSQL_USER: movieverse
+      MYSQL_PASSWORD: movieverse
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - backend
+    restart: unless-stopped
+
+  mongodb:
+    image: mongo:6
+    container_name: movieverse-mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: movieverse
+      MONGO_INITDB_ROOT_PASSWORD: movieverse
+    volumes:
+      - mongodb-data:/data/db
+    networks:
+      - backend
+    restart: unless-stopped
+
+  opensearch:
+    image: opensearchproject/opensearch:2.11.0
+    container_name: movieverse-opensearch
+    environment:
+      discovery.type: single-node
+      plugins.security.disabled: "true"
+      OPENSEARCH_JAVA_OPTS: "-Xms512m -Xmx512m"
+    ports:
+      - "9200:9200"
+      - "9600:9600"
+    volumes:
+      - opensearch-data:/usr/share/opensearch/data
+    networks:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  rabbitmq-data:
+  zookeeper-data:
+  kafka-data:
+  redis-data:
+  postgres-data:
+  mysql-data:
+  mongodb-data:
+  opensearch-data:
+  ai-models:
+  ai-index:
+
+networks:
+  edge:
+    name: movieverse-edge
+  backend:
+    name: movieverse-backend

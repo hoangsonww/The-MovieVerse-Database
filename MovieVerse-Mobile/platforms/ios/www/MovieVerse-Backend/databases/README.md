@@ -1,159 +1,113 @@
-# The MovieVerse - `database` Directory
+# MovieVerse Databases Utilities
 
-## Table of Contents
-- [Project Overview](#project-overview)
-- [Database Design & Data Flow](#database-design--data-flow)
-- [Data Flow Illustration](#data-flow-illustration)
-- [REST APIs](#rest-apis)
-- [Redis' Role in Load Reduction](#redis-role-in-load-reduction)
-- [Project Setup and Usage](#project-setup-and-usage)
-- [Key Points](#key-points)
-- [Conclusion](#conclusion)
+This directory contains production-ready Python utilities for database health checks, TMDB ingestion,
+controlled seeding, and RabbitMQ publishing. These utilities call the **Data Platform Service** and
+are also imported by backend services for standardized health checks.
 
-## Project Overview
+## What Lives Here
 
-The MovieVerse Database Backend is a robust and scalable solution for managing movie-related data, including:
+- `config.py`: Environment configuration loader shared by CLI utilities.
+- `client.py`: HTTP client for the data platform API.
+- `health.py`: Database connectivity checks (Postgres, MySQL, Mongo, Redis, Kafka, RabbitMQ, OpenSearch).
+- `operations.py`: Typed operations for ingestion, seeding, and publishing.
+- `app.py`: CLI health check.
+- `mongo_redis.py`: CLI for TMDB ingestion (movies/genres/people).
+- `postgresql.py`: CLI for user seeding.
+- `mysql.py`: CLI for review seeding.
+- `publish.py`: CLI for RabbitMQ publishing.
 
-* **Core Movie Information:** Titles, release dates, genres, etc.
-* **People (Cast & Crew):** Actors, directors, writers, etc.
-* **User Accounts:** Secure user registration and authentication.
-* **Reviews and Ratings:**  User-generated movie reviews and ratings.
-* **Movie Metadata:** Plot summaries, cast/crew details, awards, posters, etc.
+## Architecture
 
-## Database Design & Data Flow
-
-The backend leverages multiple databases to optimize data storage and retrieval, each chosen for its strengths in handling specific types of data:
-
-1. **MySQL (for movie reviews):**
-    * **Storage:** User-generated movie reviews and ratings.
-    * **Reasoning:** MySQL's relational structure is well-suited for storing structured data like reviews, ratings, and user information.
-
-2. **MongoDB (for movies metadata, genres metadata, and people metadata):**
-    * **Storage:** Movie metadata, people (cast & crew) details, and other unstructured data.
-    * **Reasoning:** MongoDB's schema-less design is ideal for storing diverse movie metadata, including nested data like cast/crew lists and awards.
-
-3. **PostgreSQL (handles user accounts):**
-    * **Storage:** User accounts, authentication details, and other sensitive user data.
-    * **Reasoning:** PostgreSQL's advanced security features and ACID compliance make it a good choice for storing user account information.
-
-4. **Redis (for caching):**
-    * **Storage:** Cached data for popular/trending movies and frequently accessed user data (e.g., recommendations).
-    * **Reasoning:** Redis' in-memory data store provides extremely fast access, reducing the load on the primary databases for common queries.
-
-5. **General Application Data** (MovieVerse) stored in MongoDB:
-    * **Storage:** General application data like settings, configurations, etc.
-    * **Reasoning:** MongoDB's flexibility allows for storing various application data in a single collection, simplifying data management.
-
-6. **Profile Data** (MovieVerse) stored in Google Firebase:
-    * **Storage:** User profile data, such as bio, profile picture, etc.
-    * **Reasoning:** Firebase's real-time database capabilities are well-suited for storing user profile data that needs to be updated frequently.
-
-7. **RabbitMQ (for message queuing):**
-    * **Usage:** For handling asynchronous tasks like sending emails, processing background jobs, etc.
-    * **Reasoning:** RabbitMQ's message queuing system ensures reliable delivery of messages and helps decouple the application components.
-
-## Data Flow Illustration
-
-```       
-                                                                 +------------+          +------------+
-                                                                 |            |          |            |
-                                                                 | PostgreSQL |          |  Firebase  |
-                                                                 |            |          |            |
-                                                                 +------------+          +------------+
-                                                                       ^                       ^
-                                                                       |                       |
-                                                                       |                       |
-                                                                       v                       v
-+----------+        +----------------+      +------------+       +-----------+           +-----------+   
-|          |        |                |      |            |       |           |           |           | 
-| Frontend | <----> | Django Backend | <--> |  RabbitMQ  | <---> |   Redis   | <-------> |  MongoDB  | 
-|          |        |                |      |            |       |           |           |           |
-+----------+        +----------------+      +------------+       +-----------+           +-----------+
-                                                                       ^                    ^     ^
-                                                                       |                   /       \
-                                                                       |                  /         \
-                                                                       v                 /           \
-                                                                 +------------+   +------------+   +------------+
-                                                                 |            |   |            |   |            |
-                                                                 |    MySQL   |   |  TMDB API  |   | User-Added |
-                                                                 |            |   | (external) |   |    Data    |
-                                                                 +------------+   +------------+   +------------+
+```mermaid
+flowchart LR
+    CLI[Databases CLI Scripts] --> DataPlatform[Data Platform Service]
+    DataPlatform --> Postgres[(PostgreSQL)]
+    DataPlatform --> MySQL[(MySQL)]
+    DataPlatform --> Mongo[(MongoDB)]
+    DataPlatform --> Redis[(Redis)]
+    DataPlatform --> Kafka[(Kafka)]
+    DataPlatform --> RabbitMQ[(RabbitMQ)]
+    DataPlatform --> OpenSearch[(OpenSearch)]
 ```
 
-## REST APIs
+Health check flow used by both CLI utilities and the data platform service:
 
-MovieVerse offers free-to-read APIs for developers to access movie data using the Django REST Framework. The APIs include:
-- `/api/movies/`: Access to movie data.
-- `/api/genres/`: Access to genre data.
-- `/api/people/`: Access to person data.
-- `/api/reviews/`: Access to review data.
-- `/api/users/`: Access to user data.
+```mermaid
+sequenceDiagram
+    participant CLI as databases.app
+    participant DP as Data Platform
+    participant DB as Datastores
+    CLI->>DP: GET /healthz
+    DP->>DB: Ping Postgres/MySQL/Mongo/Redis/Kafka/RabbitMQ/OpenSearch
+    DB-->>DP: Status results
+    DP-->>CLI: {"status": "ok|degraded", "checks": {...}}
+```
 
-To access the APIs, you have the following options:
+## Environment Configuration
 
-**Option 1**: Use the Django REST Framework's browsable API interface by visiting the respective URLs in your browser. For example, `http://127.0.0.1:8000/api/movies/` or `http://127.0.0.1:8000/api/genres/`. You should see something similar to this:
+All scripts read the same `MOVIEVERSE_*` environment variables used by the microservices:
 
-<p align="center" style="cursor: pointer">
-    <img src="../../images/api-test.png" alt="The MovieVerse Backend Admin Interface" width="100%" height="auto" style="border-radius: 10px"/>
-</p>
+- `MOVIEVERSE_DATA_PLATFORM_URL`
+- `MOVIEVERSE_SEED_TOKEN`
+- `MOVIEVERSE_SEED_USER_PASSWORD`
+- `MOVIEVERSE_POSTGRES_DSN`
+- `MOVIEVERSE_MYSQL_DSN`
+- `MOVIEVERSE_MONGO_URI`
+- `MOVIEVERSE_REDIS_URL`
+- `MOVIEVERSE_KAFKA_BOOTSTRAP_SERVERS`
+- `MOVIEVERSE_RABBITMQ_URL`
+- `MOVIEVERSE_OPENSEARCH_URL`
 
-**Option 2**: Use a tool like Postman to make API requests. For example, you can send a GET request to `http://127.0.0.1:8000/api/movies/` to retrieve movie data. 
-
-**Option 3**: Integrate the APIs into your own applications by sending HTTP requests to the respective endpoints, such as `http://127.0.0.1:8000/api/movies/`.
-
-**Option 4**: Use CURL commands to interact with the APIs. For example:
+## Install Dependencies
 
 ```bash
-# Get all movies:
-curl http://127.0.0.1:8000/api/movies/ 
-
-# Get a specific movie (e.g., with ID 5):
-curl http://127.0.0.1:8000/api/movies/929590/
-
-# Get all genres:
-curl http://127.0.0.1:8000/api/genres/
+python -m venv venv
+source venv/bin/activate
+pip install -r MovieVerse-Backend/databases/requirements.txt
 ```
 
-Note that you do not have to be authenticated to access the APIs since they are read-only and free-to-read. If you use CURL, be sure to check your terminal's output for the API response.
+## Usage
 
-## Redis' Role in Load Reduction
+Health check:
 
-Redis acts as a cache layer, storing frequently accessed data like:
+```bash
+python -m databases.app
+```
 
-* **Popular Movies:** The top-rated or trending movies, reducing the need to query the database repeatedly.
-* **User Recommendations:** Personalized movie suggestions based on user preferences or viewing history.
-* **Search Results:** Caching search results for common queries.
-* **Other Frequently Accessed Data:** Any data that is repeatedly requested can be cached in Redis to improve performance.
+Ingest TMDB movies/genres/people:
 
-## Project Setup and Usage
+```bash
+python -m databases.mongo_redis --pages 5
+```
 
-1. **Clone the Repository**
-2. **Install Dependencies**
-3. **Configure Databases:**
-    * Create MySQL, MongoDB, PostgreSQL, and Redis databases as per your `config.js` file.
-    * Update the connection details in `config.js` with your actual credentials.
+Seed users (requires `MOVIEVERSE_ALLOW_SEEDING=true` and `MOVIEVERSE_SEED_TOKEN`):
 
-4. **Seed the Databases:**
-    * Run the provided `mongo-redis.js`, `mysql.js`, `postgresql.js` scripts (adjust as needed for your data sources) to populate the databases with initial data.
-    * Be sure to replace the API key in `config.js` with your own.
-    * Be sure to run these files only ONCE.
+```bash
+python -m databases.postgresql --count 50 --password "$MOVIEVERSE_SEED_USER_PASSWORD"
+```
 
-5. **Verify Seeded Data**: Verify that the data has been successfully seeded in the databases using GUI tools like MySQL Workbench, MongoDB Compass, Redis Insight, etc.
+Seed reviews:
 
-6. **Start the Django Backend:**
-    ```bash
-    python manage.py runserver
-    ```
-   
-The above steps are crucial and must be executed before using the APIs and starting the Django backend.
+```bash
+python -m databases.mysql --count 100 --min-rating 1 --max-rating 5
+```
 
-## Key Points
+Publish a RabbitMQ message:
 
-* **Scalability:** The use of multiple databases allows for horizontal scaling as your application grows.
-* **Flexibility:** MongoDB's schema-less nature provides flexibility for future data expansion.
-* **Performance:** Redis significantly improves response times for frequently accessed data.
-* **Maintainability:** The modular design allows for easier maintenance and updates to individual components.
+```bash
+python -m databases.publish --message "Hello from MovieVerse"
+```
 
-## Conclusion
+## Production Notes
 
-The MovieVerse Database Backend is a robust and scalable solution for managing movie-related data, leveraging the strengths of MySQL, MongoDB, PostgreSQL, and Redis to optimize data storage, retrieval, and performance. By carefully selecting the right database for each data type and utilizing Redis for caching, the backend ensures a smooth user experience and efficient data management.
+- Seeding is disabled by default in production. Enable it explicitly with:
+  `MOVIEVERSE_ALLOW_SEEDING=true` and a strong `MOVIEVERSE_SEED_TOKEN`.
+- These scripts are safe for automation, but should be executed in controlled environments only.
+- The data platform service uses `databases.health` for standardized connectivity checks.
+
+## Relationship to the Backend
+
+- **Data Platform Service** imports `databases.health` for health checks.
+- The CLI utilities provide operational access to ingestion and seeding that the backend already supports
+  through the `/ingest/*` and `/seed/*` APIs.
+

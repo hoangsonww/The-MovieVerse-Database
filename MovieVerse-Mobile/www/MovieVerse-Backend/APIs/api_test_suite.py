@@ -1,41 +1,41 @@
+import os
 import unittest
+
 import requests
 
 
 class MovieVerseApiTestSuite(unittest.TestCase):
-    base_url = "http://127.0.0.1:8000/api"
+    base_url = os.getenv("MOVIEVERSE_API_BASE_URL", "http://127.0.0.1:8080")
 
     def test_get_all_movies(self):
-        response = requests.get(f"{self.base_url}/movies/")
+        response = requests.get(f"{self.base_url}/movies", timeout=10)
         self.assertEqual(response.status_code, 200)
-        self.assertIsInstance(response.json(), list) # Expect a list of movies
-
-    def test_get_specific_movie(self):
-        movie_id = 929590  # Try getting the movie 'Civil War'
-        response = requests.get(f"{self.base_url}/movies/{movie_id}/")
-        self.assertEqual(response.status_code, 200)
-        self.assertIsInstance(response.json(), dict)  # Expect a movie dictionary
+        self.assertIsInstance(response.json(), list)
 
     def test_get_all_genres(self):
-        response = requests.get(f"{self.base_url}/genres/")
+        response = requests.get(f"{self.base_url}/genres", timeout=10)
         self.assertEqual(response.status_code, 200)
-        self.assertIsInstance(response.json(), list)  # Expect a list of genres
+        payload = response.json()
+        self.assertIn("items", payload)
 
-    def test_get_all_people(self):
-        response = requests.get(f"{self.base_url}/people/")
+    def test_search_movies(self):
+        response = requests.post(
+            f"{self.base_url}/search",
+            json={"query": "action", "limit": 3},
+            timeout=10,
+        )
         self.assertEqual(response.status_code, 200)
-        self.assertIsInstance(response.json(), list)  # Expect a list of people
+        self.assertIn("results", response.json())
 
-    def test_get_all_reviews(self):
-        response = requests.get(f"{self.base_url}/reviews/")
+    def test_recommendations(self):
+        response = requests.post(
+            f"{self.base_url}/recommendations",
+            json={"user_id": 1, "limit": 3},
+            timeout=10,
+        )
         self.assertEqual(response.status_code, 200)
-        self.assertIsInstance(response.json(), list)  # Expect a list of reviews
-
-    def test_get_all_users(self):
-        response = requests.get(f"{self.base_url}/users/")
-        self.assertEqual(response.status_code, 200)
-        self.assertIsInstance(response.json(), list)  # Expect a list of users
+        self.assertIn("items", response.json())
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

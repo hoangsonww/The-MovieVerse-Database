@@ -1,0 +1,132 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'MovieVerse EKS Cluster with Managed Node Group'
+
+Parameters:
+  EnvironmentName:
+    Description: Environment name prefix
+    Type: String
+    Default: movieverse-prod
+
+  KubernetesVersion:
+    Description: EKS Kubernetes version
+    Type: String
+    Default: '1.28'
+
+  VpcId:
+    Description: VPC ID
+    Type: AWS::EC2::VPC::Id
+
+  PrivateSubnetIds:
+    Description: Private subnet IDs for EKS nodes
+    Type: List<AWS::EC2::Subnet::Id>
+
+  PublicSubnetIds:
+    Description: Public subnet IDs for control plane
+    Type: List<AWS::EC2::Subnet::Id>
+
+  NodeInstanceType:
+    Description: EC2 instance type for node group
+    Type: String
+    Default: t3.large
+
+  NodeMinSize:
+    Description: Minimum node count
+    Type: Number
+    Default: 2
+
+  NodeMaxSize:
+    Description: Maximum node count
+    Type: Number
+    Default: 8
+
+  NodeDesiredSize:
+    Description: Desired node count
+    Type: Number
+    Default: 3
+
+Resources:
+  EKSClusterRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub ${EnvironmentName}-EKS-ClusterRole
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: eks.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonEKSClusterPolicy
+        - arn:aws:iam::aws:policy/AmazonEKSServicePolicy
+
+  EKSNodeRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub ${EnvironmentName}-EKS-NodeRole
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+        - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+        - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+
+  EKSSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: EKS control plane security group
+      VpcId: !Ref VpcId
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName}-EKS-SG
+
+  EKSCluster:
+    Type: AWS::EKS::Cluster
+    Properties:
+      Name: !Sub ${EnvironmentName}-eks
+      Version: !Ref KubernetesVersion
+      RoleArn: !GetAtt EKSClusterRole.Arn
+      ResourcesVpcConfig:
+        SecurityGroupIds:
+          - !Ref EKSSecurityGroup
+        SubnetIds: !Ref PublicSubnetIds
+        EndpointPublicAccess: true
+        EndpointPrivateAccess: true
+      Tags:
+        Environment: !Ref EnvironmentName
+
+  EKSNodeGroup:
+    Type: AWS::EKS::Nodegroup
+    Properties:
+      ClusterName: !Ref EKSCluster
+      NodegroupName: !Sub ${EnvironmentName}-nodegroup
+      NodeRole: !GetAtt EKSNodeRole.Arn
+      Subnets: !Ref PrivateSubnetIds
+      ScalingConfig:
+        MinSize: !Ref NodeMinSize
+        MaxSize: !Ref NodeMaxSize
+        DesiredSize: !Ref NodeDesiredSize
+      InstanceTypes:
+        - !Ref NodeInstanceType
+      Labels:
+        role: movieverse-worker
+      Tags:
+        Environment: !Ref EnvironmentName
+
+Outputs:
+  ClusterName:
+    Description: EKS cluster name
+    Value: !Ref EKSCluster
+
+  ClusterEndpoint:
+    Description: EKS API endpoint
+    Value: !GetAtt EKSCluster.Endpoint
+
+  NodeRoleArn:
+    Description: Node group role ARN
+    Value: !GetAtt EKSNodeRole.Arn

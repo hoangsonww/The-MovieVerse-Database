@@ -1,4 +1,6 @@
-import requests
+import httpx
+
+from crawler.config import settings
 
 
 def adjust_crawling_strategy(sentiment_trend, crawling_params):
@@ -18,9 +20,9 @@ def adjust_crawling_strategy(sentiment_trend, crawling_params):
 
 
 def fetch_movie_data(url):
-    headers = {'User-Agent': 'Mozilla/5.0'}
-    response = requests.get(url, headers=headers)
-    if response.status_code == 200:
-        return response.text
-    else:
+    headers = {"User-Agent": settings.crawler_user_agent}
+    with httpx.Client(timeout=settings.crawler_timeout_seconds) as client:
+        response = client.get(url, headers=headers)
+        if response.status_code == 200:
+            return response.text
         return None

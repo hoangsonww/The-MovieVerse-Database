@@ -1,0 +1,48 @@
+pipeline {
+  agent any
+
+  environment {
+    AWS_REGION = 'us-east-1'
+    IMAGE_TAG = "${env.BUILD_NUMBER}"
+    REGISTRY = "${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com"
+  }
+
+  stages {
+    stage('Checkout') {
+      steps {
+        checkout scm
+      }
+    }
+
+    stage('Authenticate ECR') {
+      steps {
+        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-credentials']]) {
+          sh 'aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $REGISTRY'
+        }
+      }
+    }
+
+    stage('Build & Push Images') {
+      steps {
+        sh 'chmod +x jenkins/scripts/build-images.sh'
+        sh 'REGISTRY=$REGISTRY IMAGE_TAG=$IMAGE_TAG jenkins/scripts/build-images.sh'
+      }
+    }
+
+    stage('Deploy to Kubernetes') {
+      when {
+        expression { return params.DEPLOY_K8S == true }
+      }
+      steps {
+        withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
+          sh 'chmod +x jenkins/scripts/deploy-k8s.sh'
+          sh 'KUBECONFIG=$KUBECONFIG NAMESPACE=movieverse jenkins/scripts/deploy-k8s.sh'
+        }
+      }
+    }
+  }
+
+  parameters {
+    booleanParam(name: 'DEPLOY_K8S', defaultValue: true, description: 'Deploy to Kubernetes after build')
+  }
+}

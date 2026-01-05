@@ -10,7 +10,7 @@
     "build": "npm run start",
     "test": "http-server -o",
     "serve": "http-server -o",
-    "format": "prettier --config ./MovieVerse-Config/.prettierrc --write \"MovieVerse-Backend/databases/*.{html,css,js,jsx,ts,tsx}\" \"MovieVerse-Frontend/**/*.{html,css,js,jsx,ts,tsx}\" \"MovieVerse-Utilities/**/*.{html,css,js,jsx,ts,tsx}\" \"MovieVerse-Config/**/*.{html,css,js,jsx,ts,tsx}\" \"index.js\" \"404.html\" \"index.html\" \"MovieVerse-Mobile/www/launch-screen.html\"",
+    "format": "prettier --config ./MovieVerse-Config/.prettierrc --write  \"MovieVerse-Frontend/**/*.{html,css,js,jsx,ts,tsx}\" \"MovieVerse-Utilities/**/*.{html,css,js,jsx,ts,tsx}\" \"MovieVerse-Config/**/*.{html,css,js,jsx,ts,tsx}\" \"index.js\" \"404.html\" \"index.html\" \"MovieVerse-Mobile/www/launch-screen.html\"",
     "docker": "docker compose up",
     "backend": "cd MovieVerse-Backend/databases && node app.js && node mongo-redis.js && node mysql.js && node postgresql.js && node publish.js && cd ../django_backend && python manage.py runserver",
     "lint": "eslint -c ./MovieVerse-Config/.eslintrc.js .",

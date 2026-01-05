@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: movieverse-ai-config
+  namespace: movieverse
+data:
+  MOVIEVERSE_AI_LOG_LEVEL: "INFO"
+  MOVIEVERSE_AI_API_PORT: "9000"
+  MOVIEVERSE_AI_MLFLOW_TRACKING_URI: "http://mlflow.movieverse.svc.cluster.local:5000"
+  MOVIEVERSE_AI_S3_ENDPOINT_URL: "https://s3.amazonaws.com"
+  MOVIEVERSE_AI_S3_BUCKET: "movieverse-ml"
+  MOVIEVERSE_AI_FEATURE_REPO_PATH: "/opt/movieverse-ai/feature_repo"

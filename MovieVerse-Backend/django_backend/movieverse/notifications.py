@@ -1,13 +1,13 @@
-from celery import shared_task
-from django.core.mail import send_mail
+import logging
+
+from .service_clients import notify_user
+
+logger = logging.getLogger(__name__)
 
 
-@shared_task
-def send_review_notification_email(user_email):
-    send_mail(
-        'Your Review is Posted',
-        'Thank you for submitting your review. It is now live on our site.',
-        'info@movie-verse.com',
-        [user_email],
-        fail_silently=False,
-    )
+def send_review_notification(user_id: int, request=None) -> None:
+    message = "Thanks for submitting your review!"
+    try:
+        notify_user({"user_id": user_id, "message": message}, request=request)
+    except Exception as exc:
+        logger.warning("review_notification_failed", extra={"error": str(exc), "user_id": user_id})

@@ -1,0 +1,1 @@
+"""MovieVerse crawler package."""

@@ -1,0 +1,103 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'MovieVerse RDS PostgreSQL'
+
+Parameters:
+  EnvironmentName:
+    Description: Environment name prefix
+    Type: String
+    Default: movieverse-prod
+
+  VpcId:
+    Description: VPC ID
+    Type: AWS::EC2::VPC::Id
+
+  VpcCidr:
+    Description: VPC CIDR block
+    Type: String
+    Default: 10.0.0.0/16
+
+  SubnetIds:
+    Description: Private subnet IDs for RDS
+    Type: List<AWS::EC2::Subnet::Id>
+
+  DBName:
+    Description: Database name
+    Type: String
+    Default: movieverse
+
+  DBUsername:
+    Description: Database admin username
+    Type: String
+    Default: movieverse
+
+  DBPassword:
+    Description: Database admin password
+    Type: String
+    NoEcho: true
+
+  DBInstanceClass:
+    Description: RDS instance class
+    Type: String
+    Default: db.m6g.large
+
+  AllocatedStorage:
+    Description: Allocated storage (GB)
+    Type: Number
+    Default: 100
+
+  MultiAZ:
+    Description: Enable Multi-AZ
+    Type: String
+    AllowedValues: [true, false]
+    Default: true
+
+Resources:
+  RDSSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: RDS security group
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 5432
+          ToPort: 5432
+          CidrIp: !Ref VpcCidr
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName}-RDS-SG
+
+  RDSSubnetGroup:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: MovieVerse RDS subnet group
+      SubnetIds: !Ref SubnetIds
+
+  RDSInstance:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBInstanceIdentifier: !Sub ${EnvironmentName}-postgres
+      Engine: postgres
+      EngineVersion: '15.4'
+      DBInstanceClass: !Ref DBInstanceClass
+      AllocatedStorage: !Ref AllocatedStorage
+      StorageType: gp3
+      MasterUsername: !Ref DBUsername
+      MasterUserPassword: !Ref DBPassword
+      DBName: !Ref DBName
+      MultiAZ: !Ref MultiAZ
+      BackupRetentionPeriod: 7
+      PubliclyAccessible: false
+      VPCSecurityGroups:
+        - !Ref RDSSecurityGroup
+      DBSubnetGroupName: !Ref RDSSubnetGroup
+      DeletionProtection: true
+      CopyTagsToSnapshot: true
+
+Outputs:
+  RDSInstanceEndpoint:
+    Description: RDS endpoint
+    Value: !GetAtt RDSInstance.Endpoint.Address
+
+  RDSInstancePort:
+    Description: RDS port
+    Value: !GetAtt RDSInstance.Endpoint.Port

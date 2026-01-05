@@ -1,0 +1,15 @@
+FROM apache/airflow:2.8.3
+
+USER root
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+USER airflow
+
+COPY MovieVerse-AI/requirements.txt /tmp/requirements.txt
+RUN pip install --no-cache-dir -r /tmp/requirements.txt
+
+COPY MovieVerse-AI/movieverse_ai /opt/airflow/movieverse_ai
+COPY MovieVerse-AI/feature_repo /opt/airflow/feature_repo
+
+ENV PYTHONPATH=/opt/airflow

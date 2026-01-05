@@ -5,3 +5,4 @@ metadata:
   labels:
     name: movieverse
     environment: production
+    app.kubernetes.io/name: movieverse

@@ -1,54 +1,12 @@
 {
-  "movies": [
+  "results": [
     {
-      "id": 1,
-      "title": "Eternal Sunshine of the Spotless Mind",
-      "year": 2004,
-      "genres": ["Drama", "Romance", "Sci-Fi"],
-      "director": "Michel Gondry",
-      "cast": ["Jim Carrey", "Kate Winslet", "Tom Wilkinson"],
-      "synopsis": "When their relationship turns sour, a couple undergoes a medical procedure to have each other erased from their memories.",
-      "rating": 8.3
-    },
-    {
-      "id": 2,
-      "title": "Inception",
-      "year": 2010,
-      "genres": ["Action", "Adventure", "Sci-Fi"],
-      "director": "Christopher Nolan",
-      "cast": ["Leonardo DiCaprio", "Joseph Gordon-Levitt", "Ellen Page"],
-      "synopsis": "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a CEO.",
-      "rating": 8.8
-    },
-    {
-      "id": 3,
-      "title": "Parasite",
-      "year": 2019,
-      "genres": ["Comedy", "Drama", "Thriller"],
-      "director": "Bong Joon Ho",
-      "cast": ["Song Kang-ho", "Lee Sun-kyun", "Cho Yeo-jeong"],
-      "synopsis": "Greed and class discrimination threaten the newly formed symbiotic relationship between the wealthy Park family and the destitute Kim clan.",
-      "rating": 8.6
-    },
-    {
-      "id": 4,
-      "title": "The Matrix",
-      "year": 1999,
-      "genres": ["Action", "Sci-Fi"],
-      "director": "Lana Wachowski, Lilly Wachowski",
-      "cast": ["Keanu Reeves", "Laurence Fishburne", "Carrie-Anne Moss"],
-      "synopsis": "A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.",
-      "rating": 8.7
-    },
-    {
-      "id": 5,
-      "title": "The Grand Budapest Hotel",
-      "year": 2014,
-      "genres": ["Adventure", "Comedy", "Crime"],
-      "director": "Wes Anderson",
-      "cast": ["Ralph Fiennes", "F. Murray Abraham", "Mathieu Amalric"],
-      "synopsis": "A writer encounters the owner of an aging high-class hotel, who tells him of his early years serving as a lobby boy in the hotel's glorious years under an exceptional concierge.",
-      "rating": 8.1
+      "movie_id": 550,
+      "title": "Fight Club",
+      "overview": "A ticking-time-bomb insomniac and a soap salesman channel primal male aggression.",
+      "genres": "Drama",
+      "release_date": "1999-10-15",
+      "rating": 8.4
     }
   ]
 }

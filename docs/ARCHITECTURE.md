@@ -4,6 +4,44 @@
 
 This document describes the production deployment architecture for MovieVerse, including infrastructure components, deployment strategies, and operational considerations.
 
+## Microservices Topology
+
+MovieVerse is designed as a microservices platform with independent services for auth, users, movies, reviews, recommendations, search, and notifications. The edge layer uses Nginx for load balancing and path-based routing, while asynchronous workflows are handled with Kafka (event streaming) and RabbitMQ (task queues). Data is stored in purpose-built databases, and observability spans metrics, logs, and traces.
+
+```mermaid
+graph LR
+    Client[Clients] --> Nginx[Nginx Edge LB]
+
+    Nginx --> Auth[Auth Service]
+    Nginx --> Users[User Service]
+    Nginx --> Movies[Movie Service]
+    Nginx --> Reviews[Review Service]
+    Nginx --> Recos[Recommendation Service]
+    Nginx --> Search[Search Service]
+    Nginx --> Notify[Notification Service]
+
+    Auth --> Kafka[Kafka]
+    Movies --> Kafka
+    Reviews --> Kafka
+    Recos --> Kafka
+
+    Auth --> RabbitMQ[RabbitMQ]
+    Notify --> RabbitMQ
+
+    Auth --> Postgres[(PostgreSQL)]
+    Users --> Postgres
+    Movies --> MySQL[(MySQL)]
+    Movies --> Mongo[(MongoDB)]
+    Reviews --> Postgres
+    Search --> OpenSearch[(OpenSearch)]
+    Recos --> Redis[(Redis)]
+
+    Observability[Prometheus / Grafana / Jaeger] --> Auth
+    Observability --> Movies
+    Observability --> Reviews
+    Observability --> Recos
+```
+
 ## Architecture Diagram
 
 ### High-Level Architecture
@@ -177,8 +215,8 @@ Auto-Scaling:
 flowchart TB
     ALB[Application Load Balancer]
 
-    ALB -->|"Production traffic"| TG_Blue[Target Group Blue<br/>(Production)]
-    ALB -->|"Test traffic (port 8080)"| TG_Green[Target Group Green<br/>(Staging)]
+    ALB -->|"Production traffic"| TG_Blue[Target Group Blue<br/>Production]
+    ALB -->|"Test traffic (port 8080)"| TG_Green[Target Group Green<br/>Staging]
 
     TG_Blue --> Blue_Services[Blue Services]
     TG_Green --> Green_Services[Green Services]
@@ -300,7 +338,7 @@ Deployment:
 
 ```mermaid
 flowchart TB
-    Internet[Internet (0.0.0.0/0)]
+    Internet[Internet 0.0.0.0/0]
     ALB_SG[ALB Security Group<br/>Inbound: 80, 443 from Internet]
     ECS_SG[ECS Tasks Security Group<br/>Inbound: 5000 from ALB SG]
     DB_SG[Database Security Group<br/>Inbound: 3306, 5432, 6379, 27017 from ECS SG]

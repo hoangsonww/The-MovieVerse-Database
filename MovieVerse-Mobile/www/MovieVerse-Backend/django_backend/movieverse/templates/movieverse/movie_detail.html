@@ -82,14 +82,14 @@
 <body>
     <header>
         <h1>{{ movie.title }}</h1>
-        <p>{{ movie.year }}</p>
+        <p>{{ movie.release_date }}</p>
     </header>
     <div class="quote">
-        <p>{{ movie.plot }}</p>
+        <p>{{ movie.overview }}</p>
     </div>
     <div class="search">
         <form class="search-bar" action="{% url 'movieverse:search' %}" method="get">
-            <input type="text" name="q" placeholder="Search for a movie">
+            <input type="text" name="search" placeholder="Search for a movie">
             <button type="submit">Search</button>
         </form>
     </div>

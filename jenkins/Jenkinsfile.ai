@@ -1,0 +1,30 @@
+pipeline {
+  agent any
+
+  environment {
+    IMAGE_TAG = "${env.BUILD_NUMBER}"
+    REGISTRY = "${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com"
+  }
+
+  stages {
+    stage('Checkout') {
+      steps {
+        checkout scm
+      }
+    }
+
+    stage('Build AI Image') {
+      steps {
+        sh 'docker build -f MovieVerse-AI/Dockerfile -t $REGISTRY/ai-api:$IMAGE_TAG .'
+        sh 'docker tag $REGISTRY/ai-api:$IMAGE_TAG $REGISTRY/ai-api:latest'
+      }
+    }
+
+    stage('Push AI Image') {
+      steps {
+        sh 'docker push $REGISTRY/ai-api:$IMAGE_TAG'
+        sh 'docker push $REGISTRY/ai-api:latest'
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: "movieverse-nginx"
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+          - nginx:80
+
+  - job_name: "movieverse-services"
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+          - auth-service:8000
+          - user-service:8000
+          - movie-service:8000
+          - review-service:8000
+          - recommendation-service:8000
+          - search-service:8000
+          - notification-service:8000
+
+  - job_name: "movieverse-kafka"
+    static_configs:
+      - targets:
+          - kafka:9092

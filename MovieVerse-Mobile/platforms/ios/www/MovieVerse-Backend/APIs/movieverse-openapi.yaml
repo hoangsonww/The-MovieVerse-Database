@@ -1,141 +1,734 @@
-openapi: 3.0.0
+openapi: 3.0.3
 info:
-  title: MovieVerse API
-  description: A RESTful API for accessing movie-related data.
-  version: 1.0.0
+  title: MovieVerse Gateway API
+  description: Unified edge API for MovieVerse microservices.
+  version: 2.0.0
 servers:
-  - url: http://127.0.0.1:8000/api/
-    description: Local development server
-
+  - url: http://localhost:8080
+    description: Local gateway (Nginx)
 paths:
-  /movies/:
+  /movies:
     get:
-      summary: Get a list of all movies
+      summary: List movies
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 50
+        - in: query
+          name: genre
+          schema:
+            type: string
       responses:
-        '200':
-          description: A list of movie objects
+        "200":
+          description: Movie list
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Movie'
-    parameters:
-      - in: query
-        name: search
-        schema:
-          type: string
-        description: Search query to filter movies by title
-
-  /movies/{movie_id}/:
+                  $ref: "#/components/schemas/Movie"
+    post:
+      summary: Create a movie
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MovieCreate"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Movie"
+  /movies/{movie_id}:
     get:
-      summary: Get details of a specific movie
+      summary: Get a movie
       parameters:
         - in: path
           name: movie_id
+          required: true
           schema:
             type: integer
+      responses:
+        "200":
+          description: Movie detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Movie"
+    put:
+      summary: Update a movie
+      parameters:
+        - in: path
+          name: movie_id
           required: true
-          description: ID of the movie
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MovieUpdate"
       responses:
-        '200':
-          description: A movie object
+        "200":
+          description: Updated
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Movie'
-
-  /genres/:
+                $ref: "#/components/schemas/Movie"
+  /genres:
     get:
-      summary: Get a list of all genres
+      summary: List genres
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 50
+        - in: query
+          name: q
+          schema:
+            type: string
       responses:
-        '200':
-          description: A list of genre objects
+        "200":
+          description: Genre list
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Genre'
-
-  /people/:
+                $ref: "#/components/schemas/GenreList"
+  /genres/{genre_id}:
     get:
-      summary: Get a list of all people (cast and crew)
+      summary: Get genre
+      parameters:
+        - in: path
+          name: genre_id
+          required: true
+          schema:
+            type: integer
       responses:
-        '200':
-          description: A list of person objects
+        "200":
+          description: Genre detail
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Person'
-
-  /people/{person_id}/:
+                $ref: "#/components/schemas/Genre"
+  /people:
     get:
-      summary: Get details of a specific person
+      summary: List people
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 50
+        - in: query
+          name: q
+          schema:
+            type: string
+        - in: query
+          name: department
+          schema:
+            type: string
+      responses:
+        "200":
+          description: People list
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PersonList"
+  /people/{person_id}:
+    get:
+      summary: Get person
       parameters:
         - in: path
           name: person_id
+          required: true
           schema:
             type: integer
-          required: true
-          description: ID of the person
       responses:
-        '200':
-          description: A person object
+        "200":
+          description: Person detail
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Person'
-
-  # Add similar paths for reviews and users if applicable
-
+                $ref: "#/components/schemas/Person"
+  /reviews:
+    get:
+      summary: List reviews
+      parameters:
+        - in: query
+          name: movie_id
+          schema:
+            type: integer
+        - in: query
+          name: user_id
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Review list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Review"
+    post:
+      summary: Create review
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReviewCreate"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Review"
+  /profiles:
+    post:
+      summary: Create profile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProfileCreate"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Profile"
+  /profiles/{user_id}:
+    get:
+      summary: Get profile
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Profile"
+    put:
+      summary: Update profile
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProfileUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Profile"
+  /recommendations:
+    post:
+      summary: Get recommendations
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RecommendationRequest"
+      responses:
+        "200":
+          description: Recommendation list
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RecommendationResponse"
+  /recommendations/similar:
+    post:
+      summary: Get similar movies
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SimilarRequest"
+      responses:
+        "200":
+          description: Similar list
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SimilarResponse"
+  /search:
+    post:
+      summary: Search movies
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SearchRequest"
+      responses:
+        "200":
+          description: Search results
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SearchResponse"
+  /search/reviews:
+    post:
+      summary: Search reviews
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SearchRequest"
+      responses:
+        "200":
+          description: Search results
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SearchResponse"
+  /notifications:
+    get:
+      summary: List notifications
+      parameters:
+        - in: query
+          name: user_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Notification list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Notification"
+    post:
+      summary: Send notification
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotificationCreate"
+      responses:
+        "201":
+          description: Notification queued
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Notification"
+  /auth/register:
+    post:
+      summary: Register user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthRegister"
+      responses:
+        "201":
+          description: User created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthUser"
+  /auth/login:
+    post:
+      summary: Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthLogin"
+      responses:
+        "200":
+          description: Tokens
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthTokens"
+  /auth/refresh:
+    post:
+      summary: Refresh token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthRefresh"
+      responses:
+        "200":
+          description: Tokens
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthTokens"
+  /crawl:
+    post:
+      summary: Enqueue crawler job
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CrawlRequest"
+      responses:
+        "202":
+          description: Job accepted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CrawlResponse"
 components:
   schemas:
-    Movie:  # Adjust properties based on your actual Movie model
+    Movie:
       type: object
       properties:
-        id:
+        movie_id:
           type: integer
-          readOnly: true
+        tmdb_id:
+          type: integer
+          nullable: true
         title:
           type: string
-        releaseDate:
+        overview:
           type: string
-          format: date
-        voteAverage:
-          type: number
+          nullable: true
         genres:
-            type: array
-            items:
-                $ref: '#/components/schemas/Genre'
-        cast:
-            type: array
-            items:
-                $ref: '#/components/schemas/Person'
-        crew:
-            type: array
-            items:
-                $ref: '#/components/schemas/Person'
-
-    Genre:  # Adjust properties based on your actual Genre model
+          type: string
+          nullable: true
+        release_date:
+          type: string
+          nullable: true
+        rating:
+          type: number
+          nullable: true
+        popularity:
+          type: number
+          nullable: true
+    MovieCreate:
+      type: object
+      required: [title]
+      properties:
+        tmdb_id:
+          type: integer
+        title:
+          type: string
+        overview:
+          type: string
+        genres:
+          type: string
+        release_date:
+          type: string
+        rating:
+          type: number
+        popularity:
+          type: number
+    MovieUpdate:
+      type: object
+      properties:
+        tmdb_id:
+          type: integer
+        title:
+          type: string
+        overview:
+          type: string
+        genres:
+          type: string
+        release_date:
+          type: string
+        rating:
+          type: number
+        popularity:
+          type: number
+    Genre:
+      type: object
+      properties:
+        genre_id:
+          type: integer
+        name:
+          type: string
+    GenreList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Genre"
+    Person:
+      type: object
+      properties:
+        person_id:
+          type: integer
+        name:
+          type: string
+        biography:
+          type: string
+          nullable: true
+        birthday:
+          type: string
+          nullable: true
+        deathday:
+          type: string
+          nullable: true
+        profile_path:
+          type: string
+          nullable: true
+        known_for_department:
+          type: string
+          nullable: true
+    PersonList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Person"
+    Review:
+      type: object
+      properties:
+        review_id:
+          type: integer
+        user_id:
+          type: integer
+        movie_id:
+          type: integer
+        rating:
+          type: number
+        review_text:
+          type: string
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+    ReviewCreate:
+      type: object
+      required: [user_id, movie_id, rating]
+      properties:
+        user_id:
+          type: integer
+        movie_id:
+          type: integer
+        rating:
+          type: number
+        review_text:
+          type: string
+    Profile:
+      type: object
+      properties:
+        user_id:
+          type: integer
+        display_name:
+          type: string
+        bio:
+          type: string
+          nullable: true
+        favorite_genres:
+          type: array
+          items:
+            type: string
+    ProfileCreate:
+      type: object
+      required: [user_id, display_name]
+      properties:
+        user_id:
+          type: integer
+        display_name:
+          type: string
+        bio:
+          type: string
+        favorite_genres:
+          type: array
+          items:
+            type: string
+    ProfileUpdate:
+      type: object
+      properties:
+        display_name:
+          type: string
+        bio:
+          type: string
+        favorite_genres:
+          type: array
+          items:
+            type: string
+    RecommendationRequest:
+      type: object
+      required: [user_id]
+      properties:
+        user_id:
+          type: integer
+        limit:
+          type: integer
+        filter_genres:
+          type: array
+          items:
+            type: string
+    RecommendationResponse:
+      type: object
+      properties:
+        user_id:
+          type: integer
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              movie_id:
+                type: integer
+              score:
+                type: number
+    SimilarRequest:
+      type: object
+      required: [movie_id]
+      properties:
+        movie_id:
+          type: integer
+        limit:
+          type: integer
+    SimilarResponse:
+      type: object
+      properties:
+        movie_id:
+          type: integer
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              movie_id:
+                type: integer
+              score:
+                type: number
+    SearchRequest:
+      type: object
+      required: [query]
+      properties:
+        query:
+          type: string
+        limit:
+          type: integer
+    SearchResponse:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            type: object
+    Notification:
+      type: object
+      properties:
+        notification_id:
+          type: integer
+        user_id:
+          type: integer
+        message:
+          type: string
+        status:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+    NotificationCreate:
+      type: object
+      required: [user_id, message]
+      properties:
+        user_id:
+          type: integer
+        message:
+          type: string
+    AuthRegister:
+      type: object
+      required: [email, username, password]
+      properties:
+        email:
+          type: string
+        username:
+          type: string
+        password:
+          type: string
+          format: password
+    AuthLogin:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+          format: password
+    AuthRefresh:
+      type: object
+      required: [user_id, refresh_token]
+      properties:
+        user_id:
+          type: integer
+        refresh_token:
+          type: string
+    AuthUser:
       type: object
       properties:
         id:
           type: integer
-          readOnly: true
-        name:
+        email:
           type: string
-
-    Person:  # Adjust properties based on your actual Person model
+        username:
+          type: string
+    AuthTokens:
       type: object
       properties:
-        id:
+        access_token:
+          type: string
+        refresh_token:
+          type: string
+    CrawlRequest:
+      type: object
+      required: [url]
+      properties:
+        url:
+          type: string
+        source:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        priority:
           type: integer
-          readOnly: true
-        name:
+    CrawlResponse:
+      type: object
+      properties:
+        job_id:
           type: string
-        knownForDepartment:
+        url:
           type: string
-
+        status:
+          type: string

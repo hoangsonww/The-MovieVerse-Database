@@ -1,0 +1,4 @@
+cluster.name: movieverse-elk
+network.host: 0.0.0.0
+discovery.type: single-node
+xpack.security.enabled: false

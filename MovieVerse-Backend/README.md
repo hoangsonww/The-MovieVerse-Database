@@ -12,7 +12,6 @@
     - [Database Services](#database-services)
     - [Django Service](#django-service)
     - [API Service](#api-service)
-    - [Flask Service](#flask-service)
     - [Machine Learning Services](#machine-learning-services)
     - [Crawler Service](#crawler-service)
 - [Contributing](#contributing)
@@ -24,56 +23,101 @@ The backend of MovieVerse is built using the **microservices architecture**. Thi
 
 **Important**: Be sure to carefully read this file and the [README.md](databases/README.md) file in the `databases` directory for more information on the backend services of MovieVerse before you start developing.
 
+## Production Microservices Stack
+
+MovieVerse now ships a full production-grade microservices implementation under `MovieVerse-Backend/services/` with the following services:
+
+- **Auth Service** (`/register`, `/login`, `/refresh`) with JWT + Redis-backed refresh tokens
+- **User Service** for profile management and preferences
+- **Movie Service** for movie metadata and catalog updates
+- **Review Service** for ratings/reviews with Kafka + RabbitMQ events
+- **Search Service** backed by OpenSearch for text search
+- **Search Indexer Service** for Kafka-driven indexing and reindex jobs
+- **Notification Service** for user notifications and queue consumers
+- **Recommendation Service** that integrates with `MovieVerse-AI`
+- **Metadata Service** for people/genre catalogs and analysis payloads
+- **Crawler Service** + worker for ingesting external sources
+- **Data Platform Service** for TMDB ingestion and database health
+
+These services are built with FastAPI, SQLAlchemy, Redis, Kafka, RabbitMQ, and OpenSearch. They are ready to deploy via the root `docker-compose.microservices.yml`, Kubernetes manifests, or AWS stacks.
+
 ## Live Backend Services
 
-The backend services of MovieVerse are live and hosted on the cloud. You can access the live services using the following links:
-- **Django Backend**: [https://api-movieverse.vercel.app/](https://api-movieverse.vercel.app/)
-- **Documentation**: [https://api-movieverse.vercel.app/docs/](https://api-movieverse.vercel.app/docs/)
-- **Redoc**: [https://api-movieverse.vercel.app/redoc/](https://api-movieverse.vercel.app/redoc/)
-- **GraphQL**: [https://api-movieverse.vercel.app/graphql/](https://api-movieverse.vercel.app/graphql/)
+Deployed environments expose the Nginx edge gateway plus service-level documentation. Use your deployment base URL and route through the gateway (for example: `/movies`, `/reviews`, `/search`).
 
 ## Architecture
 
 The microservices architecture of MovieVerse is designed to segregate the application into small, loosely coupled services. Each service is focused on a single business capability and can be developed, deployed, and scaled independently.
 
+- **Nginx Edge**: Load-balanced gateway and routing layer for all services.
+- **Django BFF**: Server-rendered UX and aggregation for microservice calls.
 - **Authentication Service**: Manages user authentication and authorization.
 - **User Service**: Handles user-related operations like profile management.
 - **Movie Service**: Manages movie data and interactions.
-- **Machine Learning Service**: Provides AI functionalities for movie data processing.
+- **MovieVerse-AI**: Dedicated ML platform for recommendations, embeddings, and NLP/vision.
 - **Crawler Service**: Dynamically updates the database with new movie data from various online sources.
+- **Metadata Service**: Stores genres, people, and enrichment metadata in MongoDB.
+- **Search Indexer Service**: Consumes Kafka events to keep OpenSearch current.
+- **Data Platform Service**: Centralized ingestion and health checks for data sources.
 - **Review Service**: Handles user reviews and ratings.
 - **Recommendation Service**: Provides movie recommendations to users based on their preferences and viewing history.
 - **Search Service**: Offers comprehensive search functionality for movies and users.
-- **And so many more...**
+- **Observability**: Prometheus/Grafana/Jaeger + ELK for metrics, traces, and logs.
 
 ## Data Flow Illustration
 
 Here is an illustration of the data flow in the backend services of MovieVerse:
 
-```       
-                                                                 +------------+          +------------+
-                                                                 |            |          |            |
-                                                                 | PostgreSQL |          |  Firebase  |
-                                                                 |            |          |            |
-                                                                 +------------+          +------------+
-                                                                       ^                       ^
-                                                                       |                       |
-                                                                       |                       |
-                                                                       v                       v
-+----------+        +----------------+      +------------+       +-----------+           +-----------+   
-|          |        |                |      |            |       |           |           |           | 
-| Frontend | <----> | Django Backend | <--> |  RabbitMQ  | <---> |   Redis   | <-------> |  MongoDB  | 
-|          |        |                |      |            |       |           |           |           |
-+----------+        +----------------+      +------------+       +-----------+           +-----------+
-                                                                       ^                    ^     ^
-                                                                       |                   /       \
-                                                                       |                  /         \
-                                                                       v                 /           \
-                                                                 +------------+   +------------+   +------------+
-                                                                 |            |   |            |   |            |
-                                                                 |    MySQL   |   |  TMDB API  |   | User-Added |
-                                                                 |            |   | (external) |   |    Data    |
-                                                                 +------------+   +------------+   +------------+
+```mermaid
+flowchart LR
+  client[Clients] --> edge[Nginx Edge]
+  edge --> bff[Django BFF]
+  edge --> auth(Auth)
+  edge --> user(User)
+  edge --> movie(Movie)
+  edge --> review(Review)
+  edge --> search(Search)
+  edge --> reco(Recommendation)
+  edge --> meta(Metadata)
+  edge --> crawler(Crawler)
+  edge --> data(Data Platform)
+  edge --> notify(Notification)
+  edge --> indexer(Search Indexer)
+
+  bff --> auth
+  bff --> user
+  bff --> movie
+  bff --> review
+  bff --> search
+  bff --> reco
+  bff --> meta
+
+  auth --> pg[(PostgreSQL)]
+  user --> pg
+  review --> pg
+  movie --> mysql[(MySQL)]
+  meta --> mongo[(MongoDB)]
+  search --> os[(OpenSearch)]
+  indexer --> os
+  reco --> redis[(Redis)]
+  data --> pg
+  data --> mysql
+  data --> mongo
+  data --> redis
+
+  reco --> ai[MovieVerse-AI]
+  crawler --> ai
+```
+
+```mermaid
+flowchart LR
+  crawler[Crawler Service] --> rabbit[(RabbitMQ)]
+  review[Review Service] --> rabbit
+  rabbit --> notify_worker[Notification Worker]
+  review --> kafka[(Kafka)]
+  movie[Movie Service] --> kafka
+  kafka --> indexer[Search Indexer]
+  indexer --> os[(OpenSearch)]
 ```
 
 For more information on the data flow in the backend services of MovieVerse, refer to the code and the [README.md](databases/README.md) file in the `databases` directory.
@@ -85,20 +129,20 @@ For more information on the data flow in the backend services of MovieVerse, ref
 - Node.js
 - Docker
 - Docker Compose
-- Express.js
+- Python 3.11+
 - MongoDB
 - MySQL
 - PostgreSQL
-- Flask
+- Kafka
 - Redis
-- Django
+- Django (gateway)
 - RabbitMQ
+- Nginx
+- OpenSearch
+- Elasticsearch/Logstash/Kibana (ELK)
 - Flake8 for Python linting
-- Celery for asynchronous task queue (for the crawlers)
-- Redis or RabbitMQ as a broker for Celery
-- BeautifulSoup4 and Requests for web scraping in the Crawler Service
-- Transformers and PyTorch for AI functionalities within the Crawler Service
-- Python 3.8 or higher (and an IDE that supports Python and can run Python scripts)
+- BeautifulSoup4 and httpx for web scraping in the Crawler Service
+- Transformers and PyTorch for AI functionalities within MovieVerse-AI
 
 To satisfy these prerequisites, simply run the following command:
 
@@ -128,15 +172,47 @@ pip install -r requirements.txt
 
 ### Quick Start
 
-To quickly start the backend services of MovieVerse, simply run:
+To start the production-ready microservices stack locally:
 
 ```bash
-npm start
+docker compose -f ../docker-compose.microservices.yml up -d
 ```
 
-This command will start most (but not all) of the services required for the backend of MovieVerse. Note that before running this command, you must have all the prerequisites installed on your machine.
+This brings up the Nginx gateway plus Kafka, RabbitMQ, Redis, Postgres, MySQL, OpenSearch, MongoDB, and the AI API.
 
-**Important**: Remember to set the `SECRET_KEY` and set `Debug` to `True` in the [settings.py](django_backend/django_backend/settings.py) file in the `django_backend` directory. This is crucial for running the Django server locally. Additionally, you are also required to obtain a Django secret key and set it in the `settings.py` file.
+**Important**: Configure `DJANGO_SECRET_KEY` and `DJANGO_DEBUG` via environment variables before running the Django gateway. See [settings.py](django_backend/django_backend/settings.py) for defaults and overrides.
+
+### Backend Configuration
+
+- Django gateway: `DJANGO_DEBUG` defaults to `false`; set `DJANGO_SECRET_KEY` when `DJANGO_DEBUG=false`.
+- Django database: `DJANGO_DB_ENGINE` + `DJANGO_DB_NAME`, with `DJANGO_DB_USER`, `DJANGO_DB_PASSWORD`, `DJANGO_DB_HOST`, `DJANGO_DB_PORT`, `DJANGO_DB_CONN_MAX_AGE` for production DBs.
+- Microservices runtime: `MOVIEVERSE_ENVIRONMENT=production` enables strict validation; `MOVIEVERSE_AUTO_MIGRATE=false` is required in production.
+- Microservices SQL pools: `MOVIEVERSE_DB_POOL_SIZE`, `MOVIEVERSE_DB_MAX_OVERFLOW`, `MOVIEVERSE_DB_POOL_RECYCLE_SECONDS`.
+- Seeding controls: `MOVIEVERSE_ALLOW_SEEDING=true` + `MOVIEVERSE_SEED_TOKEN` for controlled bootstrap endpoints.
+- RabbitMQ routing: `MOVIEVERSE_RABBITMQ_EVENTS_QUEUE`, `MOVIEVERSE_RABBITMQ_NOTIFICATIONS_QUEUE`.
+
+### Microservices Quick Start (Production Stack)
+
+To run the full microservices stack locally with Kafka, RabbitMQ, Redis, Postgres, MySQL, OpenSearch, and the AI API:
+
+```bash
+docker compose -f ../docker-compose.microservices.yml up -d
+```
+
+Service endpoints are routed through the Nginx edge at `http://localhost:8080/`.
+
+### Observability (Prometheus + Grafana + Jaeger + ELK)
+
+To enable metrics, traces, and centralized logging:
+
+```bash
+docker compose -f ../docker-compose.microservices.yml -f ../docker-compose.observability.yml up -d
+```
+
+- Kibana: `http://localhost:5601`
+- Prometheus: `http://localhost:9090`
+- Grafana: `http://localhost:3000`
+- Jaeger: `http://localhost:16686`
 
 ### Running the Individual Services (Recommended)
 
@@ -184,11 +260,10 @@ MovieVerse currently uses MongoDB, Redis, PostgreSQL, and MySQL as its primary d
     CREATE DATABASE MovieVerse;
     ```
    
-2. Run the scripts inside the `databases` directory to create the necessary databases and tables:
+2. Run the Python utilities inside the `databases` directory to verify connectivity:
 
     ```bash
-    cd databases
-    node app.js
+    python -m databases.app
     ```
    
 3. If the script runs successfully, you should see the following output in your terminal:
@@ -216,7 +291,7 @@ MovieVerse currently uses MongoDB, Redis, PostgreSQL, and MySQL as its primary d
 4. Test the RabbitMQ functionality by sending a message to the queue:
 
     ```bash
-    node publish.js
+    python -m databases.publish --message "Hello from MovieVerse"
     ```
    
 5. If the message is successfully sent, you should see the following output in your terminal:
@@ -247,22 +322,16 @@ The Django service is responsible for handling the majority of backend functiona
     cd django_backend
     ```
    
-2. Make the necessary migrations:
+2. Apply Django migrations (auth/session tables only):
     ```bash
-    python manage.py makemigrations
     python manage.py migrate
     ```
    
-3. Run the Django Service:
+3. Run the Django gateway:
     ```bash
     python manage.py runserver
     ```
-NOTE: Before running the Django server, be sure to set the `DEBUG` variable to `True` in the `settings.py` file. This is crucial for running the server locally. Additionally, you are also required to obtain a Django secret key and set it in the `settings.py` file. For security reasons, we have hidden the secret key in the `.env` file. Please [contact me](mailto:info@movie-verse.com) for access to the secret key.
-
-```python
-SECRET_KEY = 'your_secret_key'
-Debug = True
-```
+NOTE: Configure `DJANGO_SECRET_KEY` and `DJANGO_DEBUG` in the environment before running the gateway.
 
 If your installation and run are successful, you should see the following output in your terminal:
 
@@ -284,7 +353,7 @@ If you go to `http://127.0.0.1:8000/admin/` in your browser, you should see the 
     <img src="../images/Administration-UI.png" alt="The MovieVerse Backend Admin Interface" width="100%" height="auto" style="border-radius: 10px"/>
 </p>
 
-This is the Django admin interface for the backend of MovieVerse. It allows you (the admin and other authorized users) to manage users, movies, reviews, and more in the databases. 
+This is the Django admin interface for the gateway. Domain data is owned by microservices; the admin primarily manages Django auth and gateway settings.
 
 For example, if you click on `Movies`, you should see the following interface, which allows you to manage movies in the database:
 
@@ -322,39 +391,17 @@ If the issue is still not fixed, contact me at [info@movie-verse.com](mailto:inf
 
 The API service is responsible for handling API requests from the frontend of MovieVerse. To get started with the API service, follow the steps outlined in this [README.md](databases/README.md#rest-apis) file.
 
-#### Flask Service
+#### Edge Gateway (Nginx)
 
-The Flask service is responsible for handling basic backend functionalities of MovieVerse. To run the Flask service, follow these steps:
-
-1. Navigate to the `flask_backend` directory:
-    ```bash
-    cd flask_backend
-    ```
-
-2. Run the Flask Service:
-    ```bash
-    python flask.py
-    ```
+The edge gateway routes traffic to microservices with production-grade load balancing. Use the Nginx container from `docker-compose.microservices.yml` or deploy via `kubernetes/edge/nginx.yml`.
 
 #### Machine Learning Services
 
-This service contains several utilities for processing movie data using AI functionalities. To run each sub-service within `machine-learning`, follow the specific instructions provided in the respective directory.
-
-For more details about running these sub-services, go to the [Machine Learning Service Directory](machine-learning/README.md).
+MovieVerse AI/ML lives in `MovieVerse-AI/` and is deployed as the `ai-api` service. See `MovieVerse-AI/README.md` for training pipelines, model serving, and feature store workflows.
 
 #### Crawler Service
 
-1. Navigate to the `crawler` directory:
-    ```bash
-    cd crawler
-    ```
-
-2. Run the Crawler Service:
-    ```bash
-    python main.py
-    ```
-
-Note: For security reasons, we have disabled the file `main.py` as it contains sensitive information. Please [contact me](mailto:info@movie-verse.com) for access to the full code.
+The crawler runs as `crawler-service` + `crawler-worker` and uses RabbitMQ for job orchestration. Use the microservices compose stack or the Kubernetes manifests to deploy it.
 
 ## Contributing
 

@@ -1,0 +1,658 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-service
+  namespace: movieverse
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: auth-service
+  template:
+    metadata:
+      labels:
+        app: auth-service
+    spec:
+      serviceAccountName: movieverse-sa
+      containers:
+        - name: auth-service
+          image: movieverse/auth-service:latest
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: movieverse-config
+            - secretRef:
+                name: movieverse-secrets
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            initialDelaySeconds: 15
+            periodSeconds: 20
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-service
+  namespace: movieverse
+spec:
+  selector:
+    app: auth-service
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-service
+  namespace: movieverse
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: user-service
+  template:
+    metadata:
+      labels:
+        app: user-service
+    spec:
+      serviceAccountName: movieverse-sa
+      containers:
+        - name: user-service
+          image: movieverse/user-service:latest
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: movieverse-config
+            - secretRef:
+                name: movieverse-secrets
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            initialDelaySeconds: 15
+            periodSeconds: 20
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-service
+  namespace: movieverse
+spec:
+  selector:
+    app: user-service
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: movie-service
+  namespace: movieverse
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: movie-service
+  template:
+    metadata:
+      labels:
+        app: movie-service
+    spec:
+      serviceAccountName: movieverse-sa
+      containers:
+        - name: movie-service
+          image: movieverse/movie-service:latest
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: movieverse-config
+            - secretRef:
+                name: movieverse-secrets
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            initialDelaySeconds: 15
+            periodSeconds: 20
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: movie-service
+  namespace: movieverse
+spec:
+  selector:
+    app: movie-service
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: review-service
+  namespace: movieverse
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: review-service
+  template:
+    metadata:
+      labels:
+        app: review-service
+    spec:
+      serviceAccountName: movieverse-sa
+      containers:
+        - name: review-service
+          image: movieverse/review-service:latest
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: movieverse-config
+            - secretRef:
+                name: movieverse-secrets
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            initialDelaySeconds: 15
+            periodSeconds: 20
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: review-service
+  namespace: movieverse
+spec:
+  selector:
+    app: review-service
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: recommendation-service
+  namespace: movieverse
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: recommendation-service
+  template:
+    metadata:
+      labels:
+        app: recommendation-service
+    spec:
+      serviceAccountName: movieverse-sa
+      containers:
+        - name: recommendation-service
+          image: movieverse/recommendation-service:latest
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: movieverse-config
+            - secretRef:
+                name: movieverse-secrets
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            initialDelaySeconds: 15
+            periodSeconds: 20
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: recommendation-service
+  namespace: movieverse
+spec:
+  selector:
+    app: recommendation-service
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: search-service
+  namespace: movieverse
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: search-service
+  template:
+    metadata:
+      labels:
+        app: search-service
+    spec:
+      serviceAccountName: movieverse-sa
+      containers:
+        - name: search-service
+          image: movieverse/search-service:latest
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: movieverse-config
+            - secretRef:
+                name: movieverse-secrets
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            initialDelaySeconds: 15
+            periodSeconds: 20
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: search-service
+  namespace: movieverse
+spec:
+  selector:
+    app: search-service
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notification-service
+  namespace: movieverse
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: notification-service
+  template:
+    metadata:
+      labels:
+        app: notification-service
+    spec:
+      serviceAccountName: movieverse-sa
+      containers:
+        - name: notification-service
+          image: movieverse/notification-service:latest
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: movieverse-config
+            - secretRef:
+                name: movieverse-secrets
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            initialDelaySeconds: 15
+            periodSeconds: 20
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: notification-service
+  namespace: movieverse
+spec:
+  selector:
+    app: notification-service
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notification-worker
+  namespace: movieverse
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notification-worker
+  template:
+    metadata:
+      labels:
+        app: notification-worker
+    spec:
+      serviceAccountName: movieverse-sa
+      containers:
+        - name: notification-worker
+          image: movieverse/notification-service:latest
+          command:
+            - python
+            - -m
+            - movieverse_services.notification_service.consumer
+          envFrom:
+            - configMapRef:
+                name: movieverse-config
+            - secretRef:
+                name: movieverse-secrets
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: metadata-service
+  namespace: movieverse
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: metadata-service
+  template:
+    metadata:
+      labels:
+        app: metadata-service
+    spec:
+      serviceAccountName: movieverse-sa
+      containers:
+        - name: metadata-service
+          image: movieverse/metadata-service:latest
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: movieverse-config
+            - secretRef:
+                name: movieverse-secrets
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            initialDelaySeconds: 15
+            periodSeconds: 20
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: metadata-service
+  namespace: movieverse
+spec:
+  selector:
+    app: metadata-service
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: data-platform-service
+  namespace: movieverse
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: data-platform-service
+  template:
+    metadata:
+      labels:
+        app: data-platform-service
+    spec:
+      serviceAccountName: movieverse-sa
+      containers:
+        - name: data-platform-service
+          image: movieverse/data-platform-service:latest
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: movieverse-config
+            - secretRef:
+                name: movieverse-secrets
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 15
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            initialDelaySeconds: 20
+            periodSeconds: 20
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: data-platform-service
+  namespace: movieverse
+spec:
+  selector:
+    app: data-platform-service
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crawler-service
+  namespace: movieverse
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: crawler-service
+  template:
+    metadata:
+      labels:
+        app: crawler-service
+    spec:
+      serviceAccountName: movieverse-sa
+      containers:
+        - name: crawler-service
+          image: movieverse/crawler-service:latest
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: movieverse-config
+            - secretRef:
+                name: movieverse-secrets
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            initialDelaySeconds: 15
+            periodSeconds: 20
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: crawler-service
+  namespace: movieverse
+spec:
+  selector:
+    app: crawler-service
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crawler-worker
+  namespace: movieverse
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: crawler-worker
+  template:
+    metadata:
+      labels:
+        app: crawler-worker
+    spec:
+      serviceAccountName: movieverse-sa
+      containers:
+        - name: crawler-worker
+          image: movieverse/crawler-service:latest
+          command:
+            - python
+            - -m
+            - movieverse_services.crawler_service.consumer
+          envFrom:
+            - configMapRef:
+                name: movieverse-config
+            - secretRef:
+                name: movieverse-secrets
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: search-indexer-service
+  namespace: movieverse
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: search-indexer-service
+  template:
+    metadata:
+      labels:
+        app: search-indexer-service
+    spec:
+      serviceAccountName: movieverse-sa
+      containers:
+        - name: search-indexer-service
+          image: movieverse/search-indexer-service:latest
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: movieverse-config
+            - secretRef:
+                name: movieverse-secrets
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 15
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            initialDelaySeconds: 20
+            periodSeconds: 20
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: search-indexer-service
+  namespace: movieverse
+spec:
+  selector:
+    app: search-indexer-service
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: search-indexer-worker
+  namespace: movieverse
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: search-indexer-worker
+  template:
+    metadata:
+      labels:
+        app: search-indexer-worker
+    spec:
+      serviceAccountName: movieverse-sa
+      containers:
+        - name: search-indexer-worker
+          image: movieverse/search-indexer-service:latest
+          command:
+            - python
+            - -m
+            - movieverse_services.search_indexer_service.consumer
+          envFrom:
+            - configMapRef:
+                name: movieverse-config
+            - secretRef:
+                name: movieverse-secrets

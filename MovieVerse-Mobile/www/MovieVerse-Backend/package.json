@@ -6,15 +6,20 @@
   "main": "index.js",
   "scripts": {
     "install-deps": "npm install",
-    "start": "cd databases && node app.js && node mongo-redis.js && node mysql.js && node postgresql.js && node publish.js && cd ../django_backend && python manage.py runserver",
+    "start": "cd django_backend && python manage.py runserver",
     "build": "npm run start",
-    "test": "cd databases && node app.js && node mongo-redis.js && node mysql.js && node postgresql.js && node publish.js && cd ../django_backend && python manage.py runserver",
-    "serve": "cd databases && node app.js && node mongo-redis.js && node mysql.js && node postgresql.js && node publish.js && cd ../django_backend && python manage.py runserver",
+    "test": "cd django_backend && python manage.py runserver",
+    "serve": "cd django_backend && python manage.py runserver",
+    "db:health": "python -m databases.app",
+    "db:ingest": "python -m databases.mongo_redis",
+    "db:seed-users": "python -m databases.postgresql",
+    "db:seed-reviews": "python -m databases.mysql",
+    "db:publish": "python -m databases.publish --message \"Hello from MovieVerse\"",
     "dev:android": "cd ../MovieVerse-Mobile && cordova run android",
     "dev:ios": "cd ../MovieVerse-Mobile && cordova run ios",
     "build:android": "cd ../MovieVerse-Mobile && cordova build android",
     "build:ios": "cd ../MovieVerse-Mobile && cordova build ios",
-    "backend": "cd databases && node app.js && node mongo-redis.js && node mysql.js && node postgresql.js && node publish.js && cd ../django_backend && python manage.py runserver"
+    "backend": "cd django_backend && python manage.py runserver"
   },
   "keywords": [
     "movie",
