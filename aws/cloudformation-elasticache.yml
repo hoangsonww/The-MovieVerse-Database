@@ -1,0 +1,69 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'MovieVerse ElastiCache Redis'
+
+Parameters:
+  EnvironmentName:
+    Description: Environment name prefix
+    Type: String
+    Default: movieverse-prod
+
+  VpcId:
+    Description: VPC ID
+    Type: AWS::EC2::VPC::Id
+
+  VpcCidr:
+    Description: VPC CIDR block
+    Type: String
+    Default: 10.0.0.0/16
+
+  SubnetIds:
+    Description: Private subnet IDs for Redis
+    Type: List<AWS::EC2::Subnet::Id>
+
+  CacheNodeType:
+    Description: Redis node type
+    Type: String
+    Default: cache.t4g.medium
+
+Resources:
+  RedisSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Redis security group
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 6379
+          ToPort: 6379
+          CidrIp: !Ref VpcCidr
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName}-Redis-SG
+
+  RedisSubnetGroup:
+    Type: AWS::ElastiCache::SubnetGroup
+    Properties:
+      Description: MovieVerse Redis subnet group
+      SubnetIds: !Ref SubnetIds
+
+  RedisReplicationGroup:
+    Type: AWS::ElastiCache::ReplicationGroup
+    Properties:
+      ReplicationGroupId: !Sub ${EnvironmentName}-redis
+      ReplicationGroupDescription: MovieVerse Redis replication group
+      Engine: redis
+      EngineVersion: '7.0'
+      CacheNodeType: !Ref CacheNodeType
+      NumNodeGroups: 1
+      ReplicasPerNodeGroup: 1
+      AutomaticFailoverEnabled: true
+      MultiAZEnabled: true
+      CacheSubnetGroupName: !Ref RedisSubnetGroup
+      SecurityGroupIds:
+        - !Ref RedisSecurityGroup
+      Port: 6379
+
+Outputs:
+  RedisPrimaryEndpoint:
+    Description: Redis primary endpoint
+    Value: !GetAtt RedisReplicationGroup.PrimaryEndPoint.Address

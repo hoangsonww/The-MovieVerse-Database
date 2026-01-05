@@ -1,10 +1,18 @@
 from django.core.cache import cache
-from .models import Movie
 
-def get_top_movies():
-    if 'top_movies' in cache:
-        return cache.get('top_movies')
-    else:
-        top_movies = Movie.objects.order_by('-rating')[:10]
-        cache.set('top_movies', top_movies, timeout=3600) # Cache for 1 hour
-        return top_movies
+from .service_clients import list_movies
+
+
+def get_top_movies(limit: int = 10):
+    cached = cache.get("top_movies")
+    if cached is not None:
+        return cached
+
+    movies = list_movies({"limit": max(limit * 5, 50)})
+    sorted_movies = sorted(
+        movies,
+        key=lambda item: (item.get("rating") or 0.0, item.get("popularity") or 0.0),
+        reverse=True,
+    )[:limit]
+    cache.set("top_movies", sorted_movies, timeout=3600)
+    return sorted_movies

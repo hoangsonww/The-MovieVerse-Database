@@ -1,12 +1,8 @@
-from transformers import pipeline
-
-# Load a sentiment analysis pipeline
-sentiment_pipeline = pipeline("sentiment-analysis")
+from crawler.ai.client import analyze_sentiment
 
 
 def analyze_text_sentiment(text):
-    try:
-        result = sentiment_pipeline(text)
-        return result
-    except Exception as e:
-        raise e
+    result = analyze_sentiment(text)
+    if result is None:
+        return {"label": "unknown", "score": 0.0}
+    return result

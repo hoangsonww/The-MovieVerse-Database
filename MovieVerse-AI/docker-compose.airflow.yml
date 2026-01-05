@@ -1,0 +1,42 @@
+version: "3.9"
+
+services:
+  airflow-webserver:
+    build:
+      context: ..
+      dockerfile: MovieVerse-AI/Dockerfile.airflow
+    container_name: movieverse-ai-airflow-webserver
+    depends_on:
+      - airflow-scheduler
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "false"
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://movieverse:movieverse@postgres:5432/airflow
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      MOVIEVERSE_AI_FEATURE_REPO_PATH: /opt/airflow/feature_repo
+    ports:
+      - "8088:8080"
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+    command: webserver
+    restart: unless-stopped
+
+  airflow-scheduler:
+    build:
+      context: ..
+      dockerfile: MovieVerse-AI/Dockerfile.airflow
+    container_name: movieverse-ai-airflow-scheduler
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://movieverse:movieverse@postgres:5432/airflow
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      MOVIEVERSE_AI_FEATURE_REPO_PATH: /opt/airflow/feature_repo
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+    command: scheduler
+    restart: unless-stopped
+
+networks:
+  default:
+    external: true
+    name: movieverse-ai

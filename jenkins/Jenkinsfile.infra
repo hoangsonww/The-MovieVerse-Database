@@ -1,0 +1,25 @@
+pipeline {
+  agent any
+
+  environment {
+    AWS_REGION = 'us-east-1'
+    ENV_NAME = 'movieverse-prod'
+  }
+
+  stages {
+    stage('Checkout') {
+      steps {
+        checkout scm
+      }
+    }
+
+    stage('Deploy AWS Infrastructure') {
+      steps {
+        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-credentials']]) {
+          sh 'chmod +x jenkins/scripts/deploy-aws.sh'
+          sh 'AWS_REGION=$AWS_REGION ENV_NAME=$ENV_NAME jenkins/scripts/deploy-aws.sh'
+        }
+      }
+    }
+  }
+}

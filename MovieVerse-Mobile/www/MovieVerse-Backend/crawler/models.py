@@ -1,37 +1,89 @@
-from django.db import models
+from __future__ import annotations
+
+from dataclasses import dataclass, field
+from typing import List, Optional
 
 
-class MovieDetail(models.Model):
-    movie = models.OneToOneField('moviereviews.Movie', on_delete=models.CASCADE, related_name='details')
-    description = models.TextField()
-    poster_url = models.URLField()
-    cast = models.TextField()
-    director = models.CharField(max_length=255)
-    genres = models.TextField()
-    duration = models.CharField(max_length=255)
-    rating = models.FloatField()
-    release_date = models.DateField()
-    trailer_url = models.URLField()
-    imdb_url = models.URLField()
-    rotten_tomatoes_url = models.URLField()
-    metacritic_url = models.URLField()
-    awards = models.TextField()
-    box_office = models.CharField(max_length=255)
-    budget = models.CharField(max_length=255)
-    company = models.CharField(max_length=255)
-    country = models.CharField(max_length=255)
-    language = models.CharField(max_length=255)
-    tagline = models.CharField(max_length=255)
-    website = models.URLField()
-    writers = models.TextField()
-    year = models.IntegerField()
-    id = models.CharField(max_length=255)
-    imdb_rating = models.FloatField()
-    imdb_votes = models.IntegerField()
-    metascore = models.IntegerField()
-    rotten_tomatoes_rating = models.IntegerField()
-    rotten_tomatoes_reviews = models.IntegerField()
-    rotten_tomatoes_fresh = models.IntegerField()
+@dataclass
+class ReviewItem:
+    author: str
+    content: str
+    rating: float
 
-    def __str__(self):
-        return self.movie.title + " Details"
+
+@dataclass
+class MovieDetail:
+    name: str
+    description: str
+    poster_url: str
+    cast: List[str]
+    director: str
+    genres: List[str]
+    duration: str
+    rating: float
+    release_date: str
+    trailer_url: str
+    imdb_url: str
+    rotten_tomatoes_url: str
+    metacritic_url: str
+    reviews: List[ReviewItem]
+    similar_movies: List[dict]
+    recommendations: List[dict]
+    awards: str
+    box_office: str
+    budget: str
+    company: str
+    country: str
+    language: str
+    tagline: str
+    website: str
+    writers: List[str]
+    year: int
+    imdb_id: str
+    imdb_rating: float
+    imdb_votes: int
+    metascore: int
+    rotten_tomatoes_rating: int
+    rotten_tomatoes_reviews: int
+    rotten_tomatoes_fresh: int
+
+
+@dataclass
+class CrawlJob:
+    url: str
+    source: str | None = None
+    tags: List[str] = field(default_factory=list)
+    priority: int = 0
+    job_id: str | None = None
+
+
+@dataclass
+class MoviePayload:
+    title: str
+    overview: str | None = None
+    genres: List[str] = field(default_factory=list)
+    release_date: str | None = None
+    rating: float | None = None
+    popularity: float | None = None
+    poster_url: str | None = None
+    tmdb_id: int | None = None
+    imdb_id: str | None = None
+
+
+@dataclass
+class ReviewPayload:
+    user_id: int
+    movie_id: int
+    rating: float
+    review_text: str
+    author: str | None = None
+
+
+@dataclass
+class CrawlAnalysis:
+    sentiment: dict | None = None
+    summary: str | None = None
+    image_labels: List[str] = field(default_factory=list)
+    tags: List[str] = field(default_factory=list)
+    source: str | None = None
+    extra: dict | None = None

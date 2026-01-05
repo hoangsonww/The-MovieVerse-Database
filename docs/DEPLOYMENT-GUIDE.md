@@ -33,10 +33,10 @@ This document provides comprehensive guidance for deploying the MovieVerse appli
 flowchart TB
     Internet[Internet]
     ALB[Application Load Balancer]
-    TG_Blue[Target Group Blue<br/>(Production)]
-    TG_Green[Target Group Green<br/>(Staging)]
-    ECS_Blue[ECS Tasks<br/>(Blue Env)]
-    ECS_Green[ECS Tasks<br/>(Green Env)]
+    TG_Blue[Target Group Blue<br/>Production]
+    TG_Green[Target Group Green<br/>Staging]
+    ECS_Blue[ECS Tasks<br/>Blue Env]
+    ECS_Green[ECS Tasks<br/>Green Env]
 
     Internet --> ALB
     ALB --> TG_Blue
@@ -289,20 +289,14 @@ aws cloudformation create-stack \
 ### 4. Setup Kubernetes Resources (if using EKS)
 
 ```bash
-# Create namespace
-kubectl apply -f kubernetes/base/namespace.yml
+# Core microservices stack
+kubectl apply -f kubernetes/base/
+kubectl apply -f kubernetes/infra/
+kubectl apply -f kubernetes/services/
+kubectl apply -f kubernetes/edge/
 
-# Create service account and RBAC
-kubectl apply -f kubernetes/base/serviceaccount.yml
-
-# Create ConfigMap and Secrets
-kubectl apply -f kubernetes/base/configmap.yml
-kubectl apply -f kubernetes/base/secrets.yml
-
-# Deploy blue-green resources
+# Optional rollout patterns
 kubectl apply -f kubernetes/blue-green/
-
-# Or deploy canary resources
 kubectl apply -f kubernetes/canary/
 ```
 

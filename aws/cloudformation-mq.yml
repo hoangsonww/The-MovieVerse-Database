@@ -1,0 +1,80 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'MovieVerse Amazon MQ (RabbitMQ) Broker'
+
+Parameters:
+  EnvironmentName:
+    Description: Environment name prefix
+    Type: String
+    Default: movieverse-prod
+
+  VpcId:
+    Description: VPC ID
+    Type: AWS::EC2::VPC::Id
+
+  VpcCidr:
+    Description: VPC CIDR block
+    Type: String
+    Default: 10.0.0.0/16
+
+  SubnetIds:
+    Description: Private subnet IDs for MQ brokers
+    Type: List<AWS::EC2::Subnet::Id>
+
+  BrokerInstanceType:
+    Description: MQ broker instance type
+    Type: String
+    Default: mq.m5.large
+
+  RabbitUsername:
+    Description: RabbitMQ admin user
+    Type: String
+    Default: movieverse
+
+  RabbitPassword:
+    Description: RabbitMQ admin password
+    Type: String
+    NoEcho: true
+
+Resources:
+  MQSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Amazon MQ security group
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 5671
+          ToPort: 5672
+          CidrIp: !Ref VpcCidr
+        - IpProtocol: tcp
+          FromPort: 15672
+          ToPort: 15672
+          CidrIp: !Ref VpcCidr
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName}-MQ-SG
+
+  RabbitMQBroker:
+    Type: AWS::AmazonMQ::Broker
+    Properties:
+      BrokerName: !Sub ${EnvironmentName}-rabbitmq
+      EngineType: RabbitMQ
+      EngineVersion: '3.11.20'
+      HostInstanceType: !Ref BrokerInstanceType
+      DeploymentMode: ACTIVE_STANDBY_MULTI_AZ
+      PubliclyAccessible: false
+      SubnetIds: !Ref SubnetIds
+      SecurityGroups:
+        - !Ref MQSecurityGroup
+      Users:
+        - Username: !Ref RabbitUsername
+          Password: !Ref RabbitPassword
+
+Outputs:
+  RabbitMQBrokerId:
+    Description: Broker ID
+    Value: !Ref RabbitMQBroker
+
+  RabbitMQEndpoint:
+    Description: Broker endpoint
+    Value: !Select [0, !Split [",", !GetAtt RabbitMQBroker.AmqpEndpoints]]

@@ -1,0 +1,14 @@
+project: movieverse_ai
+registry: data/registry.db
+provider: local
+online_store:
+  type: redis
+  connection_string: redis:6379
+offline_store:
+  type: postgres
+  host: postgres
+  port: 5432
+  database: movieverse_ai
+  user: movieverse
+  password: movieverse
+entity_key_serialization_version: 2

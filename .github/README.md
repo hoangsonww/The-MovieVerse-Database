@@ -16,6 +16,9 @@ Welcome to **The MovieVerse** - your digital compass to the cinematic universe. 
   - [Disclaimer](#disclaimer)
 - [User Interface](#user-interface)
 - [Live URLs](#live-urls)
+- [Quick Links](#quick-links)
+- [Platform Highlights](#platform-highlights)
+- [Operational Modes](#operational-modes)
 - [Features & Usage](#features--usage)
   - [Search & Discover](#search--discover)
   - [User Interaction](#user-interaction)
@@ -23,7 +26,12 @@ Welcome to **The MovieVerse** - your digital compass to the cinematic universe. 
   - [Enhanced User Experience](#enhanced-user-experience)
   - [Additional Features](#additional-features)
 - [Project Structure](#project-structure)
+- [Service Catalog](#service-catalog)
 - [Deployment](#deployment)
+- [Environment Configuration](#environment-configuration)
+- [Observability & Monitoring](#observability--monitoring)
+- [Operations Checklist](#operations-checklist)
+- [CI/CD & Release](#cicd--release)
 - [Technology Stack](#technology-stack)
 - [API Documentation](#api-documentation)
 - [App Architecture](#architecture)
@@ -59,18 +67,51 @@ Through The MovieVerse, users can search for movies, view detailed information, 
 ## Live URLs
 
 - **Official Website**: [https://movie-verse.com](https://movie-verse.com)
-- **Backend API**: [https://api-movieverse.vercel.app/](https://api-movieverse.vercel.app/)
-- **API Documentation**: [https://api-movieverse.vercel.app/docs](https://api-movieverse.vercel.app/docs)
-- **ReDoc Documentation**: [https://api-movieverse.vercel.app/redoc](https://api-movieverse.vercel.app/redocs)
+- **Self-Hosted Edge Gateway (Docker Compose)**: `http://localhost:8080`
+- **Self-Hosted AI API (Docker Compose)**: `http://localhost:9100`
+- **OpenAPI Spec**: `MovieVerse-Backend/APIs/movieverse-openapi.yaml`
 
-### Live Stasuses
+### Local Observability Endpoints
+
+- **Kibana**: `http://localhost:5601`
+- **Prometheus**: `http://localhost:9090`
+- **Grafana**: `http://localhost:3000`
+- **Jaeger**: `http://localhost:16686`
+
+### Platform Status
 
 ![All Systems Operational](https://img.shields.io/badge/All_Systems-Operational-brightgreen)
 ![Website Status](https://img.shields.io/website?down_color=red&down_message=Offline&label=Website&up_color=brightgreen&up_message=Online&url=https%3A%2F%2Fmovie-verse.com)
-![API Status](https://img.shields.io/website?down_color=red&down_message=Offline&label=API&up_color=brightgreen&up_message=Online&url=https%3A%2F%2Fapi-movieverse.vercel.app)
-![Database Status](https://img.shields.io/website?down_color=red&down_message=Offline&label=Database&up_color=brightgreen&up_message=Online&url=https%3A%2F%2Fmovie-verse.com)
-![Deployment Status](https://img.shields.io/badge/Deployment-Active-brightgreen)
-![Active Users](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/hoangsonww/c79b2e8b60b4877748d05dbf0853e032/raw/active-users.json)
+![Microservices](https://img.shields.io/badge/Microservices-Production_Ready-brightgreen)
+![AI Platform](https://img.shields.io/badge/AI_Platform-Production_Ready-brightgreen)
+![Kubernetes](https://img.shields.io/badge/Kubernetes-Ready-brightgreen)
+![Observability](https://img.shields.io/badge/Observability-Enabled-brightgreen)
+![CI/CD](https://img.shields.io/badge/CI%2FCD-Jenkins_Ready-brightgreen)
+
+## Quick Links
+
+- Backend microservices: `MovieVerse-Backend/README.md`
+- AI platform: `MovieVerse-AI/README.md`
+- Middleware: `MovieVerse-Middleware/README.md`
+- Architecture deep dive: `MovieVerse-Design/DESIGN.md`
+- Kubernetes: `kubernetes/README.md`
+- AWS infrastructure: `aws/README.md`
+- Jenkins pipelines: `jenkins/README.md`
+
+## Platform Highlights
+
+- Full microservices architecture with a Django gateway (BFF) and FastAPI services.
+- Production AI/ML platform with feature store, registry, pipelines, and inference API.
+- Event-driven backbone via Kafka and RabbitMQ plus search via OpenSearch.
+- Edge routing, rate limiting, and security headers through Nginx + shared middleware.
+- Infrastructure-ready: Docker Compose, Kubernetes, AWS CloudFormation, Jenkins pipelines.
+- Observability stack with ELK, Prometheus, Grafana, and Jaeger.
+
+## Operational Modes
+
+- **Local development**: Docker Compose for microservices, AI stack, and edge gateway.
+- **Staging/QA**: Kubernetes manifests with environment-specific ConfigMaps/Secrets.
+- **Production**: AWS-managed data services + Kubernetes services + CI/CD automation.
 
 ## Features & Usage
 
@@ -117,239 +158,330 @@ As a result of all this hard work, our app is currently attracting more than **3
 
 ## Project Structure
 
-The MovieVerse is a full-stack application with a robust backend and a user-friendly frontend. The project is divided into the following **3 main** directories:
+The MovieVerse is a full-stack application with a production-ready microservices backend and an AI platform. Core directories include:
 
-1. `MovieVerse-Backend`: The [backend directory](../MovieVerse-Backend) contains the server-side code, including the API, database, and server configuration. ([Read more](../MovieVerse-Backend/README.md))
-2. `MovieVerse-Frontend`: The [frontend directory](../MovieVerse-Frontend) contains the client-side code, including the user interface, user experience, and client configuration. ([Read more](../MovieVerse-Frontend/README.md))
-3. `MovieVerse-Mobile`: The [mobile app directory](../MovieVerse-Mobile) contains the mobile application code, built using Apache Cordova, including the mobile user interface, user experience, and mobile client configuration. ([Read more](../MovieVerse-Mobile/README.md))
+1. `MovieVerse-Backend`: Microservices, Django gateway, crawler, APIs, and data stores. ([Read more](../MovieVerse-Backend/README.md))
+2. `MovieVerse-AI`: End-to-end AI/ML platform (pipelines, registry, inference). ([Read more](../MovieVerse-AI/README.md))
+3. `MovieVerse-Frontend`: Web UI and client assets. ([Read more](../MovieVerse-Frontend/README.md))
+4. `MovieVerse-Mobile`: Mobile app (Cordova). ([Read more](../MovieVerse-Mobile/README.md))
+5. `MovieVerse-Middleware`: Shared middleware, security headers, and rate limiting. ([Read more](../MovieVerse-Middleware/README.md))
 
-There are also additional directories and files for project configuration, testing, and other utilities. The project is built using a variety of directories, including `.github`, `MovieVerse-Utilities`, `MovieVerse-Config`, `MovieVerse-Middleware`, `MovieVerse-Design`, `images`, and more. Each directory serves a specific purpose in the development, deployment, and maintenance of The MovieVerse application.
+Platform and deployment assets live in `kubernetes/`, `aws/`, `infrastructure/`, `deployment/`, `jenkins/`, and `docs/`, alongside supporting utilities such as `MovieVerse-Utilities` and `MovieVerse-Design`.
 
 > [!NOTE]
 > As a reminder, this repository is not the official production repository for The MovieVerse. The official codebase is private for security reasons. This repository is only for educational purposes and to showcase _parts_ of the codebase of The MovieVerse, which may differ significantly from the official, private codebase. However, this codebase is still functional (if you would like to run the app locally) and actively maintained.
 
+## Service Catalog
+
+### Core Microservices
+
+- **Auth Service**: user registration, login, JWT issuance.
+- **User Service**: profile management and user preferences.
+- **Movie Service**: movie catalog and metadata ingestion.
+- **Review Service**: ratings, reviews, and event emission.
+- **Search Service**: OpenSearch-backed movie and review search.
+- **Search Indexer Service**: batch reindex pipelines for search.
+- **Notification Service**: notification API + RabbitMQ fan-out.
+- **Recommendation Service**: AI-backed recommendations with cache.
+- **Metadata Service**: genres, people, and analysis in MongoDB.
+- **Crawler Service**: crawl orchestration + RabbitMQ queue.
+- **Data Platform Service**: TMDB ingestion, health checks, controlled seeding.
+
+### AI Platform
+
+- **AI API**: inference endpoints for recommendations, similarity, ranking, sentiment, summarization, and vision.
+- **Pipelines**: feature builds, training, embeddings, and registry sync.
+- **Model Registry**: MLflow for experiments and artifact storage.
+- **Feature Store**: Feast (offline + Redis online store).
+
+### Data + Messaging
+
+- **Datastores**: PostgreSQL, MySQL, MongoDB, Redis, OpenSearch.
+- **Messaging**: Kafka events + RabbitMQ queues for async workflows.
+
 ## Deployment
 
-The official website is currently deployed LIVE at **[movie-verse.com](https://movie-verse.com)**. The deployment process involves building the frontend, backend, and mobile app, configuring the server, and deploying the application to the server. The deployment process is automated using CI/CD pipelines and scripts to ensure a seamless deployment experience.
+The official website is currently deployed LIVE at **[movie-verse.com](https://movie-verse.com)**. This repository ships a production-ready microservices + AI platform with containerized runtime, observability, and deployment automation.
 
-The **official** app is currently using [Netlify](https://www.netlify.com/) for the frontend deployment and [Vercel](https://vercel.com) for the backend deployment. The deployment status is monitored regularly to ensure the application is up and running smoothly.
+- **Local stack**: `docker-compose.microservices.yml` for backend services and `MovieVerse-AI/docker-compose.ai.yml` for AI.
+- **Kubernetes**: production manifests in `kubernetes/` and `MovieVerse-AI/k8s/`.
+- **AWS**: CloudFormation templates in `aws/` for RDS, MSK, MQ, OpenSearch, ElastiCache, and EKS.
+- **CI/CD**: Jenkins pipelines and scripts in `jenkins/` for build, publish, and deploy.
+- **Observability**: ELK + Prometheus/Grafana/Jaeger assets in `infrastructure/`.
+- **Docs**: see `kubernetes/README.md`, `MovieVerse-AI/k8s/README.md`, `aws/README.md`, and `jenkins/README.md`.
 
-**Deployment Status:**
+The app is deployed with blue-green & canary deployments, autoscaling, and managed AWS services for reliability and scalability.
 
-[![Netlify](https://img.shields.io/badge/Netlify-Deploy_successful-brightgreen?logo=netlify)](https://movie-verse.com/)
-[![Vercel](https://img.shields.io/badge/Vercel-Deploy_successful-brightgreen?logo=vercel)](https://movie-verse.com/)
-[![Django API](https://img.shields.io/badge/Django_API-Online-brightgreen?logo=django)](https://movie-verse.com)
-[![MongoDB](https://img.shields.io/badge/MongoDB-Online-brightgreen?logo=mongodb)](https://movie-verse.com)
-[![AI/ML Services](https://img.shields.io/badge/AI/ML_Services-Active-brightgreen?logo=python)](https://movie-verse.com)
-[![MySQL](https://img.shields.io/badge/MySQL-Online-brightgreen?logo=mysql)](https://movie-verse.com)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Online-brightgreen?logo=postgresql)](https://movie-verse.com)
-[![Redis](https://img.shields.io/badge/Redis-Active-brightgreen?logo=redis)](https://movie-verse.com)
-[![CI/CD](https://img.shields.io/badge/CI/CD-Automated-brightgreen?logo=githubactions)](https://movie-verse.com)
-[![Docker](https://img.shields.io/badge/Docker-Ready-brightgreen?logo=docker)](https://movie-verse.com)
+## Environment Configuration
+
+- **Django gateway**: `DJANGO_DEBUG`, `DJANGO_SECRET_KEY`, and `DJANGO_DB_ENGINE` + `DJANGO_DB_NAME` for production DBs.
+- **Microservices**: `MOVIEVERSE_ENVIRONMENT`, `MOVIEVERSE_AUTO_MIGRATE`, `MOVIEVERSE_JWT_SECRET`, DSNs/URLs for Postgres, MySQL, Mongo, Redis, Kafka, RabbitMQ, and OpenSearch.
+- **AI platform**: `MOVIEVERSE_AI_*` for data sources, MLflow registry, and artifact storage (S3/MinIO).
+- **Kubernetes**: edit `kubernetes/base/configmap.yml` and `kubernetes/base/secrets.yml` for environment overrides.
+- **Security**: never commit secrets; use Secret managers or CI/CD variables.
+
+## Observability & Monitoring
+
+- **Metrics**: each service exposes `/metrics` (Prometheus scrape targets).
+- **Tracing**: Jaeger supports distributed tracing in the observability stack.
+- **Logging**: ELK stack configured in `infrastructure/elk/` and `docker-compose.observability.yml`.
+- **Dashboards**: Grafana + Kibana for service health, latency, and logs.
+
+## Operations Checklist
+
+- Set production secrets (`MOVIEVERSE_JWT_SECRET`, database credentials, `DJANGO_SECRET_KEY`).
+- Ensure `MOVIEVERSE_AUTO_MIGRATE=false` and seeding disabled in production.
+- Configure Nginx ingress/TLS and trusted origins for the Django gateway.
+- Verify Kafka, RabbitMQ, and OpenSearch connectivity before scaling services.
+- Apply Kubernetes resource limits/quotas and tune autoscaling policies.
+- Confirm backups for Postgres, MySQL, Mongo, and OpenSearch indices.
+
+## CI/CD & Release
+
+- **Jenkins pipelines**: `jenkins/Jenkinsfile.microservices`, `jenkins/Jenkinsfile.ai`, `jenkins/Jenkinsfile.infra`.
+- **Builds**: `jenkins/scripts/build-images.sh` builds and pushes service images.
+- **Deploy**: `jenkins/scripts/deploy-k8s.sh` applies Kubernetes manifests.
+- **Infra**: `jenkins/scripts/deploy-aws.sh` provisions AWS dependencies via CloudFormation.
 
 ## Technology Stack
 
-| Frontend Technologies                                                                                                      | Backend Technologies                                            | Database Technologies                           | Mobile App Development                                            | Additional Technologies                                         |
-|----------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------|-------------------------------------------------|-------------------------------------------------------------------|-----------------------------------------------------------------|
-| [VanillaJS](http://vanilla-js.com/)                                                                                              | [BeautifulSoup](https://pypi.org/project/beautifulsoup4/)                               | [MongoDB](https://www.mongodb.com/)             | [Apache Cordova](https://cordova.apache.org/)                     | [Webpack](https://webpack.js.org/)                              |
-| [Multi-Page Application](https://medium.com/@NeotericEU/single-page-application-vs-multiple-page-application-2591588efe58) | [Transformers](https://en.wikipedia.org/wiki/Transformer_(deep_learning_architecture))                               | [MySQL](https://www.mysql.com/)                 | [React Native](https://reactnative.dev/)                          | [Babel](https://babeljs.io/)                                    |
-| [HTML5](https://html.com/)                                                                                                 | [Django](https://www.djangoproject.com/)                        | [Google Firebase](https://firebase.google.com/) | [Swift (for iOS development)](https://developer.apple.com/swift/) | [Docker](https://www.docker.com/)                               |
-| [CSS3](https://www.w3.org/Style/CSS/Overview.en.html)                                                                      | [Django REST Framework](https://www.django-rest-framework.org/) | [PostgreSQL](http://www.postgresql.org)         | [Kotlin (for Android)](https://kotlinlang.org/)                   | [ElasticSearch](https://www.elastic.co/elasticsearch)                           |
-| [JavaScript](https://www.javascript.com/)                                                                                  | [Flask](https://flask.palletsprojects.com/en/1.1.x/)            | [Redis](https://redis.io/)                      | [Java (for Android)](https://www.java.com/en/)                    | [WebAssembly & Emscripten (with C)](https://webassembly.org/)                         |
-| [TypeScript](https://www.typescriptlang.org/)                                                                              | [Python](https://www.python.org/)                               |                                                 | [Android Studio](https://developer.android.com/studio)            | [Google Analytics](https://analytics.google.com/analytics/web/) |
-| [FontAwesome Icons](https://react-icons.github.io/react-icons/)                                                            | [PyTorch](https://pytorch.org/)                       |                                                 | [XCode](https://developer.apple.com/xcode/)                       | [ESLint & Prettier](https://eslint.org/)                                   |
-| [Netlify](https://netlify.com)                                                                                             | [RabbitMQ](https://www.rabbitmq.com/)                           |                                                 |                                                                   | [Vercel](https://vercel.com)                                    |
+| Frontend | Backend/API | Data/Infra/DevOps | AI/ML |
+| --- | --- | --- | --- |
+| HTML5 + CSS3 + Vanilla JS | Django Gateway + DRF | PostgreSQL + MySQL | LightFM Recommenders |
+| Webpack + Babel | FastAPI Microservices + Uvicorn | MongoDB + Redis | SentenceTransformers + FAISS |
+| Cordova Mobile | Nginx Edge Gateway | Kafka + RabbitMQ | scikit-learn (ranking, sentiment) |
+| WebAssembly + Emscripten | Python 3.11 + SQLAlchemy + Pydantic | OpenSearch + ELK | Feast Feature Store |
+| Node.js + npm | OpenAPI + Swagger + ReDoc | Prometheus + Grafana + Jaeger + Loki | MLflow + Airflow |
+| Font Awesome Icons + TypeScript (optional) | JWT Auth (JOSE + Passlib) | Kubernetes + Docker + Jenkins + AWS (EKS/RDS/MSK/MQ/S3/ElastiCache) | PyTorch + MinIO |
+
+![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-ES6-F7DF1E?logo=javascript&logoColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript-Optional-3178C6?logo=typescript&logoColor=white)
+![HTML5](https://img.shields.io/badge/HTML5-Frontend-E34F26?logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-Frontend-1572B6?logo=css3&logoColor=white)
+![Font Awesome](https://img.shields.io/badge/Font_Awesome-Icons-528DD7?logo=fontawesome&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-Tooling-339933?logo=node.js&logoColor=white)
+![npm](https://img.shields.io/badge/npm-Tooling-CB3837?logo=npm&logoColor=white)
+![Webpack](https://img.shields.io/badge/Webpack-Bundler-8DD6F9?logo=webpack&logoColor=black)
+![Babel](https://img.shields.io/badge/Babel-Transpiler-F9DC3E?logo=babel&logoColor=black)
+![Cordova](https://img.shields.io/badge/Cordova-Mobile-35434F?logo=apachecordova&logoColor=white)
+![WebAssembly](https://img.shields.io/badge/WebAssembly-Enabled-654FF0?logo=webassembly&logoColor=white)
+![Emscripten](https://img.shields.io/badge/Emscripten-Toolchain-000000?logo=emacs&logoColor=white)
+
+![Django](https://img.shields.io/badge/Django-Gateway-092E20?logo=django&logoColor=white)
+![Django REST Framework](https://img.shields.io/badge/DRF-API-A30000?logo=django&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-Microservices-009688?logo=fastapi&logoColor=white)
+![Uvicorn](https://img.shields.io/badge/Uvicorn-ASGI-2E2E2E?logo=gunicorn&logoColor=white)
+![Nginx](https://img.shields.io/badge/Nginx-Edge-009639?logo=nginx&logoColor=white)
+![OpenAPI](https://img.shields.io/badge/OpenAPI-Spec-6BA539?logo=openapiinitiative&logoColor=white)
+![Swagger](https://img.shields.io/badge/Swagger-Docs-85EA2D?logo=swagger&logoColor=black)
+![ReDoc](https://img.shields.io/badge/ReDoc-Docs-8A2BE2?logo=readthedocs&logoColor=white)
+![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-ORM-D71F00?logo=sqlalchemy&logoColor=white)
+![Pydantic](https://img.shields.io/badge/Pydantic-Validation-E92063?logo=pydantic&logoColor=white)
+
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Data-4169E1?logo=postgresql&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-Data-4479A1?logo=mysql&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-Data-47A248?logo=mongodb&logoColor=white)
+![Redis](https://img.shields.io/badge/Redis-Cache-DC382D?logo=redis&logoColor=white)
+![OpenSearch](https://img.shields.io/badge/OpenSearch-Search-005EB8?logo=opensearch&logoColor=white)
+![Kafka](https://img.shields.io/badge/Kafka-Events-231F20?logo=apachekafka&logoColor=white)
+![RabbitMQ](https://img.shields.io/badge/RabbitMQ-Queue-FF6600?logo=rabbitmq&logoColor=white)
+
+![ELK](https://img.shields.io/badge/ELK-Logging-005571?logo=elasticstack&logoColor=white)
+![Elasticsearch](https://img.shields.io/badge/Elasticsearch-Search-005571?logo=elasticsearch&logoColor=white)
+![Logstash](https://img.shields.io/badge/Logstash-ETL-005571?logo=logstash&logoColor=white)
+![Kibana](https://img.shields.io/badge/Kibana-Analytics-005571?logo=kibana&logoColor=white)
+![Prometheus](https://img.shields.io/badge/Prometheus-Metrics-E6522C?logo=prometheus&logoColor=white)
+![Grafana](https://img.shields.io/badge/Grafana-Dashboards-F46800?logo=grafana&logoColor=white)
+![Jaeger](https://img.shields.io/badge/Jaeger-Tracing-60D0E4?logo=jaeger&logoColor=black)
+![Loki](https://img.shields.io/badge/Loki-Logs-F7B93E?logo=grafana&logoColor=black)
+
+![Docker](https://img.shields.io/badge/Docker-Containers-2496ED?logo=docker&logoColor=white)
+![Docker Compose](https://img.shields.io/badge/Docker_Compose-Orchestration-2496ED?logo=docker&logoColor=white)
+![Kubernetes](https://img.shields.io/badge/Kubernetes-Orchestration-326CE5?logo=kubernetes&logoColor=white)
+![AWS](https://img.shields.io/badge/AWS-Cloud-232F3E?logo=amazonaws&logoColor=white)
+![CloudFormation](https://img.shields.io/badge/CloudFormation-IaC-FF9900?logo=amazonaws&logoColor=white)
+![EKS](https://img.shields.io/badge/Amazon_EKS-Cluster-FF9900?logo=amazoneks&logoColor=white)
+![RDS](https://img.shields.io/badge/Amazon_RDS-Database-527FFF?logo=amazonrds&logoColor=white)
+![MSK](https://img.shields.io/badge/Amazon_MSK-Kafka-FF9900?logo=apachekafka&logoColor=white)
+![Amazon MQ](https://img.shields.io/badge/Amazon_MQ-RabbitMQ-FF9900?logo=rabbitmq&logoColor=white)
+![ElastiCache](https://img.shields.io/badge/ElastiCache-Redis-FF9900?logo=redis&logoColor=white)
+![S3](https://img.shields.io/badge/S3-Storage-569A31?logo=amazons3&logoColor=white)
+![MinIO](https://img.shields.io/badge/MinIO-Artifacts-C72E49?logo=minio&logoColor=white)
+
+![Jenkins](https://img.shields.io/badge/Jenkins-CI%2FCD-D24939?logo=jenkins&logoColor=white)
+![Airflow](https://img.shields.io/badge/Airflow-Pipelines-017CEE?logo=apacheairflow&logoColor=white)
+![MLflow](https://img.shields.io/badge/MLflow-Registry-0194E2?logo=mlflow&logoColor=white)
+![Feast](https://img.shields.io/badge/Feast-Feature_Store-4B8BF5?logo=feast&logoColor=white)
+![FAISS](https://img.shields.io/badge/FAISS-Vector_Search-2E2E2E)
+![SentenceTransformers](https://img.shields.io/badge/SentenceTransformers-Embeddings-1F2937)
+![LightFM](https://img.shields.io/badge/LightFM-Recommenders-0B7285)
+![scikit--learn](https://img.shields.io/badge/scikit--learn-ML-F7931E?logo=scikitlearn&logoColor=white)
+![PyTorch](https://img.shields.io/badge/PyTorch-Deep_Learning-EE4C2C?logo=pytorch&logoColor=white)
 
 ## API Documentation
 
-The MovieVerse API is fully documented and available for public use. You can access the API documentation at [https://api-movieverse.vercel.app/docs](https://api-movieverse.vercel.app/docs) or [https://api-movieverse.vercel.app/redoc](https://api-movieverse.vercel.app/redoc).
+The MovieVerse API surface is documented in `MovieVerse-Backend/APIs/` with an OpenAPI spec and curated request examples. Each FastAPI service exposes `/docs` and `/redoc` when running, and the Nginx edge gateway fronts the unified API.
 
-```mermaid
-flowchart TD
-    A[User / Client App] -->|Sends Request| B[Vercel Serverless Function<br/>Proxy Layer]
-    B -->|Forwards Securely| C[AWS API Server<br/>Private, Restricted Access]
-    C -->|Processes Data & Responds| B
-    B -->|Returns Response| A
-
-    subgraph Documentation Portals
-        D1[Swagger UI<br/><a href='https://api-movieverse.vercel.app/docs'>/docs</a>]
-        D2[ReDoc UI<br/><a href='https://api-movieverse.vercel.app/redocs'>/redocs</a>]
-    end
-
-    A -.->|Accesses API Reference| D1
-    A -.->|Accesses API Reference| D2
-
-    classDef main fill:#1f2937,stroke:#facc15,stroke-width:2px,color:#fff;
-    classDef proxy fill:#2563eb,stroke:#93c5fd,stroke-width:2px,color:#fff;
-    classDef private fill:#047857,stroke:#6ee7b7,stroke-width:2px,color:#fff;
-    classDef doc fill:#9333ea,stroke:#c084fc,stroke-width:2px,color:#fff;
-
-    class A main;
-    class B proxy;
-    class C private;
-    class D1,D2 doc;
-```
-
-> [!NOTE]
-> All API requests are proxied through a Vercel serverless function to ensure security and performance. The actual API server is hosted with AWS and is not intended to be directly accessible to the public. Please respect this design choice to maintain the integrity and security of the application!
-
-### Swagger Documentation
-
-<p align="center" style="cursor: pointer">
-  <a href="https://api-movieverse.vercel.app/docs">
-    <img src="../images/MovieVerse-API-Swagger.png" alt="The MovieVerse API Swagger Documentation" style="border-radius: 10px" width="100%"/>
-  </a>
-</p>
-
-Access the Swagger UI documentation at: [https://api-movieverse.vercel.app/docs](https://api-movieverse.vercel.app/docs)
-
-### ReDoc Documentation
-
-<p align="center" style="cursor: pointer">
-  <a href="https://api-movieverse.vercel.app/redocs">
-    <img src="../images/MovieVerse-API-ReDoc.png" alt="The MovieVerse API ReDoc Documentation" style="border-radius: 10px" width="100%"/>
-  </a>
-</p>
-
-Access the ReDoc documentation at: [https://api-movieverse.vercel.app/redocs](https://api-movieverse.vercel.app/redocs)
-
-> [!CAUTION]
-> The backend API server may be down at times due to maintenance, updates, or other reasons. If you encounter any issues accessing the API, please check back later or contact the maintainer for assistance.
-
-## Architecture
-
-Here are some detailed flowcharts illustrating the high-level architecture of our app:
-
-### Movie Data Flow Architecture
+- Use `MovieVerse-Backend/APIs/api.http` for manual requests and `MovieVerse-Backend/APIs/api_test_suite.py` for smoke tests.
 
 ```mermaid
 flowchart LR
-    subgraph Sources
-        Various["Various Data Sources"]
-        PublicAPIs["Public API Sources<br/>TMDB, IMDB, etc."]
-        Manual["Manual Data Entry<br/>(Admins & Maintainers)"]
-    end
-
-    Crawler["Custom Crawler<br/>(Wikipedia, Rotten Tomatoes, etc.)"]
-    Fetcher["API Fetcher Service<br/>(Axios/Fetch)"]
-    Processing["Data Processing<br/>(clean, filter, structure, store)"]
-    AI["AI/ML Processing<br/>Sentiment, Anomaly, Enrichment,<br/>Predictive, Clustering, etc."]
-    SQLDB["PostgreSQL / MySQL<br/>Structured Movie Data"]
-    Mongo["MongoDB<br/>Flexible Movie Metadata"]
-    Django["Django Backend API<br/>Unified Movie Data Access"]
-    Flask["Flask (Testing)<br/>Sample endpoints / prototyping"]
-    Frontend["Frontend<br/>(API consumer)"]
-
-    Various --> Crawler --> Processing
-    PublicAPIs --> Fetcher --> Processing
-    Manual --> Processing
-    Processing --> AI --> SQLDB
-    AI --> Mongo
-    SQLDB & Mongo --> Django
-    Django <--> Flask
-    Django --> Frontend
-
-    classDef db fill:#0ea5e9,stroke:#0369a1,color:#fff
-    class SQLDB,Mongo db
+    Client[Web + Mobile Clients] --> Edge[Nginx Edge Gateway]
+    Edge --> Gateway[Django Gateway / BFF]
+    Gateway --> Auth[Auth Service]
+    Gateway --> User[User Service]
+    Gateway --> Movie[Movie Service]
+    Gateway --> Review[Review Service]
+    Gateway --> Search[Search Service]
+    Gateway --> Recommend[Recommendation Service]
+    Gateway --> Metadata[Metadata Service]
+    Gateway --> Crawler[Crawler Service]
+    Auth --> Postgres[(PostgreSQL)]
+    User --> Postgres
+    Review --> Postgres
+    Movie --> MySQL[(MySQL)]
+    Metadata --> Mongo[(MongoDB)]
+    Search --> OpenSearch[(OpenSearch)]
+    Recommend --> Redis[(Redis)]
+    Recommend --> AI[MovieVerse AI API]
+    Gateway --> Kafka[(Kafka Events)]
+    Gateway --> RabbitMQ[(RabbitMQ Workers)]
 ```
 
-### User Data Flow Architecture
+### Swagger Documentation
+
+Use the `/docs` endpoint on each FastAPI service, or load `MovieVerse-Backend/APIs/movieverse-openapi.yaml` in Swagger UI.
+
+### ReDoc Documentation
+
+Use the `/redoc` endpoint on each FastAPI service, or render `MovieVerse-Backend/APIs/movieverse-openapi.yaml` in ReDoc.
+
+## Architecture
+
+Here are some detailed flowcharts illustrating the microservices + AI architecture:
+
+### Microservices Platform Overview
+
+```mermaid
+flowchart LR
+    Clients[Web + Mobile Clients] --> Edge[Nginx Edge Gateway]
+    Edge --> Gateway[Django Gateway / BFF]
+    Gateway --> Services[FastAPI Microservices]
+    Services --> Data[(Postgres, MySQL, Mongo, Redis, OpenSearch)]
+    Services --> Events[(Kafka + RabbitMQ)]
+    Services --> AI[MovieVerse AI Platform]
+    Services --> Obs[Prometheus + Grafana + ELK]
+```
+
+### Data + Search Pipeline
+
+```mermaid
+flowchart LR
+    TMDB[TMDB + External Sources] --> DataPlatform[Data Platform Service]
+    DataPlatform --> MovieSvc[Movie Service]
+    DataPlatform --> MetadataSvc[Metadata Service]
+    Crawler[Crawler Service] --> MovieSvc
+    MovieSvc --> Indexer[Search Indexer Service]
+    Indexer --> OpenSearch[(OpenSearch)]
+    OpenSearch --> SearchSvc[Search Service]
+    SearchSvc --> Gateway[Django Gateway]
+```
+
+### AI/ML Lifecycle
 
 ```mermaid
 flowchart TD
-    UserUI["User Frontend<br/>Sign up/login, profiles, game scores"]
-    Auth["Firebase Authentication<br/>Sign-in, password mgmt, tokens"]
-    Store["Firebase Firestore<br/>Profiles, game data, leaderboards, prefs"]
-    Functions["Firebase Cloud Functions<br/>Server-side processing, rules, automation"]
-    Dashboard["Frontend Dashboard<br/>User data, scores, leaderboards"]
-
-    UserUI --> Auth --> Store --> Functions --> Dashboard
-```
-
-### AI/ML Service for Recommending Movies
-
-```mermaid
-flowchart TD
-    UserFront["User Frontend<br/>Interactions, prefs, ratings, watchlists"]
-    DjangoAPI["Django Backend API<br/>Request handling & user data processing"]
-    Pipeline["Data Pipeline<br/>Extract user data, build features"]
-    Model["AI/ML Processing<br/>Collaborative + Content-based + Hybrid"]
-    Engine["Recommendation Engine<br/>Personalized movie suggestions"]
-    Response["Response to API<br/>Recommended movies"]
-    UI["Frontend UI<br/>Displays personalized recs"]
-
-    UserFront --> DjangoAPI --> Pipeline --> Model --> Engine --> Response --> UI
+    Events[(Kafka Events)] --> Ingest[Ingest + Feature Builds]
+    Ingest --> Feast[Feast Feature Store]
+    Feast --> Materialize[Materialize Online Features]
+    Materialize --> Redis[(Redis Online Store)]
+    Ingest --> Train[Train Models]
+    Train --> Registry[MLflow Registry]
+    Registry --> Serve[AI API Inference]
+    Serve --> Gateway[Django Gateway]
 ```
 
 ## Getting Started
 
-To get started with The MovieVerse, follow these _very simple_ steps:
+### Local Quick Start (Microservices + Edge)
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Install Emscripten and compile the C code to WebAssembly (refer to the README.md file in the `utilities` directory [here](../MovieVerse-Utilities/README.md).)
-4. Take a look at the project configuration directory (project-config) and make sure that the paths are correct.
-5. Visit the root directory and install the dependencies (if any):
-    ```bash
-    npm install
-    ```
-6. Visit the backend directory and install the dependencies (if any):
-    ```bash
-    cd MovieVerse-Backend
-    pip install -r requirements.txt
-    ```
-7. Start the backend servers and services (refer to the [README.md](../MovieVerse-Backend/README.md) file in the `MovieVerse-Backend` directory for more information).
-Or, for your convenience, you may simply run the following command, provided that you already have MySQL, PostgreSQL, Redis, MongoDB, and RabbitMQ running on your system:
-    ```bash
-    npm run backend
-    ```
-8. Return to the **root** directory and start the development server:
-    ```bash
-    npm start
-    ```
-   This will start the deployment server, including the frontend, so you can start developing and testing your changes right away. If you make any changes, be sure to reload the web page to see the updates.
-9. **If you would also like to develop the mobile app versions:** Visit the mobile app directory and install the dependencies (if any):
-    ```bash
-    cd MovieVerse-Mobile
-    npm install
-    cordova platform add ios
-    cordova platform add android
-    ```
-10. Start the mobile app using Cordova (visit the `MovieVerse-Mobile` directory for more information):
-    ```bash
-    cordova build
-    cordova emulate ios
-    cordova emulate android
-    ```
-11. If you'd also like to dockerize the application, `cd` into the root directory and run the following command:
-    ```bash
-    npm run docker
-    ```
-    Or
-    ```bash
-    docker compose up
-    ```
-    This will create a Docker image of the application, which you can then deploy to a containerized environment. Ensure that Docker is up and running on your system before running this command.
-12. If you'd like to lint and/or format the code (so that they look better and adhere to the project's coding standards), run the following commands:
-    ```bash
-    npm run lint
-    npm run format
-    ```
-    This will check the code for any linting errors and format the code according to the project's coding standards. Make sure to fix any linting errors before committing your changes.
-13. As you develop, be sure to save & commit your changes (and don't forget to create a branch for your new feature):
-    ```bash
-    git checkout -b 'feature/AmazingFeature'
-    git commit -m 'Update: Add some AmazingFeature'
-    ```
-    Note the naming convention:
-    - For branches: The names will have 2 parts: `feature/` or `fix/` followed by the feature or fix name.
-    - For commits: The commit message will also have 2 parts: `Update:` or `Fix:` followed by the update or fix description.
-14. Push to your branch:
-    ```bash
-    git push origin feature/AmazingFeature
-    ```
-15. Open a Pull Request (if you want to merge your changes to our official app) - we'll review your changes and merge them to this public repository first. If everything works well, we might ask you to also join our private official codebase and create another PR there so that your changes are fully live. Enjoy coding and [let me know](https://github.com/hoangsonww/The-MovieVerse-Database/discussions) if you have any questions!
-16. If you'd also like to access full, advanced features of the app's development, please [contact me](https://github.com/hoangsonww/The-MovieVerse-Database/discussions) for the `.env` file and additional configurations, and we'll also decide if you need access to or can access our private official codebase.
+```bash
+docker compose -f docker-compose.microservices.yml up -d
+```
+
+The edge gateway is available at `http://localhost:8080`.
+
+### Local AI Platform
+
+```bash
+docker compose -f MovieVerse-AI/docker-compose.ai.yml up -d
+psql postgresql://movieverse:movieverse@localhost:5433/movieverse_ai \
+  -f MovieVerse-AI/sql/postgres_init.sql
+```
+
+Optional training and feature pipelines:
+
+```bash
+python -m movieverse_ai.pipelines.train_recommender
+python -m movieverse_ai.pipelines.train_sentiment
+python -m movieverse_ai.pipelines.train_ranker
+```
+
+### Observability Stack
+
+```bash
+docker compose -f docker-compose.microservices.yml -f docker-compose.observability.yml up -d
+```
+
+### Django Gateway (Optional Dev Run)
+
+```bash
+export DJANGO_DEBUG=true
+export DJANGO_SECRET_KEY=change-me
+python MovieVerse-Backend/django_backend/manage.py runserver
+```
+
+### Frontend Development
+
+```bash
+npm install
+npm start
+```
+
+### Mobile App (Cordova)
+
+```bash
+cd MovieVerse-Mobile
+npm install
+cordova platform add ios
+cordova platform add android
+cordova build
+```
+
+### Kubernetes Deploy
+
+```bash
+kubectl apply -f kubernetes/base/
+kubectl apply -f kubernetes/infra/
+kubectl apply -f kubernetes/services/
+kubectl apply -f kubernetes/edge/
+kubectl apply -f MovieVerse-AI/k8s/
+```
+
+### AWS Deploy
+
+Use the CloudFormation templates in `aws/` or the Jenkins helper script:
+
+```bash
+jenkins/scripts/deploy-aws.sh
+```
+
+### Contribution Flow
+
+1. Fork the project and create a feature branch.
+2. Make changes and verify locally.
+3. Commit with `Update:` or `Fix:` prefixes and open a PR.
 
 ## Privacy Policy
 
@@ -398,6 +530,6 @@ Email: [Official MovieVerse Email](mailto:info@movie-verse.com)
 
 ---
 
-Created with ❤️ in 2023-2025 by [Son Nguyen](https://github.com/hoangsonww).
+Created with ❤️ between 2023-2026 by [Son Nguyen](https://github.com/hoangsonww).
 
-© 2025 The MovieVerse. All Rights Reserved.
+© 2026 The MovieVerse. All Rights Reserved.

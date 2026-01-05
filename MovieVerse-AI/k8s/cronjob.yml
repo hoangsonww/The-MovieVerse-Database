@@ -1,0 +1,46 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: movieverse-ai-train
+  namespace: movieverse
+spec:
+  schedule: "0 3 * * *"
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: movieverse-sa
+          restartPolicy: OnFailure
+          containers:
+            - name: movieverse-ai-train
+              image: movieverse/ai-api:latest
+              command:
+                - /bin/sh
+                - -c
+                - >
+                  python -m movieverse_ai.pipelines.train_recommender &&
+                  python -m movieverse_ai.pipelines.train_sentiment &&
+                  python -m movieverse_ai.pipelines.build_ranking_features &&
+                  python -m movieverse_ai.pipelines.train_ranker &&
+                  python -m movieverse_ai.pipelines.build_embeddings &&
+                  python -m movieverse_ai.pipelines.build_feature_tables &&
+                  python -m movieverse_ai.pipelines.materialize_features
+              envFrom:
+                - configMapRef:
+                    name: movieverse-ai-config
+                - secretRef:
+                    name: movieverse-ai-secrets
+              volumeMounts:
+                - name: model-store
+                  mountPath: /opt/movieverse-ai/models
+                - name: index-store
+                  mountPath: /opt/movieverse-ai/index
+          volumes:
+            - name: model-store
+              persistentVolumeClaim:
+                claimName: movieverse-ai-models-pvc
+            - name: index-store
+              persistentVolumeClaim:
+                claimName: movieverse-ai-index-pvc

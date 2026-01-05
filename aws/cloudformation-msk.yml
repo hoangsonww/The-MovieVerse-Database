@@ -1,0 +1,79 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'MovieVerse Amazon MSK Cluster for Kafka'
+
+Parameters:
+  EnvironmentName:
+    Description: Environment name prefix
+    Type: String
+    Default: movieverse-prod
+
+  KafkaVersion:
+    Description: Kafka version
+    Type: String
+    Default: '3.5.1'
+
+  NumberOfBrokerNodes:
+    Description: Number of Kafka brokers
+    Type: Number
+    Default: 3
+
+  BrokerInstanceType:
+    Description: MSK broker instance type
+    Type: String
+    Default: kafka.m5.large
+
+  VpcId:
+    Description: VPC ID
+    Type: AWS::EC2::VPC::Id
+
+  VpcCidr:
+    Description: VPC CIDR block
+    Type: String
+    Default: 10.0.0.0/16
+
+  BrokerSubnetIds:
+    Description: Private subnet IDs for brokers
+    Type: List<AWS::EC2::Subnet::Id>
+
+Resources:
+  MSKSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: MSK security group
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 9092
+          ToPort: 9094
+          CidrIp: !Ref VpcCidr
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName}-MSK-SG
+
+  MSKCluster:
+    Type: AWS::MSK::Cluster
+    Properties:
+      ClusterName: !Sub ${EnvironmentName}-msk
+      KafkaVersion: !Ref KafkaVersion
+      NumberOfBrokerNodes: !Ref NumberOfBrokerNodes
+      BrokerNodeGroupInfo:
+        InstanceType: !Ref BrokerInstanceType
+        ClientSubnets: !Ref BrokerSubnetIds
+        SecurityGroups:
+          - !Ref MSKSecurityGroup
+      EncryptionInfo:
+        EncryptionInTransit:
+          ClientBroker: TLS_PLAINTEXT
+          InCluster: true
+      ClientAuthentication:
+        Unauthenticated:
+          Enabled: true
+
+Outputs:
+  MSKClusterArn:
+    Description: MSK cluster ARN
+    Value: !Ref MSKCluster
+
+  BootstrapBrokers:
+    Description: Bootstrap brokers string
+    Value: !GetAtt MSKCluster.BootstrapBrokers

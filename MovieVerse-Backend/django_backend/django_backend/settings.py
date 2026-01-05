@@ -20,12 +20,23 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
-
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'movie-verse.com', 'www.movie-verse.com']
-
-# Remember to put your secret key and set Debug to True here...
+DEBUG = os.getenv("DJANGO_DEBUG", "false").lower() == "true"
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "movieverse-dev-key")
+ALLOWED_HOSTS = [
+    host.strip()
+    for host in os.getenv(
+        "DJANGO_ALLOWED_HOSTS",
+        "127.0.0.1,localhost,movie-verse.com,www.movie-verse.com",
+    ).split(",")
+    if host.strip()
+]
+CSRF_TRUSTED_ORIGINS = (
+    [origin.strip() for origin in os.getenv("DJANGO_CSRF_TRUSTED_ORIGINS", "").split(",") if origin.strip()]
+    if not DEBUG
+    else []
+)
+if not DEBUG and SECRET_KEY == "movieverse-dev-key":
+    raise RuntimeError("DJANGO_SECRET_KEY must be set in production.")
 
 # Application definition
 
@@ -54,8 +65,18 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticatedOrReadOnly'
-    ]
+    ],
 }
+
+if not DEBUG:
+    REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"] = [
+        "rest_framework.renderers.JSONRenderer",
+    ]
+else:
+    REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"] = [
+        "rest_framework.renderers.JSONRenderer",
+        "rest_framework.renderers.BrowsableAPIRenderer",
+    ]
 
 ROOT_URLCONF = 'django_backend.urls'
 
@@ -81,44 +102,65 @@ WSGI_APPLICATION = 'django_backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'djongo',
-        'NAME': 'MovieVerse',
-        'ENFORCE_SCHEMA': False,
-    },
-    'movies_db': {
-        'ENGINE': 'djongo',
-        'NAME': 'MovieVerse_movies',
-        'ENFORCE_SCHEMA': False,
-    },
-    'people_db': {
-        'ENGINE': 'djongo',
-        'NAME': 'MovieVerse_people',
-        'ENFORCE_SCHEMA': False,
-    },
-    'genres_db': {
-        'ENGINE': 'djongo',
-        'NAME': 'MovieVerse_genres',
-        'ENFORCE_SCHEMA': False,
-    },
-    'reviews_db': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'MovieVerse',
-        'USER': 'root',
-        'PASSWORD': '09112004',
-        'HOST': 'localhost',
-        'PORT': '3306',
-    },
-    'users_db': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'MovieVerse',
-        'USER': 'root',
-        'PASSWORD': '09112004',
-        'HOST': 'localhost',
-        'PORT': '5432',
+db_engine = os.getenv("DJANGO_DB_ENGINE")
+db_name = os.getenv("DJANGO_DB_NAME")
+db_conn_max_age = int(os.getenv("DJANGO_DB_CONN_MAX_AGE", "60"))
+engine_map = {
+    "postgres": "django.db.backends.postgresql",
+    "postgresql": "django.db.backends.postgresql",
+    "mysql": "django.db.backends.mysql",
+    "sqlite": "django.db.backends.sqlite3",
+}
+
+if db_engine:
+    resolved_engine = engine_map.get(db_engine, db_engine)
+    if resolved_engine == "django.db.backends.sqlite3":
+        db_name = db_name or str(BASE_DIR / "db.sqlite3")
+    elif not db_name:
+        raise RuntimeError("DJANGO_DB_NAME must be set when using a non-sqlite database.")
+    DATABASES = {
+        "default": {
+            "ENGINE": resolved_engine,
+            "NAME": db_name,
+            "USER": os.getenv("DJANGO_DB_USER", ""),
+            "PASSWORD": os.getenv("DJANGO_DB_PASSWORD", ""),
+            "HOST": os.getenv("DJANGO_DB_HOST", ""),
+            "PORT": os.getenv("DJANGO_DB_PORT", ""),
+            "CONN_MAX_AGE": db_conn_max_age,
+        }
+    }
+elif not DEBUG:
+    raise RuntimeError("DJANGO_DB_ENGINE must be set in production.")
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
+
+redis_url = os.getenv("DJANGO_CACHE_REDIS_URL")
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache" if redis_url else "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": redis_url or "movieverse-local-cache",
+        "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"} if redis_url else {},
     }
 }
+
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+USE_X_FORWARDED_HOST = True
+SECURE_SSL_REDIRECT = not DEBUG and os.getenv("DJANGO_SECURE_SSL_REDIRECT", "true").lower() == "true"
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
+SESSION_COOKIE_HTTPONLY = True
+CSRF_COOKIE_HTTPONLY = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_REFERRER_POLICY = "no-referrer"
+X_FRAME_OPTIONS = "DENY"
+SECURE_HSTS_SECONDS = int(os.getenv("DJANGO_HSTS_SECONDS", "31536000")) if not DEBUG else 0
+SECURE_HSTS_INCLUDE_SUBDOMAINS = not DEBUG
+SECURE_HSTS_PRELOAD = not DEBUG
 
 
 # Password validation
@@ -160,3 +202,23 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "standard": {
+            "format": "%(asctime)s %(levelname)s %(name)s %(message)s",
+        },
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "standard",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "INFO",
+    },
+}

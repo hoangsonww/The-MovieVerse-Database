@@ -1,36 +1,53 @@
-from .scraper import fetch_movie_data
-from .parser import parse_movie_data
-from .ai.text_analysis import analyze_text_sentiment
-from .ai.image_analysis import classify_image
-from .tasks import crawl_movie_data_and_store
-from .models import MovieDetail
-from django.core.exceptions import ObjectDoesNotExist
+from __future__ import annotations
+
+import logging
+
+from crawler.ai.client import classify_genre, classify_image, summarize_text
+from crawler.ai.text_analysis import analyze_text_sentiment
+from crawler.exceptions import DataFetchError, DataSaveError, ParsingError
+from crawler.models import CrawlJob
+from crawler.sources.registry import source_registry
+from crawler.storage import store_movie_bundle
+from crawler.validators import validate_movie_data
+
+logger = logging.getLogger(__name__)
 
 
-def orchestrate_crawling(url):
+def orchestrate_crawling(
+    url: str,
+    source: str | None = None,
+    tags: list[str] | None = None,
+    job_id: str | None = None,
+):
+    job = CrawlJob(url=url, source=source, tags=tags or [], job_id=job_id)
     try:
-        # Step 1: Fetch data
-        html_content = fetch_movie_data(url)
-        if not html_content:
-            raise ValueError("Failed to fetch data from URL.")
+        source_impl = source_registry.resolve(job)
+        raw = source_impl.fetch(job)
+        movie_data = source_impl.parse(raw)
+        movie_data["source_url"] = url
+        validate_movie_data(movie_data)
 
-        # Step 2: Parse data
-        movie_data = parse_movie_data(html_content)
-        if not movie_data:
-            raise ValueError("Failed to parse movie data.")
+        summary = summarize_text(movie_data.get("description", ""), style="concise")
+        sentiment_result = analyze_text_sentiment(movie_data.get("description", ""))
+        image_labels = classify_image(movie_data.get("poster_url", "")) or []
+        genre_predictions = classify_genre(movie_data.get("description", "")) or []
 
-        # Step 3: Analyze text sentiment
-        sentiment_result = analyze_text_sentiment(movie_data['description'])
-        movie_data['sentiment'] = sentiment_result
+        analysis = {
+            "sentiment": sentiment_result,
+            "summary": summary,
+            "image_labels": image_labels,
+            "tags": tags or [],
+            "source": source,
+            "extra": {"genre_predictions": genre_predictions},
+        }
 
-        # Step 4: Image analysis
-        image_analysis_result = classify_image(movie_data['poster_url'])
-        movie_data['image_analysis'] = image_analysis_result
+        result = store_movie_bundle(movie_data, analysis)
+        logger.info("crawl_completed", extra={"url": url, "job_id": job_id})
+        return result
 
-        # Step 5: Store data in the database
-        crawl_movie_data_and_store(movie_data)
-
-        print("Crawling and data processing completed successfully.")
-
-    except Exception as e:
-        print(f"Error during the crawling process: {e}")
+    except (ParsingError, DataFetchError, DataSaveError) as exc:
+        logger.error("crawl_failed", extra={"url": url, "job_id": job_id, "error": str(exc)})
+        raise
+    except Exception as exc:
+        logger.exception("crawl_unexpected_error", extra={"url": url, "job_id": job_id})
+        raise DataSaveError(str(exc)) from exc

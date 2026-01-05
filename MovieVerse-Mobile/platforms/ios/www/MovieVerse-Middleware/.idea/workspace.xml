@@ -13,12 +13,12 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://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@github.com/hoangsonww/The-MovieVerse-Database",
-    "accountId": "96738bbf-61cc-45b7-a456-2974fb587c71"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://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@github.com/hoangsonww/The-MovieVerse-Database&quot;,
+    &quot;accountId&quot;: &quot;96738bbf-61cc-45b7-a456-2974fb587c71&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
 }</component>
@@ -71,8 +71,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-PY-241.17890.14" />
-        <option value="bundled-python-sdk-5b207ade9991-7e9c3bbb6e34-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-241.17890.14" />
+        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-PY-243.22562.220" />
+        <option value="bundled-python-sdk-0fc6c617c4bd-9a18a617cbe4-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.22562.220" />
       </set>
     </attachedChunks>
   </component>
@@ -86,6 +86,7 @@
       <updated>1718791887479</updated>
       <workItem from="1718791888523" duration="460000" />
       <workItem from="1718859537476" duration="2000" />
+      <workItem from="1734683227725" duration="3000" />
     </task>
     <task id="LOCAL-00001" summary="Update: Fixed app's middleware (#200)">
       <option name="closed" value="true" />

@@ -12,7 +12,3 @@ class DataValidationError(Exception):
 
 class DataSaveError(Exception):
     pass
-
-
-class DataFetchError(Exception):
-    pass

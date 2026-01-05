@@ -1,4 +1,3 @@
-<!-- Sample search results page, to be replaced by frontend - DO NOT USE IN PRODUCTION -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -106,14 +105,14 @@
         {% for movie in movies %}
         <div class="quote">
             <h2>{{ movie.title }}</h2>
-            {% if movie.releaseDate %}
-                <p>{{ movie.releaseDate|date:"Y" }}</p>
+            {% if movie.release_date %}
+                <p>{{ movie.release_date|date:"Y" }}</p>
             {% else %}
                 <p>Release date not available</p>
             {% endif %}
 
-            {% if movie.posterPath %}
-                <img src="{{ movie.posterPath }}" alt="{{ movie.title }}">
+            {% if movie.poster_url %}
+                <img src="{{ movie.poster_url }}" alt="{{ movie.title }}">
             {% else %}
                 <p>Poster not available</p>
             {% endif %}

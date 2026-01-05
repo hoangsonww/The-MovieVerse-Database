@@ -1,164 +1,74 @@
 microservices = {
-    "movie_service": {
-        "description": "Handles all movie-related operations",
-        "framework": "Django",
-        "database": "MySQL",
-        "endpoints": [
-            "/api/movies",
-            "/api/movies/{id}",
-        ]
+    "auth_service": {
+        "description": "Handles registration, login, and JWT issuance",
+        "framework": "FastAPI",
+        "database": "PostgreSQL + Redis",
+        "endpoints": ["/register", "/login", "/refresh"],
     },
     "user_service": {
-        "description": "Manages user authentication and profiles",
-        "framework": "Flask",
-        "database": "MongoDB",
-        "endpoints": [
-            "/api/users",
-            "/api/users/{id}",
-        ]
+        "description": "Manages user profiles and preferences",
+        "framework": "FastAPI",
+        "database": "PostgreSQL",
+        "endpoints": ["/profiles", "/profiles/{user_id}"],
     },
-    "rating_service": {
-        "description": "Handles movie ratings and reviews",
-        "framework": "Flask",
+    "movie_service": {
+        "description": "Movie catalog, metadata, and ingestion upserts",
+        "framework": "FastAPI",
         "database": "MySQL",
-        "endpoints": [
-            "/api/ratings",
-            "/api/ratings/{id}",
-        ]
-    },
-    "recommendation_service": {
-        "description": "Generates movie recommendations for users",
-        "framework": "Flask",
-        "database": "MySQL",
-        "endpoints": [
-            "/api/recommendations",
-            "/api/recommendations/{id}",
-        ]
-    },
-    "search_service": {
-        "description": "Handles movie search",
-        "framework": "Flask",
-        "database": "MySQL",
-        "endpoints": [
-            "/api/search",
-            "/api/search/{id}",
-        ]
-    },
-    "notification_service": {
-        "description": "Handles notifications for users",
-        "framework": "Flask",
-        "database": "MySQL",
-        "endpoints": [
-            "/api/notifications",
-            "/api/notifications/{id}",
-        ]
-    },
-    "payment_service": {
-        "description": "Handles payments for users",
-        "framework": "Flask",
-        "database": "MySQL",
-        "endpoints": [
-            "/api/payments",
-            "/api/payments/{id}",
-        ]
-    },
-    "analytics_service": {
-        "description": "Handles analytics for the application",
-        "framework": "Flask",
-        "database": "MySQL",
-        "endpoints": [
-            "/api/analytics",
-            "/api/analytics/{id}",
-        ]
-    },
-    "admin_service": {
-        "description": "Handles admin operations",
-        "framework": "Flask",
-        "database": "MySQL",
-        "endpoints": [
-            "/api/admin",
-            "/api/admin/{id}",
-        ]
-    },
-    "account_service": {
-        "description": "Handles user accounts",
-        "framework": "Flask",
-        "database": "MySQL",
-        "endpoints": [
-            "/api/accounts",
-            "/api/accounts/{id}",
-        ]
-    },
-    "subscription_service": {
-        "description": "Handles user subscriptions",
-        "framework": "Flask",
-        "database": "MySQL",
-        "endpoints": [
-            "/api/subscriptions",
-            "/api/subscriptions/{id}",
-        ]
-    },
-    "content_service": {
-        "description": "Handles content management",
-        "framework": "Flask",
-        "database": "MySQL",
-        "endpoints": [
-            "/api/content",
-            "/api/content/{id}",
-        ]
+        "endpoints": ["/movies", "/movies/{movie_id}", "/movies/import"],
     },
     "review_service": {
-        "description": "Handles movie reviews",
-        "framework": "Flask",
-        "database": "MySQL",
-        "endpoints": [
-            "/api/reviews",
-            "/api/reviews/{id}",
-        ]
+        "description": "Ratings and reviews with Kafka/RabbitMQ events",
+        "framework": "FastAPI",
+        "database": "PostgreSQL",
+        "endpoints": ["/reviews", "/reviews/movies/{movie_id}", "/reviews/users/{user_id}"],
     },
-    "genre_service": {
-        "description": "Handles movie genres",
-        "framework": "Flask",
-        "database": "MySQL",
-        "endpoints": [
-            "/api/genres",
-            "/api/genres/{id}",
-        ]
+    "recommendation_service": {
+        "description": "AI-backed recommendations and personalization",
+        "framework": "FastAPI",
+        "database": "Redis + MovieVerse-AI",
+        "endpoints": ["/recommendations"],
     },
-    "actor_service": {
-        "description": "Handles movie actors",
-        "framework": "Flask",
-        "database": "MySQL",
-        "endpoints": [
-            "/api/actors",
-            "/api/actors/{id}",
-        ]
+    "search_service": {
+        "description": "OpenSearch-backed movie/review search",
+        "framework": "FastAPI",
+        "database": "OpenSearch",
+        "endpoints": ["/search", "/search/reviews", "/index", "/index/review"],
     },
-    "director_service": {
-        "description": "Handles movie directors",
-        "framework": "Flask",
-        "database": "MySQL",
-        "endpoints": [
-            "/api/directors",
-            "/api/directors/{id}",
-        ]
+    "search_indexer_service": {
+        "description": "Kafka-driven indexing and reindex endpoints",
+        "framework": "FastAPI",
+        "database": "MySQL + PostgreSQL + OpenSearch",
+        "endpoints": ["/reindex/movies", "/reindex/reviews"],
     },
-    "crew_service": {
-        "description": "Handles movie crew",
-        "framework": "Flask",
-        "database": "MySQL",
-        "endpoints": [
-            "/api/crew",
-            "/api/crew/{id}",
-        ]
+    "notification_service": {
+        "description": "Notification API and RabbitMQ worker",
+        "framework": "FastAPI",
+        "database": "PostgreSQL + RabbitMQ",
+        "endpoints": ["/notifications"],
     },
-    "company_service": {
-        "description": "Handles movie companies",
-        "framework": "Flask",
-        "database": "MySQL",
-        "endpoints": [
-            "/api/companies",
-            "/api/companies/{id}",
-        ]
+    "metadata_service": {
+        "description": "Genres, people catalogs, and AI enrichment storage",
+        "framework": "FastAPI",
+        "database": "MongoDB",
+        "endpoints": ["/genres", "/people", "/movies/{movie_id}/analysis"],
+    },
+    "crawler_service": {
+        "description": "Web crawl orchestration and worker queue",
+        "framework": "FastAPI",
+        "database": "RabbitMQ",
+        "endpoints": ["/crawl", "/crawl/batch"],
+    },
+    "data_platform_service": {
+        "description": "TMDB ingestion, controlled seeding, health checks",
+        "framework": "FastAPI",
+        "database": "Postgres + MySQL + Mongo + Redis",
+        "endpoints": ["/ingest/tmdb/movies", "/seed/users", "/healthz"],
+    },
+    "ai_service": {
+        "description": "MovieVerse AI inference + pipelines",
+        "framework": "FastAPI",
+        "database": "Model registry + feature store",
+        "endpoints": ["/recommendations", "/summarize", "/genres/classify"],
     },
 }

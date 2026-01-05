@@ -1,0 +1,168 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: movieverse-ai-postgres
+    environment:
+      POSTGRES_USER: movieverse
+      POSTGRES_PASSWORD: movieverse
+      POSTGRES_DB: movieverse_ai
+    ports:
+      - "5433:5432"
+    volumes:
+      - movieverse-ai-postgres:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: movieverse-ai-redis
+    ports:
+      - "6380:6379"
+    volumes:
+      - movieverse-ai-redis:/data
+    restart: unless-stopped
+
+  mysql:
+    image: mysql:8
+    container_name: movieverse-ai-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: movieverse
+      MYSQL_DATABASE: movieverse
+      MYSQL_USER: movieverse
+      MYSQL_PASSWORD: movieverse
+    ports:
+      - "3307:3306"
+    volumes:
+      - movieverse-ai-mysql:/var/lib/mysql
+    restart: unless-stopped
+
+  mongodb:
+    image: mongo:6
+    container_name: movieverse-ai-mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: movieverse
+      MONGO_INITDB_ROOT_PASSWORD: movieverse
+    ports:
+      - "27018:27017"
+    volumes:
+      - movieverse-ai-mongodb:/data/db
+    restart: unless-stopped
+
+  zookeeper:
+    image: bitnami/zookeeper:3.9
+    container_name: movieverse-ai-zookeeper
+    environment:
+      ALLOW_ANONYMOUS_LOGIN: "yes"
+    ports:
+      - "2182:2181"
+    volumes:
+      - movieverse-ai-zookeeper:/bitnami/zookeeper
+    restart: unless-stopped
+
+  kafka:
+    image: bitnami/kafka:3.6
+    container_name: movieverse-ai-kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "9093:9092"
+    environment:
+      KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_CFG_LISTENERS: PLAINTEXT://:9092
+      KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      ALLOW_PLAINTEXT_LISTENER: "yes"
+      KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE: "true"
+    volumes:
+      - movieverse-ai-kafka:/bitnami/kafka
+    restart: unless-stopped
+
+  minio:
+    image: minio/minio:RELEASE.2024-05-10T01-41-38Z
+    container_name: movieverse-ai-minio
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: movieverse
+      MINIO_ROOT_PASSWORD: movieverse
+    ports:
+      - "9100:9000"
+      - "9001:9001"
+    volumes:
+      - movieverse-ai-minio:/data
+    restart: unless-stopped
+
+  minio-init:
+    image: minio/mc:RELEASE.2024-05-09T17-19-27Z
+    container_name: movieverse-ai-minio-init
+    depends_on:
+      - minio
+    entrypoint: ["/bin/sh", "-c"]
+    command: >
+      "mc alias set mvminio http://minio:9000 movieverse movieverse &&
+       mc mb -p mvminio/movieverse-ml &&
+       mc anonymous set download mvminio/movieverse-ml"
+
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:v2.12.1
+    container_name: movieverse-ai-mlflow
+    depends_on:
+      - postgres
+      - minio
+    environment:
+      MLFLOW_S3_ENDPOINT_URL: http://minio:9000
+      AWS_ACCESS_KEY_ID: movieverse
+      AWS_SECRET_ACCESS_KEY: movieverse
+    ports:
+      - "5000:5000"
+    command: >
+      mlflow server
+      --backend-store-uri postgresql+psycopg2://movieverse:movieverse@postgres:5432/movieverse_ai
+      --default-artifact-root s3://movieverse-ml
+      --host 0.0.0.0
+    restart: unless-stopped
+
+  ai-api:
+    build:
+      context: ..
+      dockerfile: MovieVerse-AI/Dockerfile
+    container_name: movieverse-ai-api
+    depends_on:
+      - postgres
+      - redis
+      - mysql
+      - mongodb
+      - kafka
+      - mlflow
+    environment:
+      MOVIEVERSE_AI_POSTGRES_DSN: postgresql+psycopg2://movieverse:movieverse@postgres:5432/movieverse_ai
+      MOVIEVERSE_AI_MYSQL_DSN: mysql+pymysql://movieverse:movieverse@mysql:3306/movieverse
+      MOVIEVERSE_AI_MONGO_URI: mongodb://movieverse:movieverse@mongodb:27017
+      MOVIEVERSE_AI_REDIS_URL: redis://redis:6379/0
+      MOVIEVERSE_AI_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      MOVIEVERSE_AI_MLFLOW_TRACKING_URI: http://mlflow:5000
+      MOVIEVERSE_AI_S3_ENDPOINT_URL: http://minio:9000
+      MOVIEVERSE_AI_S3_BUCKET: movieverse-ml
+      MOVIEVERSE_AI_S3_ACCESS_KEY: movieverse
+      MOVIEVERSE_AI_S3_SECRET_KEY: movieverse
+    ports:
+      - "9000:9000"
+    volumes:
+      - movieverse-ai-models:/opt/movieverse-ai/models
+      - movieverse-ai-index:/opt/movieverse-ai/index
+      - ./feature_repo:/opt/movieverse-ai/feature_repo
+    restart: unless-stopped
+
+volumes:
+  movieverse-ai-postgres:
+  movieverse-ai-redis:
+  movieverse-ai-zookeeper:
+  movieverse-ai-kafka:
+  movieverse-ai-mysql:
+  movieverse-ai-mongodb:
+  movieverse-ai-minio:
+  movieverse-ai-models:
+  movieverse-ai-index:
+
+networks:
+  default:
+    name: movieverse-ai

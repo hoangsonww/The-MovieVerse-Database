@@ -1,57 +1,114 @@
-# MovieVerse API Requests
+# MovieVerse Gateway API Requests
 
-# Before running this, be sure that the Django backend server is up and running!
-
-@base_url = http://127.0.0.1:8000
+@base_url = http://localhost:8080
 
 ### Movies
+GET {{base_url}}/movies?limit=10
 
-# Get all movies
-GET {{base_url}}/api/movies/
-
-# Get a specific movie (replace 123 with the actual movie ID)
 ###
-GET{{base_url}}/api/movies/123/
+GET {{base_url}}/movies/1
 
-# Filter movies by title (replace "Inception" with your search term)
 ###
-GET{{base_url}}/api/movies/?search=Inception
+POST {{base_url}}/movies
+Content-Type: application/json
 
+{
+  "title": "Example Movie",
+  "overview": "A demo payload for MovieVerse.",
+  "genres": "Drama, Thriller",
+  "rating": 7.8
+}
 
-### Genres
+### Reviews
+GET {{base_url}}/reviews?movie_id=1
 
-# Get all genres
-GET {{base_url}}/api/genres/
-
-
-### People
-
-# Get all people
-GET {{base_url}}/api/people/
-
-# Get a specific person (replace 456 with the actual person ID)
 ###
-GET{{base_url}}/api/people/456/
+POST {{base_url}}/reviews
+Content-Type: application/json
 
+{
+  "user_id": 1,
+  "movie_id": 1,
+  "rating": 4.5,
+  "review_text": "Loved the cinematography."
+}
 
-### Reviews (Assuming you have authentication set up for these)
+### Metadata
+GET {{base_url}}/genres?limit=20
 
-# Get all reviews
-GET {{base_url}}/api/reviews/
-
-# Get reviews for a specific movie (replace 123 with the movie ID)
 ###
-GET{{base_url}}/api/reviews/?movie_id=123
+GET {{base_url}}/people?limit=20
 
-# Get reviews by a specific user (replace 789 with the user ID)
+### Search
+POST {{base_url}}/search
+Content-Type: application/json
+
+{
+  "query": "space opera",
+  "limit": 5
+}
+
 ###
-GET{{base_url}}/api/reviews/?user_id=789
+POST {{base_url}}/search/reviews
+Content-Type: application/json
 
-### Users
+{
+  "query": "cinematography",
+  "limit": 5
+}
 
-# Get all users
-GET {{base_url}}/api/users/
+### Recommendations
+POST {{base_url}}/recommendations
+Content-Type: application/json
 
-# Get a specific user (replace 789 with the actual user ID)
+{
+  "user_id": 12,
+  "limit": 5
+}
+
 ###
-GET{{base_url}}/api/users/789/
+POST {{base_url}}/recommendations/similar
+Content-Type: application/json
+
+{
+  "movie_id": 42,
+  "limit": 5
+}
+
+### Auth
+POST {{base_url}}/auth/register
+Content-Type: application/json
+
+{
+  "email": "demo@movieverse.com",
+  "username": "demo",
+  "password": "changeme"
+}
+
+###
+POST {{base_url}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "demo@movieverse.com",
+  "password": "changeme"
+}
+
+### Notifications
+POST {{base_url}}/notifications
+Content-Type: application/json
+
+{
+  "user_id": 12,
+  "message": "Your watchlist has updates."
+}
+
+### Crawler
+POST {{base_url}}/crawl
+Content-Type: application/json
+
+{
+  "url": "tmdb:550",
+  "source": "tmdb",
+  "tags": ["seed"]
+}

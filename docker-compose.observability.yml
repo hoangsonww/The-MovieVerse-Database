@@ -1,0 +1,105 @@
+version: "3.9"
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.12.2
+    container_name: movieverse-elasticsearch
+    environment:
+      ES_JAVA_OPTS: "-Xms1g -Xmx1g"
+    volumes:
+      - ./infrastructure/elk/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    ports:
+      - "9201:9200"
+    networks:
+      - backend
+    restart: unless-stopped
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.12.2
+    container_name: movieverse-kibana
+    environment:
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+    networks:
+      - backend
+    restart: unless-stopped
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.12.2
+    container_name: movieverse-logstash
+    volumes:
+      - ./infrastructure/elk/logstash.conf:/usr/share/logstash/pipeline/logstash.conf:ro
+    ports:
+      - "5044:5044"
+    depends_on:
+      - elasticsearch
+    networks:
+      - backend
+    restart: unless-stopped
+
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:8.12.2
+    container_name: movieverse-filebeat
+    user: root
+    volumes:
+      - ./infrastructure/elk/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    depends_on:
+      - logstash
+    networks:
+      - backend
+    restart: unless-stopped
+  prometheus:
+    image: prom/prometheus:v2.48.0
+    container_name: movieverse-prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./infrastructure/observability/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+    networks:
+      - backend
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:10.2.2
+    container_name: movieverse-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: movieverse
+    volumes:
+      - grafana-data:/var/lib/grafana
+    networks:
+      - backend
+    restart: unless-stopped
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.52
+    container_name: movieverse-jaeger
+    ports:
+      - "16686:16686"
+      - "4317:4317"
+      - "4318:4318"
+      - "14268:14268"
+    networks:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  prometheus-data:
+  grafana-data:
+  elasticsearch-data:
+
+networks:
+  backend:
+    name: movieverse-backend

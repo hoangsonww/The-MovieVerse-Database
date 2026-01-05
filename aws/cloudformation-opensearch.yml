@@ -1,0 +1,81 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'MovieVerse OpenSearch Domain'
+
+Parameters:
+  EnvironmentName:
+    Description: Environment name prefix
+    Type: String
+    Default: movieverse-prod
+
+  VpcId:
+    Description: VPC ID
+    Type: AWS::EC2::VPC::Id
+
+  VpcCidr:
+    Description: VPC CIDR block
+    Type: String
+    Default: 10.0.0.0/16
+
+  SubnetIds:
+    Description: Private subnet IDs for OpenSearch
+    Type: List<AWS::EC2::Subnet::Id>
+
+  InstanceType:
+    Description: OpenSearch instance type
+    Type: String
+    Default: m6g.large.search
+
+  InstanceCount:
+    Description: Number of OpenSearch instances
+    Type: Number
+    Default: 2
+
+  VolumeSize:
+    Description: EBS volume size (GB)
+    Type: Number
+    Default: 50
+
+Resources:
+  OpenSearchSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: OpenSearch security group
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: !Ref VpcCidr
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName}-OpenSearch-SG
+
+  OpenSearchDomain:
+    Type: AWS::OpenSearchService::Domain
+    Properties:
+      DomainName: !Sub ${EnvironmentName}-search
+      EngineVersion: OpenSearch_2.11
+      ClusterConfig:
+        InstanceType: !Ref InstanceType
+        InstanceCount: !Ref InstanceCount
+        ZoneAwarenessEnabled: true
+      EBSOptions:
+        EBSEnabled: true
+        VolumeSize: !Ref VolumeSize
+        VolumeType: gp3
+      EncryptionAtRestOptions:
+        Enabled: true
+      NodeToNodeEncryptionOptions:
+        Enabled: true
+      DomainEndpointOptions:
+        EnforceHTTPS: true
+        TLSSecurityPolicy: Policy-Min-TLS-1-2-2019-07
+      VPCOptions:
+        SubnetIds: !Ref SubnetIds
+        SecurityGroupIds:
+          - !Ref OpenSearchSecurityGroup
+
+Outputs:
+  OpenSearchEndpoint:
+    Description: OpenSearch endpoint
+    Value: !GetAtt OpenSearchDomain.DomainEndpoint
