@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function () {
   fetchAndUpdateMostPopular();
 });
 
-function setupPagination(mainElementId, paginationContainerId, genresContainerId, baseUrl) {
+function setupPagination(mainElementId, paginationContainerId, genresContainerId, baseUrl, options = {}) {
   let currentPage = 1;
   let totalPages = 10;
 
@@ -133,10 +133,10 @@ function setupPagination(mainElementId, paginationContainerId, genresContainerId
   const fetchAndUpdate = () => {
     const timestamp = new Date().getTime();
     const urlWithPage = `${baseUrl}&page=${currentPage}&_=${timestamp}`;
-    getMovies(urlWithPage, mainElement);
+    getMovies(urlWithPage, mainElement, options);
   };
 
-  async function getMovies(url, mainElement) {
+  async function getMovies(url, mainElement, options) {
     showSpinner();
 
     try {
@@ -157,7 +157,7 @@ function setupPagination(mainElementId, paginationContainerId, genresContainerId
           return popularityDifference < popularityThreshold ? b.vote_average - a.vote_average : b.popularity - a.popularity;
         });
 
-        showMovies(allMovies.slice(0, numberOfMovies), mainElement);
+        showMovies(allMovies.slice(0, numberOfMovies), mainElement, options);
       } else {
         mainElement.innerHTML = `<p style="color: inherit;">No movies found on this page.</p>`;
       }
@@ -401,10 +401,12 @@ async function getMovies(url, mainElement, page = 1) {
   hideSpinner();
 }
 
-async function getAdditionalPosters(movieId) {
-  const response = await fetch(`https://${getMovieVerseData()}/3/movie/${movieId}/images?${generateMovieNames()}${getMovieCode()}`);
+async function getAdditionalPosters(movieId, mediaType = 'movie') {
+  const safeMediaType = mediaType === 'tv' ? 'tv' : 'movie';
+  const response = await fetch(`https://${getMovieVerseData()}/3/${safeMediaType}/${movieId}/images?${generateMovieNames()}${getMovieCode()}`);
   const data = await response.json();
-  return data.posters.map(poster => poster.file_path);
+  const posters = Array.isArray(data.posters) ? data.posters : [];
+  return posters.map(poster => poster.file_path);
 }
 
 function rotateImages(imageElements, interval = 3000) {
@@ -424,7 +426,10 @@ function rotateImages(imageElements, interval = 3000) {
   }, 0);
 }
 
-async function showMovies(movies, mainElement) {
+async function showMovies(movies, mainElement, options = {}) {
+  const mediaType = options.mediaType === 'tv' ? 'tv' : 'movie';
+  const isTv = mediaType === 'tv';
+
   mainElement.innerHTML = '';
 
   // Inject CSS for the sliding-up animation effect with delay support
@@ -470,6 +475,7 @@ async function showMovies(movies, mainElement) {
         if (entry.isIntersecting) {
           const movieEl = entry.target;
           const movieId = movieEl.dataset.id;
+          const posterMediaType = movieEl.dataset.mediaType === 'tv' ? 'tv' : 'movie';
           const movieImageContainer = movieEl.querySelector('.movie-images');
 
           // If there's no valid poster_path, do not run rotation
@@ -480,7 +486,7 @@ async function showMovies(movies, mainElement) {
           }
 
           // Fetch additional posters and set up rotation in the background
-          const additionalPosters = await getAdditionalPosters(movieId);
+          const additionalPosters = await getAdditionalPosters(movieId, posterMediaType);
           let allPosters = [movieEl.dataset.posterPath, ...additionalPosters];
 
           // Shuffle and limit to 10 posters
@@ -523,19 +529,22 @@ async function showMovies(movies, mainElement) {
   );
 
   movies.forEach((movie, index) => {
-    let { id, poster_path, title, vote_average, vote_count, overview, genre_ids } = movie;
+    let { id, poster_path, title, name, vote_average, vote_count, overview, genre_ids } = movie;
+    const fullTitle = title || name || 'Title not available';
+    let displayTitle = fullTitle;
 
     const movieEl = document.createElement('div');
     movieEl.style.zIndex = '1000';
     movieEl.classList.add('movie');
     movieEl.dataset.id = id;
     movieEl.dataset.posterPath = poster_path;
-    movieEl.dataset.title = title;
+    movieEl.dataset.title = fullTitle;
+    movieEl.dataset.mediaType = mediaType;
 
-    const words = title.split(' ');
+    const words = displayTitle.split(' ');
     if (words.length >= 8) {
       words[7] = '...';
-      title = words.slice(0, 8).join(' ');
+      displayTitle = words.slice(0, 8).join(' ');
     }
 
     const voteAvg = vote_count === 0 ? 'Unrated' : vote_average.toFixed(1);
@@ -550,7 +559,7 @@ async function showMovies(movies, mainElement) {
         <div class="movie-images" style="position: relative; width: 100%; height: 435px; overflow: hidden; display: flex; align-items: center; justify-content: center; background-color: #333;">
             ${
               typeof IMGPATH !== 'undefined' && poster_path
-                ? `<img src="${IMGPATH + poster_path}" loading="lazy" alt="${title} poster" width="150" height="225" 
+                ? `<img src="${IMGPATH + poster_path}" loading="lazy" alt="${displayTitle} poster" width="150" height="225" 
                      style="position: absolute; top: 0; left: 0; transition: opacity 1s ease-in-out; opacity: 1;" 
                      onerror="this.onerror=null; this.parentNode.innerHTML='<div style=\\'color: inherit; font-weight: bold; text-align: center;\\'>Image Not Available</div>';">`
                 : `<div style="color: inherit; font-weight: bold; text-align: center;">Image Not Available</div>`
@@ -558,7 +567,7 @@ async function showMovies(movies, mainElement) {
         </div>
     </div>
     <div class="movie-info" style="display: flex; align-items: flex-start; cursor: pointer;">
-        <h3 style="text-align: left; margin-right: 10px; flex: 1 1 auto;">${title}</h3>
+        <h3 style="text-align: left; margin-right: 10px; flex: 1 1 auto;">${displayTitle}</h3>
         <span class="${ratingClass}" style="white-space: nowrap; display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; margin-left: auto;">${voteAvg}</span>
     </div>
     <div class="overview" style="cursor: pointer;">
@@ -567,11 +576,17 @@ async function showMovies(movies, mainElement) {
     </div>`;
 
     movieEl.addEventListener('click', () => {
-      updateUniqueMoviesViewed(id);
-      updateFavoriteGenre(genre_ids);
-      updateMovieVisitCount(id, title);
-      // Navigate to movie details page with the movieId as a query parameter
-      window.location.href = `MovieVerse-Frontend/html/movie-details.html?movieId=${id}`;
+      if (!isTv) {
+        updateUniqueMoviesViewed(id);
+        updateFavoriteGenre(genre_ids);
+        updateMovieVisitCount(id, displayTitle);
+        // Navigate to movie details page with the movieId as a query parameter
+        window.location.href = `MovieVerse-Frontend/html/movie-details.html?movieId=${id}`;
+        return;
+      }
+
+      // Navigate to TV details page with the tvSeriesId as a query parameter
+      window.location.href = `MovieVerse-Frontend/html/tv-details.html?tvSeriesId=${id}`;
     });
 
     mainElement.appendChild(movieEl);
@@ -1408,7 +1423,24 @@ setupPagination(
   'tv-series',
   'tv-series-pagination',
   'tv-series-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10770&sort_by=popularity.desc&vote_count.gte=8`
+  `https://${getMovieVerseData()}/3/tv/popular?${generateMovieNames()}${getMovieCode()}`,
+  { mediaType: 'tv' }
+);
+
+setupPagination(
+  'top-rated-tv-series',
+  'top-rated-tv-series-pagination',
+  'top-rated-tv-series-div',
+  `https://${getMovieVerseData()}/3/tv/top_rated?${generateMovieNames()}${getMovieCode()}`,
+  { mediaType: 'tv' }
+);
+
+setupPagination(
+  'airing-today-tv-series',
+  'airing-today-tv-series-pagination',
+  'airing-today-tv-series-div',
+  `https://${getMovieVerseData()}/3/tv/airing_today?${generateMovieNames()}${getMovieCode()}`,
+  { mediaType: 'tv' }
 );
 
 setupPagination(
