@@ -114,6 +114,44 @@ document.addEventListener('DOMContentLoaded', function () {
   fetchAndUpdateMostPopular();
 });
 
+const API_PAGE_SIZE = 20;
+
+function sortResultsByPopularity(results) {
+  if (!Array.isArray(results)) return [];
+  const popularityThreshold = 0.5;
+  return results.slice().sort((a, b) => {
+    const popularityDifference = Math.abs(a.popularity - b.popularity);
+    return popularityDifference < popularityThreshold ? b.vote_average - a.vote_average : b.popularity - a.popularity;
+  });
+}
+
+async function fetchResultsForLocalPage(baseUrl, localPage, itemsPerPage) {
+  const offset = (localPage - 1) * itemsPerPage;
+  const startApiPage = Math.floor(offset / API_PAGE_SIZE) + 1;
+  const startIndex = offset % API_PAGE_SIZE;
+  const pagesNeeded = Math.ceil((startIndex + itemsPerPage) / API_PAGE_SIZE);
+
+  let combinedResults = [];
+  let totalResults = null;
+
+  for (let i = 0; i < pagesNeeded; i += 1) {
+    const apiPage = startApiPage + i;
+    const url = `${baseUrl}&page=${apiPage}&_=${Date.now()}`;
+    const response = await fetch(url);
+    const data = await response.json();
+    if (totalResults === null) {
+      totalResults = data.total_results ?? (data.total_pages ? data.total_pages * API_PAGE_SIZE : null);
+    }
+    const pageResults = sortResultsByPopularity(data.results || []);
+    combinedResults = combinedResults.concat(pageResults);
+  }
+
+  return {
+    results: combinedResults.slice(startIndex, startIndex + itemsPerPage),
+    totalResults,
+  };
+}
+
 function setupPagination(mainElementId, paginationContainerId, genresContainerId, baseUrl, options = {}) {
   let currentPage = 1;
   let totalPages = 10;
@@ -131,33 +169,22 @@ function setupPagination(mainElementId, paginationContainerId, genresContainerId
   }
 
   const fetchAndUpdate = () => {
-    const timestamp = new Date().getTime();
-    const urlWithPage = `${baseUrl}&page=${currentPage}&_=${timestamp}`;
-    getMovies(urlWithPage, mainElement, options);
+    getMovies(baseUrl, mainElement, currentPage, options);
   };
 
-  async function getMovies(url, mainElement, options) {
+  async function getMovies(url, mainElement, page, options) {
     showSpinner();
 
     try {
-      const response = await fetch(url);
-      const data = await response.json();
+      const numberOfMovies = calculateMoviesToDisplay();
+      const { results, totalResults } = await fetchResultsForLocalPage(url, page, numberOfMovies);
 
-      if (data.total_pages) {
-        totalPages = Math.min(data.total_pages, 250);
+      if (totalResults) {
+        totalPages = Math.min(Math.ceil(totalResults / numberOfMovies), 250);
       }
 
-      if (data.results.length > 0) {
-        let allMovies = data.results;
-        const popularityThreshold = 0.5;
-        const numberOfMovies = calculateMoviesToDisplay();
-
-        allMovies.sort((a, b) => {
-          const popularityDifference = Math.abs(a.popularity - b.popularity);
-          return popularityDifference < popularityThreshold ? b.vote_average - a.vote_average : b.popularity - a.popularity;
-        });
-
-        showMovies(allMovies.slice(0, numberOfMovies), mainElement, options);
+      if (results.length > 0) {
+        showMovies(results, mainElement, options);
       } else {
         mainElement.innerHTML = `<p style="color: inherit;">No movies found on this page.</p>`;
       }
@@ -809,31 +836,23 @@ document.addEventListener('DOMContentLoaded', async () => {
   window.addEventListener('resize', movePagination);
 });
 
-async function getMovies(url, mainElement, page = 1) {
+async function getMovies(url, mainElement, page = 1, options = {}) {
   showSpinner();
 
-  url += `&page=${page}`;
   const numberOfMovies = calculateMoviesToDisplay();
-  let allMovies = [];
-  const response = await fetch(url);
-  const data = await response.json();
-  const popularityThreshold = 0.5;
-  allMovies = allMovies.concat(data.results);
-  allMovies.sort((a, b) => {
-    const popularityDifference = Math.abs(a.popularity - b.popularity);
-    if (popularityDifference < popularityThreshold) {
-      return b.vote_average - a.vote_average;
+  try {
+    const { results } = await fetchResultsForLocalPage(url, page, numberOfMovies);
+    if (results.length > 0) {
+      showMovies(results, mainElement, options);
+    } else {
+      mainElement.innerHTML = `<p>We're having trouble fetching movies right now. Please try again later.</p>`;
     }
-    return b.popularity - a.popularity;
-  });
-
-  if (allMovies.length > 0) {
-    showMovies(allMovies.slice(0, numberOfMovies), mainElement);
-  } else {
+  } catch (error) {
+    console.log('Error fetching data: ', error);
     mainElement.innerHTML = `<p>We're having trouble fetching movies right now. Please try again later.</p>`;
+  } finally {
+    hideSpinner();
   }
-
-  hideSpinner();
 }
 
 async function getAdditionalPosters(movieId, mediaType = 'movie') {
