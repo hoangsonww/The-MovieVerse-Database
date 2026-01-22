@@ -836,6 +836,28 @@ document.addEventListener('DOMContentLoaded', async () => {
   window.addEventListener('resize', movePagination);
 });
 
+document.addEventListener('DOMContentLoaded', () => {
+  const directorPagination = document.getElementById('director-spotlight-pagination');
+  const directorHeader = document.getElementById('director-spotlight-header');
+  const directorTitleRow = document.getElementById('director-spotlight-title-row');
+  const directorMain = document.getElementById('director-spotlight');
+
+  if (!directorPagination || !directorHeader || !directorMain || !directorTitleRow) {
+    return;
+  }
+
+  function moveDirectorPagination() {
+    if (window.innerWidth <= 767) {
+      directorMain.parentNode.insertBefore(directorPagination, directorMain);
+    } else {
+      directorTitleRow.appendChild(directorPagination);
+    }
+  }
+
+  moveDirectorPagination();
+  window.addEventListener('resize', moveDirectorPagination);
+});
+
 async function getMovies(url, mainElement, page = 1, options = {}) {
   showSpinner();
 
@@ -1505,6 +1527,8 @@ const directors = [
 ];
 
 let currentDirectorIndex = 0;
+let currentDirectorPage = 1;
+let directorTotalPages = 1;
 updateDirectorSpotlight();
 
 function changeDirector() {
@@ -1513,6 +1537,7 @@ function changeDirector() {
   if (currentDirectorIndex >= directors.length) {
     currentDirectorIndex = 0;
   }
+  currentDirectorPage = 1;
   updateDirectorSpotlight();
 }
 
@@ -1525,7 +1550,7 @@ function updateDirectorSpotlight() {
   const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_people=${
     director.id
   }&sort_by=popularity.desc&sort_by=vote_average.desc`;
-  getDirectorSpotlight(url);
+  getDirectorSpotlight(url, currentDirectorPage);
 }
 
 function getMovieVerseData(input) {
@@ -1540,16 +1565,38 @@ function getMovieCode() {
   return atob(movieCode.part1) + atob(movieCode.part2) + atob(movieCode.part3);
 }
 
-async function getDirectorSpotlight(url) {
+async function getDirectorSpotlight(url, page = 1) {
+  showSpinner();
   const numberOfMovies = calculateMoviesToDisplay();
-  const resp = await fetch(url);
-  const respData = await resp.json();
-  let allMovies = [];
+  try {
+    const { results, totalResults } = await fetchResultsForLocalPage(url, page, numberOfMovies);
 
-  if (respData.results.length > 0) {
-    allMovies = respData.results.slice(0, numberOfMovies);
-    showMoviesDirectorSpotlight(allMovies);
+    if (totalResults) {
+      directorTotalPages = Math.min(Math.ceil(totalResults / numberOfMovies), 250);
+    } else {
+      directorTotalPages = 1;
+    }
+
+    if (results.length > 0) {
+      showMoviesDirectorSpotlight(results);
+    } else {
+      director_main.innerHTML = `<p style="color: inherit;">No movies found for this director.</p>`;
+    }
+
+    updateDirectorPagination();
+  } finally {
+    hideSpinner();
   }
+}
+
+function updateDirectorPagination() {
+  const paginationContainer = document.getElementById('director-spotlight-pagination');
+  if (!paginationContainer) return;
+
+  updatePaginationDisplay(paginationContainer, currentDirectorPage, directorTotalPages, pageNum => {
+    currentDirectorPage = pageNum;
+    updateDirectorSpotlight();
+  });
 }
 
 async function showMoviesDirectorSpotlight(movies) {

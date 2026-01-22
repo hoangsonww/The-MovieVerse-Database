@@ -3102,6 +3102,61 @@ strong {
   transform: translateY(-2px);
 }
 
+.director-spotlight-header {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.director-spotlight-title-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.change-director-btn {
+  align-self: center;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition:
+    transform 0.15s ease,
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.change-director-btn:hover {
+  background: rgba(255, 134, 35, 0.25);
+  border-color: rgba(255, 134, 35, 0.6);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 767px) {
+  .director-spotlight-header {
+    align-items: flex-start;
+  }
+
+  .change-director-btn {
+    margin-top: 0;
+  }
+}
+
 .content-disclaimer {
   margin: 24px auto 28px;
   max-width: 1200px;

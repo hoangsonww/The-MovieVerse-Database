@@ -1150,15 +1150,16 @@
     <script>
       (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
-    <div class="genres" style="display: flex; justify-content: space-between; align-items: center">
-      <h2 id="director-spotlight-title" style="cursor: pointer">
-        Director's Spotlight:
-        <span id="spotlight-director-name">Alfred Hitchcock</span>
-      </h2>
-      <button id="change-director-btn" onclick="changeDirector()" style="padding: 5px 10px; margin-right: 10px; margin-top: 25px; cursor: pointer">
-        Change Director
-      </button>
+    <div class="genres director-spotlight-header" id="director-spotlight-header">
+      <div class="director-spotlight-title-row" id="director-spotlight-title-row">
+        <h2 id="director-spotlight-title" style="cursor: pointer">
+          Director's Spotlight:
+          <span id="spotlight-director-name">Alfred Hitchcock</span>
+        </h2>
+      </div>
+      <button id="change-director-btn" class="change-director-btn" onclick="changeDirector()" title="Load another director">Change Director</button>
     </div>
+    <div id="director-spotlight-pagination" class="pagination" style="text-align: center"></div>
     <main id="director-spotlight"></main>
     <div
       id="ad-container3"
