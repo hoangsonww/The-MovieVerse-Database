@@ -188,6 +188,16 @@ function updateMovieVisitCount(movieId, movieTitle) {
   localStorage.setItem('movieVisits', JSON.stringify(movieVisits));
 }
 
+function updateTvSeriesVisitCount(tvSeriesId, tvSeriesTitle) {
+  let tvSeriesVisits = JSON.parse(localStorage.getItem('tvSeriesVisits')) || {};
+
+  if (!tvSeriesVisits[tvSeriesId]) {
+    tvSeriesVisits[tvSeriesId] = { count: 0, title: tvSeriesTitle };
+  }
+  tvSeriesVisits[tvSeriesId].count += 1;
+  localStorage.setItem('tvSeriesVisits', JSON.stringify(tvSeriesVisits));
+}
+
 function getMostVisitedDirector() {
   const directorVisits = JSON.parse(localStorage.getItem('directorVisits')) || {};
   let mostVisitedDirector = '';
@@ -571,6 +581,7 @@ async function fetchTvDetails(tvSeriesId) {
     });
 
     const tvSeriesDetails = await tvDetailsPromise;
+    updateTvSeriesVisitCount(tvSeriesDetails.id, tvSeriesDetails.name || tvSeriesDetails.original_name || 'TV Series');
     const imdbId = tvSeriesDetails.external_ids?.imdb_id;
 
     // Start loading page with basic info immediately
@@ -1071,17 +1082,17 @@ async function populateTvSeriesDetails(tvSeries, imdbRating, rated) {
         tvSeries.production_companies && tvSeries.production_companies.length > 0
           ? `
       <div style="background: linear-gradient(135deg, rgba(0,188,212,0.1) 0%, rgba(0,188,212,0.05) 100%); backdrop-filter: blur(10px); border-radius: 20px; padding: 20px; border: 1px solid rgba(0,188,212,0.3);">
-        <h3 style="margin: 0 0 15px 0; color: #00bcd4; font-size: 16px;">Production Companies</h3>
+        <h3 style="margin: 0 0 15px 0; color: #00bcd4; font-size: 16px;">Studio Credits</h3>
         <div style="display: flex; flex-direction: column; gap: 10px;">
           ${tvSeries.production_companies
             .slice(0, 4)
             .map(
               company => `
-          <div style="display: flex; align-items: center; gap: 10px; padding: 8px; background: rgba(255,255,255,0.05); border-radius: 10px;">
+          <div style="display: flex; align-items: center; gap: 10px; padding: 8px; background: rgba(255,255,255,0.05); border-radius: 10px; cursor: pointer; transition: background 0.2s ease;" onclick="selectCompanyId(${company.id});" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">
             ${
               company.logo_path
-                ? `<img src="${IMGPATH}${company.logo_path}" style="height: 25px; width: auto; background: white; padding: 3px; border-radius: 4px;" alt="${company.name}">`
-                : `<div style="width: 25px; height: 25px; background: rgba(255,255,255,0.1); border-radius: 4px; display: flex; align-items: center; justify-content: center;"><span style="font-size: 10px; color: rgba(255,255,255,0.4);">N/A</span></div>`
+                ? `<img src="${IMGPATH}${company.logo_path}" style="height: 25px; width: auto; background: white; padding: 3px; border-radius: 4px; flex-shrink: 0;" alt="${company.name}">`
+                : `<div style="width: 28px; height: 28px; background: rgba(255,255,255,0.08); border: 1px dashed rgba(255,255,255,0.25); border-radius: 6px; display: flex; align-items: center; justify-content: center; padding: 2px; box-sizing: border-box; flex-shrink: 0;"><span style="font-size: 14px; font-weight: 700; color: rgba(255,255,255,0.65); line-height: 1;">?</span></div>`
             }
             <div style="flex: 1;">
               <div style="color: #fff; font-size: 14px; font-weight: 500;">${company.name}</div>
@@ -1273,7 +1284,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating, rated) {
         <div style="display: flex; gap: 16px; align-items: flex-start; flex-wrap: wrap;">
           ${
             lastEpisode.still_path
-              ? `<img src="${IMGPATH + lastEpisode.still_path}" alt="${lastEpisode.name || 'Episode'} Still Image" id="last-episode-image" style="border-radius: 12px; max-width: 320px; width: 100%; height: auto; object-fit: contain;" />`
+              ? `<img src="${IMGPATH + lastEpisode.still_path}" alt="${lastEpisode.name || 'Episode'} Still Image" id="last-episode-image" style="border-radius: 12px; max-width: 320px; width: 100%; height: auto; object-fit: contain; cursor: pointer;" />`
               : ''
           }
           <div style="flex: 1; min-width: 240px;">

@@ -538,7 +538,7 @@
         position: fixed;
         left: 10px;
         bottom: 10px;
-        z-index: 1000000;
+        z-index: 100000001;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         border-radius: 8px;
       }
@@ -549,7 +549,7 @@
           bottom: 70px;
           position: fixed;
           left: 10px;
-          z-index: 1000000;
+          z-index: 100000001;
         }
       }
 
@@ -1070,17 +1070,19 @@
     <script>
       (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
-    <div class="genres" id="recommendedDIV">
-      <h2
-        id="other"
-        style="cursor: pointer"
-        title="Here are some personalized movie suggestions we've generated based on your preferences! Check them out, and let us know what you think!"
-      >
-        Recommended For You: Personalized Movie Suggestions
-      </h2>
-    </div>
-    <div id="recommended-pagination" class="pagination" style="text-align: center"></div>
-    <main id="recommended"></main>
+    <section id="recommended" class="recommendations-shell">
+      <div class="genres recommendations-header" id="recommendedDIV">
+        <div class="recommendations-title">
+          <h2 id="other" style="cursor: pointer" title="Personalized picks that blend movies and TV series into one curated stream.">
+            Recommendations: Curated for Your Taste
+          </h2>
+          <p class="recommendations-subtitle">A single, curated stream of movies and TV series tailored to your on-site activity.</p>
+        </div>
+      </div>
+      <div id="recommended-pagination" class="pagination recommendations-pagination"></div>
+      <div id="recommended-empty" class="recommendations-empty" hidden></div>
+      <main id="recommended-list" class="recommendations-list"></main>
+    </section>
     <div
       id="ad-container"
       style="
@@ -1681,7 +1683,22 @@
 
       document.querySelector('.translate-trigger').addEventListener('click', function () {
         const translateEl = document.getElementById('google_translate_element');
-        translateEl.style.display = translateEl.style.display === 'block' ? 'none' : 'block';
+        const isVisible = translateEl.style.display === 'block';
+        translateEl.style.display = isVisible ? 'none' : 'block';
+
+        if (!isVisible) {
+          const helperId = 'translate-helper-text';
+          if (!translateEl.querySelector('#' + helperId)) {
+            const helper = document.createElement('div');
+            helper.id = helperId;
+            helper.textContent = 'If the menu is blank, wait a few seconds. If it still does not load, reload the page and try again.';
+            helper.style.marginTop = '6px';
+            helper.style.fontSize = '11px';
+            helper.style.lineHeight = '1.3';
+            helper.style.opacity = '0.9';
+            translateEl.appendChild(helper);
+          }
+        }
       });
 
       document.addEventListener('DOMContentLoaded', function () {

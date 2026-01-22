@@ -2922,6 +2922,245 @@ strong {
   text-align: center;
 }
 
+.recommendations-shell {
+  margin: 32px auto 24px;
+  padding: 26px 24px 22px;
+  border-radius: 24px;
+  background: radial-gradient(circle at top left, rgba(255, 134, 35, 0.18), transparent 48%),
+    linear-gradient(160deg, rgba(21, 28, 48, 0.75), rgba(8, 10, 20, 0.9));
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+}
+
+.recommendations-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+  width: 100%;
+}
+
+.recommendations-title {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  flex: 1 1 auto;
+  min-width: 240px;
+}
+
+.recommendations-title h2 {
+  margin: 0;
+  color: inherit;
+  font-size: 1.5rem;
+  letter-spacing: 0.3px;
+}
+
+.recommendations-subtitle {
+  margin: -2px 0 0 0;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.98rem;
+  text-align: left;
+}
+
+.recommendations-pagination {
+  margin: 0;
+  padding: 6px 8px;
+}
+
+.recommendations-list {
+  margin-top: 6px;
+}
+
+.recommendations-empty {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 22px 24px;
+  border-radius: 18px;
+  background: linear-gradient(140deg, rgba(255, 134, 35, 0.18), rgba(10, 12, 24, 0.5));
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.9);
+  margin: 14px 0 8px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.3);
+}
+
+.recommendations-empty-icon {
+  font-size: 20px;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: rgba(255, 134, 35, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffdc88;
+  font-weight: 700;
+  box-shadow: 0 8px 20px rgba(255, 134, 35, 0.3);
+}
+
+.recommendations-empty h4 {
+  margin: 0 0 4px 0;
+  color: #fff;
+  font-size: 1.05rem;
+}
+
+.recommendations-empty p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.95rem;
+  text-align: left;
+}
+
+.recommendations-empty::before {
+  content: '';
+  position: absolute;
+  top: -40px;
+  right: -30px;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 220, 136, 0.35), transparent 70%);
+  opacity: 0.8;
+}
+
+.recommendations-empty::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  width: 100%;
+  background: linear-gradient(90deg, rgba(255, 134, 35, 0.8), transparent);
+  opacity: 0.6;
+}
+
+.recommendations-empty-copy {
+  flex: 1;
+}
+
+.recommendations-empty-steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.recommendations-empty-step {
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.84rem;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.recommendations-empty-step span {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.recommendations-empty-step strong {
+  font-weight: 600;
+}
+
+.recommendations-empty-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+.recommendations-empty-actions a {
+  padding: 8px 14px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  transition:
+    transform 0.15s ease,
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.recommendations-empty-actions a:hover {
+  background: rgba(255, 134, 35, 0.25);
+  border-color: rgba(255, 134, 35, 0.5);
+  transform: translateY(-2px);
+}
+
+.content-disclaimer {
+  margin: 24px auto 28px;
+  max-width: 1200px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(255, 134, 35, 0.12), rgba(0, 0, 0, 0.25));
+  border: 1px solid rgba(255, 134, 35, 0.35);
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  color: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+}
+
+.content-disclaimer-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(255, 134, 35, 0.25);
+  color: #ffdc88;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+
+.content-disclaimer h4 {
+  margin: 0;
+  font-size: 1rem;
+  color: #ffdc88;
+}
+
+.content-disclaimer p {
+  margin: 4px 0 0 0;
+  font-size: 0.92rem;
+  color: rgba(255, 255, 255, 0.75);
+  text-align: left;
+}
+
+@media all and (max-width: 700px) {
+  .content-disclaimer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media all and (max-width: 700px) {
+  .recommendations-empty {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .recommendations-empty p {
+    text-align: left;
+  }
+}
+
 @media all and (max-width: 767px) {
   .genres + main + .pagination {
     text-align: center;

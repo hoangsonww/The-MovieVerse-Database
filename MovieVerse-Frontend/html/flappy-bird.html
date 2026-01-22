@@ -443,7 +443,22 @@
 
       document.querySelector('.translate-trigger').addEventListener('click', function () {
         const translateEl = document.getElementById('google_translate_element');
-        translateEl.style.display = translateEl.style.display === 'block' ? 'none' : 'block';
+        const isVisible = translateEl.style.display === 'block';
+        translateEl.style.display = isVisible ? 'none' : 'block';
+
+        if (!isVisible) {
+          const helperId = 'translate-helper-text';
+          if (!translateEl.querySelector('#' + helperId)) {
+            const helper = document.createElement('div');
+            helper.id = helperId;
+            helper.textContent = 'If the menu is blank, wait a few seconds. If it still does not load, reload the page and try again.';
+            helper.style.marginTop = '6px';
+            helper.style.fontSize = '11px';
+            helper.style.lineHeight = '1.3';
+            helper.style.opacity = '0.9';
+            translateEl.appendChild(helper);
+          }
+        }
       });
 
       document.addEventListener('DOMContentLoaded', function () {

@@ -260,117 +260,552 @@ function setupPagination(mainElementId, paginationContainerId, genresContainerId
   }, 0);
 }
 
-async function fetchAndDisplayMovies(url, count, mainElement) {
+async function fetchDiscoverResults(url) {
   const response = await fetch(`${url}`);
   const data = await response.json();
-  const movies = data.results.slice(0, count);
+  return Array.isArray(data.results) ? data.results : [];
+}
 
-  movies.sort(() => Math.random() - 0.5);
-  showMovies(movies, mainElement);
+function getStoredObject(key) {
+  try {
+    return JSON.parse(localStorage.getItem(key)) || {};
+  } catch (error) {
+    console.log('Error parsing localStorage for', key, error);
+    return {};
+  }
+}
+
+function getStoredArray(key) {
+  try {
+    return JSON.parse(localStorage.getItem(key)) || [];
+  } catch (error) {
+    console.log('Error parsing localStorage for', key, error);
+    return [];
+  }
+}
+
+function getGenreCache(cacheKey) {
+  return getStoredObject(cacheKey);
+}
+
+function setGenreCache(cacheKey, cache) {
+  try {
+    localStorage.setItem(cacheKey, JSON.stringify(cache));
+  } catch (error) {
+    console.log('Error saving genre cache', cacheKey, error);
+  }
+}
+
+async function fetchGenresForMovie(movieId) {
+  const movieDetailsUrl = `https://${getMovieVerseData()}/3/movie/${movieId}?${generateMovieNames()}${getMovieCode()}`;
+  const response = await fetch(movieDetailsUrl);
+  const movieDetails = await response.json();
+  return Array.isArray(movieDetails.genres) ? movieDetails.genres.map(genre => genre.id) : [];
+}
+
+async function fetchGenresForTvSeries(tvSeriesId) {
+  const tvDetailsUrl = `https://${getMovieVerseData()}/3/tv/${tvSeriesId}?${generateMovieNames()}${getMovieCode()}`;
+  const response = await fetch(tvDetailsUrl);
+  const tvDetails = await response.json();
+  return Array.isArray(tvDetails.genres) ? tvDetails.genres.map(genre => genre.id) : [];
+}
+
+async function getGenresWithCache(mediaType, mediaId) {
+  const cacheKey = mediaType === 'tv' ? 'tvGenreCache' : 'movieGenreCache';
+  const cache = getGenreCache(cacheKey);
+  const cacheId = String(mediaId);
+
+  if (cache[cacheId]) {
+    return cache[cacheId];
+  }
+
+  const genres = mediaType === 'tv' ? await fetchGenresForTvSeries(mediaId) : await fetchGenresForMovie(mediaId);
+  cache[cacheId] = genres;
+  setGenreCache(cacheKey, cache);
+  return genres;
+}
+
+function addGenreWeights(weights, genres, weight) {
+  genres.forEach(genreId => {
+    if (!genreId) return;
+    const key = String(genreId);
+    weights[key] = (weights[key] || 0) + weight;
+  });
+}
+
+function getTopEntriesByValue(items, limit = 6) {
+  return Object.entries(items)
+    .sort((a, b) => (b[1]?.count || b[1]) - (a[1]?.count || a[1]))
+    .slice(0, limit);
+}
+
+async function buildGenreWeightsForMovies() {
+  const weights = {};
+  const favoriteGenres = getStoredArray('favoriteGenres');
+  favoriteGenres.forEach(genreId => addGenreWeights(weights, [genreId], 2));
+
+  const movieVisits = getStoredObject('movieVisits');
+  const topVisited = getTopEntriesByValue(movieVisits, 6);
+  for (const [movieId, visitData] of topVisited) {
+    const genres = await getGenresWithCache('movie', movieId);
+    const weight = Math.min(visitData.count || 1, 5) + 1;
+    addGenreWeights(weights, genres, weight);
+  }
+
+  const moviesFavorited = getStoredArray('moviesFavorited').slice(0, 8);
+  for (const movieId of moviesFavorited) {
+    const genres = await getGenresWithCache('movie', movieId);
+    addGenreWeights(weights, genres, 4);
+  }
+
+  const movieRatings = getStoredObject('movieRatings');
+  const topRated = Object.entries(movieRatings)
+    .filter(([, rating]) => Number(rating) >= 4)
+    .sort((a, b) => Number(b[1]) - Number(a[1]))
+    .slice(0, 6);
+  for (const [movieId, rating] of topRated) {
+    const genres = await getGenresWithCache('movie', movieId);
+    addGenreWeights(weights, genres, Number(rating));
+  }
+
+  return weights;
+}
+
+async function buildGenreWeightsForTvSeries() {
+  const weights = {};
+  const favoritesTVSeries = getStoredArray('favoritesTVSeries').slice(0, 8);
+  for (const tvSeriesId of favoritesTVSeries) {
+    const genres = await getGenresWithCache('tv', tvSeriesId);
+    addGenreWeights(weights, genres, 4);
+  }
+
+  const tvSeriesVisits = getStoredObject('tvSeriesVisits');
+  const topVisited = getTopEntriesByValue(tvSeriesVisits, 6);
+  for (const [tvSeriesId, visitData] of topVisited) {
+    const genres = await getGenresWithCache('tv', tvSeriesId);
+    const weight = Math.min(visitData.count || 1, 5) + 1;
+    addGenreWeights(weights, genres, weight);
+  }
+
+  const tvSeriesRatings = getStoredObject('tvSeriesRatings');
+  const topRated = Object.entries(tvSeriesRatings)
+    .filter(([, rating]) => Number(rating) >= 4)
+    .sort((a, b) => Number(b[1]) - Number(a[1]))
+    .slice(0, 6);
+  for (const [tvSeriesId, rating] of topRated) {
+    const genres = await getGenresWithCache('tv', tvSeriesId);
+    addGenreWeights(weights, genres, Number(rating));
+  }
+
+  const movieGenreSignals = getStoredArray('favoriteGenres');
+  movieGenreSignals.forEach(genreId => addGenreWeights(weights, [genreId], 1));
+
+  return weights;
+}
+
+function getTopGenresFromWeights(weights, limit = 3) {
+  return Object.entries(weights)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, limit)
+    .map(([genreId]) => genreId)
+    .filter(Boolean);
+}
+
+function collectExcludedIds(mediaType) {
+  const excluded = new Set();
+  if (mediaType === 'tv') {
+    getStoredArray('favoritesTVSeries').forEach(id => excluded.add(String(id)));
+    Object.keys(getStoredObject('tvSeriesRatings')).forEach(id => excluded.add(String(id)));
+    Object.keys(getStoredObject('tvSeriesVisits')).forEach(id => excluded.add(String(id)));
+    return excluded;
+  }
+
+  getStoredArray('moviesFavorited').forEach(id => excluded.add(String(id)));
+  Object.keys(getStoredObject('movieVisits')).forEach(id => excluded.add(String(id)));
+  getStoredArray('uniqueMoviesViewed').forEach(id => excluded.add(String(id)));
+  Object.keys(getStoredObject('movieRatings')).forEach(id => excluded.add(String(id)));
+  return excluded;
+}
+
+async function fetchRecommendationsByGenres(genreIds, mediaType, pageNum, limit) {
+  const safeMediaType = mediaType === 'tv' ? 'tv' : 'movie';
+  const excludedIds = collectExcludedIds(safeMediaType);
+  const urls = genreIds.map(
+    genreId =>
+      `https://${getMovieVerseData()}/3/discover/${safeMediaType}?${generateMovieNames()}${getMovieCode()}&with_genres=${genreId}&sort_by=popularity.desc&vote_count.gte=10&page=${pageNum}`
+  );
+
+  const results = await Promise.all(urls.map(fetchDiscoverResults));
+  const merged = results.flat().filter(item => !excludedIds.has(String(item.id)));
+  const dedupedMap = new Map();
+
+  merged.forEach(item => {
+    if (!dedupedMap.has(item.id)) {
+      dedupedMap.set(item.id, item);
+    }
+  });
+
+  const deduped = Array.from(dedupedMap.values());
+  deduped.sort(() => Math.random() - 0.5);
+  return deduped.slice(0, limit);
+}
+
+function renderRecommendationsEmptyState() {
+  return `
+    <div
+      class="recommendations-empty"
+      style="
+        display: flex;
+        gap: 18px;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 22px 24px;
+        border-radius: 18px;
+        background: linear-gradient(140deg, rgba(255, 134, 35, 0.18), rgba(10, 12, 24, 0.5));
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: rgba(255, 255, 255, 0.9);
+        margin: 22px 0 16px;
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.3);
+        position: relative;
+        overflow: hidden;
+      "
+    >
+      <div
+        style="
+          font-size: 20px;
+          width: 48px;
+          height: 48px;
+          border-radius: 14px;
+          background: rgba(255, 134, 35, 0.35);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #ffdc88;
+          font-weight: 700;
+          box-shadow: 0 8px 20px rgba(255, 134, 35, 0.3);
+        "
+      >
+        ★
+      </div>
+      <div style="flex: 1;">
+        <h4 style="margin: 0 0 4px 0; color: #fff; font-size: 1.05rem;">No recommendations yet</h4>
+        <p style="margin: 0; color: rgba(255, 255, 255, 0.75); font-size: 0.95rem; text-align: left;">
+          Give us a few signals and we’ll build a mix that fits your taste.
+        </p>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px;">
+          <div
+            style="
+              padding: 8px 12px;
+              border-radius: 999px;
+              background: rgba(255, 255, 255, 0.08);
+              border: 1px solid rgba(255, 255, 255, 0.2);
+              display: flex;
+              gap: 8px;
+              align-items: center;
+              color: rgba(255, 255, 255, 0.85);
+              font-size: 0.84rem;
+              text-transform: uppercase;
+              letter-spacing: 0.4px;
+            "
+          >
+            <span style="font-size: 0.72rem; color: rgba(255, 255, 255, 0.65);">01</span>
+            <strong>Visit a movie or TV series</strong>
+          </div>
+          <div
+            style="
+              padding: 8px 12px;
+              border-radius: 999px;
+              background: rgba(255, 255, 255, 0.08);
+              border: 1px solid rgba(255, 255, 255, 0.2);
+              display: flex;
+              gap: 8px;
+              align-items: center;
+              color: rgba(255, 255, 255, 0.85);
+              font-size: 0.84rem;
+              text-transform: uppercase;
+              letter-spacing: 0.4px;
+            "
+          >
+            <span style="font-size: 0.72rem; color: rgba(255, 255, 255, 0.65);">02</span>
+            <strong>Rate a title</strong>
+          </div>
+          <div
+            style="
+              padding: 8px 12px;
+              border-radius: 999px;
+              background: rgba(255, 255, 255, 0.08);
+              border: 1px solid rgba(255, 255, 255, 0.2);
+              display: flex;
+              gap: 8px;
+              align-items: center;
+              color: rgba(255, 255, 255, 0.85);
+              font-size: 0.84rem;
+              text-transform: uppercase;
+              letter-spacing: 0.4px;
+            "
+          >
+            <span style="font-size: 0.72rem; color: rgba(255, 255, 255, 0.65);">03</span>
+            <strong>Favorite a movie/TV series</strong>
+          </div>
+          <div
+            style="
+              padding: 8px 12px;
+              border-radius: 999px;
+              background: rgba(255, 255, 255, 0.08);
+              border: 1px solid rgba(255, 255, 255, 0.2);
+              display: flex;
+              gap: 8px;
+              align-items: center;
+              color: rgba(255, 255, 255, 0.85);
+              font-size: 0.84rem;
+              text-transform: uppercase;
+              letter-spacing: 0.4px;
+            "
+          >
+            <span style="font-size: 0.72rem; color: rgba(255, 255, 255, 0.65);">04</span>
+            <strong>Explore a category</strong>
+          </div>
+        </div>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px;">
+          <a
+            href="#most-popular"
+            style="
+              padding: 8px 14px;
+              border-radius: 12px;
+              background: rgba(255, 255, 255, 0.12);
+              color: #fff;
+              text-decoration: none;
+              border: 1px solid rgba(255, 255, 255, 0.2);
+              font-size: 0.78rem;
+              font-weight: 600;
+              text-transform: uppercase;
+              letter-spacing: 0.4px;
+              display: inline-flex;
+              align-items: center;
+              gap: 6px;
+              transition: transform 0.15s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+            "
+            onmouseover="this.style.transform='translateY(-2px)';this.style.background='rgba(255,134,35,0.3)';this.style.borderColor='rgba(255,134,35,0.6)';this.style.boxShadow='0 10px 18px rgba(0,0,0,0.25)'"
+            onmouseout="this.style.transform='translateY(0)';this.style.background='rgba(255,255,255,0.12)';this.style.borderColor='rgba(255,255,255,0.2)';this.style.boxShadow='none'"
+          >
+            <span style="font-size: 0.9rem;">→</span>
+            Popular Movies
+          </a>
+          <a
+            href="#tv-series"
+            style="
+              padding: 8px 14px;
+              border-radius: 12px;
+              background: rgba(255, 255, 255, 0.12);
+              color: #fff;
+              text-decoration: none;
+              border: 1px solid rgba(255, 255, 255, 0.2);
+              font-size: 0.78rem;
+              font-weight: 600;
+              text-transform: uppercase;
+              letter-spacing: 0.4px;
+              display: inline-flex;
+              align-items: center;
+              gap: 6px;
+              transition: transform 0.15s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+            "
+            onmouseover="this.style.transform='translateY(-2px)';this.style.background='rgba(255,134,35,0.3)';this.style.borderColor='rgba(255,134,35,0.6)';this.style.boxShadow='0 10px 18px rgba(0,0,0,0.25)'"
+            onmouseout="this.style.transform='translateY(0)';this.style.background='rgba(255,255,255,0.12)';this.style.borderColor='rgba(255,255,255,0.2)';this.style.boxShadow='none'"
+          >
+            <span style="font-size: 0.9rem;">→</span>
+            Popular TV
+          </a>
+          <a
+            href="#award-winning"
+            style="
+              padding: 8px 14px;
+              border-radius: 12px;
+              background: rgba(255, 255, 255, 0.12);
+              color: #fff;
+              text-decoration: none;
+              border: 1px solid rgba(255, 255, 255, 0.2);
+              font-size: 0.78rem;
+              font-weight: 600;
+              text-transform: uppercase;
+              letter-spacing: 0.4px;
+              display: inline-flex;
+              align-items: center;
+              gap: 6px;
+              transition: transform 0.15s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+            "
+            onmouseover="this.style.transform='translateY(-2px)';this.style.background='rgba(255,134,35,0.3)';this.style.borderColor='rgba(255,134,35,0.6)';this.style.boxShadow='0 10px 18px rgba(0,0,0,0.25)'"
+            onmouseout="this.style.transform='translateY(0)';this.style.background='rgba(255,255,255,0.12)';this.style.borderColor='rgba(255,255,255,0.2)';this.style.boxShadow='none'"
+          >
+            <span style="font-size: 0.9rem;">→</span>
+            Award-Winning
+          </a>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function updatePaginationDisplay(container, currentPage, totalPages, onPageChange) {
+  container.innerHTML = '';
+
+  const prevButton = createNavigationButton('<', currentPage > 1, () => onPageChange(currentPage - 1));
+  container.appendChild(prevButton);
+
+  let startPage = Math.max(currentPage - 2, 1);
+  let endPage = Math.min(startPage + 4, totalPages);
+
+  if (endPage === totalPages) startPage = Math.max(endPage - 4, 1);
+
+  if (startPage > 1) {
+    container.appendChild(createPageButton(1, onPageChange));
+    if (startPage > 2) container.appendChild(createPageButton('...'));
+  }
+
+  for (let i = startPage; i <= endPage; i++) {
+    container.appendChild(createPageButton(i, onPageChange, i === currentPage));
+  }
+
+  if (endPage < totalPages) {
+    if (endPage < totalPages - 1) container.appendChild(createPageButton('...'));
+    container.appendChild(createPageButton(totalPages, onPageChange));
+  }
+
+  const nextButton = createNavigationButton('>', currentPage < totalPages, () => onPageChange(currentPage + 1));
+  container.appendChild(nextButton);
+}
+
+function createNavigationButton(text, enabled, clickHandler) {
+  const button = document.createElement('button');
+  button.innerHTML = text;
+  button.disabled = !enabled;
+  button.className = 'nav-button';
+  if (enabled) {
+    button.addEventListener('click', clickHandler);
+  }
+  return button;
+}
+
+function createPageButton(pageNum, fetchFunction, isActive) {
+  const button = document.createElement('button');
+  button.textContent = pageNum;
+  button.className = 'page-button' + (isActive ? ' active' : '');
+
+  if (pageNum !== '...') {
+    button.addEventListener('click', () => fetchFunction(pageNum));
+  } else {
+    button.disabled = true;
+  }
+
+  return button;
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
   let currentPageRecommended = 1;
   const totalPagesRecommended = 60;
-  const recommendedMain = document.getElementById('recommended');
-  const paginationContainerRecommended = document.getElementById('recommended-pagination');
-  const genresContainer = document.getElementById('recommendedDIV');
+  let recommendationSpinnerCount = 0;
+  const recommendedMain = document.getElementById('recommended-list');
+  const paginationContainer = document.getElementById('recommended-pagination');
+  const emptyState = document.getElementById('recommended-empty');
+  const recommendedHeader = document.getElementById('recommendedDIV');
 
-  function movePagination() {
-    if (window.innerWidth <= 767) {
-      recommendedMain.parentNode.insertBefore(paginationContainerRecommended, recommendedMain);
-    } else {
-      genresContainer.appendChild(paginationContainerRecommended);
+  if (!recommendedMain || !paginationContainer || !emptyState || !recommendedHeader) {
+    return;
+  }
+
+  function showRecommendationSpinner() {
+    recommendationSpinnerCount += 1;
+    showSpinner();
+  }
+
+  function hideRecommendationSpinner() {
+    recommendationSpinnerCount = Math.max(0, recommendationSpinnerCount - 1);
+    if (recommendationSpinnerCount === 0) {
+      hideSpinner();
     }
+  }
+
+  function interleaveRecommendations(movieRecs, tvRecs, limit) {
+    const combined = [];
+    let movieIndex = 0;
+    let tvIndex = 0;
+    let useMovie = movieRecs.length >= tvRecs.length;
+
+    while (combined.length < limit && (movieIndex < movieRecs.length || tvIndex < tvRecs.length)) {
+      if (useMovie && movieIndex < movieRecs.length) {
+        combined.push({ ...movieRecs[movieIndex], _mediaType: 'movie' });
+        movieIndex += 1;
+      } else if (!useMovie && tvIndex < tvRecs.length) {
+        combined.push({ ...tvRecs[tvIndex], _mediaType: 'tv' });
+        tvIndex += 1;
+      } else if (movieIndex < movieRecs.length) {
+        combined.push({ ...movieRecs[movieIndex], _mediaType: 'movie' });
+        movieIndex += 1;
+      } else if (tvIndex < tvRecs.length) {
+        combined.push({ ...tvRecs[tvIndex], _mediaType: 'tv' });
+        tvIndex += 1;
+      }
+
+      useMovie = !useMovie;
+    }
+
+    return combined;
   }
 
   async function generateRecommendations(pageNum = currentPageRecommended) {
-    showSpinner();
+    showRecommendationSpinner();
+    try {
+      currentPageRecommended = pageNum;
+      recommendedMain.innerHTML = '';
 
-    currentPageRecommended = pageNum;
-    const mostCommonGenre = getMostCommonGenre();
-    const mostVisitedMovieGenre = await getMostVisitedMovieGenre();
+      const [movieWeights, tvWeights] = await Promise.all([buildGenreWeightsForMovies(), buildGenreWeightsForTvSeries()]);
+      const topMovieGenres = getTopGenresFromWeights(movieWeights, 3);
+      const topTvGenres = getTopGenresFromWeights(tvWeights, 3);
 
-    recommendedMain.innerHTML = '';
+      if (!topMovieGenres.length && !topTvGenres.length) {
+        emptyState.innerHTML = renderRecommendationsEmptyState();
+        emptyState.hidden = false;
+        paginationContainer.style.display = 'none';
+        return;
+      }
 
-    if (!mostVisitedMovieGenre || !mostCommonGenre) {
-      recommendedMain.innerHTML = `<div style="display: flex; justify-content: center; align-items: center; height: 100%;">
-                                      <p style="text-align: center; font-size: 20px;">
-                                          Start exploring and rating movies or add them to your favorites to get personalized recommendations.
-                                      </p>
-                                  </div>`;
-      return;
+      const totalToDisplay = calculateMoviesToDisplay();
+      const moviePromise = topMovieGenres.length
+        ? fetchRecommendationsByGenres(topMovieGenres, 'movie', currentPageRecommended, totalToDisplay)
+        : Promise.resolve([]);
+      const tvPromise = topTvGenres.length
+        ? fetchRecommendationsByGenres(topTvGenres, 'tv', currentPageRecommended, totalToDisplay)
+        : Promise.resolve([]);
+
+      const [movieRecs, tvRecs] = await Promise.all([moviePromise, tvPromise]);
+      const combined = interleaveRecommendations(movieRecs, tvRecs, totalToDisplay);
+
+      if (!combined.length) {
+        emptyState.innerHTML = renderRecommendationsEmptyState();
+        emptyState.hidden = false;
+        paginationContainer.style.display = 'none';
+        return;
+      }
+
+      emptyState.hidden = true;
+      paginationContainer.style.display = '';
+      await showMovies(combined, recommendedMain, { mediaType: 'mixed' });
+      updatePaginationDisplay(paginationContainer, currentPageRecommended, totalPagesRecommended, generateRecommendations);
+    } finally {
+      hideRecommendationSpinner();
     }
-
-    const totalMoviesToDisplay = calculateMoviesToDisplay();
-    const commonGenreUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=${mostCommonGenre}&sort_by=popularity.desc&vote_count.gte=10&page=${currentPageRecommended}`;
-    const visitedGenreUrl = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=${mostVisitedMovieGenre}&sort_by=popularity.desc&vote_count.gte=10&page=${currentPageRecommended}`;
-
-    await fetchAndDisplayMovies(commonGenreUrl, totalMoviesToDisplay, recommendedMain);
-    await fetchAndDisplayMovies(visitedGenreUrl, totalMoviesToDisplay, recommendedMain);
-
-    updatePaginationDisplayRecommended();
-    hideSpinner();
   }
 
-  function updatePaginationDisplayRecommended() {
-    paginationContainerRecommended.innerHTML = '';
+  await generateRecommendations();
 
-    const prevButton = createNavigationButton('<', currentPageRecommended > 1, () => generateRecommendations(currentPageRecommended - 1));
-    paginationContainerRecommended.appendChild(prevButton);
-
-    let startPage = Math.max(currentPageRecommended - 2, 1);
-    let endPage = Math.min(startPage + 4, totalPagesRecommended);
-
-    if (endPage === totalPagesRecommended) startPage = Math.max(endPage - 4, 1);
-
-    if (startPage > 1) {
-      paginationContainerRecommended.appendChild(createPageButton(1, generateRecommendations));
-      if (startPage > 2) paginationContainerRecommended.appendChild(createPageButton('...'));
-    }
-
-    for (let i = startPage; i <= endPage; i++) {
-      paginationContainerRecommended.appendChild(createPageButton(i, generateRecommendations, i === currentPageRecommended));
-    }
-
-    if (endPage < totalPagesRecommended) {
-      if (endPage < totalPagesRecommended - 1) paginationContainerRecommended.appendChild(createPageButton('...'));
-      paginationContainerRecommended.appendChild(createPageButton(totalPagesRecommended, generateRecommendations));
-    }
-
-    const nextButton = createNavigationButton('>', currentPageRecommended < totalPagesRecommended, () =>
-      generateRecommendations(currentPageRecommended + 1)
-    );
-    paginationContainerRecommended.appendChild(nextButton);
-  }
-
-  function createNavigationButton(text, enabled, clickHandler) {
-    const button = document.createElement('button');
-    button.innerHTML = text;
-    button.disabled = !enabled;
-    button.className = 'nav-button';
-    if (enabled) {
-      button.addEventListener('click', clickHandler);
-    }
-    return button;
-  }
-
-  function createPageButton(pageNum, fetchFunction, isActive) {
-    const button = document.createElement('button');
-    button.textContent = pageNum;
-    button.className = 'page-button' + (isActive ? ' active' : '');
-
-    if (pageNum !== '...') {
-      button.addEventListener('click', () => fetchFunction(pageNum));
+  function movePagination() {
+    if (window.innerWidth <= 767) {
+      recommendedMain.parentNode.insertBefore(paginationContainer, recommendedMain);
     } else {
-      button.disabled = true;
+      recommendedHeader.appendChild(paginationContainer);
     }
-
-    return button;
   }
 
   movePagination();
-  await generateRecommendations();
   window.addEventListener('resize', movePagination);
 });
 
@@ -427,10 +862,12 @@ function rotateImages(imageElements, interval = 3000) {
 }
 
 async function showMovies(movies, mainElement, options = {}) {
-  const mediaType = options.mediaType === 'tv' ? 'tv' : 'movie';
-  const isTv = mediaType === 'tv';
+  const mediaType = options.mediaType === 'tv' ? 'tv' : options.mediaType === 'mixed' ? 'mixed' : 'movie';
+  const isMixed = mediaType === 'mixed';
 
-  mainElement.innerHTML = '';
+  if (!options.append) {
+    mainElement.innerHTML = '';
+  }
 
   // Inject CSS for the sliding-up animation effect with delay support
   const style = document.createElement('style');
@@ -530,6 +967,8 @@ async function showMovies(movies, mainElement, options = {}) {
 
   movies.forEach((movie, index) => {
     let { id, poster_path, title, name, vote_average, vote_count, overview, genre_ids } = movie;
+    const itemMediaType = isMixed ? (movie._mediaType === 'tv' ? 'tv' : 'movie') : mediaType;
+    const isTv = itemMediaType === 'tv';
     const fullTitle = title || name || 'Title not available';
     let displayTitle = fullTitle;
 
@@ -539,7 +978,7 @@ async function showMovies(movies, mainElement, options = {}) {
     movieEl.dataset.id = id;
     movieEl.dataset.posterPath = poster_path;
     movieEl.dataset.title = fullTitle;
-    movieEl.dataset.mediaType = mediaType;
+    movieEl.dataset.mediaType = itemMediaType;
 
     const words = displayTitle.split(' ');
     if (words.length >= 8) {
@@ -585,6 +1024,7 @@ async function showMovies(movies, mainElement, options = {}) {
         return;
       }
 
+      updateTvSeriesVisitCount(id, displayTitle);
       // Navigate to TV details page with the tvSeriesId as a query parameter
       window.location.href = `MovieVerse-Frontend/html/tv-details.html?tvSeriesId=${id}`;
     });
@@ -613,6 +1053,15 @@ function updateUniqueMoviesViewed(movieId) {
     viewedMovies.push(movieId);
     localStorage.setItem('uniqueMoviesViewed', JSON.stringify(viewedMovies));
   }
+}
+
+function updateTvSeriesVisitCount(tvSeriesId, tvSeriesTitle) {
+  let tvSeriesVisits = JSON.parse(localStorage.getItem('tvSeriesVisits')) || {};
+  if (!tvSeriesVisits[tvSeriesId]) {
+    tvSeriesVisits[tvSeriesId] = { count: 0, title: tvSeriesTitle };
+  }
+  tvSeriesVisits[tvSeriesId].count += 1;
+  localStorage.setItem('tvSeriesVisits', JSON.stringify(tvSeriesVisits));
 }
 
 async function ensureGenreMapIsAvailable() {
