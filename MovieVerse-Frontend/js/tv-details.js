@@ -1284,7 +1284,7 @@ async function populateTvSeriesDetails(tvSeries, imdbRating, rated) {
         <div style="display: flex; gap: 16px; align-items: flex-start; flex-wrap: wrap;">
           ${
             lastEpisode.still_path
-              ? `<img src="${IMGPATH + lastEpisode.still_path}" alt="${lastEpisode.name || 'Episode'} Still Image" id="last-episode-image" style="border-radius: 12px; max-width: 320px; width: 100%; height: auto; object-fit: contain; cursor: pointer;" />`
+              ? `<img src="${IMGPATH + lastEpisode.still_path}" alt="${lastEpisode.name || 'Episode'} Still Image" id="last-episode-image" class="last-episode-image" style="border-radius: 12px; max-width: 320px; width: 100%; height: auto; object-fit: contain; cursor: pointer;" />`
               : ''
           }
           <div style="flex: 1; min-width: 240px;">

@@ -150,6 +150,11 @@
         background-image: url('../../images/universe-1.webp');
         background-repeat: repeat-y;
         background-size: 100% auto;
+        font-family:
+          'Poppins',
+          system-ui,
+          -apple-system,
+          sans-serif;
       }
       @media (max-width: 767px) {
         body {
@@ -273,6 +278,11 @@
         background-image: url('../../images/universe-1.webp');
         background-repeat: repeat-y;
         background-size: 100% auto;
+        font-family:
+          'Poppins',
+          system-ui,
+          -apple-system,
+          sans-serif;
       }
       @media (max-width: 767px) {
         body {
@@ -374,6 +384,679 @@
           margin-top: 0 !important;
         }
       }
+      #nav-toggle {
+        z-index: 10000000 !important;
+      }
+      :root {
+        --noti-bg: rgba(10, 12, 20, 0.65);
+        --noti-card: rgba(15, 18, 32, 0.82);
+        --noti-card-soft: rgba(255, 255, 255, 0.08);
+        --noti-line: rgba(255, 255, 255, 0.14);
+        --noti-accent: #ff8623;
+        --noti-accent-2: #6cd0ff;
+        --noti-text: #f5f7ff;
+        --noti-muted: rgba(245, 247, 255, 0.7);
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      body,
+      button,
+      input,
+      select,
+      textarea {
+        font-family:
+          'Poppins',
+          system-ui,
+          -apple-system,
+          sans-serif !important;
+      }
+      html,
+      body {
+        max-width: 100%;
+        overflow-x: hidden;
+      }
+      main.notifications-layout {
+        display: grid;
+        gap: 26px;
+        padding: 28px clamp(16px, 3vw, 38px) 60px;
+        max-width: 1400px;
+        margin: 0 auto;
+        width: 100%;
+        min-width: 0;
+        overflow-x: hidden;
+      }
+      @media (min-width: 1100px) {
+        main.notifications-layout {
+          grid-template-columns: minmax(0, 1.55fr) minmax(0, 0.9fr);
+        }
+      }
+      @media (max-width: 1099px) {
+        main.notifications-layout {
+          grid-template-columns: 1fr;
+          padding: 20px clamp(14px, 4vw, 24px) 50px;
+        }
+      }
+      main.notifications-layout section {
+        background: transparent;
+        box-shadow: none;
+        padding: 0;
+        border-radius: 0;
+        display: block;
+        text-align: left;
+        align-items: stretch;
+        width: auto;
+        min-width: 0;
+      }
+      main.notifications-layout h2,
+      main.notifications-layout h3,
+      main.notifications-layout h4,
+      main.notifications-layout p,
+      main.notifications-layout span,
+      main.notifications-layout a,
+      main.notifications-layout button {
+        font-family:
+          'Poppins',
+          system-ui,
+          -apple-system,
+          sans-serif;
+        text-align: left;
+      }
+      main.notifications-layout img {
+        max-width: 100%;
+      }
+      main.notifications-layout .noti-hero {
+        grid-column: 1 / -1;
+        position: relative;
+        overflow: hidden;
+        border-radius: 24px;
+        min-height: 360px;
+        background: var(--noti-bg);
+        color: var(--noti-text);
+        display: grid;
+        align-items: center;
+        padding: clamp(24px, 4vw, 40px);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+        backdrop-filter: blur(12px);
+        min-width: 0;
+      }
+      .hero-backdrop {
+        position: absolute;
+        inset: 0;
+        background-size: cover;
+        background-position: center;
+        filter: saturate(1.1);
+      }
+      .hero-glow {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(120deg, rgba(6, 10, 24, 0.92) 35%, rgba(6, 10, 24, 0.45) 65%, rgba(6, 10, 24, 0.1) 100%);
+      }
+      .hero-content {
+        position: relative;
+        z-index: 2;
+        max-width: 620px;
+        display: grid;
+        gap: 16px;
+      }
+      .hero-poster {
+        position: absolute;
+        right: clamp(18px, 4vw, 42px);
+        bottom: clamp(20px, 4vw, 36px);
+        width: clamp(160px, 20vw, 240px);
+        aspect-ratio: 2 / 3;
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 14px 40px rgba(0, 0, 0, 0.45);
+        z-index: 2;
+        background: rgba(10, 12, 20, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        max-width: 100%;
+      }
+      .hero-poster img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .hero-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .pill {
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 6px 12px;
+        border-radius: 999px;
+        background: var(--noti-card-soft);
+        color: var(--noti-text);
+      }
+      .pill-primary {
+        background: linear-gradient(120deg, rgba(255, 134, 35, 0.95), rgba(255, 107, 120, 0.9));
+        color: #101018;
+        font-weight: 600;
+      }
+      .pill-outline {
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        background: transparent;
+      }
+      .pill-muted {
+        background: rgba(108, 208, 255, 0.2);
+        color: var(--noti-accent-2);
+      }
+      .hero-content h2 {
+        font-size: clamp(28px, 3.2vw, 44px);
+        line-height: 1.05;
+        margin: 0;
+        letter-spacing: -0.02em;
+      }
+      .hero-content p {
+        margin: 0;
+        color: var(--noti-muted);
+        font-size: 15px;
+        text-align: left;
+      }
+      .hero-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        font-size: 13px;
+        color: var(--noti-muted);
+      }
+      .hero-meta span {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+      .hero-btn {
+        border: none;
+        padding: 10px 18px;
+        border-radius: 999px;
+        font-weight: 600;
+        cursor: pointer;
+        background: var(--noti-accent);
+        color: #111;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+      .hero-btn.ghost {
+        background: rgba(255, 255, 255, 0.12);
+        color: var(--noti-text);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+      .hero-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+      }
+      .hero-footer {
+        font-size: 12px;
+        color: var(--noti-muted);
+      }
+      .update-pill {
+        display: inline-flex;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: rgba(0, 0, 0, 0.35);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+      }
+      main.notifications-layout .noti-stats {
+        grid-column: 1 / -1;
+        display: grid;
+        gap: 16px;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        min-width: 0;
+      }
+      .stat-card {
+        background: var(--noti-card);
+        border-radius: 18px;
+        padding: 16px 18px;
+        border: 1px solid var(--noti-line);
+        display: grid;
+        gap: 8px;
+        color: var(--noti-text);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+        backdrop-filter: blur(10px);
+      }
+      .stat-card.accent {
+        background: linear-gradient(120deg, rgba(255, 134, 35, 0.2), rgba(108, 208, 255, 0.15));
+        border-color: rgba(255, 134, 35, 0.35);
+      }
+      .stat-label {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--noti-muted);
+      }
+      .stat-value {
+        font-size: 26px;
+        font-weight: 600;
+      }
+      .stat-meta {
+        font-size: 12px;
+        color: var(--noti-muted);
+      }
+      main.notifications-layout .noti-feed {
+        grid-column: 1 / 2;
+        background: var(--noti-bg);
+        border-radius: 22px;
+        padding: 22px;
+        border: 1px solid var(--noti-line);
+        color: var(--noti-text);
+        backdrop-filter: blur(10px);
+        min-width: 0;
+      }
+      .feed-header {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 18px;
+      }
+      .feed-header h3 {
+        margin: 0;
+        font-size: 22px;
+      }
+      .feed-header p {
+        margin: 6px 0 0;
+        color: var(--noti-muted);
+        font-size: 13px;
+        text-align: left;
+      }
+      .feed-filters {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .filter-btn {
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.08);
+        color: var(--noti-text);
+        padding: 6px 14px;
+        border-radius: 999px;
+        cursor: pointer;
+        font-size: 12px;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+      .filter-btn.active {
+        background: var(--noti-accent);
+        color: #0c0f16;
+        border-color: transparent;
+      }
+      .feed-grid {
+        display: grid;
+        gap: 16px;
+      }
+      .feed-card {
+        display: grid;
+        grid-template-columns: 140px 1fr;
+        gap: 14px;
+        background: var(--noti-card);
+        border-radius: 18px;
+        padding: 12px;
+        border: 1px solid var(--noti-line);
+        align-items: center;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+        cursor: pointer;
+        min-width: 0;
+      }
+      .feed-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 16px 30px rgba(0, 0, 0, 0.35);
+      }
+      .feed-image {
+        width: 100%;
+        aspect-ratio: 2 / 3;
+        border-radius: 14px;
+        overflow: hidden;
+        background: rgba(0, 0, 0, 0.35);
+      }
+      .feed-image img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .feed-body {
+        display: grid;
+        gap: 8px;
+        min-width: 0;
+      }
+      .feed-top {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+      .feed-badge {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--noti-muted);
+      }
+      .feed-title {
+        font-size: 18px;
+        margin: 0;
+      }
+      .feed-message {
+        font-size: 13px;
+        color: var(--noti-muted);
+        margin: 0;
+        text-align: left;
+      }
+      .feed-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        font-size: 12px;
+        color: var(--noti-muted);
+      }
+      .feed-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .feed-action {
+        border: none;
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--noti-text);
+        padding: 6px 12px;
+        border-radius: 999px;
+        cursor: pointer;
+        font-size: 12px;
+      }
+      .feed-action.primary {
+        background: var(--noti-accent);
+        color: #0c0f16;
+      }
+      .feed-empty {
+        text-align: center;
+        padding: 30px;
+        color: var(--noti-muted);
+      }
+      main.notifications-layout .noti-sidebar {
+        grid-column: 2 / 3;
+        background: var(--noti-bg);
+        border-radius: 22px;
+        padding: 22px;
+        border: 1px solid var(--noti-line);
+        color: var(--noti-text);
+        display: grid;
+        gap: 18px;
+        height: fit-content;
+        position: sticky;
+        top: 120px;
+        backdrop-filter: blur(10px);
+        min-width: 0;
+      }
+      .sidebar-header h3 {
+        margin: 0;
+      }
+      .sidebar-header p {
+        margin: 6px 0 0;
+        color: var(--noti-muted);
+        font-size: 13px;
+        text-align: left;
+      }
+      .mini-stack {
+        display: grid;
+        gap: 12px;
+      }
+      .mini-card {
+        display: grid;
+        grid-template-columns: 58px 1fr;
+        gap: 12px;
+        align-items: center;
+        background: var(--noti-card);
+        border-radius: 14px;
+        padding: 10px;
+        border: 1px solid var(--noti-line);
+        cursor: pointer;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+        min-width: 0;
+      }
+      .mini-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 18px rgba(0, 0, 0, 0.35);
+      }
+      .mini-card img {
+        display: block;
+        width: 58px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 10px;
+      }
+      .mini-card h4 {
+        margin: 0;
+        font-size: 14px;
+      }
+      .mini-card span {
+        font-size: 12px;
+        color: var(--noti-muted);
+      }
+      .sidebar-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        color: #081018;
+        background: var(--noti-accent-2);
+        padding: 8px 14px;
+        border-radius: 999px;
+        font-weight: 600;
+        text-decoration: none;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+      .sidebar-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 18px rgba(0, 0, 0, 0.3);
+      }
+      main.notifications-layout .noti-rail {
+        grid-column: 1 / -1;
+        background: var(--noti-bg);
+        border-radius: 22px;
+        padding: 20px;
+        border: 1px solid var(--noti-line);
+        color: var(--noti-text);
+        backdrop-filter: blur(10px);
+        min-width: 0;
+      }
+      .rail-header {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 16px;
+        flex-direction: column;
+      }
+      .rail-header h3 {
+        margin: 0;
+      }
+      .rail-header p {
+        margin: 6px 0 0;
+        color: var(--noti-muted);
+        font-size: 13px;
+        text-align: left;
+      }
+      .rail-meta {
+        font-size: 11px;
+        color: rgba(245, 247, 255, 0.85);
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        padding: 6px 12px;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        width: fit-content;
+      }
+      .rail-track {
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: minmax(180px, 1fr);
+        gap: 14px;
+        overflow-x: auto;
+        padding: 8px 0 12px;
+        scroll-snap-type: x mandatory;
+        max-width: 100%;
+        min-width: 0;
+        overscroll-behavior-x: contain;
+      }
+      .rail-card {
+        scroll-snap-align: start;
+        background: var(--noti-card);
+        border-radius: 16px;
+        border: 1px solid var(--noti-line);
+        overflow: hidden;
+        display: grid;
+        gap: 10px;
+        cursor: pointer;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+        min-width: 0;
+      }
+      .rail-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 16px 28px rgba(0, 0, 0, 0.35);
+      }
+      .rail-card img {
+        display: block;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 2 / 3;
+        object-fit: cover;
+      }
+      .rail-card-content {
+        padding: 10px 12px 14px;
+        display: grid;
+        gap: 6px;
+      }
+      .rail-card-title {
+        margin: 0;
+        font-size: 15px;
+      }
+      .rail-card-meta {
+        font-size: 12px;
+        color: var(--noti-muted);
+      }
+      @media (max-width: 1099px) {
+        main.notifications-layout {
+          grid-template-columns: 1fr;
+          grid-auto-flow: row;
+          grid-auto-columns: 1fr;
+        }
+        main.notifications-layout .noti-hero,
+        main.notifications-layout .noti-stats,
+        main.notifications-layout .noti-feed,
+        main.notifications-layout .noti-sidebar,
+        main.notifications-layout .noti-rail {
+          grid-column: 1 / -1;
+          width: 100%;
+        }
+        main.notifications-layout .noti-sidebar {
+          position: static;
+        }
+      }
+      @media (max-width: 768px) {
+        .noti-hero {
+          padding: 22px;
+        }
+        .hero-poster {
+          position: static;
+          margin-top: 20px;
+          width: min(180px, 70vw);
+          justify-self: start;
+        }
+        .feed-card {
+          grid-template-columns: 1fr;
+        }
+        .feed-image {
+          width: min(220px, 70vw);
+          aspect-ratio: 2 / 3;
+          height: auto;
+          justify-self: start;
+        }
+        .feed-image img {
+          height: 100%;
+          object-fit: cover;
+        }
+        .rail-card img {
+          aspect-ratio: 2 / 3;
+          height: auto;
+          object-fit: cover;
+        }
+        .mini-card {
+          grid-template-columns: 48px 1fr;
+        }
+        .rail-track {
+          grid-auto-columns: minmax(160px, 70vw);
+        }
+      }
+      @media (max-width: 600px) {
+        body {
+          overflow-x: hidden;
+        }
+        .noti-stats {
+          grid-template-columns: 1fr;
+        }
+        .hero-content h2 {
+          font-size: 28px;
+        }
+        .hero-actions {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .hero-btn {
+          width: 100%;
+          justify-content: center;
+        }
+        .rail-track {
+          grid-auto-columns: minmax(140px, 78vw);
+        }
+        .feed-card,
+        .rail-card,
+        .mini-card,
+        .hero-poster {
+          max-width: 100%;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .hero-btn,
+        .feed-card,
+        .rail-card,
+        .mini-card,
+        .sidebar-link {
+          transition: none;
+        }
+      }
     </style>
     <script src="../js/devtools-guard.js"></script>
   </head>
@@ -406,7 +1089,8 @@
           if (!translateEl.querySelector('#' + helperId)) {
             const helper = document.createElement('div');
             helper.id = helperId;
-            helper.textContent = 'If the menu is blank, wait a few seconds. If it still does not load, reload the page and try again.';
+            helper.textContent =
+              'If this menu is blank, please wait a few seconds. If it still does not load, please check your Internet connection, then reload the page and try again.';
             helper.style.marginTop = '6px';
             helper.style.fontSize = '11px';
             helper.style.lineHeight = '1.3';
@@ -559,19 +1243,28 @@
           <a href="analytics.html">MovieVerse Analytics</a>
         </li>
         <li style="background: none; border: none; box-shadow: none">
-          <a href="#newFeatures">New Features</a>
+          <a href="#todayHighlights">Spotlight</a>
         </li>
         <li style="background: none; border: none; box-shadow: none">
-          <a href="#newReleases">New Releases</a>
+          <a href="#todayPulse">Today Pulse</a>
         </li>
         <li style="background: none; border: none; box-shadow: none">
-          <a href="#tipsTricks">Tips & Tricks</a>
+          <a href="#activityFeed">Activity Feed</a>
         </li>
         <li style="background: none; border: none; box-shadow: none">
-          <a href="#popularActors">Popular Actors</a>
+          <a href="#todayRadar">Radar</a>
         </li>
         <li style="background: none; border: none; box-shadow: none">
-          <a href="#popularDirectors">Popular Directors</a>
+          <a href="#freshReleases">New Releases</a>
+        </li>
+        <li style="background: none; border: none; box-shadow: none">
+          <a href="#comingSoon">Coming Soon</a>
+        </li>
+        <li style="background: none; border: none; box-shadow: none">
+          <a href="#recommendations">Recommended</a>
+        </li>
+        <li style="background: none; border: none; box-shadow: none">
+          <a href="#peopleBuzz">People Buzz</a>
         </li>
         <li style="background: none; border: none; box-shadow: none">
           <a href="sign-in.html">Sign In</a>
@@ -587,121 +1280,130 @@
         </li>
       </ul>
     </nav>
-    <main style="animation: fadeIn 1.5s ease-in-out">
-      <section id="newFeatures">
-        <h2 style="cursor: pointer" id="newFeaturesHeader">New Features</h2>
-        <p style="color: black">Explore the exciting new features we've recently launched to enhance your MovieVerse experience:</p>
-        <ul>
-          <li>
-            <i style="margin-right: 3px" class="fas fa-search"></i>
-            <strong>Enhanced Search Functionality:</strong> Dive deeper into our movie catalog with precise filters for genre, rating, and release
-            year.
-          </li>
-          <li>
-            <i style="margin-right: 3px" class="fas fa-comment-dots"></i>
-            <strong>Improved Chatbot:</strong> Get personalized movie recommendations and insightful answers to your questions with our smarter
-            chatbot.
-          </li>
-          <li>
-            <i style="margin-right: 3px" class="fas fa-comments"></i>
-            <strong>Chat Feature:</strong> Join the conversation! Chat with fellow film fans in real-time to share your passion and discover new
-            favorites.
-          </li>
-          <li>
-            <i style="margin-right: 3px" class="fas fa-star"></i>
-            <strong>Improved Recommendations:</strong> Unlock a world of movies tailored just for you. Our enhanced engine suggests films based on
-            your unique tastes and viewing habits.
-          </li>
-          <li>
-            <i style="margin-right: 3px" class="fas fa-users"></i>
-            <strong>User Profile Search:</strong> Connect with your friends and discover their movie tastes. Search for user profiles and see what
-            they're watching.
-          </li>
-          <li>
-            <i style="margin-right: 3px" class="fas fa-user-plus"></i>
-            <strong>Follow Other Users:</strong> Never miss a beat! Follow your friends to stay up-to-date on their latest movie discoveries and
-            recommendations.
-          </li>
-          <li>
-            <i style="margin-right: 3px" class="fas fa-share-alt"></i>
-            <strong>Share Watch Lists:</strong> Spread the cinematic love! Create and share custom watch lists with friends and family, showcasing
-            your curated collection of must-see films.
-          </li>
-        </ul>
-        <p style="color: black; margin-top: 35px">
-          <em>Updated as of: <time class="updateDate" datetime=""></time></em>
-        </p>
+    <main class="notifications-layout" style="animation: fadeIn 1.5s ease-in-out">
+      <section class="noti-hero" id="todayHighlights">
+        <div class="hero-backdrop" id="heroBackdrop"></div>
+        <div class="hero-glow"></div>
+        <div class="hero-content">
+          <div class="hero-pills">
+            <span class="pill pill-primary">Tonight's Spotlight</span>
+            <span class="pill pill-outline" id="heroType">Movie</span>
+            <span class="pill pill-muted" id="heroBadge">Trending</span>
+          </div>
+          <h2 id="heroTitle">Finding your spotlight...</h2>
+          <p id="heroOverview">We’re pulling the most exciting release and buzzworthy picks from TMDB.</p>
+          <div class="hero-meta" id="heroMeta">
+            <span><i class="fas fa-calendar-alt"></i> <span id="heroDate">--</span></span>
+            <span><i class="fas fa-star"></i> <span id="heroRating">--</span></span>
+            <span><i class="fas fa-clock"></i> <span id="heroRuntime">--</span></span>
+          </div>
+          <div class="hero-actions">
+            <button class="hero-btn" id="heroPrimary"><i class="fas fa-play"></i> View details</button>
+            <button class="hero-btn ghost" id="heroSecondary"><i class="fas fa-bookmark"></i> Save for later</button>
+          </div>
+          <div class="hero-footer">
+            <span class="update-pill">Updated <time class="updateDate" datetime=""></time></span>
+          </div>
+        </div>
+        <div class="hero-poster" id="heroPoster"></div>
       </section>
-      <section id="newReleases">
-        <h2 id="newReleasesHeader" style="cursor: pointer">New Releases</h2>
-        <h3>Since Your Last Visit</h3>
-        <ul id="releasesSinceLastVisit"></ul>
-        <h3 style="margin-top: 35px">Since the Beginning of This Month</h3>
-        <ul id="releasesThisMonth"></ul>
-        <h3 style="margin-top: 35px">Since the Beginning of This Year</h3>
-        <ul id="releasesThisYear"></ul>
-        <h3 style="margin-top: 35px">More Recommended Movies For You</h3>
-        <p style="color: black; margin-top: 0">
-          You can always view more recommended movies in your recommended list in
-          <a id="githubLink1" href="../../index.html#recommendedDIV">your recommended movies section</a>.
-        </p>
-        <ul id="recommendedReleases"></ul>
-        <p style="color: black; margin-top: 35px">
-          <em>Updated as of: <time class="updateDate" datetime=""></time></em>
-        </p>
+
+      <section class="noti-stats" id="todayPulse">
+        <div class="stat-card accent" id="statNew">
+          <span class="stat-label">New since your last visit</span>
+          <span class="stat-value" id="statNewCount">--</span>
+          <span class="stat-meta" id="statNewMeta">Loading...</span>
+        </div>
+        <div class="stat-card" id="statUpcoming">
+          <span class="stat-label">Arriving soon (30 days)</span>
+          <span class="stat-value" id="statUpcomingCount">--</span>
+          <span class="stat-meta" id="statUpcomingMeta">Loading...</span>
+        </div>
+        <div class="stat-card" id="statFavorites">
+          <span class="stat-label">Favorites you keep close</span>
+          <span class="stat-value" id="statFavoritesCount">--</span>
+          <span class="stat-meta">Movies you saved</span>
+        </div>
+        <div class="stat-card" id="statWatchlists">
+          <span class="stat-label">Watchlists created</span>
+          <span class="stat-value" id="statWatchlistsCount">--</span>
+          <span class="stat-meta">Curated collections</span>
+        </div>
       </section>
-      <section id="tipsTricks">
-        <h2 style="cursor: pointer" id="tipsTricksHeader">Tips & Tricks</h2>
-        <p style="color: black">Maximize your enjoyment of The MovieVerse with these handy tips:</p>
-        <ul>
-          <li>
-            <i style="margin-right: 3px" class="fas fa-list-ul"></i>
-            <strong>Creating Custom Watchlists:</strong> Curate your own personal movie collections and keep track of your must-watch films with ease.
-          </li>
-          <li>
-            <i style="margin-right: 3px" class="fas fa-comments"></i>
-            <strong>Engaging with the Community:</strong> Dive into vibrant discussions, share your insights, and connect with other film enthusiasts.
-          </li>
-          <li>
-            <i style="margin-right: 3px" class="fas fa-film"></i>
-            <strong>Exploring Indie Films:</strong> Unearth hidden cinematic treasures and broaden your horizons with our curated selection of
-            independent films.
-          </li>
-          <li>
-            <i style="margin-right: 3px" class="fas fa-star-half-alt"></i>
-            <strong>Rating Movies:</strong> Your voice matters! Share your opinions by rating movies and TV shows, helping us refine our
-            recommendations for you and others.
-          </li>
-          <li>
-            <i style="margin-right: 3px" class="fas fa-robot"></i>
-            <strong>Chatting with the Chatbot:</strong> Need a movie suggestion or want to test your film trivia knowledge? Our friendly chatbot is
-            always ready to entertain and inform.
-          </li>
-          <li>
-            <i style="margin-right: 3px" class="fas fa-cloud"></i>
-            <strong>Cloud Syncing:</strong> Your movie preferences follow you wherever you go. Enjoy seamless access to your watchlists and favorites
-            across all your devices.
-          </li>
-        </ul>
-        <p style="color: black; margin-top: 35px">
-          <em>Updated as of: <time class="updateDate" datetime=""></time></em>
-        </p>
+
+      <section class="noti-feed" id="activityFeed">
+        <div class="feed-header">
+          <div>
+            <h3 id="activityFeedHeader">Fresh notifications</h3>
+            <p>Updates handcrafted from the TMDB universe and your MovieVerse activity.</p>
+          </div>
+          <div class="feed-filters" id="feedFilters">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="movie">Movies</button>
+            <button class="filter-btn" data-filter="tv">TV</button>
+            <button class="filter-btn" data-filter="person">People</button>
+          </div>
+        </div>
+        <div class="feed-grid" id="notificationFeed"></div>
+        <div class="feed-empty" id="feedEmpty" style="display: none">
+          <i class="fas fa-bell-slash"></i>
+          <p>We’re refreshing your notifications. Check back in a moment.</p>
+        </div>
       </section>
-      <section id="popularActors">
-        <h2 style="cursor: pointer" id="popularActorsHeader">Popular Actors</h2>
-        <p style="color: black">Explore films featuring the actors our users can’t get enough of this month!</p>
-        <ul></ul>
-        <p style="color: black; margin-top: 35px">
-          <em>Updated as of: <time class="updateDate" datetime=""></time></em>
-        </p>
+
+      <section class="noti-sidebar" id="todayRadar">
+        <div class="sidebar-header">
+          <h3 id="todayRadarHeader">Today’s radar</h3>
+          <p>Fast-moving picks, airing today, and buzzworthy arrivals.</p>
+        </div>
+        <div class="mini-stack" id="radarList"></div>
+        <div class="sidebar-footer">
+          <a class="sidebar-link" href="analytics.html">Dive into analytics</a>
+        </div>
       </section>
-      <section id="popularDirectors">
-        <h2 style="cursor: pointer" id="popularDirectorsHeader">Popular Directors</h2>
-        <p style="color: black">Discover the visionaries behind the camera who are currently shaping the world of cinema!</p>
-        <ul></ul>
-        <p style="color: black; margin-top: 35px">
-          <em>Updated as of: <time class="updateDate" datetime=""></time></em>
-        </p>
+
+      <section class="noti-rail" id="freshReleases">
+        <div class="rail-header">
+          <div>
+            <h3 id="freshReleasesHeader">New releases</h3>
+            <p>Fresh titles that arrived since your last visit.</p>
+          </div>
+          <span class="rail-meta">Updated <time class="updateDate" datetime=""></time></span>
+        </div>
+        <div class="rail-track" id="railNewReleases"></div>
+      </section>
+
+      <section class="noti-rail" id="comingSoon">
+        <div class="rail-header">
+          <div>
+            <h3 id="comingSoonHeader">Coming soon</h3>
+            <p>Lock in your next movie night with what's landing soon.</p>
+          </div>
+          <span class="rail-meta">Next 30 days</span>
+        </div>
+        <div class="rail-track" id="railComingSoon"></div>
+      </section>
+
+      <section class="noti-rail" id="recommendations">
+        <div class="rail-header">
+          <div>
+            <h3 id="recommendationsHeader">Recommended for you</h3>
+            <p>Picked from your favorite genres and visits.</p>
+          </div>
+          <span class="rail-meta">Personalized</span>
+        </div>
+        <div class="rail-track" id="railRecommendations"></div>
+      </section>
+
+      <section class="noti-rail" id="peopleBuzz">
+        <div class="rail-header">
+          <div>
+            <h3 id="peopleBuzzHeader">People buzzing now</h3>
+            <p>Actors and creators lighting up the conversation.</p>
+          </div>
+          <span class="rail-meta">Trending talent</span>
+        </div>
+        <div class="rail-track" id="railPeople"></div>
       </section>
     </main>
     <script src="../js/notifications.js"></script>
@@ -823,34 +1525,25 @@
         }
       });
 
-      document.getElementById('newFeaturesHeader').addEventListener('click', function (e) {
-        e.preventDefault();
+      const scrollPairs = [
+        ['activityFeedHeader', 'activityFeed'],
+        ['todayRadarHeader', 'todayRadar'],
+        ['freshReleasesHeader', 'freshReleases'],
+        ['comingSoonHeader', 'comingSoon'],
+        ['recommendationsHeader', 'recommendations'],
+        ['peopleBuzzHeader', 'peopleBuzz'],
+      ];
 
-        document.getElementById('newFeatures').scrollIntoView({ behavior: 'smooth' });
-      });
-
-      document.getElementById('newReleasesHeader').addEventListener('click', function (e) {
-        e.preventDefault();
-
-        document.getElementById('newReleases').scrollIntoView({ behavior: 'smooth' });
-      });
-
-      document.getElementById('tipsTricksHeader').addEventListener('click', function (e) {
-        e.preventDefault();
-
-        document.getElementById('tipsTricks').scrollIntoView({ behavior: 'smooth' });
-      });
-
-      document.getElementById('popularActorsHeader').addEventListener('click', function (e) {
-        e.preventDefault();
-
-        document.getElementById('popularActors').scrollIntoView({ behavior: 'smooth' });
-      });
-
-      document.getElementById('popularDirectorsHeader').addEventListener('click', function (e) {
-        e.preventDefault();
-
-        document.getElementById('popularDirectors').scrollIntoView({ behavior: 'smooth' });
+      scrollPairs.forEach(([triggerId, targetId]) => {
+        const trigger = document.getElementById(triggerId);
+        const target = document.getElementById(targetId);
+        if (!trigger || !target) {
+          return;
+        }
+        trigger.addEventListener('click', function (e) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth' });
+        });
       });
 
       document.addEventListener('DOMContentLoaded', function () {
