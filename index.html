@@ -1071,17 +1071,14 @@
       (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
     <section id="recommended" class="recommendations-shell">
-      <div class="genres recommendations-header" id="recommendedDIV">
-        <div class="recommendations-title">
-          <h2 id="other" style="cursor: pointer" title="Personalized picks that blend movies and TV series into one curated stream.">
-            Recommendations: Curated for Your Taste
-          </h2>
-          <p class="recommendations-subtitle">A single, curated stream of movies and TV series tailored to your on-site activity.</p>
-        </div>
+      <div class="genres" id="recommendedDIV">
+        <h2 id="recommended-title" style="cursor: pointer" title="Personalized picks that blend movies and TV series into one curated stream.">
+          Recommendations: Personalized Movie Suggestions
+        </h2>
       </div>
       <div id="recommended-pagination" class="pagination recommendations-pagination"></div>
-      <div id="recommended-empty" class="recommendations-empty" hidden></div>
       <main id="recommended-list" class="recommendations-list"></main>
+      <div id="recommended-empty" hidden></div>
     </section>
     <div
       id="ad-container"
@@ -1840,6 +1837,14 @@
             e.preventDefault();
             const href = this.getAttribute('href');
             if (href.startsWith('#')) {
+              if (href === '#recommended') {
+                const recommendedTitle = document.getElementById('recommended-title');
+                if (recommendedTitle) {
+                  recommendedTitle.scrollIntoView({ behavior: 'smooth' });
+                  return;
+                }
+              }
+
               const targetMain = document.querySelector(href);
               let targetDiv = targetMain.previousElementSibling;
               while (targetDiv && !targetDiv.classList.contains('genres')) {
