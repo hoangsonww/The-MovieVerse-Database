@@ -611,6 +611,11 @@
         border-radius: 999px;
         background: rgba(0, 0, 0, 0.35);
         border: 1px solid rgba(255, 255, 255, 0.12);
+        align-items: center;
+      }
+      .update-separator {
+        display: inline-block;
+        width: 6px;
       }
       main.notifications-layout .noti-stats {
         grid-column: 1 / -1;
@@ -1299,10 +1304,9 @@
           </div>
           <div class="hero-actions">
             <button class="hero-btn" id="heroPrimary"><i class="fas fa-play"></i> View details</button>
-            <button class="hero-btn ghost" id="heroSecondary"><i class="fas fa-bookmark"></i> Save for later</button>
           </div>
           <div class="hero-footer">
-            <span class="update-pill">Updated <time class="updateDate" datetime=""></time></span>
+            <span class="update-pill">Updated <span class="update-separator"></span><time class="updateDate" datetime=""></time></span>
           </div>
         </div>
         <div class="hero-poster" id="heroPoster"></div>

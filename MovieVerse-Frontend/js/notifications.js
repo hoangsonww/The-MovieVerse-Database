@@ -177,7 +177,6 @@ async function renderHero(item) {
   const heroRating = document.getElementById('heroRating');
   const heroRuntime = document.getElementById('heroRuntime');
   const heroPrimary = document.getElementById('heroPrimary');
-  const heroSecondary = document.getElementById('heroSecondary');
 
   const backdrop = imageUrl(item.backdrop_path, 'w1280', FALLBACKS.backdrop);
   heroBackdrop.style.backgroundImage = `url('${backdrop}')`;
@@ -196,9 +195,6 @@ async function renderHero(item) {
   heroPoster.appendChild(posterImg);
 
   heroPrimary.onclick = () => openDetails(item, mediaType);
-  if (heroSecondary) {
-    heroSecondary.onclick = () => toggleSaved(item, mediaType, heroSecondary);
-  }
 
   if (mediaType === 'movie' || mediaType === 'tv') {
     const details = await fetchJson(buildUrl(`/${mediaType}/${item.id}`, 'language=en-US'));
@@ -408,13 +404,7 @@ function createFeedCard(item) {
   primary.textContent = item.mediaType === 'person' ? 'View profile' : 'View details';
   primary.addEventListener('click', () => openDetails(item.raw, item.mediaType));
 
-  const save = document.createElement('button');
-  save.className = 'feed-action';
-  save.textContent = 'Save';
-  save.addEventListener('click', () => toggleSaved(item.raw, item.mediaType, save));
-
   actions.appendChild(primary);
-  actions.appendChild(save);
 
   body.appendChild(top);
   body.appendChild(title);
@@ -556,23 +546,6 @@ function openDetails(item, mediaType) {
       window.location.href = 'actor-details.html?' + item.id;
     }
   }
-}
-
-function toggleSaved(item, mediaType, button) {
-  const key = `${mediaType}-${item.id}`;
-  const saved = new Set(JSON.parse(localStorage.getItem('savedNotifications')) || []);
-  if (saved.has(key)) {
-    saved.delete(key);
-    if (button) {
-      button.textContent = 'Save';
-    }
-  } else {
-    saved.add(key);
-    if (button) {
-      button.textContent = 'Saved';
-    }
-  }
-  localStorage.setItem('savedNotifications', JSON.stringify(Array.from(saved)));
 }
 
 async function getMostVisitedMovieGenre() {
