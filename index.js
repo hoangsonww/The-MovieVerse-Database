@@ -902,6 +902,213 @@ function rotateImages(imageElements, interval = 3000) {
   }, 0);
 }
 
+function isSpotlightMode() {
+  return true;
+}
+
+function getSpotlightTrack(mainElement) {
+  return mainElement.querySelector('.spotlight-track') || mainElement;
+}
+
+function getSpotlightCards(mainElement) {
+  const track = getSpotlightTrack(mainElement);
+  return Array.from(track.querySelectorAll('.movie'));
+}
+
+function ensureScrollProgress(mainElement) {
+  let progress = mainElement.querySelector('.scroll-progress');
+  if (!progress) {
+    progress = document.createElement('div');
+    progress.className = 'scroll-progress';
+    progress.innerHTML = '<div class="scroll-progress-bar"></div>';
+    mainElement.appendChild(progress);
+  }
+  return progress;
+}
+
+function updateScrollProgress(mainElement) {
+  const track = getSpotlightTrack(mainElement);
+  const progress = mainElement.querySelector('.scroll-progress');
+  const bar = progress ? progress.querySelector('.scroll-progress-bar') : null;
+  if (!progress || !bar) return;
+
+  const maxScroll = track.scrollWidth - track.clientWidth;
+  if (maxScroll <= 0) {
+    progress.style.display = 'none';
+    bar.style.width = '0%';
+    return;
+  }
+
+  progress.style.display = 'block';
+  const percent = Math.min(100, Math.max(0, (track.scrollLeft / maxScroll) * 100));
+  bar.style.width = `${percent}%`;
+}
+
+function getSpotlightLayout(track, cards) {
+  if (!cards.length) return 'center';
+  const cardWidth = cards[0].getBoundingClientRect().width || 1;
+  const gapValue = getComputedStyle(track).gap || getComputedStyle(track).columnGap;
+  const gap = Number.parseFloat(gapValue) || 0;
+  const slotWidth = cardWidth + gap;
+  const visibleCount = Math.floor((track.clientWidth + gap) / slotWidth);
+  return visibleCount >= 2 ? 'left' : 'center';
+}
+
+function ensureSpotlightTrack(mainElement) {
+  let track = mainElement.querySelector('.spotlight-track');
+  if (!track) {
+    track = document.createElement('div');
+    track.className = 'spotlight-track';
+    const cards = Array.from(mainElement.querySelectorAll('.movie'));
+    cards.forEach(card => track.appendChild(card));
+    mainElement.appendChild(track);
+  }
+  return track;
+}
+
+function teardownSpotlightTrack(mainElement) {
+  const track = mainElement.querySelector('.spotlight-track');
+  if (!track) return;
+  Array.from(track.children).forEach(child => mainElement.appendChild(child));
+  track.remove();
+}
+
+function updateSpotlightState(mainElement) {
+  const cards = getSpotlightCards(mainElement);
+  if (!cards.length) return;
+
+  const track = getSpotlightTrack(mainElement);
+  const trackRect = track.getBoundingClientRect();
+  const layout = getSpotlightLayout(track, cards);
+  const containerCenter = trackRect.left + trackRect.width / 2;
+  const containerLeft = trackRect.left;
+  let activeIndex = 0;
+  let smallestDistance = Number.POSITIVE_INFINITY;
+
+  if (layout === 'left') {
+    cards.forEach(card => {
+      card.classList.remove('spotlight-active', 'spotlight-dim');
+    });
+    mainElement.dataset.spotlightIndex = '0';
+    return;
+  }
+
+  cards.forEach((card, index) => {
+    const rect = card.getBoundingClientRect();
+    const distance = layout === 'left' ? Math.abs(rect.left - containerLeft) : Math.abs(rect.left + rect.width / 2 - containerCenter);
+    if (distance < smallestDistance) {
+      smallestDistance = distance;
+      activeIndex = index;
+    }
+  });
+
+  cards.forEach((card, index) => {
+    card.classList.toggle('spotlight-active', index === activeIndex);
+    card.classList.toggle('spotlight-dim', index !== activeIndex);
+  });
+
+  mainElement.dataset.spotlightIndex = String(activeIndex);
+}
+
+function scrollSpotlightBy(mainElement, delta) {
+  const cards = getSpotlightCards(mainElement);
+  if (!cards.length) return;
+
+  const track = getSpotlightTrack(mainElement);
+  const layout = getSpotlightLayout(track, cards);
+  let currentIndex = Number(mainElement.dataset.spotlightIndex || 0);
+  if (layout === 'left') {
+    const gapValue = getComputedStyle(track).gap || getComputedStyle(track).columnGap;
+    const gap = Number.parseFloat(gapValue) || 0;
+    currentIndex = Math.round(track.scrollLeft / (cards[0].offsetWidth + gap));
+  }
+  let nextIndex = currentIndex + delta;
+  if (nextIndex >= cards.length) {
+    nextIndex = 0;
+  } else if (nextIndex < 0) {
+    nextIndex = cards.length - 1;
+  }
+  const target = cards[nextIndex];
+  if (target) {
+    const targetLeft = layout === 'left' ? target.offsetLeft : target.offsetLeft - (track.clientWidth - target.clientWidth) / 2;
+    track.scrollTo({ left: targetLeft, behavior: 'smooth' });
+  }
+}
+
+function initSpotlightCarousel(mainElement) {
+  if (!mainElement) return;
+
+  const cards = getSpotlightCards(mainElement);
+  if (!isSpotlightMode() || cards.length === 0) {
+    mainElement.classList.remove('spotlight-carousel');
+    cards.forEach(card => card.classList.remove('spotlight-active', 'spotlight-dim'));
+    mainElement.querySelectorAll('.spotlight-nav').forEach(btn => btn.remove());
+    teardownSpotlightTrack(mainElement);
+    const progress = mainElement.querySelector('.scroll-progress');
+    if (progress) {
+      progress.remove();
+    }
+    return;
+  }
+
+  mainElement.classList.add('spotlight-carousel');
+  const track = ensureSpotlightTrack(mainElement);
+  ensureScrollProgress(mainElement);
+  const layout = getSpotlightLayout(track, cards);
+  mainElement.classList.toggle('spotlight-multi', layout === 'left');
+
+  if (!track.dataset.spotlightBound) {
+    let scrollTicking = false;
+    track.addEventListener(
+      'scroll',
+      () => {
+        if (scrollTicking) return;
+        scrollTicking = true;
+        requestAnimationFrame(() => {
+          updateSpotlightState(mainElement);
+          updateScrollProgress(mainElement);
+          scrollTicking = false;
+        });
+      },
+      { passive: true }
+    );
+    track.dataset.spotlightBound = 'true';
+  }
+
+  if (!mainElement.querySelector('.spotlight-prev')) {
+    const prevButton = document.createElement('button');
+    prevButton.type = 'button';
+    prevButton.className = 'spotlight-nav spotlight-prev';
+    prevButton.setAttribute('aria-label', 'Previous card');
+    prevButton.innerHTML = '<i class="fas fa-chevron-left"></i>';
+    prevButton.addEventListener('click', () => scrollSpotlightBy(mainElement, -1));
+    mainElement.appendChild(prevButton);
+  }
+
+  if (!mainElement.querySelector('.spotlight-next')) {
+    const nextButton = document.createElement('button');
+    nextButton.type = 'button';
+    nextButton.className = 'spotlight-nav spotlight-next';
+    nextButton.setAttribute('aria-label', 'Next card');
+    nextButton.innerHTML = '<i class="fas fa-chevron-right"></i>';
+    nextButton.addEventListener('click', () => scrollSpotlightBy(mainElement, 1));
+    mainElement.appendChild(nextButton);
+  }
+
+  const firstCard = cards[0];
+  if (firstCard) {
+    const targetLeft = layout === 'left' ? 0 : firstCard.offsetLeft - (track.clientWidth - firstCard.clientWidth) / 2;
+    track.scrollLeft = Math.max(0, targetLeft);
+  }
+
+  updateSpotlightState(mainElement);
+  updateScrollProgress(mainElement);
+}
+
+window.addEventListener('resize', () => {
+  document.querySelectorAll('main').forEach(mainElement => initSpotlightCarousel(mainElement));
+});
+
 async function showMovies(movies, mainElement, options = {}) {
   const mediaType = options.mediaType === 'tv' ? 'tv' : options.mediaType === 'mixed' ? 'mixed' : 'movie';
   const isMixed = mediaType === 'mixed';
@@ -1078,6 +1285,8 @@ async function showMovies(movies, mainElement, options = {}) {
     // Observe for background image loading and rotation
     imageObserver.observe(movieEl);
   });
+
+  initSpotlightCarousel(mainElement);
 }
 
 function updateFavoriteGenre(genre_ids) {
@@ -1389,32 +1598,7 @@ function fallbackMovieSelection() {
 }
 
 function calculateMoviesToDisplay() {
-  const screenWidth = window.innerWidth;
-  if (screenWidth <= 689.9) return 6; // 1 movie per row (mobile only)
-  if (screenWidth <= 1021.24) return 20; // 2 movies per row
-  if (screenWidth <= 1353.74) return 21; // 3 movies per row
-  if (screenWidth <= 1684.9) return 20; // 4 movies per row
-  if (screenWidth <= 2017.49) return 20; // 5 movies per row
-  if (screenWidth <= 2349.99) return 18; // 6 movies per row
-  if (screenWidth <= 2681.99) return 21; // 7 movies per row
-  if (screenWidth <= 3014.49) return 24; // 8 movies per row
-  if (screenWidth <= 3345.99) return 27; // 9 movies per row
-  if (screenWidth <= 3677.99) return 20; // 10 movies per row
-  if (screenWidth <= 4009.99) return 22; // 11 movies per row
-  if (screenWidth <= 4340.99) return 24; // 12 movies per row
-  if (screenWidth <= 4673.49) return 26; // 13 movies per row
-  if (screenWidth <= 5005.99) return 28; // 14 movies per row
-  if (screenWidth <= 5337.99) return 30; // 15 movies per row
-  if (screenWidth <= 5669.99) return 32; // 16 movies per row
-  if (screenWidth <= 6001.99) return 34; // 17 movies per row
-  if (screenWidth <= 6333.99) return 36; // 18 movies per row
-  if (screenWidth <= 6665.99) return 38; // 19 movies per row
-  if (screenWidth <= 6997.99) return 40; // 20 movies per row
-  if (screenWidth <= 7329.99) return 42; // 21 movies per row
-  if (screenWidth <= 7661.99) return 44; // 22 movies per row
-  if (screenWidth <= 7993.99) return 46; // 23 movies per row
-  if (screenWidth <= 8325.99) return 48; // 24 movies per row
-  return 20;
+  return API_PAGE_SIZE;
 }
 
 function getClassByRate(vote) {
@@ -1485,6 +1669,36 @@ document.getElementById('side-nav').addEventListener('mouseleave', function () {
   if (!sideNav.classList.contains('manual-toggle')) {
     sideNav.style.left = '-250px';
   }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const tocToggle = document.querySelector('.side-nav .toc-toggle');
+  const tocList = document.getElementById('side-nav-toc-list');
+  const tocItem = document.querySelector('.side-nav .side-nav-toc');
+
+  if (!tocToggle || !tocList || !tocItem) {
+    return;
+  }
+
+  const setTocState = isOpen => {
+    tocItem.classList.toggle('is-open', isOpen);
+    tocToggle.setAttribute('aria-expanded', String(isOpen));
+    tocList.setAttribute('aria-hidden', String(!isOpen));
+    tocList.style.maxHeight = isOpen ? `${tocList.scrollHeight}px` : '0px';
+  };
+
+  setTocState(false);
+
+  tocToggle.addEventListener('click', () => {
+    const isOpen = tocItem.classList.contains('is-open');
+    setTocState(!isOpen);
+  });
+
+  window.addEventListener('resize', () => {
+    if (tocItem.classList.contains('is-open')) {
+      tocList.style.maxHeight = `${tocList.scrollHeight}px`;
+    }
+  });
 });
 
 const DATABASEURL = `https://${getMovieVerseData()}/3/discover/movie?sort_by=popularity.desc&${generateMovieNames()}${getMovieCode()}`;
@@ -1741,6 +1955,8 @@ async function showMoviesDirectorSpotlight(movies) {
     slideObserver.observe(movieEl);
     imageObserver.observe(movieEl);
   });
+
+  initSpotlightCarousel(director_main);
 }
 
 function handleSignInOut() {

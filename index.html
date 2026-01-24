@@ -48,7 +48,7 @@
     <script src="index.js" defer></script>
     <script src="/MovieVerse-Frontend/js/settings.js" defer></script>
     <link rel="preload" href="https://movie-verse.com/MovieVerse-Frontend/css/style.css" as="style" />
-    <link rel="stylesheet" href="https://movie-verse.com/MovieVerse-Frontend/css/style.css" />
+    <link rel="stylesheet" href="/MovieVerse-Frontend/css/style.css" />
     <link rel="icon" type="image/x-icon" href="https://movie-verse.com/images/favicon.ico" />
     <link rel="manifest" href="https://movie-verse.com/manifest.json" />
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" as="style" />
@@ -902,6 +902,10 @@
         border-radius: 999px;
         background: rgba(255, 255, 255, 0.12);
         color: #f9f9ff;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
       }
 
       .trending-slide .pill-primary {
@@ -971,6 +975,10 @@
         background: rgba(255, 255, 255, 0.08);
         font-size: 12px;
         letter-spacing: 0.04em;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
       }
 
       .trending-slide .hero-details {
@@ -1235,7 +1243,7 @@
     gtag('config', 'G-CQKJ67FXZ4');
   </script>
 
-  <body>
+  <body class="home-page">
     <header id="homepage-header" style="margin-bottom: -10px">
       <h1 id="my-heading" style="margin-bottom: -25px" class="notranslate">
         <a id="indexLink" href="#" style="text-decoration: none; color: inherit; cursor: pointer">
@@ -1317,34 +1325,42 @@
         <li>
           <a href="MovieVerse-Frontend/html/analytics.html">MovieVerse Analytics</a>
         </li>
-        <li><a href="#most-popular">Popular Worldwide</a></li>
-        <li><a href="#tv-series">Popular TV Series</a></li>
-        <li><a href="#recommended">Recommendations</a></li>
-        <li><a href="#award-winning">Award-Winning</a></li>
-        <li><a href="#director-spotlight">Director's Spotlight</a></li>
-        <li><a href="#top-rated-tv-series">Top Rated TV Series</a></li>
-        <li><a href="#airing-today-tv-series">Airing Today TV Series</a></li>
-        <li><a href="#action">Action</a></li>
-        <li><a href="#vietnamese">Vietnamese</a></li>
-        <li><a href="#indian">Indian</a></li>
-        <li><a href="#korean">Korean</a></li>
-        <li><a href="#hidden-gems">Hidden Gems</a></li>
-        <li><a href="#horror">Horror</a></li>
-        <li><a href="#documentary">Documentary</a></li>
-        <li><a href="#animation">Animation</a></li>
-        <li><a href="#sci-fi">Science Fiction</a></li>
-        <li><a href="#western">Western</a></li>
-        <li><a href="#romantic">Romantic</a></li>
-        <li><a href="#thriller">Thriller</a></li>
-        <li><a href="#war">War</a></li>
-        <li><a href="#mystery">Mystery</a></li>
-        <li><a href="#crime">Crime</a></li>
-        <li><a href="#comedy">Comedy</a></li>
-        <li><a href="#fantasy">Fantasy</a></li>
-        <li><a href="#family">Family</a></li>
-        <li><a href="#musical">Musical</a></li>
-        <li><a href="#drama">Drama</a></li>
-        <li><a href="#classic">Classic</a></li>
+        <li class="side-nav-toc">
+          <button class="toc-toggle" type="button" aria-expanded="false" aria-controls="side-nav-toc-list" title="Jump to a section">
+            On this page
+            <i class="fas fa-chevron-down toc-toggle-icon" aria-hidden="true"></i>
+          </button>
+          <ul id="side-nav-toc-list" class="toc-list" aria-label="On this page">
+            <li><a href="#most-popular">Popular Worldwide</a></li>
+            <li><a href="#tv-series">Popular TV Series</a></li>
+            <li><a href="#recommended">Recommendations</a></li>
+            <li><a href="#award-winning">Award-Winning</a></li>
+            <li><a href="#director-spotlight">Director's Spotlight</a></li>
+            <li><a href="#top-rated-tv-series">Top Rated TV Series</a></li>
+            <li><a href="#airing-today-tv-series">Airing Today TV Series</a></li>
+            <li><a href="#action">Action</a></li>
+            <li><a href="#vietnamese">Vietnamese</a></li>
+            <li><a href="#indian">Indian</a></li>
+            <li><a href="#korean">Korean</a></li>
+            <li><a href="#hidden-gems">Hidden Gems</a></li>
+            <li><a href="#horror">Horror</a></li>
+            <li><a href="#documentary">Documentary</a></li>
+            <li><a href="#animation">Animation</a></li>
+            <li><a href="#sci-fi">Science Fiction</a></li>
+            <li><a href="#western">Western</a></li>
+            <li><a href="#romantic">Romantic</a></li>
+            <li><a href="#thriller">Thriller</a></li>
+            <li><a href="#war">War</a></li>
+            <li><a href="#mystery">Mystery</a></li>
+            <li><a href="#crime">Crime</a></li>
+            <li><a href="#comedy">Comedy</a></li>
+            <li><a href="#fantasy">Fantasy</a></li>
+            <li><a href="#family">Family</a></li>
+            <li><a href="#musical">Musical</a></li>
+            <li><a href="#drama">Drama</a></li>
+            <li><a href="#classic">Classic</a></li>
+          </ul>
+        </li>
         <li>
           <a href="MovieVerse-Frontend/html/sign-in.html">Sign In/Sign Up</a>
         </li>

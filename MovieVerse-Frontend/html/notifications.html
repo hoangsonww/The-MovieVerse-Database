@@ -195,13 +195,13 @@
           flex-basis: 100%;
         }
       }
-      ul {
+      .notifications-layout ul {
         width: 100%;
         padding: 0;
         margin: 0;
         list-style-type: none;
       }
-      li {
+      .notifications-layout li {
         width: 100%;
         margin-top: 10px;
         padding: 10px;
@@ -212,7 +212,7 @@
       h2 {
         margin-bottom: 10px;
       }
-      li:hover {
+      .notifications-layout li:hover {
         background-color: #e1e3e4;
         cursor: pointer;
       }
@@ -432,6 +432,12 @@
         main.notifications-layout {
           grid-template-columns: minmax(0, 1.55fr) minmax(0, 0.9fr);
         }
+        main.notifications-layout .noti-hero {
+          min-height: 440px;
+        }
+        .hero-poster {
+          bottom: clamp(8px, 2vw, 20px);
+        }
       }
       @media (max-width: 1099px) {
         main.notifications-layout {
@@ -504,7 +510,7 @@
       .hero-poster {
         position: absolute;
         right: clamp(18px, 4vw, 42px);
-        bottom: clamp(20px, 4vw, 36px);
+        bottom: clamp(8px, 2.5vw, 20px);
         width: clamp(160px, 20vw, 240px);
         aspect-ratio: 2 / 3;
         border-radius: 18px;
@@ -534,6 +540,10 @@
         border-radius: 999px;
         background: var(--noti-card-soft);
         color: var(--noti-text);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
       }
       .pill-primary {
         background: linear-gradient(120deg, rgba(255, 134, 35, 0.95), rgba(255, 107, 120, 0.9));

@@ -903,6 +903,102 @@ header h1 {
   height: 555px;
 }
 
+.home-page main.spotlight-carousel {
+  position: relative;
+  overflow: hidden;
+  display: block;
+  --spotlight-card-width: clamp(220px, 26vw, 320px);
+}
+
+.home-page main.spotlight-carousel .spotlight-track {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  gap: 18px;
+  padding: 12px calc((100% - var(--spotlight-card-width)) / 2);
+  align-items: stretch;
+  justify-content: flex-start;
+  -webkit-overflow-scrolling: touch;
+}
+
+.home-page main.spotlight-carousel.spotlight-multi .spotlight-track {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.home-page main.spotlight-carousel .spotlight-track::-webkit-scrollbar {
+  display: none;
+}
+
+.home-page main.spotlight-carousel .spotlight-track .movie {
+  flex: 0 0 auto;
+  width: var(--spotlight-card-width);
+  margin: 0;
+  scroll-snap-align: center;
+}
+
+.home-page main.spotlight-carousel .spotlight-track .movie.spotlight-dim {
+  opacity: 0.62;
+  filter: saturate(0.7) brightness(0.9);
+}
+
+.home-page main.spotlight-carousel .spotlight-track .movie.spotlight-active {
+  opacity: 1;
+  filter: none;
+  box-shadow: 0 18px 35px rgba(0, 0, 0, 0.35);
+}
+
+.home-page main.spotlight-carousel .spotlight-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.45);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1200;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+}
+
+.home-page main.spotlight-carousel .spotlight-prev {
+  left: 10px;
+}
+
+.home-page main.spotlight-carousel .spotlight-next {
+  right: 10px;
+}
+
+.home-page main.spotlight-carousel .scroll-progress {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  width: min(90%, 520px);
+  margin: 12px auto 0;
+  overflow: hidden;
+}
+
+@media (max-width: 800px) {
+  .home-page main.spotlight-carousel .scroll-progress {
+    margin-bottom: 12px;
+  }
+}
+
+.home-page main.spotlight-carousel .scroll-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: #ff8623;
+  border-radius: inherit;
+  transition: width 0.2s ease;
+}
+
 .tvSeries {
   background-color: #373b69;
   border-radius: 3px;
@@ -2225,6 +2321,62 @@ strong {
 .side-nav ul li a:hover {
   background-color: #ff8623;
   border-radius: 8px;
+}
+
+.side-nav .side-nav-toc {
+  padding: 10px 20px;
+  margin-top: 5px;
+}
+
+.side-nav .toc-toggle {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: white;
+  font: inherit;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 5px;
+  cursor: pointer;
+}
+
+.side-nav .toc-toggle:hover {
+  background-color: #ff8623;
+  border-radius: 8px;
+}
+
+.side-nav .toc-toggle-icon {
+  transition: transform 0.25s ease;
+}
+
+.side-nav .toc-list {
+  list-style: none;
+  margin: 4px 0 0;
+  padding-left: 12px;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition:
+    max-height 0.3s ease,
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+.side-nav .toc-list li {
+  padding: 6px 12px;
+}
+
+.side-nav .side-nav-toc.is-open .toc-list {
+  max-height: 1000px;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.side-nav .side-nav-toc.is-open .toc-toggle-icon {
+  transform: rotate(180deg);
 }
 
 .nav-toggle {
