@@ -734,37 +734,336 @@
         animation: dropIn 1s ease forwards 2s;
       }
 
-      #sticky-menu-button {
-        display: none;
+      .trending-now {
+        margin: 24px auto 10px;
+        width: min(1200px, calc(100% - 40px));
+        opacity: 0;
+        transform: translateY(24px);
+        transition:
+          opacity 0.8s ease,
+          transform 0.8s ease;
+      }
+
+      .trending-now.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .trending-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 16px;
+      }
+
+      .trending-header h2 {
+        margin: 0;
+        font-size: clamp(24px, 3vw, 34px);
+        letter-spacing: -0.02em;
+      }
+
+      .trending-header p {
+        margin: 6px 0 0;
+        color: rgba(255, 255, 255, 0.75);
+        font-size: 14px;
+        text-align: left;
+      }
+
+      .trending-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(10, 12, 20, 0.6);
+        color: #fff;
+        border-radius: 999px;
+        width: 42px;
+        height: 42px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition:
+          transform 0.2s ease,
+          background 0.2s ease;
+        z-index: 3;
+        backdrop-filter: blur(6px);
+      }
+
+      .trending-nav:hover {
+        transform: translateY(-50%) scale(1.05);
+        background: rgba(255, 134, 35, 0.8);
+      }
+
+      .trending-nav-left {
+        left: 18px;
+      }
+
+      .trending-nav-right {
+        right: 18px;
+      }
+
+      .trending-slider {
+        position: relative;
+        min-height: 440px;
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+        background: rgba(12, 16, 28, 0.85);
+        backdrop-filter: blur(10px);
+      }
+
+      .trending-slides {
+        position: relative;
+        min-height: inherit;
+      }
+
+      .trending-slide {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        transform: translateY(14px) scale(0.985);
+        transition:
+          opacity 0.8s ease,
+          transform 0.8s ease;
+        pointer-events: none;
+        display: grid;
+        align-items: start;
+        padding: clamp(24px, 4vw, 40px);
+        color: #f4f6ff;
+      }
+
+      .trending-slide.is-active {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        pointer-events: auto;
+      }
+
+      .trending-slide .hero-backdrop {
+        position: absolute;
+        inset: 0;
+        background-size: cover;
+        background-position: center;
+        filter: saturate(1.1);
+      }
+
+      .trending-slide .hero-glow {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(120deg, rgba(6, 10, 24, 0.92) 35%, rgba(6, 10, 24, 0.55) 70%, rgba(6, 10, 24, 0.1) 100%);
+      }
+
+      .trending-slide .hero-content {
+        position: relative;
+        z-index: 2;
+        max-width: 620px;
+        display: grid;
+        gap: 16px;
+      }
+
+      .trending-slide .hero-poster {
+        position: absolute;
+        right: clamp(18px, 4vw, 42px);
+        bottom: clamp(20px, 4vw, 36px);
+        width: clamp(160px, 20vw, 240px);
+        aspect-ratio: 2 / 3;
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 14px 40px rgba(0, 0, 0, 0.45);
+        z-index: 2;
+        background: rgba(10, 12, 20, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+      }
+
+      .trending-slide .hero-poster img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .trending-slide .hero-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .trending-slide .pill {
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 6px 12px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.12);
+        color: #f9f9ff;
+      }
+
+      .trending-slide .pill-primary {
+        background: linear-gradient(120deg, rgba(255, 134, 35, 0.95), rgba(255, 107, 120, 0.9));
+        color: #101018;
+        font-weight: 600;
+      }
+
+      .trending-slide .pill-outline {
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        background: transparent;
+      }
+
+      .trending-slide .pill-muted {
+        background: rgba(108, 208, 255, 0.2);
+        color: #9fe0ff;
+      }
+
+      .trending-slide h2 {
+        font-size: clamp(28px, 3.2vw, 44px);
+        line-height: 1.05;
+        margin: 0;
+        letter-spacing: -0.02em;
+      }
+
+      .trending-slide p {
+        margin: 0;
+        color: rgba(230, 232, 255, 0.78);
+        font-size: 15px;
+        text-align: left;
+      }
+
+      .trending-slide .hero-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        font-size: 13px;
+        color: rgba(230, 232, 255, 0.75);
+      }
+
+      .trending-slide .hero-meta span {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .trending-slide .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .trending-slide .hero-btn {
+        border: none;
+        padding: 10px 18px;
+        border-radius: 999px;
+        font-weight: 600;
+        cursor: pointer;
+        background: #ff8623;
+        color: #111;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+
+      .trending-slide .hero-btn.ghost {
+        background: rgba(255, 255, 255, 0.12);
+        color: #f4f6ff;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .trending-slide .hero-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      .trending-slide .hero-footer {
+        font-size: 12px;
+        color: rgba(230, 232, 255, 0.7);
+      }
+
+      .trending-slide .update-pill {
+        display: inline-flex;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: rgba(0, 0, 0, 0.35);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        align-items: center;
+      }
+
+      .trending-dots {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 14px;
+      }
+
+      .trending-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+        border: none;
+        background: rgba(255, 255, 255, 0.3);
+        cursor: pointer;
+        transition:
+          transform 0.2s ease,
+          background 0.2s ease;
+      }
+
+      .trending-dot.is-active {
+        background: #ff8623;
+        transform: scale(1.2);
+      }
+
+      @media (max-width: 900px) {
+        .trending-slider {
+          min-height: 520px;
+        }
+
+        .trending-slide .hero-poster {
+          position: static;
+          width: clamp(140px, 40vw, 200px);
+          margin-top: 16px;
+        }
+
+        .trending-slide {
+          grid-template-columns: 1fr;
+          text-align: left;
+        }
       }
 
       @media (max-width: 767px) {
-        #sticky-menu-button {
-          position: fixed;
-          top: 50%;
+        .trending-header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .trending-nav {
+          width: 36px;
+          height: 36px;
+        }
+
+        .trending-nav-left {
           left: 10px;
-          transform: translateY(-50%);
-          background-color: #7378c5;
-          color: white;
-          border: none;
-          border-radius: 8px;
-          padding: 10px;
-          font-size: 16px;
-          cursor: pointer;
-          z-index: 1001;
-          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-          display: flex;
-          align-items: center;
-          justify-content: center;
         }
 
-        #sticky-menu-button:hover {
-          background-color: #ff8623;
-          transition: 0.2s ease-in-out;
+        .trending-nav-right {
+          right: 10px;
         }
 
-        #sticky-menu-button i {
-          font-size: 18px;
+        .trending-slider {
+          min-height: 0;
+          height: auto;
+        }
+
+        .trending-slide {
+          position: relative;
+          display: none;
+          opacity: 1;
+          transform: none;
+        }
+
+        .trending-slide.is-active {
+          display: grid;
         }
       }
 
@@ -851,9 +1150,6 @@
       <button id="nav-toggle" style="z-index: 200000" class="nav-toggle" title="Toggle side navbar" onclick="toggleNav()">
         <i class="fas fa-bars"></i>
       </button>
-      <button id="sticky-menu-button" onclick="toggleNav()">
-        <i class="fas fa-arrow-right"></i>
-      </button>
       <button class="back-btn nav-btn notranslate" id="home-btn" title="Go back to homepage">Home</button>
       <button
         class="about nav-btn notranslate"
@@ -922,6 +1218,7 @@
         <li>
           <a href="MovieVerse-Frontend/html/analytics.html">MovieVerse Analytics</a>
         </li>
+        <li><a href="#trending-now">Trending Now</a></li>
         <li><a href="#most-popular">Popular Worldwide</a></li>
         <li><a href="#tv-series">Popular TV Series</a></li>
         <li><a href="#recommended">Recommendations</a></li>
@@ -997,6 +1294,55 @@
     <div id="myModal" class="modal-overlay">
       <div class="spinner"></div>
     </div>
+    <section id="trending-now" class="trending-now">
+      <div class="trending-header">
+        <div>
+          <h2>Trending Now Spotlight</h2>
+        </div>
+      </div>
+      <div class="trending-slider" id="trendingSlider" aria-live="polite">
+        <button class="trending-nav trending-nav-left" id="trendingPrev" aria-label="Previous spotlight">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="trending-nav trending-nav-right" id="trendingNext" aria-label="Next spotlight">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+        <div class="trending-slides" id="trendingSlides"></div>
+      </div>
+      <div class="trending-dots" id="trendingDots"></div>
+    </section>
+    <div
+      id="ad-container-trending"
+      style="
+        text-align: center;
+        cursor: pointer;
+        background-color: rgba(255, 255, 255, 0.15);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        margin: 20px auto 10px;
+        padding: 10px;
+        border-radius: 8px;
+        width: auto;
+        max-width: calc(100% - 40px);
+      "
+      title="Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Thank you for your support!"
+    >
+      <p style="margin: 0">Advertisement</p>
+      <ins
+        class="adsbygoogle"
+        style="display: block; width: 100%"
+        data-ad-client="ca-pub-6608388491200814"
+        data-ad-slot="4832732030"
+        data-ad-format="auto"
+      ></ins>
+      <p style="margin: 0; font-size: 12px; margin-top: 5px">
+        Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your
+        <a style="text-decoration: underline" id="githubLinkTrending" href="MovieVerse-Frontend/html/feedback.html">feedback</a>
+        if you find the ad inappropriate or irrelevant.
+      </p>
+    </div>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
     <div class="genres" style="animation: fadeIn 1.5s ease-in-out">
       <h2 id="other" style="cursor: pointer">Global Hits: Popular Movies Worldwide</h2>
     </div>

@@ -1472,14 +1472,8 @@ document.addEventListener('mousemove', function (event) {
 document.addEventListener('click', function (event) {
   const sideNav = document.getElementById('side-nav');
   const navToggle = document.getElementById('nav-toggle');
-  const menuButton = document.getElementById('sticky-menu-button');
 
-  if (
-    !sideNav.contains(event.target) &&
-    !navToggle.contains(event.target) &&
-    sideNav.classList.contains('manual-toggle') &&
-    !menuButton.contains(event.target)
-  ) {
+  if (!sideNav.contains(event.target) && !navToggle.contains(event.target) && sideNav.classList.contains('manual-toggle')) {
     sideNav.classList.remove('manual-toggle');
     adjustNavBar();
   }
@@ -1992,25 +1986,249 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-document.addEventListener('DOMContentLoaded', function () {
-  const stickyMenuButton = document.getElementById('sticky-menu-button');
+function escapeTrendingText(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
 
-  stickyMenuButton.style.display = 'none';
+function formatTrendingYear(dateValue) {
+  if (!dateValue) return '—';
+  const year = new Date(dateValue).getFullYear();
+  return Number.isNaN(year) ? '—' : year;
+}
 
-  // Function to check if the device is mobile
-  function isMobileDevice() {
-    return window.innerWidth <= 768;
+function truncateTrendingOverview(text, maxLength = 180) {
+  if (!text) return 'No overview available yet.';
+  if (text.length <= maxLength) return text;
+  return `${text.slice(0, maxLength).trim()}…`;
+}
+
+function buildTrendingSlide(item, index) {
+  const title = escapeTrendingText(item.title || item.name || 'Untitled');
+  const overview = escapeTrendingText(truncateTrendingOverview(item.overview));
+  const mediaLabel = item.media_type === 'tv' ? 'TV Series' : 'Movie';
+  const year = formatTrendingYear(item.release_date || item.first_air_date);
+  const rating = item.vote_average ? item.vote_average.toFixed(1) : '—';
+  const backdropUrl = item.backdrop_path ? `${IMGPATH}${item.backdrop_path}` : '';
+  const posterUrl = item.poster_path ? `${IMGPATH}${item.poster_path}` : '';
+  const backdropStyle = backdropUrl ? ` style="background-image: url('${backdropUrl}');"` : '';
+  const posterMarkup = posterUrl ? `<img src="${posterUrl}" alt="${title} poster" loading="lazy" />` : '';
+
+  return `
+    <article class="trending-slide${index === 0 ? ' is-active' : ''}" data-index="${index}">
+      <div class="hero-backdrop"${backdropStyle}></div>
+      <div class="hero-glow"></div>
+      <div class="hero-content">
+        <div class="hero-pills">
+          <span class="pill pill-primary">Trending Now</span>
+          <span class="pill pill-outline">${mediaLabel}</span>
+          <span class="pill pill-muted">Spotlight</span>
+        </div>
+        <h2>${title}</h2>
+        <p>${overview}</p>
+        <div class="hero-meta">
+          <span><i class="fas fa-calendar-alt"></i> ${year}</span>
+          <span><i class="fas fa-star"></i> ${rating}</span>
+          <span><i class="fas fa-fire"></i> Hot pick</span>
+        </div>
+        <div class="hero-actions">
+          <button class="hero-btn trending-cta" data-media-type="${item.media_type}" data-id="${item.id}">
+            <i class="fas fa-play"></i>
+            View details
+          </button>
+        </div>
+      </div>
+      <div class="hero-poster">${posterMarkup}</div>
+    </article>
+  `;
+}
+
+async function initTrendingSpotlight() {
+  const slider = document.getElementById('trendingSlider');
+  const slidesContainer = document.getElementById('trendingSlides');
+  const dotsContainer = document.getElementById('trendingDots');
+  const prevButton = document.getElementById('trendingPrev');
+  const nextButton = document.getElementById('trendingNext');
+
+  if (!slider || !slidesContainer || !dotsContainer) return;
+
+  try {
+    const baseParams = `${generateMovieNames()}${getMovieCode()}`;
+    const [movieRes, tvRes] = await Promise.all([
+      fetch(`https://${getMovieVerseData()}/3/trending/movie/week?${baseParams}`),
+      fetch(`https://${getMovieVerseData()}/3/trending/tv/week?${baseParams}`),
+    ]);
+
+    const [movieData, tvData] = await Promise.all([movieRes.json(), tvRes.json()]);
+    const movieItems = (movieData.results || [])
+      .filter(item => item.poster_path && item.backdrop_path)
+      .slice(0, 10)
+      .map(item => ({ ...item, media_type: 'movie' }));
+    const tvItems = (tvData.results || [])
+      .filter(item => item.poster_path && item.backdrop_path)
+      .slice(0, 10)
+      .map(item => ({ ...item, media_type: 'tv' }));
+
+    const mixedItems = [];
+    const maxLength = Math.max(movieItems.length, tvItems.length);
+
+    for (let i = 0; i < maxLength; i += 1) {
+      if (movieItems[i]) mixedItems.push(movieItems[i]);
+      if (tvItems[i]) mixedItems.push(tvItems[i]);
+    }
+
+    const spotlightItems = mixedItems.slice(0, 20);
+
+    if (!spotlightItems.length) {
+      slidesContainer.innerHTML = `
+        <article class="trending-slide is-active">
+          <div class="hero-backdrop"></div>
+          <div class="hero-glow"></div>
+          <div class="hero-content">
+            <div class="hero-pills">
+              <span class="pill pill-primary">Trending Now</span>
+              <span class="pill pill-outline">Loading</span>
+              <span class="pill pill-muted">Spotlight</span>
+            </div>
+            <h2>Spotlight incoming</h2>
+            <p>We’re warming up the spotlight. Check back in a moment for the latest trending picks.</p>
+          </div>
+        </article>
+      `;
+      dotsContainer.innerHTML = '';
+      return;
+    }
+
+    slidesContainer.innerHTML = spotlightItems.map(buildTrendingSlide).join('');
+    dotsContainer.innerHTML = spotlightItems
+      .map(
+        (_, index) =>
+          `<button class="trending-dot${index === 0 ? ' is-active' : ''}" data-index="${index}" aria-label="View spotlight ${index + 1}"></button>`
+      )
+      .join('');
+
+    const slides = Array.from(slidesContainer.querySelectorAll('.trending-slide'));
+    const dots = Array.from(dotsContainer.querySelectorAll('.trending-dot'));
+    let currentIndex = 0;
+    let timerId;
+
+    const setActiveSlide = nextIndex => {
+      slides[currentIndex].classList.remove('is-active');
+      dots[currentIndex]?.classList.remove('is-active');
+      currentIndex = nextIndex;
+      slides[currentIndex].classList.add('is-active');
+      dots[currentIndex]?.classList.add('is-active');
+    };
+
+    const startRotation = () => {
+      if (slides.length < 2) return;
+      timerId = setInterval(() => {
+        const next = (currentIndex + 1) % slides.length;
+        setActiveSlide(next);
+      }, 6500);
+    };
+
+    const stopRotation = () => {
+      if (timerId) {
+        clearInterval(timerId);
+        timerId = null;
+      }
+    };
+
+    prevButton?.addEventListener('click', () => {
+      stopRotation();
+      const next = (currentIndex - 1 + slides.length) % slides.length;
+      setActiveSlide(next);
+      startRotation();
+    });
+
+    nextButton?.addEventListener('click', () => {
+      stopRotation();
+      const next = (currentIndex + 1) % slides.length;
+      setActiveSlide(next);
+      startRotation();
+    });
+
+    dotsContainer.addEventListener('click', event => {
+      const dot = event.target.closest('.trending-dot');
+      if (!dot) return;
+      const next = Number(dot.dataset.index);
+      if (Number.isNaN(next)) return;
+      stopRotation();
+      setActiveSlide(next);
+      startRotation();
+    });
+
+    slider.addEventListener('mouseenter', stopRotation);
+    slider.addEventListener('mouseleave', startRotation);
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        stopRotation();
+      } else {
+        startRotation();
+      }
+    });
+
+    slidesContainer.addEventListener('click', event => {
+      const cta = event.target.closest('.trending-cta');
+      if (!cta) return;
+      const { mediaType, id } = cta.dataset;
+      if (!id) return;
+      if (mediaType === 'tv') {
+        window.location.href = `MovieVerse-Frontend/html/tv-details.html?tvSeriesId=${id}`;
+      } else {
+        window.location.href = `MovieVerse-Frontend/html/movie-details.html?movieId=${id}`;
+      }
+    });
+
+    startRotation();
+  } catch (error) {
+    slidesContainer.innerHTML = `
+      <article class="trending-slide is-active">
+        <div class="hero-backdrop"></div>
+        <div class="hero-glow"></div>
+        <div class="hero-content">
+          <div class="hero-pills">
+            <span class="pill pill-primary">Trending Now</span>
+            <span class="pill pill-outline">Loading</span>
+            <span class="pill pill-muted">Spotlight</span>
+          </div>
+          <h2>Spotlight coming soon</h2>
+          <p>We couldn’t load the latest spotlight just yet. Refresh in a moment to see what’s trending.</p>
+        </div>
+      </article>
+    `;
+    dotsContainer.innerHTML = '';
+    console.log('Trending spotlight error:', error);
   }
+}
 
-  // Function to toggle visibility based on scroll position and device type
-  function toggleStickyMenuButton() {
-    if (isMobileDevice() && window.scrollY > 0) {
-      stickyMenuButton.style.display = 'flex';
+document.addEventListener('DOMContentLoaded', () => {
+  const trendingSection = document.getElementById('trending-now');
+
+  if (trendingSection) {
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(
+        entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              trendingSection.classList.add('is-visible');
+              observer.disconnect();
+            }
+          });
+        },
+        { threshold: 0.2 }
+      );
+      observer.observe(trendingSection);
     } else {
-      stickyMenuButton.style.display = 'none';
+      trendingSection.classList.add('is-visible');
     }
   }
 
-  window.addEventListener('scroll', toggleStickyMenuButton);
-  window.addEventListener('resize', toggleStickyMenuButton);
+  initTrendingSpotlight();
 });
