@@ -736,7 +736,9 @@
 
       .trending-now {
         margin: 24px auto 10px;
-        width: min(1200px, calc(100% - 40px));
+        width: 100%;
+        max-width: none;
+        padding: 0 20px;
         opacity: 0;
         transform: translateY(24px);
         transition:
@@ -778,8 +780,8 @@
         background: rgba(10, 12, 20, 0.6);
         color: #fff;
         border-radius: 999px;
-        width: 42px;
-        height: 42px;
+        width: 36px;
+        height: 36px;
         cursor: pointer;
         display: inline-flex;
         align-items: center;
@@ -792,23 +794,24 @@
       }
 
       .trending-nav:hover {
-        transform: translateY(-50%) scale(1.05);
         background: rgba(255, 134, 35, 0.8);
       }
 
       .trending-nav-left {
-        left: 18px;
+        left: 0;
+        transform: translate(-50%, -50%);
       }
 
       .trending-nav-right {
-        right: 18px;
+        right: 0;
+        transform: translate(50%, -50%);
       }
 
       .trending-slider {
         position: relative;
-        min-height: 440px;
+        min-height: 75vh;
         border-radius: 24px;
-        overflow: hidden;
+        overflow: visible;
         box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
         background: rgba(12, 16, 28, 0.85);
         backdrop-filter: blur(10px);
@@ -817,6 +820,8 @@
       .trending-slides {
         position: relative;
         min-height: inherit;
+        border-radius: 24px;
+        overflow: hidden;
       }
 
       .trending-slide {
@@ -943,6 +948,60 @@
         gap: 6px;
       }
 
+      .trending-slide .hero-meta i {
+        line-height: 1;
+        transform: translateY(-1px);
+      }
+
+      .trending-slide .hero-meta-secondary {
+        font-size: 12px;
+        color: rgba(230, 232, 255, 0.7);
+      }
+
+      .trending-slide .hero-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .trending-slide .hero-tag {
+        padding: 6px 12px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        background: rgba(255, 255, 255, 0.08);
+        font-size: 12px;
+        letter-spacing: 0.04em;
+      }
+
+      .trending-slide .hero-details {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px 18px;
+      }
+
+      .trending-slide .detail-item {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        background: rgba(8, 10, 18, 0.35);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 12px;
+        padding: 10px 12px;
+      }
+
+      .trending-slide .detail-label {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: rgba(230, 232, 255, 0.6);
+      }
+
+      .trending-slide .detail-value {
+        font-size: 13px;
+        color: #f4f6ff;
+        word-break: break-word;
+      }
+
       .trending-slide .hero-actions {
         display: flex;
         flex-wrap: wrap;
@@ -951,9 +1010,9 @@
 
       .trending-slide .hero-btn {
         border: none;
-        padding: 10px 18px;
+        padding: 12px 22px;
         border-radius: 999px;
-        font-weight: 600;
+        font-weight: 700;
         cursor: pointer;
         background: #ff8623;
         color: #111;
@@ -963,6 +1022,12 @@
         transition:
           transform 0.2s ease,
           box-shadow 0.2s ease;
+        font-size: 15px;
+        font-family:
+          'Poppins',
+          system-ui,
+          -apple-system,
+          sans-serif;
       }
 
       .trending-slide .hero-btn.ghost {
@@ -1014,11 +1079,41 @@
         transform: scale(1.2);
       }
 
-      @media (max-width: 900px) {
-        .trending-slider {
-          min-height: 520px;
-        }
+      .trending-cta-row {
+        display: flex;
+        justify-content: center;
+        margin-top: 18px;
+      }
 
+      .trending-more-btn {
+        border: none;
+        padding: 14px 28px;
+        border-radius: 999px;
+        font-weight: 700;
+        cursor: pointer;
+        background: rgba(255, 255, 255, 0.12);
+        color: #f4f6ff;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        transition:
+          transform 0.2s ease,
+          background 0.2s ease;
+        font-size: 14px;
+        font-family:
+          'Poppins',
+          system-ui,
+          -apple-system,
+          sans-serif;
+      }
+
+      .trending-more-btn:hover {
+        transform: translateY(-2px);
+        background: rgba(255, 134, 35, 0.85);
+        color: #111;
+      }
+
+      @media (max-width: 900px) {
         .trending-slide .hero-poster {
           position: static;
           width: clamp(140px, 40vw, 200px);
@@ -1029,6 +1124,10 @@
           grid-template-columns: 1fr;
           text-align: left;
         }
+
+        .trending-slide .hero-details {
+          grid-template-columns: 1fr;
+        }
       }
 
       @media (max-width: 767px) {
@@ -1038,16 +1137,16 @@
         }
 
         .trending-nav {
-          width: 36px;
-          height: 36px;
+          width: 32px;
+          height: 32px;
         }
 
         .trending-nav-left {
-          left: 10px;
+          left: 0;
         }
 
         .trending-nav-right {
-          right: 10px;
+          right: 0;
         }
 
         .trending-slider {
@@ -1218,7 +1317,6 @@
         <li>
           <a href="MovieVerse-Frontend/html/analytics.html">MovieVerse Analytics</a>
         </li>
-        <li><a href="#trending-now">Trending Now</a></li>
         <li><a href="#most-popular">Popular Worldwide</a></li>
         <li><a href="#tv-series">Popular TV Series</a></li>
         <li><a href="#recommended">Recommendations</a></li>
@@ -1295,11 +1393,6 @@
       <div class="spinner"></div>
     </div>
     <section id="trending-now" class="trending-now">
-      <div class="trending-header">
-        <div>
-          <h2>Trending Now Spotlight</h2>
-        </div>
-      </div>
       <div class="trending-slider" id="trendingSlider" aria-live="polite">
         <button class="trending-nav trending-nav-left" id="trendingPrev" aria-label="Previous spotlight">
           <i class="fas fa-chevron-left"></i>
@@ -1310,6 +1403,12 @@
         <div class="trending-slides" id="trendingSlides"></div>
       </div>
       <div class="trending-dots" id="trendingDots"></div>
+      <div class="trending-cta-row">
+        <button class="trending-more-btn" id="trendingMoreBtn">
+          View more
+          <i class="fas fa-arrow-down"></i>
+        </button>
+      </div>
     </section>
     <div
       id="ad-container-trending"
@@ -1336,7 +1435,7 @@
       ></ins>
       <p style="margin: 0; font-size: 12px; margin-top: 5px">
         Displaying ads helps us maintain our websites, servers, and databases to provide you with free services. Submit your
-        <a style="text-decoration: underline" id="githubLinkTrending" href="MovieVerse-Frontend/html/feedback.html">feedback</a>
+        <a style="text-decoration: underline" id="githubLink" href="MovieVerse-Frontend/html/feedback.html">feedback</a>
         if you find the ad inappropriate or irrelevant.
       </p>
     </div>
@@ -1344,7 +1443,7 @@
       (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
     <div class="genres" style="animation: fadeIn 1.5s ease-in-out">
-      <h2 id="other" style="cursor: pointer">Global Hits: Popular Movies Worldwide</h2>
+      <h2 id="most-popular-title" style="cursor: pointer">Global Hits: Popular Movies Worldwide</h2>
     </div>
     <div id="most-popular-pagination" class="pagination" style="text-align: center"></div>
     <main id="most-popular"></main>

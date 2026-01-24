@@ -1995,10 +1995,57 @@ function escapeTrendingText(value) {
     .replace(/'/g, '&#39;');
 }
 
+const TRENDING_GENRE_MAP = {
+  28: 'Action',
+  12: 'Adventure',
+  16: 'Animation',
+  35: 'Comedy',
+  80: 'Crime',
+  99: 'Documentary',
+  18: 'Drama',
+  10751: 'Family',
+  14: 'Fantasy',
+  36: 'History',
+  27: 'Horror',
+  10402: 'Music',
+  9648: 'Mystery',
+  10749: 'Romance',
+  878: 'Sci-Fi',
+  10770: 'TV Movie',
+  53: 'Thriller',
+  10752: 'War',
+  37: 'Western',
+  10759: 'Action & Adventure',
+  10762: 'Kids',
+  10763: 'News',
+  10764: 'Reality',
+  10765: 'Sci-Fi & Fantasy',
+  10766: 'Soap',
+  10767: 'Talk',
+  10768: 'War & Politics',
+};
+
+function getTrendingGenres(genreIds, limit = 3) {
+  if (!Array.isArray(genreIds)) return [];
+  const names = genreIds.map(id => TRENDING_GENRE_MAP[id]).filter(Boolean);
+  return Array.from(new Set(names)).slice(0, limit);
+}
+
 function formatTrendingYear(dateValue) {
   if (!dateValue) return '—';
   const year = new Date(dateValue).getFullYear();
   return Number.isNaN(year) ? '—' : year;
+}
+
+function formatTrendingDate(dateValue) {
+  if (!dateValue) return '—';
+  const date = new Date(dateValue);
+  if (Number.isNaN(date.getTime())) return '—';
+  return date.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
 }
 
 function truncateTrendingOverview(text, maxLength = 180) {
@@ -2012,7 +2059,18 @@ function buildTrendingSlide(item, index) {
   const overview = escapeTrendingText(truncateTrendingOverview(item.overview));
   const mediaLabel = item.media_type === 'tv' ? 'TV Series' : 'Movie';
   const year = formatTrendingYear(item.release_date || item.first_air_date);
+  const fullDate = formatTrendingDate(item.release_date || item.first_air_date);
   const rating = item.vote_average ? item.vote_average.toFixed(1) : '—';
+  const popularity = typeof item.popularity === 'number' ? Math.round(item.popularity) : '—';
+  const votes = item.vote_count ? item.vote_count.toLocaleString() : '—';
+  const language = item.original_language ? item.original_language.toUpperCase() : '—';
+  const originalTitle = escapeTrendingText(item.original_title || item.original_name || title);
+  const originCountry = Array.isArray(item.origin_country) && item.origin_country.length ? item.origin_country[0] : '—';
+  const adultLabel = item.adult ? '18+' : 'PG';
+  const genres = getTrendingGenres(item.genre_ids);
+  const genresMarkup = genres.length
+    ? genres.map(name => `<span class="hero-tag">${escapeTrendingText(name)}</span>`).join('')
+    : `<span class="hero-tag">Trending</span>`;
   const backdropUrl = item.backdrop_path ? `${IMGPATH}${item.backdrop_path}` : '';
   const posterUrl = item.poster_path ? `${IMGPATH}${item.poster_path}` : '';
   const backdropStyle = backdropUrl ? ` style="background-image: url('${backdropUrl}');"` : '';
@@ -2034,6 +2092,33 @@ function buildTrendingSlide(item, index) {
           <span><i class="fas fa-calendar-alt"></i> ${year}</span>
           <span><i class="fas fa-star"></i> ${rating}</span>
           <span><i class="fas fa-fire"></i> Hot pick</span>
+        </div>
+        <div class="hero-meta hero-meta-secondary">
+          <span><i class="fas fa-chart-line"></i> ${popularity} popularity</span>
+          <span><i class="fas fa-users"></i> ${votes} votes</span>
+          <span><i class="fas fa-language"></i> ${language}</span>
+          <span><i class="fas fa-trophy"></i> #${index + 1}</span>
+        </div>
+        <div class="hero-details">
+          <div class="detail-item">
+            <span class="detail-label">Original</span>
+            <span class="detail-value">${originalTitle}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Release</span>
+            <span class="detail-value">${fullDate}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Origin</span>
+            <span class="detail-value">${originCountry}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Rating</span>
+            <span class="detail-value">${adultLabel}</span>
+          </div>
+        </div>
+        <div class="hero-tags">
+          ${genresMarkup}
         </div>
         <div class="hero-actions">
           <button class="hero-btn trending-cta" data-media-type="${item.media_type}" data-id="${item.id}">
@@ -2129,7 +2214,7 @@ async function initTrendingSpotlight() {
       timerId = setInterval(() => {
         const next = (currentIndex + 1) % slides.length;
         setActiveSlide(next);
-      }, 6500);
+      }, 3000);
     };
 
     const stopRotation = () => {
@@ -2210,6 +2295,7 @@ async function initTrendingSpotlight() {
 
 document.addEventListener('DOMContentLoaded', () => {
   const trendingSection = document.getElementById('trending-now');
+  const trendingMoreBtn = document.getElementById('trendingMoreBtn');
 
   if (trendingSection) {
     if ('IntersectionObserver' in window) {
@@ -2228,6 +2314,15 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       trendingSection.classList.add('is-visible');
     }
+  }
+
+  if (trendingMoreBtn) {
+    trendingMoreBtn.addEventListener('click', () => {
+      const mostPopular = document.getElementById('most-popular-title');
+      if (mostPopular) {
+        mostPopular.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
   }
 
   initTrendingSpotlight();
