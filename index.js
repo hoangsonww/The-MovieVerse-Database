@@ -2211,6 +2211,7 @@ async function initTrendingSpotlight() {
 
     const startRotation = () => {
       if (slides.length < 2) return;
+      stopRotation();
       timerId = setInterval(() => {
         const next = (currentIndex + 1) % slides.length;
         setActiveSlide(next);
