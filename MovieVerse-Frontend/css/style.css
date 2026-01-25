@@ -2784,7 +2784,8 @@ strong {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   font: inherit;
   font-size: 14px;
-  z-index: 1000000002 !important;
+  position: fixed !important;
+  z-index: 2147483647 !important;
 }
 
 #menu-btn i {
@@ -3002,7 +3003,7 @@ strong {
   transform: translateY(20px);
   opacity: 0;
   display: none;
-  z-index: 20000 !important;
+  z-index: 2147483646 !important;
   pointer-events: none;
   visibility: hidden;
   color: #ffffff !important;
@@ -4095,6 +4096,8 @@ ol li:hover {
     transform 0.5s ease,
     box-shadow 0.5s ease;
   cursor: pointer;
+  position: relative;
+  z-index: 1 !important;
 }
 
 #movie-image:hover {
@@ -4107,6 +4110,8 @@ ol li:hover {
     transform 0.5s ease,
     box-shadow 0.5s ease;
   cursor: pointer;
+  position: relative;
+  z-index: 1 !important;
 }
 
 #actor-image:hover {
@@ -4119,6 +4124,8 @@ ol li:hover {
     transform 0.5s ease,
     box-shadow 0.5s ease;
   cursor: pointer;
+  position: relative;
+  z-index: 1 !important;
 }
 
 #director-image:hover {
@@ -4127,7 +4134,8 @@ ol li:hover {
 }
 
 #company-logo {
-  z-index: 100000000;
+  z-index: 1 !important;
+  position: relative;
   transition:
     transform 0.5s ease,
     box-shadow 0.5s ease;
@@ -5137,8 +5145,8 @@ body {
   color: purple;
 }
 
-@media all and (max-width: 800px) {
-  .company-details-container {
+@media all and (max-width: 1200px) {
+  #company-details-container {
     display: flex;
     flex-direction: column;
     align-items: center;
