@@ -86,9 +86,9 @@
   }
 
   function installKeyGuards() {
-    const blockedKeys = new Set(['F12', 'F9', 'F10', 'F11', 'F8', 'I', 'J', 'C', 'K', 'U', 'S', 'E', 'M', 'O', 'P', 'F', 'L', 'D']);
+    const blockedKeys = new Set(['F12', 'F9', 'F10', 'F11', 'F8', 'I', 'J', 'C', 'K', 'U', 'S', 'E', 'M', 'O', 'P', 'L', 'D']);
 
-    const codeBlocklist = new Set(['KEYI', 'KEYJ', 'KEYC', 'KEYK', 'KEYU', 'KEYS', 'KEYE', 'KEYM', 'KEYO', 'KEYP', 'KEYF', 'KEYL', 'KEYD']);
+    const codeBlocklist = new Set(['KEYI', 'KEYJ', 'KEYC', 'KEYK', 'KEYU', 'KEYS', 'KEYE', 'KEYM', 'KEYO', 'KEYP', 'KEYL', 'KEYD']);
 
     const blockOnEvent = event => {
       const key = event.key ? event.key.toUpperCase() : '';

@@ -811,6 +811,218 @@ function rotateImages(imageElements, interval = 3000) {
   }, 0);
 }
 
+function isSpotlightMode() {
+  return true;
+}
+
+function getSpotlightTrack(mainElement) {
+  return mainElement.querySelector('.spotlight-track') || mainElement;
+}
+
+function getSpotlightCards(mainElement) {
+  const track = getSpotlightTrack(mainElement);
+  return Array.from(track.querySelectorAll('.movie'));
+}
+
+function ensureScrollProgress(mainElement) {
+  let progress = mainElement.querySelector('.scroll-progress');
+  if (!progress) {
+    progress = document.createElement('div');
+    progress.className = 'scroll-progress';
+    progress.innerHTML = '<div class="scroll-progress-bar"></div>';
+    mainElement.appendChild(progress);
+  }
+  return progress;
+}
+
+function updateScrollProgress(mainElement) {
+  const track = getSpotlightTrack(mainElement);
+  const progress = mainElement.querySelector('.scroll-progress');
+  const bar = progress ? progress.querySelector('.scroll-progress-bar') : null;
+  if (!progress || !bar) return;
+
+  const maxScroll = track.scrollWidth - track.clientWidth;
+  if (maxScroll <= 0) {
+    progress.style.display = 'none';
+    bar.style.width = '0%';
+    return;
+  }
+
+  progress.style.display = 'block';
+  const percent = Math.min(100, Math.max(0, (track.scrollLeft / maxScroll) * 100));
+  bar.style.width = `${percent}%`;
+}
+
+function getSpotlightLayout(track, cards) {
+  if (!cards.length) return 'center';
+  const cardWidth = cards[0].getBoundingClientRect().width || 1;
+  const gapValue = getComputedStyle(track).gap || getComputedStyle(track).columnGap;
+  const gap = Number.parseFloat(gapValue) || 0;
+  const slotWidth = cardWidth + gap;
+  const visibleCount = Math.floor((track.clientWidth + gap) / slotWidth);
+  return visibleCount >= 2 ? 'left' : 'center';
+}
+
+function ensureSpotlightTrack(mainElement) {
+  let track = mainElement.querySelector('.spotlight-track');
+  if (!track) {
+    track = document.createElement('div');
+    track.className = 'spotlight-track';
+    const cards = Array.from(mainElement.querySelectorAll('.movie'));
+    cards.forEach(card => track.appendChild(card));
+    mainElement.appendChild(track);
+  }
+  return track;
+}
+
+function teardownSpotlightTrack(mainElement) {
+  const track = mainElement.querySelector('.spotlight-track');
+  if (!track) return;
+  Array.from(track.children).forEach(child => mainElement.appendChild(child));
+  track.remove();
+}
+
+function updateSpotlightState(mainElement) {
+  const cards = getSpotlightCards(mainElement);
+  if (!cards.length) return;
+
+  const track = getSpotlightTrack(mainElement);
+  const trackRect = track.getBoundingClientRect();
+  const layout = getSpotlightLayout(track, cards);
+  const containerCenter = trackRect.left + trackRect.width / 2;
+  const containerLeft = trackRect.left;
+  let activeIndex = 0;
+  let smallestDistance = Number.POSITIVE_INFINITY;
+
+  if (layout === 'left') {
+    cards.forEach(card => {
+      card.classList.remove('spotlight-active', 'spotlight-dim');
+    });
+    mainElement.dataset.spotlightIndex = '0';
+    return;
+  }
+
+  cards.forEach((card, index) => {
+    const rect = card.getBoundingClientRect();
+    const distance = layout === 'left' ? Math.abs(rect.left - containerLeft) : Math.abs(rect.left + rect.width / 2 - containerCenter);
+    if (distance < smallestDistance) {
+      smallestDistance = distance;
+      activeIndex = index;
+    }
+  });
+
+  cards.forEach((card, index) => {
+    card.classList.toggle('spotlight-active', index === activeIndex);
+    card.classList.toggle('spotlight-dim', index !== activeIndex);
+  });
+
+  mainElement.dataset.spotlightIndex = String(activeIndex);
+}
+
+function scrollSpotlightBy(mainElement, delta) {
+  const cards = getSpotlightCards(mainElement);
+  if (!cards.length) return;
+
+  const track = getSpotlightTrack(mainElement);
+  const layout = getSpotlightLayout(track, cards);
+  let currentIndex = Number(mainElement.dataset.spotlightIndex || 0);
+  if (layout === 'left') {
+    const gapValue = getComputedStyle(track).gap || getComputedStyle(track).columnGap;
+    const gap = Number.parseFloat(gapValue) || 0;
+    currentIndex = Math.round(track.scrollLeft / (cards[0].offsetWidth + gap));
+  }
+  let nextIndex = currentIndex + delta;
+  if (nextIndex >= cards.length) {
+    nextIndex = 0;
+  } else if (nextIndex < 0) {
+    nextIndex = cards.length - 1;
+  }
+  const target = cards[nextIndex];
+  if (target) {
+    const targetLeft = layout === 'left' ? target.offsetLeft : target.offsetLeft - (track.clientWidth - target.clientWidth) / 2;
+    track.scrollTo({ left: targetLeft, behavior: 'smooth' });
+  }
+}
+
+function initSpotlightCarousel(mainElement) {
+  if (!mainElement) return;
+
+  const cards = getSpotlightCards(mainElement);
+  if (!isSpotlightMode() || cards.length === 0) {
+    mainElement.classList.remove('spotlight-carousel');
+    cards.forEach(card => card.classList.remove('spotlight-active', 'spotlight-dim'));
+    mainElement.querySelectorAll('.spotlight-nav').forEach(btn => btn.remove());
+    teardownSpotlightTrack(mainElement);
+    const progress = mainElement.querySelector('.scroll-progress');
+    if (progress) {
+      progress.remove();
+    }
+    return;
+  }
+
+  mainElement.classList.add('spotlight-carousel');
+  const track = ensureSpotlightTrack(mainElement);
+  ensureScrollProgress(mainElement);
+  const layout = getSpotlightLayout(track, cards);
+  mainElement.classList.toggle('spotlight-multi', layout === 'left');
+
+  if (!track.dataset.spotlightBound) {
+    let scrollTicking = false;
+    track.addEventListener(
+      'scroll',
+      () => {
+        if (scrollTicking) return;
+        scrollTicking = true;
+        requestAnimationFrame(() => {
+          updateSpotlightState(mainElement);
+          updateScrollProgress(mainElement);
+          scrollTicking = false;
+        });
+      },
+      { passive: true }
+    );
+    track.dataset.spotlightBound = 'true';
+  }
+
+  if (!mainElement.querySelector('.spotlight-prev')) {
+    const prevButton = document.createElement('button');
+    prevButton.type = 'button';
+    prevButton.className = 'spotlight-nav spotlight-prev';
+    prevButton.setAttribute('aria-label', 'Previous card');
+    prevButton.innerHTML = '<i class="fas fa-chevron-left"></i>';
+    prevButton.addEventListener('click', () => scrollSpotlightBy(mainElement, -1));
+    mainElement.appendChild(prevButton);
+  }
+
+  if (!mainElement.querySelector('.spotlight-next')) {
+    const nextButton = document.createElement('button');
+    nextButton.type = 'button';
+    nextButton.className = 'spotlight-nav spotlight-next';
+    nextButton.setAttribute('aria-label', 'Next card');
+    nextButton.innerHTML = '<i class="fas fa-chevron-right"></i>';
+    nextButton.addEventListener('click', () => scrollSpotlightBy(mainElement, 1));
+    mainElement.appendChild(nextButton);
+  }
+
+  const firstCard = cards[0];
+  if (firstCard) {
+    const targetLeft = layout === 'left' ? 0 : firstCard.offsetLeft - (track.clientWidth - firstCard.clientWidth) / 2;
+    track.scrollLeft = Math.max(0, targetLeft);
+  }
+
+  updateSpotlightState(mainElement);
+  updateScrollProgress(mainElement);
+}
+
+if (!window.__spotlightResizeBound) {
+  window.__spotlightResizeBound = true;
+  window.addEventListener('resize', () => {
+    document.querySelectorAll('.spotlight-carousel').forEach(carousel => {
+      initSpotlightCarousel(carousel);
+    });
+  });
+}
+
 async function showMovies(items, container, category) {
   container.innerHTML = '';
 
@@ -853,16 +1065,21 @@ async function showMovies(items, container, category) {
 
     const movieEl = document.createElement('div');
     movieEl.classList.add('movie');
-    movieEl.style.zIndex = 10000;
+    movieEl.style.zIndex = 2;
 
     let movieContentHTML = `<div class="image-container" style="text-align: center;">`;
 
+    const fallbackHTML =
+      '<div style="color: inherit; font-weight: bold; text-align: center; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; background-color: #333;">Image Not Available</div>';
+    const fallbackOnError =
+      "this.onerror=null; var p=this.parentElement; p.innerHTML=''; p.style.display='flex'; p.style.alignItems='center'; p.style.justifyContent='center'; p.style.backgroundColor='#333'; p.style.color='inherit'; p.style.fontWeight='bold'; p.textContent='Image Not Available';";
+
     if (imagePath) {
-      movieContentHTML += `<div class="movie-images" style="position: relative; width: 100%; height: 435px; overflow: hidden;">`;
-      movieContentHTML += `<img data-src="${imagePath}" alt="${title}" style="cursor: pointer; max-width: 100%; position: absolute; top: 0; left: 0; transition: opacity 1s ease-in-out; opacity: 1;" onError="this.parentElement.innerHTML = '<div style=\'text-align: center; padding: 20px;\'>Image Unavailable</div>';">`;
+      movieContentHTML += `<div class="movie-images" style="position: relative; width: 100%; height: 435px; overflow: hidden; background-color: #333;">`;
+      movieContentHTML += `<img data-src="${imagePath}" alt="${title}" style="cursor: pointer; max-width: 100%; position: absolute; top: 0; left: 0; transition: opacity 1s ease-in-out; opacity: 1;" onerror="${fallbackOnError}">`;
       movieContentHTML += `</div>`;
     } else {
-      movieContentHTML += `<div style="text-align: center; padding: 20px;">Image Unavailable</div>`;
+      movieContentHTML += `<div class="movie-images" style="position: relative; width: 100%; height: 435px; overflow: hidden; background-color: #333;">${fallbackHTML}</div>`;
     }
 
     movieContentHTML += `</div><div class="movie-info" style="display: flex; align-items: flex-start; cursor: pointer;">`;
@@ -1013,6 +1230,8 @@ async function showMovies(items, container, category) {
     );
     slideObserver.observe(movieEl);
   });
+
+  requestAnimationFrame(() => initSpotlightCarousel(container));
 }
 
 function handleDirectorClick(directorId, directorName) {

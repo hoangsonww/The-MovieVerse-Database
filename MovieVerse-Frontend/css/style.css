@@ -903,14 +903,32 @@ header h1 {
   height: 555px;
 }
 
-.home-page main.spotlight-carousel {
+.home-page main.spotlight-carousel,
+.spotlight-carousel {
   position: relative;
   overflow: hidden;
   display: block;
   --spotlight-card-width: clamp(220px, 26vw, 320px);
 }
 
-.home-page main.spotlight-carousel .spotlight-track {
+#movie-match-container1.spotlight-carousel {
+  display: block !important;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: 100%;
+  align-self: stretch;
+}
+
+#results.spotlight-carousel {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  align-self: stretch;
+}
+
+.home-page main.spotlight-carousel .spotlight-track,
+.spotlight-carousel .spotlight-track {
   display: flex;
   flex-wrap: nowrap;
   overflow-x: auto;
@@ -921,36 +939,43 @@ header h1 {
   align-items: stretch;
   justify-content: flex-start;
   -webkit-overflow-scrolling: touch;
+  width: 100%;
 }
 
-.home-page main.spotlight-carousel.spotlight-multi .spotlight-track {
+.home-page main.spotlight-carousel.spotlight-multi .spotlight-track,
+.spotlight-carousel.spotlight-multi .spotlight-track {
   padding-left: 16px;
   padding-right: 16px;
 }
 
-.home-page main.spotlight-carousel .spotlight-track::-webkit-scrollbar {
+.home-page main.spotlight-carousel .spotlight-track::-webkit-scrollbar,
+.spotlight-carousel .spotlight-track::-webkit-scrollbar {
   display: none;
 }
 
-.home-page main.spotlight-carousel .spotlight-track .movie {
+.home-page main.spotlight-carousel .spotlight-track .movie,
+.spotlight-carousel .spotlight-track .movie {
   flex: 0 0 auto;
   width: var(--spotlight-card-width);
   margin: 0;
   scroll-snap-align: center;
 }
 
-.home-page main.spotlight-carousel .spotlight-track .movie.spotlight-dim {
+.home-page main.spotlight-carousel .spotlight-track .movie.spotlight-dim,
+.spotlight-carousel .spotlight-track .movie.spotlight-dim {
   opacity: 0.62;
   filter: saturate(0.7) brightness(0.9);
 }
 
-.home-page main.spotlight-carousel .spotlight-track .movie.spotlight-active {
+.home-page main.spotlight-carousel .spotlight-track .movie.spotlight-active,
+.spotlight-carousel .spotlight-track .movie.spotlight-active {
   opacity: 1;
   filter: none;
   box-shadow: 0 18px 35px rgba(0, 0, 0, 0.35);
 }
 
-.home-page main.spotlight-carousel .spotlight-nav {
+.home-page main.spotlight-carousel .spotlight-nav,
+.spotlight-carousel .spotlight-nav {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -968,15 +993,18 @@ header h1 {
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
 }
 
-.home-page main.spotlight-carousel .spotlight-prev {
-  left: 10px;
+.home-page main.spotlight-carousel .spotlight-prev,
+.spotlight-carousel .spotlight-prev {
+  left: 2px;
 }
 
-.home-page main.spotlight-carousel .spotlight-next {
-  right: 10px;
+.home-page main.spotlight-carousel .spotlight-next,
+.spotlight-carousel .spotlight-next {
+  right: 2px;
 }
 
-.home-page main.spotlight-carousel .scroll-progress {
+.home-page main.spotlight-carousel .scroll-progress,
+.spotlight-carousel .scroll-progress {
   height: 4px;
   background: rgba(255, 255, 255, 0.2);
   border-radius: 999px;
@@ -986,12 +1014,14 @@ header h1 {
 }
 
 @media (max-width: 800px) {
-  .home-page main.spotlight-carousel .scroll-progress {
+  .home-page main.spotlight-carousel .scroll-progress,
+  .spotlight-carousel .scroll-progress {
     margin-bottom: 12px;
   }
 }
 
-.home-page main.spotlight-carousel .scroll-progress-bar {
+.home-page main.spotlight-carousel .scroll-progress-bar,
+.spotlight-carousel .scroll-progress-bar {
   height: 100%;
   width: 0%;
   background: #ff8623;
@@ -2829,6 +2859,11 @@ strong {
   transform: translateY(20px);
   opacity: 0;
   display: none;
+  z-index: 20000 !important;
+}
+
+#menu-btn {
+  z-index: 20001 !important;
 }
 
 @media all and (min-width: 768px) {
@@ -4335,6 +4370,25 @@ canvas {
 
 .movie-info h3 {
   margin: 0;
+}
+
+@media (max-width: 768px) {
+  .movie-info h3,
+  .tvSeries-info h3 {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .result-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+  }
 }
 
 .movie-info span {
