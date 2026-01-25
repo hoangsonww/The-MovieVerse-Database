@@ -410,7 +410,7 @@ async function fetchCompanyMovies(companyId) {
 
     if (data.results.length === 0) {
       const companyMoviesContainer = document.getElementById('company-movies-container');
-      companyMoviesContainer.innerHTML = `<p>No movies found for this company.</p>`;
+      companyMoviesContainer.innerHTML = `<p style="text-align: center; margin: 12px auto;">No movies found for this company.</p>`;
       return;
     }
 
@@ -442,7 +442,7 @@ async function fetchCompanyTvSeries(companyId) {
     if (!data.results || data.results.length === 0) {
       const tvSeriesList = document.getElementById('company-tv-list');
       if (tvSeriesList) {
-        tvSeriesList.innerHTML = `<p>No TV series found for this company.</p>`;
+        tvSeriesList.innerHTML = `<p style="text-align: center; margin: 12px auto;">No TV series found for this company.</p>`;
       }
       return;
     }

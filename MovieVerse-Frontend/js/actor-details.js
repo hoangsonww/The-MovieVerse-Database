@@ -371,6 +371,8 @@ async function populateActorDetails(actor, credits, tvCredits) {
       noItemsText.style.textAlign = 'center';
       noItemsText.style.width = '100%';
       noItemsText.style.color = 'white';
+      noItemsText.style.margin = '12px auto';
+      noItemsText.style.display = 'block';
       listElement.appendChild(noItemsText);
       return;
     }
