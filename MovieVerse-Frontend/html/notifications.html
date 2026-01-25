@@ -441,7 +441,7 @@
         min-width: 0;
         overflow-x: hidden;
       }
-      @media (min-width: 1100px) {
+      @media (min-width: 1101px) {
         main.notifications-layout {
           grid-template-columns: minmax(0, 1.55fr) minmax(0, 0.9fr);
         }
@@ -452,7 +452,7 @@
           bottom: clamp(8px, 2vw, 20px);
         }
       }
-      @media (max-width: 1099px) {
+      @media (max-width: 1100px) {
         main.notifications-layout {
           grid-template-columns: 1fr;
           padding: 20px clamp(14px, 4vw, 24px) 50px;
@@ -630,15 +630,30 @@
       }
       .update-pill {
         display: inline-flex;
-        padding: 6px 10px;
+        padding: 6px 12px;
         border-radius: 999px;
-        background: rgba(0, 0, 0, 0.35);
-        border: 1px solid rgba(255, 255, 255, 0.12);
+        background: linear-gradient(130deg, rgba(255, 134, 35, 0.22), rgba(115, 120, 197, 0.2));
+        border: 1px solid rgba(255, 255, 255, 0.18);
         align-items: center;
+        gap: 6px;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        font-weight: 600;
+        color: #fef7f0;
+        box-shadow:
+          0 8px 18px rgba(0, 0, 0, 0.3),
+          inset 0 0 0 1px rgba(255, 255, 255, 0.04);
       }
       .update-separator {
         display: inline-block;
-        width: 6px;
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.65);
+      }
+      .update-pill time {
+        font-weight: 700;
+        letter-spacing: 0.04em;
       }
       main.notifications-layout .noti-stats {
         grid-column: 1 / -1;
@@ -995,7 +1010,7 @@
         font-size: 12px;
         color: var(--noti-muted);
       }
-      @media (max-width: 1099px) {
+      @media (max-width: 1100px) {
         main.notifications-layout {
           grid-template-columns: 1fr;
           grid-auto-flow: row;
