@@ -384,8 +384,21 @@
           margin-top: 0 !important;
         }
       }
+      @media (min-width: 767px) and (max-width: 1200px) {
+        #my-heading {
+          margin-top: 24px !important;
+          margin-bottom: -16px !important;
+        }
+      }
       #nav-toggle {
         z-index: 10000000 !important;
+      }
+      .side-nav {
+        z-index: 10000001 !important;
+      }
+      .side-nav .side-nav-toc {
+        position: relative;
+        z-index: 10000002;
       }
       :root {
         --noti-bg: rgba(10, 12, 20, 0.65);
