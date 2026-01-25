@@ -292,6 +292,9 @@ async function findMovieMatch(mood, genre, period) {
       '2000s': { start: '2000-01-01', end: '2009-12-31' },
       '90s': { start: '1990-01-01', end: '1999-12-31' },
       '80s': { start: '1980-01-01', end: '1989-12-31' },
+      '70s': { start: '1970-01-01', end: '1979-12-31' },
+      '60s': { start: '1960-01-01', end: '1969-12-31' },
+      '50s': { start: '1950-01-01', end: '1959-12-31' },
     };
 
     const moodKeywordQueries = {
@@ -301,6 +304,10 @@ async function findMovieMatch(mood, genre, period) {
       adventurous: ['adventure', 'quest', 'journey'],
       romantic: ['love', 'romance', 'relationship'],
       thoughtful: ['mind-bending', 'philosophy', 'existential', 'thought-provoking'],
+      inspiring: ['inspiring', 'inspiration', 'triumph', 'overcoming'],
+      cozy: ['cozy', 'comfort', 'small town', 'holiday'],
+      tense: ['suspense', 'tense', 'edge of your seat', 'thriller'],
+      quirky: ['quirky', 'offbeat', 'eccentric'],
     };
 
     const genreNameMap = {
@@ -309,16 +316,69 @@ async function findMovieMatch(mood, genre, period) {
       drama: { movie: 'Drama', tv: 'Drama' },
       'sci-fi': { movie: 'Science Fiction', tv: 'Sci-Fi & Fantasy' },
       romance: { movie: 'Romance', tv: 'Romance' },
+      thriller: { movie: 'Thriller', tv: 'Mystery' },
+      horror: { movie: 'Horror', tv: 'Mystery' },
+      fantasy: { movie: 'Fantasy', tv: 'Sci-Fi & Fantasy' },
+      mystery: { movie: 'Mystery', tv: 'Mystery' },
+      crime: { movie: 'Crime', tv: 'Crime' },
+      animation: { movie: 'Animation', tv: 'Animation' },
+      family: { movie: 'Family', tv: 'Family' },
+      documentary: { movie: 'Documentary', tv: 'Documentary' },
     };
 
     const fallbackGenreIds = {
-      movie: { action: 28, comedy: 35, drama: 18, 'sci-fi': 878, romance: 10749 },
-      tv: { action: 10759, comedy: 35, drama: 18, 'sci-fi': 10765, romance: 10749 },
+      movie: {
+        action: 28,
+        comedy: 35,
+        drama: 18,
+        'sci-fi': 878,
+        romance: 10749,
+        thriller: 53,
+        horror: 27,
+        fantasy: 14,
+        mystery: 9648,
+        crime: 80,
+        animation: 16,
+        family: 10751,
+        documentary: 99,
+      },
+      tv: {
+        action: 10759,
+        comedy: 35,
+        drama: 18,
+        'sci-fi': 10765,
+        romance: 10749,
+        thriller: 9648,
+        horror: 9648,
+        fantasy: 10765,
+        mystery: 9648,
+        crime: 80,
+        animation: 16,
+        family: 10751,
+        documentary: 99,
+      },
+    };
+
+    const moodPreferences = {
+      happy: { sortBy: 'popularity.desc', minVotes: 50 },
+      sad: { sortBy: 'vote_average.desc', minVotes: 40 },
+      angry: { sortBy: 'popularity.desc', minVotes: 30 },
+      adventurous: { sortBy: 'popularity.desc', minVotes: 60 },
+      romantic: { sortBy: 'vote_average.desc', minVotes: 30 },
+      thoughtful: { sortBy: 'vote_average.desc', minVotes: 80 },
+      inspiring: { sortBy: 'vote_average.desc', minVotes: 60 },
+      cozy: { sortBy: 'popularity.desc', minVotes: 20 },
+      tense: { sortBy: 'popularity.desc', minVotes: 50 },
+      quirky: { sortBy: 'popularity.desc', minVotes: 20 },
     };
 
     const range = periodRanges[period];
     if (!range) {
       alert('Please pick a valid time period.');
+      return;
+    }
+    if (!genreNameMap[genre]) {
+      alert('Please pick a valid genre.');
       return;
     }
 
@@ -394,6 +454,7 @@ async function findMovieMatch(mood, genre, period) {
       params.set('sort_by', options.sortBy || 'vote_average.desc');
       params.set('vote_count.gte', String(options.minVotes || 80));
       params.set('page', String(options.page || 1));
+      params.set('include_adult', 'false');
 
       if (type == 'movie') {
         params.set('primary_release_date.gte', range.start);
@@ -409,6 +470,9 @@ async function findMovieMatch(mood, genre, period) {
       if (options.keywordIds && options.keywordIds.length > 0) {
         params.set('with_keywords', options.keywordIds.join('|'));
       }
+      if (options.excludeGenreIds && options.excludeGenreIds.length > 0) {
+        params.set('without_genres', options.excludeGenreIds.join(','));
+      }
 
       const url = `https://${getMovieVerseData()}/3/discover/${type}?${generateMovieNames()}${getMovieCode()}&${params.toString()}`;
       try {
@@ -422,12 +486,18 @@ async function findMovieMatch(mood, genre, period) {
     }
 
     const [movieGenreId, tvGenreId] = await Promise.all([getGenreId('movie', genre), getGenreId('tv', genre)]);
+    if (!movieGenreId && !tvGenreId) {
+      alert('We could not resolve that genre yet. Try another genre.');
+      return;
+    }
     const keywordIds = await getMoodKeywordIds(mood);
+    const moodPref = moodPreferences[mood] || { sortBy: 'popularity.desc', minVotes: 40 };
+    const excludeAnimation = genre !== 'animation' ? [16] : [];
 
     const attempts = [
-      { useKeywords: true, minVotes: 120, sortBy: 'vote_average.desc' },
-      { useKeywords: false, minVotes: 120, sortBy: 'vote_average.desc' },
-      { useKeywords: false, minVotes: 30, sortBy: 'popularity.desc' },
+      { useKeywords: true, minVotes: moodPref.minVotes, sortBy: moodPref.sortBy },
+      { useKeywords: false, minVotes: moodPref.minVotes, sortBy: moodPref.sortBy },
+      { useKeywords: false, minVotes: 15, sortBy: 'popularity.desc' },
     ];
 
     for (const attempt of attempts) {
@@ -437,12 +507,14 @@ async function findMovieMatch(mood, genre, period) {
           keywordIds: attempt.useKeywords ? keywordIds : [],
           minVotes: attempt.minVotes,
           sortBy: attempt.sortBy,
+          excludeGenreIds: excludeAnimation,
         }),
         fetchDiscover('tv', {
           genreId: tvGenreId,
           keywordIds: attempt.useKeywords ? keywordIds : [],
           minVotes: attempt.minVotes,
           sortBy: attempt.sortBy,
+          excludeGenreIds: excludeAnimation,
         }),
       ]);
 
