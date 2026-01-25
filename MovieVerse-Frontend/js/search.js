@@ -853,6 +853,15 @@ function updateScrollProgress(mainElement) {
   bar.style.width = `${percent}%`;
 }
 
+function updateSpotlightNavVisibility(mainElement) {
+  const track = getSpotlightTrack(mainElement);
+  const maxScroll = track.scrollWidth - track.clientWidth;
+  const shouldShow = maxScroll > 1;
+  mainElement.querySelectorAll('.spotlight-nav').forEach(button => {
+    button.style.display = shouldShow ? 'inline-flex' : 'none';
+  });
+}
+
 function getSpotlightLayout(track, cards) {
   if (!cards.length) return 'center';
   const cardWidth = cards[0].getBoundingClientRect().width || 1;
@@ -976,6 +985,7 @@ function initSpotlightCarousel(mainElement) {
         requestAnimationFrame(() => {
           updateSpotlightState(mainElement);
           updateScrollProgress(mainElement);
+          updateSpotlightNavVisibility(mainElement);
           scrollTicking = false;
         });
       },
@@ -1012,6 +1022,7 @@ function initSpotlightCarousel(mainElement) {
 
   updateSpotlightState(mainElement);
   updateScrollProgress(mainElement);
+  updateSpotlightNavVisibility(mainElement);
 }
 
 if (!window.__spotlightResizeBound) {

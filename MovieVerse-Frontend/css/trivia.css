@@ -14,7 +14,7 @@ footer {
   color: #ff8623 !important;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1200px) {
   #local-time {
     display: none;
   }
@@ -53,7 +53,7 @@ html {
   position: absolute;
   width: 100px;
   top: 0;
-  margin-left: 316px;
+  margin-left: 340px;
   border-radius: 8px;
 }
 
@@ -184,7 +184,7 @@ html {
   cursor: pointer;
   position: absolute;
   top: 0;
-  margin-left: 420px;
+  margin-left: 442px;
   border-radius: 8px;
   padding: 0 10px;
   box-sizing: border-box;
@@ -463,7 +463,8 @@ header h1 {
   background-color: #7378c5;
   border: none;
   color: white;
-  width: 85px;
+  width: auto;
+  min-width: 90px;
   height: 40px;
   text-align: center;
   text-decoration: none;
@@ -475,6 +476,8 @@ header h1 {
   top: 0;
   margin-left: 130px;
   border-radius: 8px;
+  padding: 0 10px;
+  white-space: nowrap;
 }
 
 .header2 {
@@ -487,7 +490,8 @@ header h1 {
   background-color: #7378c5;
   border: none;
   color: white;
-  width: 85px;
+  width: auto;
+  min-width: 90px;
   height: 40px;
   text-align: center;
   text-decoration: none;
@@ -497,8 +501,10 @@ header h1 {
   cursor: pointer;
   position: absolute;
   top: 0;
-  margin-left: 41px;
+  margin-left: 38px;
   border-radius: 8px;
+  padding: 0 10px;
+  white-space: nowrap;
 }
 
 .back-btn:hover {
@@ -861,11 +867,12 @@ header h1 {
   cursor: pointer;
   position: absolute;
   top: 0;
-  margin-left: 219px;
+  margin-left: 222px;
   border-radius: 8px;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding: 0 12px;
   box-sizing: border-box;
+  min-width: 110px;
+  white-space: nowrap;
 }
 
 .favorites-btn:hover {
@@ -1429,7 +1436,7 @@ main {
   transition: 0.1s linear;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 840px) {
   #profileBtn {
     display: none;
   }
@@ -1437,43 +1444,56 @@ main {
 
 @media (max-width: 840px) {
   #my-heading {
-    margin-left: 0;
+    margin-left: -4px !important;
   }
 
   .back-btn {
     background-color: #7378c5;
     border: none;
     color: white;
-    width: 85px;
+    width: auto;
+    min-width: 90px;
     height: 40px;
     text-align: center;
     text-decoration: none;
-    display: inline-block;
+    display: inline-flex;
     font: inherit;
     font-size: 16px;
     cursor: pointer;
     position: absolute;
     top: 0;
-    margin-left: -180px;
+    margin-left: -186.5px;
     border-radius: 8px;
+    padding: 0 10px;
+    white-space: nowrap;
   }
 
   .about {
     background-color: #7378c5;
     border: none;
     color: white;
-    width: 85px;
+    width: auto;
+    min-width: 90px;
     height: 40px;
     text-align: center;
     text-decoration: none;
-    display: inline-block;
+    display: inline-flex;
     font: inherit;
     font-size: 16px;
     cursor: pointer;
     position: absolute;
     top: 0;
-    margin-left: 0;
+    margin-left: -2px;
     border-radius: 8px;
+    padding: 0 10px;
+    white-space: nowrap;
+  }
+
+  .back-btn,
+  .about {
+    align-items: center;
+    justify-content: center;
+    gap: 4px !important;
   }
 
   .favorites-btn {
@@ -1489,11 +1509,13 @@ main {
     cursor: pointer;
     position: absolute;
     top: 0;
-    margin-left: 189px;
+    margin-left: 203px;
     border-radius: 8px;
-    padding-left: 12px;
-    padding-right: 12px;
+    padding: 0 10px;
     box-sizing: border-box;
+    width: auto;
+    min-width: 104px;
+    white-space: nowrap;
   }
 
   #googleSignInBtn {
@@ -1555,4 +1577,142 @@ main {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.back-btn,
+.about,
+.favorites-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.back-btn::after,
+.about::after,
+.favorites-btn::after {
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+  font-size: 0.9em;
+}
+
+.back-btn::after {
+  content: '\f015';
+}
+
+.about::after {
+  content: '\f05a';
+}
+
+.favorites-btn::after {
+  content: '\f004';
+}
+
+#chat-button,
+#blog-button,
+#games-button,
+#settings-btn,
+#movie-of-the-day-btn,
+#movie-match-btn,
+#movie-match-btn2,
+#movie-match-btn3,
+#movie-timeline-btn,
+#discussions-btn,
+#trivia-btn,
+#back-to-top-btn {
+  color: #ffffff !important;
+  z-index: 20000 !important;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+#chat-button::before,
+#blog-button::before,
+#games-button::before,
+#settings-btn::before,
+#movie-of-the-day-btn::before,
+#movie-match-btn::before,
+#movie-match-btn2::before,
+#movie-match-btn3::before,
+#movie-timeline-btn::before,
+#discussions-btn::before,
+#trivia-btn::before,
+#back-to-top-btn::before {
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+  margin-right: 4px;
+}
+
+#chat-button::before {
+  content: '\f086';
+}
+
+#blog-button::before {
+  content: '\f781';
+}
+
+#games-button::before {
+  content: '\f11b';
+}
+
+#settings-btn::before {
+  content: '\f013';
+}
+
+#movie-of-the-day-btn::before {
+  content: '\f5c2';
+}
+
+#movie-match-btn::before,
+#movie-match-btn2::before,
+#movie-match-btn3::before {
+  content: '\f008';
+}
+
+#movie-timeline-btn::before {
+  content: '\f017';
+}
+
+#discussions-btn::before {
+  content: '\f0c0';
+}
+
+#trivia-btn::before {
+  content: '\f059';
+}
+
+#back-to-top-btn::before {
+  content: '\f062';
+}
+
+:is(
+    #chat-button,
+    #blog-button,
+    #games-button,
+    #settings-btn,
+    #movie-of-the-day-btn,
+    #movie-match-btn,
+    #movie-match-btn2,
+    #movie-match-btn3,
+    #movie-timeline-btn,
+    #discussions-btn,
+    #trivia-btn,
+    #back-to-top-btn
+  )[style*='opacity: 1'],
+:is(
+    #chat-button,
+    #blog-button,
+    #games-button,
+    #settings-btn,
+    #movie-of-the-day-btn,
+    #movie-match-btn,
+    #movie-match-btn2,
+    #movie-match-btn3,
+    #movie-timeline-btn,
+    #discussions-btn,
+    #trivia-btn,
+    #back-to-top-btn
+  )[style*='opacity:1'] {
+  pointer-events: auto;
+  visibility: visible;
 }

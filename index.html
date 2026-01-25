@@ -48,7 +48,7 @@
     <script src="index.js" defer></script>
     <script src="/MovieVerse-Frontend/js/settings.js" defer></script>
     <link rel="preload" href="https://movie-verse.com/MovieVerse-Frontend/css/style.css" as="style" />
-    <link rel="stylesheet" href="https://movie-verse.com/MovieVerse-Frontend/css/style.css" />
+    <link rel="stylesheet" href="/MovieVerse-Frontend/css/style.css" />
     <link rel="icon" type="image/x-icon" href="https://movie-verse.com/images/favicon.ico" />
     <link rel="manifest" href="https://movie-verse.com/manifest.json" />
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" as="style" />
@@ -1248,14 +1248,22 @@
         }
 
         .trending-slide {
-          position: relative;
-          display: none;
-          opacity: 1;
-          transform: none;
+          position: absolute;
+          inset: 0;
+          opacity: 0;
+          transform: translateY(10px) scale(0.99);
+          pointer-events: none;
+          display: grid;
+          transition:
+            opacity 0.5s ease,
+            transform 0.5s ease;
         }
 
         .trending-slide.is-active {
-          display: grid;
+          position: relative;
+          opacity: 1;
+          transform: translateY(0) scale(1);
+          pointer-events: auto;
         }
       }
 
@@ -1282,7 +1290,7 @@
         transition: 0.2s ease-in-out;
       }
 
-      @media (max-width: 900px) {
+      @media (max-width: 1200px) {
         #mobileGamesBtn {
           display: block;
         }
@@ -1311,7 +1319,7 @@
         transition: 0.2s ease-in-out;
       }
 
-      @media (max-width: 900px) {
+      @media (max-width: 1200px) {
         #mobileBlogBtn {
           display: block;
         }
