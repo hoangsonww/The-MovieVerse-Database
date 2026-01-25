@@ -602,9 +602,9 @@
       }
       .hero-btn {
         border: none;
-        padding: 10px 18px;
+        padding: 12px 22px;
         border-radius: 999px;
-        font-weight: 600;
+        font-weight: 700;
         cursor: pointer;
         background: var(--noti-accent);
         color: #111;
@@ -614,6 +614,12 @@
         transition:
           transform 0.2s ease,
           box-shadow 0.2s ease;
+        font-size: 15px;
+        font-family:
+          'Poppins',
+          system-ui,
+          -apple-system,
+          sans-serif;
       }
       .hero-btn.ghost {
         background: rgba(255, 255, 255, 0.12);
@@ -1028,7 +1034,7 @@
           position: static;
         }
       }
-      @media (max-width: 768px) {
+      @media (max-width: 1100px) {
         .noti-hero {
           padding: 22px;
         }
@@ -1038,6 +1044,8 @@
           width: min(180px, 70vw);
           justify-self: start;
         }
+      }
+      @media (max-width: 768px) {
         .feed-card {
           grid-template-columns: 1fr;
         }
