@@ -918,6 +918,7 @@ header h1 {
   width: 100%;
   max-width: 100%;
   align-self: stretch;
+  overflow: visible !important;
 }
 
 #results.spotlight-carousel {
@@ -925,6 +926,7 @@ header h1 {
   width: 100%;
   max-width: 100%;
   align-self: stretch;
+  overflow: visible !important;
 }
 
 .home-page main.spotlight-carousel .spotlight-track,
@@ -983,7 +985,7 @@ header h1 {
   height: 36px;
   border-radius: 50%;
   border: none;
-  background: rgba(0, 0, 0, 0.78);
+  background: #7378c5;
   color: #fff;
   display: inline-flex;
   align-items: center;
@@ -999,7 +1001,7 @@ header h1 {
 
 .home-page main.spotlight-carousel .spotlight-nav:hover,
 .spotlight-carousel .spotlight-nav:hover {
-  background: rgba(0, 0, 0, 0.92);
+  background: #ff8623;
   transform: translateY(-50%) scale(1.06);
   box-shadow: 0 10px 18px rgba(0, 0, 0, 0.45);
 }
@@ -1022,12 +1024,12 @@ header h1 {
 
 #movie-match-container1 .spotlight-prev,
 #results .spotlight-prev {
-  left: -8px;
+  left: -16px;
 }
 
 #movie-match-container1 .spotlight-next,
 #results .spotlight-next {
-  right: -8px;
+  right: -16px;
 }
 
 .home-page main.spotlight-carousel .scroll-progress,
@@ -2889,6 +2891,64 @@ strong {
   z-index: 20000 !important;
   pointer-events: none;
   visibility: hidden;
+  color: #ffffff !important;
+}
+
+#chat-button::before,
+#blog-button::before,
+#games-button::before,
+#settings-btn::before,
+#movie-of-the-day-btn::before,
+#movie-match-btn::before,
+#movie-match-btn3::before,
+#movie-timeline-btn::before,
+#discussions-btn::before,
+#trivia-btn::before,
+#back-to-top-btn::before {
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+  margin-right: 4px;
+}
+
+#chat-button::before {
+  content: '\f086';
+}
+
+#blog-button::before {
+  content: '\f781';
+}
+
+#games-button::before {
+  content: '\f11b';
+}
+
+#settings-btn::before {
+  content: '\f013';
+}
+
+#movie-of-the-day-btn::before {
+  content: '\f5c2';
+}
+
+#movie-match-btn::before,
+#movie-match-btn3::before {
+  content: '\f008';
+}
+
+#movie-timeline-btn::before {
+  content: '\f017';
+}
+
+#discussions-btn::before {
+  content: '\f0c0';
+}
+
+#trivia-btn::before {
+  content: '\f059';
+}
+
+#back-to-top-btn::before {
+  content: '\f062';
 }
 
 :is(
@@ -4466,6 +4526,7 @@ canvas {
   border-radius: 16px;
   margin-top: 50px;
   text-align: center;
+  overflow: visible;
 }
 
 #movie-timeline-btn {
@@ -4545,6 +4606,7 @@ canvas {
   align-items: center;
   justify-content: center;
   display: flex;
+  overflow: visible;
 }
 
 #load-movies {
@@ -4616,6 +4678,7 @@ canvas {
   padding: 20px;
   width: 100%;
   margin-bottom: 300px;
+  overflow: visible;
 }
 
 .profile-container {

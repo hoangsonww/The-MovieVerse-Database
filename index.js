@@ -2348,6 +2348,62 @@ function buildTrendingSlide(item, index) {
   `;
 }
 
+function renderTrendingSkeleton(slidesContainer, dotsContainer, prevButton, nextButton) {
+  slidesContainer.innerHTML = `
+    <article class="trending-slide is-active trending-skeleton">
+      <div class="hero-backdrop skeleton-block"></div>
+      <div class="hero-glow"></div>
+      <div class="hero-content">
+        <div class="hero-pills">
+          <span class="pill pill-primary skeleton-pill"></span>
+          <span class="pill pill-outline skeleton-pill"></span>
+          <span class="pill pill-muted skeleton-pill"></span>
+        </div>
+        <div class="skeleton-line line-lg"></div>
+        <div class="skeleton-line line-md"></div>
+        <div class="skeleton-line line-md"></div>
+        <div class="hero-meta">
+          <span class="skeleton-line line-sm"></span>
+          <span class="skeleton-line line-sm"></span>
+          <span class="skeleton-line line-sm"></span>
+        </div>
+        <div class="hero-meta hero-meta-secondary">
+          <span class="skeleton-line line-xs"></span>
+          <span class="skeleton-line line-xs"></span>
+          <span class="skeleton-line line-xs"></span>
+          <span class="skeleton-line line-xs"></span>
+        </div>
+        <div class="hero-details">
+          <div class="detail-item"><span class="skeleton-line line-sm"></span></div>
+          <div class="detail-item"><span class="skeleton-line line-sm"></span></div>
+          <div class="detail-item"><span class="skeleton-line line-sm"></span></div>
+          <div class="detail-item"><span class="skeleton-line line-sm"></span></div>
+        </div>
+        <div class="hero-tags">
+          <span class="hero-tag skeleton-pill"></span>
+          <span class="hero-tag skeleton-pill"></span>
+          <span class="hero-tag skeleton-pill"></span>
+        </div>
+        <div class="hero-actions">
+          <span class="hero-btn skeleton-btn"></span>
+        </div>
+      </div>
+      <div class="hero-poster">
+        <div class="skeleton-poster"></div>
+      </div>
+    </article>
+  `;
+  if (dotsContainer) {
+    dotsContainer.innerHTML = '';
+  }
+  if (prevButton) {
+    prevButton.setAttribute('disabled', 'true');
+  }
+  if (nextButton) {
+    nextButton.setAttribute('disabled', 'true');
+  }
+}
+
 async function initTrendingSpotlight() {
   const slider = document.getElementById('trendingSlider');
   const slidesContainer = document.getElementById('trendingSlides');
@@ -2356,6 +2412,11 @@ async function initTrendingSpotlight() {
   const nextButton = document.getElementById('trendingNext');
 
   if (!slider || !slidesContainer || !dotsContainer) return;
+  renderTrendingSkeleton(slidesContainer, dotsContainer, prevButton, nextButton);
+  const enableNav = () => {
+    if (prevButton) prevButton.removeAttribute('disabled');
+    if (nextButton) nextButton.removeAttribute('disabled');
+  };
 
   try {
     const baseParams = `${generateMovieNames()}${getMovieCode()}`;
@@ -2401,6 +2462,7 @@ async function initTrendingSpotlight() {
         </article>
       `;
       dotsContainer.innerHTML = '';
+      enableNav();
       return;
     }
 
@@ -2412,6 +2474,7 @@ async function initTrendingSpotlight() {
       )
       .join('');
 
+    enableNav();
     const slides = Array.from(slidesContainer.querySelectorAll('.trending-slide'));
     const dots = Array.from(dotsContainer.querySelectorAll('.trending-dot'));
     let currentIndex = 0;
@@ -2506,6 +2569,7 @@ async function initTrendingSpotlight() {
       </article>
     `;
     dotsContainer.innerHTML = '';
+    enableNav();
     console.log('Trending spotlight error:', error);
   }
 }

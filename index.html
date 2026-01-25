@@ -797,6 +797,11 @@
         background: rgba(255, 134, 35, 0.8);
       }
 
+      .trending-nav:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+      }
+
       .trending-nav-left {
         left: 0;
         transform: translate(-50%, -50%);
@@ -843,6 +848,86 @@
         opacity: 1;
         transform: translateY(0) scale(1);
         pointer-events: auto;
+      }
+
+      .trending-skeleton {
+        pointer-events: none;
+      }
+
+      .skeleton-block,
+      .skeleton-line,
+      .skeleton-pill,
+      .skeleton-poster,
+      .skeleton-btn {
+        background: rgba(115, 120, 197, 0.22);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .skeleton-block::after,
+      .skeleton-line::after,
+      .skeleton-pill::after,
+      .skeleton-poster::after,
+      .skeleton-btn::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -160px;
+        height: 100%;
+        width: 160px;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18), transparent);
+        animation: skeletonShimmer 1.2s infinite;
+      }
+
+      .skeleton-line {
+        height: 14px;
+        border-radius: 999px;
+      }
+
+      .skeleton-line.line-lg {
+        height: 26px;
+        width: 72%;
+      }
+
+      .skeleton-line.line-md {
+        width: 92%;
+      }
+
+      .skeleton-line.line-sm {
+        width: 28%;
+      }
+
+      .skeleton-line.line-xs {
+        width: 18%;
+      }
+
+      .skeleton-pill {
+        width: 80px;
+        height: 24px;
+        border-radius: 999px;
+        display: inline-block;
+      }
+
+      .skeleton-btn {
+        width: 140px;
+        height: 42px;
+        border-radius: 999px;
+        display: inline-block;
+      }
+
+      .skeleton-poster {
+        width: 100%;
+        height: 100%;
+        border-radius: 18px;
+      }
+
+      @keyframes skeletonShimmer {
+        0% {
+          transform: translateX(0);
+        }
+        100% {
+          transform: translateX(320px);
+        }
       }
 
       .trending-slide .hero-backdrop {
