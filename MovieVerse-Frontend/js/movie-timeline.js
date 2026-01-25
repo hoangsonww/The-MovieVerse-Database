@@ -889,6 +889,14 @@ function showMovies(movies, mainElement, startYear, endYear, append) {
   requestAnimationFrame(() => initSpotlightCarousel(mainElement));
 
   createLoadMoreButton(startYear, endYear, mainElement);
+  if (!append) {
+    requestAnimationFrame(() => {
+      const resultsSection = document.getElementById('center-container1') || mainElement;
+      if (resultsSection && typeof resultsSection.scrollIntoView === 'function') {
+        resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  }
   hideSpinner();
 }
 

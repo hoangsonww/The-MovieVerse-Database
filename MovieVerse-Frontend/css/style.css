@@ -983,7 +983,7 @@ header h1 {
   height: 36px;
   border-radius: 50%;
   border: none;
-  background: rgba(0, 0, 0, 0.45);
+  background: rgba(0, 0, 0, 0.78);
   color: #fff;
   display: inline-flex;
   align-items: center;
@@ -991,6 +991,23 @@ header h1 {
   cursor: pointer;
   z-index: 1200;
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.home-page main.spotlight-carousel .spotlight-nav:hover,
+.spotlight-carousel .spotlight-nav:hover {
+  background: rgba(0, 0, 0, 0.92);
+  transform: translateY(-50%) scale(1.06);
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.45);
+}
+
+.home-page main.spotlight-carousel .spotlight-nav:active,
+.spotlight-carousel .spotlight-nav:active {
+  transform: translateY(-50%) scale(0.98);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
 }
 
 .home-page main.spotlight-carousel .spotlight-prev,
@@ -1001,6 +1018,16 @@ header h1 {
 .home-page main.spotlight-carousel .spotlight-next,
 .spotlight-carousel .spotlight-next {
   right: 2px;
+}
+
+#movie-match-container1 .spotlight-prev,
+#results .spotlight-prev {
+  left: -8px;
+}
+
+#movie-match-container1 .spotlight-next,
+#results .spotlight-next {
+  right: -8px;
 }
 
 .home-page main.spotlight-carousel .scroll-progress,
@@ -2860,6 +2887,38 @@ strong {
   opacity: 0;
   display: none;
   z-index: 20000 !important;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+:is(
+    #chat-button,
+    #blog-button,
+    #games-button,
+    #settings-btn,
+    #movie-of-the-day-btn,
+    #movie-match-btn,
+    #movie-match-btn3,
+    #movie-timeline-btn,
+    #discussions-btn,
+    #trivia-btn,
+    #back-to-top-btn
+  )[style*='opacity: 1'],
+:is(
+    #chat-button,
+    #blog-button,
+    #games-button,
+    #settings-btn,
+    #movie-of-the-day-btn,
+    #movie-match-btn,
+    #movie-match-btn3,
+    #movie-timeline-btn,
+    #discussions-btn,
+    #trivia-btn,
+    #back-to-top-btn
+  )[style*='opacity:1'] {
+  pointer-events: auto;
+  visibility: visible;
 }
 
 #menu-btn {
