@@ -957,6 +957,10 @@ function initSpotlightCarousel(mainElement) {
   if (!mainElement) return;
 
   const cards = getSpotlightCards(mainElement);
+  const existingTrack = mainElement.querySelector('.spotlight-track');
+  const storedScrollLeft = Number(mainElement.dataset.spotlightScrollLeft || (existingTrack && existingTrack.dataset.spotlightScrollLeft) || 0);
+  const storedIndex = Number(mainElement.dataset.spotlightIndex || 0);
+  const hasStoredScroll = mainElement.dataset.spotlightHasScroll === 'true';
   if (!isSpotlightMode() || cards.length === 0) {
     mainElement.classList.remove('spotlight-carousel');
     cards.forEach(card => card.classList.remove('spotlight-active', 'spotlight-dim'));
@@ -983,6 +987,9 @@ function initSpotlightCarousel(mainElement) {
         if (scrollTicking) return;
         scrollTicking = true;
         requestAnimationFrame(() => {
+          track.dataset.spotlightScrollLeft = String(track.scrollLeft);
+          mainElement.dataset.spotlightScrollLeft = String(track.scrollLeft);
+          mainElement.dataset.spotlightHasScroll = 'true';
           updateSpotlightState(mainElement);
           updateScrollProgress(mainElement);
           updateSpotlightNavVisibility(mainElement);
@@ -1014,10 +1021,27 @@ function initSpotlightCarousel(mainElement) {
     mainElement.appendChild(nextButton);
   }
 
-  const firstCard = cards[0];
-  if (firstCard) {
-    const targetLeft = layout === 'left' ? 0 : firstCard.offsetLeft - (track.clientWidth - firstCard.clientWidth) / 2;
-    track.scrollLeft = Math.max(0, targetLeft);
+  if (cards.length) {
+    let targetLeft = null;
+    if (hasStoredScroll) {
+      if (layout === 'left') {
+        targetLeft = storedScrollLeft;
+      } else if (Number.isFinite(storedIndex) && cards[storedIndex]) {
+        targetLeft = cards[storedIndex].offsetLeft - (track.clientWidth - cards[storedIndex].clientWidth) / 2;
+      } else {
+        targetLeft = storedScrollLeft;
+      }
+    } else {
+      const firstCard = cards[0];
+      targetLeft = layout === 'left' ? 0 : firstCard.offsetLeft - (track.clientWidth - firstCard.clientWidth) / 2;
+    }
+    if (targetLeft !== null) {
+      const maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
+      const clamped = Math.min(maxScroll, Math.max(0, targetLeft));
+      track.scrollLeft = clamped;
+      track.dataset.spotlightScrollLeft = String(track.scrollLeft);
+      mainElement.dataset.spotlightScrollLeft = String(track.scrollLeft);
+    }
   }
 
   updateSpotlightState(mainElement);
