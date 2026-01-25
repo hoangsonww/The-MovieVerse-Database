@@ -99,13 +99,21 @@ async function fetchDirectorDetails(directorId) {
   showSpinner();
 
   const directorUrl = `https://${getMovieVerseData()}/3/person/${directorId}?${generateMovieNames()}${getMovieCode()}`;
-  const creditsUrl = `https://${getMovieVerseData()}/3/person/${directorId}/movie_credits?${generateMovieNames()}${getMovieCode()}`;
+  const combinedCreditsUrl = `https://${getMovieVerseData()}/3/person/${directorId}/combined_credits?${generateMovieNames()}${getMovieCode()}`;
 
   try {
-    const [directorResponse, creditsResponse] = await Promise.all([fetch(directorUrl), fetch(creditsUrl)]);
+    const [directorResponse, combinedCreditsResponse] = await Promise.all([fetch(directorUrl), fetch(combinedCreditsUrl)]);
 
     const director = await directorResponse.json();
-    const credits = await creditsResponse.json();
+    const combinedCredits = await combinedCreditsResponse.json();
+    const movieCredits = {
+      cast: (combinedCredits.cast || []).filter(item => item.media_type === 'movie'),
+      crew: (combinedCredits.crew || []).filter(item => item.media_type === 'movie'),
+    };
+    const tvCredits = {
+      cast: (combinedCredits.cast || []).filter(item => item.media_type === 'tv'),
+      crew: (combinedCredits.crew || []).filter(item => item.media_type === 'tv'),
+    };
 
     if (director.success === false) {
       document.getElementById('director-details-container').innerHTML = `
@@ -114,13 +122,13 @@ async function fetchDirectorDetails(directorId) {
             </div>`;
     } else {
       updateBrowserURL(director.name);
-      populateDirectorDetails(director, credits);
+      populateDirectorDetails(director, movieCredits, tvCredits);
 
       // Display the analytics dashboard
-      displayDirectorDashboard(director, credits);
+      displayDirectorDashboard(director, movieCredits);
 
       // Display the filmography timeline
-      displayFilmographyTimeline(director, credits);
+      displayFilmographyTimeline(director, movieCredits);
     }
     hideSpinner();
   } catch (error) {
@@ -133,7 +141,7 @@ async function fetchDirectorDetails(directorId) {
   }
 }
 
-async function populateDirectorDetails(director, credits) {
+async function populateDirectorDetails(director, credits, tvCredits) {
   const directorImage = document.getElementById('director-image');
   const directorName = document.getElementById('director-name');
   const directorDescription = document.getElementById('director-description');
@@ -416,8 +424,102 @@ async function populateDirectorDetails(director, credits) {
   `;
 
   const filmographyHeading = document.createElement('p');
-  filmographyHeading.innerHTML = '<strong>Filmography:</strong> ';
+  filmographyHeading.innerHTML = '<strong>Filmography:</strong>';
+  filmographyHeading.style.fontSize = '20px';
+  filmographyHeading.style.marginTop = '16px';
+  filmographyHeading.style.marginBottom = '8px';
+  filmographyHeading.style.letterSpacing = '0.6px';
+  filmographyHeading.style.textTransform = 'uppercase';
+  filmographyHeading.style.color = '#ffd93d';
   directorDescription.appendChild(filmographyHeading);
+
+  const dedupeById = items => {
+    const uniqueItems = new Map();
+    (items || []).forEach(item => {
+      if (item && item.id != null && !uniqueItems.has(item.id)) {
+        uniqueItems.set(item.id, item);
+      }
+    });
+    return Array.from(uniqueItems.values());
+  };
+
+  const renderMediaList = (listElement, items, options) => {
+    const { getTitle, onClick, emptyText, altSuffix } = options;
+    listElement.innerHTML = '';
+
+    let itemsToDisplay = dedupeById(items).sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
+
+    if (itemsToDisplay.length === 0) {
+      const noItemsText = document.createElement('p');
+      noItemsText.textContent = emptyText;
+      noItemsText.style.textAlign = 'center';
+      noItemsText.style.width = '100%';
+      noItemsText.style.color = 'white';
+      listElement.appendChild(noItemsText);
+      return;
+    }
+
+    itemsToDisplay.forEach((item, index) => {
+      const titleText = getTitle(item) || 'Untitled';
+      const titleWords = titleText.split(' ');
+      const truncatedTitle = titleWords.length > 5 ? titleWords.slice(0, 5).join(' ') + ' ...' : titleText;
+
+      const mediaLink = document.createElement('a');
+      mediaLink.classList.add('movie-link');
+      mediaLink.href = 'javascript:void(0);';
+      mediaLink.style.marginRight = '0';
+      mediaLink.style.marginTop = '10px';
+      mediaLink.style.maxWidth = '115px';
+      mediaLink.addEventListener('click', () => onClick(item.id));
+
+      const mediaItem = document.createElement('div');
+      mediaItem.classList.add('movie-item');
+      mediaItem.style.height = 'auto';
+
+      const mediaImage = document.createElement('img');
+      mediaImage.classList.add('movie-image');
+      mediaImage.style.maxHeight = '155px';
+      mediaImage.style.maxWidth = '115px';
+
+      if (item.poster_path) {
+        mediaImage.src = IMGPATH2 + item.poster_path;
+        mediaImage.alt = `${titleText} ${altSuffix}`;
+      } else {
+        mediaImage.alt = 'Image Not Available';
+        mediaImage.src = 'https://movie-verse.com/images/movie-default.jpg';
+        mediaImage.style.filter = 'grayscale(100%)';
+        mediaImage.style.objectFit = 'cover';
+        mediaImage.style.maxHeight = '155px';
+        mediaImage.style.maxWidth = '115px';
+      }
+
+      mediaItem.appendChild(mediaImage);
+
+      const mediaDetails = document.createElement('div');
+      mediaDetails.classList.add('movie-details');
+
+      const mediaTitle = document.createElement('p');
+      mediaTitle.classList.add('movie-title');
+      mediaTitle.textContent = truncatedTitle;
+
+      mediaDetails.appendChild(mediaTitle);
+
+      mediaItem.appendChild(mediaDetails);
+      mediaLink.appendChild(mediaItem);
+      listElement.appendChild(mediaLink);
+
+      if (index < itemsToDisplay.length - 1) {
+        listElement.appendChild(document.createTextNode(''));
+      }
+    });
+  };
+
+  const movieSection = document.createElement('div');
+  movieSection.style.marginTop = '10px';
+  const movieSectionTitle = document.createElement('p');
+  movieSectionTitle.innerHTML = '<strong>Movies:</strong>';
+  movieSectionTitle.style.margin = '10px 0 5px 0';
+  movieSection.appendChild(movieSectionTitle);
 
   const movieList = document.createElement('div');
   movieList.classList.add('movie-list');
@@ -425,73 +527,40 @@ async function populateDirectorDetails(director, credits) {
   movieList.style.flexWrap = 'wrap';
   movieList.style.justifyContent = 'center';
   movieList.style.gap = '5px';
+  movieSection.appendChild(movieList);
+  directorDescription.appendChild(movieSection);
 
-  let directedMovies = credits.crew.filter(movie => movie.job === 'Director');
-  directedMovies = directedMovies.sort((a, b) => b.popularity - a.popularity);
+  const directedMovies = (credits?.crew || []).filter(movie => movie.job === 'Director');
+  renderMediaList(movieList, directedMovies, {
+    getTitle: item => item.title,
+    onClick: selectMovieId,
+    emptyText: 'No films found',
+    altSuffix: 'Poster',
+  });
 
-  if (directedMovies.length === 0) {
-    const noFilmsText = document.createElement('p');
-    noFilmsText.textContent = 'No films found';
-    noFilmsText.style.textAlign = 'center';
-    noFilmsText.style.width = '100%';
-    noFilmsText.style.color = 'white';
-    movieList.appendChild(noFilmsText);
-  } else {
-    directedMovies.forEach((movie, index) => {
-      const movieLink = document.createElement('a');
-      movieLink.classList.add('movie-link');
-      movieLink.href = 'javascript:void(0);';
-      movieLink.style.marginRight = '0';
-      movieLink.style.marginTop = '10px';
-      movieLink.style.maxWidth = '115px';
-      movieLink.setAttribute('onclick', `selectMovieId(${movie.id});`);
+  const tvSection = document.createElement('div');
+  tvSection.style.marginTop = '10px';
+  const tvSectionTitle = document.createElement('p');
+  tvSectionTitle.innerHTML = '<strong>TV Series:</strong>';
+  tvSectionTitle.style.margin = '10px 0 5px 0';
+  tvSection.appendChild(tvSectionTitle);
 
-      const movieItem = document.createElement('div');
-      movieItem.classList.add('movie-item');
-      movieItem.style.height = 'auto';
+  const tvList = document.createElement('div');
+  tvList.classList.add('movie-list');
+  tvList.style.display = 'flex';
+  tvList.style.flexWrap = 'wrap';
+  tvList.style.justifyContent = 'center';
+  tvList.style.gap = '5px';
+  tvSection.appendChild(tvList);
+  directorDescription.appendChild(tvSection);
 
-      const movieImage = document.createElement('img');
-      movieImage.classList.add('movie-image');
-      movieImage.style.maxHeight = '155px';
-      movieImage.style.maxWidth = '115px';
-
-      if (movie.poster_path) {
-        movieImage.src = IMGPATH2 + movie.poster_path;
-        movieImage.alt = `${movie.title} Poster`;
-      } else {
-        movieImage.alt = 'Image Not Available';
-        movieImage.src = 'https://movie-verse.com/images/movie-default.jpg';
-        movieImage.style.filter = 'grayscale(100%)';
-        movieImage.style.objectFit = 'cover';
-        movieImage.style.maxHeight = '155px';
-        movieImage.style.maxWidth = '115px';
-      }
-
-      movieItem.appendChild(movieImage);
-
-      const movieDetails = document.createElement('div');
-      movieDetails.classList.add('movie-details');
-
-      const movieTitle = document.createElement('p');
-      movieTitle.classList.add('movie-title');
-      const movieTitleWords = movie.title.split(' ');
-      const truncatedMovieTitle = movieTitleWords.length > 5 ? movieTitleWords.slice(0, 5).join(' ') + ' ...' : movie.title;
-
-      movieTitle.textContent = truncatedMovieTitle;
-
-      movieDetails.appendChild(movieTitle);
-
-      movieItem.appendChild(movieDetails);
-      movieLink.appendChild(movieItem);
-      movieList.appendChild(movieLink);
-
-      if (index < directedMovies.length - 1) {
-        movieList.appendChild(document.createTextNode(''));
-      }
-    });
-  }
-
-  filmographyHeading.appendChild(movieList);
+  const directedSeries = (tvCredits?.crew || []).filter(series => series.job === 'Director');
+  renderMediaList(tvList, directedSeries, {
+    getTitle: item => item.name || item.original_name,
+    onClick: selectTvSeriesId,
+    emptyText: 'No TV series found',
+    altSuffix: 'Poster',
+  });
 
   const mediaUrl = `https://${getMovieVerseData()}/3/person/${director.id}/images?${generateMovieNames()}${getMovieCode()}`;
   const mediaResponse = await fetch(mediaUrl);
@@ -794,6 +863,11 @@ async function ensureGenreMapIsAvailable() {
 function selectMovieId(movieId) {
   // Navigate to movie details page with movieId as a query parameter
   window.location.href = `movie-details.html?movieId=${movieId}`;
+}
+
+function selectTvSeriesId(tvSeriesId) {
+  // Navigate to TV details page with tvSeriesId as a query parameter
+  window.location.href = `tv-details.html?tvSeriesId=${tvSeriesId}`;
 }
 
 async function fetchGenreMap() {

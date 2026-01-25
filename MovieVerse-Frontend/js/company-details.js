@@ -272,9 +272,11 @@ document.addEventListener('DOMContentLoaded', () => {
   if (companyId) {
     fetchCompanyDetails(companyId);
     fetchCompanyMovies(companyId);
+    fetchCompanyTvSeries(companyId);
   } else {
     fetchCompanyDetails(521);
     fetchCompanyMovies(521);
+    fetchCompanyTvSeries(521);
   }
 });
 
@@ -383,6 +385,8 @@ async function fetchCompanyDetails(companyId) {
 
       <p style="text-align: center; font-size: 20px; margin-top: 30px;"><strong>Produced Movies:</strong></p>
       <div style="text-align: center" id="company-movies-list" class="movies-list"></div>
+      <p style="text-align: center; font-size: 20px; margin-top: 30px;"><strong>Produced TV Series:</strong></p>
+      <div style="text-align: center" id="company-tv-list" class="movies-list"></div>
     `;
 
     updateBrowserURL(company.name);
@@ -426,6 +430,26 @@ async function fetchCompanyMovies(companyId) {
     displayProductionTimeline(allMovies);
   } catch (error) {
     console.log('Error fetching movies:', error);
+  }
+}
+
+async function fetchCompanyTvSeries(companyId) {
+  const url = `https://${getMovieVerseData()}/3/discover/tv?${generateMovieNames()}${getMovieCode()}&with_companies=${companyId}&sort_by=first_air_date.desc`;
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (!data.results || data.results.length === 0) {
+      const tvSeriesList = document.getElementById('company-tv-list');
+      if (tvSeriesList) {
+        tvSeriesList.innerHTML = `<p>No TV series found for this company.</p>`;
+      }
+      return;
+    }
+
+    displayCompanyTvSeries(data.results.slice(0, 20));
+  } catch (error) {
+    console.log('Error fetching TV series:', error);
   }
 }
 
@@ -818,9 +842,80 @@ function displayCompanyMovies(movies) {
   });
 }
 
+function displayCompanyTvSeries(series) {
+  const seriesList = document.getElementById('company-tv-list');
+  if (!seriesList) return;
+
+  seriesList.style.display = 'flex';
+  seriesList.style.flexWrap = 'wrap';
+  seriesList.style.justifyContent = 'center';
+  seriesList.style.gap = '5px';
+
+  let seriesToDisplay = series.sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
+
+  seriesToDisplay.forEach((tvSeries, index) => {
+    const seriesLink = document.createElement('a');
+    seriesLink.classList.add('movie-link');
+    seriesLink.href = 'javascript:void(0);';
+    seriesLink.style.marginRight = '0';
+    seriesLink.style.marginTop = '10px';
+    seriesLink.style.color = 'inherit';
+    seriesLink.setAttribute('onclick', `selectTvSeriesId(${tvSeries.id});`);
+
+    const seriesItem = document.createElement('div');
+    seriesItem.classList.add('movie-item');
+    seriesItem.style.height = 'auto';
+
+    const seriesImage = document.createElement('img');
+    seriesImage.classList.add('movie-image');
+    seriesImage.style.maxHeight = '155px';
+    seriesImage.style.maxWidth = '115px';
+
+    if (tvSeries.poster_path) {
+      seriesImage.src = IMGPATH2 + tvSeries.poster_path;
+      seriesImage.alt = `${tvSeries.name || tvSeries.original_name} Poster`;
+    } else {
+      seriesImage.alt = 'Image Not Available';
+      seriesImage.src = 'https://movie-verse.com/images/movie-default.jpg';
+      seriesImage.style.filter = 'grayscale(100%)';
+      seriesImage.style.objectFit = 'cover';
+    }
+
+    seriesItem.appendChild(seriesImage);
+
+    const seriesDetails = document.createElement('div');
+    seriesDetails.classList.add('movie-details');
+
+    const seriesTitle = document.createElement('p');
+    seriesTitle.classList.add('movie-title');
+    seriesTitle.style.color = 'inherit';
+    const seriesTitleWords = (tvSeries.name || tvSeries.original_name || '').split(' ');
+    const truncatedSeriesTitle =
+      seriesTitleWords.length > 5 ? seriesTitleWords.slice(0, 5).join(' ') + ' ...' : tvSeries.name || tvSeries.original_name || 'Untitled';
+
+    seriesTitle.textContent = truncatedSeriesTitle;
+
+    seriesDetails.appendChild(seriesTitle);
+
+    seriesItem.appendChild(seriesDetails);
+    seriesLink.appendChild(seriesItem);
+    seriesList.appendChild(seriesLink);
+
+    if (index < seriesToDisplay.length - 1) {
+      const separator = document.createTextNode(' ');
+      seriesList.appendChild(separator);
+    }
+  });
+}
+
 function selectMovieId(movieId) {
   // Navigate to movie details page with movieId as a query parameter
   window.location.href = `movie-details.html?movieId=${movieId}`;
+}
+
+function selectTvSeriesId(tvSeriesId) {
+  // Navigate to TV details page with tvSeriesId as a query parameter
+  window.location.href = `tv-details.html?tvSeriesId=${tvSeriesId}`;
 }
 
 function updateBrowserURL(title) {
