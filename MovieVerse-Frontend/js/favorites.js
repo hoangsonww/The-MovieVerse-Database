@@ -1293,7 +1293,8 @@ function ensureScrollProgress(mainElement) {
   if (!progress) {
     progress = document.createElement('div');
     progress.className = 'scroll-progress';
-    progress.innerHTML = '<div class="scroll-progress-bar"></div>';
+    progress.innerHTML =
+      '<input class="scroll-progress-slider" type="range" min="0" max="100" step="0.1" value="0" aria-label="Carousel position" />';
     mainElement.appendChild(progress);
   }
   return progress;
@@ -1302,19 +1303,131 @@ function ensureScrollProgress(mainElement) {
 function updateScrollProgress(mainElement) {
   const track = getSpotlightTrack(mainElement);
   const progress = mainElement.querySelector('.scroll-progress');
-  const bar = progress ? progress.querySelector('.scroll-progress-bar') : null;
-  if (!progress || !bar) return;
+  const slider = progress ? progress.querySelector('.scroll-progress-slider') : null;
+  if (!progress || !slider) return;
 
   const maxScroll = track.scrollWidth - track.clientWidth;
   if (maxScroll <= 0) {
     progress.style.display = 'none';
-    bar.style.width = '0%';
+    slider.value = '0';
+    slider.style.setProperty('--progress', '0%');
     return;
   }
 
   progress.style.display = 'block';
   const percent = Math.min(100, Math.max(0, (track.scrollLeft / maxScroll) * 100));
-  bar.style.width = `${percent}%`;
+  slider.value = `${percent}`;
+  slider.style.setProperty('--progress', `${percent}%`);
+}
+
+function bindSpotlightProgressSlider(mainElement) {
+  const progress = ensureScrollProgress(mainElement);
+  const slider = progress.querySelector('.scroll-progress-slider');
+  if (!slider || slider.dataset.spotlightBound === 'true') return;
+
+  const handleInput = () => {
+    const track = getSpotlightTrack(mainElement);
+    const maxScroll = track.scrollWidth - track.clientWidth;
+    if (maxScroll <= 0) return;
+    const percent = Number(slider.value) / 100;
+    const targetLeft = Math.min(maxScroll, Math.max(0, percent * maxScroll));
+    track.scrollTo({ left: targetLeft, behavior: 'auto' });
+  };
+
+  slider.addEventListener('input', handleInput);
+  slider.addEventListener('change', handleInput);
+  slider.dataset.spotlightBound = 'true';
+}
+
+function bindSpotlightDrag(mainElement) {
+  const track = getSpotlightTrack(mainElement);
+  if (!track || track.dataset.spotlightDragBound === 'true') return;
+
+  let isPointerDown = false;
+  let isDragging = false;
+  let didCapture = false;
+  let startX = 0;
+  let startScrollLeft = 0;
+  let moved = 0;
+  const dragThreshold = 6;
+
+  const shouldIgnoreTarget = target => Boolean(target.closest('a, button, input, textarea, select, label'));
+
+  const onPointerDown = event => {
+    if (event.pointerType === 'touch') return;
+    if (event.pointerType === 'mouse' && event.button !== 0) return;
+    if (shouldIgnoreTarget(event.target)) return;
+    isPointerDown = true;
+    isDragging = false;
+    moved = 0;
+    startX = event.clientX;
+    startScrollLeft = track.scrollLeft;
+    didCapture = false;
+  };
+
+  const onPointerMove = event => {
+    if (!isPointerDown) return;
+    const dx = event.clientX - startX;
+    moved = Math.abs(dx);
+    if (!isDragging && moved > dragThreshold) {
+      isDragging = true;
+      track.classList.add('is-dragging');
+      track.style.scrollSnapType = 'none';
+      track.style.scrollBehavior = 'auto';
+      track.style.userSelect = 'none';
+      track.setPointerCapture?.(event.pointerId);
+      didCapture = true;
+    }
+    if (isDragging) {
+      event.preventDefault();
+      track.scrollLeft = startScrollLeft - dx;
+    }
+  };
+
+  const endDrag = event => {
+    if (!isPointerDown) return;
+    isPointerDown = false;
+    if (didCapture) {
+      track.releasePointerCapture?.(event.pointerId);
+      didCapture = false;
+    }
+    if (isDragging) {
+      track.classList.remove('is-dragging');
+      track.style.scrollSnapType = '';
+      track.style.scrollBehavior = '';
+      track.style.userSelect = '';
+    }
+    if (isDragging) {
+      track.dataset.spotlightDragged = 'true';
+      setTimeout(() => {
+        track.dataset.spotlightDragged = 'false';
+      }, 0);
+    }
+    isDragging = false;
+  };
+
+  track.addEventListener('pointerdown', onPointerDown);
+  track.addEventListener('pointermove', onPointerMove, { passive: false });
+  track.addEventListener('pointerup', endDrag);
+  track.addEventListener('pointercancel', endDrag);
+  track.addEventListener('pointerleave', endDrag);
+  track.addEventListener('dragstart', event => {
+    if (event.target && event.target.closest('img')) {
+      event.preventDefault();
+    }
+  });
+  track.addEventListener(
+    'click',
+    event => {
+      if (track.dataset.spotlightDragged === 'true') {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    },
+    true
+  );
+
+  track.dataset.spotlightDragBound = 'true';
 }
 
 function updateSpotlightNavVisibility(mainElement) {
@@ -1440,6 +1553,8 @@ function initSpotlightCarousel(mainElement) {
   mainElement.classList.add('spotlight-carousel');
   const track = ensureSpotlightTrack(mainElement);
   ensureScrollProgress(mainElement);
+  bindSpotlightProgressSlider(mainElement);
+  bindSpotlightDrag(mainElement);
   const layout = getSpotlightLayout(track, cards);
   mainElement.classList.toggle('spotlight-multi', layout === 'left');
 

@@ -1095,12 +1095,8 @@ header h1 {
 
 .home-page main.spotlight-carousel .scroll-progress,
 .spotlight-carousel .scroll-progress {
-  height: 4px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 999px;
   width: min(90%, 520px);
   margin: 12px auto 0;
-  overflow: hidden;
 }
 
 @media (max-width: 800px) {
@@ -1108,15 +1104,125 @@ header h1 {
   .spotlight-carousel .scroll-progress {
     margin-bottom: 12px;
   }
+
+  .home-page main.spotlight-carousel .scroll-progress-slider,
+  .spotlight-carousel .scroll-progress-slider {
+    height: 16px;
+  }
+
+  .home-page main.spotlight-carousel .scroll-progress-slider::-webkit-slider-runnable-track,
+  .spotlight-carousel .scroll-progress-slider::-webkit-slider-runnable-track {
+    height: 4px;
+    transition: none;
+  }
+
+  .home-page main.spotlight-carousel .scroll-progress-slider::-webkit-slider-thumb,
+  .spotlight-carousel .scroll-progress-slider::-webkit-slider-thumb {
+    width: 14px;
+    height: 14px;
+    margin-top: -5px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+  }
+
+  .home-page main.spotlight-carousel .scroll-progress-slider::-moz-range-track,
+  .spotlight-carousel .scroll-progress-slider::-moz-range-track {
+    height: 4px;
+  }
+
+  .home-page main.spotlight-carousel .scroll-progress-slider::-moz-range-progress,
+  .spotlight-carousel .scroll-progress-slider::-moz-range-progress {
+    height: 4px;
+  }
+
+  .home-page main.spotlight-carousel .scroll-progress-slider::-moz-range-thumb,
+  .spotlight-carousel .scroll-progress-slider::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+  }
 }
 
-.home-page main.spotlight-carousel .scroll-progress-bar,
-.spotlight-carousel .scroll-progress-bar {
-  height: 100%;
-  width: 0%;
+.home-page main.spotlight-carousel .scroll-progress-slider,
+.spotlight-carousel .scroll-progress-slider {
+  --progress: 0%;
+  width: 100%;
+  height: 18px;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  appearance: none;
+}
+
+.home-page main.spotlight-carousel .scroll-progress-slider:focus-visible,
+.spotlight-carousel .scroll-progress-slider:focus-visible {
+  outline: 2px solid rgba(255, 134, 35, 0.9);
+  outline-offset: 4px;
+}
+
+.home-page main.spotlight-carousel .scroll-progress-slider::-webkit-slider-runnable-track,
+.spotlight-carousel .scroll-progress-slider::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #ff8623 var(--progress), rgba(255, 255, 255, 0.25) var(--progress));
+  transition: background 0.2s ease;
+}
+
+.home-page main.spotlight-carousel .scroll-progress-slider::-webkit-slider-thumb,
+.spotlight-carousel .scroll-progress-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
   background: #ff8623;
-  border-radius: inherit;
-  transition: width 0.2s ease;
+  border: 3px solid #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+  margin-top: -6px;
+}
+
+.home-page main.spotlight-carousel .scroll-progress-slider::-moz-range-track,
+.spotlight-carousel .scroll-progress-slider::-moz-range-track {
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.home-page main.spotlight-carousel .scroll-progress-slider::-moz-range-progress,
+.spotlight-carousel .scroll-progress-slider::-moz-range-progress {
+  height: 6px;
+  border-radius: 999px;
+  background: #ff8623;
+}
+
+.home-page main.spotlight-carousel .scroll-progress-slider::-moz-range-thumb,
+.spotlight-carousel .scroll-progress-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #ff8623;
+  border: 3px solid #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+}
+
+.home-page main.spotlight-carousel .scroll-progress-slider::-moz-focus-outer,
+.spotlight-carousel .scroll-progress-slider::-moz-focus-outer {
+  border: 0;
+}
+
+.home-page main.spotlight-carousel .spotlight-track,
+.spotlight-carousel .spotlight-track {
+  cursor: grab;
+}
+
+.home-page main.spotlight-carousel .spotlight-track.is-dragging,
+.spotlight-carousel .spotlight-track.is-dragging {
+  cursor: grabbing;
+}
+
+.home-page main.spotlight-carousel .spotlight-track img,
+.spotlight-carousel .spotlight-track img {
+  -webkit-user-drag: none;
+  user-drag: none;
+  user-select: none;
 }
 
 .tvSeries {
