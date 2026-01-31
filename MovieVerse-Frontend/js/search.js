@@ -859,7 +859,23 @@ function updateScrollProgress(mainElement) {
 function bindSpotlightProgressSlider(mainElement) {
   const progress = ensureScrollProgress(mainElement);
   const slider = progress.querySelector('.scroll-progress-slider');
-  if (!slider || slider.dataset.spotlightBound === 'true') return;
+  if (!slider) return;
+
+  const isMobileProgress = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(max-width: 800px)').matches;
+
+  progress.classList.toggle('is-static', isMobileProgress);
+
+  if (isMobileProgress) {
+    slider.tabIndex = -1;
+    slider.setAttribute('aria-hidden', 'true');
+    slider.dataset.spotlightMode = 'static';
+    return;
+  }
+
+  slider.removeAttribute('aria-hidden');
+  slider.removeAttribute('tabindex');
+  slider.dataset.spotlightMode = 'interactive';
+  if (slider.dataset.spotlightListeners === 'true') return;
 
   const handleInput = () => {
     const track = getSpotlightTrack(mainElement);
@@ -872,7 +888,7 @@ function bindSpotlightProgressSlider(mainElement) {
 
   slider.addEventListener('input', handleInput);
   slider.addEventListener('change', handleInput);
-  slider.dataset.spotlightBound = 'true';
+  slider.dataset.spotlightListeners = 'true';
 }
 
 function bindSpotlightDrag(mainElement) {
