@@ -559,34 +559,113 @@ function bindSpotlightProgressSlider(mainElement) {
   const progress = ensureScrollProgress(mainElement);
   const slider = progress.querySelector('.scroll-progress-slider');
   if (!slider) return;
-
-  const isMobileProgress = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(max-width: 800px)').matches;
-
-  progress.classList.toggle('is-static', isMobileProgress);
-
-  if (isMobileProgress) {
-    slider.tabIndex = -1;
-    slider.setAttribute('aria-hidden', 'true');
-    slider.dataset.spotlightMode = 'static';
-    return;
-  }
-
-  slider.removeAttribute('aria-hidden');
-  slider.removeAttribute('tabindex');
-  slider.dataset.spotlightMode = 'interactive';
   if (slider.dataset.spotlightListeners === 'true') return;
+
+  const supportsPointer = typeof window !== 'undefined' && 'PointerEvent' in window;
+  const supportsTouch = typeof window !== 'undefined' && 'ontouchstart' in window;
+  const isTouchUi = supportsTouch && typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(max-width: 800px)').matches;
+  const interactionTarget = progress;
+
+  slider.style.pointerEvents = isTouchUi ? 'none' : '';
+
+  const startScrub = () => {
+    const track = getSpotlightTrack(mainElement);
+    track.style.scrollSnapType = 'none';
+    track.style.scrollBehavior = 'auto';
+    mainElement.dataset.spotlightScrubbing = 'true';
+  };
+
+  const endScrub = () => {
+    const track = getSpotlightTrack(mainElement);
+    track.style.scrollSnapType = '';
+    track.style.scrollBehavior = '';
+    mainElement.dataset.spotlightScrubbing = 'false';
+    requestAnimationFrame(() => {
+      updateSpotlightState(mainElement);
+    });
+  };
 
   const handleInput = () => {
     const track = getSpotlightTrack(mainElement);
     const maxScroll = track.scrollWidth - track.clientWidth;
     if (maxScroll <= 0) return;
-    const percent = Number(slider.value) / 100;
-    const targetLeft = Math.min(maxScroll, Math.max(0, percent * maxScroll));
-    track.scrollTo({ left: targetLeft, behavior: 'auto' });
+    const percent = Number(slider.value);
+    const targetLeft = Math.min(maxScroll, Math.max(0, (percent / 100) * maxScroll));
+    slider.style.setProperty('--progress', `${percent}%`);
+    track.scrollLeft = targetLeft;
+  };
+
+  let sliderPointerDown = false;
+  const setFromClientX = clientX => {
+    const rect = slider.getBoundingClientRect();
+    const clamped = Math.min(rect.width, Math.max(0, clientX - rect.left));
+    const percent = rect.width ? (clamped / rect.width) * 100 : 0;
+    slider.value = String(percent);
+    slider.style.setProperty('--progress', `${percent}%`);
+    handleInput();
+  };
+
+  const onPointerDown = event => {
+    if (event.pointerType === 'mouse' && event.button !== 0) return;
+    startScrub();
+    sliderPointerDown = true;
+    setFromClientX(event.clientX);
+    interactionTarget.setPointerCapture?.(event.pointerId);
+    event.preventDefault();
+  };
+
+  const onPointerMove = event => {
+    if (!sliderPointerDown) return;
+    setFromClientX(event.clientX);
+    event.preventDefault();
+  };
+
+  const onPointerUp = event => {
+    if (!sliderPointerDown) return;
+    sliderPointerDown = false;
+    interactionTarget.releasePointerCapture?.(event.pointerId);
+    endScrub();
+  };
+
+  const onClick = event => {
+    startScrub();
+    setFromClientX(event.clientX);
+    endScrub();
+  };
+
+  const onTouchStart = event => {
+    if (!event.touches || !event.touches[0]) return;
+    startScrub();
+    sliderPointerDown = true;
+    setFromClientX(event.touches[0].clientX);
+    event.preventDefault();
+  };
+
+  const onTouchMove = event => {
+    if (!sliderPointerDown || !event.touches || !event.touches[0]) return;
+    setFromClientX(event.touches[0].clientX);
+    event.preventDefault();
+  };
+
+  const onTouchEnd = () => {
+    sliderPointerDown = false;
+    endScrub();
   };
 
   slider.addEventListener('input', handleInput);
   slider.addEventListener('change', handleInput);
+  interactionTarget.addEventListener('click', onClick);
+  if (supportsPointer) {
+    interactionTarget.addEventListener('pointerdown', onPointerDown);
+    interactionTarget.addEventListener('pointermove', onPointerMove, { passive: false });
+    interactionTarget.addEventListener('pointerup', onPointerUp);
+    interactionTarget.addEventListener('pointercancel', onPointerUp);
+  } else if (supportsTouch) {
+    interactionTarget.addEventListener('touchstart', onTouchStart, { passive: false });
+    interactionTarget.addEventListener('touchmove', onTouchMove, { passive: false });
+    interactionTarget.addEventListener('touchend', onTouchEnd);
+    interactionTarget.addEventListener('touchcancel', onTouchEnd);
+  }
   slider.dataset.spotlightListeners = 'true';
 }
 
@@ -722,6 +801,7 @@ function teardownSpotlightTrack(mainElement) {
 function updateSpotlightState(mainElement) {
   const cards = getSpotlightCards(mainElement);
   if (!cards.length) return;
+  if (mainElement.dataset.spotlightScrubbing === 'true') return;
 
   const track = getSpotlightTrack(mainElement);
   const trackRect = track.getBoundingClientRect();

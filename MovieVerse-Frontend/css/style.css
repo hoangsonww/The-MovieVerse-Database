@@ -1097,12 +1097,7 @@ header h1 {
 .spotlight-carousel .scroll-progress {
   width: min(90%, 520px);
   margin: 12px auto 0;
-}
-
-.home-page main.spotlight-carousel .scroll-progress.is-static .scroll-progress-slider,
-.spotlight-carousel .scroll-progress.is-static .scroll-progress-slider {
-  pointer-events: none;
-  cursor: default;
+  touch-action: none;
 }
 
 @media (max-width: 800px) {
@@ -1128,6 +1123,7 @@ header h1 {
     height: 14px;
     margin-top: -5px;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+    cursor: grab;
   }
 
   .home-page main.spotlight-carousel .scroll-progress-slider::-moz-range-track,
@@ -1145,25 +1141,12 @@ header h1 {
     width: 14px;
     height: 14px;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+    cursor: grab;
   }
 
-  .home-page main.spotlight-carousel .scroll-progress.is-static .scroll-progress-slider::-webkit-slider-thumb,
-  .spotlight-carousel .scroll-progress.is-static .scroll-progress-slider::-webkit-slider-thumb {
-    width: 0;
-    height: 0;
-    margin-top: 0;
-    border: 0;
-    box-shadow: none;
-    opacity: 0;
-  }
-
-  .home-page main.spotlight-carousel .scroll-progress.is-static .scroll-progress-slider::-moz-range-thumb,
-  .spotlight-carousel .scroll-progress.is-static .scroll-progress-slider::-moz-range-thumb {
-    width: 0;
-    height: 0;
-    border: 0;
-    box-shadow: none;
-    opacity: 0;
+  .home-page main.spotlight-carousel .scroll-progress-slider,
+  .spotlight-carousel .scroll-progress-slider {
+    cursor: pointer;
   }
 }
 
@@ -1176,6 +1159,7 @@ header h1 {
   padding: 0;
   cursor: pointer;
   appearance: none;
+  touch-action: pan-y;
 }
 
 .home-page main.spotlight-carousel .scroll-progress-slider:focus-visible,
@@ -1202,6 +1186,7 @@ header h1 {
   border: 3px solid #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
   margin-top: -6px;
+  cursor: grab;
 }
 
 .home-page main.spotlight-carousel .scroll-progress-slider::-moz-range-track,
@@ -1226,6 +1211,7 @@ header h1 {
   background: #ff8623;
   border: 3px solid #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+  cursor: grab;
 }
 
 .home-page main.spotlight-carousel .scroll-progress-slider::-moz-focus-outer,
