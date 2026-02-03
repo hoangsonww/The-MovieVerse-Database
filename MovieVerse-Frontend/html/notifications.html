@@ -838,6 +838,60 @@
         background: var(--noti-accent);
         color: #0c0f16;
       }
+      .feed-pagination {
+        margin-top: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .feed-page-btn {
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        background: rgba(255, 255, 255, 0.08);
+        color: var(--noti-text);
+        padding: 8px 14px;
+        border-radius: 999px;
+        cursor: pointer;
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease,
+          background 0.2s ease;
+      }
+      .feed-page-btn:hover:not(:disabled) {
+        background: rgba(115, 120, 197, 0.8);
+        box-shadow: 0 10px 18px rgba(0, 0, 0, 0.35);
+        transform: translateY(-1px);
+      }
+      .feed-page-btn:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+      }
+      .feed-page-status {
+        padding: 6px 12px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        font-size: 12px;
+        letter-spacing: 0.18em;
+        color: var(--noti-muted);
+        text-transform: uppercase;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .feed-page-status strong {
+        color: var(--noti-text);
+        font-weight: 600;
+      }
       .feed-empty {
         text-align: center;
         padding: 30px;
@@ -966,6 +1020,63 @@
         gap: 6px;
         width: fit-content;
       }
+      .rail-meta.updated-chip {
+        background: linear-gradient(120deg, rgba(255, 134, 35, 0.28), rgba(115, 120, 197, 0.35));
+        border-color: rgba(255, 134, 35, 0.5);
+        color: #ffffff;
+        letter-spacing: 0.08em;
+        box-shadow: 0 12px 22px rgba(255, 134, 35, 0.25);
+      }
+      .rail-meta.updated-chip .update-label {
+        font-weight: 600;
+      }
+      .rail-meta.updated-chip .update-dot {
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.9);
+        box-shadow: 0 0 6px rgba(255, 255, 255, 0.6);
+      }
+      .rail-body {
+        position: relative;
+      }
+      .rail-body .rail-track {
+        padding: 8px 32px 12px;
+      }
+      .rail-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: 1px solid #121522;
+        background: #101423;
+        color: #ffffff;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 2;
+        transition:
+          transform 0.2s ease,
+          background 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+      .rail-nav:hover {
+        background: rgba(115, 120, 197, 0.85);
+        box-shadow: 0 10px 18px rgba(0, 0, 0, 0.35);
+        transform: translateY(-50%) scale(1.05);
+      }
+      .rail-nav:active {
+        transform: translateY(-50%) scale(0.98);
+      }
+      .rail-prev {
+        left: 6px;
+      }
+      .rail-next {
+        right: 6px;
+      }
       .rail-track {
         display: grid;
         grid-auto-flow: column;
@@ -1069,6 +1180,12 @@
         }
         .rail-track {
           grid-auto-columns: minmax(160px, 70vw);
+        }
+        .rail-body .rail-track {
+          padding-inline: 0;
+        }
+        .rail-nav {
+          display: none;
         }
       }
       @media (max-width: 600px) {
@@ -1371,14 +1488,14 @@
           <span class="stat-meta" id="statUpcomingMeta">Scanning upcoming premieres...</span>
         </div>
         <div class="stat-card" id="statFavorites">
-          <span class="stat-label">Trending now</span>
+          <span class="stat-label">TRENDING SCORE</span>
           <span class="stat-value" id="statFavoritesCount">--</span>
-          <span class="stat-meta" id="statTrendingMeta">Movies buzzing today</span>
+          <span class="stat-meta" id="statTrendingMeta">Loading trending score...</span>
         </div>
         <div class="stat-card" id="statWatchlists">
-          <span class="stat-label">Top rated this month</span>
+          <span class="stat-label">TOP RATED SCORE</span>
           <span class="stat-value" id="statWatchlistsCount">--</span>
-          <span class="stat-meta" id="statTopRatedMeta">High-score picks</span>
+          <span class="stat-meta" id="statTopRatedMeta">Calculating best score...</span>
         </div>
       </section>
 
@@ -1396,6 +1513,21 @@
           </div>
         </div>
         <div class="feed-grid" id="notificationFeed"></div>
+        <div class="feed-pagination" id="feedPagination" style="display: none">
+          <button class="feed-page-btn" id="feedPrev" type="button" aria-label="Previous page">
+            <i class="fas fa-chevron-left" aria-hidden="true"></i>
+            Prev
+          </button>
+          <div class="feed-page-status" aria-live="polite">
+            <strong id="feedPageCurrent">1</strong>
+            <span>/</span>
+            <strong id="feedPageTotal">1</strong>
+          </div>
+          <button class="feed-page-btn" id="feedNext" type="button" aria-label="Next page">
+            Next
+            <i class="fas fa-chevron-right" aria-hidden="true"></i>
+          </button>
+        </div>
         <div class="feed-empty" id="feedEmpty" style="display: none">
           <i class="fas fa-bell-slash"></i>
           <p>We’re refreshing your notifications. Check back in a moment.</p>
@@ -1419,9 +1551,21 @@
             <h3 id="freshReleasesHeader">New releases</h3>
             <p>Fresh titles that arrived since your last visit.</p>
           </div>
-          <span class="rail-meta">Updated <time class="updateDate" datetime=""></time></span>
+          <span class="rail-meta updated-chip">
+            <span class="update-label">Updated</span>
+            <span class="update-dot" aria-hidden="true"></span>
+            <time class="updateDate" datetime=""></time>
+          </span>
         </div>
-        <div class="rail-track" id="railNewReleases"></div>
+        <div class="rail-body">
+          <button class="rail-nav rail-prev" type="button" aria-label="Scroll new releases left">
+            <i class="fas fa-chevron-left" aria-hidden="true"></i>
+          </button>
+          <div class="rail-track" id="railNewReleases"></div>
+          <button class="rail-nav rail-next" type="button" aria-label="Scroll new releases right">
+            <i class="fas fa-chevron-right" aria-hidden="true"></i>
+          </button>
+        </div>
       </section>
 
       <section class="noti-rail" id="comingSoon">
@@ -1432,7 +1576,15 @@
           </div>
           <span class="rail-meta">Next 30 days</span>
         </div>
-        <div class="rail-track" id="railComingSoon"></div>
+        <div class="rail-body">
+          <button class="rail-nav rail-prev" type="button" aria-label="Scroll coming soon left">
+            <i class="fas fa-chevron-left" aria-hidden="true"></i>
+          </button>
+          <div class="rail-track" id="railComingSoon"></div>
+          <button class="rail-nav rail-next" type="button" aria-label="Scroll coming soon right">
+            <i class="fas fa-chevron-right" aria-hidden="true"></i>
+          </button>
+        </div>
       </section>
 
       <section class="noti-rail" id="recommendations">
@@ -1443,7 +1595,15 @@
           </div>
           <span class="rail-meta">Personalized</span>
         </div>
-        <div class="rail-track" id="railRecommendations"></div>
+        <div class="rail-body">
+          <button class="rail-nav rail-prev" type="button" aria-label="Scroll recommendations left">
+            <i class="fas fa-chevron-left" aria-hidden="true"></i>
+          </button>
+          <div class="rail-track" id="railRecommendations"></div>
+          <button class="rail-nav rail-next" type="button" aria-label="Scroll recommendations right">
+            <i class="fas fa-chevron-right" aria-hidden="true"></i>
+          </button>
+        </div>
       </section>
 
       <section class="noti-rail" id="peopleBuzz">
@@ -1454,7 +1614,15 @@
           </div>
           <span class="rail-meta">Trending talent</span>
         </div>
-        <div class="rail-track" id="railPeople"></div>
+        <div class="rail-body">
+          <button class="rail-nav rail-prev" type="button" aria-label="Scroll people buzzing left">
+            <i class="fas fa-chevron-left" aria-hidden="true"></i>
+          </button>
+          <div class="rail-track" id="railPeople"></div>
+          <button class="rail-nav rail-next" type="button" aria-label="Scroll people buzzing right">
+            <i class="fas fa-chevron-right" aria-hidden="true"></i>
+          </button>
+        </div>
       </section>
     </main>
     <script src="../js/notifications.js"></script>
@@ -1930,10 +2098,32 @@
         return Array.isArray(data.results) ? data.results.length : 0;
       }
 
+      function pickLeader(results, minVotes) {
+        if (!Array.isArray(results) || results.length === 0) {
+          return null;
+        }
+        const filtered = results.filter(item => item && typeof item.vote_average === 'number' && (item.vote_count || 0) >= minVotes);
+        const candidates = filtered.length ? filtered : results.filter(item => item && typeof item.vote_average === 'number');
+        if (!candidates.length) {
+          return results[0] || null;
+        }
+        return candidates.sort((a, b) => {
+          if (b.vote_average !== a.vote_average) {
+            return b.vote_average - a.vote_average;
+          }
+          return (b.vote_count || 0) - (a.vote_count || 0);
+        })[0];
+      }
+
       function setStatValue(id, value) {
         const el = document.getElementById(id);
         if (!el) return;
         el.textContent = Number.isFinite(value) ? value.toLocaleString('en-US') : '--';
+      }
+
+      function formatStatTitle(prefix, title) {
+        if (!title) return prefix;
+        return `${prefix} <strong>${title}</strong>`;
       }
 
       async function loadNotificationStats() {
@@ -1962,40 +2152,49 @@
         const upcomingUrl = `${baseUrl}/discover/movie?${apiQuery}&primary_release_date.gte=${formatISODate(
           today
         )}&primary_release_date.lte=${formatISODate(thirtyDaysAhead)}&include_adult=false&region=US`;
-        const trendingUrl = `${baseUrl}/trending/movie/day?${apiQuery}`;
+        const trendingUrl = `${baseUrl}/trending/all/day?${apiQuery}`;
         const topRatedUrl = `${baseUrl}/discover/movie?${apiQuery}&primary_release_date.gte=${formatISODate(
           monthStart
         )}&primary_release_date.lte=${formatISODate(monthEnd)}&sort_by=vote_average.desc&vote_count.gte=50&include_adult=false`;
 
         try {
-          const [newCount, upcomingCount, trendingCount] = await Promise.all([
+          const [newCount, upcomingCount, trendingData] = await Promise.all([
             fetchTotalResults(newReleasesUrl),
             fetchTotalResults(upcomingUrl),
-            fetchResultsCount(trendingUrl),
+            fetchStatsJson(trendingUrl),
           ]);
-          let topRatedCount = await fetchResultsCount(topRatedUrl);
+          const trendingResults = Array.isArray(trendingData?.results) ? trendingData.results : [];
+          const trendingLeader = pickLeader(trendingResults, 100);
+
+          let topRatedData = await fetchStatsJson(topRatedUrl);
+          let topRatedResults = Array.isArray(topRatedData?.results) ? topRatedData.results : [];
+          let topRatedLeader = pickLeader(topRatedResults, 200);
           let topRatedRangeLabel = `${formatShortDate(monthStart)}–${formatShortDate(monthEnd)}`;
 
-          if (topRatedCount === 0) {
+          if (!topRatedLeader) {
             const ninetyDaysAgo = new Date(today);
             ninetyDaysAgo.setDate(today.getDate() - 90);
             const topRatedFallbackUrl = `${baseUrl}/discover/movie?${apiQuery}&primary_release_date.gte=${formatISODate(
               ninetyDaysAgo
             )}&primary_release_date.lte=${formatISODate(today)}&sort_by=vote_average.desc&vote_count.gte=50&include_adult=false`;
-            topRatedCount = await fetchResultsCount(topRatedFallbackUrl);
+            topRatedData = await fetchStatsJson(topRatedFallbackUrl);
+            topRatedResults = Array.isArray(topRatedData?.results) ? topRatedData.results : [];
+            topRatedLeader = pickLeader(topRatedResults, 200);
             topRatedRangeLabel = `${formatShortDate(ninetyDaysAgo)}–${formatShortDate(today)}`;
 
-            if (topRatedCount === 0) {
+            if (!topRatedLeader) {
               const topRatedOverallUrl = `${baseUrl}/movie/top_rated?${apiQuery}`;
-              topRatedCount = await fetchResultsCount(topRatedOverallUrl);
+              topRatedData = await fetchStatsJson(topRatedOverallUrl);
+              topRatedResults = Array.isArray(topRatedData?.results) ? topRatedData.results : [];
+              topRatedLeader = pickLeader(topRatedResults, 200);
               topRatedRangeLabel = 'Top picks right now';
             }
           }
 
           setStatValue('statNewCount', newCount);
           setStatValue('statUpcomingCount', upcomingCount);
-          setStatValue('statFavoritesCount', trendingCount);
-          setStatValue('statWatchlistsCount', topRatedCount);
+          setStatValue('statFavoritesCount', trendingLeader ? Number(trendingLeader.vote_average.toFixed(1)) : NaN);
+          setStatValue('statWatchlistsCount', topRatedLeader ? Number(topRatedLeader.vote_average.toFixed(1)) : NaN);
 
           if (statNewMeta) {
             statNewMeta.textContent = `Premieres ${formatShortDate(sevenDaysAgo)}–${formatShortDate(today)}`;
@@ -2004,10 +2203,13 @@
             statUpcomingMeta.textContent = `Next 30 days (${formatShortDate(today)}–${formatShortDate(thirtyDaysAhead)})`;
           }
           if (statTrendingMeta) {
-            statTrendingMeta.textContent = `Top ${trendingCount || 0} today`;
+            const trendingTitle = trendingLeader?.title || trendingLeader?.name;
+            statTrendingMeta.innerHTML = formatStatTitle('Top rated:', trendingTitle) || 'Highest-rated trending title';
           }
           if (statTopRatedMeta) {
-            statTopRatedMeta.textContent = `Top ${topRatedCount || 0} (${topRatedRangeLabel})`;
+            const topRatedTitle = topRatedLeader?.title;
+            const titleLabel = topRatedTitle ? formatStatTitle('Best:', topRatedTitle) : 'Best rated this month';
+            statTopRatedMeta.innerHTML = topRatedRangeLabel ? `${titleLabel} (${topRatedRangeLabel})` : titleLabel;
           }
         } catch (error) {
           console.log('Error loading notification stats:', error);

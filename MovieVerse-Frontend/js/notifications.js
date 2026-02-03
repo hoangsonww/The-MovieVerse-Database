@@ -18,9 +18,16 @@ const FALLBACKS = {
   person: '../../images/actor-default.webp',
   backdrop: '../../images/universe-1.webp',
 };
+const FEED_PAGE_SIZE = 5;
+const feedState = {
+  items: [],
+  filter: 'all',
+  page: 1,
+};
 
 document.addEventListener('DOMContentLoaded', () => {
   initNotifications();
+  setupRailNav();
   window.addEventListener('beforeunload', () => {
     localStorage.setItem('lastVisit', new Date().toISOString());
   });
@@ -29,10 +36,12 @@ document.addEventListener('DOMContentLoaded', () => {
 async function initNotifications() {
   const lastVisit = getLastVisitDate();
   const today = new Date();
+  const monthStart = new Date(today.getFullYear(), today.getMonth(), 1);
   const formattedLastVisit = formatDate(lastVisit);
   const formattedToday = formatDate(today);
+  const formattedMonthStart = formatDate(monthStart);
 
-  const [trending, nowPlaying, upcoming, airingToday, people, newReleases, recommended] = await Promise.all([
+  const [trending, nowPlaying, upcoming, airingToday, people, newReleases, recommended, topRatedMonth] = await Promise.all([
     fetchJson(buildUrl('/trending/all/day', 'language=en-US')),
     fetchJson(buildUrl('/movie/now_playing', 'language=en-US&page=1')),
     fetchJson(buildUrl('/movie/upcoming', 'language=en-US&page=1')),
@@ -45,6 +54,12 @@ async function initNotifications() {
       )
     ),
     fetchRecommendedReleases(),
+    fetchJson(
+      buildUrl(
+        '/discover/movie',
+        `language=en-US&sort_by=vote_average.desc&vote_count.gte=200&primary_release_date.gte=${formattedMonthStart}&primary_release_date.lte=${formattedToday}&page=1`
+      )
+    ),
   ]);
 
   const trendingResults = trending?.results || [];
@@ -54,10 +69,19 @@ async function initNotifications() {
   const peopleResults = people?.results || [];
   const newReleaseResults = newReleases?.results || [];
   const recommendedResults = Array.isArray(recommended) ? recommended : recommended?.results || [];
+  const topRatedMonthResults = topRatedMonth?.results || [];
 
   const heroItem = pickHero(trendingResults, nowPlayingResults, upcomingResults);
   await renderHero(heroItem);
-  updateStats(newReleaseResults, upcomingResults, lastVisit);
+  updateStats({
+    newReleases: newReleaseResults,
+    upcoming: upcomingResults,
+    trending: trendingResults,
+    topRatedMonth: topRatedMonthResults,
+    lastVisit,
+    monthStart,
+    today,
+  });
   renderRadar(airingResults, nowPlayingResults, peopleResults);
   renderRails({
     newReleases: newReleaseResults,
@@ -76,8 +100,10 @@ async function initNotifications() {
     recommended: recommendedResults,
   });
 
-  renderFeed(feedItems, 'all');
+  feedState.items = feedItems;
+  renderFeed(feedItems, 'all', 1);
   setupFilters(feedItems);
+  setupFeedPagination();
 }
 
 function buildUrl(path, query = '') {
@@ -127,6 +153,29 @@ function formatDateLong(dateString) {
     return 'Unknown date';
   }
   return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function formatDateShort(dateString) {
+  if (!dateString) {
+    return '';
+  }
+  const date = new Date(dateString);
+  if (Number.isNaN(date.getTime())) {
+    return '';
+  }
+  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+}
+
+function formatDateRangeShort(startDate, endDate) {
+  const startLabel = formatDateShort(startDate);
+  const endLabel = formatDateShort(endDate);
+  if (!startLabel || !endLabel) {
+    return '';
+  }
+  if (startLabel === endLabel) {
+    return startLabel;
+  }
+  return `${startLabel}–${endLabel}`;
 }
 
 function formatRelative(dateString) {
@@ -209,7 +258,7 @@ async function renderHero(item) {
   }
 }
 
-function updateStats(newReleases, upcoming, lastVisit) {
+function updateStats({ newReleases, upcoming, trending, topRatedMonth, lastVisit, monthStart, today }) {
   const lastVisitLabel = formatDateLong(lastVisit.toISOString().split('T')[0]);
   const statNewCount = document.getElementById('statNewCount');
   const statNewMeta = document.getElementById('statNewMeta');
@@ -217,6 +266,8 @@ function updateStats(newReleases, upcoming, lastVisit) {
   const statUpcomingMeta = document.getElementById('statUpcomingMeta');
   const statFavoritesCount = document.getElementById('statFavoritesCount');
   const statWatchlistsCount = document.getElementById('statWatchlistsCount');
+  const statTrendingMeta = document.getElementById('statTrendingMeta');
+  const statTopRatedMeta = document.getElementById('statTopRatedMeta');
 
   if (statNewCount) {
     statNewCount.textContent = newReleases.length;
@@ -241,12 +292,35 @@ function updateStats(newReleases, upcoming, lastVisit) {
   }
 
   if (statFavoritesCount) {
-    const favorites = JSON.parse(localStorage.getItem('moviesFavorited')) || [];
-    statFavoritesCount.textContent = favorites.length;
+    const trendingCandidates = trending.filter(item => item && typeof item.vote_average === 'number');
+    const trendingQualified = trendingCandidates.filter(item => (item.vote_count || 0) >= 100);
+    const trendingPool = trendingQualified.length ? trendingQualified : trendingCandidates;
+    const trendingLeader = trendingPool.sort((a, b) => {
+      if (b.vote_average !== a.vote_average) {
+        return b.vote_average - a.vote_average;
+      }
+      return (b.vote_count || 0) - (a.vote_count || 0);
+    })[0];
+    statFavoritesCount.textContent = trendingLeader ? trendingLeader.vote_average.toFixed(1) : '--';
+
+    if (statTrendingMeta) {
+      const trendingTitle = trendingLeader?.title || trendingLeader?.name;
+      statTrendingMeta.textContent = trendingTitle ? `Top rated: ${trendingTitle}` : 'Highest-rated trending title';
+    }
   }
 
   if (statWatchlistsCount) {
-    statWatchlistsCount.textContent = localStorage.getItem('watchlistsCreated') || 0;
+    const topRatedLeader = topRatedMonth
+      .filter(item => item && typeof item.vote_average === 'number')
+      .sort((a, b) => b.vote_average - a.vote_average || (b.vote_count || 0) - (a.vote_count || 0))[0];
+    statWatchlistsCount.textContent = topRatedLeader ? topRatedLeader.vote_average.toFixed(1) : '--';
+
+    if (statTopRatedMeta) {
+      const rangeLabel = formatDateRangeShort(monthStart, today);
+      const topRatedTitle = topRatedLeader?.title;
+      const titleLabel = topRatedTitle ? `Best: ${topRatedTitle}` : 'Best rated this month';
+      statTopRatedMeta.textContent = rangeLabel ? `${titleLabel} (${rangeLabel})` : titleLabel;
+    }
   }
 }
 
@@ -311,18 +385,30 @@ function createFeedItem(item, category, mediaType) {
   };
 }
 
-function renderFeed(items, filter) {
+function renderFeed(items, filter, page = 1) {
   const feed = document.getElementById('notificationFeed');
   const empty = document.getElementById('feedEmpty');
+  const pagination = document.getElementById('feedPagination');
+  const pageCurrent = document.getElementById('feedPageCurrent');
+  const pageTotal = document.getElementById('feedPageTotal');
+  const prevBtn = document.getElementById('feedPrev');
+  const nextBtn = document.getElementById('feedNext');
   if (!feed) {
     return;
   }
   feed.innerHTML = '';
   const filtered = filter === 'all' ? items : items.filter(item => item.mediaType === filter);
+  const totalPages = Math.max(1, Math.ceil(filtered.length / FEED_PAGE_SIZE));
+  const currentPage = Math.min(Math.max(1, page), totalPages);
+  feedState.filter = filter;
+  feedState.page = currentPage;
 
   if (!filtered.length) {
     if (empty) {
       empty.style.display = 'block';
+    }
+    if (pagination) {
+      pagination.style.display = 'none';
     }
     return;
   }
@@ -331,9 +417,28 @@ function renderFeed(items, filter) {
     empty.style.display = 'none';
   }
 
-  filtered.forEach(item => {
+  const startIndex = (currentPage - 1) * FEED_PAGE_SIZE;
+  const pageItems = filtered.slice(startIndex, startIndex + FEED_PAGE_SIZE);
+
+  pageItems.forEach(item => {
     feed.appendChild(createFeedCard(item));
   });
+
+  if (pagination) {
+    pagination.style.display = totalPages > 1 ? 'flex' : 'none';
+  }
+  if (pageCurrent) {
+    pageCurrent.textContent = currentPage;
+  }
+  if (pageTotal) {
+    pageTotal.textContent = totalPages;
+  }
+  if (prevBtn) {
+    prevBtn.disabled = currentPage <= 1;
+  }
+  if (nextBtn) {
+    nextBtn.disabled = currentPage >= totalPages;
+  }
 }
 
 function setupFilters(items) {
@@ -345,9 +450,24 @@ function setupFilters(items) {
     button.addEventListener('click', () => {
       filters.forEach(btn => btn.classList.remove('active'));
       button.classList.add('active');
-      renderFeed(items, button.dataset.filter);
+      renderFeed(items, button.dataset.filter, 1);
     });
   });
+}
+
+function setupFeedPagination() {
+  const prevBtn = document.getElementById('feedPrev');
+  const nextBtn = document.getElementById('feedNext');
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      renderFeed(feedState.items, feedState.filter, feedState.page - 1);
+    });
+  }
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      renderFeed(feedState.items, feedState.filter, feedState.page + 1);
+    });
+  }
 }
 
 function createFeedCard(item) {
@@ -546,6 +666,35 @@ function openDetails(item, mediaType) {
       window.location.href = 'actor-details.html?' + item.id;
     }
   }
+}
+
+function setupRailNav() {
+  const railBodies = document.querySelectorAll('.rail-body');
+  if (!railBodies.length) {
+    return;
+  }
+
+  railBodies.forEach(body => {
+    const track = body.querySelector('.rail-track');
+    if (!track) {
+      return;
+    }
+    const prevBtn = body.querySelector('.rail-prev');
+    const nextBtn = body.querySelector('.rail-next');
+    const scrollAmount = () => Math.round(track.clientWidth * 0.8);
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => {
+        track.scrollBy({ left: -scrollAmount(), behavior: 'smooth' });
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => {
+        track.scrollBy({ left: scrollAmount(), behavior: 'smooth' });
+      });
+    }
+  });
 }
 
 async function getMostVisitedMovieGenre() {

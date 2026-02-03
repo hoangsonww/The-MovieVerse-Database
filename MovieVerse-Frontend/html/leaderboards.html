@@ -446,10 +446,13 @@
       }
       .container {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 20px;
         padding: 20px;
-        justify-items: center;
+        justify-items: stretch;
+        width: min(1200px, 100% - 40px);
+        margin: 0 auto;
+        box-sizing: border-box;
       }
       .leaderboard {
         width: 100%;
@@ -458,7 +461,8 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         border-radius: 8px;
         text-align: center;
-        min-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
       }
       .leaderboard h2 {
         margin-bottom: 10px;
@@ -477,6 +481,13 @@
       table {
         width: 100%;
         border-collapse: collapse;
+      }
+      .leaderboard table {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        max-width: 100%;
+        scrollbar-gutter: stable;
       }
       th,
       td {
@@ -518,6 +529,12 @@
         .leaderboard {
           max-width: 100%;
         }
+      }
+
+      #search-results .result-details,
+      #search-results .result-name,
+      #search-results .result-type {
+        text-align: left;
       }
     </style>
     <script src="../js/devtools-guard.js"></script>

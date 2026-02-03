@@ -1049,12 +1049,18 @@ function bindSpotlightProgressSlider(mainElement) {
   interactionTarget.addEventListener('click', onClick);
   if (supportsPointer) {
     interactionTarget.addEventListener('pointerdown', onPointerDown);
-    interactionTarget.addEventListener('pointermove', onPointerMove, { passive: false });
+    interactionTarget.addEventListener('pointermove', onPointerMove, {
+      passive: false,
+    });
     interactionTarget.addEventListener('pointerup', onPointerUp);
     interactionTarget.addEventListener('pointercancel', onPointerUp);
   } else if (supportsTouch) {
-    interactionTarget.addEventListener('touchstart', onTouchStart, { passive: false });
-    interactionTarget.addEventListener('touchmove', onTouchMove, { passive: false });
+    interactionTarget.addEventListener('touchstart', onTouchStart, {
+      passive: false,
+    });
+    interactionTarget.addEventListener('touchmove', onTouchMove, {
+      passive: false,
+    });
     interactionTarget.addEventListener('touchend', onTouchEnd);
     interactionTarget.addEventListener('touchcancel', onTouchEnd);
   }
@@ -2514,7 +2520,7 @@ function formatTrendingDate(dateValue) {
   });
 }
 
-function truncateTrendingOverview(text, maxLength = 180) {
+function truncateTrendingOverview(text, maxLength = 280) {
   if (!text) return 'No overview available yet.';
   if (text.length <= maxLength) return text;
   return `${text.slice(0, maxLength).trim()}…`;
