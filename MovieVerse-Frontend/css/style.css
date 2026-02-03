@@ -5380,6 +5380,7 @@ body {
 .search-overlay.is-visible {
   opacity: 1;
   visibility: visible;
+  pointer-events: auto;
 }
 
 #form,

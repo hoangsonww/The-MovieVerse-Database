@@ -340,42 +340,18 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
-  const searchBar = document.getElementById('search');
-  const searchButton = document.getElementById('button-search');
-  const myHeading = document.getElementById('my-heading');
-  const localTime = document.getElementById('local-time');
-
-  function toggleVisibility() {
-    const query = searchBar.value.trim();
-    if (query) {
-      if (window.innerWidth > 800) {
-        myHeading.style.visibility = 'hidden';
-        myHeading.style.opacity = '0';
-        localTime.style.visibility = 'hidden';
-        localTime.style.opacity = '0';
-      }
-    } else {
-      myHeading.style.visibility = 'visible';
-      myHeading.style.opacity = '1';
-      localTime.style.visibility = 'visible';
-      localTime.style.opacity = '1';
-    }
-  }
-  searchBar.addEventListener('input', toggleVisibility);
-  toggleVisibility();
-});
-
-document.addEventListener('DOMContentLoaded', function () {
   const searchInput = document.getElementById('search');
   const viewAllResultsBtn = document.getElementById('view-all-results');
   const clearSearchBtn = document.getElementById('clear-search');
   const searchResultsContainer = document.getElementById('search-results');
-  const myHeading = document.getElementById('my-heading');
-  const localTime = document.getElementById('local-time');
+  const searchOverlay = document.getElementById('search-overlay');
   const searchButton = document.getElementById('button-search');
 
   function toggleButtons() {
     const query = searchInput.value.trim();
+    if (searchOverlay) {
+      searchOverlay.classList.toggle('is-visible', Boolean(query));
+    }
     viewAllResultsBtn.style.display = query ? 'inline-block' : 'none';
     clearSearchBtn.style.display = query ? 'inline-block' : 'none';
   }
@@ -385,15 +361,31 @@ document.addEventListener('DOMContentLoaded', function () {
     searchResultsContainer.innerHTML = '';
     toggleButtons();
     searchInput.focus();
-
-    myHeading.style.visibility = 'visible';
-    myHeading.style.opacity = '1';
-    localTime.style.visibility = 'visible';
-    localTime.style.opacity = '1';
   });
 
   toggleButtons();
   searchInput.addEventListener('input', toggleButtons);
+
+  const searchContainer = document.querySelector('.search-container');
+  const buttonsContainer = document.querySelector('.buttons-container');
+  document.addEventListener('click', function (e) {
+    const target = e.target;
+    if (
+      (searchContainer && searchContainer.contains(target)) ||
+      (searchResultsContainer && searchResultsContainer.contains(target)) ||
+      (buttonsContainer && buttonsContainer.contains(target))
+    ) {
+      return;
+    }
+    if (searchInput.value.trim()) {
+      searchInput.value = '';
+      searchResultsContainer.innerHTML = '';
+    }
+    toggleButtons();
+    if (searchOverlay) {
+      searchOverlay.classList.remove('is-visible');
+    }
+  });
 });
 
 function showSpinner() {

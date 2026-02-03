@@ -315,7 +315,7 @@
         }
       }
     </style>
-    <script src="../js/devtools-guard.js"></script>
+<!--    <script src="../js/devtools-guard.js"></script>-->
   </head>
   <body>
     <div id="google_translate_element"></div>
@@ -362,6 +362,9 @@
         const searchResultsContainer = document.getElementById('search-results');
         const searchOverlay = document.getElementById('search-overlay');
         const searchButton = document.getElementById('button-search');
+        if (!searchInput || !viewAllResultsBtn || !clearSearchBtn || !searchResultsContainer) {
+          return;
+        }
 
         function toggleButtons() {
           const query = searchInput.value.trim();
@@ -427,6 +430,9 @@
 
       function adjustNavBar() {
         const sideNav = document.getElementById('side-nav');
+        if (!sideNav) {
+          return;
+        }
         if (sideNav.classList.contains('manual-toggle')) {
           sideNav.style.left = '0px';
         } else {
@@ -436,21 +442,29 @@
 
       document.addEventListener('mousemove', function (event) {
         const sideNav = document.getElementById('side-nav');
+        if (!sideNav) {
+          return;
+        }
         if (event.clientX < 10 && !sideNav.classList.contains('manual-toggle')) {
           sideNav.style.left = '0';
         }
       });
 
-      document.getElementById('side-nav').addEventListener('mouseleave', function () {
-        const sideNav = document.getElementById('side-nav');
-        if (!sideNav.classList.contains('manual-toggle')) {
-          sideNav.style.left = '-250px';
-        }
-      });
+      const sideNavEl = document.getElementById('side-nav');
+      if (sideNavEl) {
+        sideNavEl.addEventListener('mouseleave', function () {
+          if (!sideNavEl.classList.contains('manual-toggle')) {
+            sideNavEl.style.left = '-250px';
+          }
+        });
+      }
 
       document.addEventListener('click', function (event) {
         const sideNav = document.getElementById('side-nav');
         const navToggle = document.getElementById('nav-toggle');
+        if (!sideNav || !navToggle) {
+          return;
+        }
         if (!sideNav.contains(event.target) && !navToggle.contains(event.target) && sideNav.classList.contains('manual-toggle')) {
           sideNav.classList.remove('manual-toggle');
           adjustNavBar();
@@ -466,7 +480,11 @@
       }
 
       document.addEventListener('DOMContentLoaded', function () {
-        document.getElementById('search').addEventListener('input', function (e) {
+        const searchEl = document.getElementById('search');
+        if (!searchEl) {
+          return;
+        }
+        searchEl.addEventListener('input', function (e) {
           showSpinner();
           const viewAllResultsBtn = document.getElementById('view-all-results');
           const searchInput = document.getElementById('search');
@@ -610,6 +628,9 @@
         const clearSearchBtn = document.getElementById('clear-search');
         const searchResultsContainer = document.getElementById('search-results');
         const searchOverlay = document.getElementById('search-overlay');
+        if (!searchInput || !viewAllResultsBtn || !clearSearchBtn || !searchResultsContainer) {
+          return;
+        }
         let selectedIndex = -1;
 
         function clearSelection() {
@@ -692,6 +713,9 @@
         const signInText = document.getElementById('signInOutText');
         const signInIcon = document.getElementById('signInIcon');
         const signOutIcon = document.getElementById('signOutIcon');
+        if (!signInText || !signInIcon || !signOutIcon) {
+          return;
+        }
 
         if (isSignedIn) {
           signInText.textContent = 'Sign Out';
@@ -706,7 +730,10 @@
 
       document.addEventListener('DOMContentLoaded', function () {
         updateSignInButtonState();
-        document.getElementById('googleSignInBtn').addEventListener('click', handleSignInOut);
+        const googleBtn = document.getElementById('googleSignInBtn');
+        if (googleBtn) {
+          googleBtn.addEventListener('click', handleSignInOut);
+        }
       });
 
       document.getElementById('settings-btn').addEventListener('click', () => {
