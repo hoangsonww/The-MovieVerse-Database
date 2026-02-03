@@ -225,7 +225,13 @@ function displaySearchResults(results, searchText) {
     const userDiv = document.createElement('div');
     userDiv.className = 'user-search-result';
     userDiv.style.cursor = 'pointer';
-    userDiv.addEventListener('click', () => loadProfile(user.id));
+    userDiv.addEventListener('click', async () => {
+      await loadProfile(user.id);
+      const profileContainer = document.getElementById('profileContainer');
+      if (profileContainer) {
+        profileContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
 
     const img = document.createElement('img');
     img.src = user.profileImage || '../../images/user-default.png';

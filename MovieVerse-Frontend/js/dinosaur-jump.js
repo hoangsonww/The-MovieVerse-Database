@@ -44,9 +44,18 @@ function resetGame() {
 
 // Handle key presses for jump or reset
 document.addEventListener('keydown', e => {
+  const target = e.target;
+  if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.tagName === 'SELECT' || target.isContentEditable)) {
+    return;
+  }
+
+  if (e.code !== 'Space' && e.code !== 'ArrowUp') {
+    return;
+  }
+
   e.preventDefault();
 
-  if (isGameOver && (e.code === 'Space' || e.code === 'ArrowUp')) {
+  if (isGameOver) {
     resetGame();
   } else {
     handleJump();

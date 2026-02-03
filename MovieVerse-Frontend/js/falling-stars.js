@@ -41,6 +41,15 @@ function resetGame() {
 
 // Listen for key presses to jump or restart the game
 document.addEventListener('keydown', e => {
+  const target = e.target;
+  if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.tagName === 'SELECT' || target.isContentEditable)) {
+    return;
+  }
+
+  if (e.key !== ' ' && e.key !== 'Enter') {
+    return;
+  }
+
   e.preventDefault();
 
   if (isGameOver && (e.key === ' ' || e.key === 'Enter')) {

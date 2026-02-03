@@ -1360,24 +1360,24 @@
 
       <section class="noti-stats" id="todayPulse">
         <div class="stat-card accent" id="statNew">
-          <span class="stat-label">New since your last visit</span>
+          <span class="stat-label">New releases (7 days)</span>
           <span class="stat-value" id="statNewCount">--</span>
-          <span class="stat-meta" id="statNewMeta">Loading...</span>
+          <span class="stat-meta" id="statNewMeta">Counting premieres...</span>
         </div>
         <div class="stat-card" id="statUpcoming">
-          <span class="stat-label">Arriving soon (30 days)</span>
+          <span class="stat-label">Arriving in 30 days</span>
           <span class="stat-value" id="statUpcomingCount">--</span>
-          <span class="stat-meta" id="statUpcomingMeta">Loading...</span>
+          <span class="stat-meta" id="statUpcomingMeta">Scanning upcoming premieres...</span>
         </div>
         <div class="stat-card" id="statFavorites">
-          <span class="stat-label">Favorites you keep close</span>
+          <span class="stat-label">Trending now</span>
           <span class="stat-value" id="statFavoritesCount">--</span>
-          <span class="stat-meta">Movies you saved</span>
+          <span class="stat-meta" id="statTrendingMeta">Movies buzzing today</span>
         </div>
         <div class="stat-card" id="statWatchlists">
-          <span class="stat-label">Watchlists created</span>
+          <span class="stat-label">Top rated this month</span>
           <span class="stat-value" id="statWatchlistsCount">--</span>
-          <span class="stat-meta">Curated collections</span>
+          <span class="stat-meta" id="statTopRatedMeta">High-score picks</span>
         </div>
       </section>
 
@@ -1636,6 +1636,33 @@
 
         toggleButtons();
         searchInput.addEventListener('input', toggleButtons);
+        const searchContainer = document.querySelector('.search-container');
+        const buttonsContainer = document.querySelector('.buttons-container');
+        document.addEventListener('click', function (e) {
+          const target = e.target;
+          if (
+            (searchContainer && searchContainer.contains(target)) ||
+            (searchResultsContainer && searchResultsContainer.contains(target)) ||
+            (buttonsContainer && buttonsContainer.contains(target))
+          ) {
+            return;
+          }
+          if (searchInput.value.trim()) {
+            searchInput.value = '';
+            searchResultsContainer.innerHTML = '';
+          }
+          if (typeof toggleButtons === 'function') {
+            toggleButtons();
+          } else {
+            viewAllResultsBtn.style.display = 'none';
+            clearSearchBtn.style.display = 'none';
+          }
+          const overlayEl = document.getElementById('search-overlay');
+          if (overlayEl) {
+            overlayEl.classList.remove('is-visible');
+          }
+        });
+        // close search on outside click
       });
     </script>
 
@@ -1875,6 +1902,125 @@
         return String.fromCharCode(97, 112, 105, 46, 116, 104, 101, 109, 111, 118, 105, 101, 100, 98, 46, 111, 114, 103);
       }
 
+      function formatISODate(date) {
+        return date.toISOString().split('T')[0];
+      }
+
+      function formatShortDate(date) {
+        return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      }
+
+      async function fetchStatsJson(url) {
+        const response = await fetch(url);
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.status_message || 'Failed to fetch count');
+        }
+        return data;
+      }
+
+      async function fetchTotalResults(url) {
+        const data = await fetchStatsJson(url);
+        return typeof data.total_results === 'number' ? data.total_results : Array.isArray(data.results) ? data.results.length : 0;
+      }
+
+      async function fetchResultsCount(url) {
+        const data = await fetchStatsJson(url);
+        return Array.isArray(data.results) ? data.results.length : 0;
+      }
+
+      function setStatValue(id, value) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.textContent = Number.isFinite(value) ? value.toLocaleString('en-US') : '--';
+      }
+
+      async function loadNotificationStats() {
+        const statNewMeta = document.getElementById('statNewMeta');
+        const statUpcomingMeta = document.getElementById('statUpcomingMeta');
+        const statTrendingMeta = document.getElementById('statTrendingMeta');
+        const statTopRatedMeta = document.getElementById('statTopRatedMeta');
+        if (!document.getElementById('statNewCount')) {
+          return;
+        }
+
+        const apiQuery = `${generateMovieNames()}${getMovieCode()}`;
+        const baseUrl = `https://${getMovieVerseData()}/3`;
+
+        const today = new Date();
+        const sevenDaysAgo = new Date(today);
+        sevenDaysAgo.setDate(today.getDate() - 7);
+        const thirtyDaysAhead = new Date(today);
+        thirtyDaysAhead.setDate(today.getDate() + 30);
+        const monthStart = new Date(today.getFullYear(), today.getMonth(), 1);
+        const monthEnd = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+
+        const newReleasesUrl = `${baseUrl}/discover/movie?${apiQuery}&primary_release_date.gte=${formatISODate(
+          sevenDaysAgo
+        )}&primary_release_date.lte=${formatISODate(today)}&include_adult=false&region=US`;
+        const upcomingUrl = `${baseUrl}/discover/movie?${apiQuery}&primary_release_date.gte=${formatISODate(
+          today
+        )}&primary_release_date.lte=${formatISODate(thirtyDaysAhead)}&include_adult=false&region=US`;
+        const trendingUrl = `${baseUrl}/trending/movie/day?${apiQuery}`;
+        const topRatedUrl = `${baseUrl}/discover/movie?${apiQuery}&primary_release_date.gte=${formatISODate(
+          monthStart
+        )}&primary_release_date.lte=${formatISODate(monthEnd)}&sort_by=vote_average.desc&vote_count.gte=50&include_adult=false`;
+
+        try {
+          const [newCount, upcomingCount, trendingCount] = await Promise.all([
+            fetchTotalResults(newReleasesUrl),
+            fetchTotalResults(upcomingUrl),
+            fetchResultsCount(trendingUrl),
+          ]);
+          let topRatedCount = await fetchResultsCount(topRatedUrl);
+          let topRatedRangeLabel = `${formatShortDate(monthStart)}–${formatShortDate(monthEnd)}`;
+
+          if (topRatedCount === 0) {
+            const ninetyDaysAgo = new Date(today);
+            ninetyDaysAgo.setDate(today.getDate() - 90);
+            const topRatedFallbackUrl = `${baseUrl}/discover/movie?${apiQuery}&primary_release_date.gte=${formatISODate(
+              ninetyDaysAgo
+            )}&primary_release_date.lte=${formatISODate(today)}&sort_by=vote_average.desc&vote_count.gte=50&include_adult=false`;
+            topRatedCount = await fetchResultsCount(topRatedFallbackUrl);
+            topRatedRangeLabel = `${formatShortDate(ninetyDaysAgo)}–${formatShortDate(today)}`;
+
+            if (topRatedCount === 0) {
+              const topRatedOverallUrl = `${baseUrl}/movie/top_rated?${apiQuery}`;
+              topRatedCount = await fetchResultsCount(topRatedOverallUrl);
+              topRatedRangeLabel = 'Top picks right now';
+            }
+          }
+
+          setStatValue('statNewCount', newCount);
+          setStatValue('statUpcomingCount', upcomingCount);
+          setStatValue('statFavoritesCount', trendingCount);
+          setStatValue('statWatchlistsCount', topRatedCount);
+
+          if (statNewMeta) {
+            statNewMeta.textContent = `Premieres ${formatShortDate(sevenDaysAgo)}–${formatShortDate(today)}`;
+          }
+          if (statUpcomingMeta) {
+            statUpcomingMeta.textContent = `Next 30 days (${formatShortDate(today)}–${formatShortDate(thirtyDaysAhead)})`;
+          }
+          if (statTrendingMeta) {
+            statTrendingMeta.textContent = `Top ${trendingCount || 0} today`;
+          }
+          if (statTopRatedMeta) {
+            statTopRatedMeta.textContent = `Top ${topRatedCount || 0} (${topRatedRangeLabel})`;
+          }
+        } catch (error) {
+          console.log('Error loading notification stats:', error);
+          setStatValue('statNewCount', NaN);
+          setStatValue('statUpcomingCount', NaN);
+          setStatValue('statFavoritesCount', NaN);
+          setStatValue('statWatchlistsCount', NaN);
+          if (statNewMeta) statNewMeta.textContent = 'Temporarily unavailable';
+          if (statUpcomingMeta) statUpcomingMeta.textContent = 'Temporarily unavailable';
+          if (statTrendingMeta) statTrendingMeta.textContent = 'Temporarily unavailable';
+          if (statTopRatedMeta) statTopRatedMeta.textContent = 'Temporarily unavailable';
+        }
+      }
+
       async function showMovieOfTheDay() {
         const year = new Date().getFullYear();
         const url = `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&primary_release_year=${year}&vote_average.gte=7`;
@@ -1904,6 +2050,7 @@
 
       document.addEventListener('DOMContentLoaded', () => {
         applySettings();
+        loadNotificationStats();
 
         function applySettings() {
           const defaultBg = '../../images/universe-1.webp';

@@ -26,11 +26,20 @@ let isGameOver = false;
 
 // Handle block placement
 document.addEventListener('keydown', e => {
+  const target = e.target;
+  if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.tagName === 'SELECT' || target.isContentEditable)) {
+    return;
+  }
+
+  if (e.key !== ' ' && e.key !== 'Enter') {
+    return;
+  }
+
   e.preventDefault();
 
-  if ((e.key === ' ' || e.key === 'Enter') && !isGameOver) {
+  if (!isGameOver) {
     placeBlock();
-  } else if (isGameOver && (e.key === ' ' || e.key === 'Enter')) {
+  } else {
     resetGame();
   }
 });

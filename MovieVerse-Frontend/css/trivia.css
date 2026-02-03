@@ -193,6 +193,8 @@ html {
   margin-left: 15px;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
   min-width: 0;
   flex: 1;
 }
@@ -201,6 +203,7 @@ html {
   font-size: 16px;
   font-weight: bold;
   margin-bottom: 5px;
+  text-align: left;
   white-space: normal;
   overflow-wrap: anywhere;
   word-break: break-word;
@@ -210,6 +213,7 @@ html {
   font-size: 14px;
   font-style: italic;
   color: #212121;
+  text-align: left;
 }
 
 #googleSignInBtn {
@@ -1713,7 +1717,7 @@ main {
 }
 
 #discussions-btn::before {
-  content: '\f0c0';
+  content: '\f544';
 }
 
 #trivia-btn::before {

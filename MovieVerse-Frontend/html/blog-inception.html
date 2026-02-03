@@ -289,7 +289,7 @@
         background: #f4f4f4 !important;
       }
     </style>
-<!--    <script src="../js/devtools-guard.js"></script>-->
+    <!--    <script src="../js/devtools-guard.js"></script>-->
   </head>
 
   <body>
@@ -769,8 +769,6 @@
       <div class="spinner"></div>
     </div>
 
-    
-
     <script>
       document.addEventListener('DOMContentLoaded', function () {
         const searchInput = document.getElementById('search');
@@ -782,10 +780,10 @@
 
         function toggleButtons() {
           const query = searchInput.value.trim();
-                    if (searchOverlay) {
+          if (searchOverlay) {
             searchOverlay.classList.toggle('is-visible', Boolean(query));
           }
-viewAllResultsBtn.style.display = query ? 'inline-block' : 'none';
+          viewAllResultsBtn.style.display = query ? 'inline-block' : 'none';
           clearSearchBtn.style.display = query ? 'inline-block' : 'none';
         }
 
@@ -794,11 +792,37 @@ viewAllResultsBtn.style.display = query ? 'inline-block' : 'none';
           searchResultsContainer.innerHTML = '';
           toggleButtons();
           searchInput.focus();
-
         });
 
         toggleButtons();
         searchInput.addEventListener('input', toggleButtons);
+        const searchContainer = document.querySelector('.search-container');
+        const buttonsContainer = document.querySelector('.buttons-container');
+        document.addEventListener('click', function (e) {
+          const target = e.target;
+          if (
+            (searchContainer && searchContainer.contains(target)) ||
+            (searchResultsContainer && searchResultsContainer.contains(target)) ||
+            (buttonsContainer && buttonsContainer.contains(target))
+          ) {
+            return;
+          }
+          if (searchInput.value.trim()) {
+            searchInput.value = '';
+            searchResultsContainer.innerHTML = '';
+          }
+          if (typeof toggleButtons === 'function') {
+            toggleButtons();
+          } else {
+            viewAllResultsBtn.style.display = 'none';
+            clearSearchBtn.style.display = 'none';
+          }
+          const overlayEl = document.getElementById('search-overlay');
+          if (overlayEl) {
+            overlayEl.classList.remove('is-visible');
+          }
+        });
+        // close search on outside click
       });
     </script>
 
@@ -818,15 +842,15 @@ viewAllResultsBtn.style.display = query ? 'inline-block' : 'none';
           const searchInput = document.getElementById('search');
           const query = e.target.value.trim();
           const searchResultsContainer = document.getElementById('search-results');
-        const searchOverlay = document.getElementById('search-overlay');
+          const searchOverlay = document.getElementById('search-overlay');
 
           viewAllResultsBtn.style.display = query ? 'block' : 'none';
 
           function toggleButtons() {
-          const query = searchInput.value.trim();
-          if (searchOverlay) {
-            searchOverlay.classList.toggle('is-visible', Boolean(query));
-          }
+            const query = searchInput.value.trim();
+            if (searchOverlay) {
+              searchOverlay.classList.toggle('is-visible', Boolean(query));
+            }
             viewAllResultsBtn.style.display = query ? 'inline-block' : 'none';
             const clearSearchBtn = document.getElementById('clear-search');
             clearSearchBtn.style.display = query ? 'inline-block' : 'none';
@@ -1023,7 +1047,7 @@ viewAllResultsBtn.style.display = query ? 'inline-block' : 'none';
       });
     </script>
 
-        <script>
+    <script>
       const sideNav = document.getElementById('side-nav');
       const navToggle = document.getElementById('nav-toggle');
       const removeBtn = document.getElementById('button-remove');
@@ -1079,6 +1103,6 @@ viewAllResultsBtn.style.display = query ? 'inline-block' : 'none';
       // initialize position
       adjustNavBar();
     </script>
-  <div id="search-overlay" class="search-overlay"></div>
-</body>
+    <div id="search-overlay" class="search-overlay"></div>
+  </body>
 </html>

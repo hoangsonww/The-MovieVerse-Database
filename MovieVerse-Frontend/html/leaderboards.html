@@ -961,6 +961,33 @@
 
         toggleButtons();
         searchInput.addEventListener('input', toggleButtons);
+        const searchContainer = document.querySelector('.search-container');
+        const buttonsContainer = document.querySelector('.buttons-container');
+        document.addEventListener('click', function (e) {
+          const target = e.target;
+          if (
+            (searchContainer && searchContainer.contains(target)) ||
+            (searchResultsContainer && searchResultsContainer.contains(target)) ||
+            (buttonsContainer && buttonsContainer.contains(target))
+          ) {
+            return;
+          }
+          if (searchInput.value.trim()) {
+            searchInput.value = '';
+            searchResultsContainer.innerHTML = '';
+          }
+          if (typeof toggleButtons === 'function') {
+            toggleButtons();
+          } else {
+            viewAllResultsBtn.style.display = 'none';
+            clearSearchBtn.style.display = 'none';
+          }
+          const overlayEl = document.getElementById('search-overlay');
+          if (overlayEl) {
+            overlayEl.classList.remove('is-visible');
+          }
+        });
+        // close search on outside click
       });
     </script>
 
