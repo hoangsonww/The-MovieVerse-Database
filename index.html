@@ -48,7 +48,7 @@
     <script src="index.js" defer></script>
     <script src="/MovieVerse-Frontend/js/settings.js" defer></script>
     <link rel="preload" href="https://movie-verse.com/MovieVerse-Frontend/css/style.css" as="style" />
-    <link rel="stylesheet" href="https://movie-verse.com/MovieVerse-Frontend/css/style.css" />
+    <link rel="stylesheet" href="/MovieVerse-Frontend/css/style.css" />
     <link rel="icon" type="image/x-icon" href="https://movie-verse.com/images/favicon.ico" />
     <link rel="manifest" href="https://movie-verse.com/manifest.json" />
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" as="style" />
@@ -375,6 +375,17 @@
 
       #search {
         margin-right: 0 !important;
+      }
+
+      .search-result-card .result-details {
+        min-width: 0;
+        flex: 1;
+      }
+
+      .search-result-card .result-name {
+        white-space: normal;
+        overflow-wrap: anywhere;
+        word-break: break-word;
       }
 
       @media (min-width: 800px) {
@@ -2497,44 +2508,20 @@
       });
 
       document.addEventListener('DOMContentLoaded', function () {
-        const searchBar = document.getElementById('search');
-        const searchButton = document.getElementById('button-search');
-        const myHeading = document.getElementById('my-heading');
-        const localTime = document.getElementById('local-time');
-
-        function toggleVisibility() {
-          const query = searchBar.value.trim();
-          if (query) {
-            if (window.innerWidth > 800) {
-              myHeading.style.visibility = 'hidden';
-              myHeading.style.opacity = '0';
-              localTime.style.visibility = 'hidden';
-              localTime.style.opacity = '0';
-            }
-          } else {
-            myHeading.style.visibility = 'visible';
-            myHeading.style.opacity = '1';
-            localTime.style.visibility = 'visible';
-            localTime.style.opacity = '1';
-          }
-        }
-        searchBar.addEventListener('input', toggleVisibility);
-        toggleVisibility();
-      });
-
-      document.addEventListener('DOMContentLoaded', function () {
         const searchInput = document.getElementById('search');
         const viewAllResultsBtn = document.getElementById('view-all-results');
         const clearSearchBtn = document.getElementById('clear-search');
         const searchResultsContainer = document.getElementById('search-results');
-        const myHeading = document.getElementById('my-heading');
-        const localTime = document.getElementById('local-time');
+        const searchOverlay = document.getElementById('search-overlay');
         const searchButton = document.getElementById('button-search');
 
         function toggleButtons() {
           const query = searchInput.value.trim();
           viewAllResultsBtn.style.display = query ? 'inline-block' : 'none';
           clearSearchBtn.style.display = query ? 'inline-block' : 'none';
+          if (searchOverlay) {
+            searchOverlay.classList.toggle('is-visible', Boolean(query));
+          }
         }
 
         clearSearchBtn.addEventListener('click', function () {
@@ -2542,11 +2529,6 @@
           searchResultsContainer.innerHTML = '';
           toggleButtons();
           searchInput.focus();
-
-          myHeading.style.visibility = 'visible';
-          myHeading.style.opacity = '1';
-          localTime.style.visibility = 'visible';
-          localTime.style.opacity = '1';
         });
 
         toggleButtons();
@@ -2569,13 +2551,15 @@
           const query = e.target.value.trim();
           const clearSearchBtn = document.getElementById('clear-search');
           const searchResultsContainer = document.getElementById('search-results');
-          const myHeading = document.getElementById('my-heading');
-          const localTime = document.getElementById('local-time');
+          const searchOverlay = document.getElementById('search-overlay');
           viewAllResultsBtn.style.display = query ? 'block' : 'none';
           function toggleButtons() {
             const query = searchInput.value.trim();
             viewAllResultsBtn.style.display = query ? 'inline-block' : 'none';
             clearSearchBtn.style.display = query ? 'inline-block' : 'none';
+            if (searchOverlay) {
+              searchOverlay.classList.toggle('is-visible', Boolean(query));
+            }
           }
           if (query) {
             const searchURL = `https://${getMovieVerseData()}/3/search/multi?${generateMovieNames()}${getMovieCode()}&query=${encodeURIComponent(query)}`;
@@ -2591,8 +2575,6 @@
             searchResultsContainer.innerHTML = '';
             toggleButtons();
             searchInput.focus();
-            myHeading.style.display = '';
-            localTime.style.display = '';
           }
           searchInput.addEventListener('input', function () {
             if (searchInput.value.trim()) {
@@ -2752,6 +2734,7 @@
         searchInput.addEventListener('blur', clearSelection);
       });
     </script>
+    <div id="search-overlay" class="search-overlay"></div>
   </body>
 
   <style>

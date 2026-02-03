@@ -1023,43 +1023,18 @@
     </div>
     <script>
       document.addEventListener('DOMContentLoaded', function () {
-        const searchBar = document.getElementById('search');
-        const searchButton = document.getElementById('button-search');
-        const myHeading = document.getElementById('my-heading');
-        const localTime = document.getElementById('local-time');
-
-        function toggleVisibility() {
-          const query = searchBar.value.trim();
-          if (query) {
-            if (window.innerWidth > 800) {
-              myHeading.style.visibility = 'hidden';
-              myHeading.style.opacity = '0';
-              localTime.style.visibility = 'hidden';
-              localTime.style.opacity = '0';
-            }
-          } else {
-            myHeading.style.visibility = 'visible';
-            myHeading.style.opacity = '1';
-            localTime.style.visibility = 'visible';
-            localTime.style.opacity = '1';
-          }
-        }
-        searchBar.addEventListener('input', toggleVisibility);
-        toggleVisibility();
-      });
-    </script>
-    <script>
-      document.addEventListener('DOMContentLoaded', function () {
         const searchInput = document.getElementById('search');
         const viewAllResultsBtn = document.getElementById('view-all-results');
         const clearSearchBtn = document.getElementById('clear-search');
         const searchResultsContainer = document.getElementById('search-results');
-        const myHeading = document.getElementById('my-heading');
-        const localTime = document.getElementById('local-time');
+        const searchOverlay = document.getElementById('search-overlay');
         const searchButton = document.getElementById('button-search');
 
         function toggleButtons() {
           const query = searchInput.value.trim();
+          if (searchOverlay) {
+            searchOverlay.classList.toggle('is-visible', Boolean(query));
+          }
           viewAllResultsBtn.style.display = query ? 'inline-block' : 'none';
           clearSearchBtn.style.display = query ? 'inline-block' : 'none';
         }
@@ -1069,11 +1044,6 @@
           searchResultsContainer.innerHTML = '';
           toggleButtons();
           searchInput.focus();
-
-          myHeading.style.visibility = 'visible';
-          myHeading.style.opacity = '1';
-          localTime.style.visibility = 'visible';
-          localTime.style.opacity = '1';
         });
 
         toggleButtons();
@@ -1097,6 +1067,7 @@
           const query = e.target.value.trim();
           const searchResultsContainer = document.getElementById('search-results');
 
+          const searchOverlay = document.getElementById('search-overlay');
           viewAllResultsBtn.style.display = query ? 'block' : 'none';
 
           function toggleButtons() {
@@ -1232,6 +1203,7 @@
         const viewAllResultsBtn = document.getElementById('view-all-results');
         const clearSearchBtn = document.getElementById('clear-search');
         const searchResultsContainer = document.getElementById('search-results');
+        const searchOverlay = document.getElementById('search-overlay');
         let selectedIndex = -1;
 
         function clearSelection() {
@@ -1501,6 +1473,7 @@
         }
       });
     </script>
+    <div id="search-overlay" class="search-overlay"></div>
   </body>
 
   <script>
