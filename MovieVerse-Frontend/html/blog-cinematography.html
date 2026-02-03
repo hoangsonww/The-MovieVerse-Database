@@ -311,25 +311,566 @@
 
       document.querySelector('.translate-trigger').addEventListener('click', function () {
         const translateEl = document.getElementById('google_translate_element');
-        const isVisible = translateEl.style.display === 'block';
-        translateEl.style.display = isVisible ? 'none' : 'block';
+        translateEl.style.display = translateEl.style.display === 'block' ? 'none' : 'block';
+      });
 
-        if (!isVisible) {
-          const helperId = 'translate-helper-text';
-          if (!translateEl.querySelector('#' + helperId)) {
-            const helper = document.createElement('div');
-            helper.id = helperId;
-            helper.textContent =
-              'If this menu is blank, please wait a few seconds. If it still does not load, please check your Internet connection, then reload the page and try again.';
-            helper.style.marginTop = '6px';
-            helper.style.fontSize = '11px';
-            helper.style.lineHeight = '1.3';
-            helper.style.opacity = '0.9';
-            translateEl.appendChild(helper);
+      document.addEventListener('DOMContentLoaded', function () {
+        let lastScrollTop = window.scrollY;
+        const translateControl = document.getElementById('translate_control');
+        const translateEl = document.getElementById('google_translate_element');
+
+        window.addEventListener(
+          'scroll',
+          function () {
+            let scrollTop = window.scrollY;
+
+            if (window.innerWidth <= 767) {
+              if (scrollTop > lastScrollTop && scrollTop > 0) {
+                translateControl.style.display = 'none';
+                translateEl.style.display = 'none';
+              } else {
+                translateControl.style.display = 'block';
+              }
+              lastScrollTop = scrollTop;
+            }
+          },
+          { passive: true }
+        );
+      });
+    </script>
+
+    <!-- Header -->
+    <header style="margin-bottom: -50px">
+      <h1 id="my-heading" style="margin-bottom: -10px" class="notranslate">
+        <a id="indexLink" href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer">
+          The Mo<span class="highlight" id="highlight">vieV</span>erse
+        </a>
+      </h1>
+      <div id="local-time" style="cursor: pointer; margin-left: 40px" title="Click to view more of your stats!">
+        <p id="stats-label" class="clock" style="font-size: 16px"></p>
+        <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold"></div>
+      </div>
+      <button class="back-btn notranslate" onclick="window.location.href='../../index.html'">Home</button>
+      <button class="about notranslate" onclick="window.location.href='about.html'">About</button>
+      <button class="favorites-btn notranslate" onclick="window.location.href='favorites.html'" title="View your favorites & watchlists">
+        Favorites
+      </button>
+      <button id="nav-toggle" class="nav-toggle notranslate" title="Toggle side navbar" onclick="toggleNav()">
+        <i class="fas fa-bars"></i>
+      </button>
+      <button id="googleSignInBtn" class="nav-btn notranslate" onclick="handleSignInOut()" title="Sign In/Out">
+        <span id="signInOutText">Sign In</span>
+        <i class="fas fa-sign-in-alt" id="signInIcon"></i>
+        <i class="fas fa-sign-out-alt" id="signOutIcon" style="display: none"></i>
+      </button>
+      <button id="profileBtn" class="nav-btn notranslate" onclick="window.location.href='user-profile.html'" title="Go to your profile">
+        <span id="profileText">Profile</span>
+        <i class="fas fa-user" id="profileIcon"></i>
+      </button>
+      <form id="form1" style="animation: fadeIn 1.5s ease-in-out">
+        <div class="search-container">
+          <input
+            type="text"
+            id="search"
+            placeholder="Search For Films, Actors..."
+            class="search"
+            title="Search for movies, actors, TV series, and more!"
+          />
+          <button type="button" id="button-search" onclick="handleSearch()">Search</button>
+        </div>
+        <div id="search-results" class="search-results"></div>
+        <div class="buttons-container">
+          <button type="button" id="view-all-results" style="display: none">View more results</button>
+          <button type="button" id="clear-search" style="display: none">Clear</button>
+        </div>
+      </form>
+    </header>
+
+    <nav id="side-nav" class="side-nav" style="z-index: 1000000">
+      <a id="heading-href" style="cursor: pointer" href="../../index.html" title="Click to go back to the home page">
+        <div id="my-heading1" style="margin-bottom: 15px; margin-left: 0; margin-top: 15px; font-size: 2.1em; font-weight: bold">
+          The Mo<span class="highlight2">vieV</span>erse
+        </div>
+      </a>
+      <div id="button-container">
+        <button id="button-remove" title="Close the navbar" onclick="removeNavBar()">Close</button>
+      </div>
+      <ul>
+        <li><a href="#cinematography-language-of-the-lens">Introduction</a></li>
+        <li><a href="#origins-and-pioneers">1. Origins & Pioneers</a></li>
+        <li><a href="#the-evolution-of-cameras">2. The Evolution of Cameras</a></li>
+        <li><a href="#lens-craft-and-visual-texture">3. Lens Craft & Visual Texture</a></li>
+        <li><a href="#mastering-light-and-shadow">4. Mastering Light & Shadow</a></li>
+        <li><a href="#composition-painting-with-the-camera">5. Composition: Painting with the Camera</a></li>
+        <li><a href="#camera-movement-techniques">6. Camera Movement Techniques</a></li>
+        <li><a href="#post-production-and-color-grading">7. Post-Production & Color Grading</a></li>
+        <li><a href="#storytelling-through-visual-language">8. Storytelling Through Visual Language</a></li>
+        <li><a href="#cinematic-case-studies">9. Cinematic Case Studies</a></li>
+        <li><a href="#the-future-of-cinematography">10. The Future of Cinematography</a></li>
+        <li><a href="#developing-your-cinematic-eye">11. Developing Your Cinematic Eye</a></li>
+        <li><a href="#conclusion">12. Conclusion</a></li>
+        <li><a href="#virtual-reality-and-360-cinematography">13. Virtual Reality & 360° Cinematography</a></li>
+        <li><a href="#interview-spotlight-modern-masters">14. Interview Spotlight: Modern Masters</a></li>
+      </ul>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main style="margin-top: 30px; padding: 1rem">
+      <h2 id="cinematography-language-of-the-lens">Cinematography: The Language of the Lens</h2>
+      <div />
+
+      <p>
+        Cinematography is more than pointing a camera and pressing record—it’s a deliberate dance of light, shadow, movement, and time. Every choice a
+        cinematographer makes—from lens selection to camera path—speaks to the viewer’s subconscious and crafts the emotional core of a film.
+      </p>
+      <p>
+        In this deep dive, we’ll trace the art form from its earliest days through cutting-edge innovations, explore the visual grammar that shapes
+        our favorite movies, and look ahead at the technologies poised to redefine cinematic storytelling.
+      </p>
+
+      <h3 id="origins-and-pioneers">1. Origins &amp; Pioneers</h3>
+      <p>
+        At the birth of cinema in the 1890s, the Lumière brothers mesmerized audiences by capturing everyday life in single frames. Georges Méliès
+        soon leveraged stop-motion and multiple exposures to conjure magic on screen, revealing film’s boundless storytelling potential.
+      </p>
+      <p>
+        D.W. Griffith further codified narrative grammar—cross-cutting between parallel storylines, pacing montage sequences for suspense, and
+        employing close-ups to reveal inner emotional landscapes. His innovations in films like <em>The Birth of a Nation</em> and
+        <em>Intolerance</em> laid groundwork still studied by cinematographers today.
+      </p>
+      <p>
+        Yet, even earlier innovators—Alice Guy-Blaché in France and Edwin S. Porter in the U.S.—experimented with camera placement and primitive
+        special effects to enhance storytelling. Their early short films hint at techniques that would blossom into full cinematic language over the
+        next century.
+      </p>
+
+      <h3 id="the-evolution-of-cameras">2. The Evolution of Cameras</h3>
+      <p>
+        From hand-cranked 35 mm Beaumonts to the digital giants of today, camera technology has relentlessly advanced. Mid-20th-century film stocks
+        offered rich grain and organic latitude but demanded meticulous light control and frequent magazine swaps.
+      </p>
+      <p>
+        The 1990s shift to digital sensors was rocky—early CCD and CMOS chips struggled in low light, exhibited noise, and lacked film’s dynamic
+        range. By the 2010s, cameras like the ARRI Alexa and RED Epic not only matched film but surpassed it, capturing over 16 stops of latitude and
+        simplifying workflow with instant playback.
+      </p>
+      <p>
+        Meanwhile, consumer-level mirrorless and hybrid cameras (Panasonic GH series, Sony a7 line) have democratized cinematic looks. Wireless
+        monitoring, in-camera LUT previews, and computational autofocus features have empowered indie filmmakers to approach Hollywood production
+        values.
+      </p>
+
+      <h3 id="lens-craft-and-visual-texture">3. Lens Craft &amp; Visual Texture</h3>
+      <p>
+        Lens choice dramatically shapes an image’s character. Primes—such as the Cooke S4 or Zeiss Master Primes—offer razor-sharp resolution and
+        ultra-fast apertures (T1.3–T1.4), carving subjects from backgrounds with creamy bokeh.
+      </p>
+      <p>
+        Cine-zooms (24–70 mm, 70–200 mm) deliver framing flexibility; modern parfocal designs hold focus throughout zoom pulls. On documentary sets or
+        fast-moving shoots, they’re indispensable.
+      </p>
+      <p>
+        Anamorphic lenses—vintage Panavisions or modern Hawk Anamorphics—compress a wider image onto the sensor, then stretch it back in post. The
+        result: sweeping 2.39∶1 aspect ratios, signature oval bokeh, and organic flares that evoke golden-age Hollywood.
+      </p>
+      <p>
+        Specialty optics—such as tilt-shift lenses, macro primes, and soft-focus sphere filters—also play roles in music videos and stylized
+        narratives, offering surreal visual textures that prime and zoom can’t replicate.
+      </p>
+
+      <h3 id="mastering-light-and-shadow">4. Mastering Light &amp; Shadow</h3>
+      <p>
+        The time-honored three-point lighting (key, fill, back) remains foundational, but true mastery emerges when lighting feels motivated. A single
+        practical lamp can become a key light if balanced with subtle fills and negative fill flags.
+      </p>
+      <p>
+        LED panels with adjustable CCT (2 700 K–6 500 K) and CRI > 95 are now ubiquitous—quiet, cool, and infinitely tunable. Combined with wireless
+        DMX control, they let crews sculpt moods in real time without lugging heavy tungsten or HMI units.
+      </p>
+      <p>
+        High-contrast ratios (8 : 1) evoke noir tension; low ratios (2 : 1) lend softness for romantic or documentary styles. Expert cinematographers
+        modulate these ratios scene-by-scene to guide audience emotions imperceptibly.
+      </p>
+      <p>
+        Practical lights—streetlamps, neon signs, candles—serve as both props and lighting instruments. When integrated thoughtfully, they ground
+        scenes in reality while amplifying thematic undercurrents.
+      </p>
+
+      <h3 id="composition-painting-with-the-camera">5. Composition: Painting with the Camera</h3>
+      <p>
+        Beyond the rule of thirds lie leading lines, color contrast, and framing devices. Doorways, arches, and windows channel the viewer’s eye; bold
+        color accents isolate key story elements.
+      </p>
+      <p>
+        Negative space can underscore isolation or suspense; symmetrical compositions can evoke calm or, when subtly off-centered, unease. The careful
+        placement of props, costumes, and actors within the frame transforms each shot into a miniature painting.
+      </p>
+      <p>
+        Depth layering—foreground, midground, background—and choreographed rack focuses lead viewers through emotional beats without a single cut.
+      </p>
+
+      <h3 id="camera-movement-techniques">6. Camera Movement Techniques</h3>
+      <p>
+        Dollies and tracks deliver smooth push-in and pull-back shots, often used to reveal new narrative information. Jibs and cranes open up
+        vertical space, perfect for epic establishing shots.
+      </p>
+      <p>
+        Handheld rigs inject raw immediacy—think cinéma vérité—while electronic stabilizers (DJI Ronin, Freefly MoVI) marry fluid motion with
+        mobility.
+      </p>
+      <p>
+        Steadicam, trademarked in the 1970s, enabled long, uninterrupted takes—journeying through hallways in <em>The Shining</em> or weaving crowds
+        in <em>Goodfellas</em>. Such sequences heighten immersion and narrative momentum.
+      </p>
+      <p>
+        Drone cinematography has added aerial storytelling, from sweeping landscape reveals to dynamic chases through urban canyons, expanding the
+        cinematographer’s toolbox skyward.
+      </p>
+
+      <h3 id="post-production-and-color-grading">7. Post-Production &amp; Color Grading</h3>
+      <p>
+        After wrap, footage enters the digital intermediate (DI). Colorists shape contrast via lift (shadows), gamma (midtones), and gain
+        (highlights), often within node-based systems (DaVinci Resolve, Baselight).
+      </p>
+      <p>
+        Secondary tools isolate skin tones, foliage, or neon signs. Temporal noise reduction and spatial detail enhancement ensure clean images at
+        high ISOs.
+      </p>
+      <p>
+        Look-up tables (LUTs) jumpstart creative looks—film emulations for Kodak/ Fuji stocks or stylized palettes like teal-orange. HDR mastering for
+        Dolby Vision or HDR10+ preserves extra dynamic range for compatible displays.
+      </p>
+      <p>Emerging AI tools can automate shot matching and preliminary colour balancing, freeing colorists to focus on the final creative polish.</p>
+
+      <h3 id="storytelling-through-visual-language">8. Storytelling Through Visual Language</h3>
+      <p>
+        Low-angle shots bestow power on characters; Dutch tilts signal disorientation. Wide vistas establish geography; intimate close-ups reveal
+        subtext in a single glance.
+      </p>
+      <p>Camera rhythm—long takes versus rapid montage—syncs with narrative pacing, modulating tension and emotional release.</p>
+      <p>Collaboration between director and cinematographer ensures each chosen framing, focal length, and move advances story and character arcs.</p>
+
+      <h3 id="cinematic-case-studies">9. Cinematic Case Studies</h3>
+      <p>
+        In <em>Blade Runner 2049</em>, Roger Deakins employed volumetric backlight through haze to sculpt dystopian cityscapes, alternating grand wide
+        shots with intimate close-ups on Ryan Gosling’s silent expressions.
+      </p>
+      <p>
+        Emmanuel Lubezki’s 360-degree long takes in <em>Children of Men</em> married minimal natural lighting with fluid camera choreography, creating
+        visceral tension in chaotic urban sequences.
+      </p>
+      <p>
+        Alfonso Cuarón’s gravity-defying shots in <em>Gravity</em> leveraged LED walls and virtual cinematography to blend live action with CGI
+        seamlessly.
+      </p>
+
+      <h3 id="the-future-of-cinematography">10. The Future of Cinematography</h3>
+      <p>
+        Virtual production stages—LED volumes driven by Unreal Engine—allow in-camera VFX, reducing green-screen reliance and improving actor
+        immersion.
+      </p>
+      <p>
+        AI-assisted focus systems predict movement, keeping subjects tack sharp. Computational lighting previews enable previsualization, optimizing
+        on-set decisions.
+      </p>
+      <p>
+        As real-time engines and volumetric capture mature, the line between production and post will blur—yet the cinematographer’s eye remains the
+        ultimate arbiter of image and emotion.
+      </p>
+
+      <h3 id="developing-your-cinematic-eye">11. Developing Your Cinematic Eye</h3>
+      <p>
+        Frame-by-frame analysis of classics and modern masterpieces reveals why certain compositions resonate. Recreate scenes in your own projects to
+        internalize visual grammar.
+      </p>
+      <p>
+        Experiment with mixed practical and motivated lighting. Swap lenses, test different color temperatures, and practice handheld versus
+        stabilized camera work to build instinct.
+      </p>
+      <p>Cross-department collaboration—art, costume, VFX—ensures each element registers as intended on camera.</p>
+
+      <h3 id="conclusion">12. Conclusion</h3>
+      <p>
+        From the Lumières’ first flickers to today’s LED volumes, cinematography continually reinvents itself at the nexus of artistry and technology.
+        By mastering the interplay of light, lens, composition, and movement, you give every film its soul.
+      </p>
+      <p>Keep learning, shooting, and collaborating—your cinematic voice awaits.</p>
+
+      <h3 id="virtual-reality-and-360-cinematography">13. Virtual Reality &amp; 360° Cinematography</h3>
+      <p>
+        Immersive formats like VR and 360° video require rethinking traditional composition—viewers choose their framing. Cinematographers now design
+        “view volumes,” guiding attention with spatial audio cues and interactive lighting.
+      </p>
+      <p>
+        Rig setups employ multi-lens arrays and stitch software; challenge lies in hiding crew and equipment. Successful projects blend technical
+        precision with creative storytelling to fully immerse audiences.
+      </p>
+
+      <h3 id="interview-spotlight-modern-masters">14. Interview Spotlight: Modern Masters</h3>
+      <p>
+        <strong>Bradford Young</strong> (Arrival, Selma) emphasizes naturalistic light—“shooting from what’s there, not what’s available”—to connect
+        emotionally with characters.
+      </p>
+      <p>
+        <strong>Rachel Morrison</strong> (Mudbound, Black Panther) champions fluid camera movement and mixed practicals to bridge realism and
+        stylization, especially in period drama.
+      </p>
+      <p>Their insights remind us that, regardless of gear or format, intent and collaboration shape every frame’s power.</p>
+    </main>
+
+    <button title="Back to Blogs" id="back-to-blogs-btn">
+      <i class="fas fa-arrow-left" style="margin-right: 5px; font-size: 12px"></i>
+      <span>Back to Blogs</span>
+    </button>
+
+    <button
+      id="chat-button"
+      onclick="window.location.href='chat.html'"
+      style="bottom: 370px; right: 10px; z-index: 1001"
+      title="Chat with fellow MovieVerse users!"
+    >
+      Chat
+    </button>
+    <button
+      id="blog-button"
+      onclick="window.location.href='blogs.html'"
+      style="bottom: 335px; right: 10px; z-index: 1001"
+      title="Read our latest blogs and articles!"
+    >
+      Blogs
+    </button>
+    <button
+      id="games-button"
+      onclick="window.location.href='games.html'"
+      style="bottom: 300px; right: 10px; z-index: 1001"
+      title="Play fun movie-related games!"
+    >
+      Games
+    </button>
+    <button id="settings-btn" style="position: fixed; bottom: 265px; right: 10px">Settings</button>
+    <button
+      id="movie-of-the-day-btn"
+      onclick="showMovieOfTheDay()"
+      title="Get a recommended movie to watch for today!"
+      style="bottom: 230px; right: 10px"
+    >
+      Surprise Me!
+    </button>
+    <button
+      id="movie-match-btn3"
+      onclick="window.location.href='movie-match.html'"
+      title="Find a movie that matches your mood, genre, and time period!"
+      style="bottom: 195px; right: 10px"
+    >
+      Movie Match
+    </button>
+    <button
+      id="movie-timeline-btn"
+      onclick="window.location.href='movie-timeline.html'"
+      title="Explore movies through different eras!"
+      style="bottom: 160px; right: 10px"
+    >
+      Movie Timeline
+    </button>
+    <button
+      id="discussions-btn"
+      onclick="window.location.href='chatbot.html'"
+      style="bottom: 125px; right: 10px"
+      title="Chat with our intelligent chatbot!"
+    >
+      MovieVerse Chatbot
+    </button>
+    <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 90px; right: 10px" title="Test your movie knowledge">
+      MovieVerse Trivia
+    </button>
+
+    <div id="mobile-bottom-bar" class="mobile-bottom-bar">
+      <a href="chat.html" class="bottom-bar-item">
+        <i class="fas fa-comments"></i>
+        <span>Chat</span>
+      </a>
+      <a href="settings.html" class="bottom-bar-item">
+        <i class="fas fa-cog"></i>
+        <span>Settings</span>
+      </a>
+      <a href="#" class="bottom-bar-item" onclick="showMovieOfTheDay()">
+        <i class="fas fa-surprise"></i>
+        <span>Surprise Me</span>
+      </a>
+      <a href="movie-match.html" class="bottom-bar-item">
+        <i class="fas fa-film"></i>
+        <span>Match</span>
+      </a>
+      <a href="movie-timeline.html" class="bottom-bar-item">
+        <i class="fas fa-clock"></i>
+        <span>Timeline</span>
+      </a>
+      <a href="chatbot.html" class="bottom-bar-item">
+        <i class="fas fa-robot"></i>
+        <span>Chatbot</span>
+      </a>
+      <a href="trivia.html" class="bottom-bar-item">
+        <i class="fas fa-question-circle"></i>
+        <span>Trivia</span>
+      </a>
+    </div>
+
+    <button id="menu-btn" style="position: fixed; bottom: 10px; right: 10px; z-index: 1001" title="Toggle Menu Buttons">
+      <i class="fas fa-ellipsis-h"></i><br />
+      <span>Menu</span>
+    </button>
+
+    <script src="../js/actor-details.js"></script>
+
+    <script>
+      window.addEventListener('load', function () {
+        adjustAnchorHeights();
+      });
+
+      window.addEventListener('resize', adjustAnchorHeights);
+
+      function adjustAnchorHeights() {
+        const bottomBarAnchors = document.querySelectorAll('.mobile-bottom-bar a');
+        let maxHeight = 0;
+
+        bottomBarAnchors.forEach(anchor => {
+          anchor.style.height = 'auto';
+          const anchorHeight = anchor.getBoundingClientRect().height;
+          maxHeight = Math.max(maxHeight, anchorHeight);
+        });
+
+        bottomBarAnchors.forEach(anchor => {
+          anchor.style.height = `${maxHeight}px`;
+        });
+      }
+
+      let lastScrollY = window.scrollY;
+
+      window.addEventListener('scroll', () => {
+        const currentScrollY = window.scrollY;
+
+        if (currentScrollY > lastScrollY && currentScrollY > 0) {
+          document.querySelector('.mobile-bottom-bar').classList.add('hide-bar');
+        } else {
+          document.querySelector('.mobile-bottom-bar').classList.remove('hide-bar');
+        }
+
+        lastScrollY = currentScrollY;
+      });
+
+      let isAnimating = false;
+
+      document.getElementById('menu-btn').addEventListener('click', () => {
+        if (isAnimating) return;
+
+        isAnimating = true;
+
+        const buttonIds = [
+          'chat-button',
+          'blog-button',
+          'games-button',
+          'settings-btn',
+          'movie-of-the-day-btn',
+          'movie-match-btn3',
+          'movie-timeline-btn',
+          'discussions-btn',
+          'trivia-btn',
+        ];
+
+        buttonIds.forEach((id, index) => {
+          const button = document.getElementById(id);
+          if (button.style.display === 'none' || !button.style.display) {
+            button.style.display = 'block';
+            setTimeout(() => {
+              button.style.opacity = '1';
+              button.style.transform = 'translateY(0)';
+            }, 50 * index);
+          } else {
+            button.style.opacity = '0';
+            button.style.transform = 'translateY(20px)';
+          }
+
+          setTimeout(
+            () => {
+              button.style.display = button.style.opacity === '1' ? 'block' : 'none';
+              if (index === buttonIds.length - 1) {
+                isAnimating = false;
+              }
+            },
+            500 + 50 * index
+          );
+        });
+      });
+    </script>
+
+    <script>
+      document.getElementById('settings-btn').addEventListener('click', () => {
+        window.location.href = 'settings.html';
+      });
+
+      document.addEventListener('DOMContentLoaded', () => {
+        applySettings();
+
+        function applySettings() {
+          const savedBg = localStorage.getItem('backgroundImage');
+          const savedTextColor = localStorage.getItem('textColor');
+          const savedFontSize = localStorage.getItem('fontSize');
+
+          if (savedBg) {
+            document.body.style.backgroundImage = `url('${savedBg}')`;
+          }
+          if (savedTextColor) {
+            document.querySelectorAll('h1, h2, h3, p, a, span, div, button, input, select, textarea, label, li').forEach(element => {
+              element.style.color = savedTextColor;
+            });
+          }
+          if (savedFontSize) {
+            const size = savedFontSize === 'small' ? '12px' : savedFontSize === 'medium' ? '16px' : '20px';
+            document.body.style.fontSize = size;
           }
         }
       });
+
+      window.addEventListener('resize', () => {
+        if (window.innerWidth < 767) {
+          const buttonIds = [
+            'chat-button',
+            'blog-button',
+            'games-button',
+            'settings-btn',
+            'movie-of-the-day-btn',
+            'movie-match-btn3',
+            'movie-timeline-btn',
+            'discussions-btn',
+            'trivia-btn',
+          ];
+
+          buttonIds.forEach(id => {
+            const button = document.getElementById(id);
+            button.style.display = 'none';
+            button.style.opacity = '0';
+            button.style.transform = 'translateY(20px)';
+          });
+        }
+      });
     </script>
+
+    <footer style="text-align: center">
+      <a href="../../index.html" style="text-align: center; cursor: pointer; text-decoration: none">
+        <p style="text-align: center; cursor: pointer; text-decoration: none">© <span id="year"></span> The MovieVerse. All rights reserved.</p>
+      </a>
+    </footer>
+
+    <script>
+      const currentYear = new Date().getFullYear();
+      document.getElementById('year').textContent = currentYear;
+    </script>
+
+    <div id="myModal" class="modal-overlay">
+      <div class="spinner"></div>
+    </div>
+
+    
 
     <script>
       document.addEventListener('DOMContentLoaded', function () {
@@ -342,10 +883,10 @@
 
         function toggleButtons() {
           const query = searchInput.value.trim();
-          if (searchOverlay) {
+                    if (searchOverlay) {
             searchOverlay.classList.toggle('is-visible', Boolean(query));
           }
-          viewAllResultsBtn.style.display = query ? 'inline-block' : 'none';
+viewAllResultsBtn.style.display = query ? 'inline-block' : 'none';
           clearSearchBtn.style.display = query ? 'inline-block' : 'none';
         }
 
@@ -354,6 +895,7 @@
           searchResultsContainer.innerHTML = '';
           toggleButtons();
           searchInput.focus();
+
         });
 
         toggleButtons();
@@ -377,11 +919,15 @@
           const searchInput = document.getElementById('search');
           const query = e.target.value.trim();
           const searchResultsContainer = document.getElementById('search-results');
+        const searchOverlay = document.getElementById('search-overlay');
 
-          const searchOverlay = document.getElementById('search-overlay');
           viewAllResultsBtn.style.display = query ? 'block' : 'none';
 
           function toggleButtons() {
+          const query = searchInput.value.trim();
+          if (searchOverlay) {
+            searchOverlay.classList.toggle('is-visible', Boolean(query));
+          }
             viewAllResultsBtn.style.display = query ? 'inline-block' : 'none';
             const clearSearchBtn = document.getElementById('clear-search');
             clearSearchBtn.style.display = query ? 'inline-block' : 'none';
@@ -578,12 +1124,15 @@
       });
     </script>
 
-    <script>
+        <script>
       const sideNav = document.getElementById('side-nav');
       const navToggle = document.getElementById('nav-toggle');
       const removeBtn = document.getElementById('button-remove');
 
       function adjustNavBar() {
+        if (!sideNav) {
+          return;
+        }
         if (sideNav.classList.contains('manual-toggle')) {
           sideNav.style.left = '0';
         } else {
@@ -591,39 +1140,46 @@
         }
       }
 
-      navToggle.addEventListener('click', () => {
-        sideNav.classList.toggle('manual-toggle');
-        adjustNavBar();
-      });
+      if (sideNav && navToggle) {
+        navToggle.addEventListener('click', () => {
+          sideNav.classList.toggle('manual-toggle');
+          adjustNavBar();
+        });
 
-      removeBtn.addEventListener('click', () => {
-        sideNav.classList.remove('manual-toggle');
-        adjustNavBar();
-      });
+        // show on hover when hidden
+        document.addEventListener('mousemove', e => {
+          if (e.clientX < 20 && !sideNav.classList.contains('manual-toggle')) {
+            sideNav.style.left = '0';
+          }
+        });
 
-      // show on hover when hidden
-      document.addEventListener('mousemove', e => {
-        if (e.clientX < 20 && !sideNav.classList.contains('manual-toggle')) {
-          sideNav.style.left = '0';
-        }
-      });
-      sideNav.addEventListener('mouseleave', () => {
-        if (!sideNav.classList.contains('manual-toggle')) {
-          sideNav.style.left = '-250px';
-        }
-      });
+        // click outside to close
+        document.addEventListener('click', e => {
+          if (!sideNav.contains(e.target) && !navToggle.contains(e.target) && sideNav.classList.contains('manual-toggle')) {
+            sideNav.classList.remove('manual-toggle');
+            adjustNavBar();
+          }
+        });
+      }
 
-      // click outside to close
-      document.addEventListener('click', e => {
-        if (!sideNav.contains(e.target) && !navToggle.contains(e.target) && sideNav.classList.contains('manual-toggle')) {
+      if (sideNav) {
+        sideNav.addEventListener('mouseleave', () => {
+          if (!sideNav.classList.contains('manual-toggle')) {
+            sideNav.style.left = '-250px';
+          }
+        });
+      }
+
+      if (sideNav && removeBtn) {
+        removeBtn.addEventListener('click', () => {
           sideNav.classList.remove('manual-toggle');
           adjustNavBar();
-        }
-      });
+        });
+      }
 
       // initialize position
       adjustNavBar();
     </script>
-    <div id="search-overlay" class="search-overlay"></div>
-  </body>
+  <div id="search-overlay" class="search-overlay"></div>
+</body>
 </html>

@@ -309,25 +309,515 @@
 
       document.querySelector('.translate-trigger').addEventListener('click', function () {
         const translateEl = document.getElementById('google_translate_element');
-        const isVisible = translateEl.style.display === 'block';
-        translateEl.style.display = isVisible ? 'none' : 'block';
+        translateEl.style.display = translateEl.style.display === 'block' ? 'none' : 'block';
+      });
 
-        if (!isVisible) {
-          const helperId = 'translate-helper-text';
-          if (!translateEl.querySelector('#' + helperId)) {
-            const helper = document.createElement('div');
-            helper.id = helperId;
-            helper.textContent =
-              'If this menu is blank, please wait a few seconds. If it still does not load, please check your Internet connection, then reload the page and try again.';
-            helper.style.marginTop = '6px';
-            helper.style.fontSize = '11px';
-            helper.style.lineHeight = '1.3';
-            helper.style.opacity = '0.9';
-            translateEl.appendChild(helper);
+      document.addEventListener('DOMContentLoaded', function () {
+        let lastScrollTop = window.scrollY;
+        const translateControl = document.getElementById('translate_control');
+        const translateEl = document.getElementById('google_translate_element');
+
+        window.addEventListener(
+          'scroll',
+          function () {
+            let scrollTop = window.scrollY;
+
+            if (window.innerWidth <= 767) {
+              if (scrollTop > lastScrollTop && scrollTop > 0) {
+                translateControl.style.display = 'none';
+                translateEl.style.display = 'none';
+              } else {
+                translateControl.style.display = 'block';
+              }
+              lastScrollTop = scrollTop;
+            }
+          },
+          { passive: true }
+        );
+      });
+    </script>
+
+    <!-- Header -->
+    <header style="margin-bottom: -50px">
+      <h1 id="my-heading" style="margin-bottom: -10px" class="notranslate">
+        <a id="indexLink" href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer">
+          The Mo<span class="highlight" id="highlight">vieV</span>erse
+        </a>
+      </h1>
+      <div id="local-time" style="cursor: pointer; margin-left: 40px" title="Click to view more of your stats!">
+        <p id="stats-label" class="clock" style="font-size: 16px"></p>
+        <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold"></div>
+      </div>
+      <button class="back-btn notranslate" onclick="window.location.href='../../index.html'">Home</button>
+      <button class="about notranslate" onclick="window.location.href='about.html'">About</button>
+      <button class="favorites-btn notranslate" onclick="window.location.href='favorites.html'" title="View your favorites & watchlists">
+        Favorites
+      </button>
+      <button id="nav-toggle" class="nav-toggle notranslate" title="Toggle side navbar" onclick="toggleNav()">
+        <i class="fas fa-bars"></i>
+      </button>
+      <button id="googleSignInBtn" class="nav-btn notranslate" onclick="handleSignInOut()" title="Sign In/Out">
+        <span id="signInOutText">Sign In</span>
+        <i class="fas fa-sign-in-alt" id="signInIcon"></i>
+        <i class="fas fa-sign-out-alt" id="signOutIcon" style="display: none"></i>
+      </button>
+      <button id="profileBtn" class="nav-btn notranslate" onclick="window.location.href='user-profile.html'" title="Go to your profile">
+        <span id="profileText">Profile</span>
+        <i class="fas fa-user" id="profileIcon"></i>
+      </button>
+      <form id="form1" style="animation: fadeIn 1.5s ease-in-out">
+        <div class="search-container">
+          <input
+            type="text"
+            id="search"
+            placeholder="Search For Films, Actors..."
+            class="search"
+            title="Search for movies, actors, TV series, and more!"
+          />
+          <button type="button" id="button-search" onclick="handleSearch()">Search</button>
+        </div>
+        <div id="search-results" class="search-results"></div>
+        <div class="buttons-container">
+          <button type="button" id="view-all-results" style="display: none">View more results</button>
+          <button type="button" id="clear-search" style="display: none">Clear</button>
+        </div>
+      </form>
+    </header>
+
+    <nav id="side-nav" class="side-nav" style="text-align: left; z-index: 1000000">
+      <a id="heading-href" style="cursor: pointer" href="../../index.html" title="Click to go back to the home page">
+        <div id="my-heading1" style="margin-bottom: 15px; margin-left: 0; margin-top: 15px; font-size: 2.1em; font-weight: bold">
+          The Mo<span class="highlight2">vieV</span>erse
+        </div>
+      </a>
+      <div id="button-container">
+        <button id="button-remove" title="Close the navbar" onclick="removeNavBar()">Close</button>
+      </div>
+      <ul>
+        <li><a href="#the-evolution-of-special-effects-in-cinema">Introduction</a></li>
+        <li><a href="#early-in-camera-tricks">1. Early In-Camera Tricks (1895–1910)</a></li>
+        <li><a href="#substitution-splices">1.1 Substitution Splices</a></li>
+        <li><a href="#multiple-exposure-matte-painting">1.2 Multiple Exposure &amp; Matte Painting</a></li>
+        <li><a href="#golden-age-practical-effects">2. Golden Age Practical Effects (1920s–1950s)</a></li>
+        <li><a href="#miniatures-scale-models">2.1 Miniatures &amp; Scale Models</a></li>
+        <li><a href="#optical-printing">2.2 Optical Printing</a></li>
+        <li><a href="#stop-motion-animatronics">3. Stop-Motion &amp; Animatronics (1950s–1970s)</a></li>
+        <li><a href="#stop-motion-mastery">3.1 Stop-Motion Mastery</a></li>
+        <li><a href="#animatronics-prosthetics">3.2 Animatronics &amp; Prosthetics</a></li>
+        <li><a href="#digital-revolution">4. The Digital Revolution (1970s–1990s)</a></li>
+        <li><a href="#early-computer-graphics">4.1 Early Computer Graphics</a></li>
+        <li><a href="#breakthrough-films">4.2 Breakthrough Films</a></li>
+        <li><a href="#integrated-workflows">5. Integrated Workflows (2000s–2010s)</a></li>
+        <li><a href="#motion-capture-performance-capture">5.1 Motion Capture &amp; Performance Capture</a></li>
+        <li><a href="#virtual-production">5.2 Virtual Production</a></li>
+        <li><a href="#ai-machine-learning">6. AI &amp; Machine Learning (2020s–Beyond)</a></li>
+        <li><a href="#automated-rotoscoping">6.1 Automated Rotoscoping</a></li>
+        <li><a href="#neural-rendering-deepfakes">6.2 Neural Rendering &amp; Deepfakes</a></li>
+        <li><a href="#crafting-believability">7. Crafting Believability</a></li>
+        <li><a href="#looking-ahead">8. Looking Ahead</a></li>
+        <li><a href="#conclusion">9. Conclusion</a></li>
+      </ul>
+    </nav>
+
+    <main style="margin-top: 30px; padding: 1rem">
+      <h2 id="the-evolution-of-special-effects-in-cinema">The Evolution of Special Effects in Cinema</h2>
+      <div />
+
+      <h3 id="early-in-camera-tricks">1. Early In-Camera Tricks (1895–1910)</h3>
+      <p>
+        The origins of cinematic magic date back to the Lumière Brothers and Georges Méliès, who discovered that stopping the camera, rearranging
+        elements on set, and resuming filming created the illusion of transformation. Méliès’s famous substitution splice allowed characters to vanish
+        into thin air, laying the foundation for narrative-driven effects.
+      </p>
+
+      <h4 id="substitution-splices">1.1 Substitution Splices</h4>
+      <ul>
+        <li><strong>Technique:</strong> Halt camera, swap subject, resume recording.</li>
+        <li><strong>Landmark:</strong> <em>The Vanishing Lady</em> (1896) showcased seamless object disappearance.</li>
+      </ul>
+
+      <h4 id="multiple-exposure-matte-painting">1.2 Multiple Exposure &amp; Matte Painting</h4>
+      <ul>
+        <li><strong>Multiple Exposure:</strong> Layer the same film strip exposures to superimpose ghostly apparitions.</li>
+        <li>
+          <strong>Matte Painting:</strong> Mask portions of the lens to paint intricate backgrounds on glass, then composite actors into the scene.
+        </li>
+      </ul>
+
+      <h3 id="golden-age-practical-effects">2. Golden Age Practical Effects (1920s–1950s)</h3>
+      <p>
+        As filmmaking matured, special effects departments blossomed with dedicated craftsmen employing miniatures, rear projection, and optical
+        printers to blend live action with model work.
+      </p>
+
+      <h4 id="miniatures-scale-models">2.1 Miniatures &amp; Scale Models</h4>
+      <ul>
+        <li><strong>Usage:</strong> City skylines, naval battles, spacecraft.</li>
+        <li>
+          <strong>Example:</strong> Battle sequences in <em>Ben-Hur</em> (1959) required exact water dynamics in miniature sets to fool audiences.
+        </li>
+      </ul>
+
+      <h4 id="optical-printing">2.2 Optical Printing</h4>
+      <ul>
+        <li><strong>Process:</strong> Re-photograph multiple film elements in register to composite image layers.</li>
+        <li><strong>Impact:</strong> Enabled fades, dissolves, and complex transitions without on-set gimmicks.</li>
+      </ul>
+
+      <h3 id="stop-motion-animatronics">3. Stop-Motion &amp; Animatronics (1950s–1970s)</h3>
+      <p>
+        Creature features and fantastical beasts demanded techniques beyond live actors—stop-motion puppetry and full-scale animatronics brought
+        monsters to life.
+      </p>
+
+      <h4 id="stop-motion-mastery">3.1 Stop-Motion Mastery</h4>
+      <ul>
+        <li><strong>Innovators:</strong> Willis O’Brien (<em>King Kong</em>, 1933) and Ray Harryhausen (<em>Jason and the Argonauts</em>, 1963).</li>
+        <li><strong>Labor:</strong> Frame-by-frame manipulation of armatures to simulate lifelike movement.</li>
+      </ul>
+
+      <h4 id="animatronics-prosthetics">3.2 Animatronics &amp; Prosthetics</h4>
+      <ul>
+        <li><strong>Mechanical Puppets:</strong> The shark “Bruce” in <em>Jaws</em> (1975) gave actors a tangible creature to react against.</li>
+        <li><strong>Prosthetic Makeup:</strong> Seamless creature transformations on actors, as seen in <em>Planet of the Apes</em> (1968).</li>
+      </ul>
+
+      <h3 id="digital-revolution">4. The Digital Revolution (1970s–1990s)</h3>
+      <p>
+        Computer-generated imagery (CGI) emerged from research labs, gradually infiltrating blockbuster filmmaking and revolutionizing what could be
+        depicted on screen.
+      </p>
+
+      <h4 id="early-computer-graphics">4.1 Early Computer Graphics</h4>
+      <ul>
+        <li>
+          <strong><em>Westworld</em> (1973):</strong> First pixelated human form representing robotic vision.
+        </li>
+        <li>
+          <strong><em>Tron</em> (1982):</strong> Combined backlit animation cels with primitive digital environments.
+        </li>
+      </ul>
+
+      <h4 id="breakthrough-films">4.2 Breakthrough Films</h4>
+      <ul>
+        <li>
+          <strong><em>Terminator 2</em> (1991):</strong> Liquid-metal T-1000 achieved via morphing algorithms.
+        </li>
+        <li>
+          <strong><em>Jurassic Park</em> (1993):</strong> Digital dinosaurs seamlessly blended with animatronics for unprecedented realism.
+        </li>
+      </ul>
+
+      <h3 id="integrated-workflows">5. Integrated Workflows (2000s–2010s)</h3>
+      <p>
+        Advances in processing power and software pipelines allowed VFX teams to iterate on effects in real time, refining them during production
+        rather than solely in post.
+      </p>
+
+      <h4 id="motion-capture-performance-capture">5.1 Motion Capture &amp; Performance Capture</h4>
+      <ul>
+        <li><strong>Concept:</strong> Actors wear sensor suits; their movements and facial expressions drive digital characters.</li>
+        <li><strong>Landmark:</strong> Andy Serkis’s Gollum in <em>The Lord of the Rings</em> trilogy set a new standard for emotive CGI.</li>
+      </ul>
+
+      <h4 id="virtual-production">5.2 Virtual Production</h4>
+      <ul>
+        <li><strong>Technique:</strong> LED volume walls display real-time rendered backgrounds via game engines.</li>
+        <li><strong>Example:</strong> <em>The Mandalorian</em> used this to shoot immersive environments in-camera, reducing post workload.</li>
+      </ul>
+
+      <h3 id="ai-machine-learning">6. AI &amp; Machine Learning (2020s–Beyond)</h3>
+      <p>
+        Artificial intelligence now accelerates routine tasks—rotoscoping, de-aging, environment cleanup—allowing artists to focus on creative
+        decision-making.
+      </p>
+
+      <h4 id="automated-rotoscoping">6.1 Automated Rotoscoping</h4>
+      <ul>
+        <li><strong>AI Models:</strong> Quickly segment foreground actors from backgrounds across thousands of frames.</li>
+        <li><strong>Benefit:</strong> Saves hundreds of hours of manual masking work.</li>
+      </ul>
+
+      <h4 id="neural-rendering-deepfakes">6.2 Neural Rendering &amp; Deepfakes</h4>
+      <ul>
+        <li><strong>Emerging:</strong> Networks generate realistic face swaps for stunt doubles or digital resurrection of actors.</li>
+        <li><strong>Implications:</strong> Raises ethical questions around consent, authenticity, and trust in visual media.</li>
+      </ul>
+
+      <h3 id="crafting-believability">7. Crafting Believability</h3>
+      <p>Beyond technology, the art of SFX lies in serving story and emotion—designing effects that feel natural within the film’s world.</p>
+      <ul>
+        <li><strong>Physics &amp; Timing:</strong> Even fantastical motions need consistent weight and inertia.</li>
+        <li><strong>Practical vs. Digital:</strong> Hybrid approaches frequently yield the most convincing results.</li>
+        <li><strong>Sound Design:</strong> Foley and atmospherics cement visual illusions in the viewer’s reality.</li>
+      </ul>
+
+      <h3 id="looking-ahead">8. Looking Ahead</h3>
+      <p>
+        The next frontier merges real-time rendering with immersive technologies: volumetric capture, AR-driven interactive scenes, and AI-assisted
+        cinematography that adapts in response to audience feedback.
+      </p>
+
+      <h3 id="conclusion">9. Conclusion</h3>
+      <p>
+        From simple camera tricks to sophisticated neural rendering, special effects have always expanded cinematic imagination. Their rich history
+        highlights the ingenuity of artists and engineers who shape our collective fascination with the impossible.
+      </p>
+    </main>
+
+    <button title="Back to Blogs" id="back-to-blogs-btn">
+      <i class="fas fa-arrow-left" style="margin-right: 5px; font-size: 12px"></i>
+      <span>Back to Blogs</span>
+    </button>
+
+    <button
+      id="chat-button"
+      onclick="window.location.href='chat.html'"
+      style="bottom: 370px; right: 10px; z-index: 1001"
+      title="Chat with fellow MovieVerse users!"
+    >
+      Chat
+    </button>
+    <button
+      id="blog-button"
+      onclick="window.location.href='blogs.html'"
+      style="bottom: 335px; right: 10px; z-index: 1001"
+      title="Read our latest blogs and articles!"
+    >
+      Blogs
+    </button>
+    <button
+      id="games-button"
+      onclick="window.location.href='games.html'"
+      style="bottom: 300px; right: 10px; z-index: 1001"
+      title="Play fun movie-related games!"
+    >
+      Games
+    </button>
+    <button id="settings-btn" style="position: fixed; bottom: 265px; right: 10px">Settings</button>
+    <button
+      id="movie-of-the-day-btn"
+      onclick="showMovieOfTheDay()"
+      title="Get a recommended movie to watch for today!"
+      style="bottom: 230px; right: 10px"
+    >
+      Surprise Me!
+    </button>
+    <button
+      id="movie-match-btn3"
+      onclick="window.location.href='movie-match.html'"
+      title="Find a movie that matches your mood, genre, and time period!"
+      style="bottom: 195px; right: 10px"
+    >
+      Movie Match
+    </button>
+    <button
+      id="movie-timeline-btn"
+      onclick="window.location.href='movie-timeline.html'"
+      title="Explore movies through different eras!"
+      style="bottom: 160px; right: 10px"
+    >
+      Movie Timeline
+    </button>
+    <button
+      id="discussions-btn"
+      onclick="window.location.href='chatbot.html'"
+      style="bottom: 125px; right: 10px"
+      title="Chat with our intelligent chatbot!"
+    >
+      MovieVerse Chatbot
+    </button>
+    <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 90px; right: 10px" title="Test your movie knowledge">
+      MovieVerse Trivia
+    </button>
+
+    <div id="mobile-bottom-bar" class="mobile-bottom-bar">
+      <a href="chat.html" class="bottom-bar-item">
+        <i class="fas fa-comments"></i>
+        <span>Chat</span>
+      </a>
+      <a href="settings.html" class="bottom-bar-item">
+        <i class="fas fa-cog"></i>
+        <span>Settings</span>
+      </a>
+      <a href="#" class="bottom-bar-item" onclick="showMovieOfTheDay()">
+        <i class="fas fa-surprise"></i>
+        <span>Surprise Me</span>
+      </a>
+      <a href="movie-match.html" class="bottom-bar-item">
+        <i class="fas fa-film"></i>
+        <span>Match</span>
+      </a>
+      <a href="movie-timeline.html" class="bottom-bar-item">
+        <i class="fas fa-clock"></i>
+        <span>Timeline</span>
+      </a>
+      <a href="chatbot.html" class="bottom-bar-item">
+        <i class="fas fa-robot"></i>
+        <span>Chatbot</span>
+      </a>
+      <a href="trivia.html" class="bottom-bar-item">
+        <i class="fas fa-question-circle"></i>
+        <span>Trivia</span>
+      </a>
+    </div>
+
+    <button id="menu-btn" style="position: fixed; bottom: 10px; right: 10px; z-index: 1001" title="Toggle Menu Buttons">
+      <i class="fas fa-ellipsis-h"></i><br />
+      <span>Menu</span>
+    </button>
+
+    <script src="../js/actor-details.js"></script>
+
+    <script>
+      window.addEventListener('load', function () {
+        adjustAnchorHeights();
+      });
+
+      window.addEventListener('resize', adjustAnchorHeights);
+
+      function adjustAnchorHeights() {
+        const bottomBarAnchors = document.querySelectorAll('.mobile-bottom-bar a');
+        let maxHeight = 0;
+
+        bottomBarAnchors.forEach(anchor => {
+          anchor.style.height = 'auto';
+          const anchorHeight = anchor.getBoundingClientRect().height;
+          maxHeight = Math.max(maxHeight, anchorHeight);
+        });
+
+        bottomBarAnchors.forEach(anchor => {
+          anchor.style.height = `${maxHeight}px`;
+        });
+      }
+
+      let lastScrollY = window.scrollY;
+
+      window.addEventListener('scroll', () => {
+        const currentScrollY = window.scrollY;
+
+        if (currentScrollY > lastScrollY && currentScrollY > 0) {
+          document.querySelector('.mobile-bottom-bar').classList.add('hide-bar');
+        } else {
+          document.querySelector('.mobile-bottom-bar').classList.remove('hide-bar');
+        }
+
+        lastScrollY = currentScrollY;
+      });
+
+      let isAnimating = false;
+
+      document.getElementById('menu-btn').addEventListener('click', () => {
+        if (isAnimating) return;
+
+        isAnimating = true;
+
+        const buttonIds = [
+          'chat-button',
+          'blog-button',
+          'games-button',
+          'settings-btn',
+          'movie-of-the-day-btn',
+          'movie-match-btn3',
+          'movie-timeline-btn',
+          'discussions-btn',
+          'trivia-btn',
+        ];
+
+        buttonIds.forEach((id, index) => {
+          const button = document.getElementById(id);
+          if (button.style.display === 'none' || !button.style.display) {
+            button.style.display = 'block';
+            setTimeout(() => {
+              button.style.opacity = '1';
+              button.style.transform = 'translateY(0)';
+            }, 50 * index);
+          } else {
+            button.style.opacity = '0';
+            button.style.transform = 'translateY(20px)';
+          }
+
+          setTimeout(
+            () => {
+              button.style.display = button.style.opacity === '1' ? 'block' : 'none';
+              if (index === buttonIds.length - 1) {
+                isAnimating = false;
+              }
+            },
+            500 + 50 * index
+          );
+        });
+      });
+    </script>
+
+    <script>
+      document.getElementById('settings-btn').addEventListener('click', () => {
+        window.location.href = 'settings.html';
+      });
+
+      document.addEventListener('DOMContentLoaded', () => {
+        applySettings();
+
+        function applySettings() {
+          const savedBg = localStorage.getItem('backgroundImage');
+          const savedTextColor = localStorage.getItem('textColor');
+          const savedFontSize = localStorage.getItem('fontSize');
+
+          if (savedBg) {
+            document.body.style.backgroundImage = `url('${savedBg}')`;
+          }
+          if (savedTextColor) {
+            document.querySelectorAll('h1, h2, h3, p, a, span, div, button, input, select, textarea, label, li').forEach(element => {
+              element.style.color = savedTextColor;
+            });
+          }
+          if (savedFontSize) {
+            const size = savedFontSize === 'small' ? '12px' : savedFontSize === 'medium' ? '16px' : '20px';
+            document.body.style.fontSize = size;
           }
         }
       });
+
+      window.addEventListener('resize', () => {
+        if (window.innerWidth < 767) {
+          const buttonIds = [
+            'chat-button',
+            'blog-button',
+            'games-button',
+            'settings-btn',
+            'movie-of-the-day-btn',
+            'movie-match-btn3',
+            'movie-timeline-btn',
+            'discussions-btn',
+            'trivia-btn',
+          ];
+
+          buttonIds.forEach(id => {
+            const button = document.getElementById(id);
+            button.style.display = 'none';
+            button.style.opacity = '0';
+            button.style.transform = 'translateY(20px)';
+          });
+        }
+      });
     </script>
+
+    <footer style="text-align: center">
+      <a href="../../index.html" style="text-align: center; cursor: pointer; text-decoration: none">
+        <p style="text-align: center; cursor: pointer; text-decoration: none">© <span id="year"></span> The MovieVerse. All rights reserved.</p>
+      </a>
+    </footer>
+
+    <script>
+      const currentYear = new Date().getFullYear();
+      document.getElementById('year').textContent = currentYear;
+    </script>
+
+    <div id="myModal" class="modal-overlay">
+      <div class="spinner"></div>
+    </div>
+
+    
 
     <script>
       document.addEventListener('DOMContentLoaded', function () {
@@ -340,10 +830,10 @@
 
         function toggleButtons() {
           const query = searchInput.value.trim();
-          if (searchOverlay) {
+                    if (searchOverlay) {
             searchOverlay.classList.toggle('is-visible', Boolean(query));
           }
-          viewAllResultsBtn.style.display = query ? 'inline-block' : 'none';
+viewAllResultsBtn.style.display = query ? 'inline-block' : 'none';
           clearSearchBtn.style.display = query ? 'inline-block' : 'none';
         }
 
@@ -352,6 +842,7 @@
           searchResultsContainer.innerHTML = '';
           toggleButtons();
           searchInput.focus();
+
         });
 
         toggleButtons();
@@ -375,11 +866,15 @@
           const searchInput = document.getElementById('search');
           const query = e.target.value.trim();
           const searchResultsContainer = document.getElementById('search-results');
+        const searchOverlay = document.getElementById('search-overlay');
 
-          const searchOverlay = document.getElementById('search-overlay');
           viewAllResultsBtn.style.display = query ? 'block' : 'none';
 
           function toggleButtons() {
+          const query = searchInput.value.trim();
+          if (searchOverlay) {
+            searchOverlay.classList.toggle('is-visible', Boolean(query));
+          }
             viewAllResultsBtn.style.display = query ? 'inline-block' : 'none';
             const clearSearchBtn = document.getElementById('clear-search');
             clearSearchBtn.style.display = query ? 'inline-block' : 'none';
@@ -576,12 +1071,15 @@
       });
     </script>
 
-    <script>
+        <script>
       const sideNav = document.getElementById('side-nav');
       const navToggle = document.getElementById('nav-toggle');
       const removeBtn = document.getElementById('button-remove');
 
       function adjustNavBar() {
+        if (!sideNav) {
+          return;
+        }
         if (sideNav.classList.contains('manual-toggle')) {
           sideNav.style.left = '0';
         } else {
@@ -589,39 +1087,46 @@
         }
       }
 
-      navToggle.addEventListener('click', () => {
-        sideNav.classList.toggle('manual-toggle');
-        adjustNavBar();
-      });
+      if (sideNav && navToggle) {
+        navToggle.addEventListener('click', () => {
+          sideNav.classList.toggle('manual-toggle');
+          adjustNavBar();
+        });
 
-      removeBtn.addEventListener('click', () => {
-        sideNav.classList.remove('manual-toggle');
-        adjustNavBar();
-      });
+        // show on hover when hidden
+        document.addEventListener('mousemove', e => {
+          if (e.clientX < 20 && !sideNav.classList.contains('manual-toggle')) {
+            sideNav.style.left = '0';
+          }
+        });
 
-      // show on hover when hidden
-      document.addEventListener('mousemove', e => {
-        if (e.clientX < 20 && !sideNav.classList.contains('manual-toggle')) {
-          sideNav.style.left = '0';
-        }
-      });
-      sideNav.addEventListener('mouseleave', () => {
-        if (!sideNav.classList.contains('manual-toggle')) {
-          sideNav.style.left = '-250px';
-        }
-      });
+        // click outside to close
+        document.addEventListener('click', e => {
+          if (!sideNav.contains(e.target) && !navToggle.contains(e.target) && sideNav.classList.contains('manual-toggle')) {
+            sideNav.classList.remove('manual-toggle');
+            adjustNavBar();
+          }
+        });
+      }
 
-      // click outside to close
-      document.addEventListener('click', e => {
-        if (!sideNav.contains(e.target) && !navToggle.contains(e.target) && sideNav.classList.contains('manual-toggle')) {
+      if (sideNav) {
+        sideNav.addEventListener('mouseleave', () => {
+          if (!sideNav.classList.contains('manual-toggle')) {
+            sideNav.style.left = '-250px';
+          }
+        });
+      }
+
+      if (sideNav && removeBtn) {
+        removeBtn.addEventListener('click', () => {
           sideNav.classList.remove('manual-toggle');
           adjustNavBar();
-        }
-      });
+        });
+      }
 
       // initialize position
       adjustNavBar();
     </script>
-    <div id="search-overlay" class="search-overlay"></div>
-  </body>
+  <div id="search-overlay" class="search-overlay"></div>
+</body>
 </html>

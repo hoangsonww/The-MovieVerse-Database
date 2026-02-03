@@ -310,25 +310,441 @@
 
       document.querySelector('.translate-trigger').addEventListener('click', function () {
         const translateEl = document.getElementById('google_translate_element');
-        const isVisible = translateEl.style.display === 'block';
-        translateEl.style.display = isVisible ? 'none' : 'block';
+        translateEl.style.display = translateEl.style.display === 'block' ? 'none' : 'block';
+      });
 
-        if (!isVisible) {
-          const helperId = 'translate-helper-text';
-          if (!translateEl.querySelector('#' + helperId)) {
-            const helper = document.createElement('div');
-            helper.id = helperId;
-            helper.textContent =
-              'If this menu is blank, please wait a few seconds. If it still does not load, please check your Internet connection, then reload the page and try again.';
-            helper.style.marginTop = '6px';
-            helper.style.fontSize = '11px';
-            helper.style.lineHeight = '1.3';
-            helper.style.opacity = '0.9';
-            translateEl.appendChild(helper);
+      document.addEventListener('DOMContentLoaded', function () {
+        let lastScrollTop = window.scrollY;
+        const translateControl = document.getElementById('translate_control');
+        const translateEl = document.getElementById('google_translate_element');
+
+        window.addEventListener(
+          'scroll',
+          function () {
+            let scrollTop = window.scrollY;
+
+            if (window.innerWidth <= 767) {
+              if (scrollTop > lastScrollTop && scrollTop > 0) {
+                translateControl.style.display = 'none';
+                translateEl.style.display = 'none';
+              } else {
+                translateControl.style.display = 'block';
+              }
+              lastScrollTop = scrollTop;
+            }
+          },
+          { passive: true }
+        );
+      });
+    </script>
+
+    <!-- Header -->
+    <header style="margin-bottom: -50px">
+      <h1 id="my-heading" style="margin-bottom: -10px" class="notranslate">
+        <a id="indexLink" href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer">
+          The Mo<span class="highlight" id="highlight">vieV</span>erse
+        </a>
+      </h1>
+      <div id="local-time" style="cursor: pointer; margin-left: 40px" title="Click to view more of your stats!">
+        <p id="stats-label" class="clock" style="font-size: 16px"></p>
+        <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold"></div>
+      </div>
+      <button class="back-btn notranslate" onclick="window.location.href='../../index.html'">Home</button>
+      <button class="about notranslate" onclick="window.location.href='about.html'">About</button>
+      <button class="favorites-btn notranslate" onclick="window.location.href='favorites.html'" title="View your favorites & watchlists">
+        Favorites
+      </button>
+      <button id="nav-toggle" class="nav-toggle notranslate" title="Toggle side navbar" onclick="toggleNav()">
+        <i class="fas fa-bars"></i>
+      </button>
+      <button id="googleSignInBtn" class="nav-btn notranslate" onclick="handleSignInOut()" title="Sign In/Out">
+        <span id="signInOutText">Sign In</span>
+        <i class="fas fa-sign-in-alt" id="signInIcon"></i>
+        <i class="fas fa-sign-out-alt" id="signOutIcon" style="display: none"></i>
+      </button>
+      <button id="profileBtn" class="nav-btn notranslate" onclick="window.location.href='user-profile.html'" title="Go to your profile">
+        <span id="profileText">Profile</span>
+        <i class="fas fa-user" id="profileIcon"></i>
+      </button>
+      <form id="form1" style="animation: fadeIn 1.5s ease-in-out">
+        <div class="search-container">
+          <input
+            type="text"
+            id="search"
+            placeholder="Search For Films, Actors..."
+            class="search"
+            title="Search for movies, actors, TV series, and more!"
+          />
+          <button type="button" id="button-search" onclick="handleSearch()">Search</button>
+        </div>
+        <div id="search-results" class="search-results"></div>
+        <div class="buttons-container">
+          <button type="button" id="view-all-results" style="display: none">View more results</button>
+          <button type="button" id="clear-search" style="display: none">Clear</button>
+        </div>
+      </form>
+    </header>
+
+    <nav id="side-nav" class="side-nav" style="z-index: 1000000">
+      <a id="heading-href" style="cursor: pointer" href="../../index.html" title="Click to go back to the home page">
+        <div id="my-heading1" style="margin-bottom: 15px; margin-left: 0; margin-top: 15px; font-size: 2.1em; font-weight: bold">
+          The Mo<span class="highlight2">vieV</span>erse
+        </div>
+      </a>
+      <div id="button-container">
+        <button id="button-remove" title="Close the navbar" onclick="removeNavBar()">Close</button>
+      </div>
+      <ul>
+        <li><a href="#screenwriting-crafting-the-storys-blueprint">Screenwriting: Crafting the Story’s Blueprint</a></li>
+        <li><a href="#the-spark-of-an-idea">1. The Spark of an Idea</a></li>
+        <li><a href="#structure-the-three-act-paradigm">2. Structure: The Three-Act Paradigm</a></li>
+        <li><a href="#character-development-arcs">3. Character Development &amp; Arcs</a></li>
+        <li><a href="#scene-construction-beats">4. Scene Construction &amp; Beats</a></li>
+        <li><a href="#dialogue-voice-subtext">5. Dialogue: Voice &amp; Subtext</a></li>
+        <li><a href="#visual-writing-show-dont-tell">6. Visual Writing: Show, Don’t Tell</a></li>
+        <li><a href="#formatting-industry-standards">7. Formatting &amp; Industry Standards</a></li>
+        <li><a href="#research-authenticity">8. Research &amp; Authenticity</a></li>
+        <li><a href="#rewriting-feedback">9. Rewriting &amp; Feedback</a></li>
+        <li><a href="#pitch-logline-crafting">10. Pitch &amp; Logline Crafting</a></li>
+        <li><a href="#navigating-the-industry">11. Navigating the Industry</a></li>
+        <li><a href="#sustaining-the-craft">12. Sustaining the Craft</a></li>
+      </ul>
+    </nav>
+
+    <main style="margin-top: 30px; padding: 1rem">
+      <h2 id="screenwriting-crafting-the-storys-blueprint">Screenwriting: Crafting the Story’s Blueprint</h2>
+      <div />
+
+      <h3 id="the-spark-of-an-idea">1. The Spark of an Idea</h3>
+      <p>
+        Every screenplay begins with a seed: a “what if?” that ignites curiosity. Whether inspired by real events, myths, or pure invention, the idea
+        must contain conflict at its core. Successful writers maintain idea journals, noting character sketches, intriguing settings, or thematic
+        questions to revisit.
+      </p>
+
+      <h3 id="structure-the-three-act-paradigm">2. Structure: The Three-Act Paradigm</h3>
+      <p>
+        Traditional scripts adhere to three acts: setup, confrontation, and resolution. Act I (pages 1–30) introduces protagonist, world, and inciting
+        incident. Act II (pages 30–90) escalates stakes through rising conflict and midpoint reversal. Act III (pages 90–120) delivers climax and
+        denouement. Variations—five-act, Hero’s Journey—build on these fundamentals.
+      </p>
+
+      <h3 id="character-development-arcs">3. Character Development &amp; Arcs</h3>
+      <p>
+        Strong protagonists pursue clear objectives while undergoing internal change. Map character arcs across beats: introduction, catalyst,
+        midpoint revelation, low point, and triumph or tragedy. Secondary characters reinforce themes, their subplots echoing or contrasting the
+        hero’s journey.
+      </p>
+
+      <h3 id="scene-construction-beats">4. Scene Construction &amp; Beats</h3>
+      <p>
+        Scenes must have purpose: advancing plot or revealing character. Each contains a beginning (establish location and goal), middle (conflict),
+        and end (cliffhanger or transition). Beats—micro-units of action—create rhythm within scenes. Well-placed beats sustain tension and guide
+        audience emotion.
+      </p>
+
+      <h3 id="dialogue-voice-subtext">5. Dialogue: Voice &amp; Subtext</h3>
+      <p>
+        Dialogue should sound natural yet economical. Identify each character’s unique cadence and vocabulary. Subtext—what lies beneath spoken
+        words—conveys inner conflict. Avoid on-the-nose exposition; show through action, interruption, or reaction beats.
+      </p>
+
+      <h3 id="visual-writing-show-dont-tell">6. Visual Writing: Show, Don’t Tell</h3>
+      <p>
+        Screenplays communicate visually. Describe only what can be seen or heard. Replace lengthy exposition with vivid images: a dilapidated mansion
+        instead of “scary house.” Allow directors and actors to interpret nuance; leave breathing room between sluglines and action.
+      </p>
+
+      <h3 id="formatting-industry-standards">7. Formatting &amp; Industry Standards</h3>
+      <p>
+        Proper formatting ensures readability: Courier 12-point font, 1-inch margins. Use sluglines (INT./EXT.), action lines, character names
+        centered above dialogue, parentheticals sparingly. Software such as Final Draft or Celtx automates these conventions.
+      </p>
+
+      <h3 id="research-authenticity">8. Research &amp; Authenticity</h3>
+      <p>
+        Accurate detail grounds fiction. For period pieces, study costume, dialogue, technology, and social norms. For specialized subjects—medicine,
+        law, military—consult experts or veterans. Authenticity builds audience trust and immersion.
+      </p>
+
+      <h3 id="rewriting-feedback">9. Rewriting &amp; Feedback</h3>
+      <p>
+        First drafts are blueprints. Subsequent passes refine structure, tighten dialogue, and deepen theme. Solicit feedback from trusted peers or
+        writers’ groups. Incorporate notes judiciously, preserving your unique voice while addressing plot holes or pacing issues.
+      </p>
+
+      <h3 id="pitch-logline-crafting">10. Pitch &amp; Logline Crafting</h3>
+      <p>
+        A logline—one- to two-sentence synopsis—must encapsulate protagonist, goal, obstacle, and stakes. Mastering the elevator pitch opens doors to
+        agents, contests, and producers. Practice concise, compelling descriptions that spark interest.
+      </p>
+
+      <h3 id="navigating-the-industry">11. Navigating the Industry</h3>
+      <p>
+        Writers build careers through contests (Nicholl, Austin), fellowships, and networking (festivals, conferences). Showcases like The Black List
+        highlight popular scripts. Understand option agreements, draft-for-hire, and credit arbitration (WGA guidelines) to protect your work.
+      </p>
+
+      <h3 id="sustaining-the-craft">12. Sustaining the Craft</h3>
+      <p>
+        Screenwriting is a marathon, not a sprint. Read scripts across genres, dissect films frame by frame, and write daily—whether pages, exercises,
+        or prompts. Cultivating resilience and curiosity is as crucial as mastering technique.
+      </p>
+    </main>
+
+    <button title="Back to Blogs" id="back-to-blogs-btn">
+      <i class="fas fa-arrow-left" style="margin-right: 5px; font-size: 12px"></i>
+      <span>Back to Blogs</span>
+    </button>
+
+    <button
+      id="chat-button"
+      onclick="window.location.href='chat.html'"
+      style="bottom: 370px; right: 10px; z-index: 1001"
+      title="Chat with fellow MovieVerse users!"
+    >
+      Chat
+    </button>
+    <button
+      id="blog-button"
+      onclick="window.location.href='blogs.html'"
+      style="bottom: 335px; right: 10px; z-index: 1001"
+      title="Read our latest blogs and articles!"
+    >
+      Blogs
+    </button>
+    <button
+      id="games-button"
+      onclick="window.location.href='games.html'"
+      style="bottom: 300px; right: 10px; z-index: 1001"
+      title="Play fun movie-related games!"
+    >
+      Games
+    </button>
+    <button id="settings-btn" style="position: fixed; bottom: 265px; right: 10px">Settings</button>
+    <button
+      id="movie-of-the-day-btn"
+      onclick="showMovieOfTheDay()"
+      title="Get a recommended movie to watch for today!"
+      style="bottom: 230px; right: 10px"
+    >
+      Surprise Me!
+    </button>
+    <button
+      id="movie-match-btn3"
+      onclick="window.location.href='movie-match.html'"
+      title="Find a movie that matches your mood, genre, and time period!"
+      style="bottom: 195px; right: 10px"
+    >
+      Movie Match
+    </button>
+    <button
+      id="movie-timeline-btn"
+      onclick="window.location.href='movie-timeline.html'"
+      title="Explore movies through different eras!"
+      style="bottom: 160px; right: 10px"
+    >
+      Movie Timeline
+    </button>
+    <button
+      id="discussions-btn"
+      onclick="window.location.href='chatbot.html'"
+      style="bottom: 125px; right: 10px"
+      title="Chat with our intelligent chatbot!"
+    >
+      MovieVerse Chatbot
+    </button>
+    <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 90px; right: 10px" title="Test your movie knowledge">
+      MovieVerse Trivia
+    </button>
+
+    <div id="mobile-bottom-bar" class="mobile-bottom-bar">
+      <a href="chat.html" class="bottom-bar-item">
+        <i class="fas fa-comments"></i>
+        <span>Chat</span>
+      </a>
+      <a href="settings.html" class="bottom-bar-item">
+        <i class="fas fa-cog"></i>
+        <span>Settings</span>
+      </a>
+      <a href="#" class="bottom-bar-item" onclick="showMovieOfTheDay()">
+        <i class="fas fa-surprise"></i>
+        <span>Surprise Me</span>
+      </a>
+      <a href="movie-match.html" class="bottom-bar-item">
+        <i class="fas fa-film"></i>
+        <span>Match</span>
+      </a>
+      <a href="movie-timeline.html" class="bottom-bar-item">
+        <i class="fas fa-clock"></i>
+        <span>Timeline</span>
+      </a>
+      <a href="chatbot.html" class="bottom-bar-item">
+        <i class="fas fa-robot"></i>
+        <span>Chatbot</span>
+      </a>
+      <a href="trivia.html" class="bottom-bar-item">
+        <i class="fas fa-question-circle"></i>
+        <span>Trivia</span>
+      </a>
+    </div>
+
+    <button id="menu-btn" style="position: fixed; bottom: 10px; right: 10px; z-index: 1001" title="Toggle Menu Buttons">
+      <i class="fas fa-ellipsis-h"></i><br />
+      <span>Menu</span>
+    </button>
+
+    <script src="../js/actor-details.js"></script>
+
+    <script>
+      window.addEventListener('load', function () {
+        adjustAnchorHeights();
+      });
+
+      window.addEventListener('resize', adjustAnchorHeights);
+
+      function adjustAnchorHeights() {
+        const bottomBarAnchors = document.querySelectorAll('.mobile-bottom-bar a');
+        let maxHeight = 0;
+
+        bottomBarAnchors.forEach(anchor => {
+          anchor.style.height = 'auto';
+          const anchorHeight = anchor.getBoundingClientRect().height;
+          maxHeight = Math.max(maxHeight, anchorHeight);
+        });
+
+        bottomBarAnchors.forEach(anchor => {
+          anchor.style.height = `${maxHeight}px`;
+        });
+      }
+
+      let lastScrollY = window.scrollY;
+
+      window.addEventListener('scroll', () => {
+        const currentScrollY = window.scrollY;
+
+        if (currentScrollY > lastScrollY && currentScrollY > 0) {
+          document.querySelector('.mobile-bottom-bar').classList.add('hide-bar');
+        } else {
+          document.querySelector('.mobile-bottom-bar').classList.remove('hide-bar');
+        }
+
+        lastScrollY = currentScrollY;
+      });
+
+      let isAnimating = false;
+
+      document.getElementById('menu-btn').addEventListener('click', () => {
+        if (isAnimating) return;
+
+        isAnimating = true;
+
+        const buttonIds = [
+          'chat-button',
+          'blog-button',
+          'games-button',
+          'settings-btn',
+          'movie-of-the-day-btn',
+          'movie-match-btn3',
+          'movie-timeline-btn',
+          'discussions-btn',
+          'trivia-btn',
+        ];
+
+        buttonIds.forEach((id, index) => {
+          const button = document.getElementById(id);
+          if (button.style.display === 'none' || !button.style.display) {
+            button.style.display = 'block';
+            setTimeout(() => {
+              button.style.opacity = '1';
+              button.style.transform = 'translateY(0)';
+            }, 50 * index);
+          } else {
+            button.style.opacity = '0';
+            button.style.transform = 'translateY(20px)';
+          }
+
+          setTimeout(
+            () => {
+              button.style.display = button.style.opacity === '1' ? 'block' : 'none';
+              if (index === buttonIds.length - 1) {
+                isAnimating = false;
+              }
+            },
+            500 + 50 * index
+          );
+        });
+      });
+    </script>
+
+    <script>
+      document.getElementById('settings-btn').addEventListener('click', () => {
+        window.location.href = 'settings.html';
+      });
+
+      document.addEventListener('DOMContentLoaded', () => {
+        applySettings();
+
+        function applySettings() {
+          const savedBg = localStorage.getItem('backgroundImage');
+          const savedTextColor = localStorage.getItem('textColor');
+          const savedFontSize = localStorage.getItem('fontSize');
+
+          if (savedBg) {
+            document.body.style.backgroundImage = `url('${savedBg}')`;
+          }
+          if (savedTextColor) {
+            document.querySelectorAll('h1, h2, h3, p, a, span, div, button, input, select, textarea, label, li').forEach(element => {
+              element.style.color = savedTextColor;
+            });
+          }
+          if (savedFontSize) {
+            const size = savedFontSize === 'small' ? '12px' : savedFontSize === 'medium' ? '16px' : '20px';
+            document.body.style.fontSize = size;
           }
         }
       });
+
+      window.addEventListener('resize', () => {
+        if (window.innerWidth < 767) {
+          const buttonIds = [
+            'chat-button',
+            'blog-button',
+            'games-button',
+            'settings-btn',
+            'movie-of-the-day-btn',
+            'movie-match-btn3',
+            'movie-timeline-btn',
+            'discussions-btn',
+            'trivia-btn',
+          ];
+
+          buttonIds.forEach(id => {
+            const button = document.getElementById(id);
+            button.style.display = 'none';
+            button.style.opacity = '0';
+            button.style.transform = 'translateY(20px)';
+          });
+        }
+      });
     </script>
+
+    <footer style="text-align: center">
+      <a href="../../index.html" style="text-align: center; cursor: pointer; text-decoration: none">
+        <p style="text-align: center; cursor: pointer; text-decoration: none">© <span id="year"></span> The MovieVerse. All rights reserved.</p>
+      </a>
+    </footer>
+
+    <script>
+      const currentYear = new Date().getFullYear();
+      document.getElementById('year').textContent = currentYear;
+    </script>
+
+    <div id="myModal" class="modal-overlay">
+      <div class="spinner"></div>
+    </div>
+
+    
 
     <script>
       document.addEventListener('DOMContentLoaded', function () {
@@ -341,10 +757,10 @@
 
         function toggleButtons() {
           const query = searchInput.value.trim();
-          if (searchOverlay) {
+                    if (searchOverlay) {
             searchOverlay.classList.toggle('is-visible', Boolean(query));
           }
-          viewAllResultsBtn.style.display = query ? 'inline-block' : 'none';
+viewAllResultsBtn.style.display = query ? 'inline-block' : 'none';
           clearSearchBtn.style.display = query ? 'inline-block' : 'none';
         }
 
@@ -353,6 +769,7 @@
           searchResultsContainer.innerHTML = '';
           toggleButtons();
           searchInput.focus();
+
         });
 
         toggleButtons();
@@ -376,11 +793,15 @@
           const searchInput = document.getElementById('search');
           const query = e.target.value.trim();
           const searchResultsContainer = document.getElementById('search-results');
+        const searchOverlay = document.getElementById('search-overlay');
 
-          const searchOverlay = document.getElementById('search-overlay');
           viewAllResultsBtn.style.display = query ? 'block' : 'none';
 
           function toggleButtons() {
+          const query = searchInput.value.trim();
+          if (searchOverlay) {
+            searchOverlay.classList.toggle('is-visible', Boolean(query));
+          }
             viewAllResultsBtn.style.display = query ? 'inline-block' : 'none';
             const clearSearchBtn = document.getElementById('clear-search');
             clearSearchBtn.style.display = query ? 'inline-block' : 'none';
@@ -577,12 +998,15 @@
       });
     </script>
 
-    <script>
+        <script>
       const sideNav = document.getElementById('side-nav');
       const navToggle = document.getElementById('nav-toggle');
       const removeBtn = document.getElementById('button-remove');
 
       function adjustNavBar() {
+        if (!sideNav) {
+          return;
+        }
         if (sideNav.classList.contains('manual-toggle')) {
           sideNav.style.left = '0';
         } else {
@@ -590,39 +1014,46 @@
         }
       }
 
-      navToggle.addEventListener('click', () => {
-        sideNav.classList.toggle('manual-toggle');
-        adjustNavBar();
-      });
+      if (sideNav && navToggle) {
+        navToggle.addEventListener('click', () => {
+          sideNav.classList.toggle('manual-toggle');
+          adjustNavBar();
+        });
 
-      removeBtn.addEventListener('click', () => {
-        sideNav.classList.remove('manual-toggle');
-        adjustNavBar();
-      });
+        // show on hover when hidden
+        document.addEventListener('mousemove', e => {
+          if (e.clientX < 20 && !sideNav.classList.contains('manual-toggle')) {
+            sideNav.style.left = '0';
+          }
+        });
 
-      // show on hover when hidden
-      document.addEventListener('mousemove', e => {
-        if (e.clientX < 20 && !sideNav.classList.contains('manual-toggle')) {
-          sideNav.style.left = '0';
-        }
-      });
-      sideNav.addEventListener('mouseleave', () => {
-        if (!sideNav.classList.contains('manual-toggle')) {
-          sideNav.style.left = '-250px';
-        }
-      });
+        // click outside to close
+        document.addEventListener('click', e => {
+          if (!sideNav.contains(e.target) && !navToggle.contains(e.target) && sideNav.classList.contains('manual-toggle')) {
+            sideNav.classList.remove('manual-toggle');
+            adjustNavBar();
+          }
+        });
+      }
 
-      // click outside to close
-      document.addEventListener('click', e => {
-        if (!sideNav.contains(e.target) && !navToggle.contains(e.target) && sideNav.classList.contains('manual-toggle')) {
+      if (sideNav) {
+        sideNav.addEventListener('mouseleave', () => {
+          if (!sideNav.classList.contains('manual-toggle')) {
+            sideNav.style.left = '-250px';
+          }
+        });
+      }
+
+      if (sideNav && removeBtn) {
+        removeBtn.addEventListener('click', () => {
           sideNav.classList.remove('manual-toggle');
           adjustNavBar();
-        }
-      });
+        });
+      }
 
       // initialize position
       adjustNavBar();
     </script>
-    <div id="search-overlay" class="search-overlay"></div>
-  </body>
+  <div id="search-overlay" class="search-overlay"></div>
+</body>
 </html>

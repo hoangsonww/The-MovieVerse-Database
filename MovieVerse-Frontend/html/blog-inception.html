@@ -289,7 +289,7 @@
         background: #f4f4f4 !important;
       }
     </style>
-    <script src="../js/devtools-guard.js"></script>
+<!--    <script src="../js/devtools-guard.js"></script>-->
   </head>
 
   <body>
@@ -313,25 +313,463 @@
 
       document.querySelector('.translate-trigger').addEventListener('click', function () {
         const translateEl = document.getElementById('google_translate_element');
-        const isVisible = translateEl.style.display === 'block';
-        translateEl.style.display = isVisible ? 'none' : 'block';
+        translateEl.style.display = translateEl.style.display === 'block' ? 'none' : 'block';
+      });
 
-        if (!isVisible) {
-          const helperId = 'translate-helper-text';
-          if (!translateEl.querySelector('#' + helperId)) {
-            const helper = document.createElement('div');
-            helper.id = helperId;
-            helper.textContent =
-              'If this menu is blank, please wait a few seconds. If it still does not load, please check your Internet connection, then reload the page and try again.';
-            helper.style.marginTop = '6px';
-            helper.style.fontSize = '11px';
-            helper.style.lineHeight = '1.3';
-            helper.style.opacity = '0.9';
-            translateEl.appendChild(helper);
+      document.addEventListener('DOMContentLoaded', function () {
+        let lastScrollTop = window.scrollY;
+        const translateControl = document.getElementById('translate_control');
+        const translateEl = document.getElementById('google_translate_element');
+
+        window.addEventListener(
+          'scroll',
+          function () {
+            let scrollTop = window.scrollY;
+
+            if (window.innerWidth <= 767) {
+              if (scrollTop > lastScrollTop && scrollTop > 0) {
+                translateControl.style.display = 'none';
+                translateEl.style.display = 'none';
+              } else {
+                translateControl.style.display = 'block';
+              }
+              lastScrollTop = scrollTop;
+            }
+          },
+          { passive: true }
+        );
+      });
+    </script>
+
+    <!-- Header -->
+    <header style="margin-bottom: -50px">
+      <h1 id="my-heading" style="margin-bottom: -10px" class="notranslate">
+        <a id="indexLink" href="../../index.html" style="text-decoration: none; color: inherit; cursor: pointer">
+          The Mo<span class="highlight" id="highlight">vieV</span>erse
+        </a>
+      </h1>
+      <div id="local-time" style="cursor: pointer; margin-left: 40px" title="Click to view more of your stats!">
+        <p id="stats-label" class="clock" style="font-size: 16px"></p>
+        <div id="stats-display" class="clock" style="font-size: 1.25em; font-weight: bold"></div>
+      </div>
+      <button class="back-btn notranslate" onclick="window.location.href='../../index.html'">Home</button>
+      <button class="about notranslate" onclick="window.location.href='about.html'">About</button>
+      <button class="favorites-btn notranslate" onclick="window.location.href='favorites.html'" title="View your favorites & watchlists">
+        Favorites
+      </button>
+      <button id="nav-toggle" class="nav-toggle notranslate" title="Toggle side navbar" onclick="toggleNav()">
+        <i class="fas fa-bars"></i>
+      </button>
+      <button id="googleSignInBtn" class="nav-btn notranslate" onclick="handleSignInOut()" title="Sign In/Out">
+        <span id="signInOutText">Sign In</span>
+        <i class="fas fa-sign-in-alt" id="signInIcon"></i>
+        <i class="fas fa-sign-out-alt" id="signOutIcon" style="display: none"></i>
+      </button>
+      <button id="profileBtn" class="nav-btn notranslate" onclick="window.location.href='user-profile.html'" title="Go to your profile">
+        <span id="profileText">Profile</span>
+        <i class="fas fa-user" id="profileIcon"></i>
+      </button>
+      <form id="form1" style="animation: fadeIn 1.5s ease-in-out">
+        <div class="search-container">
+          <input
+            type="text"
+            id="search"
+            placeholder="Search For Films, Actors..."
+            class="search"
+            title="Search for movies, actors, TV series, and more!"
+          />
+          <button type="button" id="button-search" onclick="handleSearch()">Search</button>
+        </div>
+        <div id="search-results" class="search-results"></div>
+        <div class="buttons-container">
+          <button type="button" id="view-all-results" style="display: none">View more results</button>
+          <button type="button" id="clear-search" style="display: none">Clear</button>
+        </div>
+      </form>
+    </header>
+
+    <nav id="side-nav" class="side-nav" style="z-index: 1000000; text-align: left">
+      <a id="heading-href" style="cursor: pointer" href="../../index.html" title="Click to go back to the home page">
+        <div id="my-heading1" style="margin-bottom: 15px; margin-left: 0; margin-top: 15px; font-size: 2.1em; font-weight: bold">
+          The Mo<span class="highlight2">vieV</span>erse
+        </div>
+      </a>
+      <div id="button-container">
+        <button id="button-remove" title="Close the navbar" onclick="removeNavBar()">Close</button>
+      </div>
+      <ul>
+        <li><a href="#how-to-watch-inception">How to Watch “Inception” – A Complete Guide</a></li>
+        <li><a href="#introduction">1. Introduction</a></li>
+        <li><a href="#historical-and-creative-context">2. Historical &amp; Creative Context</a></li>
+        <li><a href="#plot-overview-spoiler-free">3. Plot Overview (Spoiler-Free)</a></li>
+        <li><a href="#main-characters-and-performances">4. Main Characters &amp; Performances</a></li>
+        <li><a href="#cinematography-and-practical-effects">5. Cinematography &amp; Practical Effects</a></li>
+        <li><a href="#sound-and-score">6. Sound &amp; Score</a></li>
+        <li><a href="#recommended-viewing-formats">7. Recommended Viewing Formats</a></li>
+        <li><a href="#bonus-content-and-behind-the-scenes">8. Bonus Content &amp; Behind-the-Scenes</a></li>
+        <li><a href="#thematic-analysis">9. Thematic Analysis</a></li>
+        <li><a href="#easter-eggs-and-symbolism">10. Easter Eggs &amp; Symbolism</a></li>
+        <li><a href="#tips-for-optimal-viewing">11. Tips for Optimal Viewing</a></li>
+        <li><a href="#common-faqs">12. Common FAQs</a></li>
+        <li><a href="#conclusion">13. Conclusion</a></li>
+      </ul>
+    </nav>
+
+    <!-- ARTICLE CONTENT -->
+    <main style="margin-top: 30px; padding: 1rem">
+      <div />
+      <article>
+        <h2 id="how-to-watch-inception" style="text-align: center">How to Watch “Inception” – A Complete Guide</h2>
+        <div style="text-align: center; animation: fadeIn 1.5s ease-in-out">
+          <img src="../../images/inception.jpg" alt="Inception Poster" style="border-radius: 8px; width: 50%" />
+        </div>
+
+        <h3 id="introduction">1. Introduction</h3>
+        <p>
+          <em>Inception</em> (2010) stands as one of Christopher Nolan’s most ambitious films—a mind-bending heist story set within shared dreams.
+          With its intricate plot, stunning visuals, and Hans Zimmer’s iconic score, it remains a modern classic. This guide walks you through every
+          aspect of watching <em>Inception</em> in the most immersive way possible.
+        </p>
+
+        <h3 id="historical-and-creative-context">2. Historical &amp; Creative Context</h3>
+        <p>
+          Nolan conceived <em>Inception</em> over a decade before its release, inspired by his fascination with dreams and subconscious architecture.
+          After hits like <em>Memento</em> and <em>The Dark Knight</em>, he had the studio support—and budget—to realize dizzying practical effects
+          and elaborate dream sequences.
+        </p>
+
+        <h3 id="plot-overview-spoiler-free">3. Plot Overview (Spoiler-Free)</h3>
+        <p>
+          Dom Cobb (Leonardo DiCaprio) is a corporate thief who steals secrets via dream-sharing technology. He’s offered a chance at redemption:
+          instead of stealing an idea, he must plant one—a process called “inception.” Cobb assembles a team, navigates dream layers, and wrestles
+          with haunting memories of his late wife Mal.
+        </p>
+
+        <h3 id="main-characters-and-performances">4. Main Characters &amp; Performances</h3>
+        <ul>
+          <li><strong>Dom Cobb:</strong> DiCaprio delivers a vulnerable, tortured performance.</li>
+          <li><strong>Arthur (Joseph Gordon-Levitt):</strong> Cobb’s disciplined point man.</li>
+          <li><strong>Ariadne (Elliot Page):</strong> The architect who designs dream worlds.</li>
+          <li><strong>Mal (Marion Cotillard):</strong> Cobb’s projection of grief and guilt.</li>
+          <li><strong>Supporting Team:</strong> Ken Watanabe, Tom Hardy, Cillian Murphy, Michael Caine.</li>
+        </ul>
+
+        <h3 id="cinematography-and-practical-effects">5. Cinematography &amp; Practical Effects</h3>
+        <p>Nolan insisted on real, in-camera effects wherever possible:</p>
+        <ul>
+          <li>The rotating hallway fight was achieved with a giant, spinning corridor set.</li>
+          <li>Zero-gravity sequences involved wires and harness rigs.</li>
+          <li>City-folding shots combined practical models with subtle CGI.</li>
+        </ul>
+
+        <h3 id="sound-and-score">6. Sound &amp; Score</h3>
+        <p>
+          Hans Zimmer’s score, featuring slowed-down Édith Piaf samples, underscores the film’s dreamlike pace. Listen on a system with strong low-end
+          (subwoofers recommended) to feel the “braaam” signature sound.
+        </p>
+
+        <h3 id="recommended-viewing-formats">7. Recommended Viewing Formats</h3>
+        <ul>
+          <li><strong>IMAX Theaters:</strong> Experience extended IMAX sequences in true 1.43∶1 aspect ratio.</li>
+          <li><strong>4K UHD Blu-ray:</strong> Best home-theater fidelity—4K, HDR10, Dolby Atmos.</li>
+          <li><strong>Blu-ray:</strong> Excellent picture & DTS-HD Master Audio.</li>
+          <li><strong>Streaming:</strong> Aim for 4K HDR and high-bitrate audio.</li>
+        </ul>
+
+        <h3 id="bonus-content-and-behind-the-scenes">8. Bonus Content &amp; Behind-the-Scenes</h3>
+        <p>
+          Look for the “Limbo” featurette and Nolan’s on-set diaries on physical media. Commentary tracks reveal his decision-making process, from
+          editing dream layers to casting choices.
+        </p>
+
+        <h3 id="thematic-analysis">9. Thematic Analysis</h3>
+        <ul>
+          <li><strong>Reality vs. Illusion:</strong> The spinning top motif asks: is Cobb still dreaming?</li>
+          <li><strong>Guilt & Redemption:</strong> Cobb’s emotional journey drives the stakes.</li>
+          <li><strong>Time & Memory:</strong> Nested dreams manipulate time dilation and memory fragility.</li>
+        </ul>
+
+        <h3 id="easter-eggs-and-symbolism">10. Easter Eggs &amp; Symbolism</h3>
+        <p>
+          Rewatch for brief nods to Nolan’s past work: the spinning top from <em>Memento</em>, “kick” echoes of <em>Insomnia</em>, and subtle visual
+          callbacks to <em>The Prestige</em>.
+        </p>
+
+        <h3 id="tips-for-optimal-viewing">11. Tips for Optimal Viewing</h3>
+        <ul>
+          <li>Focus on visual cues (rainfall, flickering lights) that signify dream-layer transitions.</li>
+          <li>Avoid distractions—pausing or subtitles disrupt immersion.</li>
+          <li>Consider a second viewing immediately after: plot threads become clearer.</li>
+        </ul>
+
+        <h3 id="common-faqs">12. Common FAQs</h3>
+        <ul>
+          <li><strong>What does the top mean?</strong> It’s Cobb’s totem; if it spins endlessly, he’s dreaming.</li>
+          <li><strong>Why the ambiguous ending?</strong> Nolan designed it to spark debate on reality’s nature.</li>
+          <li><strong>Is “Limbo” real?</strong> A subconscious realm so deep dreamers can become trapped.</li>
+        </ul>
+
+        <h3 id="conclusion">13. Conclusion</h3>
+        <p>
+          <em>Inception</em> remains a landmark of modern cinema—a puzzle box inviting repeated exploration. Whether in IMAX or on your living-room
+          screen, this guide ensures you catch every nuance. Prepare for a journey through dreams—and perhaps into your own imagination.
+        </p>
+      </article>
+    </main>
+
+    <button title="Back to Blogs" id="back-to-blogs-btn">
+      <i class="fas fa-arrow-left" style="margin-right: 5px; font-size: 12px"></i>
+      <span>Back to Blogs</span>
+    </button>
+
+    <button
+      id="chat-button"
+      onclick="window.location.href='chat.html'"
+      style="bottom: 370px; right: 10px; z-index: 1001"
+      title="Chat with fellow MovieVerse users!"
+    >
+      Chat
+    </button>
+    <button
+      id="blog-button"
+      onclick="window.location.href='blogs.html'"
+      style="bottom: 335px; right: 10px; z-index: 1001"
+      title="Read our latest blogs and articles!"
+    >
+      Blogs
+    </button>
+    <button
+      id="games-button"
+      onclick="window.location.href='games.html'"
+      style="bottom: 300px; right: 10px; z-index: 1001"
+      title="Play fun movie-related games!"
+    >
+      Games
+    </button>
+    <button id="settings-btn" style="position: fixed; bottom: 265px; right: 10px">Settings</button>
+    <button
+      id="movie-of-the-day-btn"
+      onclick="showMovieOfTheDay()"
+      title="Get a recommended movie to watch for today!"
+      style="bottom: 230px; right: 10px"
+    >
+      Surprise Me!
+    </button>
+    <button
+      id="movie-match-btn3"
+      onclick="window.location.href='movie-match.html'"
+      title="Find a movie that matches your mood, genre, and time period!"
+      style="bottom: 195px; right: 10px"
+    >
+      Movie Match
+    </button>
+    <button
+      id="movie-timeline-btn"
+      onclick="window.location.href='movie-timeline.html'"
+      title="Explore movies through different eras!"
+      style="bottom: 160px; right: 10px"
+    >
+      Movie Timeline
+    </button>
+    <button
+      id="discussions-btn"
+      onclick="window.location.href='chatbot.html'"
+      style="bottom: 125px; right: 10px"
+      title="Chat with our intelligent chatbot!"
+    >
+      MovieVerse Chatbot
+    </button>
+    <button id="trivia-btn" onclick="window.location.href='trivia.html'" style="bottom: 90px; right: 10px" title="Test your movie knowledge">
+      MovieVerse Trivia
+    </button>
+
+    <div id="mobile-bottom-bar" class="mobile-bottom-bar">
+      <a href="chat.html" class="bottom-bar-item">
+        <i class="fas fa-comments"></i>
+        <span>Chat</span>
+      </a>
+      <a href="settings.html" class="bottom-bar-item">
+        <i class="fas fa-cog"></i>
+        <span>Settings</span>
+      </a>
+      <a href="#" class="bottom-bar-item" onclick="showMovieOfTheDay()">
+        <i class="fas fa-surprise"></i>
+        <span>Surprise Me</span>
+      </a>
+      <a href="movie-match.html" class="bottom-bar-item">
+        <i class="fas fa-film"></i>
+        <span>Match</span>
+      </a>
+      <a href="movie-timeline.html" class="bottom-bar-item">
+        <i class="fas fa-clock"></i>
+        <span>Timeline</span>
+      </a>
+      <a href="chatbot.html" class="bottom-bar-item">
+        <i class="fas fa-robot"></i>
+        <span>Chatbot</span>
+      </a>
+      <a href="trivia.html" class="bottom-bar-item">
+        <i class="fas fa-question-circle"></i>
+        <span>Trivia</span>
+      </a>
+    </div>
+
+    <button id="menu-btn" style="position: fixed; bottom: 10px; right: 10px; z-index: 1001" title="Toggle Menu Buttons">
+      <i class="fas fa-ellipsis-h"></i><br />
+      <span>Menu</span>
+    </button>
+
+    <script src="../js/actor-details.js"></script>
+
+    <script>
+      window.addEventListener('load', function () {
+        adjustAnchorHeights();
+      });
+
+      window.addEventListener('resize', adjustAnchorHeights);
+
+      function adjustAnchorHeights() {
+        const bottomBarAnchors = document.querySelectorAll('.mobile-bottom-bar a');
+        let maxHeight = 0;
+
+        bottomBarAnchors.forEach(anchor => {
+          anchor.style.height = 'auto';
+          const anchorHeight = anchor.getBoundingClientRect().height;
+          maxHeight = Math.max(maxHeight, anchorHeight);
+        });
+
+        bottomBarAnchors.forEach(anchor => {
+          anchor.style.height = `${maxHeight}px`;
+        });
+      }
+
+      let lastScrollY = window.scrollY;
+
+      window.addEventListener('scroll', () => {
+        const currentScrollY = window.scrollY;
+
+        if (currentScrollY > lastScrollY && currentScrollY > 0) {
+          document.querySelector('.mobile-bottom-bar').classList.add('hide-bar');
+        } else {
+          document.querySelector('.mobile-bottom-bar').classList.remove('hide-bar');
+        }
+
+        lastScrollY = currentScrollY;
+      });
+
+      let isAnimating = false;
+
+      document.getElementById('menu-btn').addEventListener('click', () => {
+        if (isAnimating) return;
+
+        isAnimating = true;
+
+        const buttonIds = [
+          'chat-button',
+          'blog-button',
+          'games-button',
+          'settings-btn',
+          'movie-of-the-day-btn',
+          'movie-match-btn3',
+          'movie-timeline-btn',
+          'discussions-btn',
+          'trivia-btn',
+        ];
+
+        buttonIds.forEach((id, index) => {
+          const button = document.getElementById(id);
+          if (button.style.display === 'none' || !button.style.display) {
+            button.style.display = 'block';
+            setTimeout(() => {
+              button.style.opacity = '1';
+              button.style.transform = 'translateY(0)';
+            }, 50 * index);
+          } else {
+            button.style.opacity = '0';
+            button.style.transform = 'translateY(20px)';
+          }
+
+          setTimeout(
+            () => {
+              button.style.display = button.style.opacity === '1' ? 'block' : 'none';
+              if (index === buttonIds.length - 1) {
+                isAnimating = false;
+              }
+            },
+            500 + 50 * index
+          );
+        });
+      });
+    </script>
+
+    <script>
+      document.getElementById('settings-btn').addEventListener('click', () => {
+        window.location.href = 'settings.html';
+      });
+
+      document.addEventListener('DOMContentLoaded', () => {
+        applySettings();
+
+        function applySettings() {
+          const savedBg = localStorage.getItem('backgroundImage');
+          const savedTextColor = localStorage.getItem('textColor');
+          const savedFontSize = localStorage.getItem('fontSize');
+
+          if (savedBg) {
+            document.body.style.backgroundImage = `url('${savedBg}')`;
+          }
+          if (savedTextColor) {
+            document.querySelectorAll('h1, h2, h3, p, a, span, div, button, input, select, textarea, label, li').forEach(element => {
+              element.style.color = savedTextColor;
+            });
+          }
+          if (savedFontSize) {
+            const size = savedFontSize === 'small' ? '12px' : savedFontSize === 'medium' ? '16px' : '20px';
+            document.body.style.fontSize = size;
           }
         }
       });
+
+      window.addEventListener('resize', () => {
+        if (window.innerWidth < 767) {
+          const buttonIds = [
+            'chat-button',
+            'blog-button',
+            'games-button',
+            'settings-btn',
+            'movie-of-the-day-btn',
+            'movie-match-btn3',
+            'movie-timeline-btn',
+            'discussions-btn',
+            'trivia-btn',
+          ];
+
+          buttonIds.forEach(id => {
+            const button = document.getElementById(id);
+            button.style.display = 'none';
+            button.style.opacity = '0';
+            button.style.transform = 'translateY(20px)';
+          });
+        }
+      });
     </script>
+
+    <footer style="text-align: center">
+      <a href="../../index.html" style="text-align: center; cursor: pointer; text-decoration: none">
+        <p style="text-align: center; cursor: pointer; text-decoration: none">© <span id="year"></span> The MovieVerse. All rights reserved.</p>
+      </a>
+    </footer>
+
+    <script>
+      const currentYear = new Date().getFullYear();
+      document.getElementById('year').textContent = currentYear;
+    </script>
+
+    <div id="myModal" class="modal-overlay">
+      <div class="spinner"></div>
+    </div>
+
+    
 
     <script>
       document.addEventListener('DOMContentLoaded', function () {
@@ -344,10 +782,10 @@
 
         function toggleButtons() {
           const query = searchInput.value.trim();
-          if (searchOverlay) {
+                    if (searchOverlay) {
             searchOverlay.classList.toggle('is-visible', Boolean(query));
           }
-          viewAllResultsBtn.style.display = query ? 'inline-block' : 'none';
+viewAllResultsBtn.style.display = query ? 'inline-block' : 'none';
           clearSearchBtn.style.display = query ? 'inline-block' : 'none';
         }
 
@@ -356,6 +794,7 @@
           searchResultsContainer.innerHTML = '';
           toggleButtons();
           searchInput.focus();
+
         });
 
         toggleButtons();
@@ -379,11 +818,15 @@
           const searchInput = document.getElementById('search');
           const query = e.target.value.trim();
           const searchResultsContainer = document.getElementById('search-results');
+        const searchOverlay = document.getElementById('search-overlay');
 
-          const searchOverlay = document.getElementById('search-overlay');
           viewAllResultsBtn.style.display = query ? 'block' : 'none';
 
           function toggleButtons() {
+          const query = searchInput.value.trim();
+          if (searchOverlay) {
+            searchOverlay.classList.toggle('is-visible', Boolean(query));
+          }
             viewAllResultsBtn.style.display = query ? 'inline-block' : 'none';
             const clearSearchBtn = document.getElementById('clear-search');
             clearSearchBtn.style.display = query ? 'inline-block' : 'none';
@@ -580,12 +1023,15 @@
       });
     </script>
 
-    <script>
+        <script>
       const sideNav = document.getElementById('side-nav');
       const navToggle = document.getElementById('nav-toggle');
       const removeBtn = document.getElementById('button-remove');
 
       function adjustNavBar() {
+        if (!sideNav) {
+          return;
+        }
         if (sideNav.classList.contains('manual-toggle')) {
           sideNav.style.left = '0';
         } else {
@@ -593,39 +1039,46 @@
         }
       }
 
-      navToggle.addEventListener('click', () => {
-        sideNav.classList.toggle('manual-toggle');
-        adjustNavBar();
-      });
+      if (sideNav && navToggle) {
+        navToggle.addEventListener('click', () => {
+          sideNav.classList.toggle('manual-toggle');
+          adjustNavBar();
+        });
 
-      removeBtn.addEventListener('click', () => {
-        sideNav.classList.remove('manual-toggle');
-        adjustNavBar();
-      });
+        // show on hover when hidden
+        document.addEventListener('mousemove', e => {
+          if (e.clientX < 20 && !sideNav.classList.contains('manual-toggle')) {
+            sideNav.style.left = '0';
+          }
+        });
 
-      // show on hover when hidden
-      document.addEventListener('mousemove', e => {
-        if (e.clientX < 20 && !sideNav.classList.contains('manual-toggle')) {
-          sideNav.style.left = '0';
-        }
-      });
-      sideNav.addEventListener('mouseleave', () => {
-        if (!sideNav.classList.contains('manual-toggle')) {
-          sideNav.style.left = '-250px';
-        }
-      });
+        // click outside to close
+        document.addEventListener('click', e => {
+          if (!sideNav.contains(e.target) && !navToggle.contains(e.target) && sideNav.classList.contains('manual-toggle')) {
+            sideNav.classList.remove('manual-toggle');
+            adjustNavBar();
+          }
+        });
+      }
 
-      // click outside to close
-      document.addEventListener('click', e => {
-        if (!sideNav.contains(e.target) && !navToggle.contains(e.target) && sideNav.classList.contains('manual-toggle')) {
+      if (sideNav) {
+        sideNav.addEventListener('mouseleave', () => {
+          if (!sideNav.classList.contains('manual-toggle')) {
+            sideNav.style.left = '-250px';
+          }
+        });
+      }
+
+      if (sideNav && removeBtn) {
+        removeBtn.addEventListener('click', () => {
           sideNav.classList.remove('manual-toggle');
           adjustNavBar();
-        }
-      });
+        });
+      }
 
       // initialize position
       adjustNavBar();
     </script>
-    <div id="search-overlay" class="search-overlay"></div>
-  </body>
+  <div id="search-overlay" class="search-overlay"></div>
+</body>
 </html>
