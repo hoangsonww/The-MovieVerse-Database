@@ -697,6 +697,23 @@
         font-size: 12px;
         color: var(--noti-muted);
       }
+      .noti-stats.is-loading .stat-value,
+      .noti-stats.is-loading .stat-meta {
+        visibility: hidden;
+      }
+      .noti-stats.is-loading .stat-card {
+        position: relative;
+      }
+      .noti-stats.is-loading .stat-card::after {
+        content: '';
+        position: absolute;
+        left: 16px;
+        right: 16px;
+        bottom: 16px;
+        height: 10px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.12);
+      }
       main.notifications-layout .noti-feed {
         grid-column: 1 / 2;
         background: var(--noti-bg);
@@ -1477,7 +1494,7 @@
         <div class="hero-poster" id="heroPoster"></div>
       </section>
 
-      <section class="noti-stats" id="todayPulse">
+      <section class="noti-stats" id="todayPulse" data-stats-source="inline">
         <div class="stat-card accent" id="statNew">
           <span class="stat-label">New releases (7 days)</span>
           <span class="stat-value" id="statNewCount">--</span>
@@ -2080,13 +2097,29 @@
         return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
       }
 
-      async function fetchStatsJson(url) {
-        const response = await fetch(url);
-        const data = await response.json();
-        if (!response.ok) {
-          throw new Error(data.status_message || 'Failed to fetch count');
+      async function fetchStatsJson(url, { retries = 2, timeoutMs = 8000 } = {}) {
+        let lastError;
+        for (let attempt = 0; attempt <= retries; attempt += 1) {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+          try {
+            const response = await fetch(url, { signal: controller.signal });
+            const data = await response.json();
+            if (!response.ok) {
+              throw new Error(data.status_message || 'Failed to fetch count');
+            }
+            clearTimeout(timeoutId);
+            return data;
+          } catch (error) {
+            clearTimeout(timeoutId);
+            lastError = error;
+            if (attempt < retries) {
+              await new Promise(resolve => setTimeout(resolve, 500 * (attempt + 1)));
+              continue;
+            }
+          }
         }
-        return data;
+        throw lastError;
       }
 
       async function fetchTotalResults(url) {
@@ -2119,7 +2152,11 @@
       function setStatValue(id, value) {
         const el = document.getElementById(id);
         if (!el) return;
-        el.textContent = Number.isFinite(value) ? value.toLocaleString('en-US') : '--';
+        if (typeof value === 'string') {
+          el.textContent = value;
+          return;
+        }
+        el.textContent = Number.isFinite(value) ? value.toLocaleString('en-US') : 'N/A';
       }
 
       function formatStatTitle(prefix, title) {
@@ -2127,13 +2164,69 @@
         return `${prefix} <strong>${title}</strong>`;
       }
 
-      async function loadNotificationStats() {
+      const statsCacheKey = 'notiStatsCache';
+
+      function loadStatsCache() {
+        try {
+          const cached = JSON.parse(localStorage.getItem(statsCacheKey));
+          return cached && typeof cached === 'object' ? cached : null;
+        } catch (error) {
+          return null;
+        }
+      }
+
+      function saveStatsCache(payload) {
+        try {
+          localStorage.setItem(statsCacheKey, JSON.stringify(payload));
+        } catch (error) {
+          // ignore cache write errors
+        }
+      }
+
+      function applyStats({ newCount, upcomingCount, trendingScore, topRatedScore, meta }) {
+        setStatValue('statNewCount', newCount);
+        setStatValue('statUpcomingCount', upcomingCount);
+        setStatValue('statFavoritesCount', trendingScore);
+        setStatValue('statWatchlistsCount', topRatedScore);
+
         const statNewMeta = document.getElementById('statNewMeta');
         const statUpcomingMeta = document.getElementById('statUpcomingMeta');
         const statTrendingMeta = document.getElementById('statTrendingMeta');
         const statTopRatedMeta = document.getElementById('statTopRatedMeta');
+
+        if (statNewMeta && meta?.newMeta) {
+          statNewMeta.textContent = meta.newMeta;
+        }
+        if (statUpcomingMeta && meta?.upcomingMeta) {
+          statUpcomingMeta.textContent = meta.upcomingMeta;
+        }
+        if (statTrendingMeta && meta?.trendingMeta) {
+          statTrendingMeta.innerHTML = meta.trendingMeta;
+        }
+        if (statTopRatedMeta && meta?.topRatedMeta) {
+          statTopRatedMeta.innerHTML = meta.topRatedMeta;
+        }
+      }
+
+      const MAX_STATS_ATTEMPTS = 3;
+      let statsLoadAttempts = 0;
+      let statsLoadInFlight = false;
+
+      async function loadNotificationStats() {
         if (!document.getElementById('statNewCount')) {
           return;
+        }
+        const statsSection = document.getElementById('todayPulse');
+        if (statsLoadInFlight) {
+          return;
+        }
+        statsLoadInFlight = true;
+        const cached = loadStatsCache();
+        if (statsSection) {
+          statsSection.classList.add('is-loading');
+        }
+        if (typeof showSpinner === 'function') {
+          showSpinner();
         }
 
         const apiQuery = `${generateMovieNames()}${getMovieCode()}`;
@@ -2159,16 +2252,19 @@
         )}&primary_release_date.lte=${formatISODate(monthEnd)}&sort_by=vote_average.desc&vote_count.gte=50&include_adult=false`;
 
         try {
-          const [newCount, upcomingCount, trendingData] = await Promise.all([
+          const [newCount, upcomingCount, trendingData, topRatedDataPrimary] = await Promise.all([
             fetchTotalResults(newReleasesUrl),
             fetchTotalResults(upcomingUrl),
             fetchStatsJson(trendingUrl),
+            fetchStatsJson(topRatedUrl),
           ]);
+
           const trendingResults = Array.isArray(trendingData?.results) ? trendingData.results : [];
           const trendingLeader = pickLeader(trendingResults, 100);
+          const trendingScore = trendingLeader ? Number(trendingLeader.vote_average.toFixed(1)) : NaN;
+          const trendingTitle = trendingLeader?.title || trendingLeader?.name;
 
-          let topRatedData = await fetchStatsJson(topRatedUrl);
-          let topRatedResults = Array.isArray(topRatedData?.results) ? topRatedData.results : [];
+          let topRatedResults = Array.isArray(topRatedDataPrimary?.results) ? topRatedDataPrimary.results : [];
           let topRatedLeader = pickLeader(topRatedResults, 200);
           let topRatedRangeLabel = `${formatShortDate(monthStart)}–${formatShortDate(monthEnd)}`;
 
@@ -2178,50 +2274,92 @@
             const topRatedFallbackUrl = `${baseUrl}/discover/movie?${apiQuery}&primary_release_date.gte=${formatISODate(
               ninetyDaysAgo
             )}&primary_release_date.lte=${formatISODate(today)}&sort_by=vote_average.desc&vote_count.gte=50&include_adult=false`;
-            topRatedData = await fetchStatsJson(topRatedFallbackUrl);
-            topRatedResults = Array.isArray(topRatedData?.results) ? topRatedData.results : [];
+            const topRatedFallbackData = await fetchStatsJson(topRatedFallbackUrl);
+            topRatedResults = Array.isArray(topRatedFallbackData?.results) ? topRatedFallbackData.results : [];
             topRatedLeader = pickLeader(topRatedResults, 200);
             topRatedRangeLabel = `${formatShortDate(ninetyDaysAgo)}–${formatShortDate(today)}`;
 
             if (!topRatedLeader) {
               const topRatedOverallUrl = `${baseUrl}/movie/top_rated?${apiQuery}`;
-              topRatedData = await fetchStatsJson(topRatedOverallUrl);
-              topRatedResults = Array.isArray(topRatedData?.results) ? topRatedData.results : [];
+              const topRatedOverallData = await fetchStatsJson(topRatedOverallUrl);
+              topRatedResults = Array.isArray(topRatedOverallData?.results) ? topRatedOverallData.results : [];
               topRatedLeader = pickLeader(topRatedResults, 200);
               topRatedRangeLabel = 'Top picks right now';
             }
           }
 
-          setStatValue('statNewCount', newCount);
-          setStatValue('statUpcomingCount', upcomingCount);
-          setStatValue('statFavoritesCount', trendingLeader ? Number(trendingLeader.vote_average.toFixed(1)) : NaN);
-          setStatValue('statWatchlistsCount', topRatedLeader ? Number(topRatedLeader.vote_average.toFixed(1)) : NaN);
+          const topRatedScore = topRatedLeader ? Number(topRatedLeader.vote_average.toFixed(1)) : NaN;
+          const topRatedTitle = topRatedLeader?.title;
 
-          if (statNewMeta) {
-            statNewMeta.textContent = `Premieres ${formatShortDate(sevenDaysAgo)}–${formatShortDate(today)}`;
+          const isComplete =
+            Number.isFinite(newCount) && Number.isFinite(upcomingCount) && Number.isFinite(trendingScore) && Number.isFinite(topRatedScore);
+
+          if (!isComplete) {
+            throw new Error('Stats payload incomplete');
           }
-          if (statUpcomingMeta) {
-            statUpcomingMeta.textContent = `Next 30 days (${formatShortDate(today)}–${formatShortDate(thirtyDaysAhead)})`;
+
+          const meta = {
+            newMeta: `Premieres ${formatShortDate(sevenDaysAgo)}–${formatShortDate(today)}`,
+            upcomingMeta: `Next 30 days (${formatShortDate(today)}–${formatShortDate(thirtyDaysAhead)})`,
+            trendingMeta: formatStatTitle('Top rated:', trendingTitle) || 'Highest-rated trending title',
+            topRatedMeta: topRatedTitle
+              ? `${formatStatTitle('Best:', topRatedTitle)} (${topRatedRangeLabel})`
+              : `Best rated this month (${topRatedRangeLabel})`,
+          };
+
+          const payload = {
+            newCount,
+            upcomingCount,
+            trendingScore,
+            topRatedScore,
+            meta,
+            updatedAt: new Date().toISOString(),
+          };
+
+          applyStats(payload);
+          saveStatsCache(payload);
+          statsLoadAttempts = 0;
+          if (statsSection) {
+            statsSection.classList.remove('is-loading');
           }
-          if (statTrendingMeta) {
-            const trendingTitle = trendingLeader?.title || trendingLeader?.name;
-            statTrendingMeta.innerHTML = formatStatTitle('Top rated:', trendingTitle) || 'Highest-rated trending title';
+          if (typeof hideSpinner === 'function') {
+            hideSpinner();
           }
-          if (statTopRatedMeta) {
-            const topRatedTitle = topRatedLeader?.title;
-            const titleLabel = topRatedTitle ? formatStatTitle('Best:', topRatedTitle) : 'Best rated this month';
-            statTopRatedMeta.innerHTML = topRatedRangeLabel ? `${titleLabel} (${topRatedRangeLabel})` : titleLabel;
-          }
+          statsLoadInFlight = false;
+          return;
         } catch (error) {
           console.log('Error loading notification stats:', error);
-          setStatValue('statNewCount', NaN);
-          setStatValue('statUpcomingCount', NaN);
-          setStatValue('statFavoritesCount', NaN);
-          setStatValue('statWatchlistsCount', NaN);
-          if (statNewMeta) statNewMeta.textContent = 'Temporarily unavailable';
-          if (statUpcomingMeta) statUpcomingMeta.textContent = 'Temporarily unavailable';
-          if (statTrendingMeta) statTrendingMeta.textContent = 'Temporarily unavailable';
-          if (statTopRatedMeta) statTopRatedMeta.textContent = 'Temporarily unavailable';
+          statsLoadAttempts += 1;
+          statsLoadInFlight = false;
+          if (statsLoadAttempts < MAX_STATS_ATTEMPTS) {
+            setTimeout(() => {
+              loadNotificationStats();
+            }, 800 * statsLoadAttempts);
+            return;
+          }
+          if (cached) {
+            applyStats(cached);
+          } else {
+            applyStats({
+              newCount: 'N/A',
+              upcomingCount: 'N/A',
+              trendingScore: 'N/A',
+              topRatedScore: 'N/A',
+              meta: {
+                newMeta: 'Temporarily unavailable',
+                upcomingMeta: 'Temporarily unavailable',
+                trendingMeta: 'Temporarily unavailable',
+                topRatedMeta: 'Temporarily unavailable',
+              },
+            });
+          }
+          if (statsSection) {
+            statsSection.classList.remove('is-loading');
+          }
+          if (typeof hideSpinner === 'function') {
+            hideSpinner();
+          }
+          statsLoadInFlight = false;
         }
       }
 

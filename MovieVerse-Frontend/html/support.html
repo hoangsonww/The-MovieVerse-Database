@@ -127,6 +127,18 @@
       .form-container h1 {
         color: #ff8623;
       }
+      .form-container h2 {
+        color: black;
+        margin-bottom: 10px;
+      }
+      .form-container .auth-icon {
+        display: inline-block;
+        font-size: 3.25rem;
+        color: #000000;
+        margin-top: 12px;
+        margin-bottom: 10px;
+        line-height: 1;
+      }
       .form-container input,
       .form-container textarea,
       .form-container button {
@@ -754,7 +766,8 @@
       </button>
     </header>
     <div class="form-container" style="animation: fadeIn 1.5s ease-in-out">
-      <div style="font-weight: bold; font-size: 28px; margin-top: 10px">Contact Support</div>
+      <i class="fas fa-headset auth-icon" aria-hidden="true"></i>
+      <h2>Contact Support</h2>
       <p style="color: black">Have a question or need help? Contact us and we'll take a look at your request as soon as possible.</p>
       <form action="https://formspree.io/f/xdoqzzao" method="POST">
         <input type="text" id="name" name="name" placeholder="Your Name" required />

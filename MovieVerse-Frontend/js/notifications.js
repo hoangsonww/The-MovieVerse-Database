@@ -73,15 +73,19 @@ async function initNotifications() {
 
   const heroItem = pickHero(trendingResults, nowPlayingResults, upcomingResults);
   await renderHero(heroItem);
-  updateStats({
-    newReleases: newReleaseResults,
-    upcoming: upcomingResults,
-    trending: trendingResults,
-    topRatedMonth: topRatedMonthResults,
-    lastVisit,
-    monthStart,
-    today,
-  });
+  const statsSection = document.getElementById('todayPulse');
+  const usesInlineStats = statsSection?.dataset?.statsSource === 'inline';
+  if (!usesInlineStats) {
+    updateStats({
+      newReleases: newReleaseResults,
+      upcoming: upcomingResults,
+      trending: trendingResults,
+      topRatedMonth: topRatedMonthResults,
+      lastVisit,
+      monthStart,
+      today,
+    });
+  }
   renderRadar(airingResults, nowPlayingResults, peopleResults);
   renderRails({
     newReleases: newReleaseResults,
