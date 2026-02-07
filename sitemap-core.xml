@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://movie-verse.com/</loc>
+    <lastmod>2026-02-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.00</priority>
+    <image:image>
+      <image:loc>https://movie-verse.com/images/image.png</image:loc>
+      <image:title>The MovieVerse - Explore Movies, TV Series, and More</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://movie-verse.com/MovieVerse-Frontend/html/about.html</loc>
+    <lastmod>2026-02-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://movie-verse.com/images/image.png</image:loc>
+      <image:title>About The MovieVerse - Your Ultimate Movie Guide</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://movie-verse.com/MovieVerse-Frontend/html/actor-details.html</loc>
+    <lastmod>2026-02-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://movie-verse.com/images/image.png</image:loc>
+      <image:title>Actor Details - The MovieVerse</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://movie-verse.com/MovieVerse-Frontend/html/analytics.html</loc>
+    <lastmod>2026-02-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://movie-verse.com/images/image.png</image:loc>
+      <image:title>Database Analytics - The MovieVerse</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://movie-verse.com/MovieVerse-Frontend/html/christopher-nolan.html</loc>
+    <lastmod>2026-02-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.84</priority>
+    <image:image>
+      <image:loc>https://movie-verse.com/images/image.png</image:loc>
+      <image:title>Director Details - Explore More About Christopher Nolan</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://movie-verse.com/MovieVerse-Frontend/html/company-details.html</loc>
+    <lastmod>2026-02-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
+    <image:image>
+      <image:loc>https://movie-verse.com/images/image.png</image:loc>
+      <image:title>Company Details - The MovieVerse</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://movie-verse.com/MovieVerse-Frontend/html/director-details.html</loc>
+    <lastmod>2026-02-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://movie-verse.com/images/image.png</image:loc>
+      <image:title>Director Details - The MovieVerse</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://movie-verse.com/MovieVerse-Frontend/html/games.html</loc>
+    <lastmod>2026-02-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://movie-verse.com/images/image.png</image:loc>
+      <image:title>Games - The MovieVerse</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://movie-verse.com/MovieVerse-Frontend/html/how-to-play.html</loc>
+    <lastmod>2026-02-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://movie-verse.com/images/image.png</image:loc>
+      <image:title>How to Play - The MovieVerse</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://movie-verse.com/MovieVerse-Frontend/html/inception.html</loc>
+    <lastmod>2026-02-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.86</priority>
+    <image:image>
+      <image:loc>https://movie-verse.com/images/inception.jpg</image:loc>
+      <image:title>Movie Details - Explore Inception by Christopher Nolan</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://movie-verse.com/MovieVerse-Frontend/html/leaderboards.html</loc>
+    <lastmod>2026-02-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://movie-verse.com/images/image.png</image:loc>
+      <image:title>Game Leaderboards - The MovieVerse</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://movie-verse.com/MovieVerse-Frontend/html/leonardo-dicaprio.html</loc>
+    <lastmod>2026-02-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.84</priority>
+    <image:image>
+      <image:loc>https://movie-verse.com/images/image.png</image:loc>
+      <image:title>Actor Details - Leonardo DiCaprio</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://movie-verse.com/MovieVerse-Frontend/html/movie-details.html</loc>
+    <lastmod>2026-02-03</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.92</priority>
+    <image:image>
+      <image:loc>https://movie-verse.com/images/image.png</image:loc>
+      <image:title>Movie Details - The MovieVerse</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://movie-verse.com/MovieVerse-Frontend/html/movie-match.html</loc>
+    <lastmod>2026-02-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://movie-verse.com/images/image.png</image:loc>
+      <image:title>Movie Match - The MovieVerse</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://movie-verse.com/MovieVerse-Frontend/html/movie-timeline.html</loc>
+    <lastmod>2026-02-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://movie-verse.com/images/image.png</image:loc>
+      <image:title>Movie Timeline - The MovieVerse</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://movie-verse.com/MovieVerse-Frontend/html/privacy-policy.html</loc>
+    <lastmod>2026-02-03</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.45</priority>
+    <image:image>
+      <image:loc>https://movie-verse.com/images/image.png</image:loc>
+      <image:title>Privacy Policy - The MovieVerse</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://movie-verse.com/MovieVerse-Frontend/html/search.html</loc>
+    <lastmod>2026-02-03</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+    <image:image>
+      <image:loc>https://movie-verse.com/images/image.png</image:loc>
+      <image:title>Search Results - The MovieVerse</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://movie-verse.com/MovieVerse-Frontend/html/support.html</loc>
+    <lastmod>2026-02-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://movie-verse.com/images/image.png</image:loc>
+      <image:title>Support - The MovieVerse</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://movie-verse.com/MovieVerse-Frontend/html/terms-of-service.html</loc>
+    <lastmod>2026-02-03</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.45</priority>
+    <image:image>
+      <image:loc>https://movie-verse.com/images/image.png</image:loc>
+      <image:title>Terms of Service - The MovieVerse</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://movie-verse.com/MovieVerse-Frontend/html/trivia.html</loc>
+    <lastmod>2026-02-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://movie-verse.com/images/image.png</image:loc>
+      <image:title>MovieVerse Trivia - Test Your Movie Knowledge</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://movie-verse.com/MovieVerse-Frontend/html/tv-details.html</loc>
+    <lastmod>2026-02-03</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://movie-verse.com/images/image.png</image:loc>
+      <image:title>TV Series Details - The MovieVerse</image:title>
+    </image:image>
+  </url>
+</urlset>

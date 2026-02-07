@@ -1,4 +1,15 @@
 User-agent: *
-Disallow:
+Allow: /
+Disallow: /MovieVerse-Backend/
+Disallow: /MovieVerse-Config/
+Disallow: /MovieVerse-Design/
+Disallow: /MovieVerse-Middleware/
+Disallow: /MovieVerse-Mobile/
+Disallow: /MovieVerse-Scripts/
+Disallow: /MovieVerse-Utilities/
+Disallow: /node_modules/
+Disallow: /venv/
+Disallow: /.git/
+Disallow: /*?*
 
 Sitemap: https://movie-verse.com/sitemap.xml

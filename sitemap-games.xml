@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://movie-verse.com/MovieVerse-Frontend/html/catch-popcorn.html</loc>
+    <lastmod>2026-02-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.68</priority>
+    <image:image>
+      <image:loc>https://movie-verse.com/images/image.png</image:loc>
+      <image:title>Catch the Popcorn - The MovieVerse</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://movie-verse.com/MovieVerse-Frontend/html/dinosaur-jump.html</loc>
+    <lastmod>2026-02-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.68</priority>
+    <image:image>
+      <image:loc>https://movie-verse.com/images/image.png</image:loc>
+      <image:title>Dinosaur Jump - The MovieVerse</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://movie-verse.com/MovieVerse-Frontend/html/falling-stars.html</loc>
+    <lastmod>2026-02-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.68</priority>
+    <image:image>
+      <image:loc>https://movie-verse.com/images/image.png</image:loc>
+      <image:title>Falling Star - The MovieVerse</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://movie-verse.com/MovieVerse-Frontend/html/flappy-bird.html</loc>
+    <lastmod>2026-02-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.68</priority>
+    <image:image>
+      <image:loc>https://movie-verse.com/images/image.png</image:loc>
+      <image:title>Flappy Bird - The MovieVerse</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://movie-verse.com/MovieVerse-Frontend/html/space-invaders.html</loc>
+    <lastmod>2026-02-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.68</priority>
+    <image:image>
+      <image:loc>https://movie-verse.com/images/image.png</image:loc>
+      <image:title>Space Invaders - The MovieVerse</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://movie-verse.com/MovieVerse-Frontend/html/stack-blocks.html</loc>
+    <lastmod>2026-02-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.68</priority>
+    <image:image>
+      <image:loc>https://movie-verse.com/images/image.png</image:loc>
+      <image:title>Stack the Blocks - The MovieVerse</image:title>
+    </image:image>
+  </url>
+</urlset>

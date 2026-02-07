@@ -1959,6 +1959,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 const DATABASEURL = `https://${getMovieVerseData()}/3/discover/movie?sort_by=popularity.desc&${generateMovieNames()}${getMovieCode()}`;
 const IMGPATH = `https://image.tmdb.org/t/p/w500`;
+const SPOTLIGHT_BACKDROP_IMGPATH = `https://image.tmdb.org/t/p/w1280`;
 const SEARCHPATH = `https://${getMovieVerseData()}/3/search/movie?&${generateMovieNames()}${getMovieCode()}&query=`;
 
 const directors = [
@@ -2543,7 +2544,7 @@ function buildTrendingSlide(item, index) {
   const genresMarkup = genres.length
     ? genres.map(name => `<span class="hero-tag">${escapeTrendingText(name)}</span>`).join('')
     : `<span class="hero-tag">Trending</span>`;
-  const backdropUrl = item.backdrop_path ? `${IMGPATH}${item.backdrop_path}` : '';
+  const backdropUrl = item.backdrop_path ? `${SPOTLIGHT_BACKDROP_IMGPATH}${item.backdrop_path}` : '';
   const posterUrl = item.poster_path ? `${IMGPATH}${item.poster_path}` : '';
   const backdropStyle = backdropUrl ? ` style="background-image: url('${backdropUrl}');"` : '';
   const posterMarkup = posterUrl ? `<img src="${posterUrl}" alt="${title} poster" loading="lazy" />` : '';

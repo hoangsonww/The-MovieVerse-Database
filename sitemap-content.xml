@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://movie-verse.com/MovieVerse-Frontend/html/blog-cinematography.html</loc>
+    <lastmod>2026-02-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.78</priority>
+    <image:image>
+      <image:loc>https://movie-verse.com/images/image-512x512.png</image:loc>
+      <image:title>Cinematography: The Language of the Lens – The MovieVerse</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://movie-verse.com/MovieVerse-Frontend/html/blog-editing.html</loc>
+    <lastmod>2026-02-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.78</priority>
+    <image:image>
+      <image:loc>https://movie-verse.com/images/image-512x512.png</image:loc>
+      <image:title>Film Editing: The Invisible Art – The MovieVerse</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://movie-verse.com/MovieVerse-Frontend/html/blog-inception.html</loc>
+    <lastmod>2026-02-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.78</priority>
+    <image:image>
+      <image:loc>https://movie-verse.com/images/image.png</image:loc>
+      <image:title>How to Watch “Inception” – The MovieVerse</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://movie-verse.com/MovieVerse-Frontend/html/blog-production.html</loc>
+    <lastmod>2026-02-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.78</priority>
+    <image:image>
+      <image:loc>https://movie-verse.com/images/image-192x192.png</image:loc>
+      <image:title>Production Design: Crafting Cinematic Worlds – The MovieVerse</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://movie-verse.com/MovieVerse-Frontend/html/blog-scoring.html</loc>
+    <lastmod>2026-02-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.78</priority>
+    <image:image>
+      <image:loc>https://movie-verse.com/images/image-192x192.png</image:loc>
+      <image:title>Film Scoring: Composing the Emotional Underscore – The MovieVerse</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://movie-verse.com/MovieVerse-Frontend/html/blog-screenwriting.html</loc>
+    <lastmod>2026-02-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.78</priority>
+    <image:image>
+      <image:loc>https://movie-verse.com/images/image-192x192.png</image:loc>
+      <image:title>Screenwriting: Crafting the Story’s Blueprint – The MovieVerse</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://movie-verse.com/MovieVerse-Frontend/html/blog-sound.html</loc>
+    <lastmod>2026-02-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.78</priority>
+    <image:image>
+      <image:loc>https://movie-verse.com/images/image-192x192.png</image:loc>
+      <image:title>The Art and Evolution of Cinematic Sound Design – The MovieVerse</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://movie-verse.com/MovieVerse-Frontend/html/blog-special-effects.html</loc>
+    <lastmod>2026-02-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.78</priority>
+    <image:image>
+      <image:loc>https://movie-verse.com/images/image-192x192.png</image:loc>
+      <image:title>The Evolution of Special Effects in Cinema – The MovieVerse</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://movie-verse.com/MovieVerse-Frontend/html/blog-vfx.html</loc>
+    <lastmod>2026-02-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.78</priority>
+    <image:image>
+      <image:loc>https://movie-verse.com/images/image-192x192.png</image:loc>
+      <image:title>Visual Effects: From Practical to Digital – The MovieVerse</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://movie-verse.com/MovieVerse-Frontend/html/blogs.html</loc>
+    <lastmod>2026-02-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
+    <image:image>
+      <image:loc>https://movie-verse.com/images/image-192x192.png</image:loc>
+      <image:title>Blog – The MovieVerse</image:title>
+    </image:image>
+  </url>
+</urlset>
