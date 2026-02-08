@@ -2,7 +2,15 @@
 
 # Ignore node modules
 node_modules
+
+# Ignore build output directories
+dist
+build
+
+# Ignore environment variable files
 .env
+
+# Ignore Python virtual environments
 venv
 
 # Ignore the Emscripten SDK
