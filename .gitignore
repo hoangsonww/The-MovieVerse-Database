@@ -3,6 +3,7 @@
 # Ignore node modules
 node_modules
 .env
+venv
 
 # Ignore the Emscripten SDK
 emsdk/
