@@ -2213,28 +2213,28 @@
       <i class="fas fa-ellipsis-h"></i><br />
       <span>Menu</span>
     </button>
-    <footer style="margin-top: 40px">
-      <p id="footer">© <span id="year"></span> The MovieVerse. All rights reserved.</p>
-      <p>
-        Learn more
-        <a href="MovieVerse-Frontend/html/about.html" id="githubLink10">about The MovieVerse</a>, its
-        <a href="MovieVerse-Frontend/html/blogs.html" id="githubLink10">blogs</a>, and
-        <a href="MovieVerse-Frontend/html/notifications.html" id="githubLink8">what we offer.</a>
-      </p>
-      <p style="font-size: 0.1px">
-        View our demos at:
-        <a href="MovieVerse-Frontend/html/inception.html" id="githubLink11">Inception</a>,
-        <a href="MovieVerse-Frontend/html/christopher-nolan.html" id="githubLink16">Christopher Nolan</a>,
-        <a href="MovieVerse-Frontend/html/leonardo-dicaprio.html" id="githubLink9">Leonardo DiCaprio</a>, use our
-        <a href="MovieVerse-Frontend/html/chat.html" id="githubLink14">chat application</a>, or explore the
-        <a href="MovieVerse-Frontend/html/user-profile.html" id="githubLink5">profile feature</a>!
-      </p>
+    <footer>
+      <a href="../../index.html" style="cursor: pointer; text-decoration: none">
+        <p id="footer" style="cursor: pointer; text-decoration: none">© <span id="year"></span> The MovieVerse. All rights reserved.</p>
+      </a>
+      <nav class="seo-crawl-links" aria-label="SEO crawl links">
+        <a href="MovieVerse-Frontend/html/about.html">About</a>
+        <a href="MovieVerse-Frontend/html/search.html">Search</a>
+        <a href="MovieVerse-Frontend/html/movie-details.html">Movie Details</a>
+        <a href="MovieVerse-Frontend/html/tv-details.html">TV Details</a>
+        <a href="MovieVerse-Frontend/html/actor-details.html">Actor Details</a>
+        <a href="MovieVerse-Frontend/html/director-details.html">Director Details</a>
+        <a href="MovieVerse-Frontend/html/company-details.html">Company Details</a>
+        <a href="MovieVerse-Frontend/html/blogs.html">Blogs</a>
+        <a href="MovieVerse-Frontend/html/games.html">Games</a>
+        <a href="MovieVerse-Frontend/html/trivia.html">Trivia</a>
+        <a href="MovieVerse-Frontend/html/support.html">Support</a>
+        <a href="MovieVerse-Frontend/html/privacy-policy.html">Privacy Policy</a>
+        <a href="MovieVerse-Frontend/html/terms-of-service.html">Terms of Service</a>
+      </nav>
     </footer>
     <script>
-      // Get the current year
       const currentYear = new Date().getFullYear();
-
-      // Update the year in the footer
       document.getElementById('year').textContent = currentYear;
     </script>
     <div id="google_translate_element"></div>
@@ -2765,6 +2765,15 @@
   </body>
 
   <style>
+    .seo-crawl-links {
+      position: absolute;
+      left: -9999px;
+      top: auto;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      white-space: nowrap;
+    }
     #githubLink {
       color: white !important;
     }
