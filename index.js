@@ -27,7 +27,11 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   movePagination();
-  window.addEventListener('resize', movePagination);
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(movePagination, 250);
+  });
 });
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -1361,17 +1365,11 @@ window.addEventListener('resize', () => {
   document.querySelectorAll('main').forEach(mainElement => initSpotlightCarousel(mainElement));
 });
 
-async function showMovies(movies, mainElement, options = {}) {
-  const mediaType = options.mediaType === 'tv' ? 'tv' : options.mediaType === 'mixed' ? 'mixed' : 'movie';
-  const isMixed = mediaType === 'mixed';
-
-  if (!options.append) {
-    mainElement.innerHTML = '';
-  }
-
-  // Inject CSS for the sliding-up animation effect with delay support
-  const style = document.createElement('style');
-  style.innerHTML = `
+// Inject movie animation CSS once
+if (!document.getElementById('movie-animation-style')) {
+  const movieStyle = document.createElement('style');
+  movieStyle.id = 'movie-animation-style';
+  movieStyle.innerHTML = `
     .movie {
       opacity: 0;
       transform: translateY(20px);
@@ -1386,7 +1384,16 @@ async function showMovies(movies, mainElement, options = {}) {
       transform: translateY(0);
     }
   `;
-  document.head.appendChild(style);
+  document.head.appendChild(movieStyle);
+}
+
+async function showMovies(movies, mainElement, options = {}) {
+  const mediaType = options.mediaType === 'tv' ? 'tv' : options.mediaType === 'mixed' ? 'mixed' : 'movie';
+  const isMixed = mediaType === 'mixed';
+
+  if (!options.append) {
+    mainElement.innerHTML = '';
+  }
 
   // Observer to trigger the slide-up animation with a staggered delay
   const slideObserver = new IntersectionObserver(
@@ -1409,7 +1416,8 @@ async function showMovies(movies, mainElement, options = {}) {
     }
   );
 
-  // Observer for background image loading and rotation setup
+  // Observer for background image loading and rotation setup (skip on mobile for performance)
+  const isMobileView = window.innerWidth <= 768;
   const imageObserver = new IntersectionObserver(
     async (entries, observer) => {
       for (const entry of entries) {
@@ -1423,15 +1431,22 @@ async function showMovies(movies, mainElement, options = {}) {
           if (!movieEl.dataset.posterPath || typeof IMGPATH === 'undefined') {
             movieImageContainer.innerHTML = `<div style="color: inherit; font-weight: bold; text-align: center; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;">Image Not Available</div>`;
             observer.unobserve(movieEl);
-            continue; // Skip the rest of the loop for this movie
+            continue;
           }
 
-          // Fetch additional posters and set up rotation in the background
+          // On mobile: skip fetching additional posters entirely — just show the single poster
+          if (isMobileView) {
+            observer.unobserve(movieEl);
+            continue;
+          }
+
+          // Desktop: fetch additional posters and set up rotation
           const additionalPosters = await getAdditionalPosters(movieId, posterMediaType);
           let allPosters = [movieEl.dataset.posterPath, ...additionalPosters];
 
-          // Shuffle and limit to 10 posters
-          allPosters = allPosters.sort(() => 0.5 - Math.random()).slice(0, 10);
+          // Shuffle and limit to 3 posters on smaller screens, 5 on large
+          const maxPosters = window.innerWidth <= 1200 ? 3 : 5;
+          allPosters = allPosters.sort(() => 0.5 - Math.random()).slice(0, maxPosters);
 
           // Load images in the background
           allPosters.forEach((poster, index) => {
@@ -1450,11 +1465,11 @@ async function showMovies(movies, mainElement, options = {}) {
             movieImageContainer.appendChild(img);
 
             img.onload = () => {
-              if (index === 0) img.style.opacity = '1'; // Show the first image
+              if (index === 0) img.style.opacity = '1';
             };
           });
 
-          // Start rotating images in the background only if there are valid images
+          // Start rotating images only if there are valid images
           if (allPosters.length > 1) {
             rotateImages(Array.from(movieImageContainer.children));
           }
@@ -1854,6 +1869,10 @@ function fallbackMovieSelection() {
 }
 
 function calculateMoviesToDisplay() {
+  const width = window.innerWidth;
+  if (width <= 480) return 6;
+  if (width <= 768) return 10;
+  if (width <= 1200) return 15;
   return API_PAGE_SIZE;
 }
 
@@ -2067,21 +2086,6 @@ function updateDirectorPagination() {
 async function showMoviesDirectorSpotlight(movies) {
   director_main.innerHTML = '';
 
-  // Inject CSS for the sliding-up animation effect with delay support
-  const style = document.createElement('style');
-  style.innerHTML = `
-    .movie {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-    .movie.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  `;
-  document.head.appendChild(style);
-
   // Observer to trigger the slide-up animation with a staggered delay
   const slideObserver = new IntersectionObserver(
     entries => {
@@ -2100,7 +2104,8 @@ async function showMoviesDirectorSpotlight(movies) {
     }
   );
 
-  // Observer for background image loading and rotation setup
+  // Observer for background image loading and rotation setup (skip on mobile)
+  const isMobileSpotlight = window.innerWidth <= 768;
   const imageObserver = new IntersectionObserver(
     async (entries, observer) => {
       for (const entry of entries) {
@@ -2109,21 +2114,23 @@ async function showMoviesDirectorSpotlight(movies) {
           const movieId = movieEl.dataset.id;
           const movieImageContainer = movieEl.querySelector('.movie-images');
 
-          // If there's no valid poster_path, do not run rotation
           if (!movieEl.dataset.posterPath || typeof IMGPATH === 'undefined') {
             movieImageContainer.innerHTML = `<div style="color: inherit; font-weight: bold; text-align: center; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;">Image Not Available</div>`;
             observer.unobserve(movieEl);
             continue;
           }
 
-          // Fetch additional posters and set up rotation in the background
+          if (isMobileSpotlight) {
+            observer.unobserve(movieEl);
+            continue;
+          }
+
           const additionalPosters = await getAdditionalPosters(movieId);
           let allPosters = [movieEl.dataset.posterPath, ...additionalPosters];
 
-          // Shuffle and limit to 10 posters
-          allPosters = allPosters.sort(() => 0.5 - Math.random()).slice(0, 10);
+          const maxPosters = window.innerWidth <= 1200 ? 3 : 5;
+          allPosters = allPosters.sort(() => 0.5 - Math.random()).slice(0, maxPosters);
 
-          // Load images in the background
           allPosters.forEach((poster, index) => {
             const img = new Image();
             img.src = `${IMGPATH + poster}`;
@@ -2144,7 +2151,6 @@ async function showMoviesDirectorSpotlight(movies) {
             };
           });
 
-          // Start rotating images in the background only if there are valid images
           if (allPosters.length > 1) {
             rotateImages(Array.from(movieImageContainer.children));
           }
@@ -2261,183 +2267,87 @@ function updateSignInButtonState() {
   }
 }
 
-setupPagination(
-  'award-winning',
-  'award-winning-pagination',
-  'award-winning-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=1000`
+// Lazy-load sections: only fetch data and render when a section scrolls near the viewport
+const lazySections = [
+  ['award-winning', 'award-winning-pagination', 'award-winning-div',
+    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=1000`],
+  ['hidden-gems', 'hidden-gems-pagination', 'hidden-gems-div',
+    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&vote_average.gte=7&popularity.lte=10`],
+  ['western', 'western-pagination', 'western-div',
+    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=37&sort_by=popularity.desc&vote_count.gte=8`],
+  ['war', 'war-pagination', 'war-div',
+    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10752&sort_by=popularity.desc&vote_count.gte=8`],
+  ['vietnamese', 'vietnamese-pagination', 'vietnamese-div',
+    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_original_language=vi&sort_by=popularity.desc`],
+  ['korean', 'korean-pagination', 'korean-div',
+    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_original_language=ko&sort_by=vote_average.desc,popularity.desc&vote_count.gte=10&vote_average.gte=8`],
+  ['musical', 'musical-pagination', 'musical-div',
+    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10402&sort_by=popularity.desc&vote_count.gte=8`],
+  ['drama', 'drama-pagination', 'drama-div',
+    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=18&sort_by=popularity.desc&vote_count.gte=8`],
+  ['indian', 'indian-pagination', 'indian-div',
+    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_original_language=hi&sort_by=popularity.desc`],
+  ['action', 'action-pagination', 'action-div',
+    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=28&sort_by=popularity.desc&vote_count.gte=8`],
+  ['horror', 'horror-pagination', 'horror-div',
+    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=27&sort_by=popularity.desc&vote_count.gte=8`],
+  ['documentary', 'documentary-pagination', 'documentary-div',
+    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=99&sort_by=popularity.desc&vote_count.gte=8`],
+  ['animation', 'animation-pagination', 'animation-div',
+    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=16&sort_by=popularity.desc&vote_count.gte=8`],
+  ['sci-fi', 'sci-fi-pagination', 'sci-fi-div',
+    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=878&sort_by=popularity.desc&vote_count.gte=8`],
+  ['romantic', 'romantic-pagination', 'romantic-div',
+    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10749&sort_by=popularity.desc&vote_count.gte=8`],
+  ['thriller', 'thriller-pagination', 'thriller-div',
+    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=53&sort_by=popularity.desc&vote_count.gte=8`],
+  ['mystery', 'mystery-pagination', 'mystery-div',
+    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=9648&sort_by=popularity.desc&vote_count.gte=8`],
+  ['comedy', 'comedy-pagination', 'comedy-div',
+    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=35&sort_by=popularity.desc&vote_count.gte=8`],
+  ['fantasy', 'fantasy-pagination', 'fantasy-div',
+    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=14&sort_by=popularity.desc&vote_count.gte=8`],
+  ['family', 'family-pagination', 'family-div',
+    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10751&sort_by=popularity.desc&vote_count.gte=8`],
+  ['tv-series', 'tv-series-pagination', 'tv-series-div',
+    () => `https://${getMovieVerseData()}/3/tv/popular?${generateMovieNames()}${getMovieCode()}`,
+    { mediaType: 'tv' }],
+  ['top-rated-tv-series', 'top-rated-tv-series-pagination', 'top-rated-tv-series-div',
+    () => `https://${getMovieVerseData()}/3/tv/top_rated?${generateMovieNames()}${getMovieCode()}`,
+    { mediaType: 'tv' }],
+  ['airing-today-tv-series', 'airing-today-tv-series-pagination', 'airing-today-tv-series-div',
+    () => `https://${getMovieVerseData()}/3/tv/airing_today?${generateMovieNames()}${getMovieCode()}`,
+    { mediaType: 'tv' }],
+  ['crime', 'crime-pagination', 'crime-div',
+    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=80&sort_by=popularity.desc&vote_count.gte=8`],
+  ['classic', 'classic-pagination', 'classic-div',
+    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=popularity.desc&release_date.lte=1980`],
+];
+
+const sectionObserver = new IntersectionObserver(
+  (entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const config = el._lazySectionConfig;
+        if (config) {
+          setupPagination(config[0], config[1], config[2], config[3](), config[4]);
+          delete el._lazySectionConfig;
+        }
+        observer.unobserve(el);
+      }
+    });
+  },
+  { rootMargin: '400px 0px' }
 );
 
-setupPagination(
-  'hidden-gems',
-  'hidden-gems-pagination',
-  'hidden-gems-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&vote_average.gte=7&popularity.lte=10`
-);
-
-setupPagination(
-  'western',
-  'western-pagination',
-  'western-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=37&sort_by=popularity.desc&vote_count.gte=8`
-);
-
-setupPagination(
-  'war',
-  'war-pagination',
-  'war-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10752&sort_by=popularity.desc&vote_count.gte=8`
-);
-
-setupPagination(
-  'vietnamese',
-  'vietnamese-pagination',
-  'vietnamese-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_original_language=vi&sort_by=popularity.desc`
-);
-
-setupPagination(
-  'korean',
-  'korean-pagination',
-  'korean-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_original_language=ko&sort_by=vote_average.desc,popularity.desc&vote_count.gte=10&vote_average.gte=8`
-);
-
-setupPagination(
-  'musical',
-  'musical-pagination',
-  'musical-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10402&sort_by=popularity.desc&vote_count.gte=8`
-);
-
-setupPagination(
-  'drama',
-  'drama-pagination',
-  'drama-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=18&sort_by=popularity.desc&vote_count.gte=8`
-);
-
-setupPagination(
-  'indian',
-  'indian-pagination',
-  'indian-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_original_language=hi&sort_by=popularity.desc`
-);
-
-setupPagination(
-  'action',
-  'action-pagination',
-  'action-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=28&sort_by=popularity.desc&vote_count.gte=8`
-);
-
-setupPagination(
-  'horror',
-  'horror-pagination',
-  'horror-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=27&sort_by=popularity.desc&vote_count.gte=8`
-);
-
-setupPagination(
-  'documentary',
-  'documentary-pagination',
-  'documentary-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=99&sort_by=popularity.desc&vote_count.gte=8`
-);
-
-setupPagination(
-  'animation',
-  'animation-pagination',
-  'animation-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=16&sort_by=popularity.desc&vote_count.gte=8`
-);
-
-setupPagination(
-  'sci-fi',
-  'sci-fi-pagination',
-  'sci-fi-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=878&sort_by=popularity.desc&vote_count.gte=8`
-);
-
-setupPagination(
-  'romantic',
-  'romantic-pagination',
-  'romantic-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10749&sort_by=popularity.desc&vote_count.gte=8`
-);
-
-setupPagination(
-  'thriller',
-  'thriller-pagination',
-  'thriller-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=53&sort_by=popularity.desc&vote_count.gte=8`
-);
-
-setupPagination(
-  'mystery',
-  'mystery-pagination',
-  'mystery-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=9648&sort_by=popularity.desc&vote_count.gte=8`
-);
-
-setupPagination(
-  'comedy',
-  'comedy-pagination',
-  'comedy-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=35&sort_by=popularity.desc&vote_count.gte=8`
-);
-
-setupPagination(
-  'fantasy',
-  'fantasy-pagination',
-  'fantasy-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=14&sort_by=popularity.desc&vote_count.gte=8`
-);
-
-setupPagination(
-  'family',
-  'family-pagination',
-  'family-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10751&sort_by=popularity.desc&vote_count.gte=8`
-);
-
-setupPagination(
-  'tv-series',
-  'tv-series-pagination',
-  'tv-series-div',
-  `https://${getMovieVerseData()}/3/tv/popular?${generateMovieNames()}${getMovieCode()}`,
-  { mediaType: 'tv' }
-);
-
-setupPagination(
-  'top-rated-tv-series',
-  'top-rated-tv-series-pagination',
-  'top-rated-tv-series-div',
-  `https://${getMovieVerseData()}/3/tv/top_rated?${generateMovieNames()}${getMovieCode()}`,
-  { mediaType: 'tv' }
-);
-
-setupPagination(
-  'airing-today-tv-series',
-  'airing-today-tv-series-pagination',
-  'airing-today-tv-series-div',
-  `https://${getMovieVerseData()}/3/tv/airing_today?${generateMovieNames()}${getMovieCode()}`,
-  { mediaType: 'tv' }
-);
-
-setupPagination(
-  'crime',
-  'crime-pagination',
-  'crime-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=80&sort_by=popularity.desc&vote_count.gte=8`
-);
-
-setupPagination(
-  'classic',
-  'classic-pagination',
-  'classic-div',
-  `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=popularity.desc&release_date.lte=1980`
-);
+lazySections.forEach(config => {
+  const genresDiv = document.getElementById(config[2]);
+  if (genresDiv) {
+    genresDiv._lazySectionConfig = config;
+    sectionObserver.observe(genresDiv);
+  }
+});
 
 document.addEventListener('DOMContentLoaded', function () {
   updateSignInButtonState();

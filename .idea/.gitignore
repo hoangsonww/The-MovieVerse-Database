@@ -5,3 +5,6 @@
 /httpRequests/
 # GitHub Copilot persisted chat sessions
 /copilot/chatSessions
+/dataSources/
+/dataSources.local.xml
+/dataSources.xml
