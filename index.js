@@ -1869,10 +1869,6 @@ function fallbackMovieSelection() {
 }
 
 function calculateMoviesToDisplay() {
-  const width = window.innerWidth;
-  if (width <= 480) return 6;
-  if (width <= 768) return 10;
-  if (width <= 1200) return 15;
   return API_PAGE_SIZE;
 }
 

@@ -575,31 +575,6 @@ document.getElementById('load-movies').addEventListener('click', () => {
 });
 
 function calculateMoviesToDisplay() {
-  const screenWidth = window.innerWidth;
-  if (screenWidth <= 689.9) return 10; // 1 movie per row
-  if (screenWidth <= 1021.24) return 20; // 2 movies per row
-  if (screenWidth <= 1353.74) return 21; // 3 movies per row
-  if (screenWidth <= 1684.9) return 20; // 4 movies per row
-  if (screenWidth <= 2017.49) return 20; // 5 movies per row
-  if (screenWidth <= 2349.99) return 18; // 6 movies per row
-  if (screenWidth <= 2681.99) return 21; // 7 movies per row
-  if (screenWidth <= 3014.49) return 24; // 8 movies per row
-  if (screenWidth <= 3345.99) return 27; // 9 movies per row
-  if (screenWidth <= 3677.99) return 20; // 10 movies per row
-  if (screenWidth <= 4009.99) return 22; // 11 movies per row
-  if (screenWidth <= 4340.99) return 24; // 12 movies per row
-  if (screenWidth <= 4673.49) return 26; // 13 movies per row
-  if (screenWidth <= 5005.99) return 28; // 14 movies per row
-  if (screenWidth <= 5337.99) return 30; // 15 movies per row
-  if (screenWidth <= 5669.99) return 32; // 16 movies per row
-  if (screenWidth <= 6001.99) return 34; // 17 movies per row
-  if (screenWidth <= 6333.99) return 36; // 18 movies per row
-  if (screenWidth <= 6665.99) return 38; // 19 movies per row
-  if (screenWidth <= 6997.99) return 40; // 20 movies per row
-  if (screenWidth <= 7329.99) return 42; // 21 movies per row
-  if (screenWidth <= 7661.99) return 44; // 22 movies per row
-  if (screenWidth <= 7993.99) return 46; // 23 movies per row
-  if (screenWidth <= 8325.99) return 48; // 24 movies per row
   return 20;
 }
 
