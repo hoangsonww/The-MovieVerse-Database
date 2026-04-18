@@ -1725,8 +1725,7 @@ function initSpotlightCarousel(mainElement) {
         if (currentCards.length) {
           const firstCard = currentCards[0];
           const currentLayout = getSpotlightLayout(track, currentCards);
-          const target =
-            currentLayout === 'left' ? 0 : Math.max(0, firstCard.offsetLeft - (track.clientWidth - firstCard.clientWidth) / 2);
+          const target = currentLayout === 'left' ? 0 : Math.max(0, firstCard.offsetLeft - (track.clientWidth - firstCard.clientWidth) / 2);
           if (Math.abs(track.scrollLeft - target) > 1) {
             track.scrollLeft = target;
           }
