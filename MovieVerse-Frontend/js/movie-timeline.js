@@ -556,26 +556,27 @@ function updateScrollProgress(mainElement) {
 
   progress.style.display = 'block';
 
-  // Map percent against actual first/last card snap positions so the thumb
-  // reads 0% when the first card is active and 100% when the last is active,
-  // regardless of scroll-snap padding or sub-pixel rounding.
-  let rangeStart = 0;
-  let rangeEnd = maxScroll;
   const cards = getSpotlightCards(mainElement);
+  let percent = 0;
+
   if (cards.length >= 2) {
     const layout = getSpotlightLayout(track, cards);
-    if (layout !== 'left') {
-      const first = cards[0];
-      const last = cards[cards.length - 1];
-      const firstSnap = first.offsetLeft - (track.clientWidth - first.clientWidth) / 2;
-      const lastSnap = last.offsetLeft - (track.clientWidth - last.clientWidth) / 2;
-      rangeStart = Math.max(0, Math.min(maxScroll, firstSnap));
-      rangeEnd = Math.max(0, Math.min(maxScroll, lastSnap));
+    const isScrubbing = mainElement.dataset.spotlightScrubbing === 'true';
+
+    if (layout === 'left' || isScrubbing) {
+      // Multi-card layout, or while the user is actively dragging the slider:
+      // follow raw scrollLeft so the thumb tracks the finger 1:1.
+      percent = Math.min(100, Math.max(0, (track.scrollLeft / maxScroll) * 100));
+    } else {
+      // Centered (one-card) layout: drive the thumb from the active-card
+      // index so scroll-snap jitter or ad-driven reflows can't leave the
+      // thumb out of sync with the card the user is actually viewing.
+      const activeIndex = Number(mainElement.dataset.spotlightIndex || 0);
+      const clampedIndex = Math.max(0, Math.min(cards.length - 1, activeIndex));
+      percent = (clampedIndex / (cards.length - 1)) * 100;
     }
   }
 
-  const range = rangeEnd - rangeStart;
-  const percent = range > 0 ? Math.min(100, Math.max(0, ((track.scrollLeft - rangeStart) / range) * 100)) : 0;
   slider.value = `${percent}`;
   slider.style.setProperty('--progress', `${percent}%`);
 }
