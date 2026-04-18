@@ -952,6 +952,15 @@ function updateScrollProgress(mainElement) {
 
   progress.style.display = 'block';
 
+  // Until the user actually interacts with the carousel, pin the thumb at 0%.
+  // Guards against scroll-snap, ad-driven reflows, and browser scroll
+  // restoration nudging the visual off the start position on fresh renders.
+  if (mainElement.dataset.spotlightPristine === 'true') {
+    slider.value = '0';
+    slider.style.setProperty('--progress', '0%');
+    return;
+  }
+
   // Map percent against actual first/last card snap positions so the thumb
   // reads 0% when the first card is active and 100% when the last is active,
   // regardless of scroll-snap padding or sub-pixel rounding.
@@ -1316,6 +1325,21 @@ function initSpotlightCarousel(mainElement) {
   const layout = getSpotlightLayout(track, cards);
   mainElement.classList.toggle('spotlight-multi', layout === 'left');
 
+  if (!hasStoredScroll && mainElement.dataset.spotlightPristine === undefined) {
+    mainElement.dataset.spotlightPristine = 'true';
+  }
+
+  if (!mainElement.dataset.spotlightInteractionBound) {
+    const markInteracted = () => {
+      mainElement.dataset.spotlightPristine = 'false';
+    };
+    mainElement.addEventListener('pointerdown', markInteracted, { passive: true });
+    mainElement.addEventListener('touchstart', markInteracted, { passive: true });
+    mainElement.addEventListener('wheel', markInteracted, { passive: true });
+    mainElement.addEventListener('keydown', markInteracted, { passive: true });
+    mainElement.dataset.spotlightInteractionBound = 'true';
+  }
+
   if (!track.dataset.spotlightBound) {
     let scrollTicking = false;
     track.addEventListener(
@@ -1326,7 +1350,9 @@ function initSpotlightCarousel(mainElement) {
         requestAnimationFrame(() => {
           track.dataset.spotlightScrollLeft = String(track.scrollLeft);
           mainElement.dataset.spotlightScrollLeft = String(track.scrollLeft);
-          mainElement.dataset.spotlightHasScroll = 'true';
+          if (mainElement.dataset.spotlightPristine !== 'true') {
+            mainElement.dataset.spotlightHasScroll = 'true';
+          }
           updateSpotlightState(mainElement);
           updateScrollProgress(mainElement);
           updateSpotlightNavVisibility(mainElement);
@@ -1336,6 +1362,29 @@ function initSpotlightCarousel(mainElement) {
       { passive: true }
     );
     track.dataset.spotlightBound = 'true';
+  }
+
+  if (!track.dataset.spotlightResizeObserved && typeof ResizeObserver !== 'undefined') {
+    const ro = new ResizeObserver(() => {
+      // Ad-driven reflows can leave the track snapped to a non-first card.
+      // While still pristine, force scrollLeft back to the first card's snap
+      // so the slider (and visible content) stay on the start.
+      if (mainElement.dataset.spotlightPristine === 'true') {
+        const currentCards = getSpotlightCards(mainElement);
+        if (currentCards.length) {
+          const firstCard = currentCards[0];
+          const currentLayout = getSpotlightLayout(track, currentCards);
+          const target =
+            currentLayout === 'left' ? 0 : Math.max(0, firstCard.offsetLeft - (track.clientWidth - firstCard.clientWidth) / 2);
+          if (Math.abs(track.scrollLeft - target) > 1) {
+            track.scrollLeft = target;
+          }
+        }
+      }
+      updateScrollProgress(mainElement);
+    });
+    ro.observe(track);
+    track.dataset.spotlightResizeObserved = 'true';
   }
 
   if (!mainElement.querySelector('.spotlight-prev')) {

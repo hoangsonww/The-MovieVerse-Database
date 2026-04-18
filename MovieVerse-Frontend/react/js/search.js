@@ -1193,6 +1193,21 @@ function initSpotlightCarousel(mainElement) {
   const layout = getSpotlightLayout(track, cards);
   mainElement.classList.toggle('spotlight-multi', layout === 'left');
 
+  if (mainElement.dataset.spotlightPristine === undefined) {
+    mainElement.dataset.spotlightPristine = 'true';
+  }
+
+  if (!mainElement.dataset.spotlightInteractionBound) {
+    const markInteracted = () => {
+      mainElement.dataset.spotlightPristine = 'false';
+    };
+    mainElement.addEventListener('pointerdown', markInteracted, { passive: true });
+    mainElement.addEventListener('touchstart', markInteracted, { passive: true });
+    mainElement.addEventListener('wheel', markInteracted, { passive: true });
+    mainElement.addEventListener('keydown', markInteracted, { passive: true });
+    mainElement.dataset.spotlightInteractionBound = 'true';
+  }
+
   if (!track.dataset.spotlightBound) {
     let scrollTicking = false;
     track.addEventListener(
@@ -1209,6 +1224,26 @@ function initSpotlightCarousel(mainElement) {
       { passive: true }
     );
     track.dataset.spotlightBound = 'true';
+  }
+
+  if (!track.dataset.spotlightResizeObserved && typeof ResizeObserver !== 'undefined') {
+    const ro = new ResizeObserver(() => {
+      if (mainElement.dataset.spotlightPristine === 'true') {
+        const currentCards = getSpotlightCards(mainElement);
+        if (currentCards.length) {
+          const first = currentCards[0];
+          const currentLayout = getSpotlightLayout(track, currentCards);
+          const target =
+            currentLayout === 'left' ? 0 : Math.max(0, first.offsetLeft - (track.clientWidth - first.clientWidth) / 2);
+          if (Math.abs(track.scrollLeft - target) > 1) {
+            track.scrollLeft = target;
+          }
+        }
+      }
+      updateScrollProgress(mainElement);
+    });
+    ro.observe(track);
+    track.dataset.spotlightResizeObserved = 'true';
   }
 
   if (!mainElement.querySelector('.spotlight-prev')) {
