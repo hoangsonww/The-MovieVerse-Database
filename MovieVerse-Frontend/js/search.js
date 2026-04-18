@@ -832,6 +832,11 @@ function ensureScrollProgress(mainElement) {
     progress.innerHTML =
       '<input class="scroll-progress-slider" type="range" min="0" max="100" step="0.1" value="0" aria-label="Carousel position" />';
     mainElement.appendChild(progress);
+    const slider = progress.querySelector('.scroll-progress-slider');
+    if (slider) {
+      slider.value = '0';
+      slider.style.setProperty('--progress', '0%');
+    }
   }
   return progress;
 }
@@ -851,7 +856,27 @@ function updateScrollProgress(mainElement) {
   }
 
   progress.style.display = 'block';
-  const percent = Math.min(100, Math.max(0, (track.scrollLeft / maxScroll) * 100));
+
+  // Map percent against actual first/last card snap positions so the thumb
+  // reads 0% when the first card is active and 100% when the last is active,
+  // regardless of scroll-snap padding or sub-pixel rounding.
+  let rangeStart = 0;
+  let rangeEnd = maxScroll;
+  const cards = getSpotlightCards(mainElement);
+  if (cards.length >= 2) {
+    const layout = getSpotlightLayout(track, cards);
+    if (layout !== 'left') {
+      const first = cards[0];
+      const last = cards[cards.length - 1];
+      const firstSnap = first.offsetLeft - (track.clientWidth - first.clientWidth) / 2;
+      const lastSnap = last.offsetLeft - (track.clientWidth - last.clientWidth) / 2;
+      rangeStart = Math.max(0, Math.min(maxScroll, firstSnap));
+      rangeEnd = Math.max(0, Math.min(maxScroll, lastSnap));
+    }
+  }
+
+  const range = rangeEnd - rangeStart;
+  const percent = range > 0 ? Math.min(100, Math.max(0, ((track.scrollLeft - rangeStart) / range) * 100)) : 0;
   slider.value = `${percent}`;
   slider.style.setProperty('--progress', `${percent}%`);
 }

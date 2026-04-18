@@ -927,6 +927,11 @@ function ensureScrollProgress(mainElement) {
     progress.innerHTML =
       '<input class="scroll-progress-slider" type="range" min="0" max="100" step="0.1" value="0" aria-label="Carousel position" />';
     mainElement.appendChild(progress);
+    const slider = progress.querySelector('.scroll-progress-slider');
+    if (slider) {
+      slider.value = '0';
+      slider.style.setProperty('--progress', '0%');
+    }
   }
   return progress;
 }
@@ -946,7 +951,27 @@ function updateScrollProgress(mainElement) {
   }
 
   progress.style.display = 'block';
-  const percent = Math.min(100, Math.max(0, (track.scrollLeft / maxScroll) * 100));
+
+  // Map percent against actual first/last card snap positions so the thumb
+  // reads 0% when the first card is active and 100% when the last is active,
+  // regardless of scroll-snap padding or sub-pixel rounding.
+  let rangeStart = 0;
+  let rangeEnd = maxScroll;
+  const cards = getSpotlightCards(mainElement);
+  if (cards.length >= 2) {
+    const layout = getSpotlightLayout(track, cards);
+    if (layout !== 'left') {
+      const first = cards[0];
+      const last = cards[cards.length - 1];
+      const firstSnap = first.offsetLeft - (track.clientWidth - first.clientWidth) / 2;
+      const lastSnap = last.offsetLeft - (track.clientWidth - last.clientWidth) / 2;
+      rangeStart = Math.max(0, Math.min(maxScroll, firstSnap));
+      rangeEnd = Math.max(0, Math.min(maxScroll, lastSnap));
+    }
+  }
+
+  const range = rangeEnd - rangeStart;
+  const percent = range > 0 ? Math.min(100, Math.max(0, ((track.scrollLeft - rangeStart) / range) * 100)) : 0;
   slider.value = `${percent}`;
   slider.style.setProperty('--progress', `${percent}%`);
 }
@@ -2265,59 +2290,179 @@ function updateSignInButtonState() {
 
 // Lazy-load sections: only fetch data and render when a section scrolls near the viewport
 const lazySections = [
-  ['award-winning', 'award-winning-pagination', 'award-winning-div',
-    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=1000`],
-  ['hidden-gems', 'hidden-gems-pagination', 'hidden-gems-div',
-    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&vote_average.gte=7&popularity.lte=10`],
-  ['western', 'western-pagination', 'western-div',
-    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=37&sort_by=popularity.desc&vote_count.gte=8`],
-  ['war', 'war-pagination', 'war-div',
-    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10752&sort_by=popularity.desc&vote_count.gte=8`],
-  ['vietnamese', 'vietnamese-pagination', 'vietnamese-div',
-    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_original_language=vi&sort_by=popularity.desc`],
-  ['korean', 'korean-pagination', 'korean-div',
-    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_original_language=ko&sort_by=vote_average.desc,popularity.desc&vote_count.gte=10&vote_average.gte=8`],
-  ['musical', 'musical-pagination', 'musical-div',
-    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10402&sort_by=popularity.desc&vote_count.gte=8`],
-  ['drama', 'drama-pagination', 'drama-div',
-    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=18&sort_by=popularity.desc&vote_count.gte=8`],
-  ['indian', 'indian-pagination', 'indian-div',
-    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_original_language=hi&sort_by=popularity.desc`],
-  ['action', 'action-pagination', 'action-div',
-    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=28&sort_by=popularity.desc&vote_count.gte=8`],
-  ['horror', 'horror-pagination', 'horror-div',
-    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=27&sort_by=popularity.desc&vote_count.gte=8`],
-  ['documentary', 'documentary-pagination', 'documentary-div',
-    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=99&sort_by=popularity.desc&vote_count.gte=8`],
-  ['animation', 'animation-pagination', 'animation-div',
-    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=16&sort_by=popularity.desc&vote_count.gte=8`],
-  ['sci-fi', 'sci-fi-pagination', 'sci-fi-div',
-    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=878&sort_by=popularity.desc&vote_count.gte=8`],
-  ['romantic', 'romantic-pagination', 'romantic-div',
-    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10749&sort_by=popularity.desc&vote_count.gte=8`],
-  ['thriller', 'thriller-pagination', 'thriller-div',
-    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=53&sort_by=popularity.desc&vote_count.gte=8`],
-  ['mystery', 'mystery-pagination', 'mystery-div',
-    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=9648&sort_by=popularity.desc&vote_count.gte=8`],
-  ['comedy', 'comedy-pagination', 'comedy-div',
-    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=35&sort_by=popularity.desc&vote_count.gte=8`],
-  ['fantasy', 'fantasy-pagination', 'fantasy-div',
-    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=14&sort_by=popularity.desc&vote_count.gte=8`],
-  ['family', 'family-pagination', 'family-div',
-    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10751&sort_by=popularity.desc&vote_count.gte=8`],
-  ['tv-series', 'tv-series-pagination', 'tv-series-div',
+  [
+    'award-winning',
+    'award-winning-pagination',
+    'award-winning-div',
+    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=1000`,
+  ],
+  [
+    'hidden-gems',
+    'hidden-gems-pagination',
+    'hidden-gems-div',
+    () =>
+      `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=vote_average.desc&vote_count.gte=100&vote_average.gte=7&popularity.lte=10`,
+  ],
+  [
+    'western',
+    'western-pagination',
+    'western-div',
+    () =>
+      `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=37&sort_by=popularity.desc&vote_count.gte=8`,
+  ],
+  [
+    'war',
+    'war-pagination',
+    'war-div',
+    () =>
+      `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10752&sort_by=popularity.desc&vote_count.gte=8`,
+  ],
+  [
+    'vietnamese',
+    'vietnamese-pagination',
+    'vietnamese-div',
+    () =>
+      `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_original_language=vi&sort_by=popularity.desc`,
+  ],
+  [
+    'korean',
+    'korean-pagination',
+    'korean-div',
+    () =>
+      `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_original_language=ko&sort_by=vote_average.desc,popularity.desc&vote_count.gte=10&vote_average.gte=8`,
+  ],
+  [
+    'musical',
+    'musical-pagination',
+    'musical-div',
+    () =>
+      `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10402&sort_by=popularity.desc&vote_count.gte=8`,
+  ],
+  [
+    'drama',
+    'drama-pagination',
+    'drama-div',
+    () =>
+      `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=18&sort_by=popularity.desc&vote_count.gte=8`,
+  ],
+  [
+    'indian',
+    'indian-pagination',
+    'indian-div',
+    () =>
+      `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_original_language=hi&sort_by=popularity.desc`,
+  ],
+  [
+    'action',
+    'action-pagination',
+    'action-div',
+    () =>
+      `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=28&sort_by=popularity.desc&vote_count.gte=8`,
+  ],
+  [
+    'horror',
+    'horror-pagination',
+    'horror-div',
+    () =>
+      `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=27&sort_by=popularity.desc&vote_count.gte=8`,
+  ],
+  [
+    'documentary',
+    'documentary-pagination',
+    'documentary-div',
+    () =>
+      `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=99&sort_by=popularity.desc&vote_count.gte=8`,
+  ],
+  [
+    'animation',
+    'animation-pagination',
+    'animation-div',
+    () =>
+      `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=16&sort_by=popularity.desc&vote_count.gte=8`,
+  ],
+  [
+    'sci-fi',
+    'sci-fi-pagination',
+    'sci-fi-div',
+    () =>
+      `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=878&sort_by=popularity.desc&vote_count.gte=8`,
+  ],
+  [
+    'romantic',
+    'romantic-pagination',
+    'romantic-div',
+    () =>
+      `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10749&sort_by=popularity.desc&vote_count.gte=8`,
+  ],
+  [
+    'thriller',
+    'thriller-pagination',
+    'thriller-div',
+    () =>
+      `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=53&sort_by=popularity.desc&vote_count.gte=8`,
+  ],
+  [
+    'mystery',
+    'mystery-pagination',
+    'mystery-div',
+    () =>
+      `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=9648&sort_by=popularity.desc&vote_count.gte=8`,
+  ],
+  [
+    'comedy',
+    'comedy-pagination',
+    'comedy-div',
+    () =>
+      `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=35&sort_by=popularity.desc&vote_count.gte=8`,
+  ],
+  [
+    'fantasy',
+    'fantasy-pagination',
+    'fantasy-div',
+    () =>
+      `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=14&sort_by=popularity.desc&vote_count.gte=8`,
+  ],
+  [
+    'family',
+    'family-pagination',
+    'family-div',
+    () =>
+      `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=10751&sort_by=popularity.desc&vote_count.gte=8`,
+  ],
+  [
+    'tv-series',
+    'tv-series-pagination',
+    'tv-series-div',
     () => `https://${getMovieVerseData()}/3/tv/popular?${generateMovieNames()}${getMovieCode()}`,
-    { mediaType: 'tv' }],
-  ['top-rated-tv-series', 'top-rated-tv-series-pagination', 'top-rated-tv-series-div',
+    { mediaType: 'tv' },
+  ],
+  [
+    'top-rated-tv-series',
+    'top-rated-tv-series-pagination',
+    'top-rated-tv-series-div',
     () => `https://${getMovieVerseData()}/3/tv/top_rated?${generateMovieNames()}${getMovieCode()}`,
-    { mediaType: 'tv' }],
-  ['airing-today-tv-series', 'airing-today-tv-series-pagination', 'airing-today-tv-series-div',
+    { mediaType: 'tv' },
+  ],
+  [
+    'airing-today-tv-series',
+    'airing-today-tv-series-pagination',
+    'airing-today-tv-series-div',
     () => `https://${getMovieVerseData()}/3/tv/airing_today?${generateMovieNames()}${getMovieCode()}`,
-    { mediaType: 'tv' }],
-  ['crime', 'crime-pagination', 'crime-div',
-    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=80&sort_by=popularity.desc&vote_count.gte=8`],
-  ['classic', 'classic-pagination', 'classic-div',
-    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=popularity.desc&release_date.lte=1980`],
+    { mediaType: 'tv' },
+  ],
+  [
+    'crime',
+    'crime-pagination',
+    'crime-div',
+    () =>
+      `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&with_genres=80&sort_by=popularity.desc&vote_count.gte=8`,
+  ],
+  [
+    'classic',
+    'classic-pagination',
+    'classic-div',
+    () => `https://${getMovieVerseData()}/3/discover/movie?${generateMovieNames()}${getMovieCode()}&sort_by=popularity.desc&release_date.lte=1980`,
+  ],
 ];
 
 const sectionObserver = new IntersectionObserver(

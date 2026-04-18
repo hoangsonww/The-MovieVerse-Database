@@ -2,14 +2,14 @@
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <sitemap>
     <loc>https://movie-verse.com/sitemap-core.xml</loc>
-    <lastmod>2026-04-12</lastmod>
+    <lastmod>2026-04-20</lastmod>
   </sitemap>
   <sitemap>
     <loc>https://movie-verse.com/sitemap-content.xml</loc>
-    <lastmod>2026-04-12</lastmod>
+    <lastmod>2026-04-20</lastmod>
   </sitemap>
   <sitemap>
     <loc>https://movie-verse.com/sitemap-games.xml</loc>
-    <lastmod>2026-04-12</lastmod>
+    <lastmod>2026-04-20</lastmod>
   </sitemap>
 </sitemapindex>
