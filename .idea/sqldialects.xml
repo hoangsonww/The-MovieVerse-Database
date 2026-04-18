@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="SqlDialectMappings">
-    <file url="file://$PROJECT_DIR$/MovieVerse-Backend/README.md" dialect="GenericSQL" />
-    <file url="file://$PROJECT_DIR$/MovieVerse-Mobile/www/MovieVerse-Backend/services/sql/mysql_init.sql" dialect="GenericSQL" />
-    <file url="file://$PROJECT_DIR$/MovieVerse-Mobile/www/MovieVerse-Backend/services/sql/postgres_init.sql" dialect="GenericSQL" />
-  </component>
-</project>
