@@ -925,15 +925,24 @@ function ensureScrollProgress(mainElement) {
     progress = document.createElement('div');
     progress.className = 'scroll-progress';
     progress.innerHTML =
-      '<input class="scroll-progress-slider" type="range" min="0" max="100" step="0.1" value="0" aria-label="Carousel position" />';
+      '<div class="scroll-progress-slider" role="slider" tabindex="0" aria-label="Carousel position" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="scroll-progress-thumb"></div></div>';
     mainElement.appendChild(progress);
     const slider = progress.querySelector('.scroll-progress-slider');
     if (slider) {
-      slider.value = '0';
       slider.style.setProperty('--progress', '0%');
+      const thumb = slider.querySelector('.scroll-progress-thumb');
+      if (thumb) thumb.style.left = '0%';
     }
   }
   return progress;
+}
+
+function applyScrollProgress(slider, percent) {
+  const clamped = Math.min(100, Math.max(0, percent));
+  slider.style.setProperty('--progress', `${clamped}%`);
+  slider.setAttribute('aria-valuenow', String(Math.round(clamped)));
+  const thumb = slider.querySelector('.scroll-progress-thumb');
+  if (thumb) thumb.style.left = `${clamped}%`;
 }
 
 function updateScrollProgress(mainElement) {
@@ -945,8 +954,7 @@ function updateScrollProgress(mainElement) {
   const maxScroll = track.scrollWidth - track.clientWidth;
   if (maxScroll <= 0) {
     progress.style.display = 'none';
-    slider.value = '0';
-    slider.style.setProperty('--progress', '0%');
+    applyScrollProgress(slider, 0);
     return;
   }
 
@@ -956,8 +964,7 @@ function updateScrollProgress(mainElement) {
   // Guards against scroll-snap, ad-driven reflows, and browser scroll
   // restoration nudging the visual off the start position on fresh renders.
   if (mainElement.dataset.spotlightPristine === 'true') {
-    slider.value = '0';
-    slider.style.setProperty('--progress', '0%');
+    applyScrollProgress(slider, 0);
     return;
   }
 
@@ -982,8 +989,7 @@ function updateScrollProgress(mainElement) {
     }
   }
 
-  slider.value = `${percent}`;
-  slider.style.setProperty('--progress', `${percent}%`);
+  applyScrollProgress(slider, percent);
 }
 
 function bindSpotlightProgressSlider(mainElement) {
@@ -1016,24 +1022,21 @@ function bindSpotlightProgressSlider(mainElement) {
     });
   };
 
-  const handleInput = () => {
+  const handleInput = percent => {
     const track = getSpotlightTrack(mainElement);
     const maxScroll = track.scrollWidth - track.clientWidth;
     if (maxScroll <= 0) return;
-    const percent = Number(slider.value);
-    const targetLeft = Math.min(maxScroll, Math.max(0, (percent / 100) * maxScroll));
-    slider.style.setProperty('--progress', `${percent}%`);
-    track.scrollLeft = targetLeft;
+    const clamped = Math.min(100, Math.max(0, percent));
+    applyScrollProgress(slider, clamped);
+    track.scrollLeft = Math.min(maxScroll, Math.max(0, (clamped / 100) * maxScroll));
   };
 
   let sliderPointerDown = false;
   const setFromClientX = clientX => {
     const rect = slider.getBoundingClientRect();
-    const clamped = Math.min(rect.width, Math.max(0, clientX - rect.left));
-    const percent = rect.width ? (clamped / rect.width) * 100 : 0;
-    slider.value = String(percent);
-    slider.style.setProperty('--progress', `${percent}%`);
-    handleInput();
+    const within = Math.min(rect.width, Math.max(0, clientX - rect.left));
+    const percent = rect.width ? (within / rect.width) * 100 : 0;
+    handleInput(percent);
   };
 
   const onPointerDown = event => {
@@ -1083,8 +1086,6 @@ function bindSpotlightProgressSlider(mainElement) {
     endScrub();
   };
 
-  slider.addEventListener('input', handleInput);
-  slider.addEventListener('change', handleInput);
   interactionTarget.addEventListener('click', onClick);
   if (supportsPointer) {
     interactionTarget.addEventListener('pointerdown', onPointerDown);

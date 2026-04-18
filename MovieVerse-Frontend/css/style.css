@@ -1111,55 +1111,49 @@ header h1 {
     height: 16px;
   }
 
-  .home-page main.spotlight-carousel .scroll-progress-slider::-webkit-slider-runnable-track,
-  .spotlight-carousel .scroll-progress-slider::-webkit-slider-runnable-track {
+  .home-page main.spotlight-carousel .scroll-progress-slider::before,
+  .spotlight-carousel .scroll-progress-slider::before {
     height: 4px;
     transition: none;
   }
 
-  .home-page main.spotlight-carousel .scroll-progress-slider::-webkit-slider-thumb,
-  .spotlight-carousel .scroll-progress-slider::-webkit-slider-thumb {
-    width: 14px;
-    height: 14px;
-    margin-top: -5px;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
-    cursor: grab;
-  }
-
-  .home-page main.spotlight-carousel .scroll-progress-slider::-moz-range-track,
-  .spotlight-carousel .scroll-progress-slider::-moz-range-track {
-    height: 4px;
-  }
-
-  .home-page main.spotlight-carousel .scroll-progress-slider::-moz-range-progress,
-  .spotlight-carousel .scroll-progress-slider::-moz-range-progress {
-    height: 4px;
-  }
-
-  .home-page main.spotlight-carousel .scroll-progress-slider::-moz-range-thumb,
-  .spotlight-carousel .scroll-progress-slider::-moz-range-thumb {
+  .home-page main.spotlight-carousel .scroll-progress-thumb,
+  .spotlight-carousel .scroll-progress-thumb {
     width: 14px;
     height: 14px;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
-    cursor: grab;
-  }
-
-  .home-page main.spotlight-carousel .scroll-progress-slider,
-  .spotlight-carousel .scroll-progress-slider {
-    cursor: pointer;
   }
 }
 
 .home-page main.spotlight-carousel .scroll-progress-slider,
 .spotlight-carousel .scroll-progress-slider {
   --progress: 0%;
+  position: relative;
+  display: block;
   width: 100%;
   height: 18px;
   background: transparent;
   padding: 0;
   cursor: pointer;
-  appearance: none;
   touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+  outline: none;
+}
+
+.home-page main.spotlight-carousel .scroll-progress-slider::before,
+.spotlight-carousel .scroll-progress-slider::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #ff8623 var(--progress), rgba(255, 255, 255, 0.25) var(--progress));
+  transition: background 0.2s ease;
+  pointer-events: none;
 }
 
 .home-page main.spotlight-carousel .scroll-progress-slider:focus-visible,
@@ -1168,55 +1162,21 @@ header h1 {
   outline-offset: 4px;
 }
 
-.home-page main.spotlight-carousel .scroll-progress-slider::-webkit-slider-runnable-track,
-.spotlight-carousel .scroll-progress-slider::-webkit-slider-runnable-track {
-  height: 6px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, #ff8623 var(--progress), rgba(255, 255, 255, 0.25) var(--progress));
-  transition: background 0.2s ease;
-}
-
-.home-page main.spotlight-carousel .scroll-progress-slider::-webkit-slider-thumb,
-.spotlight-carousel .scroll-progress-slider::-webkit-slider-thumb {
-  appearance: none;
+.home-page main.spotlight-carousel .scroll-progress-thumb,
+.spotlight-carousel .scroll-progress-thumb {
+  position: absolute;
+  top: 50%;
+  left: 0%;
   width: 18px;
   height: 18px;
   border-radius: 50%;
   background: #ff8623;
   border: 3px solid #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
-  margin-top: -6px;
+  transform: translate(-50%, -50%);
   cursor: grab;
-}
-
-.home-page main.spotlight-carousel .scroll-progress-slider::-moz-range-track,
-.spotlight-carousel .scroll-progress-slider::-moz-range-track {
-  height: 6px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.25);
-}
-
-.home-page main.spotlight-carousel .scroll-progress-slider::-moz-range-progress,
-.spotlight-carousel .scroll-progress-slider::-moz-range-progress {
-  height: 6px;
-  border-radius: 999px;
-  background: #ff8623;
-}
-
-.home-page main.spotlight-carousel .scroll-progress-slider::-moz-range-thumb,
-.spotlight-carousel .scroll-progress-slider::-moz-range-thumb {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: #ff8623;
-  border: 3px solid #ffffff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
-  cursor: grab;
-}
-
-.home-page main.spotlight-carousel .scroll-progress-slider::-moz-focus-outer,
-.spotlight-carousel .scroll-progress-slider::-moz-focus-outer {
-  border: 0;
+  pointer-events: none;
+  will-change: left;
 }
 
 .home-page main.spotlight-carousel .spotlight-track,
