@@ -4,7 +4,7 @@
   xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://movie-verse.com/MovieVerse-Frontend/html/blog-cinematography.html</loc>
-    <lastmod>2026-04-20</lastmod>
+    <lastmod>2026-04-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.78</priority>
     <image:image>
@@ -14,7 +14,7 @@
   </url>
   <url>
     <loc>https://movie-verse.com/MovieVerse-Frontend/html/blog-editing.html</loc>
-    <lastmod>2026-04-20</lastmod>
+    <lastmod>2026-04-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.78</priority>
     <image:image>
@@ -24,7 +24,7 @@
   </url>
   <url>
     <loc>https://movie-verse.com/MovieVerse-Frontend/html/blog-inception.html</loc>
-    <lastmod>2026-04-20</lastmod>
+    <lastmod>2026-04-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.78</priority>
     <image:image>
@@ -34,7 +34,7 @@
   </url>
   <url>
     <loc>https://movie-verse.com/MovieVerse-Frontend/html/blog-production.html</loc>
-    <lastmod>2026-04-20</lastmod>
+    <lastmod>2026-04-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.78</priority>
     <image:image>
@@ -44,7 +44,7 @@
   </url>
   <url>
     <loc>https://movie-verse.com/MovieVerse-Frontend/html/blog-scoring.html</loc>
-    <lastmod>2026-04-20</lastmod>
+    <lastmod>2026-04-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.78</priority>
     <image:image>
@@ -54,7 +54,7 @@
   </url>
   <url>
     <loc>https://movie-verse.com/MovieVerse-Frontend/html/blog-screenwriting.html</loc>
-    <lastmod>2026-04-20</lastmod>
+    <lastmod>2026-04-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.78</priority>
     <image:image>
@@ -64,7 +64,7 @@
   </url>
   <url>
     <loc>https://movie-verse.com/MovieVerse-Frontend/html/blog-sound.html</loc>
-    <lastmod>2026-04-20</lastmod>
+    <lastmod>2026-04-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.78</priority>
     <image:image>
@@ -74,7 +74,7 @@
   </url>
   <url>
     <loc>https://movie-verse.com/MovieVerse-Frontend/html/blog-special-effects.html</loc>
-    <lastmod>2026-04-20</lastmod>
+    <lastmod>2026-04-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.78</priority>
     <image:image>
@@ -84,7 +84,7 @@
   </url>
   <url>
     <loc>https://movie-verse.com/MovieVerse-Frontend/html/blog-vfx.html</loc>
-    <lastmod>2026-04-20</lastmod>
+    <lastmod>2026-04-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.78</priority>
     <image:image>
@@ -94,7 +94,7 @@
   </url>
   <url>
     <loc>https://movie-verse.com/MovieVerse-Frontend/html/blogs.html</loc>
-    <lastmod>2026-04-20</lastmod>
+    <lastmod>2026-04-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.88</priority>
     <image:image>
