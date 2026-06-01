@@ -1,0 +1,87 @@
+# llms.txt - The MovieVerse
+
+The MovieVerse is a multi-surface movie discovery platform (web + backend microservices + mobile shell) for browsing movies, people, and related metadata.
+
+- Primary site: https://movie-verse.com
+- Repository: https://github.com/hoangsonww/The-MovieVerse-Database
+- License: CC BY-NC 4.0
+
+## Repository map (authoritative)
+
+- `MovieVerse-Frontend/` - main web app code (HTML/CSS/JS + React components + tests).
+- `MovieVerse-Backend/` - backend services (Node database services, Django backend, Flask backend, crawler, ML).
+- `MovieVerse-Middleware/` - shared middleware utilities (Django/Flask middleware and CORS).
+- `MovieVerse-Mobile/` - Cordova-based mobile app shell and platform packaging.
+- `MovieVerse-Config/` - shared config (ESLint, Prettier, Babel, Webpack, Netlify, nginx).
+- `MovieVerse-Scripts/` - automation, setup, deployment, and maintenance scripts.
+- `.github/` - contribution guides, style guide, security docs, CI workflows.
+
+## Canonical edit targets
+
+When making changes, prefer these source-of-truth locations:
+
+- Web UI/features: `MovieVerse-Frontend/html/`, `MovieVerse-Frontend/css/`, `MovieVerse-Frontend/js/`, `MovieVerse-Frontend/react/`
+- Web app entry points: `index.html`, `index.js`, `MovieVerse-Frontend/index.ejs`
+- Backend logic/APIs: `MovieVerse-Backend/databases/`, `MovieVerse-Backend/django_backend/`, `MovieVerse-Backend/flask_backend/`
+- Middleware/security behavior: `MovieVerse-Middleware/middleware.py`, `MovieVerse-Middleware/cors.py`
+- Project-wide tooling/config: `MovieVerse-Config/*`
+
+## Paths usually not edited directly
+
+Avoid editing generated/vendor/mirrored content unless the task explicitly requires it:
+
+- `node_modules/`
+- `venv/`
+- `emsdk/` (if present)
+- `MovieVerse-Mobile/platforms/**` (generated platform output)
+- `MovieVerse-Mobile/www/**` copies that mirror top-level app content
+
+## Developer commands
+
+Run from repository root unless noted:
+
+- Install deps: `npm install`
+- Start web app: `npm start` (serves via `http-server`)
+- Lint: `npm run lint`
+- Format: `npm run format`
+- Generate sitemaps: `npm run seo:sitemaps`
+- Backend stack helper: `npm run backend`
+- Mobile dev:
+  - Android: `npm run dev:android`
+  - iOS: `npm run dev:ios`
+
+## Code style and quality
+
+- JavaScript style follows project guidance in `.github/STYLEGUIDE.md`:
+  - 2-space indentation
+  - semicolons
+  - single quotes (except template literals)
+  - prefer `const`/`let` over `var`
+  - prefer functional React components with hooks
+- Linting is configured via `MovieVerse-Config/.eslintrc.js`.
+- Formatting is configured via `MovieVerse-Config/.prettierrc`.
+
+## Security and secrets
+
+- Do not commit secrets or production keys.
+- Use environment variables (`.env`, `MovieVerse-Config/.env.example`) for credentials.
+- Some sensitive integrations are intentionally omitted from the repository; keep implementations env-driven.
+
+## Task routing guide for AI agents
+
+- UI bugs/features/pages/components -> `MovieVerse-Frontend/`
+- API/data/auth/backend services -> `MovieVerse-Backend/`
+- Request pipeline, CSP, rate limiting, CORS -> `MovieVerse-Middleware/`
+- Build/deploy/release automation -> `MovieVerse-Scripts/` and `.github/workflows/`
+- Mobile packaging/platform-specific behavior -> `MovieVerse-Mobile/`
+
+## Key docs to read first
+
+- `MovieVerse-Frontend/README.md`
+- `MovieVerse-Backend/README.md`
+- `MovieVerse-Middleware/README.md`
+- `MovieVerse-Mobile/README.md`
+- `MovieVerse-Config/README.md`
+- `.github/STYLEGUIDE.md`
+- `.github/CONTRIBUTING.md`
+- `.github/SECURITY.md`
