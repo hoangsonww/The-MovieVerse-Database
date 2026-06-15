@@ -1,3 +1,0 @@
-/Users/davidnguyen/WebstormProjects/The-MovieVerse-Database/utilities/cmake-build-debug/CMakeFiles/utilities.dir
-/Users/davidnguyen/WebstormProjects/The-MovieVerse-Database/utilities/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/davidnguyen/WebstormProjects/The-MovieVerse-Database/utilities/cmake-build-debug/CMakeFiles/rebuild_cache.dir
